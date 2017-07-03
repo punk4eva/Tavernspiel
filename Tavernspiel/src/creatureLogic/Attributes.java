@@ -18,5 +18,6 @@ public class Attributes{
     private int maxhp;
     private int hp;
     private Resistance[] resistances;
+    private int strength = 10;
     
 }

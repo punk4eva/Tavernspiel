@@ -1,6 +1,9 @@
 
 package creatures;
 
+import animation.Animation;
+import containers.Equipment;
+import containers.Inventory;
 import creatureLogic.Attributes;
 
 /**
