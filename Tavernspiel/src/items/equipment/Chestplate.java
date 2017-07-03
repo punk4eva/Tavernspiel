@@ -3,6 +3,7 @@ package items.equipment;
 
 import items.Apparatus;
 import items.Item;
+import javax.swing.ImageIcon;
 import logic.Distribution;
 
 /**
@@ -11,12 +12,12 @@ import logic.Distribution;
  */
 public class Chestplate extends Apparatus{
     
-    public Chestplate(String s, int dur, Distribution d, int st){
-        super(s, dur, d, st);
+    public Chestplate(String s, ImageIcon ic, int dur, Distribution d, int st){
+        super(s, ic, dur, d, st);
     }
     
-    public Chestplate(Item i, int dur, Distribution d, int st){
-        super(i.name, dur, d, st);
+    public Chestplate(Item i, ImageIcon ic, int dur, Distribution d, int st){
+        super(i.name, ic, dur, d, st);
     }
     
 }

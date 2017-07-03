@@ -3,6 +3,7 @@ package items.equipment;
 
 import glyphs.Glyph;
 import items.Apparatus;
+import javax.swing.ImageIcon;
 import logic.Distribution;
 
 /**
@@ -11,8 +12,8 @@ import logic.Distribution;
  */
 public class Ring extends Apparatus{
     
-    public Ring(String n, int dur, Distribution a, Glyph g){
-        super(n, dur, a);
+    public Ring(String n, ImageIcon ic, int dur, Distribution a, Glyph g){
+        super(n, ic, dur, a);
         glyph = g;
     }
     

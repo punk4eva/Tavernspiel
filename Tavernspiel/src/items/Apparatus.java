@@ -2,6 +2,7 @@
 package items;
 
 import glyphs.Glyph;
+import javax.swing.ImageIcon;
 import logic.Distribution;
 import logic.Formula;
 
@@ -20,15 +21,15 @@ public class Apparatus extends Item{
     public Glyph glyph = null;
     public int strength = -1;
     
-    public Apparatus(String n, int dur, Distribution a){
-        super(n, false);
+    public Apparatus(String n, ImageIcon i, int dur, Distribution a){
+        super(n, i, false);
         durability = dur;
         maxDurability = dur;
         action = a;
     }
     
-    public Apparatus(String n, int dur, Distribution a, int st){
-        super(n, false);
+    public Apparatus(String n, ImageIcon i, int dur, Distribution a, int st){
+        super(n, i, false);
         durability = dur;
         maxDurability = dur;
         action = a;

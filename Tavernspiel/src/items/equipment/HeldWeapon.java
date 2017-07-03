@@ -2,6 +2,7 @@
 package items.equipment;
 
 import items.Apparatus;
+import javax.swing.ImageIcon;
 import logic.Distribution;
 
 /**
@@ -10,8 +11,8 @@ import logic.Distribution;
  */
 public class HeldWeapon extends Apparatus{
     
-    public HeldWeapon(String s, int dur, Distribution d, int st){
-        super(s, dur, d, st);
+    public HeldWeapon(String s, ImageIcon ic, int dur, Distribution d, int st){
+        super(s, ic, dur, d, st);
     }
     
 }
