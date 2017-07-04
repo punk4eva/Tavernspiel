@@ -2,6 +2,7 @@
 package containers;
 
 import exceptions.ReceptacleIndexOutOfBoundsException;
+import exceptions.ReceptacleOverflowException;
 import items.Apparatus;
 import java.util.ArrayList;
 import items.Item;
@@ -16,7 +17,11 @@ import items.Item;
 public abstract class Receptacle{
     
     public ArrayList<Item> items = new ArrayList<>();
-    public int capacity;
+    public int capacity = 1000;
+    
+    public Receptacle(){
+    
+    }
     
     public Receptacle(int cap){
         capacity = cap;
@@ -48,6 +53,26 @@ public abstract class Receptacle{
         ArrayList<Item> ret = new ArrayList<>();
         for(int n=0;n<capacity;n++) ret.add(items.get(n));
         items = ret;
+    }
+    
+    public Item peek() throws ReceptacleIndexOutOfBoundsException{
+        if(items.isEmpty()) throw new ReceptacleIndexOutOfBoundsException(
+                "Receptacle is empty.");
+        return items.get(0);
+    }
+    
+    public Item pop() throws ReceptacleIndexOutOfBoundsException{
+        if(items.isEmpty()) throw new ReceptacleIndexOutOfBoundsException(
+                "Receptacle is empty.");
+        Item ret = items.get(0);
+        items.remove(ret);
+        return ret;
+    }
+    
+    public void push(Item item) throws ReceptacleOverflowException{
+        if(capacity==items.size()) throw new ReceptacleOverflowException("This"
+        + " Receptacle is full.");
+        items.add(item);
     }
     
 }
