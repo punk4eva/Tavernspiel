@@ -8,17 +8,14 @@ import buffs.Buff;
  *
  * @author Adam Whittaker
  */
-public class Gas{
+public class Gas extends GameObject{
     
-    public String name;
     public Buff buff;
-    public Animation animation;
     public int spreadNumber;
     
-    public Gas(String n, Buff b, Animation a, int spread){
-        name = n;
+    public Gas(String n, String desc, Buff b, Animation a, int spread){
+        super(n, desc, a);
         buff = b;
-        animation = a;
         spreadNumber = spread;
     }
     

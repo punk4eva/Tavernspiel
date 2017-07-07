@@ -11,11 +11,11 @@ import java.util.ArrayList;
 public class Inventory extends Receptacle{
     
     public Inventory(){
-        super(30);
+        super(30, "ERROR: You shouldn't be reading this.");
     }
     
     public Inventory(ArrayList<Item> i){
-        super(i, 7);
+        super(i, 30, "ERROR: You shouldn't be reading this.");
     }
     
 }

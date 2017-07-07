@@ -18,11 +18,11 @@ public class Equipment extends Receptacle{
     
     
     public Equipment(){
-        super(7);
+        super(7, "ERROR: You shouldn't be reading this.");
     }
     
     public Equipment(ArrayList<Apparatus> i){
-        super(7, i);
+        super(7, i, "ERROR: You shouldn't be reading this.");
     }
     
     public HeldWeapon getWeapon(){

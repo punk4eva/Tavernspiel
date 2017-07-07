@@ -3,6 +3,7 @@ package containers;
 
 import exceptions.ReceptacleIndexOutOfBoundsException;
 import exceptions.ReceptacleOverflowException;
+import gui.MainClass;
 import items.Apparatus;
 import java.util.ArrayList;
 import items.Item;
@@ -13,28 +14,39 @@ import items.Item;
  * 
  * Handles storage of items.
  * (name Container is taken)
+ * 
+ * @TOPLEVEL
  */
 public abstract class Receptacle{
     
     public ArrayList<Item> items = new ArrayList<>();
     public int capacity = 1000;
+    public int ID;
+    public String description;
     
-    public Receptacle(){
-    
+    public Receptacle(String desc){
+        description = desc;
+        ID = MainClass.idhandler.genID();
     }
     
-    public Receptacle(int cap){
+    public Receptacle(int cap, String desc){
+        description = desc;
         capacity = cap;
+        ID = MainClass.idhandler.genID();
     }
     
-    public Receptacle(ArrayList<Item> i, int cap){
+    public Receptacle(ArrayList<Item> i, int cap, String desc){
+        description = desc;
         items = i;
         capacity = cap;
+        ID = MainClass.idhandler.genID();
     }
     
-    public Receptacle(int cap, ArrayList<Apparatus> i){
+    public Receptacle(int cap, ArrayList<Apparatus> i, String desc){
+        description = desc;
         capacity = cap;
         items.addAll(i);
+        ID = MainClass.idhandler.genID();
     }
     
     public Item get(int slot) throws ReceptacleIndexOutOfBoundsException{

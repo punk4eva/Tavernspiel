@@ -1,8 +1,12 @@
 
 package gui;
 
+import items.equipment.MeleeWeapon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
+import logic.Distribution;
+import logic.IDHandler;
 import logic.SoundHandler;
 
 /**
@@ -11,16 +15,15 @@ import logic.SoundHandler;
  */
 public class MainClass implements ActionListener{
     
+    public static final IDHandler idhandler = new IDHandler();
+    
     public MainClass(){
     
     }
     
     
     public static void main(String[] args){
-        SoundHandler.addSong("Journey Through The Woods Part 1.wav");
-        SoundHandler.addSong("Journey Through The Woods Part 2.wav");
-        SoundHandler.addSong("Journey Through The Woods Part 3.wav");
-        SoundHandler.playAbruptQueue(0);
+        //System.err.println(new MeleeWeapon("", new ImageIcon(""), 1, new Distribution(0, 1),1).getClass().getGenericSuperclass());
     }
     
 
