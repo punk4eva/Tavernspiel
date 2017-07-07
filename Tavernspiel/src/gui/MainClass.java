@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferStrategy;
 import logic.IDHandler;
+import logic.ImageHandler;
 import logic.SoundHandler;
 
 /**
@@ -26,7 +27,8 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
     public static final IDHandler idhandler = new IDHandler();
     
     public MainClass(){
-	
+	ImageHandler.initializeMap();
+        
         handler = new Handler();
 		
         new Window(WIDTH, HEIGHT, "Tavernspiel", this);
