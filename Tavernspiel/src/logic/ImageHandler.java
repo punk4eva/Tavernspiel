@@ -73,6 +73,7 @@ public class ImageHandler{
     }
     
     public static ImageIcon getImageIcon(String str){
+        if(map.isEmpty()) initializeMap();
         return getImageIcon(map.get(str.toLowerCase()));
     }
     

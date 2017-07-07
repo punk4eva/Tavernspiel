@@ -31,7 +31,7 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
         
         handler = new Handler();
 		
-        new Window(WIDTH, HEIGHT, "Tavernspiel", this);
+        Window win = new Window(WIDTH, HEIGHT, "Tavernspiel", this);
     }
     
     

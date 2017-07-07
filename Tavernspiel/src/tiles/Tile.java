@@ -5,6 +5,7 @@ import containers.Receptacle;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import logic.Gas;
+import logic.ImageHandler;
 
 /**
  *
@@ -40,6 +41,11 @@ public class Tile extends JButton{
         name = n;
         treadable = t;
         stage = st;
+    }
+    
+    public Tile(String tile){
+        super(ImageHandler.getImageIcon(tile));
+        name = tile;
     }
     
 }
