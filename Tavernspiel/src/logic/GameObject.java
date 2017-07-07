@@ -3,6 +3,7 @@ package logic;
 
 import animation.Animation;
 import gui.MainClass;
+import java.awt.Graphics;
 
 /**
  *
@@ -29,6 +30,10 @@ public class GameObject{
     }
     
     public void tick(){
+        //@charlie
+    }
+    
+    public void render(Graphics g){
         //@charlie
     }
     
