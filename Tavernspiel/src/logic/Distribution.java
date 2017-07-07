@@ -75,4 +75,12 @@ public class Distribution{
         return new Distribution(output, chances);
     }
     
+    public static boolean chance(int chance, int in){
+        return r.nextInt(in)<chance;
+    }
+    
+    public boolean chance(){
+        return chance((int)outputs[0], (int)outputs[1]);
+    }
+    
 }

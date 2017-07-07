@@ -14,7 +14,6 @@ import logic.ImageHandler;
 public class Tile extends JButton{
 
     public String name;
-    public int stage = 1;
     public boolean treadable = true;
     public Gas gas = null;
     public Receptacle receptacle;
@@ -30,22 +29,17 @@ public class Tile extends JButton{
         treadable = t;
     }
     
-    public Tile(String n, ImageIcon ic, int st){
-        super(ic);
-        name = n;
-        stage = st;
-    }
-    
-    public Tile(String n, ImageIcon ic, boolean t, int st){
-        super(ic);
-        name = n;
-        treadable = t;
-        stage = st;
-    }
-    
     public Tile(String tile){
         super(ImageHandler.getImageIcon(tile));
         name = tile;
+    }
+    
+    public boolean equals(Tile t){
+        return t.name.equals(name);
+    }
+    
+    public boolean equals(String str){
+        return str.equals(name);
     }
     
 }
