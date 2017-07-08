@@ -54,9 +54,9 @@ public class ImageHandler{
         map.put("bookshelf", new Dimension(144, 32));
         map.put("alchemypot", new Dimension(160, 32));
         map.put("floorcutoff", new Dimension(176, 32));
-        map.put("specialcutoff", new Dimension(192, 32));
+        map.put("specialfloorcutoff", new Dimension(192, 32));
         map.put("wallcutoff", new Dimension(208, 32));
-        map.put("brokenwallcutoff", new Dimension(224, 32));
+        map.put("brokencutoff", new Dimension(224, 32));
         map.put("shadernesw", new Dimension(0, 48));
         map.put("shaderesw", new Dimension(16, 48));
         map.put("shadernsw", new Dimension(32, 48));

@@ -4,6 +4,8 @@ package animation;
 import java.awt.Graphics;
 import java.awt.MediaTracker;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.Timer;
@@ -40,6 +42,26 @@ public class Animation{
         }else if(!timer.isRunning()){
             timer.restart();
         }
+    }
+    
+    public void lapAndFade(ActionListener al){
+        new Thread(() -> {
+            start(al);
+            try{
+                Thread.sleep(1000 * frames.length / fps);
+            }catch(InterruptedException ex){
+                System.err.println("Thread interrupted.");
+            }
+            stop();
+            fade();
+        }).start();
+    }
+    
+    /**
+     * @unfinished
+     */
+    public void fade(){
+        //unfinished
     }
 
     public void stop(){

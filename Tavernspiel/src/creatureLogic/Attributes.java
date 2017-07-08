@@ -12,12 +12,15 @@ import ai.AI;
 public class Attributes{
     
     private AI ai;
-    private int speed = 1;
-    private int attackSpeed = 1;
-    private int dexterity = 1;
-    private int maxhp;
-    private int hp;
-    private Resistance[] resistances;
-    private int strength = 10;
+    public double speed = 1;
+    public double attackSpeed = 1;
+    public double dexterity = 1;
+    public double regenSpeed = 1;
+    public int maxhp;
+    public int hp;
+    protected Resistance[] resistances;
+    public int strength = 10;
+    public Level level;
+    public int xpOnDeath = 0;
     
 }

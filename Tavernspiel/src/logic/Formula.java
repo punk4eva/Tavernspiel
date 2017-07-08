@@ -9,10 +9,10 @@ package logic;
  */
 public class Formula{
     
-    public double multiply;
-    public double add;
-    public int intMultiply;
-    public int intAdd;
+    public double multiply = 1;
+    public double add = 0;
+    public int intMultiply = 1;
+    public int intAdd = 0;
     
     public Formula(double mult, double a){
         multiply = mult;
@@ -23,6 +23,8 @@ public class Formula{
         intMultiply = multi;
         intAdd = ad;
     }
+    
+    public Formula(){}
     
     public double getDouble(double x){
         return (multiply * x) + add;

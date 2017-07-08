@@ -39,6 +39,12 @@ public class Room extends Area{
             room.water();
         }
         room.addShaders();
+        for(int y=0;y<room.dimension.height;y++){
+            for(int x=0;x<room.dimension.width;x++){
+                if(room.map[y][x].equals("floor")&&Distribution.chance(1, 30))
+                    room.map[y][x] = RoomBuilder.getRandomTrap(room.location);
+            }
+        }
         return room;
     }
     
@@ -52,6 +58,12 @@ public class Room extends Area{
             water();
         }
         addShaders();
+        for(int y=1;y<dimension.height-1;y++){
+            for(int x=1;x<dimension.width-1;x++){
+                if(map[y][x].equals("floor")&&Distribution.chance(1, 30))
+                    map[y][x] = RoomBuilder.getRandomTrap(location);
+            }
+        }
     }
     
     protected void paintAndPave(){

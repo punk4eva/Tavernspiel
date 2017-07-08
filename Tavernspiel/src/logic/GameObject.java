@@ -4,6 +4,8 @@ package logic;
 import animation.Animation;
 import gui.MainClass;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  *
@@ -11,7 +13,7 @@ import java.awt.Graphics;
  * 
  * @TOPLEVEL
  */
-public class GameObject{
+public class GameObject implements ActionListener{
     
     public int ID;
     public String name;
@@ -35,6 +37,12 @@ public class GameObject{
     
     public void render(Graphics g){
         //@charlie
+    }
+
+    //I don't know whether this should be here.
+    @Override
+    public void actionPerformed(ActionEvent ae){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

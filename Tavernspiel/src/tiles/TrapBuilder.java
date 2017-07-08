@@ -3,6 +3,7 @@ package tiles;
 
 import animation.Animation;
 import buffs.Buff;
+import level.Area;
 import level.Location;
 import logic.Distribution;
 import logic.Gas;
@@ -14,12 +15,16 @@ import logic.ImageHandler;
  */
 public class TrapBuilder{
     
+    public static Chasm getChasm(int x, int y, Location loc, Area area){
+        return new Chasm(area.map[y-1][x].name, loc);
+    }
+    
     public static Trap getTrap(String tr, Location loc){
         if(isGaseous(tr)){
             Gas g = getToxicGas(loc); //UNFINISHED
             return new Trap(tr, loc, g);
         }else{
-            Buff b = new Buff(); //UNFINISHED
+            Buff b = new Buff("-1"); //UNFINISHED
             return new Trap(tr, loc, b);
         }
     }
@@ -29,7 +34,7 @@ public class TrapBuilder{
     }
     
     public static Gas getToxicGas(Location loc){
-        Buff b = new Buff();
+        Buff b = new Buff("toxic gas", 1);
         b.damageDistribution = new Distribution(
                 loc.stageSpawnDistrib.incrementor-1, 
                 loc.stageSpawnDistrib.incrementor+1);

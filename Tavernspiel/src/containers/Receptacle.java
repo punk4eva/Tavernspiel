@@ -83,8 +83,18 @@ public abstract class Receptacle{
     
     public void push(Item item) throws ReceptacleOverflowException{
         if(capacity==items.size()) throw new ReceptacleOverflowException("This"
-        + " Receptacle is full.");
+                + " Receptacle is full.");
         items.add(item);
+    }
+    
+    public void pushAll(Receptacle r) throws ReceptacleOverflowException{
+        if(capacity<items.size()+r.items.size()) throw new 
+                ReceptacleOverflowException("This Receptacle is full.");
+        items.addAll(r.items);
+    }
+    
+    public boolean isEmpty(){
+        return items.isEmpty();
     }
     
 }
