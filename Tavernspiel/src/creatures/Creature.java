@@ -2,9 +2,11 @@
 package creatures;
 
 import animation.Animation;
+import buffs.Buff;
 import containers.Equipment;
 import containers.Inventory;
 import creatureLogic.Attributes;
+import java.util.ArrayList;
 import logic.GameObject;
 
 /**
@@ -18,6 +20,7 @@ public abstract class Creature extends GameObject{
     private Equipment equipment = new Equipment();
     private Inventory inventory = new Inventory();
     private Attributes attributes;
+    public ArrayList<Buff> buffs = new ArrayList<>();
     
     public Creature(String n, String desc, Equipment eq, Inventory inv, 
             Attributes atb, Animation an){

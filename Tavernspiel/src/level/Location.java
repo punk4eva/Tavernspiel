@@ -13,26 +13,32 @@ import logic.MultiDistribution;
 public class Location{
     
     public String name;
-    protected ImageIcon tileset;
+    public ImageIcon tileset;
     protected Creature[] creatureSpawns = null; //null if no creatures spawn.
-    protected MultiDistribution stageSpawnDistrib = null;
+    public MultiDistribution stageSpawnDistrib = null;
     protected Distribution waterGenChance = new Distribution(1, 20);
     protected Distribution grassGenChance = new Distribution(1, 20);
+    protected RoomDistribution roomDistrib = null; //null if boss room.
     protected boolean waterBeforeGrass = true;
     
-    public Location(String n, int st, ImageIcon tiles){
+    public Location(String n, ImageIcon tiles){
         name = n;
         tileset = tiles;
     }
     
-    public Location(String n, int st, ImageIcon tiles, Distribution water, Distribution grass){
+    public Location(String n, String tiles){
+        name = n;
+        tileset = new ImageIcon("graphics/"+tiles+".png");
+    }
+    
+    public Location(String n, ImageIcon tiles, Distribution water, Distribution grass){
         name = n;
         tileset = tiles;
         waterGenChance = water;
         grassGenChance = grass;
     }
     
-    public Location(String n, int st, ImageIcon tiles, Creature[] sp, MultiDistribution d, Distribution water, Distribution grass){
+    public Location(String n, ImageIcon tiles, Creature[] sp, MultiDistribution d, Distribution water, Distribution grass){
         name = n;
         tileset = tiles;
         creatureSpawns = sp;
@@ -48,7 +54,7 @@ public class Location{
         stageSpawnDistrib = MultiDistribution.getAllUniform(difficulties, sp.length);
     }
     
-    public Location(String n, int st, ImageIcon tiles, Distribution water, Distribution grass, boolean wbg){
+    public Location(String n, ImageIcon tiles, Distribution water, Distribution grass, boolean wbg){
         name = n;
         tileset = tiles;
         waterGenChance = water;
@@ -56,7 +62,7 @@ public class Location{
         waterBeforeGrass = wbg;
     }
     
-    public Location(String n, int st, ImageIcon tiles, Creature[] sp, MultiDistribution d, Distribution water, Distribution grass, boolean wbg){
+    public Location(String n, ImageIcon tiles, Creature[] sp, MultiDistribution d, Distribution water, Distribution grass, boolean wbg){
         name = n;
         tileset = tiles;
         creatureSpawns = sp;

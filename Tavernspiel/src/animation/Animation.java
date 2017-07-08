@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.Timer;
+import level.Location;
 import logic.ImageHandler;
 
 /**
@@ -45,8 +46,8 @@ public class Animation{
         timer.stop();
     }
     
-    public void addShaders(String shaderString){
-        ImageIcon shader = ImageHandler.getImageIcon("shader"+shaderString);
+    public void addShaders(String shaderString, Location loc){
+        ImageIcon shader = ImageHandler.getImageIcon("shader"+shaderString, loc);
         for(ImageIcon frame : frames){
             frame = ImageHandler.combineIcons(frame, shader);
         }

@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
+import level.Location;
 
 /**
  *
@@ -74,19 +75,18 @@ public class ImageHandler{
         map.put("shader", new Dimension(240, 48));
     }
     
-    public static ImageIcon getImageIcon(String str){
+    public static ImageIcon getImageIcon(String str, Location loc){
         if(map.isEmpty()) initializeMap();
-        return getImageIcon(map.get(str.toLowerCase()));
+        return getImageIcon(map.get(str.toLowerCase()), loc);
     }
     
-    public static ImageIcon getImageIcon(Dimension dim){
-        ImageIcon icon = new ImageIcon("graphics/temporaryTiles.png");
+    public static ImageIcon getImageIcon(Dimension dim, Location loc){
         BufferedImage bi = new BufferedImage(
-                icon.getIconWidth(),
-                icon.getIconHeight(),
+                loc.tileset.getIconWidth(),
+                loc.tileset.getIconHeight(),
                 BufferedImage.TYPE_INT_ARGB);
         Graphics g = bi.createGraphics();
-        icon.paintIcon(null, g, 0, 0);
+        loc.tileset.paintIcon(null, g, 0, 0);
         g.dispose();
         return new ImageIcon(bi.getSubimage(dim.width, dim.height, 16, 16));
     }

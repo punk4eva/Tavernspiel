@@ -24,7 +24,7 @@ public class Area{
     
     private Tile[][] createBlank(){
         Tile[][] ret = new Tile[dimension.height][dimension.width];
-        Loopable loop = new Loopable(this, () -> {return new Tile("void");});
+        Loopable loop = new Loopable(this, () -> {return new Tile("void", location);});
         return loop.map();
     }
     

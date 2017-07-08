@@ -10,7 +10,7 @@ import java.util.Random;
 public class MultiDistribution{
     
     private Distribution[] distributions = null;
-    private int incrementor = 0;
+    public int incrementor = 0;
     private static final Random r = new Random();
     
     public MultiDistribution(Distribution[] distribs){

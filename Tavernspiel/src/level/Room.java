@@ -12,8 +12,15 @@ import tiles.Tile;
  */
 public class Room extends Area{
     
+    public boolean locked = true;
+    
     public Room(Dimension dim, Location loc){
         super(dim, loc);
+    }
+    
+    public Room(Dimension dim, Location loc, boolean l){
+        super(dim, loc);
+        locked = l;
     }
     
     public static Room genBlank(Location loc){
@@ -35,13 +42,25 @@ public class Room extends Area{
         return room;
     }
     
+    public void standardify(){
+        paintAndPave();
+        if(location.waterBeforeGrass){
+            water();
+            grass();
+        }else{
+            grass();
+            water();
+        }
+        addShaders();
+    }
+    
     protected void paintAndPave(){
         for(int y=0;y<dimension.height;y++){
             for(int x=0;x<dimension.width;x++){
                 if(y==0||x==0||y==dimension.height-1||x==dimension.width-1){
-                    if(Distribution.chance(1, 10)) map[y][x] = new Tile("specialwall");
-                    else map[y][x] = new Tile("wall");
-                }else map[y][x] = new Tile("floor");
+                    if(Distribution.chance(1, 10)) map[y][x] = new Tile("specialwall", location);
+                    else map[y][x] = new Tile("wall", location);
+                }else map[y][x] = new Tile("floor", location);
             }
         }
     }
@@ -50,7 +69,7 @@ public class Room extends Area{
         for(int y=1;y<dimension.height-1;y++){
             for(int x=1;x<dimension.width-1;x++){
                 if(map[y][x].equals("floor")&&location.waterGenChance.chance()) 
-                    map[y][x] = new AnimatedTile("water", x%2);
+                    map[y][x] = new AnimatedTile("water", location, x%2);
             }
         }
         
@@ -75,13 +94,13 @@ public class Room extends Area{
         for(int y=1;y<dimension.height-1;y++){
             for(int x=1;x<dimension.width-1;x++){
                 if(map[y][x].equals("floor")&&location.grassGenChance.chance()) 
-                    map[y][x] = new Tile("lowgrass");
+                    map[y][x] = new Tile("lowgrass", location);
             }
         }
         
         boolean spreads = true;
-        Tile lowgrass = new Tile("lowgrass");
-        Tile highgrass = new Tile("highgrass");
+        Tile lowgrass = new Tile("lowgrass", location);
+        Tile highgrass = new Tile("highgrass", location);
         for(int n=3;spreads;n++){
             spreads = false;
             for(int y=1;y<dimension.height-1;y++){
@@ -111,10 +130,10 @@ public class Room extends Area{
     }
     
     protected void spreadAnimated(String t, int x, int y){
-        if(withinBounds(x+1, y)) map[y][x+1] = new AnimatedTile(t, x%2);
-        if(withinBounds(x-1, y)) map[y][x-1] = new AnimatedTile(t, x%2);;
-        if(withinBounds(x, y+1)) map[y+1][x] = new AnimatedTile(t, x%2);;
-        if(withinBounds(x, y-1)) map[y-1][x] = new AnimatedTile(t, x%2);;
+        if(withinBounds(x+1, y)) map[y][x+1] = new AnimatedTile(t, location, x%2);
+        if(withinBounds(x-1, y)) map[y][x-1] = new AnimatedTile(t, location, x%2);
+        if(withinBounds(x, y+1)) map[y+1][x] = new AnimatedTile(t, location, x%2);
+        if(withinBounds(x, y-1)) map[y-1][x] = new AnimatedTile(t, location, x%2);
     }
     
     protected void addShaders(){
@@ -122,7 +141,7 @@ public class Room extends Area{
             for(int x=1;x<dimension.width-1;x++){
                 if(map[y][x].equals("water")){
                     AnimatedTile tile = (AnimatedTile) map[y][x];
-                    tile.addShaders(genShaderString(x, y));
+                    tile.addShaders(genShaderString(x, y), location);
                     map[y][x] = tile;
                 }
             }

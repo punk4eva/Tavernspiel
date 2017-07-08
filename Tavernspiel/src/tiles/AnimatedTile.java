@@ -5,6 +5,7 @@ import animation.Animation;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import level.Location;
 import logic.ImageHandler;
 
 /**
@@ -15,23 +16,23 @@ public class AnimatedTile extends Tile implements ActionListener{
     
     public Animation animation;
     
-    public AnimatedTile(String tile, Animation an){
-        super(tile);
+    public AnimatedTile(String tile, Location loc, Animation an){
+        super(tile, loc);
         animation = an;
     }
     
-    public AnimatedTile(String tile){
-        super(tile);
+    public AnimatedTile(String tile, Location loc){
+        super(tile, loc);
         animation = new Animation(ImageHandler.getFrames(tile, 0));
     }
     
-    public AnimatedTile(String tile, int x){
-        super(tile);
+    public AnimatedTile(String tile, Location loc, int x){
+        super(tile, loc);
         animation = new Animation(ImageHandler.getFrames(tile, x));
     }
     
-    public void addShaders(String shaderString){
-        animation.addShaders(shaderString);
+    public void addShaders(String shaderString, Location loc){
+        animation.addShaders(shaderString, loc);
     }
     
     @Override
