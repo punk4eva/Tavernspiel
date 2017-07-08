@@ -1,8 +1,10 @@
 
 package logic;
 
+import java.awt.AlphaComposite;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
@@ -78,7 +80,7 @@ public class ImageHandler{
     }
     
     public static ImageIcon getImageIcon(Dimension dim){
-        ImageIcon icon = new ImageIcon("graphics/temporaryTiles");
+        ImageIcon icon = new ImageIcon("graphics/temporaryTiles.png");
         BufferedImage bi = new BufferedImage(
                 icon.getIconWidth(),
                 icon.getIconHeight(),
@@ -87,6 +89,35 @@ public class ImageHandler{
         icon.paintIcon(null, g, 0, 0);
         g.dispose();
         return new ImageIcon(bi.getSubimage(dim.width, dim.height, 16, 16));
+    }
+    
+    public static ImageIcon[] getFrames(String str, int x){
+        ImageIcon img = new ImageIcon("graphics/" + str + ".png");
+        BufferedImage bi = new BufferedImage(
+                img.getIconWidth(),
+                img.getIconHeight(),
+                BufferedImage.TYPE_INT_ARGB);
+        Graphics g = bi.createGraphics();
+        img.paintIcon(null, g, 0, 0);
+        g.dispose();
+        ImageIcon[] ret = new ImageIcon[img.getIconHeight()-15];
+        x*=16;
+        for(int y=0;y<=img.getIconHeight()-16;y++){
+            ret[y] = new ImageIcon(bi.getSubimage(y, x, 16, 16));
+        }
+        return ret;
+    }
+    
+    public static ImageIcon combineIcons(ImageIcon ic1, ImageIcon ic2){
+        BufferedImage bi1 = new BufferedImage(
+                ic1.getIconWidth(),
+                ic1.getIconHeight(),
+                BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = bi1.createGraphics();
+        ic1.paintIcon(null, g, 0, 0);
+        ic2.paintIcon(null, g, 0, 0);
+        g.dispose();
+        return new ImageIcon(bi1);
     }
     
 }
