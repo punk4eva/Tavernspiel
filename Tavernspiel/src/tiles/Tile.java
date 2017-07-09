@@ -16,6 +16,7 @@ public class Tile extends JButton{
 
     public String name;
     public boolean treadable = true;
+    public boolean flammable = false;
     public Gas gas = null;
     public Receptacle receptacle;
     
@@ -24,10 +25,11 @@ public class Tile extends JButton{
         name = n;
     }
     
-    public Tile(String n, ImageIcon ic, boolean t){
+    public Tile(String n, ImageIcon ic, boolean t, boolean f){
         super(ic);
         name = n;
         treadable = t;
+        flammable = f;
     }
     
     public Tile(String tile, Location loc){

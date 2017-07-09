@@ -19,13 +19,13 @@ public class TrapBuilder{
         return new Chasm(area.map[y-1][x].name, loc);
     }
     
-    public static Trap getTrap(String tr, Location loc){
+    public static Trap getTrap(String tr, Area area){
         if(isGaseous(tr)){
-            Gas g = getToxicGas(loc); //UNFINISHED
-            return new Trap(tr, loc, g);
+            Gas g = getToxicGas(area); //UNFINISHED
+            return new Trap(tr, area.location, g);
         }else{
             Buff b = new Buff("-1"); //UNFINISHED
-            return new Trap(tr, loc, b);
+            return new Trap(tr, area.location, b);
         }
     }
     
@@ -33,13 +33,14 @@ public class TrapBuilder{
         return str.contains("yellow")||str.contains("green");
     }
     
-    public static Gas getToxicGas(Location loc){
+    public static Gas getToxicGas(Area area){
         Buff b = new Buff("toxic gas", 1);
         b.damageDistribution = new Distribution(
-                loc.stageSpawnDistrib.incrementor-1, 
-                loc.stageSpawnDistrib.incrementor+1);
+                area.location.stageSpawnDistrib.incrementor-1, 
+                area.location.stageSpawnDistrib.incrementor+1);
         Animation a = new Animation(ImageHandler.getFrames("", 0)); //UNFINISHED
-        return new Gas("Toxic Gas", "A poisonous green vapour.", b, a, 7);
+        return new Gas("Toxic Gas", "A poisonous green vapour.", b, a, 7, 
+                area.zipcode);
     }
     
 }

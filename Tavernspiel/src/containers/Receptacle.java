@@ -24,6 +24,12 @@ public abstract class Receptacle{
     public int ID;
     public String description;
     
+    
+    public interface Sort{
+        public boolean select(Item i);
+    }
+    
+    
     public Receptacle(String desc){
         description = desc;
         ID = MainClass.idhandler.genID();
@@ -95,6 +101,10 @@ public abstract class Receptacle{
     
     public boolean isEmpty(){
         return items.isEmpty();
+    }
+    
+    public void keep(Sort sort){
+        items.stream().filter(item -> sort.select(item));
     }
     
 }

@@ -19,12 +19,14 @@ public class GameObject implements ActionListener{
     public String name;
     public String description;
     public Animation animation;
+    public int areaCode;
     
-    public GameObject(String n, String desc, Animation an){
+    public GameObject(String n, String desc, Animation an, int ac){
         ID = MainClass.idhandler.genID();
         name = n;
         description = desc;
         animation = an;
+        areaCode = ac;
     }
     
     public void turn(){

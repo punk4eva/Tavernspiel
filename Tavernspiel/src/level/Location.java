@@ -3,6 +3,7 @@ package level;
 
 import creatures.Creature;
 import javax.swing.ImageIcon;
+import listeners.AreaEventInitiator;
 import logic.Distribution;
 import logic.MultiDistribution;
 
@@ -10,7 +11,7 @@ import logic.MultiDistribution;
  *
  * @author Adam Whittaker
  */
-public class Location{
+public class Location extends AreaEventInitiator{
     
     public String name;
     public ImageIcon tileset;

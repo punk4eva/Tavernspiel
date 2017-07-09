@@ -17,6 +17,7 @@ public abstract class Item{
     public ImageIcon icon;
     public int quantity = 1;
     public boolean stackable = true;
+    public boolean flammable = false;
     
     public Item(String n, ImageIcon i){
         name = n;
@@ -28,6 +29,14 @@ public abstract class Item{
         name = n;
         icon = i;
         quantity = q;
+        ID = MainClass.idhandler.genID();
+    }
+    
+    public Item(String n, ImageIcon i, int q, boolean flam){
+        name = n;
+        icon = i;
+        quantity = q;
+        flammable = flam;
         ID = MainClass.idhandler.genID();
     }
     

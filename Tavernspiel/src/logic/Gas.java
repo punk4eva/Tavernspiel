@@ -15,8 +15,8 @@ public class Gas extends GameObject{
     public int spreadNumber;
     public int duration = 10;
     
-    public Gas(String n, String desc, Buff b, Animation a, int spread){
-        super(n, desc, a);
+    public Gas(String n, String desc, Buff b, Animation a, int spread, int ac){
+        super(n, desc, a, ac);
         buffs.add(b);
         spreadNumber = spread;
     }

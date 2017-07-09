@@ -28,15 +28,15 @@ public abstract class Creature extends GameObject{
     public ArrayList<Buff> buffs = new ArrayList<>();
     
     public Creature(String n, String desc, Equipment eq, Inventory inv, 
-            Attributes atb, Animation an){
-        super(n, desc, an);
+            Attributes atb, Animation an, int ac){
+        super(n, desc, an, ac);
         equipment = eq;
         inventory = inv;
         attributes = atb;
     }
     
-    public Creature(String n, String desc, Attributes atb, Animation an){
-        super(n, desc, an);
+    public Creature(String n, String desc, Attributes atb, Animation an, int ac){
+        super(n, desc, an, ac);
         attributes = atb;
     }
     
@@ -61,7 +61,7 @@ public abstract class Creature extends GameObject{
             if(attributes.hp<=0){
                 if(hasBuff("enraged")){
                     removeBuff("enraged");
-                    addBuff("beserk");
+                    addBuff(BuffBuilder.getBuff("beserk", this));
                 }
             }
         }
@@ -78,8 +78,8 @@ public abstract class Creature extends GameObject{
         }
     }
     
-    public void addBuff(String buff){
-        buffs.add(BuffBuilder.getBuff(buff, this));
+    public void addBuff(Buff buff){
+        buffs.add(buff);
     }
     
 }
