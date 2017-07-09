@@ -15,7 +15,7 @@ import listeners.GameEvent;
  * 
  * @TOPLEVEL
  */
-public class GameObject implements ActionListener{
+public abstract class GameObject implements ActionListener{
     
     public int ID;
     public String name;
@@ -30,18 +30,18 @@ public class GameObject implements ActionListener{
         animation = an;
         areaCode = ac;
     }
-    
-    public void turn(){
-        //@charlie
-    }
-    
-    public void tick(){
-        //@charlie
-    }
-    
-    public void render(Graphics g){
-        //@charlie
-    }
+    /*
+    * What the Gameobject does each turn
+    */
+    public abstract void turn();
+    /*
+    * What the GameObject does each tick
+    */
+    public abstract void tick();
+    /*
+    * Rendering the GameObject
+    */
+    public abstract void render(Graphics g);
 
     //I don't know whether this should be here.
     @Override

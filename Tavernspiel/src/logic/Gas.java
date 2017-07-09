@@ -3,6 +3,7 @@ package logic;
 
 import animation.Animation;
 import buffs.Buff;
+import java.awt.Graphics;
 import java.util.ArrayList;
 
 /**
@@ -27,4 +28,16 @@ public class Gas extends GameObject{
         duration = (int)((duration + gas.duration)/1.5);
     }
     
+    @Override
+    public void tick(){
+    }
+   
+    @Override
+    public void turn(){
+    }
+
+    @Override
+    public void render(Graphics g){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

@@ -115,4 +115,8 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
         }
     }
     
+    public void blitArea(){
+    
+    }
+    
 }

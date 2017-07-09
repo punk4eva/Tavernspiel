@@ -56,7 +56,7 @@ public abstract class Creature extends GameObject{
     
     @Override
     public void tick(){
-        super.tick();
+        //super.tick();
         if(attributes.maxhp!=attributes.hp){
             if(attributes.hp<=0){
                 if(hasBuff("enraged")){

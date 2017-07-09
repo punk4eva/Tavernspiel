@@ -3,6 +3,7 @@ package creatures;
 
 import animation.Animation;
 import creatureLogic.Attributes;
+import java.awt.Graphics;
 
 /**
  *
@@ -15,5 +16,16 @@ public class Hero extends Creature{
     public Hero(Attributes atb, Animation an, int ac){
         super("Hero", "UNWRITTEN", atb, an, ac);
     }
+
+    @Override
+    public void turn(){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void render(Graphics g){
+        throw new UnsupportedOperationException("Not supported yet."); 
+    }
+    
     
 }
