@@ -105,18 +105,15 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
             e.printStackTrace();
         }
     }
+        
     
-    public void paintArea(Area area){
+    public void blitArea(Area area){
         for(int y=0;y<area.dimension.height*16;y+=16){
             for(int x=0;x<area.dimension.width*16;x+=16){
                 //@charlie
-                //Paint tile map[y/16][x/16] to canvas at coords x, y.
+                //Paint tile area.map[y/16][x/16] to canvas at coords x, y.
             }
         }
-    }
-    
-    public void blitArea(){
-    
     }
     
 }
