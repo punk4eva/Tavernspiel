@@ -4,12 +4,15 @@ package level;
 import containers.Floor;
 import exceptions.AreaCoordsOutOfBoundsException;
 import exceptions.ReceptacleOverflowException;
+import gui.MainClass;
 import items.Item;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import listeners.AreaEvent;
 import listeners.ZipHandler;
 import listeners.AreaListener;
+import listeners.DeathEvent;
+import listeners.DeathListener;
 import logic.Distribution;
 import tiles.Tile;
 
@@ -17,7 +20,7 @@ import tiles.Tile;
  *
  * @author Adam Whittaker
  */
-public class Area implements AreaListener{
+public class Area implements AreaListener, DeathListener{
     
     public Tile[][] map;
     public Dimension dimension;
@@ -29,6 +32,7 @@ public class Area implements AreaListener{
         dimension = dim;
         location = loc;
         location.addAreaListener(this);
+        MainClass.reaper.addDeathListener(this);
         map = createBlank();
     }
     
@@ -51,25 +55,6 @@ public class Area implements AreaListener{
     
     public boolean withinBounds(int x, int y){
         return x>=0&&y>=0&&x<dimension.width&&y<dimension.height;
-    }
-
-    @Override
-    public void areaActedUpon(AreaEvent ae){
-        if(ae.getCode()==zipcode){
-            switch(ae.getAction()){
-                case "FELLINTOCHASM":
-                    //if(nextLevel==null){
-                    //    nextLevel.fullLoad();
-                    //    hero.changeLevel(nextLevel.zipcode);
-                    //    hero.addBuff(BuffBuilder.bleeding(level*2));
-                    //}else{
-                    //    @unfinished
-                    //}
-                    break;
-                case "BURN": burn(ae.getX(), ae.getY());
-                    break;
-            }
-        }
     }
     
     protected void burn(int x, int y){
@@ -97,6 +82,39 @@ public class Area implements AreaListener{
                 map[y][x].receptacle.push(item);
             }catch(ReceptacleOverflowException ignore){}
         });
+    }
+    
+    
+
+    @Override
+    public void lifeTaken(DeathEvent de){
+        if(de.getCode()==zipcode){
+            //@unfinished
+            try{
+                map[de.getY()][de.getX()].receptacle.pushAll(de.getCreature().inventory);
+                map[de.getY()][de.getX()].receptacle.pushAll(de.getCreature().equipment);
+            }catch(ReceptacleOverflowException ignore){}
+            de.getCreature().startDieAnimation();
+        }
+    }
+    
+    @Override
+    public void areaActedUpon(AreaEvent ae){
+        if(ae.getCode()==zipcode){
+            switch(ae.getAction()){
+                case "FELLINTOCHASM":
+                    //if(nextLevel==null){          @unfinished
+                    //    nextLevel.fullLoad();
+                    //    hero.changeLevel(nextLevel.zipcode);
+                    //    hero.addBuff(BuffBuilder.bleeding(level*2));
+                    //}else{
+                    //    @unfinished
+                    //}
+                    break;
+                case "BURN": burn(ae.getX(), ae.getY());
+                    break;
+            }
+        }
     }
     
 }

@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferStrategy;
 import level.Area;
+import listeners.GrimReaper;
 import logic.IDHandler;
 import logic.ImageHandler;
 import logic.SoundHandler;
@@ -26,6 +27,7 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
     private Handler handler;
 
     public static final IDHandler idhandler = new IDHandler();
+    public static final GrimReaper reaper = new GrimReaper();
 
     public MainClass(){
         ImageHandler.initializeMap();

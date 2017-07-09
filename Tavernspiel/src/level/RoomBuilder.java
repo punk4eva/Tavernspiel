@@ -1,6 +1,7 @@
 
 package level;
 
+import buffs.GasBuilder;
 import containers.Chest;
 import containers.Floor;
 import exceptions.ReceptacleOverflowException;
@@ -8,6 +9,7 @@ import items.Item;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import logic.Distribution;
+import logic.Gas;
 import tiles.Chasm;
 import tiles.Door;
 import tiles.Tile;
@@ -206,6 +208,7 @@ public class RoomBuilder{
                 }else room.map[y][x] = specfloor;
             }
         }
+        room.barricade();
         room.randomlyPlop(items);
         return room;
     }
@@ -229,7 +232,31 @@ public class RoomBuilder{
         return room;
     }
     
-    
+    public static Room garden(Area area){
+        Room room = new Room(new Dimension(Distribution.getRandomInclusiveInt(5, 16),
+                Distribution.getRandomInclusiveInt(5, 16)), area.location);
+        Tile highgrass = new Tile("highgrass", area.location);
+        Tile lowgrass = new Tile("lowgrass", area.location);
+        Tile specwall = new Tile("specialwall", area.location);
+        Tile wall = new Tile("wall", area.location);
+        Gas gas = GasBuilder.gardengas(area);
+        for(int y=0;y<room.dimension.height;y++){
+            for(int x=0;x<room.dimension.width;x++){
+                if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1){
+                    if(Distribution.chance(1, 10)) room.map[y][x] = specwall;
+                    else room.map[y][x] = wall;
+                }else{
+                    if(y==1||x==1||y==room.dimension.height-2||x==room.dimension.width-2)
+                        room.map[y][x] = highgrass;
+                    else room.map[y][x] = lowgrass;
+                    room.map[y][x].gas = gas;
+                }
+            }
+        }
+        return room;
+    } 
+                    
+            
     
     public static Trap getRandomTrap(Area area){
         String tr = TRAPCOLOURS[Distribution.getRandomInclusiveInt(0, TRAPCOLOURS.length)] + "trap";
