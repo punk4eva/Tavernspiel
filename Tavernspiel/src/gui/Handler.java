@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.Graphics;
 import java.util.LinkedList;
+import listeners.GameEvent;
 import logic.GameObject;
 
 /**
@@ -33,6 +34,12 @@ public class Handler{
 
     public void removeObject(GameObject object){
         this.object.remove(object);
+    }
+    
+    public void notify(GameEvent ge){
+        object.stream().forEach(gameOb -> {
+            gameOb.gameEvent(ge);
+        });
     }
 
 }

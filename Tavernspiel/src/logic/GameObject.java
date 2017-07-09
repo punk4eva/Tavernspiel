@@ -6,6 +6,7 @@ import gui.MainClass;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import listeners.GameEvent;
 
 /**
  *
@@ -44,7 +45,13 @@ public class GameObject implements ActionListener{
     //I don't know whether this should be here.
     @Override
     public void actionPerformed(ActionEvent ae){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public void gameEvent(GameEvent ge){
+        if(ID==ge.getID()){
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
     }
     
 }
