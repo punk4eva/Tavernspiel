@@ -24,6 +24,14 @@ public class Distribution{
         outputs = new double[] {l, u};
     }
     
+    public Distribution(double[] out){
+        outputs = out;
+        chances = new int[out.length];
+        for(int n=1;n<out.length+1;n++){
+            chances[n-1] = n;
+        }
+    }
+    
     public double next(){
         return outputs[chanceToInt(r.nextInt(chances[chances.length-1])+1)];
     }

@@ -2,6 +2,7 @@
 package logic;
 
 import animation.Animation;
+import gui.Handler;
 import gui.MainClass;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -48,10 +49,15 @@ public class GameObject implements ActionListener{
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
+    
     public void gameEvent(GameEvent ge){
         if(ID==ge.getID()){
             throw new UnsupportedOperationException("Not supported yet.");
         }
+    }
+    
+    public void passEvent(GameEvent ge, Handler handler){
+        handler.notify(ge);
     }
     
 }

@@ -17,7 +17,7 @@ public class Chasm extends Tile{
     private boolean isPitroom = false;
     
     public Chasm(String tileAbove, Location loc){
-        super(tileAbove + "cutoff", loc);
+        super(tileAbove.equals("void") ? "void" : tileAbove + "cutoff", loc);
         location = loc;
     }
     

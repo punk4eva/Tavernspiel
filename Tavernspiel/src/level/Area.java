@@ -4,10 +4,13 @@ package level;
 import containers.Floor;
 import exceptions.AreaCoordsOutOfBoundsException;
 import exceptions.ReceptacleOverflowException;
+import items.Item;
 import java.awt.Dimension;
+import java.util.ArrayList;
 import listeners.AreaEvent;
 import listeners.ZipHandler;
 import listeners.AreaListener;
+import logic.Distribution;
 import tiles.Tile;
 
 /**
@@ -77,6 +80,23 @@ public class Area implements AreaListener{
         map[y][x] = new Tile("embers", location);
         floor.keep(item -> !item.flammable);
         map[y][x].receptacle = floor;
+    }
+    
+    protected boolean onTreadableTile(int x, int y){
+        return map[y][x].treadable;
+    }
+    
+    protected void randomlyPlop(ArrayList<Item> items){
+        items.stream().forEach(item -> {
+            int x, y;
+            do{
+                x = Distribution.getRandomInclusiveInt(0, dimension.width-1);
+                y = Distribution.getRandomInclusiveInt(0, dimension.height-1);
+            }while(!onTreadableTile(x, y));
+            try{
+                map[y][x].receptacle.push(item);
+            }catch(ReceptacleOverflowException ignore){}
+        });
     }
     
 }

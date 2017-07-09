@@ -4,6 +4,7 @@ package level;
 import java.awt.Dimension;
 import logic.Distribution;
 import tiles.AnimatedTile;
+import tiles.Door;
 import tiles.Tile;
 
 /**
@@ -67,12 +68,19 @@ public class Room extends Area{
     }
     
     protected void paintAndPave(){
+        Tile specwall = new Tile("specialwall", location);
+        Tile wall = new Tile("wall", location);
+        Tile floor = new Tile("floor", location);
+        Tile decofloor = new Tile("decofloor", location);
         for(int y=0;y<dimension.height;y++){
             for(int x=0;x<dimension.width;x++){
                 if(y==0||x==0||y==dimension.height-1||x==dimension.width-1){
-                    if(Distribution.chance(1, 10)) map[y][x] = new Tile("specialwall", location);
-                    else map[y][x] = new Tile("wall", location);
-                }else map[y][x] = new Tile("floor", location);
+                    if(Distribution.chance(1, 10)) map[y][x] = specwall;
+                    else map[y][x] = wall;
+                }else{
+                    if(Distribution.chance(1, 10)) map[y][x] = decofloor;
+                    else map[y][x] = floor;
+                }
             }
         }
     }
@@ -167,6 +175,27 @@ public class Room extends Area{
         if(map[y+1][x].equals("water")) ret += "s";
         if(map[y][x-1].equals("water")) ret += "w";
         return ret;
+    }
+    
+    protected void addDoors(){
+        int numDoors = (int)new Distribution(new double[]{1,2,3,4,5,6,7},
+                new int[]{2,4,6,5,3,2,1}).next();
+        Distribution yDistrib = new Distribution(new double[]{0, dimension.height-1});
+        Distribution xDistrib = new Distribution(new double[]{0, dimension.width-1});
+        while(numDoors>0){
+            int x, y;
+            if(Distribution.chance(1, 2)){
+                x = Distribution.getRandomInclusiveInt(1, dimension.width-2);
+                y = (int) yDistrib.next();
+            }else{
+                y = Distribution.getRandomInclusiveInt(1, dimension.height-2);
+                x = (int) xDistrib.next();
+            }
+            if(map[y][x].equals("wall")||map[y][x].equals("specialwall")){
+                numDoors--;
+                map[y][x] = new Door(location);
+            }
+        }
     }
     
 }

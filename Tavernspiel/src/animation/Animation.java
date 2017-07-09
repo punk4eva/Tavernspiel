@@ -4,8 +4,6 @@ package animation;
 import java.awt.Graphics;
 import java.awt.MediaTracker;
 import java.awt.event.ActionListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.Timer;
@@ -69,9 +67,16 @@ public class Animation{
     }
     
     public void addShaders(String shaderString, Location loc){
-        ImageIcon shader = ImageHandler.getImageIcon("shader"+shaderString, loc);
-        for(ImageIcon frame : frames){
-            frame = ImageHandler.combineIcons(frame, shader);
+        if(shaderString.equals("well") || shaderString.equals("alchemypot")){
+            ImageIcon shader = ImageHandler.getImageIcon(shaderString, loc);
+            for(ImageIcon frame : frames){
+                frame = ImageHandler.combineIcons(frame, shader);
+            }
+        }else{
+            ImageIcon shader = ImageHandler.getImageIcon("shader" + shaderString, loc);
+            for(ImageIcon frame : frames){
+                frame = ImageHandler.combineIcons(frame, shader);
+            }
         }
     }
     
