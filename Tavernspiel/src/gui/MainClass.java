@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferStrategy;
 import level.Area;
+import listeners.BuffEventInitiator;
 import listeners.GrimReaper;
 import logic.IDHandler;
 import logic.ImageHandler;
@@ -26,8 +27,9 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
 
     private Handler handler;
 
-    public static final IDHandler idhandler = new IDHandler();
-    public static final GrimReaper reaper = new GrimReaper();
+    public static final IDHandler idhandler = new IDHandler(); //Creates UUIDs for GameObjects.
+    public static final GrimReaper reaper = new GrimReaper(); //Handles death.
+    public static final BuffEventInitiator buffinitiator = new BuffEventInitiator(); //Handles buffs.
 
     public MainClass(){
         ImageHandler.initializeMap();

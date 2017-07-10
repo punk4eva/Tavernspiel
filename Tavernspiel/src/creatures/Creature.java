@@ -7,7 +7,10 @@ import containers.Equipment;
 import containers.Inventory;
 import creatureLogic.Attributes;
 import gui.MainClass;
+import java.awt.Graphics;
 import java.util.ArrayList;
+import listeners.BuffEvent;
+import listeners.BuffListener;
 import listeners.DeathEvent;
 import logic.GameObject;
 
@@ -17,7 +20,7 @@ import logic.GameObject;
  * 
  * Base Creature that all others inherit from.
  */
-public abstract class Creature extends GameObject{
+public class Creature extends GameObject implements BuffListener{
     
     public Equipment equipment = new Equipment();
     public Inventory inventory = new Inventory();
@@ -32,11 +35,13 @@ public abstract class Creature extends GameObject{
         equipment = eq;
         inventory = inv;
         attributes = atb;
+        MainClass.buffinitiator.addBuffListener(this);
     }
     
     public Creature(String n, String desc, Attributes atb, Animation an, int ac){
         super(n, desc, an, ac);
         attributes = atb;
+        MainClass.buffinitiator.addBuffListener(this);
     }
     
     public void gainXP(int e){
@@ -80,6 +85,37 @@ public abstract class Creature extends GameObject{
     
     public void addBuff(Buff buff){
         buffs.add(buff);
+    }
+
+    @Override
+    public void buffTriggered(BuffEvent be){
+        if(be.getID()==ID){
+            switch(be.getName()){
+                //@unfinished
+                default: buffs.add(be.getNext());
+            }
+        }
+    }
+    
+    public void decrementAndUpdateBuffs(){
+        buffs.stream().forEach((buff) -> {
+            buff.duration--;
+            if(buff.duration==0){
+                buffs.remove(buff);
+                buff.end();
+            }
+        });
+    }
+
+    @Override
+    public void turn(){
+        //@unfinished
+        decrementAndUpdateBuffs();   
+    }
+
+    @Override
+    public void render(Graphics g){
+        //@unfinished
     }
     
 }
