@@ -12,6 +12,7 @@ import level.Area;
 import level.Location;
 import logic.IDHandler;
 import logic.ImageHandler;
+import logic.SoundHandler;
 
 
 /**
@@ -41,7 +42,6 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
 
     public static void main(String[] args){
         MainClass mc = new MainClass();
-        
     }
 
     @Override
@@ -64,7 +64,6 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
             lastTime = now;
             for(double d = delta; d >= 1; d--){
                 tick();
-
             }
             if(running){
                 render();
@@ -119,11 +118,13 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
                 //@charlie
                 //Paint tile map[y/16][x/16] to canvas at coords x, y.
                 //g.drawImage(ImageHandler.getImageIcon("shaderns", new Location("Test", "temporaryTiles")).getImage(),x,y,null);
-                g.drawImage(area.map[y/16][x/16],x,y,null);
+                g.drawImage(ImageHandler.getImageIcon(area.map[y/16][x/16].name,new Location("Test","temporaryTiles" )).getImage(),x,y,null);
             }
         }
     }
     
-    //public void blitArea(){}
+    public void blitArea(){
+    
+    }
     
 }
