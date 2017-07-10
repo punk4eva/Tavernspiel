@@ -119,6 +119,7 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
                 //Paint tile map[y/16][x/16] to canvas at coords x, y.
                 //g.drawImage(ImageHandler.getImageIcon("shaderns", new Location("Test", "temporaryTiles")).getImage(),x,y,null);
                 g.drawImage(ImageHandler.getImageIcon(area.map[y/16][x/16].name,new Location("Test","temporaryTiles" )).getImage(),x,y,null);
+                
             }
         }
     }
