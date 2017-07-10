@@ -10,9 +10,10 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferStrategy;
 import level.Area;
 import level.Location;
+import listeners.BuffEventInitiator;
+import listeners.GrimReaper;
 import logic.IDHandler;
 import logic.ImageHandler;
-import logic.SoundHandler;
 
 
 /**
@@ -28,9 +29,10 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
 
     private Handler handler;
 
-    public static final IDHandler idhandler = new IDHandler();
-    public static final Area area1 = new Area(new Dimension(240,48), new Location("Area 1", "temporaryTiles"));
-    
+    public static final IDHandler idhandler = new IDHandler(); //Creates UUIDs for GameObjects.
+    public static final GrimReaper reaper = new GrimReaper(); //Handles death.
+    public static final BuffEventInitiator buffinitiator = new BuffEventInitiator(); //Handles buffs.
+    public static final Area area1 = new Area(new Dimension(280,48), new Location("Test","temporaryTiles"));
 
     public MainClass(){
         ImageHandler.initializeMap();
@@ -111,6 +113,7 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
             e.printStackTrace();
         }
     }
+        
     
     public void paintArea(Area area, Graphics g){
         for(int y=0;y<area.dimension.height*16;y+=16){
@@ -123,9 +126,4 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
             }
         }
     }
-    
-    public void blitArea(){
-    
-    }
-    
 }

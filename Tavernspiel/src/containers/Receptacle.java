@@ -103,6 +103,14 @@ public abstract class Receptacle{
         return items.isEmpty();
     }
     
+    public boolean contains(Item i){
+        return items.stream().anyMatch(item -> (item.name.endsWith(i.name)));
+    }
+    
+    public boolean contains(String i){
+        return items.stream().anyMatch(item -> (item.name.endsWith(i)));
+    }
+    
     public void keep(Sort sort){
         items.stream().filter(item -> sort.select(item));
     }

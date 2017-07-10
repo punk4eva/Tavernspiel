@@ -37,6 +37,13 @@ public class Tile extends JButton{
         name = tile;
     }
     
+    public Tile(String tile, Location loc, boolean t, boolean f){
+        super(ImageHandler.getImageIcon(tile, loc));
+        name = tile;
+        treadable = t;
+        flammable = f;
+    }
+    
     public boolean equals(Tile t){
         return t.name.equals(name);
     }

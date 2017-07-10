@@ -3,13 +3,15 @@ package creatures;
 
 import animation.Animation;
 import buffs.Buff;
-import buffs.BuffBuilder;
 import containers.Equipment;
 import containers.Inventory;
 import creatureLogic.Attributes;
-import exceptions.ReceptacleOverflowException;
+import gui.MainClass;
+import java.awt.Graphics;
 import java.util.ArrayList;
-import level.Area;
+import listeners.BuffEvent;
+import listeners.BuffListener;
+import listeners.DeathEvent;
 import logic.GameObject;
 
 /**
@@ -18,10 +20,10 @@ import logic.GameObject;
  * 
  * Base Creature that all others inherit from.
  */
-public abstract class Creature extends GameObject{
+public class Creature extends GameObject implements BuffListener{
     
-    private Equipment equipment = new Equipment();
-    private Inventory inventory = new Inventory();
+    public Equipment equipment = new Equipment();
+    public Inventory inventory = new Inventory();
     public Attributes attributes;
     private Animation dieAnimation;
     private int x, y;
@@ -33,11 +35,13 @@ public abstract class Creature extends GameObject{
         equipment = eq;
         inventory = inv;
         attributes = atb;
+        MainClass.buffinitiator.addBuffListener(this);
     }
     
     public Creature(String n, String desc, Attributes atb, Animation an, int ac){
         super(n, desc, an, ac);
         attributes = atb;
+        MainClass.buffinitiator.addBuffListener(this);
     }
     
     public void gainXP(int e){
@@ -48,10 +52,12 @@ public abstract class Creature extends GameObject{
         attributes.level.gainXP(c.attributes.xpOnDeath, attributes);
     }
     
-    public void die(Area area) throws ReceptacleOverflowException{
-        if(!equipment.isEmpty()) area.map[y][x].receptacle.pushAll(equipment);
-        if(!inventory.isEmpty()) area.map[y][x].receptacle.pushAll(inventory);
-        dieAnimation.lapAndFade(this);
+    public void die(){
+        MainClass.reaper.notify(new DeathEvent(this, x, y, areaCode));
+    }
+    
+    public void startDieAnimation(){
+        dieAnimation.start(this);
     }
     
     @Override
@@ -59,10 +65,9 @@ public abstract class Creature extends GameObject{
         //super.tick();
         if(attributes.maxhp!=attributes.hp){
             if(attributes.hp<=0){
-                if(hasBuff("enraged")){
-                    removeBuff("enraged");
-                    addBuff(BuffBuilder.getBuff("beserk", this));
-                }
+                if(inventory.contains("ankh")){
+                    //unfinished
+                }else die();
             }
         }
     }
@@ -80,6 +85,37 @@ public abstract class Creature extends GameObject{
     
     public void addBuff(Buff buff){
         buffs.add(buff);
+    }
+
+    @Override
+    public void buffTriggered(BuffEvent be){
+        if(be.getID()==ID){
+            switch(be.getName()){
+                //@unfinished
+                default: buffs.add(be.getNext());
+            }
+        }
+    }
+    
+    public void decrementAndUpdateBuffs(){
+        buffs.stream().forEach((buff) -> {
+            buff.duration--;
+            if(buff.duration==0){
+                buffs.remove(buff);
+                buff.end();
+            }
+        });
+    }
+
+    @Override
+    public void turn(){
+        //@unfinished
+        decrementAndUpdateBuffs();   
+    }
+
+    @Override
+    public void render(Graphics g){
+        //@unfinished
     }
     
 }

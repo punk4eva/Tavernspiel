@@ -15,6 +15,7 @@ public class AttributeModifier{
     public double dexterityMultiplier = 1;
     public double maxhpMultiplier = 1;
     public double attackMultiplier = 1;
+    public double regenSpeedMultiplier = 1;
     public Resistance[] newResistances = null; //null if Resistances aren't changed.
     
     public AttributeModifier(){}
