@@ -32,7 +32,7 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
     public static final IDHandler idhandler = new IDHandler(); //Creates UUIDs for GameObjects.
     public static final GrimReaper reaper = new GrimReaper(); //Handles death.
     public static final BuffEventInitiator buffinitiator = new BuffEventInitiator(); //Handles buffs.
-    public static final Area area1 = new Area(new Dimension(280,48), new Location("Test","temporaryTiles"));
+    public static final Area area1 = new Area(new Dimension(240,48), new Location("Test", "temporaryTiles"));
 
     public MainClass(){
         ImageHandler.initializeMap();
