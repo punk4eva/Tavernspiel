@@ -3,14 +3,16 @@ package gui;
 
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferStrategy;
 import level.Area;
+import level.Location;
 import logic.IDHandler;
 import logic.ImageHandler;
-import logic.SoundHandler;
+
 
 /**
  *
@@ -26,6 +28,8 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
     private Handler handler;
 
     public static final IDHandler idhandler = new IDHandler();
+    public static final Area area1 = new Area(new Dimension(240,48), new Location("Area 1", "temporaryTiles"));
+    
 
     public MainClass(){
         ImageHandler.initializeMap();
@@ -37,6 +41,7 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
 
     public static void main(String[] args){
         MainClass mc = new MainClass();
+        
     }
 
     @Override
@@ -59,6 +64,7 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
             lastTime = now;
             for(double d = delta; d >= 1; d--){
                 tick();
+
             }
             if(running){
                 render();
@@ -87,6 +93,7 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
         g.setColor(Color.black);
         g.fillRect(0, 0, WIDTH, HEIGHT);
         handler.render(g);
+        paintArea(area1, g);
         g.dispose();
         bs.show();
     }
@@ -106,17 +113,17 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
         }
     }
     
-    public void paintArea(Area area){
+    public void paintArea(Area area, Graphics g){
         for(int y=0;y<area.dimension.height*16;y+=16){
             for(int x=0;x<area.dimension.width*16;x+=16){
                 //@charlie
                 //Paint tile map[y/16][x/16] to canvas at coords x, y.
+                //g.drawImage(ImageHandler.getImageIcon("shaderns", new Location("Test", "temporaryTiles")).getImage(),x,y,null);
+                g.drawImage(area.map[y/16][x/16],x,y,null);
             }
         }
     }
     
-    public void blitArea(){
-    
-    }
+    //public void blitArea(){}
     
 }
