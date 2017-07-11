@@ -38,8 +38,7 @@ public class Area implements AreaListener, DeathListener{
     
     private Tile[][] createBlank(){
         Tile[][] ret = new Tile[dimension.height][dimension.width];
-        Loopable loop = new Loopable(this, () -> {return new Tile("void", location);});
-        return loop.map();
+        return ret;
     }
     
     public void blit(Area area, int x1, int y1) throws AreaCoordsOutOfBoundsException{
@@ -79,8 +78,13 @@ public class Area implements AreaListener, DeathListener{
                 y = Distribution.getRandomInclusiveInt(0, dimension.height-1);
             }while(!onTreadableTile(x, y));
             try{
-                map[y][x].receptacle.push(item);
-            }catch(ReceptacleOverflowException ignore){}
+                if(map[y][x].receptacle!=null) map[y][x].receptacle.push(item);
+                else{
+                    map[y][x].receptacle = new Floor(item);
+                }
+            }catch(ReceptacleOverflowException ignore){
+                System.err.println(ignore.getMessage());
+            }
         });
     }
     

@@ -2,6 +2,7 @@
 package items;
 
 import gui.MainClass;
+import java.awt.Image;
 import javax.swing.ImageIcon;
 
 /**
@@ -10,31 +11,32 @@ import javax.swing.ImageIcon;
  * 
  * Base class which handles items.
  */
-public abstract class Item{
+public class Item{
     
     public String name;
     public int ID;
-    public ImageIcon icon;
+    public Image icon;
     public int quantity = 1;
     public boolean stackable = true;
     public boolean flammable = false;
+    public ItemAction actions[] = ItemAction.getDefaultActions();
     
     public Item(String n, ImageIcon i){
         name = n;
-        icon = i;
+        icon = i.getImage();
         ID = MainClass.idhandler.genID();
     }
     
     public Item(String n, ImageIcon i, int q){
         name = n;
-        icon = i;
+        icon = i.getImage();
         quantity = q;
         ID = MainClass.idhandler.genID();
     }
     
     public Item(String n, ImageIcon i, int q, boolean flam){
         name = n;
-        icon = i;
+        icon = i.getImage();
         quantity = q;
         flammable = flam;
         ID = MainClass.idhandler.genID();
@@ -42,7 +44,7 @@ public abstract class Item{
     
     public Item(String n, ImageIcon i, boolean s){
         name = n;
-        icon = i;
+        icon = i.getImage();
         stackable = s;
         ID = MainClass.idhandler.genID();
     }

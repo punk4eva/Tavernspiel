@@ -19,15 +19,16 @@ public class AnimatedTile extends Tile implements ActionListener{
     public AnimatedTile(String tile, Location loc, Animation an){
         super(tile, loc);
         animation = an;
+        setIcon(animation.frames[0]);
     }
     
     public AnimatedTile(String tile, Location loc){
-        super(tile, loc);
+        super(tile, ImageHandler.getFrames(tile, 0)[0]);
         animation = new Animation(ImageHandler.getFrames(tile, 0));
     }
     
     public AnimatedTile(String tile, Location loc, int x){
-        super(tile, loc);
+        super(tile, ImageHandler.getFrames(tile, x)[0]);
         animation = new Animation(ImageHandler.getFrames(tile, x));
     }
     

@@ -17,7 +17,7 @@ import logic.ImageHandler;
 public class Animation{
     
     public int fps = 60;
-    protected ImageIcon[] frames;
+    public ImageIcon[] frames;
     protected Timer timer;
     public int currentFrame = 0;
     

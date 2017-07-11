@@ -1,6 +1,12 @@
 
 package gui;
 
+import containers.Floor;
+import exceptions.ReceptacleIndexOutOfBoundsException;
+import exceptions.ReceptacleOverflowException;
+import items.Apparatus;
+import items.Item;
+import items.ItemBuilder;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -8,12 +14,18 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import level.Area;
 import level.Location;
+import level.RoomBuilder;
 import listeners.BuffEventInitiator;
 import listeners.GrimReaper;
+import logic.Distribution;
 import logic.IDHandler;
 import logic.ImageHandler;
+import tiles.AnimatedTile;
+import tiles.Tile;
 
 
 /**
@@ -32,9 +44,14 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
     public static final IDHandler idhandler = new IDHandler(); //Creates UUIDs for GameObjects.
     public static final GrimReaper reaper = new GrimReaper(); //Handles death.
     public static final BuffEventInitiator buffinitiator = new BuffEventInitiator(); //Handles buffs.
-    public static final Area area1 = new Area(new Dimension(240,48), new Location("Test", "temporaryTiles"));
+    public static Area area1 = RoomBuilder.magicWellRoom(new Location("Test", "temporaryTiles"));
+    public static long frameNumber = 0;
+    private int framerate = 0;
 
     public MainClass(){
+        //ArrayList<Item> ary = new ArrayList<>();
+        //ary.add(ItemBuilder.amulet());
+        //area1 = RoomBuilder.storage(new Location("Test", "temporaryTiles"), ary);
         ImageHandler.initializeMap();
 
         handler = new Handler();
@@ -94,6 +111,11 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
         g.setColor(Color.black);
         g.fillRect(0, 0, WIDTH, HEIGHT);
         handler.render(g);
+        framerate++;
+        if(framerate == 60){
+            frameNumber = (frameNumber+1) % 1000000000;
+            framerate = 0;
+        }
         paintArea(area1, g);
         g.dispose();
         bs.show();
@@ -118,11 +140,17 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
     public void paintArea(Area area, Graphics g){
         for(int y=0;y<area.dimension.height*16;y+=16){
             for(int x=0;x<area.dimension.width*16;x+=16){
-                //@charlie
-                //Paint tile map[y/16][x/16] to canvas at coords x, y.
-                //g.drawImage(ImageHandler.getImageIcon("shaderns", new Location("Test", "temporaryTiles")).getImage(),x,y,null);
-                g.drawImage(ImageHandler.getImageIcon(area.map[y/16][x/16].name,new Location("Test","temporaryTiles" )).getImage(),x,y,null);
-                
+                Tile tile = area.map[y/16][x/16];
+                if(tile instanceof AnimatedTile)
+                    g.drawImage(((AnimatedTile)tile)
+                            .animation.frames
+                            [(int)(frameNumber%(((AnimatedTile)tile).animation.frames.length))]
+                            .getImage(),x,y,null);
+                else g.drawImage(((ImageIcon)tile.getIcon()).getImage(),x,y,null);
+                try{
+                    if(tile.receptacle instanceof Floor&&!tile.receptacle.isEmpty())
+                        g.drawImage(tile.receptacle.peek().icon,x,y,null);
+                }catch(ReceptacleIndexOutOfBoundsException ignore){}
             }
         }
     }

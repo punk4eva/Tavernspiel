@@ -174,7 +174,6 @@ public class RoomBuilder{
                     }
                 }
                 room.map[room.dimension.height-2][room.dimension.width/2] = pedestal;
-                room.map[1][room.dimension.width/2] = floorchasm;
                 room.map[0][room.dimension.width/2] = new Door(loc);
                 break;
             case 4: //West
@@ -198,8 +197,8 @@ public class RoomBuilder{
         Room room = new Room(new Dimension(Distribution.getRandomInclusiveInt(5, 16),
                 Distribution.getRandomInclusiveInt(5, 16)), loc);
         Tile specfloor = new Tile("specialfloor", loc);
-        Tile specwall = new Tile("specialwall", loc);
-        Tile wall = new Tile("wall", loc);
+        Tile specwall = new Tile("specialwall", loc, false, false);
+        Tile wall = new Tile("wall", loc, false, false);
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
                 if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1){
@@ -237,8 +236,8 @@ public class RoomBuilder{
                 Distribution.getRandomInclusiveInt(5, 16)), area.location);
         Tile highgrass = new Tile("highgrass", area.location);
         Tile lowgrass = new Tile("lowgrass", area.location);
-        Tile specwall = new Tile("specialwall", area.location);
-        Tile wall = new Tile("wall", area.location);
+        Tile specwall = new Tile("specialwall", area.location, false, false);
+        Tile wall = new Tile("wall", area.location, false, false);
         Gas gas = GasBuilder.gardengas(area);
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){

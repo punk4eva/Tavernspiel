@@ -35,10 +35,11 @@ public class TrapBuilder{
     
     public static Gas getToxicGas(Area area){
         Buff b = new Buff("toxic gas", 1);
-        b.damageDistribution = new Distribution(
+        b.damageDistribution = new Distribution(/**
                 area.location.stageSpawnDistrib.incrementor-1, 
-                area.location.stageSpawnDistrib.incrementor+1);
-        Animation a = new Animation(ImageHandler.getFrames("", 0)); //UNFINISHED
+                area.location.stageSpawnDistrib.incrementor+1*/
+        5, 6);              
+        Animation a = new Animation(ImageHandler.getFrames("water", 0)); //@unfinished, placeholder
         return new Gas("Toxic Gas", "A poisonous green vapour.", b, a, 7, 
                 area.zipcode);
     }

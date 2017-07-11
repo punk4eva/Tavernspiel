@@ -77,7 +77,9 @@ public class ImageHandler{
     
     public static ImageIcon getImageIcon(String str, Location loc){
         if(map.isEmpty()) initializeMap();
-        return getImageIcon(map.get(str.toLowerCase()), loc);
+        return getImageIcon(
+                map.get(str.toLowerCase())==null ?
+                new Dimension(240, 48) : map.get(str.toLowerCase()), loc);
     }
     
     public static ImageIcon getImageIcon(Dimension dim, Location loc){
@@ -102,8 +104,8 @@ public class ImageHandler{
         g.dispose();
         ImageIcon[] ret = new ImageIcon[img.getIconHeight()-15];
         x*=16;
-        for(int y=0;y<=img.getIconHeight()-16;y++){
-            ret[y] = new ImageIcon(bi.getSubimage(y, x, 16, 16));
+        for(int y=0;y<ret.length;y++){
+            ret[y] = new ImageIcon(bi.getSubimage(x, y, 16, 16));
         }
         return ret;
     }

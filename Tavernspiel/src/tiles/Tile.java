@@ -25,6 +25,13 @@ public class Tile extends JButton{
         name = n;
     }
     
+    public Tile(Tile t){
+        super(t.getIcon());
+        name = t.name;
+        treadable = t.treadable;
+        flammable = t.flammable;
+    }
+    
     public Tile(String n, ImageIcon ic, boolean t, boolean f){
         super(ic);
         name = n;
