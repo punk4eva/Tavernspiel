@@ -104,8 +104,8 @@ public class ImageHandler{
         g.dispose();
         ImageIcon[] ret = new ImageIcon[img.getIconHeight()-15];
         x*=16;
-        for(int y=0;y<ret.length;y++){
-            ret[y] = new ImageIcon(bi.getSubimage(x, y, 16, 16));
+        for(int y=ret.length-1;y>=0;y--){
+            ret[ret.length-y-1] = new ImageIcon(bi.getSubimage(x, y, 16, 16));
         }
         return ret;
     }

@@ -196,15 +196,12 @@ public class RoomBuilder{
     public static Room storage(Location loc, ArrayList<Item> items){
         Room room = new Room(new Dimension(Distribution.getRandomInclusiveInt(5, 16),
                 Distribution.getRandomInclusiveInt(5, 16)), loc);
-        Tile specfloor = new Tile("specialfloor", loc);
-        Tile specwall = new Tile("specialwall", loc, false, false);
-        Tile wall = new Tile("wall", loc, false, false);
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
                 if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1){
-                    if(Distribution.chance(1, 10)) room.map[y][x] = specwall;
-                    else room.map[y][x] = wall;
-                }else room.map[y][x] = specfloor;
+                    if(Distribution.chance(1, 10)) room.map[y][x] = new Tile("specialwall", loc, false, false);
+                    else room.map[y][x] = new Tile("wall", loc, false, false);
+                }else room.map[y][x] = new Tile("specialfloor", loc);
             }
         }
         room.barricade();
@@ -258,7 +255,7 @@ public class RoomBuilder{
             
     
     public static Trap getRandomTrap(Area area){
-        String tr = TRAPCOLOURS[Distribution.getRandomInclusiveInt(0, TRAPCOLOURS.length)] + "trap";
+        String tr = TRAPCOLOURS[Distribution.getRandomInclusiveInt(0, TRAPCOLOURS.length-1)] + "trap";
         return TrapBuilder.getTrap(tr, area);
     }
     

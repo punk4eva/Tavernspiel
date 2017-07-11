@@ -47,9 +47,9 @@ public class Distribution{
     
     private int[] convert(int[] ary){
         int cumulative = 0;
-        for(int i : ary){
-            cumulative += i;
-            i = cumulative;
+        for(int n=0;n<ary.length;n++){
+            cumulative += ary[n];
+            ary[n] = cumulative;
         }
         return ary;
     }

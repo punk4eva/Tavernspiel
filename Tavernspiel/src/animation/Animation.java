@@ -69,13 +69,13 @@ public class Animation{
     public void addShaders(String shaderString, Location loc){
         if(shaderString.equals("well") || shaderString.equals("alchemypot")){
             ImageIcon shader = ImageHandler.getImageIcon(shaderString, loc);
-            for(ImageIcon frame : frames){
-                frame = ImageHandler.combineIcons(frame, shader);
+            for(int n=0;n<frames.length;n++){
+                frames[n] = ImageHandler.combineIcons(frames[n], shader);
             }
         }else{
             ImageIcon shader = ImageHandler.getImageIcon("shader" + shaderString, loc);
-            for(ImageIcon frame : frames){
-                frame = ImageHandler.combineIcons(frame, shader);
+            for(int n=0;n<frames.length;n++){
+                frames[n] = ImageHandler.combineIcons(frames[n], shader);
             }
         }
     }

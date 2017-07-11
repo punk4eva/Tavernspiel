@@ -165,10 +165,10 @@ public class Room extends Area{
     
     private String genShaderString(int x, int y){
         String ret = "";
-        if(!map[y-1][x].equals("water")) ret += "n";
-        if(!map[y][x+1].equals("water")) ret += "e";
-        if(!map[y+1][x].equals("water")) ret += "s";
-        if(!map[y][x-1].equals("water")) ret += "w";
+        if(!map[y-1][x].name.contains("wa")) ret += "n";
+        if(!map[y][x+1].name.contains("wa")) ret += "e";
+        if(!map[y+1][x].name.contains("wa")) ret += "s";
+        if(!map[y][x-1].name.contains("wa")) ret += "w";
         return ret;
     }
     

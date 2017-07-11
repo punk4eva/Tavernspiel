@@ -49,9 +49,6 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
     private int framerate = 0;
 
     public MainClass(){
-        //ArrayList<Item> ary = new ArrayList<>();
-        //ary.add(ItemBuilder.amulet());
-        //area1 = RoomBuilder.storage(new Location("Test", "temporaryTiles"), ary);
         ImageHandler.initializeMap();
 
         handler = new Handler();
