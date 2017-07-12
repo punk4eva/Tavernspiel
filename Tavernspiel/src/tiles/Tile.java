@@ -2,6 +2,7 @@
 package tiles;
 
 import containers.Receptacle;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import level.Location;
@@ -49,6 +50,11 @@ public class Tile extends JButton{
         name = tile;
         treadable = t;
         flammable = f;
+    }
+    
+    public Tile(String t, Icon ic){
+        super(ic);
+        name = t;
     }
     
     public boolean equals(Tile t){

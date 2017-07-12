@@ -27,6 +27,12 @@ public class Trap extends Tile{
         sprayedGas = g;
     }
     
+    public Trap(Trap trap){
+        super(trap.name, trap.getIcon());
+        if(buff==null) sprayedGas = trap.sprayedGas;
+        else buff = trap.buff;
+    }
+    
     public void activate(Creature c){
         if(buff!=null)c.buffs.add(buff);
         else gas.merge(sprayedGas);

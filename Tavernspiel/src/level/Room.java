@@ -187,8 +187,11 @@ public class Room extends Area{
                 x = (int) xDistrib.next();
             }
             if(map[y][x].equals("wall")||map[y][x].equals("specialwall")){
-                numDoors--;
-                map[y][x] = new Door(location);
+                if(((y != 0 && y != dimension.height-1) || map[y][x+1].equals("door"))||map[y][x-1].equals("door")&&
+                        (((x != 0 && x != dimension.width-1) || map[y+1][x].equals("door")) || map[y-1][x].equals("door"))){
+                    numDoors--;
+                    map[y][x] = new Door(location);
+                }
             }
         }
     }

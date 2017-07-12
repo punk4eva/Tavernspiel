@@ -14,7 +14,6 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferStrategy;
-import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import level.Area;
 import level.Location;
@@ -44,7 +43,7 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
     public static final IDHandler idhandler = new IDHandler(); //Creates UUIDs for GameObjects.
     public static final GrimReaper reaper = new GrimReaper(); //Handles death.
     public static final BuffEventInitiator buffinitiator = new BuffEventInitiator(); //Handles buffs.
-    public static Area area1 = RoomBuilder.magicWellRoom(new Location("Test", "temporaryTiles"));
+    public static Area area1 = RoomBuilder.floodedVault(new Location("Test", "temporaryTiles"), ItemBuilder.amulet());
     public static long frameNumber = 0;
     private int framerate = 0;
 

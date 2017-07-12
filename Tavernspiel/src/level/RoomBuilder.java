@@ -9,7 +9,7 @@ import items.Item;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import logic.Distribution;
-import logic.Gas;
+import tiles.AnimatedTile;
 import tiles.Chasm;
 import tiles.Door;
 import tiles.Tile;
@@ -38,16 +38,14 @@ public class RoomBuilder{
     
     public static Room roomOfTraps(Location loc, Item item){
         Room room = new Room(new Dimension(Distribution.getRandomInclusiveInt(5, 16),
-                Distribution.getRandomInclusiveInt(5, 16)), loc);
+                Distribution.getRandomInclusiveInt(5, 10)), loc);
         room.standardify();
         Trap trap = getRandomTrap(room);
         switch(Distribution.getRandomInclusiveInt(1, 4)){
             case 1: //North
                 for(int y = 2; y < room.dimension.height - 1; y++){
                     for(int x = 1; x < room.dimension.width - 1; x++){
-                        if(room.map[y][x].equals("floor") && Distribution.chance(1, 30)){
-                            room.map[y][x] = trap;
-                        }
+                        room.map[y][x] = new Trap(trap);
                     }
                 }
                 if(Distribution.chance(1, 2)){
@@ -65,9 +63,7 @@ public class RoomBuilder{
             case 2: //East
                 for(int y = 1; y < room.dimension.height - 1; y++){
                     for(int x = 1; x < room.dimension.width - 2; x++){
-                        if(room.map[y][x].equals("floor") && Distribution.chance(1, 30)){
-                            room.map[y][x] = trap;
-                        }
+                        room.map[y][x] = new Trap(trap);
                     }
                 }
                 if(Distribution.chance(1, 2)){
@@ -85,29 +81,25 @@ public class RoomBuilder{
             case 3: //South
                 for(int y = 1; y < room.dimension.height - 2; y++){
                     for(int x = 1; x < room.dimension.width - 1; x++){
-                        if(room.map[y][x].equals("floor") && Distribution.chance(1, 30)){
-                            room.map[y][x] = trap;
-                        }
+                        room.map[y][x] = new Trap(trap);
                     }
                 }
                 if(Distribution.chance(1, 2)){
-                    room.map[1][room.dimension.width/2].receptacle = 
+                    room.map[room.dimension.height-2][room.dimension.width/2].receptacle = 
                             new Chest(item);
                 }else{
                     try{
-                        room.map[1][room.dimension.width/2].receptacle
+                        room.map[room.dimension.height-2][room.dimension.width/2].receptacle
                                 = new Floor(item);
                     }catch(ReceptacleOverflowException ignore){}
                 }
-                room.map[room.dimension.height-1][room.dimension.width/2] =
+                room.map[0][room.dimension.width/2] =
                         new Door(loc);
                 break;
             case 4: //West
                 for(int y = 1; y < room.dimension.height - 1; y++){
                     for(int x = 2; x < room.dimension.width - 1; x++){
-                        if(room.map[y][x].equals("floor") && Distribution.chance(1, 30)){
-                            room.map[y][x] = trap;
-                        }
+                        room.map[y][x] = new Trap(trap);
                     }
                 }
                 if(Distribution.chance(1, 2)){
@@ -128,11 +120,8 @@ public class RoomBuilder{
     
     public static Room chasmVault(Location loc, Item item){
         Room room = new Room(new Dimension(Distribution.getRandomInclusiveInt(5, 16),
-                Distribution.getRandomInclusiveInt(5, 16)), loc);
+                Distribution.getRandomInclusiveInt(5, 10)), loc);
         room.paintAndPave();
-        Chasm chasm = new Chasm("void", loc);
-        Chasm floorchasm = new Chasm("floor", loc);
-        Chasm wallchasm = new Chasm("wall", loc);
         Tile pedestal = new Tile("pedestal", loc);
         try{
             pedestal.receptacle = new Floor(item);
@@ -141,36 +130,36 @@ public class RoomBuilder{
             case 1: //North
                 for(int y = 1; y < room.dimension.height - 1; y++){
                     if(y==1) for(int x = 1; x < room.dimension.width - 1; x++){
-                        room.map[y][x] = wallchasm;
+                        room.map[y][x] = new Chasm("wall", loc);
                     }
                     else for(int x = 1; x < room.dimension.width - 1; x++){
-                        room.map[y][x] = chasm;
+                        room.map[y][x] = new Chasm("void", loc);
                     }
                 }
                 room.map[1][room.dimension.width/2] = pedestal;
-                room.map[2][room.dimension.width/2] = floorchasm;
+                room.map[2][room.dimension.width/2] = new Chasm("floor", loc);
                 room.map[room.dimension.height-1][room.dimension.width/2] = new Door(loc);
                 break;
             case 2: //East
                 for(int y = 1; y < room.dimension.height - 1; y++){
                     if(y==1) for(int x = 1; x < room.dimension.width - 1; x++){
-                        room.map[y][x] = wallchasm;
+                        room.map[y][x] = new Chasm("wall", loc);
                     }
                     else for(int x = 1; x < room.dimension.width - 1; x++){
-                        room.map[y][x] = chasm;
+                        room.map[y][x] = new Chasm("void", loc);
                     }
                 }
                 room.map[room.dimension.height/2][room.dimension.width-2] = pedestal;
-                room.map[(room.dimension.height/2)+1][room.dimension.width-2] = floorchasm;
+                room.map[(room.dimension.height/2)+1][room.dimension.width-2] = new Chasm("floor", loc);
                 room.map[room.dimension.height/2][0] = new Door(loc);
                 break;
             case 3: //South
                 for(int y = 1; y < room.dimension.height - 1; y++){
                     if(y==1) for(int x = 1; x < room.dimension.width - 1; x++){
-                        room.map[y][x] = wallchasm;
+                        room.map[y][x] = new Chasm("wall", loc);
                     }
                     else for(int x = 1; x < room.dimension.width - 1; x++){
-                        room.map[y][x] = chasm;
+                        room.map[y][x] = new Chasm("void", loc);
                     }
                 }
                 room.map[room.dimension.height-2][room.dimension.width/2] = pedestal;
@@ -179,14 +168,14 @@ public class RoomBuilder{
             case 4: //West
                 for(int y = 1; y < room.dimension.height - 1; y++){
                     if(y==1) for(int x = 1; x < room.dimension.width - 1; x++){
-                        room.map[y][x] = wallchasm;
+                        room.map[y][x] = new Chasm("wall", loc);
                     }
                     else for(int x = 1; x < room.dimension.width - 1; x++){
-                        room.map[y][x] = chasm;
+                        room.map[y][x] = new Chasm("void", loc);
                     }
                 }
                 room.map[room.dimension.height/2][1] = pedestal;
-                room.map[(room.dimension.height/2)+1][1] = floorchasm;
+                room.map[(room.dimension.height/2)+1][1] = new Chasm("floor", loc);
                 room.map[room.dimension.height/2][room.dimension.width-1] = new Door(loc);
                 break;
         }
@@ -231,26 +220,71 @@ public class RoomBuilder{
     public static Room garden(Area area){
         Room room = new Room(new Dimension(Distribution.getRandomInclusiveInt(5, 16),
                 Distribution.getRandomInclusiveInt(5, 16)), area.location);
-        Tile highgrass = new Tile("highgrass", area.location);
-        Tile lowgrass = new Tile("lowgrass", area.location);
-        Tile specwall = new Tile("specialwall", area.location, false, false);
-        Tile wall = new Tile("wall", area.location, false, false);
-        Gas gas = GasBuilder.gardengas(area);
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
                 if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1){
-                    if(Distribution.chance(1, 10)) room.map[y][x] = specwall;
-                    else room.map[y][x] = wall;
+                    if(Distribution.chance(1, 10)) room.map[y][x] = new Tile("specialwall", area.location, false, false);
+                    else room.map[y][x] = new Tile("wall", area.location, false, false);
                 }else{
                     if(y==1||x==1||y==room.dimension.height-2||x==room.dimension.width-2)
-                        room.map[y][x] = highgrass;
-                    else room.map[y][x] = lowgrass;
-                    room.map[y][x].gas = gas;
+                        room.map[y][x] = new Tile("highgrass", area.location);
+                    else room.map[y][x] = new Tile("lowgrass", area.location);
+                    room.map[y][x].gas = GasBuilder.gardengas(area);
                 }
             }
         }
         return room;
     } 
+    
+    public static Room floodedVault(Location loc, Item item){
+        Room room = new Room(new Dimension(Distribution.getRandomInclusiveInt(5, 16),
+                Distribution.getRandomInclusiveInt(5, 10)), loc);
+        room.paintAndPave();
+        Tile pedestal = new Tile("pedestal", loc);
+        try{
+            if(Distribution.chance(1, 3)) pedestal.receptacle = new Floor(item);
+            else pedestal.receptacle = new Chest(item);
+        }catch(ReceptacleOverflowException ignore){}
+        switch(Distribution.getRandomInclusiveInt(1, 4)){
+            case 1: //North
+                for(int y = 1; y < room.dimension.height - 1; y++){
+                    for(int x = 1; x < room.dimension.width - 1; x++){
+                        room.map[y][x] = new AnimatedTile("water", loc, x%2);
+                    }
+                }
+                room.map[1][room.dimension.width/2] = pedestal;
+                room.map[room.dimension.height-1][room.dimension.width/2] = new Door(loc);
+                break;
+            case 2: //East
+                for(int y = 1; y < room.dimension.height - 1; y++){
+                    for(int x = 1; x < room.dimension.width - 1; x++){
+                        room.map[y][x] = new AnimatedTile("water", loc, x%2);
+                    }
+                }
+                room.map[room.dimension.height/2][room.dimension.width-2] = pedestal;
+                room.map[room.dimension.height/2][0] = new Door(loc);
+                break;
+            case 3: //South
+                for(int y = 1; y < room.dimension.height - 1; y++){
+                   for(int x = 1; x < room.dimension.width - 1; x++)
+                        room.map[y][x] = new AnimatedTile("water", loc, x%2);
+                }
+                room.map[room.dimension.height-2][room.dimension.width/2] = pedestal;
+                room.map[0][room.dimension.width/2] = new Door(loc);
+                break;
+            case 4: //West
+                for(int y = 1; y < room.dimension.height - 1; y++){
+                    for(int x = 1; x < room.dimension.width - 1; x++){
+                        room.map[y][x] = new AnimatedTile("water", loc, x%2);
+                    }
+                }
+                room.map[room.dimension.height/2][1] = pedestal;
+                room.map[room.dimension.height/2][room.dimension.width-1] = new Door(loc);
+                break;
+        }
+        //room.spawnUncounted(CreatureBuilder.piranha(loc));
+        return room;
+    }
                     
             
     

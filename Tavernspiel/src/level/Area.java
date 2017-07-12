@@ -78,15 +78,11 @@ public class Area implements AreaListener, DeathListener{
                 y = Distribution.getRandomInclusiveInt(0, dimension.height-1);
             }while(!onTreadableTile(x, y));
             try{
-                System.out.println("rec null: " + map[y][x].receptacle==null);
                 if(map[y][x].receptacle!=null) map[y][x].receptacle.push(item);
                 else{
                     map[y][x].receptacle = new Floor(item);
                 }
-                System.out.println("ID: " + map[y][x].receptacle.ID);
-            }catch(ReceptacleOverflowException ignore){
-                System.err.println(ignore.getMessage());
-            }
+            }catch(ReceptacleOverflowException ignore){}
         });
     }
     
