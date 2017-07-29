@@ -4,6 +4,7 @@ package gui;
 import containers.Floor;
 import exceptions.ReceptacleIndexOutOfBoundsException;
 import exceptions.ReceptacleOverflowException;
+import fileLogic.ReadWrite;
 import items.Apparatus;
 import items.Item;
 import items.ItemBuilder;
@@ -14,6 +15,9 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferStrategy;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import level.Area;
 import level.Location;
@@ -56,7 +60,10 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
     }
 
     public static void main(String[] args){
-        MainClass mc = new MainClass();
+        ReadWrite rw = new ReadWrite("filetesting/test.txt");
+        rw.write("TEST STRING");
+        System.out.println(rw.read());
+        //MainClass mc = new MainClass();
     }
 
     @Override

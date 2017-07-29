@@ -1,6 +1,7 @@
 
 package logic;
 
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Random;
  * 
  * Handles probability.
  */
-public class Distribution{
+public class Distribution implements Fileable{
     
     protected double[] outputs;
     protected int[] chances;
@@ -31,6 +32,8 @@ public class Distribution{
             chances[n-1] = n;
         }
     }
+    
+    public Distribution(){/**Only used for fileable interface*/}
     
     public double next(){
         return outputs[chanceToInt(r.nextInt(chances[chances.length-1])+1)];
@@ -89,6 +92,24 @@ public class Distribution{
     
     public boolean chance(){
         return chance((int)outputs[0], (int)outputs[1]);
+    }
+
+    @Override
+    public String toFileString(){
+        String ret =  "[";
+        for(double d : outputs)ret += d + ",";
+        ret = ret.substring(ret.length()-1) + "<c>";
+        for(int i : chances) ret += i + ",";
+        return ret.substring(ret.length()-1) + "]";
+    }
+
+    @Override
+    public Distribution getFromFileString(String filestring){
+        String profile[] = filestring.substring(1, filestring.length()-1).split("<c>");
+        return new Distribution(
+            Arrays.stream(profile[0].split(",")).mapToDouble(Double::parseDouble).toArray(),
+            Arrays.stream(profile[1].split(",")).mapToInt(Integer::parseInt).toArray()
+        );
     }
     
 }

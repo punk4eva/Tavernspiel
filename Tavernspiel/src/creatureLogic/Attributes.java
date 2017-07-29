@@ -2,6 +2,7 @@
 package creatureLogic;
 
 import ai.AI;
+import logic.Fileable;
 
 /**
  * 
@@ -9,7 +10,7 @@ import ai.AI;
  * 
  * The base attributes that every creature has.
  */
-public class Attributes{
+public class Attributes implements Fileable{
     
     private AI ai;
     public double speed = 1;
@@ -22,5 +23,16 @@ public class Attributes{
     public int strength = 10;
     public Level level;
     public int xpOnDeath = 0;
+
+    @Override
+    public String toFileString(){
+        throw new UnsupportedOperationException("Not supported yet.");
+        //return ai.type + 
+    }
+
+    @Override
+    public <T> T getFromFileString(String filestring){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
 }

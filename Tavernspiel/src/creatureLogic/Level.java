@@ -1,13 +1,14 @@
 
 package creatureLogic;
 
+import logic.Fileable;
 import logic.Formula;
 
 /**
  *
  * @author Adam Whittaker
  */
-public class Level{
+public class Level implements Fileable{
     
     public int level = 1;
     public int xp = 0;
@@ -39,6 +40,34 @@ public class Level{
             levelUp(atb);
              xp -= xpReq;
         }
+    }
+
+    @Override
+    public String toFileString(){
+        return level + ","+ xp + "," + xpReq + "," + xpFormula.toFileString() + 
+                speedFormula.toFileString() + 
+                attackSpeedFormula.toFileString() + 
+                dexterityFormula.toFileString() + 
+                hpFormula.toFileString() + 
+                regenSpeedFormula.toFileString() + 
+                strengthFormula.toFileString();
+    }
+
+    @Override
+    public Level getFromFileString(String filestring){
+        String[] profile = filestring.split(",");
+        Level l = new Level();
+        l.level = Integer.parseInt(profile[0]);
+        l.xp = Integer.parseInt(profile[1]);
+        l.xpReq = Integer.parseInt(profile[2]);
+        l.xpFormula = new Formula().getFromFileString(profile[3]);
+        l.speedFormula = new Formula().getFromFileString(profile[4]);
+        l.attackSpeedFormula = new Formula().getFromFileString(profile[5]);
+        l.dexterityFormula = new Formula().getFromFileString(profile[6]);
+        l.hpFormula = new Formula().getFromFileString(profile[7]);
+        l.regenSpeedFormula = new Formula().getFromFileString(profile[8]);
+        l.strengthFormula = new Formula().getFromFileString(profile[9]);
+        return l;
     }
     
 }
