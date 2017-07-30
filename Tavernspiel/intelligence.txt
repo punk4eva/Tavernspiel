@@ -1,0 +1,43 @@
+0: Walks around randomly and doesn't respond to injury.
+1: Walks to and attacks enemies and friends indistinguishably. (same as pd insane ai)
+2: Can distinguish between enemies and allies.
+3: Avoids traps. (same as pd ai)
+4: Can collect items.
+5: Will use random potions that have been collected when low on health.
+6: Will flee when low on health.
+7: Will use random scrolls when not in immediate danger on unidentified items.
+8: Will pick up equipment that is better than current and will equip. Will seek water if burning.
+9: If not immediately necessary, will try to identify or cleanse unidentified equipment before equiping.
+10: Takes weight of new equipment into account before equiping it and makes a judgement based on utility surplus / strength defecit if too heavy.
+11: Avoids harmful plants. Will seek water if dissolving to caustic ooze.
+12: Can identify worn equipment after using it enough.
+13: Starts with 5 randomly allocated hexagon points.
+14: Can use wands.
+15: Potion of healing, scroll of identify and cleansing preidentified.
+16: Starts with 8 randomly allocated hexagon points.
+17: Scroll of rage and potion of mind vision preidentified.
+18: Can use seeds to set traps.
+19: Can cooperate with others to box in enemies.
+20: Starts with 13 randomly allocated hexagon points.
+21: Can make judgements about the attacker's next strike and flee if necessary.
+22: Has a focus level which increases dexterity and accuracy but wanes during battle.
+23: Can purchase items from shops.
+24: Starts with 17 randomly allocated hexagon points.
+25: Scroll of terror, teleportation, recharging, magic mapping, upgrade, potion of strength, levitation, invisibility and purification preidentified.
+26: Focus level increases damage aswell.
+27: Can upgrade and use artifacts.
+28: Starts with 21 randomly allocated hexagon points.
+29: Wands recharge faster and food consumed recharges wands. Can throw potions of healing and use healing items on allies.
+30: Scroll of lullaby, mirror image, potion of toxic gas, liquid flame, experience, frost and might preidentified.
+31: Focus level increases attack speed aswell and lasts longer. (wanes slower)
+32: Starts with 24 randomly allocated hexagon points.
+33: Knows which enemies drop what and hunts them accordingly.
+34: Able to decide whether a group of attackers is handleable given current allies.
+35: Travels in groups.
+36: Is able to use other senses to detect enemies, i.e: through walls.
+37: Uses chasms to advantage. Can sense dark magic in cursed eqiupment.
+38: Able to control magic hexagon. Potion of paralytic gas and scroll of psionic blast preidentified.
+39: Starts with 27 randomly allocated hexagon points.
+40: Focus is unwaning.
+41: Starts with 30 randomly allocated hexagon points.
+42: Gains self-awareness, hacks the code to kill all enemies, then crashes the game with an 'IntelligenceFortyTwoException()'
