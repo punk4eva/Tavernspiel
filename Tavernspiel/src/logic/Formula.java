@@ -24,14 +24,14 @@ public class Formula implements Fileable{
         intAdd = ad;
     }
     
-    public Formula(){}
-    
     public Formula(double mult, double a, int multi, int ad){
         multiply = mult;
         intMultiply = multi;
         add = a;
         intAdd = ad;
     }
+    
+    public Formula(){}
     
     public double getDouble(double x){
         return (multiply * x) + add;
@@ -46,14 +46,10 @@ public class Formula implements Fileable{
         return "*" + multiply + "+" + add;
     }
 
-    @Override
-    public Formula getFromFileString(String str){
-        Formula f = new Formula();
-        f.multiply = Double.parseDouble(str.substring(1, str.indexOf("+")));
-        f.intMultiply = (int) multiply;
-        f.add = Double.parseDouble(str.substring(str.indexOf("+")+1));
-        f.intAdd = (int) add;
-        return f;
+    public static Formula getFromFileString(String str){
+        double mult = Double.parseDouble(str.substring(1, str.indexOf("+")));
+        double add = Double.parseDouble(str.substring(str.indexOf("+")+1));
+        return new Formula(mult, add, (int) mult, (int) add);
     }
     
 }

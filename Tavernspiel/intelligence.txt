@@ -16,7 +16,7 @@
 15: Potion of healing, scroll of identify and cleansing preidentified.
 16: Starts with 8 randomly allocated hexagon points.
 17: Scroll of rage and potion of mind vision preidentified.
-18: Can use seeds to set traps.
+18: Can use seeds to set traps. Will follow an ally in field of view who notices an enemy even if enemy itself is out of FOV.
 19: Can cooperate with others to box in enemies.
 20: Starts with 13 randomly allocated hexagon points.
 21: Can make judgements about the attacker's next strike and flee if necessary.

@@ -103,8 +103,7 @@ public class Distribution implements Fileable{
         return ret.substring(ret.length()-1) + "]";
     }
 
-    @Override
-    public Distribution getFromFileString(String filestring){
+    public static Distribution getFromFileString(String filestring){
         String profile[] = filestring.substring(1, filestring.length()-1).split("<c>");
         return new Distribution(
             Arrays.stream(profile[0].split(",")).mapToDouble(Double::parseDouble).toArray(),

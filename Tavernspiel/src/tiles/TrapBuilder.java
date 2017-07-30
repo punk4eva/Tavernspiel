@@ -3,6 +3,13 @@ package tiles;
 
 import animation.Animation;
 import buffs.Buff;
+import containers.Chest;
+import containers.Floor;
+import containers.Mimic;
+import containers.Receptacle;
+import containers.SkeletalRemains;
+import exceptions.ReceptacleOverflowException;
+import items.Item;
 import level.Area;
 import level.Location;
 import logic.Distribution;
@@ -42,6 +49,16 @@ public class TrapBuilder{
         Animation a = new Animation(ImageHandler.getFrames("water", 0)); //@unfinished, placeholder
         return new Gas("Toxic Gas", "A poisonous green vapour.", b, a, 7, 
                 area.zipcode);
+    }
+    
+    public static Receptacle getRandomReceptacle(Item i, int x, int y){  
+        try{ switch((int) new Distribution(new double[]{1, 2, 3, 4}, new int[]{10,4,1,2}).next()){
+            case 1: return new Floor(i, x, y);
+            case 2: return new Chest(i, x, y);
+            case 3: return new Mimic(i, x, y);
+            default: return new SkeletalRemains(i, x, y);
+        }}catch(ReceptacleOverflowException ignore){}
+        throw new UnsupportedOperationException("What?");
     }
     
 }

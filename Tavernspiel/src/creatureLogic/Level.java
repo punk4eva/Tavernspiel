@@ -53,20 +53,19 @@ public class Level implements Fileable{
                 strengthFormula.toFileString();
     }
 
-    @Override
-    public Level getFromFileString(String filestring){
+    public static Level getFromFileString(String filestring){
         String[] profile = filestring.split(",");
         Level l = new Level();
         l.level = Integer.parseInt(profile[0]);
         l.xp = Integer.parseInt(profile[1]);
         l.xpReq = Integer.parseInt(profile[2]);
-        l.xpFormula = new Formula().getFromFileString(profile[3]);
-        l.speedFormula = new Formula().getFromFileString(profile[4]);
-        l.attackSpeedFormula = new Formula().getFromFileString(profile[5]);
-        l.dexterityFormula = new Formula().getFromFileString(profile[6]);
-        l.hpFormula = new Formula().getFromFileString(profile[7]);
-        l.regenSpeedFormula = new Formula().getFromFileString(profile[8]);
-        l.strengthFormula = new Formula().getFromFileString(profile[9]);
+        l.xpFormula = Formula.getFromFileString(profile[3]);
+        l.speedFormula = Formula.getFromFileString(profile[4]);
+        l.attackSpeedFormula = Formula.getFromFileString(profile[5]);
+        l.dexterityFormula = Formula.getFromFileString(profile[6]);
+        l.hpFormula = Formula.getFromFileString(profile[7]);
+        l.regenSpeedFormula = Formula.getFromFileString(profile[8]);
+        l.strengthFormula = Formula.getFromFileString(profile[9]);
         return l;
     }
     

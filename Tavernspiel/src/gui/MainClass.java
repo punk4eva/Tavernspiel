@@ -2,6 +2,7 @@
 package gui;
 
 import containers.Floor;
+import containers.Receptacle;
 import exceptions.ReceptacleIndexOutOfBoundsException;
 import exceptions.ReceptacleOverflowException;
 import fileLogic.ReadWrite;
@@ -152,8 +153,9 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
                             .getImage(),x,y,null);
                 else g.drawImage(((ImageIcon)tile.getIcon()).getImage(),x,y,null);
                 try{
-                    if(tile.receptacle instanceof Floor&&!tile.receptacle.isEmpty())
-                        g.drawImage(tile.receptacle.peek().icon,x,y,null);
+                    Receptacle temp = area.getReceptacle(x, y);
+                    if(temp instanceof Floor&&!temp.isEmpty())
+                        g.drawImage(temp.peek().icon,x,y,null);
                 }catch(ReceptacleIndexOutOfBoundsException ignore){}
             }
         }

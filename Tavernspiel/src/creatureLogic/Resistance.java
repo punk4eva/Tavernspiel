@@ -27,10 +27,9 @@ public class Resistance implements Fileable{
         return buffName + distrib.toFileString();
     }
 
-    @Override
-    public Resistance getFromFileString(String filestring){
+    public static Resistance getFromFileString(String filestring){
         return new Resistance(filestring.substring(0, filestring.indexOf("[")),
-            new Distribution().getFromFileString(filestring.substring(
+            Distribution.getFromFileString(filestring.substring(
             filestring.indexOf("["))));
     }
     

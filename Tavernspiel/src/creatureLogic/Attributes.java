@@ -2,7 +2,7 @@
 package creatureLogic;
 
 import ai.AITemplate;
-import ai.IntelligentAI0;
+import ai.IntelligentAI1;
 import logic.Fileable;
 
 /**
@@ -35,13 +35,12 @@ public class Attributes implements Fileable{
         return ";" + ret.substring(ret.length()-1) + level.toFileString();
     }
 
-    @Override
-    public Attributes getFromFileString(String filestring){
+    public static Attributes getFromFileString(String filestring){
         String profile[] = filestring.split(";");
         String AIN[] = profile[0].split(",");
         String resistances[] = profile[1].split(",");
         Attributes atrib = new Attributes();
-        atrib.ai = new IntelligentAI0().getFromFileString(AIN[0]);
+        atrib.ai = IntelligentAI1.getFromFileString(AIN[0]);
         atrib.speed = Integer.parseInt(AIN[1]);
         atrib.attackSpeed = Integer.parseInt(AIN[2]);
         atrib.dexterity = Integer.parseInt(AIN[3]);

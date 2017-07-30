@@ -2,6 +2,8 @@
 package level;
 
 import containers.Floor;
+import containers.Receptacle;
+import creatures.Creature;
 import exceptions.AreaCoordsOutOfBoundsException;
 import exceptions.ReceptacleOverflowException;
 import gui.MainClass;
@@ -15,6 +17,7 @@ import listeners.DeathEvent;
 import listeners.DeathListener;
 import logic.Distribution;
 import tiles.Tile;
+import tiles.TrapBuilder;
 
 /**
  *
@@ -25,6 +28,8 @@ public class Area implements AreaListener, DeathListener{
     public Tile[][] map;
     public Dimension dimension;
     public Location location;
+    public ArrayList<Creature> creatures = new ArrayList<>();
+    public ArrayList<Receptacle> receptacles = new ArrayList<>();
     public final int zipcode = ZipHandler.next();
     
     
@@ -57,17 +62,21 @@ public class Area implements AreaListener, DeathListener{
     }
     
     protected void burn(int x, int y){
-        Floor floor = null;
-        try{
-            floor = new Floor(map[y][x].receptacle);
-        }catch(ReceptacleOverflowException ignore){}
         map[y][x] = new Tile("embers", location);
-        floor.keep(item -> !item.flammable);
-        map[y][x].receptacle = floor;
+        Receptacle r = getReceptacle(x, y);
+        if(r != null) r.keep(item -> !item.flammable);
     }
     
     protected boolean onTreadableTile(int x, int y){
         return map[y][x].treadable;
+    }
+    
+    public Receptacle getReceptacle(int x, int y){
+        for(int n=0;n<receptacles.size();n++){
+            Receptacle temp = receptacles.get(n);
+            if(temp.x==x&&temp.y==y) return temp;
+        }
+        return null;
     }
     
     protected void randomlyPlop(ArrayList<Item> items){
@@ -78,9 +87,9 @@ public class Area implements AreaListener, DeathListener{
                 y = Distribution.getRandomInclusiveInt(0, dimension.height-1);
             }while(!onTreadableTile(x, y));
             try{
-                if(map[y][x].receptacle!=null) map[y][x].receptacle.push(item);
+                if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
                 else{
-                    map[y][x].receptacle = new Floor(item);
+                    receptacles.add(TrapBuilder.getRandomReceptacle(item, x, y));
                 }
             }catch(ReceptacleOverflowException ignore){}
         });
@@ -93,8 +102,8 @@ public class Area implements AreaListener, DeathListener{
         if(de.getCode()==zipcode){
             //@unfinished
             try{
-                map[de.getY()][de.getX()].receptacle.pushAll(de.getCreature().inventory);
-                map[de.getY()][de.getX()].receptacle.pushAll(de.getCreature().equipment);
+                getReceptacle(de.getX(), de.getY()).pushAll(de.getCreature().inventory);
+                getReceptacle(de.getX(), de.getY()).pushAll(de.getCreature().equipment);
             }catch(ReceptacleOverflowException ignore){}
             de.getCreature().startDieAnimation();
         }
@@ -115,6 +124,17 @@ public class Area implements AreaListener, DeathListener{
                     break;
                 case "BURN": burn(ae.getX(), ae.getY());
                     break;
+            }
+        }
+    }
+
+    public void replaceHeap(int x, int y, Receptacle receptacle){
+        for(int n=0;n<receptacles.size();n++){
+            Receptacle temp = receptacles.get(n);
+            if(temp.x==x&&temp.y==y){
+                receptacles.remove(n);
+                receptacles.add(receptacle);
+                break;
             }
         }
     }

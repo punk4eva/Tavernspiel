@@ -126,8 +126,7 @@ public class MagicHexagon implements Fileable{
                 mind + "," + healing + "," + sacrificial + "</hex>";
     }
 
-    @Override
-    public MagicHexagon getFromFileString(String filestring){
+    public static MagicHexagon getFromFileString(String filestring){
         String[] profile = filestring.replace("<hex>", "").replace("</hex>", "")
                 .split(",");
         return new MagicHexagon(Integer.parseInt(profile[0]), Integer.parseInt(profile[1]),

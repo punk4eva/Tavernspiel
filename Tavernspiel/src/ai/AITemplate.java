@@ -25,8 +25,7 @@ public abstract class AITemplate implements Fileable{
     public String toFileString(){
         return type.toString() + "</ty>" + intelligence + magic.toFileString() + 
                 destinationx + ":" + destinationy;
-    }
-    
+    }    
     
     public void turn(){
         throw new UnsupportedOperationException("Unfinished AITemplate.turn()");

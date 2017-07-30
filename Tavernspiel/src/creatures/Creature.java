@@ -27,7 +27,7 @@ public class Creature extends GameObject implements BuffListener, Fileable{
     public Inventory inventory = new Inventory();
     public Attributes attributes;
     private Animation dieAnimation;
-    private int x, y;
+    public int x, y;
     public ArrayList<Buff> buffs = new ArrayList<>();
     
     public Creature(String n, String desc, Equipment eq, Inventory inv, 
@@ -124,8 +124,22 @@ public class Creature extends GameObject implements BuffListener, Fileable{
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    @Override
-    public <T> T getFromFileString(String filestring){
+    public static Creature getFromFileString(String filestring){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public void setXY(int nx, int ny){
+        x = nx;
+        y = ny;
+    }
+    public void setX(int nx){
+        x = nx;
+    }
+    public void setY(int ny){
+        y = ny;
+    }
+
+    public void moveAnimation(){
         throw new UnsupportedOperationException("Not supported yet.");
     }
     

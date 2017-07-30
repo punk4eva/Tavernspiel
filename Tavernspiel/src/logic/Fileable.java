@@ -9,5 +9,7 @@ package logic;
  */
 public interface Fileable{
     public String toFileString();
-    public <T> T getFromFileString(String filestring);
+    public static Object getFromFileString(String filestring){
+        throw new UnsupportedOperationException("Fileable.getFromFileString() not overridden.");
+    }
 }

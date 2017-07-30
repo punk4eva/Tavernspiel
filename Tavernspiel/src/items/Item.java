@@ -103,8 +103,7 @@ public class Item implements Fileable{
         return "<<" + name + ">>";
     }
 
-    @Override
-    public Item getFromFileString(String filestring){
+    public static Item getFromFileString(String filestring){
         return ItemBuilder.get(filestring.substring(2, filestring.length()-2));
     }
     

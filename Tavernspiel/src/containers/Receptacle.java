@@ -24,6 +24,7 @@ public abstract class Receptacle implements Fileable{
     public int capacity = 1000;
     public int ID;
     public String description;
+    public final int x, y; 
     
     
     public interface Sort{
@@ -31,29 +32,46 @@ public abstract class Receptacle implements Fileable{
     }
     
     
-    public Receptacle(String desc){
+    public Receptacle(String desc, int xc, int yc){
         description = desc;
         ID = MainClass.idhandler.genID();
+        x = xc;
+        y = yc;
     }
     
-    public Receptacle(int cap, String desc){
+    public Receptacle(int cap, String desc, int xc, int yc){
         description = desc;
         capacity = cap;
         ID = MainClass.idhandler.genID();
+        x = xc;
+        y = yc;
     }
     
-    public Receptacle(ArrayList<Item> i, int cap, String desc){
+    public Receptacle(ArrayList<Item> i, int cap, String desc, int xc, int yc){
         description = desc;
         items = i;
         capacity = cap;
         ID = MainClass.idhandler.genID();
+        x = xc;
+        y = yc;
     }
     
-    public Receptacle(int cap, ArrayList<Apparatus> i, String desc){
+    public Receptacle(int cap, ArrayList<Apparatus> i, String desc, int xc, int yc){
         description = desc;
         capacity = cap;
         items.addAll(i);
         ID = MainClass.idhandler.genID();
+        x = xc;
+        y = yc;
+    }
+    
+    public Receptacle(int cap, ArrayList<Item> i, String desc, int id, int xc, int yc){
+        description = desc;
+        capacity = cap;
+        items = i;
+        ID = id;
+        x = xc;
+        y = yc;
     }
     
     public Item get(int slot) throws ReceptacleIndexOutOfBoundsException{
@@ -77,13 +95,13 @@ public abstract class Receptacle implements Fileable{
     public Item peek() throws ReceptacleIndexOutOfBoundsException{
         if(items.isEmpty()) throw new ReceptacleIndexOutOfBoundsException(
                 "Receptacle is empty.");
-        return items.get(0);
+        return items.get(items.size()-1);
     }
     
     public Item pop() throws ReceptacleIndexOutOfBoundsException{
         if(items.isEmpty()) throw new ReceptacleIndexOutOfBoundsException(
                 "Receptacle is empty.");
-        Item ret = items.get(0);
+        Item ret = items.get(items.size()-1);
         items.remove(ret);
         return ret;
     }
@@ -118,13 +136,8 @@ public abstract class Receptacle implements Fileable{
     
     @Override
     public String toFileString(){
-        String ret = "{";
+        String ret = "{" + ID + "," + description + "|";
         return items.stream().map((item) -> item.toFileString()).reduce(ret, String::concat) + "}";
-    }
-
-    @Override
-    public Receptacle getFromFileString(String filestring){
-        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

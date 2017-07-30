@@ -9,8 +9,8 @@ import items.Item;
  */
 public class LockedChest extends Chest{
     
-    public LockedChest(Item item){
-        super(item);
+    public LockedChest(Item item, int x, int y){
+        super(item, x, y);
         description = "You can't open this chest without a key.";
     }
     

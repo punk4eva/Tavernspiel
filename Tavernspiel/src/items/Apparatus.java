@@ -65,13 +65,12 @@ public class Apparatus extends Item{
                 glyph.toFileString() + ">>";
     }
 
-    @Override
-    public Apparatus getFromFileString(String filestring){
+    public static Apparatus getFromFileString(String filestring){
         String[] profile = filestring.substring(2, filestring.length()-2).split(",");
         Apparatus app = (Apparatus) ItemBuilder.get(profile[0]);
         app.durability = Integer.parseInt(profile[1]);
         app.level = Integer.parseInt(profile[2]);
-        app.glyph = new Glyph().getFromFileString(profile[3]);
+        app.glyph = Glyph.getFromFileString(profile[3]);
         app.updateFields();
         return app;
     }

@@ -52,8 +52,7 @@ public class ItemAction implements Fileable{
         return (data.length==0 ? ret : ret.substring(ret.length()-1)) + ">";
     }
 
-    @Override
-    public ItemAction getFromFileString(String filestring){
+    public static ItemAction getFromFileString(String filestring){
         String[] profile = filestring.substring(1, filestring.length()-1).split("<itactd>");
         if(profile[1].isEmpty()) return new ItemAction(profile[0]);
         return new ItemAction(profile[0], profile[1].split(","));

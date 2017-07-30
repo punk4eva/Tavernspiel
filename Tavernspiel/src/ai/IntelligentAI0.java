@@ -11,8 +11,7 @@ public class IntelligentAI0 extends AITemplate{
         intelligence = 0;
     }
 
-    @Override
-    public IntelligentAI0 getFromFileString(String filestring){
+    public static IntelligentAI0 getFromFileString(String filestring){
         return new IntelligentAI0();
     }
     

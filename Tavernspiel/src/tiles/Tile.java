@@ -1,7 +1,6 @@
 
 package tiles;
 
-import containers.Receptacle;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,7 +18,6 @@ public class Tile extends JButton{
     public boolean treadable = true;
     public boolean flammable = false;
     public Gas gas = null;
-    public Receptacle receptacle;
     
     public Tile(String n, ImageIcon ic){
         super(ic);
