@@ -52,13 +52,12 @@ public class TrapBuilder{
     }
     
     public static Receptacle getRandomReceptacle(Item i, int x, int y){  
-        try{ switch((int) new Distribution(new double[]{1, 2, 3, 4}, new int[]{10,4,1,2}).next()){
+        switch((int) new Distribution(new double[]{1, 2, 3, 4}, new int[]{10,4,1,2}).next()){
             case 1: return new Floor(i, x, y);
             case 2: return new Chest(i, x, y);
             case 3: return new Mimic(i, x, y);
             default: return new SkeletalRemains(i, x, y);
-        }}catch(ReceptacleOverflowException ignore){}
-        throw new UnsupportedOperationException("What?");
+        }
     }
     
 }

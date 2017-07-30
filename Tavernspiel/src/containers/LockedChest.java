@@ -14,4 +14,9 @@ public class LockedChest extends Chest{
         description = "You can't open this chest without a key.";
     }
     
+    public LockedChest(Item item, int x, int y, int id){
+        super(item, x, y, id);
+        description = "You can't open this chest without a key.";
+    }
+    
 }

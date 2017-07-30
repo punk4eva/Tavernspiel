@@ -13,6 +13,10 @@ public class Mimic extends Chest{
         super(item, x, y);
     }
     
+    public Mimic(Item item, int x, int y, int id){
+        super(item, x, y, id);
+    }
+    
     @Override
     public void open(){
         throw new UnsupportedOperationException("Unfinished.");

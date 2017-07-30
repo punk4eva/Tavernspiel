@@ -15,8 +15,6 @@ import java.util.ArrayList;
  */
 public class Equipment extends Receptacle{
     
-    
-    
     public Equipment(){
         super(7, "ERROR: You shouldn't be reading this.", -1, -1);
     }
@@ -55,6 +53,16 @@ public class Equipment extends Receptacle{
     
     public <T> T get(T ignore, int index){
         return (T) items.get(index);
+    }
+    
+    @Override
+    public String toFileString(){
+        String ret = "{" + ID + "," + description + "," + x + "," + y +"|";
+        return items.stream().map((item) -> item.toFileString()).reduce(ret, String::concat) + "}";
+    }
+    
+    public static <T extends Receptacle> T getFromFileString(String filestring){
+        throw new UnsupportedOperationException("Not finished.");
     }
     
 }

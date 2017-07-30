@@ -4,6 +4,7 @@ package containers;
 import exceptions.ReceptacleIndexOutOfBoundsException;
 import exceptions.ReceptacleOverflowException;
 import items.Item;
+import java.util.ArrayList;
 
 /**
  *
@@ -23,6 +24,13 @@ public class Floor extends Receptacle{
     public Floor(Receptacle r, int x, int y) throws ReceptacleOverflowException{
         super("You shouldn't be reading this.", x, y);
         pushAll(r);
+        description = items.isEmpty() ? "There is nothing interesting here." : 
+                items.get(items.size()-1).description;
+    }
+    
+    public Floor(ArrayList<Item> ary, int x, int y, int id){
+        super("You shouldn't be reading this.", x, y, id);
+        items.addAll(ary);
         description = items.isEmpty() ? "There is nothing interesting here." : 
                 items.get(items.size()-1).description;
     }

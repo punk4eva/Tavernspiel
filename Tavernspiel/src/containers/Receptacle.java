@@ -39,6 +39,13 @@ public abstract class Receptacle implements Fileable{
         y = yc;
     }
     
+    public Receptacle(String desc, int xc, int yc, int id){
+        description = desc;
+        ID = id;
+        x = xc;
+        y = yc;
+    }
+    
     public Receptacle(int cap, String desc, int xc, int yc){
         description = desc;
         capacity = cap;
@@ -69,6 +76,14 @@ public abstract class Receptacle implements Fileable{
         description = desc;
         capacity = cap;
         items = i;
+        ID = id;
+        x = xc;
+        y = yc;
+    }
+    
+    public Receptacle(int cap, String desc, int id, int xc, int yc){
+        description = desc;
+        capacity = cap;
         ID = id;
         x = xc;
         y = yc;
@@ -136,8 +151,27 @@ public abstract class Receptacle implements Fileable{
     
     @Override
     public String toFileString(){
-        String ret = "{" + ID + "," + description + "|";
+        String ret = "{" + this.getClass().getSimpleName() + "," + ID + "," + description + "," + x + "," + y +"|";
         return items.stream().map((item) -> item.toFileString()).reduce(ret, String::concat) + "}";
+    }
+    
+    public static <T extends Receptacle> T getFromFileString(String filestring){
+        String[] profile = filestring.substring(1, filestring.length()-1).split("|");
+        String[] firstSegment = profile[0].split(",");
+        switch(firstSegment[0]){
+            case "Chest": return (T) new Chest(Item.getFromFileString(profile[1]), Integer.parseInt(firstSegment[3]), Integer.parseInt(firstSegment[4]), Integer.parseInt(firstSegment[1]));
+            case "Mimic": return (T) new Mimic(Item.getFromFileString(profile[1]), Integer.parseInt(firstSegment[3]), Integer.parseInt(firstSegment[4]), Integer.parseInt(firstSegment[1]));
+            case "LockedChest": return (T) new LockedChest(Item.getFromFileString(profile[1]), Integer.parseInt(firstSegment[3]), Integer.parseInt(firstSegment[4]), Integer.parseInt(firstSegment[1]));
+            case "CrystalChest": return (T) new CrystalChest(Item.getFromFileString(profile[1]), Integer.parseInt(firstSegment[3]), Integer.parseInt(firstSegment[4]), Integer.parseInt(firstSegment[1]));
+            case "Floor": return (T) new Floor(recepticlify(profile[1].split(",")), Integer.parseInt(firstSegment[3]), Integer.parseInt(firstSegment[4]), Integer.parseInt(firstSegment[1]));
+            default: return (T) new SkeletalRemains(Item.getFromFileString(profile[1]), Integer.parseInt(firstSegment[3]), Integer.parseInt(firstSegment[4]), Integer.parseInt(firstSegment[1]));
+        }
+    }
+    
+    private static ArrayList<Item> recepticlify(String profile[]){
+        ArrayList<Item> ret = new ArrayList<>();
+        for(String str : profile) ret.add(Item.getFromFileString(str));
+        return ret;
     }
     
 }

@@ -35,4 +35,10 @@ public class Inventory extends Receptacle{
         amountOfMoney = amount;
     }
     
+    @Override
+    public String toFileString(){
+        String ret = "{" + ID + "," + description + "|";
+        return items.stream().map((item) -> item.toFileString()).reduce(ret, String::concat) + "}";
+    }
+    
 }
