@@ -1,7 +1,7 @@
 
 package creatureLogic;
 
-import ai.AI;
+import ai.AITemplate;
 
 /**
  *
@@ -9,7 +9,7 @@ import ai.AI;
  */
 public class AttributeModifier{
     
-    public AI newAi = null; //null if AI is not changed.
+    public AITemplate newAi = null; //null if AITemplate is not changed.
     public double speedMultiplier = 1;
     public double attackSpeedMultiplier = 1;
     public double dexterityMultiplier = 1;

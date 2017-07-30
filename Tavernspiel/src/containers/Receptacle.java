@@ -7,6 +7,7 @@ import gui.MainClass;
 import items.Apparatus;
 import java.util.ArrayList;
 import items.Item;
+import logic.Fileable;
 
 /**
  *
@@ -17,7 +18,7 @@ import items.Item;
  * 
  * @TOPLEVEL
  */
-public abstract class Receptacle{
+public abstract class Receptacle implements Fileable{
     
     public ArrayList<Item> items = new ArrayList<>();
     public int capacity = 1000;
@@ -113,6 +114,17 @@ public abstract class Receptacle{
     
     public void keep(Sort sort){
         items.stream().filter(item -> sort.select(item));
+    }
+    
+    @Override
+    public String toFileString(){
+        String ret = "{";
+        return items.stream().map((item) -> item.toFileString()).reduce(ret, String::concat) + "}";
+    }
+
+    @Override
+    public Receptacle getFromFileString(String filestring){
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

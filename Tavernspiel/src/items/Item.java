@@ -4,6 +4,7 @@ package items;
 import gui.MainClass;
 import java.awt.Image;
 import javax.swing.ImageIcon;
+import logic.Fileable;
 
 /**
  *
@@ -11,9 +12,10 @@ import javax.swing.ImageIcon;
  * 
  * Base class which handles items.
  */
-public class Item{
+public class Item implements Fileable{
     
     public String name;
+    public String description;
     public int ID;
     public Image icon;
     public int quantity = 1;
@@ -94,6 +96,16 @@ public class Item{
                 break;
         }
         return ret;
+    }
+
+    @Override
+    public String toFileString(){
+        return "<<" + name + ">>";
+    }
+
+    @Override
+    public Item getFromFileString(String filestring){
+        return ItemBuilder.get(filestring.substring(2, filestring.length()-2));
     }
     
 }

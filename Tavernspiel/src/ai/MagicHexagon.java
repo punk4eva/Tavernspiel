@@ -2,12 +2,13 @@
 package ai;
 
 import logic.Distribution;
+import logic.Fileable;
 
 /**
  *
  * @author Adam Whittaker
  */
-public class MagicHexagon{
+public class MagicHexagon implements Fileable{
     
     protected int offensive = 0;
     protected int focus = 0;
@@ -16,6 +17,18 @@ public class MagicHexagon{
     protected int mind = 0;
     protected int sacrificial = 0;
     protected int total = 0;
+    
+    public MagicHexagon(int o, int d, int f, int m, int h, int s){
+        offensive = o;
+        defensive = d;
+        focus = f;
+        mind = m;
+        healing = h;
+        sacrificial = s;
+        total = o+d+f+m+h+s;
+    }
+    
+    public MagicHexagon(){}
     
     protected void upgradeOffensive(){
         offensive++;
@@ -105,6 +118,21 @@ public class MagicHexagon{
                 default: healing--;
             }
         }
+    }
+
+    @Override
+    public String toFileString(){
+        return "<hex>" + offensive + "," + defensive + "," + focus + "," + 
+                mind + "," + healing + "," + sacrificial + "</hex>";
+    }
+
+    @Override
+    public MagicHexagon getFromFileString(String filestring){
+        String[] profile = filestring.replace("<hex>", "").replace("</hex>", "")
+                .split(",");
+        return new MagicHexagon(Integer.parseInt(profile[0]), Integer.parseInt(profile[1]),
+            Integer.parseInt(profile[2]), Integer.parseInt(profile[3]), 
+            Integer.parseInt(profile[4]), Integer.parseInt(profile[5]));
     }
     
 }

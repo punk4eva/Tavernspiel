@@ -11,7 +11,7 @@ import java.awt.Graphics;
  */
 public class Hero extends Creature{
     
-    public int exp = 0;
+    public int hunger = 100;
     
     public Hero(Attributes atb, Animation an, int ac){
         super("Hero", "UNWRITTEN", atb, an, ac);

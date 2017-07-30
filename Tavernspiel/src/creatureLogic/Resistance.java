@@ -19,6 +19,8 @@ public class Resistance implements Fileable{
         buffName = bn;
         distrib = dist;
     }
+    
+    public Resistance(){/**Only for use with Fileable*/}
 
     @Override
     public String toFileString(){

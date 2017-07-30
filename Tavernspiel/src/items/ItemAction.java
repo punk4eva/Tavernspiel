@@ -1,11 +1,13 @@
 
 package items;
 
+import logic.Fileable;
+
 /**
  *
  * @author Adam Whittaker
  */
-public class ItemAction{
+public class ItemAction implements Fileable{
     
     private final String action;
     private String data[];
@@ -41,6 +43,20 @@ public class ItemAction{
         ret[0] = new ItemAction("THROW");
         ret[1] = new ItemAction("DROP");
         return ret;
+    }
+
+    @Override
+    public String toFileString(){
+        String ret = "<" + action + "<itactd>";
+        for(String d : data) ret += d + ",";
+        return (data.length==0 ? ret : ret.substring(ret.length()-1)) + ">";
+    }
+
+    @Override
+    public ItemAction getFromFileString(String filestring){
+        String[] profile = filestring.substring(1, filestring.length()-1).split("<itactd>");
+        if(profile[1].isEmpty()) return new ItemAction(profile[0]);
+        return new ItemAction(profile[0], profile[1].split(","));
     }
     
 }

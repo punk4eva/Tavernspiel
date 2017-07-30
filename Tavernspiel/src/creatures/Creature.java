@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import listeners.BuffEvent;
 import listeners.BuffListener;
 import listeners.DeathEvent;
+import logic.Fileable;
 import logic.GameObject;
 
 /**
@@ -20,7 +21,7 @@ import logic.GameObject;
  * 
  * Base Creature that all others inherit from.
  */
-public class Creature extends GameObject implements BuffListener{
+public class Creature extends GameObject implements BuffListener, Fileable{
     
     public Equipment equipment = new Equipment();
     public Inventory inventory = new Inventory();
@@ -116,6 +117,16 @@ public class Creature extends GameObject implements BuffListener{
     @Override
     public void render(Graphics g){
         //@unfinished
+    }
+
+    @Override
+    public String toFileString(){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public <T> T getFromFileString(String filestring){
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

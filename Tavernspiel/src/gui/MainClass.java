@@ -38,6 +38,7 @@ import tiles.Tile;
 public class MainClass extends Canvas implements ActionListener, Runnable{
     
     public static final int WIDTH = 640, HEIGHT = WIDTH / 12 * 9;
+    public static MessageQueue messageQueue = new MessageQueue();
 
     private Thread thread;
     private boolean running = false;
