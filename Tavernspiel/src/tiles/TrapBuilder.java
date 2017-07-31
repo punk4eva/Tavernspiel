@@ -8,7 +8,7 @@ import containers.Floor;
 import containers.Mimic;
 import containers.Receptacle;
 import containers.SkeletalRemains;
-import exceptions.ReceptacleOverflowException;
+import gui.Window;
 import items.Item;
 import level.Area;
 import level.Location;

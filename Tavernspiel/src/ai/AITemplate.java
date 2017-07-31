@@ -15,6 +15,11 @@ public abstract class AITemplate implements Fileable{
     public int intelligence = 3;
     public MagicHexagon magic = new MagicHexagon();
     public int destinationx = -1, destinationy = -1;
+
+    protected void setDestination(int x, int y){
+        destinationx = x;
+        destinationy = y;
+    }
     
     public enum EnType{
         PREDEFINED, HANDICAPPED, NORMAL, RANGED

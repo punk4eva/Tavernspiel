@@ -13,7 +13,7 @@ import logic.Fileable;
  */
 public class Attributes implements Fileable{
     
-    private AITemplate ai;
+    public AITemplate ai;
     public double speed = 1;
     public double attackSpeed = 1;
     public double dexterity = 1;

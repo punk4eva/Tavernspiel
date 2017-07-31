@@ -10,6 +10,8 @@ import javax.swing.JFrame;
  */
 public class Window extends Canvas{
     
+    public static MainClass main = null;
+    
     public Window(int width, int height, String Title, MainClass main){
         JFrame frame = new JFrame(Title);
 

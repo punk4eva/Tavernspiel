@@ -7,11 +7,13 @@ import containers.Equipment;
 import containers.Inventory;
 import creatureLogic.Attributes;
 import gui.MainClass;
+import items.equipment.HeldWeapon;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import listeners.BuffEvent;
 import listeners.BuffListener;
 import listeners.DeathEvent;
+import logic.Distribution;
 import logic.Fileable;
 import logic.GameObject;
 
@@ -26,7 +28,6 @@ public class Creature extends GameObject implements BuffListener, Fileable{
     public Equipment equipment = new Equipment();
     public Inventory inventory = new Inventory();
     public Attributes attributes;
-    private Animation dieAnimation;
     public int x, y;
     public ArrayList<Buff> buffs = new ArrayList<>();
     
@@ -57,18 +58,24 @@ public class Creature extends GameObject implements BuffListener, Fileable{
         MainClass.reaper.notify(new DeathEvent(this, x, y, areaCode));
     }
     
-    public void startDieAnimation(){
-        dieAnimation.start(this);
+    public void dieAnimation(){
+        throw new UnsupportedOperationException("Not supported yet!");
     }
     
     @Override
     public void tick(){
         //super.tick();
-        if(attributes.maxhp!=attributes.hp){
-            if(attributes.hp<=0){
-                if(inventory.contains("ankh")){
-                    //unfinished
-                }else die();
+        throw new UnsupportedOperationException("Not supported yet!");
+    }
+    
+    public void getAttacked(Creature attacker, int damage){
+        attributes.hp -= damage;
+        if(attributes.hp<=0){
+            if(inventory.contains("ankh")){
+                throw new UnsupportedOperationException("Not supported yet!");
+            }else{
+                attacker.gainXP(attributes.xpOnDeath);
+                die();
             }
         }
     }
@@ -141,6 +148,25 @@ public class Creature extends GameObject implements BuffListener, Fileable{
 
     public void moveAnimation(){
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void standAnimation(){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void sleepAnimation(){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public int nextHit(){
+        try{
+            HeldWeapon weap = equipment.getWeapon();
+            return weap.nextIntAction() + new Distribution(0, attributes.strength - weap.strength).nextInt();
+        }catch(NullPointerException e){
+            return new Distribution(0, attributes.strength-7).nextInt();
+        }catch(IllegalArgumentException e){
+            return equipment.getWeapon().nextIntAction();
+        }
     }
     
 }

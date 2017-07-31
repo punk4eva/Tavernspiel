@@ -111,4 +111,14 @@ public class Distribution implements Fileable{
         );
     }
     
+    public void updateFromFormula(int x, Formula... formulas){
+        for(int n=0;n<outputs.length;n++){
+            outputs[n] = formulas[n].getInt(x);
+        }
+    }
+    
+    public static double randomDouble(double low, double up){
+        return r.nextDouble() * (up-low) + low;
+    }
+    
 }

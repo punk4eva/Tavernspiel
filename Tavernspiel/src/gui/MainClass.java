@@ -9,6 +9,7 @@ import fileLogic.ReadWrite;
 import items.Apparatus;
 import items.Item;
 import items.ItemBuilder;
+import items.equipment.Wand;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -59,6 +60,7 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
         handler = new Handler();
 
         Window win = new Window(WIDTH, HEIGHT, "Tavernspiel", this);
+        Window.main = this;
     }
 
     public static void main(String[] args){
@@ -160,4 +162,14 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
             }
         }
     }
+    
+    public void drawWandArc(Wand wand, int x, int y, int destx, int desty){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public void endGame(){
+        stop();
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
 }

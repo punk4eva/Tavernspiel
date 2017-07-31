@@ -21,7 +21,7 @@ public class Apparatus extends Item{
     public Distribution action;
     public int level = 0;
     public Formula durabilityFormula;
-    public Formula actionFormula;
+    public Formula[] actionFormulas;
     public Formula strengthFormula = null; //null if no strength required.
     public Glyph glyph = null;
     public int strength = -1;
@@ -45,6 +45,7 @@ public class Apparatus extends Item{
     public void updateFields(){
         maxDurability = durabilityFormula.getInt(level);
         if(strengthFormula!=null) strength = strengthFormula.getInt(level);
+        action.updateFromFormula(level, actionFormulas);
     }
     
     public void upgrade(){
@@ -73,6 +74,14 @@ public class Apparatus extends Item{
         app.glyph = Glyph.getFromFileString(profile[3]);
         app.updateFields();
         return app;
+    }
+    
+    public double nextAction(){
+        return action.next();
+    }
+    
+    public int nextIntAction(){
+        return action.nextInt();
     }
     
 }

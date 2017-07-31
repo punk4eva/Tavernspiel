@@ -20,4 +20,13 @@ public class MessageQueue{
         queue.pop();
     }
     
+    public void add(String colour, String message){
+        if(colour.startsWith("#")){
+            queue.add("<html><font bgcolor=\""+colour+"\">"+message+"</font>");
+        }else{
+            queue.add("<html><font color=\""+colour+"\">"+message+"</font>");
+        }
+        queue.pop();
+    }
+    
 }

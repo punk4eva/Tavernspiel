@@ -1,7 +1,9 @@
 
 package items;
 
+import animation.Animation;
 import javax.swing.ImageIcon;
+import listeners.AreaEvent;
 
 /**
  *
@@ -14,6 +16,18 @@ public class ItemBuilder{
     }
 
     public static Item get(String substring){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public static Animation getWandAnimation(String s){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public static int getWandBlockingLevel(String s){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public static AreaEvent getWandAreaEvent(String s){
         throw new UnsupportedOperationException("Not supported yet.");
     }
     

@@ -3,6 +3,7 @@ package logic;
 
 import animation.Animation;
 import buffs.Buff;
+import gui.MainClass;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
