@@ -3,6 +3,7 @@ package creatures;
 
 import animation.Animation;
 import creatureLogic.Attributes;
+import creatureLogic.DeathData;
 import gui.MainClass;
 import gui.Window;
 import java.awt.Graphics;
@@ -15,6 +16,7 @@ import listeners.DeathEvent;
 public class Hero extends Creature{
     
     public int hunger = 100;
+    public DeathData data;
     public EnClass job;
     public EnSubclass subclass = null; //Null if no subclass selected.
     
@@ -44,6 +46,7 @@ public class Hero extends Creature{
     
     public Hero(Attributes atb, Animation an, int ac){
         super("Hero", "UNWRITTEN", atb, an, ac);
+        data = new DeathData(this);
     }
 
     @Override

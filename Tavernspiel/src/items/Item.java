@@ -21,7 +21,7 @@ public class Item implements Fileable{
     public int quantity = 1;
     public boolean stackable = true;
     public boolean flammable = false;
-    public ItemAction actions[] = ItemAction.getDefaultActions();
+    public ItemAction actions[];
     
     public Item(String n, ImageIcon i){
         name = n;
