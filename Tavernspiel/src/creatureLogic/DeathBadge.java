@@ -4,6 +4,7 @@ package creatureLogic;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import logic.Utils;
 
 /**
  *
@@ -23,6 +24,11 @@ public class DeathBadge extends Badge{
     
     public DeathBadge(String n, String req, int i, int l, int... overrides){
         super(n, req, i, l);
+        overridesLivingBadges = overrides;
+    }
+    
+    public DeathBadge(String n, String req, int i, int l, boolean sB, int... overrides){
+        super(n, req, i, l, sB);
         overridesLivingBadges = overrides;
     }
     
@@ -49,6 +55,12 @@ public class DeathBadge extends Badge{
     
     public static ArrayList<DeathBadge> allDeathBadges(){
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    @Override
+    public String toFileString(){
+        return name + "^" + requirements + "^d" + id + "^" + level + "^" + 
+                superBadge + "^" + Utils.toFileString(overridesLivingBadges);
     }
     
 }

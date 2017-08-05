@@ -7,9 +7,12 @@ import logic.Fileable;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * The innate spiritual magic possessed by a creature.
  */
 public class MagicHexagon implements Fileable{
     
+    //The 6 poles of the Hexagon.
     protected int offensive = 0;
     protected int focus = 0;
     protected int healing = 0;
@@ -18,6 +21,15 @@ public class MagicHexagon implements Fileable{
     protected int sacrificial = 0;
     protected int total = 0;
     
+    /**
+     * Creates a MagicHexagon with predefined fields.
+     * @param o
+     * @param d
+     * @param f
+     * @param m
+     * @param h
+     * @param s
+     */
     public MagicHexagon(int o, int d, int f, int m, int h, int s){
         offensive = o;
         defensive = d;
@@ -28,8 +40,14 @@ public class MagicHexagon implements Fileable{
         total = o+d+f+m+h+s;
     }
     
+    /**
+     * Creates a new MagicHexagon.
+     */
     public MagicHexagon(){}
     
+    /**
+     * Upgrades a pole of the MagicHexagon.
+     */
     protected void upgradeOffensive(){
         offensive++;
         if(defensive + offensive > 15) defensive--;
@@ -45,6 +63,9 @@ public class MagicHexagon implements Fileable{
         }
     }
     
+    /**
+     * Upgrades a pole of the MagicHexagon.
+     */
     protected void upgradeFocus(){
         focus++;
         if(mind + focus > 15) mind--;
@@ -60,6 +81,9 @@ public class MagicHexagon implements Fileable{
         }
     }
     
+    /**
+     * Upgrades a pole of the MagicHexagon.
+     */
     protected void upgradeDefensive(){
         defensive++;
         if(defensive + offensive > 15) offensive--;
@@ -75,6 +99,9 @@ public class MagicHexagon implements Fileable{
         }
     }
     
+    /**
+     * Upgrades a pole of the MagicHexagon.
+     */
     protected void upgradeMind(){
         mind++;
         if(mind + focus > 15) focus--;
@@ -90,6 +117,9 @@ public class MagicHexagon implements Fileable{
         }
     }
     
+    /**
+     * Upgrades a pole of the MagicHexagon.
+     */
     protected void upgradeHealing(){
         healing++;
         if(healing + sacrificial > 15) sacrificial--;
@@ -105,6 +135,9 @@ public class MagicHexagon implements Fileable{
         }
     }
     
+    /**
+     * Upgrades a pole of the MagicHexagon.
+     */
     protected void upgradeSacrificial(){
         sacrificial++;
         if(sacrificial + healing > 15) healing--;

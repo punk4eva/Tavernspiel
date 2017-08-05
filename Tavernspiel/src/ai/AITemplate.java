@@ -11,16 +11,24 @@ import logic.Fileable;
  */
 public abstract class AITemplate implements Fileable{
     
-    public EnType type;
-    public int intelligence = 3;
-    public MagicHexagon magic = new MagicHexagon();
-    public int destinationx = -1, destinationy = -1;
+    public EnType type; //The type of AI
+    public int intelligence = 3; //The intelligence
+    public MagicHexagon magic = new MagicHexagon(); //The AI's inate magic abilities.
+    public int destinationx = -1, destinationy = -1; //The destination coords of the AI.
 
+    /**
+     * Sets the AI's destination coords.
+     * @param x
+     * @param y
+     */
     protected void setDestination(int x, int y){
         destinationx = x;
         destinationy = y;
     }
     
+    /**
+     * The type of AI.
+     */
     public enum EnType{
         PREDEFINED, HANDICAPPED, NORMAL, RANGED
     };
@@ -32,6 +40,9 @@ public abstract class AITemplate implements Fileable{
                 destinationx + ":" + destinationy;
     }    
     
+    /**
+     * Decides what to do and does it.
+     */
     public void turn(){
         throw new UnsupportedOperationException("Unfinished AITemplate.turn()");
     }

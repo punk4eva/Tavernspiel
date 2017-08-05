@@ -109,8 +109,7 @@ public class Creature extends GameObject implements BuffListener, Fileable{
         buffs.stream().forEach((buff) -> {
             buff.duration--;
             if(buff.duration==0){
-                buffs.remove(buff);
-                buff.end();
+                buff.end(this);
             }
         });
     }
@@ -167,6 +166,10 @@ public class Creature extends GameObject implements BuffListener, Fileable{
         }catch(IllegalArgumentException e){
             return equipment.getWeapon().nextIntAction();
         }
+    }
+    
+    public void removeBuff(Buff b){
+        buffs.remove(b);
     }
     
 }

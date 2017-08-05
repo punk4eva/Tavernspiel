@@ -9,6 +9,8 @@ import logic.Distribution;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * AIBaseActions but tailored for the Hero.
  */
 public class AIPlayerActions extends AIBaseActions{
     
@@ -21,12 +23,6 @@ public class AIPlayerActions extends AIBaseActions{
             c.attributes.dexterity / (c.equipment.strengthDifference(c.attributes.strength)<0 ? Math.pow(1.5, c.equipment.strengthDifference(c.attributes.strength)) : 1);}
     
     public void attack(Hero attacker, Creature attacked){
-        if(successfulHit(attacker, attacked)){
-            attacked.getAttacked(attacker, attacker.nextHit()); 
-        }
-    }
-    
-    public void attack(Creature attacker, Creature attacked){
         if(successfulHit(attacker, attacked)){
             attacked.getAttacked(attacker, attacker.nextHit()); 
         }

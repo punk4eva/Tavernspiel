@@ -4,6 +4,8 @@ package ai;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * An AI with intelligence 0. Capable of shambling around randomly.
  */
 public class IntelligentAI0 extends AITemplate{
     

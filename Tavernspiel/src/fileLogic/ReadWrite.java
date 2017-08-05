@@ -81,6 +81,20 @@ public class ReadWrite{
     }
     
     /**
+     * Writes the given String to the file, overwriting the preexisting text.
+     * @param str The String to write.
+     */
+    public void overwrite(String str){
+        try{
+            write = new FileWriter(file, false);
+            write.write(str);
+            write.close();
+        }catch(IOException e){
+            System.err.println("Error in ReadWite.overwrite(String str)");
+        }
+    }
+    
+    /**
      * Clears the file.
      */
     protected void clear(){

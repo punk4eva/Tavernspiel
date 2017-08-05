@@ -13,6 +13,8 @@ import logic.ImageHandler;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * Handles animation.
  */
 public class Animation{
     

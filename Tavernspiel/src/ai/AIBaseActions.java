@@ -8,7 +8,7 @@ import creatures.Creature;
 import creatures.Hero;
 import exceptions.ReceptacleIndexOutOfBoundsException;
 import exceptions.ReceptacleOverflowException;
-import gui.MainClass;
+import gui.Window;
 import items.Apparatus;
 import items.Item;
 import items.equipment.HeldWeapon;
@@ -21,9 +21,13 @@ import logic.Distribution;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * Base actions that a creature can do.
  */
 public class AIBaseActions{
     
+    
+    //Calculations for things.
     public interface calcAccuracy{
         double calc(Creature c);
     }
@@ -34,10 +38,14 @@ public class AIBaseActions{
     }
     public calcDexterity dexterityCalculation = c -> c.attributes.dexterity / (c.equipment.strengthDifference(c.attributes.strength)<0 ? Math.pow(1.5, c.equipment.strengthDifference(c.attributes.strength)) : 1);
     public void resetDexterityCalculation(){accuracyCalculation = c -> c.attributes.dexterity / (c.equipment.strengthDifference(c.attributes.strength)<0 ? Math.pow(1.5, c.equipment.strengthDifference(c.attributes.strength)) : 1);}
-    public MainClass main;
     
     
     
+    /**
+     * Moves a creature in the given direction;
+     * @param c The creature to be moved.
+     * @param directionCode The [N,NE,E,SE,S,SW,W,NW] -> [1-8] direction.
+     */
     public void move(Creature c, int directionCode){
         switch(directionCode){
             case 1: c.setXY(c.x-1, c.y-1);
@@ -55,6 +63,12 @@ public class AIBaseActions{
         }
     }
     
+    /**
+     * Buys a purchasable heap.
+     * @param c The consumer.
+     * @param heap The product.
+     * @param area The market area.
+     */
     public void buy(Creature c, PurchasableHeap heap, Area area){
         if(c.inventory.amountOfMoney>=heap.price){
             try{
@@ -67,39 +81,75 @@ public class AIBaseActions{
         }
     }
     
+    /**
+     * Sells an Item
+     * @param c The seller.
+     * @param item The product.
+     * @param price The price.
+     */
     public void sell(Creature c, Item item, int price){
         c.inventory.setMoneyAmount(c.inventory.amountOfMoney+price);
         c.inventory.items.remove(item);
     }
     
+    /**
+     * Puts a creature to sleep.
+     * @param c The creature.
+     */
     public void sleep(Creature c){
         ((IntelligentAI1)c.attributes.ai).state = EnState.SLEEPING;
         c.sleepAnimation();
     }
     
+    /**
+     * Wakes the creature up.
+     * @param c The creature.
+     */
     public void wakeUp(Creature c){
         ((IntelligentAI1)c.attributes.ai).state = EnState.WANDERING;
         c.standAnimation();
     }
     
+    /**
+     * Wakes the creature up due to a disturbance.
+     * @param c The creature.
+     * @param xOfDisturbance The x coord of the disturbance.
+     * @param yOfDisturbance The y coord of the disturbance.
+     */
     public void wakeUp(Creature c, int xOfDisturbance, int yOfDisturbance){
         ((IntelligentAI1)c.attributes.ai).state = EnState.HUNTING;
         c.attributes.ai.setDestination(xOfDisturbance, yOfDisturbance);
         c.standAnimation();
     }
     
+    /**
+     * A creature attacks another creature.
+     * @param attacker
+     * @param attacked
+     */
     public void attack(Creature attacker, Creature attacked){
         if(successfulHit(attacker, attacked)){
             attacked.getAttacked(attacker, attacker.nextHit()); 
         }
     }
     
+    /**
+     * When a creature attacks a Hero.
+     * @param attacker 
+     * @param attacked
+     */
     public void attack(Creature attacker, Hero attacked){
         if(AIPlayerActions.successfulHit(attacker, attacked)){
             attacked.getAttacked(attacker, attacker.nextHit()); 
         }
     }
     
+    /**
+     * Calculates whether a hit was successful.
+     * @param attacker
+     * @param attacked
+     * @return true if is was, false if not.
+     */
     public boolean successfulHit(Creature attacker, Creature attacked){
         double attackerAccuracy = accuracyCalculation.calc(attacker);
         double attackedDexterity = dexterityCalculation.calc(attacked);
@@ -107,12 +157,28 @@ public class AIBaseActions{
                 Distribution.randomDouble(0, attackedDexterity);
     }
     
-    public void equip(Creature c, Apparatus app, int... choiceOfAmulet){
-        c.equipment.equip(app, choiceOfAmulet);
+    /**
+     * Equips an item.
+     * @param c The equipment wearer.
+     * @param eq The equipment.
+     * @param choiceOfAmulet The choice of amulet to replace.
+     * @return The equipment that was removed in order to make space for the new
+     * equipment.
+     */
+    public Apparatus equip(Creature c, Apparatus eq, int... choiceOfAmulet){
+        return c.equipment.equip(eq, choiceOfAmulet);
     }
-        
+      
+    /**
+     * Draws a wand arc on the screen and broadcasts the event.
+     * @param c The firing creature.
+     * @param wand The wand that is being fired.
+     * @param destx The x coordinate of the destination.
+     * @param desty The y coordinate of the destination.
+     * @param loc The location where the wand was fired.
+     */
     public void fireWand(Creature c, Wand wand, int destx, int desty, Location loc){
-        main.drawWandArc(wand, c.x, c.y, destx, desty);
+        Window.main.drawWandArc(wand, c.x, c.y, destx, desty);
         if(wand.areaEvent!=null) wand.setAndNotify(destx, desty, loc);
     }
     

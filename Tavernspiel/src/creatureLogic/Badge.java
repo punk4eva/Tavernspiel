@@ -2,12 +2,15 @@
 package creatureLogic;
 
 import java.util.ArrayList;
+import java.util.Set;
+import logic.Fileable;
+import logic.Utils;
 
 /**
  *
  * @author Adam Whittaker
  */
-public class Badge{
+public class Badge implements Fileable{
     
     public final String name;
     public final String requirements;
@@ -15,6 +18,24 @@ public class Badge{
     public int level = 1;
     public Obtained obtainCheck;
     public boolean superBadge = false;
+
+    @Override
+    public String toFileString(){
+        return name + "^" + requirements + "^" + id + "^" + level + "^" + 
+                superBadge;
+    }
+    
+    public static Badge getFromFileString(String filestring){
+        String[] profile = filestring.split("^");
+        try{
+            return new Badge(profile[0], profile[1], Integer.parseInt(profile[2]),
+                Integer.parseInt(profile[3]), Boolean.parseBoolean(profile[4]));
+        }catch(NumberFormatException e){
+            return new DeathBadge(profile[0], profile[1], Integer.parseInt(profile[2].substring(1)),
+            Integer.parseInt(profile[3]), Boolean.parseBoolean(profile[4]));
+        }
+    }
+    
     private interface Obtained{
         boolean check(DeathData data);
     }
@@ -24,6 +45,14 @@ public class Badge{
         requirements = req;
         id = i;
         level = l;
+    }
+    
+    public Badge(String n, String req, int i, int l, boolean superB){
+        name = n;
+        requirements = req;
+        id = i;
+        level = l;
+        superBadge = superB;
     }
     
     public Badge(String n, String req, int i, int l, Obtained obcheck){
@@ -51,6 +80,11 @@ public class Badge{
     
     public boolean check(DeathData data){
         return obtainCheck.check(data);
+    }
+    
+    public boolean isOverriden(Set<Badge> badges){
+        return badges.stream().anyMatch((b) -> (b.id==id&&b.level>level || 
+                b instanceof DeathBadge && Utils.contains(((DeathBadge) b).overridesLivingBadges, id)));
     }
     
     public static ArrayList<Badge> allLivingBadges(){
