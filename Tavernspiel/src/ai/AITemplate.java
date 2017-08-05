@@ -1,6 +1,8 @@
 
 package ai;
 
+import creatures.Creature;
+import level.Area;
 import logic.Fileable;
 
 /**
@@ -15,6 +17,7 @@ public abstract class AITemplate implements Fileable{
     public int intelligence = 3; //The intelligence
     public MagicHexagon magic = new MagicHexagon(); //The AI's inate magic abilities.
     public int destinationx = -1, destinationy = -1; //The destination coords of the AI.
+    public AIBaseActions BASEACTIONS = new AIBaseActions(); //The basic actions that the ai can do.
 
     /**
      * Sets the AI's destination coords.
@@ -42,8 +45,10 @@ public abstract class AITemplate implements Fileable{
     
     /**
      * Decides what to do and does it.
+     * @param c The creature who owns this AI.
+     * @param area The area that the creature is in.
      */
-    public void turn(){
+    public void turn(Creature c, Area area){
         throw new UnsupportedOperationException("Unfinished AITemplate.turn()");
     }
     
