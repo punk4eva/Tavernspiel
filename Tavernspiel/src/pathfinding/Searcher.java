@@ -2,6 +2,7 @@
 package pathfinding;
 
 import java.util.Arrays;
+import logic.Utils.optimisable;
 import pathfinding.Point.Direction;
 import pathfinding.PriorityQueue.Compare;
 
@@ -104,6 +105,14 @@ public class Searcher{
         }
     }
     
+    /**
+     * Finds and returns the shortest path between two points.
+     * @param start The starting point.
+     * @param end The destination.
+     * @return The shortest path between start and end.
+     * @deprecated Only use for short distance maneuvering.
+     * @see findExpressRoute()
+     */
     public Path findPath(Point start, Point end){
         graph.resetMap();
         frontier.clear();
@@ -126,5 +135,25 @@ public class Searcher{
         return graph.followTrail(end.x, end.y);
     }
     
+    /**
+     * Finds the shortest path between two points using predefined sub-paths to
+     * speed up calculation.
+     * @param start The starting point.
+     * @param end The destination.
+     * @return The shortest path between start and end.
+     */
+    @optimisable("Heuristic calculations only account for likely scenarios.")
+    public Path findExpressRoute(Point start, Point end){
+        Waypoint startStation = graph.getClosestWaypoint(start.x, start.y);
+        Waypoint endStation = graph.getClosestWaypoint(end.x, end.y);
+        AStar(end);
+        int commonDist = start.getOODistance(end);
+        if(start.getOODistance(startStation)>commonDist||
+                end.getOODistance(startStation)>commonDist||
+                startStation.equals(endStation)){
+            return findPath(start, end);
+        }
+        return findPath(start, startStation).concatenate(startStation.pathsToWaypoints.get(endStation)).concatenate(findPath(endStation, end));
+    }  
     
 }

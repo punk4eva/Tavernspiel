@@ -33,4 +33,8 @@ public class Utils{
         return ret;
     }
     
+    public @interface optimisable{
+        String value() default ""; //notes
+    }
+    
 }
