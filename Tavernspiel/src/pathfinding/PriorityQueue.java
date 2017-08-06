@@ -2,6 +2,7 @@
 package pathfinding;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.Queue;
@@ -14,7 +15,7 @@ import java.util.RandomAccess;
  * 
  * Auto-sorts elements as they are added using itself as a comparator.
  */
-public class PriorityQueue<T> extends ArrayList<T> implements Comparator<T>, Queue<T>, RandomAccess{
+public class PriorityQueue<T extends Object> extends ArrayList<T> implements Comparator<T>, Queue<T>, RandomAccess{
 
     /**
      * @param e The element to offer.
@@ -68,18 +69,24 @@ public class PriorityQueue<T> extends ArrayList<T> implements Comparator<T>, Que
         return get(0);
     }
     
-    protected interface Compare{
-        <T> long enumerate(T element);
+    protected interface Compare<T>{
+        long enumerate(T element);
     }
-    private final Compare compare;
+    protected final Compare<T> compare;
     
-    public PriorityQueue(Compare comp){
+    public PriorityQueue(Compare<T> comp){
         super();
         compare = comp;
     }
     
-    public PriorityQueue(Collection<? extends T> clctn, Compare comp){
+    public PriorityQueue(Collection<? extends T> clctn, Compare<T> comp){
         super(clctn);
+        compare = comp;
+        sort();
+    }
+    
+    public PriorityQueue(T[] ary, Compare<T> comp){
+        super(Arrays.asList(ary));
         compare = comp;
         sort();
     }
@@ -111,13 +118,18 @@ public class PriorityQueue<T> extends ArrayList<T> implements Comparator<T>, Que
     @Override
     public boolean add(T element){
         for(int n=0;n<size();n++){
-            if(compare(element, get(n))!=1){
+            if(compare(element, get(n))==-1){
                 add(n, element);
                 return true;
             }
         }
         super.add(element);
         return true;
+    }
+    
+    public void flushFromQueue(PriorityQueue<T> queue){
+        addAll(queue);
+        queue.clear();
     }
     
 }
