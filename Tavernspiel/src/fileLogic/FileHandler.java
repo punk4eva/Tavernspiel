@@ -1,7 +1,16 @@
 
 package fileLogic;
 
+import creatureLogic.Attributes;
+import creatureLogic.DeathData;
+import creatureLogic.PlayData;
+import creatures.Creature;
+import creatures.Hero;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import level.Dungeon;
+import logic.Fileable;
 
 /**
  *
@@ -22,6 +31,24 @@ public class FileHandler{
     
     public static void initReadWrite(String filepath){
         readwrite = new ReadWrite(filepath);
+    }
+    
+    public static void toFile(Fileable object, String destinationFilepath){
+        initReadWrite(destinationFilepath);
+        readwrite.write(object.toFileString());
+    }
+    
+    public static Object getFromFile(File file) throws IOException{
+        String filestring = new ReadWrite(file).read();
+        String extension = getExtension(file).toLowerCase();
+        switch(extension){
+            case "atrib": return Attributes.getFromFileString(filestring);
+            case "hero": return Hero.getFromFileString(filestring);
+            case "plydta": return PlayData.getFromFileString(filestring);
+            case "lvl": return Dungeon.getFromFileString(filestring);
+            case "deathdta": return DeathData.getFromFileString(filestring);
+        }
+        throw new IOException("Extension \"" + extension + "\" not recognised!");
     }
     
 }
