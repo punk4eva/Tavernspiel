@@ -33,8 +33,6 @@ public class Distribution implements Fileable{
         }
     }
     
-    public Distribution(){/**Only used for fileable interface*/}
-    
     public double next(){
         return outputs[chanceToInt(r.nextInt(chances[chances.length-1])+1)];
     }

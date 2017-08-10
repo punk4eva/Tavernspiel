@@ -177,7 +177,8 @@ public class Room extends Area{
                 new int[]{2,4,6,5,3,2,1}).next();
         Distribution yDistrib = new Distribution(new double[]{0, dimension.height-1});
         Distribution xDistrib = new Distribution(new double[]{0, dimension.width-1});
-        while(numDoors>0){
+        int failed = 0;
+        while(numDoors>0||failed>=40){
             int x, y;
             if(Distribution.chance(1, 2)){
                 x = Distribution.getRandomInclusiveInt(1, dimension.width-2);
@@ -187,11 +188,14 @@ public class Room extends Area{
                 x = (int) xDistrib.next();
             }
             if(map[y][x].equals("wall")||map[y][x].equals("specialwall")){
-                if(((y != 0 && y != dimension.height-1) || map[y][x+1].equals("door"))||map[y][x-1].equals("door")&&
-                        (((x != 0 && x != dimension.width-1) || map[y+1][x].equals("door")) || map[y-1][x].equals("door"))){
+                if(
+                        (y!=0||(x!=0&&x!=dimension.width-1)&&(y != dimension.height-1 || (x != 0 && x != dimension.width-1)))&&
+                        ((y!=0&&y!=dimension.height-1)||(!map[y][x+1].equals("Door")&&!map[y][x-1].equals("Door")))&&
+                        ((x!=0&&x!=dimension.width-1)||(!map[y+1][x].equals("Door")&&!map[y-1][x].equals("Door")))
+                ){
                     numDoors--;
                     map[y][x] = new Door(location);
-                }
+                }else failed++;
             }
         }
     }

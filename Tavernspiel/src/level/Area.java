@@ -1,7 +1,6 @@
 
 package level;
 
-import containers.Floor;
 import containers.Receptacle;
 import creatures.Creature;
 import exceptions.AreaCoordsOutOfBoundsException;
@@ -16,6 +15,7 @@ import listeners.AreaListener;
 import listeners.DeathEvent;
 import listeners.DeathListener;
 import logic.Distribution;
+import pathfinding.Graph;
 import tiles.Tile;
 import tiles.TrapBuilder;
 
@@ -31,6 +31,7 @@ public class Area implements AreaListener, DeathListener{
     public ArrayList<Creature> creatures = new ArrayList<>();
     public ArrayList<Receptacle> receptacles = new ArrayList<>();
     public final int zipcode = ZipHandler.next();
+    public Graph graph = null;
     
     
     public Area(Dimension dim, Location loc){
