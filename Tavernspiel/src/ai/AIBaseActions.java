@@ -11,12 +11,14 @@ import exceptions.ReceptacleOverflowException;
 import gui.Window;
 import items.Apparatus;
 import items.Item;
-import items.equipment.HeldWeapon;
 import items.equipment.MeleeWeapon;
 import items.equipment.Wand;
+import java.util.ArrayList;
 import level.Area;
 import level.Location;
 import logic.Distribution;
+import pathfinding.Point;
+import tiles.HiddenTile;
 
 /**
  *
@@ -180,6 +182,23 @@ public class AIBaseActions{
     public void fireWand(Creature c, Wand wand, int destx, int desty, Location loc){
         Window.main.drawWandArc(wand, c.x, c.y, destx, desty);
         if(wand.areaEvent!=null) wand.setAndNotify(destx, desty, loc);
+    }
+    
+    public void search(Creature c, Area area){
+        ArrayList<Point> ary = new ArrayList<>();
+        boolean searchSuccessful = false;
+        for(int yPlus=-1;yPlus<2;yPlus++){
+            for(int xPlus=-1;xPlus<2;xPlus++){
+                if(yPlus!=0&&xPlus!=0){
+                    ary.add(new Point(c.x+xPlus, c.y+yPlus));
+                    if(area.map[c.y+yPlus][c.x+xPlus] instanceof HiddenTile && ((HiddenTile) area.map[c.y+yPlus][c.x+xPlus]).hidden){
+                        ((HiddenTile) area.map[c.y+yPlus][c.x+xPlus]).find(c);
+                        searchSuccessful = true;
+                    }
+                }
+            }
+        }
+        Window.main.search(ary, area, searchSuccessful);
     }
     
 }

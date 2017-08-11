@@ -125,6 +125,8 @@ public class Area implements AreaListener, DeathListener{
                     break;
                 case "BURN": burn(ae.getX(), ae.getY());
                     break;
+                case "FIND": 
+                    break;
             }
         }
     }

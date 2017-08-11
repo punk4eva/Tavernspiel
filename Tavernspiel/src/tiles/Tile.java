@@ -60,7 +60,7 @@ public class Tile extends JButton{
     }
     
     public boolean equals(String str){
-        return str.equals(name);
+        return str.compareToIgnoreCase(name)==0;
     }
     
 }

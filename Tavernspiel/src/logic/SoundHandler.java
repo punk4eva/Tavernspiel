@@ -1,6 +1,7 @@
 
 package logic;
 
+import gui.Window;
 import java.io.File;
 import java.util.ArrayDeque;
 import javax.sound.sampled.AudioInputStream;
@@ -15,18 +16,18 @@ import javax.sound.sampled.LineUnavailableException;
  */
 public class SoundHandler{
     
-    private static Thread backgroundMusicLoop;
-    private static boolean flowMode;
-    private static ArrayDeque<File> playlist = new ArrayDeque<>();
+    private Thread backgroundMusicLoop;
+    private boolean flowMode;
+    private ArrayDeque<File> playlist = new ArrayDeque<>();
 
-    public static void playSFX(String path, float volChange){
+    public void playSFX(String path){
         File file = new File("sound/SFX/" + path);
         try{
             Clip clip = AudioSystem.getClip();
             clip.open(AudioSystem.getAudioInputStream(file));
             FloatControl gainControl = 
             (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                    gainControl.setValue(volChange);
+                    gainControl.setValue(Window.SFXVolume);
             clip.start();
             Thread.sleep(clip.getMicrosecondLength()/1000);
         }catch(Exception e){
@@ -34,7 +35,7 @@ public class SoundHandler{
         }
     }
     
-    public static synchronized void playAbruptLoop(String path, float volChange){
+    public synchronized void playAbruptLoop(String path){
         File file = new File("sound/songs/" + path);
         if(backgroundMusicLoop!=null) backgroundMusicLoop.interrupt();
         backgroundMusicLoop = new Thread(
@@ -50,7 +51,7 @@ public class SoundHandler{
                             clip.open(inputStream);
                             FloatControl gainControl =
                                     (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                            gainControl.setValue(volChange);
+                            gainControl.setValue(Window.MusicVolume);
                             clip.start();
                             Thread.sleep(clip.getMicrosecondLength()/1000);
                             clip.close();
@@ -63,7 +64,7 @@ public class SoundHandler{
         backgroundMusicLoop.start();
     }
 
-    public static synchronized void playFlowingLoop(String path, float volChange){
+    public synchronized void playFlowingLoop(String path){
         flowMode = true;
         File file = new File("sound/songs/" + path);
         new Thread(() -> {
@@ -82,7 +83,7 @@ public class SoundHandler{
                             clip.open(inputStream);
                             FloatControl gainControl =
                                     (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                            gainControl.setValue(volChange);
+                            gainControl.setValue(Window.MusicVolume);
                             clip.start();
                             Thread.sleep(clip.getMicrosecondLength()/1000);
                             clip.close();
@@ -99,7 +100,7 @@ public class SoundHandler{
         }).start();
     }
     
-    public static synchronized void playAbruptQueue(float volChange){
+    public synchronized void playAbruptQueue(){
         if(backgroundMusicLoop!=null) backgroundMusicLoop.interrupt();
         backgroundMusicLoop = new Thread(
                 () -> {
@@ -114,7 +115,7 @@ public class SoundHandler{
                             clip.open(inputStream);
                             FloatControl gainControl =
                                     (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                            gainControl.setValue(volChange);
+                            gainControl.setValue(Window.MusicVolume);
                             clip.start();
                             Thread.sleep(clip.getMicrosecondLength()/1000);
                             clip.close();
@@ -127,7 +128,7 @@ public class SoundHandler{
         backgroundMusicLoop.start();
     }
     
-    public static synchronized void playFlowingQueue(float volChange){
+    public synchronized void playFlowingQueue(){
         flowMode = true;
         new Thread(() -> {
             try{
@@ -145,7 +146,7 @@ public class SoundHandler{
                             clip.open(inputStream);
                             FloatControl gainControl =
                                     (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                            gainControl.setValue(volChange);
+                            gainControl.setValue(Window.MusicVolume);
                             clip.start();
                             Thread.sleep(clip.getMicrosecondLength()/1000);
                             clip.close();
@@ -162,11 +163,11 @@ public class SoundHandler{
         }).start();
     }
     
-    public static synchronized void addSong(String path){
+    public synchronized void addSong(String path){
         playlist.add(new File("sound/songs/"+path));
     }
     
-    public static synchronized void stopBackground(){
+    public synchronized void stopBackground(){
         backgroundMusicLoop.interrupt();
         backgroundMusicLoop = null;
     }

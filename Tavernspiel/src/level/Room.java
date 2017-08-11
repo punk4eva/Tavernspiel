@@ -190,8 +190,8 @@ public class Room extends Area{
             if(map[y][x].equals("wall")||map[y][x].equals("specialwall")){
                 if(
                         (y!=0||(x!=0&&x!=dimension.width-1)&&(y != dimension.height-1 || (x != 0 && x != dimension.width-1)))&&
-                        ((y!=0&&y!=dimension.height-1)||(!map[y][x+1].equals("Door")&&!map[y][x-1].equals("Door")))&&
-                        ((x!=0&&x!=dimension.width-1)||(!map[y+1][x].equals("Door")&&!map[y-1][x].equals("Door")))
+                        ((y!=0&&y!=dimension.height-1)||(!map[y][x+1].equals("door")&&!map[y][x-1].equals("door")))&&
+                        ((x!=0&&x!=dimension.width-1)||(!map[y+1][x].equals("door")&&!map[y-1][x].equals("door")))
                 ){
                     numDoors--;
                     map[y][x] = new Door(location);

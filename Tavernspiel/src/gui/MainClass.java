@@ -17,9 +17,13 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferStrategy;
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javax.swing.ImageIcon;
 import level.Area;
 import level.Location;
@@ -29,6 +33,8 @@ import listeners.GrimReaper;
 import logic.Distribution;
 import logic.IDHandler;
 import logic.ImageHandler;
+import logic.SoundHandler;
+import pathfinding.Point;
 import tiles.AnimatedTile;
 import tiles.Tile;
 
@@ -41,6 +47,7 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
     
     public static final int WIDTH = 640, HEIGHT = WIDTH / 12 * 9;
     public static MessageQueue messageQueue = new MessageQueue();
+    private final SoundHandler soundSystem = new SoundHandler();
 
     private Thread thread;
     private boolean running = false;
@@ -50,7 +57,7 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
     public static final IDHandler idhandler = new IDHandler(); //Creates UUIDs for GameObjects.
     public static final GrimReaper reaper = new GrimReaper(); //Handles death.
     public static final BuffEventInitiator buffinitiator = new BuffEventInitiator(); //Handles buffs.
-    public static Area area1 = RoomBuilder.standard(new Location("Test", "shkoderTileset"));
+    public static Area area1 = RoomBuilder.standard(new Location("Test", "shkoderTileset", "Chalcedony.wav"));
     public static long frameNumber = 0;
     private int framerate = 0;
 
@@ -60,16 +67,26 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
         handler = new Handler();
 
         Window win = new Window(WIDTH, HEIGHT, "Tavernspiel", this);
-        Window.main = this;
+        area1.map[0][0].addActionListener(this);
+        soundSystem.playAbruptLoop(area1.location.backgroundMusicPath);
     }
 
     public static void main(String[] args){
         MainClass mc = new MainClass();
     }
+    
+    public void changeSFXVolume(float newVolume){
+        Window.SFXVolume = newVolume;
+    }
+    
+    public void changeMusicVolume(float newVolume){
+        Window.MusicVolume = newVolume;
+    }
 
     @Override
     public void actionPerformed(ActionEvent e){
-        throw new UnsupportedOperationException("Not supported yet.");
+        System.err.println(e.getActionCommand() + "BA");
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -145,6 +162,7 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
     public void paintArea(Area area, Graphics g){
         for(int y=0;y<area.dimension.height*16;y+=16){
             for(int x=0;x<area.dimension.width*16;x+=16){
+                /**
                 Tile tile = area.map[y/16][x/16];
                 if(tile instanceof AnimatedTile)
                     g.drawImage(((AnimatedTile)tile)
@@ -157,6 +175,7 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
                     if(temp instanceof Floor&&!temp.isEmpty())
                         g.drawImage(temp.peek().icon,x,y,null);
                 }catch(ReceptacleIndexOutOfBoundsException ignore){}
+                */
             }
         }
     }
@@ -167,6 +186,11 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
     
     public void endGame(){
         stop();
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void search(ArrayList<Point> ary, Area area, boolean searchSuccessful){
+        if(searchSuccessful) soundSystem.playSFX("Misc/mystery.wav");
         throw new UnsupportedOperationException("Not supported yet.");
     }
     

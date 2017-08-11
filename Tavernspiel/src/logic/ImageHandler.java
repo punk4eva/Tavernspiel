@@ -25,6 +25,7 @@ public class ImageHandler{
         map.put("emptywell", new Dimension(48, 0));
         map.put("wall", new Dimension(64, 0));
         map.put("closeddoor", new Dimension(80, 0));
+        map.put("door", new Dimension(80, 0));
         map.put("opendoor", new Dimension(96, 0));
         map.put("depthentrance", new Dimension(112, 0));
         map.put("depthexit", new Dimension(128, 0));

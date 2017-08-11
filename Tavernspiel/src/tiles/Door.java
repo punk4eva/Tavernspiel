@@ -9,25 +9,35 @@ import logic.ImageHandler;
  *
  * @author Adam Whittaker
  */
-public class Door extends Tile{
+public class Door extends HiddenTile{
     
     protected final ImageIcon open;
     protected final ImageIcon closed;
     protected final ImageIcon locked;
-    protected boolean isLocked;
+    protected boolean isLocked = false;
     protected boolean isOpen = false;
     
     public Door(Location loc){
-        super("Door", ImageHandler.getImageIcon("closeddoor", loc));
+        super("door", loc, true, true);
+        open = ImageHandler.getImageIcon("opendoor", loc);
+        closed = ImageHandler.getImageIcon("closeddoor", loc);
+        locked = ImageHandler.getImageIcon("lockeddoor", loc);
+    }
+    
+    public Door(Location loc, boolean lock, boolean hid){
+        super("door", hid ? 
+                ImageHandler.getImageIcon("wall", loc) : lock ?
+                ImageHandler.getImageIcon("lockeddoor", loc) :
+                ImageHandler.getImageIcon("closeddoor", loc), loc, hid, !lock, !lock);
         open = ImageHandler.getImageIcon("opendoor", loc);
         closed = ImageHandler.getImageIcon("closeddoor", loc);
         locked = ImageHandler.getImageIcon("lockeddoor", loc);
     }
     
     public Door(Location loc, boolean lock){
-        super("Door", lock ?
+        super("door", lock ?
                 ImageHandler.getImageIcon("lockeddoor", loc) :
-                ImageHandler.getImageIcon("closeddoor", loc));
+                ImageHandler.getImageIcon("closeddoor", loc), loc, false, true, false);
         open = ImageHandler.getImageIcon("opendoor", loc);
         closed = ImageHandler.getImageIcon("closeddoor", loc);
         locked = ImageHandler.getImageIcon("lockeddoor", loc);
@@ -35,6 +45,8 @@ public class Door extends Tile{
         if(lock) treadable = false;
         else flammable = true;
     }
+    
+    
     
     public void unlock(){
         treadable = true;
