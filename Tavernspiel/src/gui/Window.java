@@ -11,11 +11,12 @@ import javax.swing.JFrame;
 public class Window extends Canvas{
     
     public static MainClass main;
+    protected JFrame frame;
     public static float SFXVolume = 0;
     public static float MusicVolume = 0;
     
     public Window(int width, int height, String Title, MainClass m){
-        JFrame frame = new JFrame(Title);
+        frame = new JFrame(Title);
 
         frame.setPreferredSize(new Dimension(width, height));
         frame.setMaximumSize(new Dimension(width, height));

@@ -3,6 +3,7 @@ package logic;
 
 import animation.Animation;
 import buffs.Buff;
+import gui.Handler;
 import gui.MainClass;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -17,8 +18,8 @@ public class Gas extends GameObject{
     public int spreadNumber;
     public int duration = 10;
     
-    public Gas(String n, String desc, Buff b, Animation a, int spread, int ac){
-        super(n, desc, a, ac);
+    public Gas(String n, String desc, Buff b, Animation a, int spread, int ac, Handler handler){
+        super(n, desc, a, ac, handler);
         buffs.add(b);
         spreadNumber = spread;
     }

@@ -8,6 +8,7 @@ import containers.Floor;
 import containers.Mimic;
 import containers.Receptacle;
 import containers.SkeletalRemains;
+import gui.Handler;
 import gui.Window;
 import items.Item;
 import level.Area;
@@ -26,9 +27,9 @@ public class TrapBuilder{
         return new Chasm(area.map[y-1][x].name, loc);
     }
     
-    public static Trap getTrap(String tr, Area area){
+    public static Trap getTrap(String tr, Area area, Handler handler){
         if(isGaseous(tr)){
-            Gas g = getToxicGas(area); //UNFINISHED
+            Gas g = getToxicGas(area, handler); //UNFINISHED
             return new Trap(tr, area.location, g);
         }else{
             Buff b = new Buff("-1"); //UNFINISHED
@@ -40,7 +41,7 @@ public class TrapBuilder{
         return str.contains("yellow")||str.contains("green");
     }
     
-    public static Gas getToxicGas(Area area){
+    public static Gas getToxicGas(Area area, Handler handler){
         Buff b = new Buff("toxic gas", 1);
         b.damageDistribution = new Distribution(/**
                 area.location.stageSpawnDistrib.incrementor-1, 
@@ -48,7 +49,7 @@ public class TrapBuilder{
         5, 6);              
         Animation a = new Animation(ImageHandler.getFrames("water", 0)); //@unfinished, placeholder
         return new Gas("Toxic Gas", "A poisonous green vapour.", b, a, 7, 
-                area.zipcode);
+                area.zipcode, handler);
     }
     
     public static Receptacle getRandomReceptacle(Item i, int x, int y){  

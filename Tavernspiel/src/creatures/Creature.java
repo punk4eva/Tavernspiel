@@ -6,6 +6,7 @@ import buffs.Buff;
 import containers.Equipment;
 import containers.Inventory;
 import creatureLogic.Attributes;
+import gui.Handler;
 import gui.MainClass;
 import items.equipment.HeldWeapon;
 import java.awt.Graphics;
@@ -32,16 +33,16 @@ public class Creature extends GameObject implements BuffListener, Fileable{
     public ArrayList<Buff> buffs = new ArrayList<>();
     
     public Creature(String n, String desc, Equipment eq, Inventory inv, 
-            Attributes atb, Animation an, int ac){
-        super(n, desc, an, ac);
+            Attributes atb, Animation an, int ac, Handler handler){
+        super(n, desc, an, ac, handler);
         equipment = eq;
         inventory = inv;
         attributes = atb;
         MainClass.buffinitiator.addBuffListener(this);
     }
     
-    public Creature(String n, String desc, Attributes atb, Animation an, int ac){
-        super(n, desc, an, ac);
+    public Creature(String n, String desc, Attributes atb, Animation an, int ac, Handler handler){
+        super(n, desc, an, ac, handler);
         attributes = atb;
         MainClass.buffinitiator.addBuffListener(this);
     }

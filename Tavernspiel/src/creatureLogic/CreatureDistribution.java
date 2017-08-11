@@ -1,6 +1,7 @@
 
-package level;
+package creatureLogic;
 
+import creatures.Creature;
 import logic.Distribution;
 import static logic.Distribution.r;
 
@@ -8,17 +9,14 @@ import static logic.Distribution.r;
  *
  * @author Adam Whittaker
  */
-public class RoomDistribution{
-    
-    public interface MakeRoom{
-        Room make(Stage st);
-    };
-    protected final MakeRoom[] roomMethods;
+public class CreatureDistribution{
+
+    protected final Creature[] creatures;
     protected final int[] chances;
-    
-    public RoomDistribution(MakeRoom[] rMethods, int[] cha){
+
+    public CreatureDistribution(Creature[] out, int[] cha){
         chances = Distribution.convert(cha);
-        roomMethods = rMethods;
+        creatures = out;
     }
     
     /**
@@ -26,8 +24,8 @@ public class RoomDistribution{
      * chances.
      * @return An output from the array.
      */
-    public MakeRoom next(){
-        return roomMethods[chanceToInt(r.nextInt(chances[chances.length-1])+1)];
+    public Creature next(){
+        return creatures[chanceToInt(r.nextInt(chances[chances.length-1])+1)];
     }
     
     /**

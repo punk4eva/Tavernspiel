@@ -2,6 +2,7 @@
 package buffs;
 
 import animation.Animation;
+import gui.Handler;
 import level.Area;
 import logic.Gas;
 import logic.ImageHandler;
@@ -12,12 +13,12 @@ import logic.ImageHandler;
  */
 public class GasBuilder{
     
-    public static Gas gardengas(Area area){
+    public static Gas gardengas(Area area, Handler handler){
         Gas g = new Gas("shadowmelded", 
                 "Cleansing shafts of light pierce the vegetation.",
                 BuffBuilder.shadowmelded(),
                 new Animation(ImageHandler.getFrames("shadowmelded", 0)),
-                1, area.zipcode);
+                1, area.zipcode, handler);
         g.duration = 1000000;
         return g;
     }

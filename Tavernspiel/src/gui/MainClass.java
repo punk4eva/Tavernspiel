@@ -14,8 +14,11 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
 import java.io.File;
 import java.io.IOException;
@@ -30,7 +33,6 @@ import level.Location;
 import level.RoomBuilder;
 import listeners.BuffEventInitiator;
 import listeners.GrimReaper;
-import logic.Distribution;
 import logic.IDHandler;
 import logic.ImageHandler;
 import logic.SoundHandler;
@@ -43,21 +45,22 @@ import tiles.Tile;
  *
  * @author Adam Whittaker
  */
-public class MainClass extends Canvas implements ActionListener, Runnable{
+public class MainClass extends Canvas implements Runnable, MouseListener{
     
     public static final int WIDTH = 640, HEIGHT = WIDTH / 12 * 9;
     public static MessageQueue messageQueue = new MessageQueue();
-    private final SoundHandler soundSystem = new SoundHandler();
+    protected final SoundHandler soundSystem = new SoundHandler();
 
     private Thread thread;
     private boolean running = false;
+    private Window window;
 
     private Handler handler;
 
     public static final IDHandler idhandler = new IDHandler(); //Creates UUIDs for GameObjects.
     public static final GrimReaper reaper = new GrimReaper(); //Handles death.
     public static final BuffEventInitiator buffinitiator = new BuffEventInitiator(); //Handles buffs.
-    public static Area area1 = RoomBuilder.standard(new Location("Test", "shkoderTileset", "Chalcedony.wav"));
+    public static Area currentArea;
     public static long frameNumber = 0;
     private int framerate = 0;
 
@@ -66,13 +69,9 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
 
         handler = new Handler();
 
-        Window win = new Window(WIDTH, HEIGHT, "Tavernspiel", this);
-        area1.map[0][0].addActionListener(this);
-        soundSystem.playAbruptLoop(area1.location.backgroundMusicPath);
-    }
-
-    public static void main(String[] args){
-        MainClass mc = new MainClass();
+        window = new Window(WIDTH, HEIGHT, "Tavernspiel", this);
+        //window.addMouseListener(this);
+        addMouseListener(this);
     }
     
     public void changeSFXVolume(float newVolume){
@@ -81,12 +80,6 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
     
     public void changeMusicVolume(float newVolume){
         Window.MusicVolume = newVolume;
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e){
-        System.err.println(e.getActionCommand() + "BA");
-        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -132,13 +125,12 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
         g.setColor(Color.black);
         g.fillRect(0, 0, WIDTH, HEIGHT);
         handler.render(g);
-        paintArea(area1, g);
         framerate++;
         if(framerate == 60){
             frameNumber = (frameNumber+1) % 1000000000;
             framerate = 0;
         }
-        paintArea(area1, g);
+        paintArea(currentArea, g);
         g.dispose();
         bs.show();
     }
@@ -160,9 +152,11 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
         
     
     public void paintArea(Area area, Graphics g){
+        window.frame.setLayout(new GridLayout(area.dimension.height, area.dimension.width, 0, 0));
         for(int y=0;y<area.dimension.height*16;y+=16){
             for(int x=0;x<area.dimension.width*16;x+=16){
-                /**
+                //window.frame.add(area.map[y/16][x/16]);
+                
                 Tile tile = area.map[y/16][x/16];
                 if(tile instanceof AnimatedTile)
                     g.drawImage(((AnimatedTile)tile)
@@ -175,7 +169,7 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
                     if(temp instanceof Floor&&!temp.isEmpty())
                         g.drawImage(temp.peek().icon,x,y,null);
                 }catch(ReceptacleIndexOutOfBoundsException ignore){}
-                */
+                
             }
         }
     }
@@ -192,6 +186,24 @@ public class MainClass extends Canvas implements ActionListener, Runnable{
     public void search(ArrayList<Point> ary, Area area, boolean searchSuccessful){
         if(searchSuccessful) soundSystem.playSFX("Misc/mystery.wav");
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent me){
+        int[] p = translateMouseCoords(me.getX(), me.getY());
+        
+    }
+    @Override
+    public void mousePressed(MouseEvent me){/**Ignore*/}
+    @Override
+    public void mouseReleased(MouseEvent me){/**Ignore*/}
+    @Override
+    public void mouseEntered(MouseEvent me){/**Ignore*/}
+    @Override
+    public void mouseExited(MouseEvent me){/**Ignore*/}
+    
+    public static int[] translateMouseCoords(double mx, double my){
+        return new int[]{(int)Math.floor(mx/16), (int)Math.floor(my/16)};
     }
     
 }

@@ -4,6 +4,7 @@ package creatures;
 import animation.Animation;
 import creatureLogic.Attributes;
 import creatureLogic.DeathData;
+import gui.Handler;
 import gui.MainClass;
 import gui.Window;
 import java.awt.Graphics;
@@ -44,8 +45,8 @@ public class Hero extends Creature{
         }
     }
     
-    public Hero(Attributes atb, Animation an, int ac){
-        super("Hero", "UNWRITTEN", atb, an, ac);
+    public Hero(Attributes atb, Animation an, int ac, Handler handler){
+        super("Hero", "UNWRITTEN", atb, an, ac, handler);
         data = new DeathData(this);
     }
 

@@ -1,6 +1,7 @@
 
 package level;
 
+import gui.Handler;
 import java.awt.Dimension;
 import logic.Distribution;
 import tiles.AnimatedTile;
@@ -29,7 +30,7 @@ public class Room extends Area{
         Distribution.getRandomInclusiveInt(4, 16)), loc);
     }
     
-    public static Room genStandard(Location loc){
+    public static Room genStandard(Location loc, Handler handler){
         Room room = genBlank(loc);
         room.paintAndPave();
         if(loc.waterBeforeGrass){
@@ -43,13 +44,13 @@ public class Room extends Area{
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
                 if(room.map[y][x].equals("floor")&&Distribution.chance(1, 30))
-                    room.map[y][x] = RoomBuilder.getRandomTrap(room);
+                    room.map[y][x] = RoomBuilder.getRandomTrap(room, handler);
             }
         }
         return room;
     }
     
-    public void standardify(){
+    public void standardify(Handler handler){
         paintAndPave();
         if(location.waterBeforeGrass){
             water();
@@ -62,7 +63,7 @@ public class Room extends Area{
         for(int y=1;y<dimension.height-1;y++){
             for(int x=1;x<dimension.width-1;x++){
                 if(map[y][x].equals("floor")&&Distribution.chance(1, 30))
-                    map[y][x] = RoomBuilder.getRandomTrap(this);
+                    map[y][x] = RoomBuilder.getRandomTrap(this, handler);
             }
         }
     }
@@ -173,8 +174,8 @@ public class Room extends Area{
     }
     
     protected void addDoors(){
-        int numDoors = (int)new Distribution(new double[]{1,2,3,4,5,6,7},
-                new int[]{2,4,6,5,3,2,1}).next();
+        int numDoors = (int)new Distribution(new double[]{1,2,3,4,5,6},
+                new int[]{3,4,6,4,2,1}).next();
         Distribution yDistrib = new Distribution(new double[]{0, dimension.height-1});
         Distribution xDistrib = new Distribution(new double[]{0, dimension.width-1});
         int failed = 0;
