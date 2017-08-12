@@ -2,12 +2,16 @@
 package creatures;
 
 import animation.Animation;
+import buffs.Buff;
+import containers.Equipment;
+import containers.Inventory;
 import creatureLogic.Attributes;
 import creatureLogic.DeathData;
 import gui.Handler;
 import gui.MainClass;
 import gui.Window;
 import java.awt.Graphics;
+import java.util.ArrayList;
 import listeners.DeathEvent;
 
 /**
@@ -49,6 +53,14 @@ public class Hero extends Creature{
         super("Hero", "UNWRITTEN", atb, an, ac, handler);
         data = new DeathData(this);
     }
+    
+    public Hero(int id, Equipment eq, Inventory inv, int hung, DeathData da, EnClass j, EnSubclass sub, Attributes atb, ArrayList<Buff> bs, int ac, Handler handler){
+        super("Hero", "UNWRITTEN", id, eq, inv, atb, ac, bs, handler);
+        hunger = hung;
+        job = j;
+        subclass = sub;
+        data = da;
+    }
 
     @Override
     public void turn(){
@@ -60,6 +72,7 @@ public class Hero extends Creature{
         throw new UnsupportedOperationException("Not supported yet."); 
     }
     
+    @Override
     public void getAttacked(Creature c, int damage){
         attributes.hp -= damage;
         if(attributes.hp<=0){
@@ -75,5 +88,26 @@ public class Hero extends Creature{
         Window.main.endGame();
     }
     
+    @Override
+    public String toFileString(){
+        return "" + hunger + "<hero>" + data.toFileString() + "<hero>" + job.toString()
+                + "<hero>" + subclass.toString() + "<hero>" + super.toFileString();
+    }
+
+    public static Hero getFromFileString(String filestring, Handler handler){
+        String[] hprofile = filestring.split("<hero>");
+        
+        String[] profile = hprofile[4].split("<creat>");
+        ArrayList<Buff> bs = new ArrayList<>();
+        for(String str : profile[7].split("<-b->")) bs.add(Buff.getFromFileString(str));
+        Hero ret = new Hero(Integer.parseInt(profile[2]), Equipment.getFromFileString(profile[3]), 
+            Inventory.getFromFileString(profile[4]), Integer.parseInt(hprofile[0]), 
+            DeathData.getFromFileString(hprofile[1]), EnClass.valueOf(hprofile[2]),
+            EnSubclass.valueOf(hprofile[3]), Attributes.getFromFileString(profile[5]),
+            bs, Integer.parseInt(profile[6]), handler);
+        ret.x = Integer.parseInt(profile[7]);
+        ret.y = Integer.parseInt(profile[8]);
+        return ret;
+    }
     
 }

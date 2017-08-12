@@ -4,10 +4,9 @@ package fileLogic;
 import creatureLogic.Attributes;
 import creatureLogic.DeathData;
 import creatureLogic.PlayData;
-import creatures.Creature;
 import creatures.Hero;
+import gui.Handler;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import level.Dungeon;
 import logic.Fileable;
@@ -38,12 +37,12 @@ public class FileHandler{
         readwrite.write(object.toFileString());
     }
     
-    public static Object getFromFile(File file) throws IOException{
+    public static Object getFromFile(File file, Handler handler) throws IOException{
         String filestring = new ReadWrite(file).read();
         String extension = getExtension(file).toLowerCase();
         switch(extension){
             case "atrib": return Attributes.getFromFileString(filestring);
-            case "hero": return Hero.getFromFileString(filestring);
+            case "hero": return Hero.getFromFileString(filestring, handler);
             case "plydta": return PlayData.getFromFileString(filestring);
             case "lvl": return Dungeon.getFromFileString(filestring);
             case "deathdta": return DeathData.getFromFileString(filestring);

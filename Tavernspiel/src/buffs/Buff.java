@@ -6,6 +6,7 @@ import creatureLogic.AttributeModifier;
 import creatures.Creature;
 import gui.MainClass;
 import logic.Distribution;
+import logic.Fileable;
 
 /**
  *
@@ -13,7 +14,7 @@ import logic.Distribution;
  * 
  * The Buffs that creatures can experience.
  */
-public class Buff{
+public class Buff implements Fileable{
     
     public final String name;
     public double duration = 1000000;
@@ -35,7 +36,7 @@ public class Buff{
      * @param n The name of the buff.
      * @param d The duration.
      */
-    public Buff(String n, int d){
+    public Buff(String n, double d){
         name = n;
         duration = d;
     }
@@ -56,7 +57,7 @@ public class Buff{
      * @param d The duration.
      * @param am The attribute modifier.
      */
-    public Buff(String n, int d, AttributeModifier am){
+    public Buff(String n, double d, AttributeModifier am){
         name = n;
         duration = d;
         atribMod = am;
@@ -74,6 +75,22 @@ public class Buff{
             if(next==null) MainClass.buffinitiator.notify(event);
             else c.addBuff(next);
         }
+    }
+
+    @Override
+    public String toFileString(){
+        return name + "<->" + duration + "<->" + damageDistribution.toFileString()
+                + "<->" + atribMod.toFileString() + "<->" + visible + "<->" + 
+                event.toFileString();
+    }
+    
+    public static Buff getFromFileString(String filestring){
+        String profile[] = filestring.split("<->");
+        Buff ret = new Buff(profile[0], Double.parseDouble(profile[1]), AttributeModifier.getFromFileString(profile[3]));
+        ret.damageDistribution = Distribution.getFromFileString(profile[2]);
+        ret.visible = Boolean.parseBoolean(profile[4]);
+        ret.event = BuffEvent.getFromFileString(profile[5]);
+        return ret;
     }
     
 }

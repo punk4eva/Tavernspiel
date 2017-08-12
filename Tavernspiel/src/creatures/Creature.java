@@ -2,6 +2,7 @@
 package creatures;
 
 import animation.Animation;
+import animation.AnimationBuilder;
 import buffs.Buff;
 import containers.Equipment;
 import containers.Inventory;
@@ -36,6 +37,17 @@ public class Creature extends GameObject implements BuffListener, Fileable{
             Attributes atb, Animation an, int ac, Handler handler){
         super(n, desc, an, ac, handler);
         equipment = eq;
+        inventory = inv;
+        attributes = atb;
+        MainClass.buffinitiator.addBuffListener(this);
+    }
+    
+    public Creature(String n, String desc, int id, Equipment eq, Inventory inv, 
+            Attributes atb, int ac, ArrayList<Buff> bs, Handler handler){
+        super(n, desc, AnimationBuilder.getCreatureAnimation(n), ac, handler);
+        equipment = eq;
+        ID = id;
+        buffs = bs;
         inventory = inv;
         attributes = atb;
         MainClass.buffinitiator.addBuffListener(this);
@@ -128,11 +140,24 @@ public class Creature extends GameObject implements BuffListener, Fileable{
 
     @Override
     public String toFileString(){
-        throw new UnsupportedOperationException("Not supported yet.");
+        String ret = name + "<creat>" + description + "<creat>" + ID + "<creat>"
+                + equipment.toFileString() + "<creat>" + inventory.toFileString()
+                + attributes.toFileString() + "<creat>" + areaCode + "<creat>" + x + "<creat>" + y + "<creat>";
+        ret = buffs.stream().map((b) -> b.toFileString() + "<-b->").reduce(ret, String::concat);
+        return ret.substring(0, ret.length()-5);
     }
 
-    public static Creature getFromFileString(String filestring){
-        throw new UnsupportedOperationException("Not supported yet.");
+    public static Creature getFromFileString(String filestring, Handler handler){
+        String[] profile = filestring.split("<creat>");
+        ArrayList<Buff> bs = new ArrayList<>();
+        for(String str : profile[7].split("<-b->")) bs.add(Buff.getFromFileString(str));
+        Creature ret = new Creature(profile[0], profile[1], Integer.parseInt(profile[2]), 
+            Equipment.getFromFileString(profile[3]), Inventory.getFromFileString(profile[4]),
+            Attributes.getFromFileString(profile[5]), Integer.parseInt(profile[6]),
+            bs, handler);
+        ret.x = Integer.parseInt(profile[7]);
+        ret.y = Integer.parseInt(profile[8]);
+        return ret;
     }
     
     public void setXY(int nx, int ny){

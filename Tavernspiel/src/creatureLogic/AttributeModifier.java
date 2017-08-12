@@ -2,12 +2,13 @@
 package creatureLogic;
 
 import ai.AITemplate;
+import logic.Fileable;
 
 /**
  *
  * @author Adam Whittaker
  */
-public class AttributeModifier{
+public class AttributeModifier implements Fileable{
     
     public AITemplate newAi = null; //null if AITemplate is not changed.
     public double speedMultiplier = 1;
@@ -19,5 +20,14 @@ public class AttributeModifier{
     public Resistance[] newResistances = null; //null if Resistances aren't changed.
     
     public AttributeModifier(){}
+
+    @Override
+    public String toFileString(){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public static AttributeModifier getFromFileString(String filestring){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
 }
