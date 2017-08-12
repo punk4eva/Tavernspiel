@@ -33,6 +33,31 @@ public class Utils{
         return ret;
     }
     
+    public static int lineCount(String str){
+        int count = 1;
+        for(int n=0;n<str.length()-1;n++){
+            if(str.substring(n,n+2).equals("\n")) count++;
+        }
+        return count;
+    }
+    
+    public static String lineFormat(String str, int lineLength){
+        String[] words = str.split(" ");
+        int counter = 0;
+        String ret = "";
+        for(String word : words){
+            if(word.length()+counter>=lineLength){
+                counter = word.length();
+                ret += "\n"+ word;
+            }else{
+                counter += 1 + word.length();
+                ret += " " + word;
+            }
+        }
+        return ret.substring(1);
+    }
+    
+    
     public @interface optimisable{
         String value() default ""; //notes
     }

@@ -283,8 +283,9 @@ public class RoomBuilder{
         }
     }
 
-    static RoomDistribution getNormalRoomDistribution(){
-        throw new UnsupportedOperationException("Not supported yet.");
+    public static RoomDistribution getNormalRoomDistribution(){
+        return null;
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

@@ -3,6 +3,7 @@ package gui;
 
 import containers.Floor;
 import containers.Receptacle;
+import dialogues.Dialogue;
 import exceptions.ReceptacleIndexOutOfBoundsException;
 import exceptions.ReceptacleOverflowException;
 import fileLogic.ReadWrite;
@@ -45,7 +46,7 @@ import tiles.Tile;
  *
  * @author Adam Whittaker
  */
-public class MainClass extends Canvas implements Runnable, MouseListener{
+public abstract class MainClass extends Canvas implements Runnable, MouseListener{
     
     public static final int WIDTH = 640, HEIGHT = WIDTH / 12 * 9;
     public static MessageQueue messageQueue = new MessageQueue();
@@ -53,14 +54,16 @@ public class MainClass extends Canvas implements Runnable, MouseListener{
 
     private Thread thread;
     private boolean running = false;
-    private Window window;
+    protected Window window;
 
-    private Handler handler;
+    protected final Handler handler;
 
     public static final IDHandler idhandler = new IDHandler(); //Creates UUIDs for GameObjects.
     public static final GrimReaper reaper = new GrimReaper(); //Handles death.
     public static final BuffEventInitiator buffinitiator = new BuffEventInitiator(); //Handles buffs.
-    public static Area currentArea;
+    public ArrayList<Screen> activeScreens = new ArrayList<>();
+    private Dialogue currentDialogue = null; //null if no dialogue.
+    public Area currentArea;
     public static long frameNumber = 0;
     private int framerate = 0;
 
@@ -68,10 +71,8 @@ public class MainClass extends Canvas implements Runnable, MouseListener{
         ImageHandler.initializeMap();
 
         handler = new Handler();
-
-        window = new Window(WIDTH, HEIGHT, "Tavernspiel", this);
         //window.addMouseListener(this);
-        addMouseListener(this);
+        //addMouseListener(this);
     }
     
     public void changeSFXVolume(float newVolume){
@@ -81,9 +82,24 @@ public class MainClass extends Canvas implements Runnable, MouseListener{
     public void changeMusicVolume(float newVolume){
         Window.MusicVolume = newVolume;
     }
+    
+    public void changeCurrentDialogue(Dialogue dialogue){
+        currentDialogue = dialogue;
+    }
+    
+    public void addScreen(Screen sc){
+        activeScreens.add(sc);
+    }
+    
+    public void removeScreens(Screen[] scs){
+        for(Screen sc : scs){
+            activeScreens.remove(sc);
+        };
+    }
 
     @Override
     public void run(){
+        addMouseListener(this);
         this.requestFocus();
         long lastTime = System.nanoTime();
         double amountOfTicks = 60.0;
@@ -131,6 +147,7 @@ public class MainClass extends Canvas implements Runnable, MouseListener{
             framerate = 0;
         }
         paintArea(currentArea, g);
+        if(currentDialogue!=null) currentDialogue.paint(g, WIDTH, HEIGHT);
         g.dispose();
         bs.show();
     }
@@ -152,7 +169,7 @@ public class MainClass extends Canvas implements Runnable, MouseListener{
         
     
     public void paintArea(Area area, Graphics g){
-        window.frame.setLayout(new GridLayout(area.dimension.height, area.dimension.width, 0, 0));
+        //window.frame.setLayout(new GridLayout(area.dimension.height, area.dimension.width, 0, 0));
         for(int y=0;y<area.dimension.height*16;y+=16){
             for(int x=0;x<area.dimension.width*16;x+=16){
                 //window.frame.add(area.map[y/16][x/16]);
@@ -190,8 +207,17 @@ public class MainClass extends Canvas implements Runnable, MouseListener{
 
     @Override
     public void mouseClicked(MouseEvent me){
-        int[] p = translateMouseCoords(me.getX(), me.getY());
-        
+        if(activeScreens.isEmpty()){
+            int[] p = translateMouseCoords(me.getX(), me.getY());
+            
+        }else{
+            for(Screen sc : activeScreens){
+                if(sc.withinBounds(me.getX(), me.getY())){
+                    sc.wasClicked();
+                    break;
+                }
+            }
+        }
     }
     @Override
     public void mousePressed(MouseEvent me){/**Ignore*/}

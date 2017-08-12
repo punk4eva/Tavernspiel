@@ -84,4 +84,43 @@ public class Apparatus extends Item{
         return action.nextInt();
     }
     
+    @Override
+    public String toString(int level){
+        if(level==0) return getClass().toString().substring(
+                getClass().toString().lastIndexOf("."));
+        String ret = name;
+        switch(level){
+            case 2:
+                try{
+                    return glyph.unremovable ?
+                            ("cursed " + ret) : ("enchanted " + ret);
+                }catch(NullPointerException e){
+                    //do nothing
+                }
+            case 3:
+                try{
+                    return glyph.unremovable ?
+                            ("cursed " + ret + " of " + glyph.name) :
+                            (ret + " of " + glyph.name);
+                }catch(NullPointerException e){
+                    //do nothing
+                }
+            case 4:
+                String add = this.level==0 ? "" : this.level<0 ? ""+this.level
+                            : "+"+this.level;
+                try{
+                    return glyph.unremovable ?
+                            ("cursed " + ret + add + " of " +
+                            glyph.name) :
+                            (ret + this.level + " of " +
+                            glyph.name);
+                }catch(NullPointerException e){
+                    return ret + add;
+                }
+            default:
+                break;
+        }
+        return ret;
+    }
+    
 }

@@ -1,6 +1,7 @@
 
 package gui;
 
+import dialogues.Dialogue;
 import level.Area;
 import level.Dungeon;
 import listeners.DepthListener;
@@ -14,13 +15,16 @@ public class Game extends MainClass implements DepthListener{
     Dungeon dungeon;
     
     public Game(){
-        dungeon = new Dungeon(this);
+        dungeon = new Dungeon(this, handler);
         dungeon.descend();
-        soundSystem.playAbruptLoop(currentArea.location.backgroundMusicPath);
+        window = new Window(WIDTH, HEIGHT, "Tavernspiel", this);
     }
     
     public static void main(String... args){
         Game game = new Game();
+        Dialogue dia = new Dialogue("Test", null, "Option 1", "Option 2");
+        System.err.println(dia.next(game));
+        System.err.println("Done");
     }
 
     @Override

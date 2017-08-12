@@ -83,14 +83,16 @@ public class Item implements Fileable{
                     //do nothing
                 }
             case 4:
+                String add = ((Apparatus) this).level==0 ? "" : ((Apparatus) this).level<0 ? ""+((Apparatus) this).level
+                            : "+"+((Apparatus) this).level;
                 try{
                     return ((Apparatus) this).glyph.unremovable ?
-                            ("cursed " + ret + ((Apparatus) this).level + " of " +
+                            ("cursed " + ret + add + " of " +
                             ((Apparatus) this).glyph.name) :
                             (ret + ((Apparatus) this).level + " of " +
                             ((Apparatus) this).glyph.name);
-                }catch(ClassCastException | NullPointerException e){
-                    //do nothing
+                }catch(NullPointerException e){
+                    return ret + add;
                 }
             default:
                 break;
