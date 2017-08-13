@@ -2,6 +2,7 @@
 package containers;
 
 import dialogues.UnequipAmuletDialogue;
+import gui.MainClass;
 import items.Apparatus;
 import items.equipment.Helmet;
 import items.equipment.Boots;
@@ -76,7 +77,7 @@ public class Equipment extends Receptacle{
         return ret;
     }
     
-    public Apparatus equip(Apparatus app, int... choiceOfAmulet){
+    public Apparatus equip(MainClass main, Apparatus app, int... choiceOfAmulet){
         if(app instanceof HeldWeapon){
             HeldWeapon ret = (HeldWeapon) items.remove(0);
             items.add(0, app);
@@ -106,7 +107,7 @@ public class Equipment extends Receptacle{
         }
         int choice;
         if(choiceOfAmulet.length==0)
-            choice = 1 + UnequipAmuletDialogue.next(items.get(1), items.get(2));
+            choice = 1 + new UnequipAmuletDialogue(items.get(1), items.get(2)).next(main);
         else choice = choiceOfAmulet[0];
         Apparatus ret = (Apparatus) items.remove(choice);
         items.add(choice, app);

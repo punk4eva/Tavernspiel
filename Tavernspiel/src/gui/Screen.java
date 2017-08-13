@@ -13,12 +13,12 @@ public class Screen{
     protected final int tlx, tly, brx, bry;
     private ScreenListener listener;
     
-    public Screen(String n, int TLX, int TLY, int BRX, int BRY){
+    public Screen(String n, int TLX, int TLY, int width, int height){
         name = n;
         tlx = TLX;
         tly = TLY;
-        brx = BRX;
-        bry = BRY;
+        brx = tlx+width;
+        bry = tly+height;
     }
     
     public void changeScreenListener(ScreenListener sl){

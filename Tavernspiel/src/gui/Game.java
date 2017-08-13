@@ -22,9 +22,7 @@ public class Game extends MainClass implements DepthListener{
     
     public static void main(String... args){
         Game game = new Game();
-        Dialogue dia = new Dialogue("Test", null, "Option 1", "Option 2");
-        System.err.println(dia.next(game));
-        System.err.println("Done");
+        Dialogue dia = new Dialogue("Test", null, "Option 1", "Option 2", "Option 3");
     }
 
     @Override
@@ -33,6 +31,10 @@ public class Game extends MainClass implements DepthListener{
         messageQueue.add("You are now in " + dungeon.getDepthClassifier() + ".");
         soundSystem.playSFX("Misc/newDepth.wav"); //@unfinished
         soundSystem.playAbruptLoop(currentArea.location.backgroundMusicPath);
+    }
+
+    public void save(){
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

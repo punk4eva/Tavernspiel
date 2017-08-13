@@ -1,6 +1,7 @@
 
 package dialogues;
 
+import gui.MainClass;
 import items.Apparatus;
 import items.Item;
 
@@ -10,15 +11,21 @@ import items.Item;
  */
 public class UnequipAmuletDialogue extends Dialogue{
     
+    private final String opA, opB;
+    
     public UnequipAmuletDialogue(Item am0, Item am1){
         super("You can only wear two misc. items at a time, which do you want to"
-                + "unequip?", ((Apparatus) am0).toString(4), 
+                + "unequip?", null, ((Apparatus) am0).toString(4), 
                 ((Apparatus) am1).toString(4));
+        opA = ((Apparatus) am0).toString(4);
+        opB = ((Apparatus) am1).toString(4);
     }
     
-    public static int next(Item am0, Item am1){
-        throw new UnsupportedOperationException("Not supported yet!");
-        //return 0 if they selected am0, 1 otherwise. 
+    public int next(MainClass game){
+        String ret = super.action(game);
+        if(ret==null) return -1;
+        if(ret.equals(opA)) return 0;
+        return 1;
     }
     
 }

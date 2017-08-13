@@ -22,7 +22,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferStrategy;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,8 +32,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javax.swing.ImageIcon;
 import level.Area;
-import level.Location;
-import level.RoomBuilder;
 import listeners.BuffEventInitiator;
 import listeners.GrimReaper;
 import logic.IDHandler;
@@ -51,6 +51,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public static final int WIDTH = 640, HEIGHT = WIDTH / 12 * 9;
     public static MessageQueue messageQueue = new MessageQueue();
     protected final SoundHandler soundSystem = new SoundHandler();
+    public PrintStream exceptionStream, performanceStream;
 
     private Thread thread;
     private boolean running = false;
@@ -68,11 +69,15 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     private int framerate = 0;
 
     public MainClass(){
+        try{
+            exceptionStream = new PrintStream(new File("log/exceptions.txt"));
+            performanceStream = new PrintStream(new File("log/performance.txt"));
+        }catch(FileNotFoundException e){
+            System.err.println("PrintStream failed.");
+        }
         ImageHandler.initializeMap();
 
         handler = new Handler();
-        //window.addMouseListener(this);
-        //addMouseListener(this);
     }
     
     public void changeSFXVolume(float newVolume){
@@ -94,7 +99,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public void removeScreens(Screen[] scs){
         for(Screen sc : scs){
             activeScreens.remove(sc);
-        };
+        }
     }
 
     @Override
@@ -120,7 +125,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
             frames++;
             if(System.currentTimeMillis() - timer > 1000){
                 timer += 1000;
-                System.out.println("FPS: " + frames);
+                performanceStream.println("FPS: " + frames);
                 frames = 0;
             }
         }
@@ -147,7 +152,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
             framerate = 0;
         }
         paintArea(currentArea, g);
-        if(currentDialogue!=null) currentDialogue.paint(g, WIDTH, HEIGHT);
+        if(currentDialogue!=null) currentDialogue.paint(g);
         g.dispose();
         bs.show();
     }
@@ -159,11 +164,13 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     }
 
     public synchronized void stop(){
+        System.setOut(performanceStream);
+        performanceStream.flush();
         try{
             thread.join();
             running = false;
         }catch(Exception e){
-            e.printStackTrace();
+            e.printStackTrace(exceptionStream);
         }
     }
         
@@ -211,12 +218,15 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
             int[] p = translateMouseCoords(me.getX(), me.getY());
             
         }else{
+            boolean notClicked = true;
             for(Screen sc : activeScreens){
                 if(sc.withinBounds(me.getX(), me.getY())){
-                    sc.wasClicked();
+                    if(!sc.name.equals("blank click")) sc.wasClicked();
+                    notClicked = false;
                     break;
                 }
             }
+            if(notClicked) currentDialogue.clickedOff();
         }
     }
     @Override

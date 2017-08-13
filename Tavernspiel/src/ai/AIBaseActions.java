@@ -8,6 +8,7 @@ import creatures.Creature;
 import creatures.Hero;
 import exceptions.ReceptacleIndexOutOfBoundsException;
 import exceptions.ReceptacleOverflowException;
+import gui.MainClass;
 import gui.Window;
 import items.Apparatus;
 import items.Item;
@@ -161,14 +162,15 @@ public class AIBaseActions{
     
     /**
      * Equips an item.
+     * @param main The MainClass
      * @param c The equipment wearer.
      * @param eq The equipment.
      * @param choiceOfAmulet The choice of amulet to replace.
      * @return The equipment that was removed in order to make space for the new
      * equipment.
      */
-    public Apparatus equip(Creature c, Apparatus eq, int... choiceOfAmulet){
-        return c.equipment.equip(eq, choiceOfAmulet);
+    public Apparatus equip(MainClass main, Creature c, Apparatus eq, int... choiceOfAmulet){
+        return c.equipment.equip(main, eq, choiceOfAmulet);
     }
       
     /**
