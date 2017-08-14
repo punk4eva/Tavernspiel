@@ -1,7 +1,11 @@
 
 package items;
 
+import creatures.Creature;
+import creatures.Hero;
 import gui.MainClass;
+import items.consumables.Potion;
+import items.consumables.Scroll;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 import logic.Fileable;
@@ -22,6 +26,7 @@ public class Item implements Fileable{
     public boolean stackable = true;
     public boolean flammable = false;
     public ItemAction actions[];
+    private Boolean cursed, identified;
     
     public Item(String n, ImageIcon i){
         name = n;
@@ -98,6 +103,51 @@ public class Item implements Fileable{
                 break;
         }
         return ret;
+    }
+    
+    public boolean isIdentified(Creature c){
+        if(identified==null || !identified){
+            if(this instanceof Apparatus && ((Apparatus) this).usesTillIdentify!=0){
+                identified = false;
+                return false;
+            }
+            if(c.attributes.ai.intelligence>6){ //@unfinished
+                identified = false;
+                return false;
+            }
+            identified = true;
+        }
+        return true;
+    }
+    
+    public boolean hasKnownCurse(){
+        if(cursed==null || !cursed){
+            boolean b = this instanceof Apparatus && 
+                ((Apparatus)this).glyph!=null &&
+                ((Apparatus)this).glyph.isKnownToBeCursed;
+            cursed = b;
+            return b;
+        }
+        return true;
+    }
+    
+    public boolean isIdentified(Hero h){
+        if(identified==null || !identified){
+            if(this instanceof Apparatus && ((Apparatus) this).usesTillIdentify!=0){
+                identified = false;
+                return false;
+            }
+            if(this instanceof Scroll && h.data.scrollsToIdentify.contains((Scroll)this)){
+                identified = false;
+                return false;
+            }
+            if(this instanceof Potion && h.data.potionsToIdentify.contains((Potion)this)){
+                identified = false;
+                return false;
+            }
+            identified = true;
+        }
+        return true;
     }
 
     @Override

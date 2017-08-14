@@ -1,6 +1,7 @@
 
 package containers;
 
+import creatures.Hero;
 import dialogues.UnequipAmuletDialogue;
 import gui.MainClass;
 import items.Apparatus;
@@ -9,7 +10,10 @@ import items.equipment.Boots;
 import items.equipment.Chestplate;
 import items.equipment.HeldWeapon;
 import items.equipment.Leggings;
+import java.awt.Graphics;
 import java.util.ArrayList;
+import logic.ConstantFields;
+import logic.ImageUtils;
 
 /**
  *
@@ -112,6 +116,24 @@ public class Equipment extends Receptacle{
         Apparatus ret = (Apparatus) items.remove(choice);
         items.add(choice, app);
         return ret;
+    }
+
+    public void paint(Graphics g, int beginWidth, int beginHeight, int sqwidth, int sqheight, int padding, Hero owner){
+        if(items.get(0)!=null) ImageUtils.paintItemSquare(g, beginWidth+padding, beginHeight+padding, sqwidth, sqheight, items.get(0), owner);
+        else ImageUtils.paintOutline(g, beginWidth+padding, beginHeight+padding, sqwidth, sqheight, ConstantFields.weaponOutline);
+        if(items.get(3)!=null) ImageUtils.paintItemSquare(g, beginWidth+2*padding+sqwidth, beginHeight+padding, sqwidth, sqheight, items.get(3), owner);
+        else ImageUtils.paintOutline(g, beginWidth+2*padding+sqwidth, beginHeight+padding, sqwidth, sqheight, ConstantFields.helmetOutline);
+        if(items.get(4)!=null) ImageUtils.paintItemSquare(g, beginWidth+3*padding+2*sqwidth, beginHeight+padding, sqwidth, sqheight, items.get(4), owner);
+        else ImageUtils.paintOutline(g, beginWidth+3*padding+2*sqwidth, beginHeight+padding, sqwidth, sqheight, ConstantFields.chestplateOutline);
+        if(items.get(5)!=null) ImageUtils.paintItemSquare(g, beginWidth+4*padding+3*sqwidth, beginHeight+padding, sqwidth, sqheight, items.get(5), owner);
+        else ImageUtils.paintOutline(g, beginWidth+4*padding+3*sqwidth, beginHeight+padding, sqwidth, sqheight, ConstantFields.leggingsOutline);
+        if(items.get(6)!=null) ImageUtils.paintItemSquare(g, beginWidth+5*padding+4*sqwidth, beginHeight+padding, sqwidth, sqheight, items.get(6), owner);
+        else ImageUtils.paintOutline(g, beginWidth+5*padding+4*sqwidth, beginHeight+padding, sqwidth, sqheight, ConstantFields.bootsOutline);
+        
+        if(items.get(1)!=null) ImageUtils.paintItemSquare(g, beginWidth+padding, beginHeight+2*padding+sqheight, sqwidth, sqheight, items.get(1), owner);
+        else ImageUtils.paintOutline(g, beginWidth+padding, beginHeight+2*padding+sqheight, sqwidth, sqheight, ConstantFields.amuletOutline);
+        if(items.get(2)!=null) ImageUtils.paintItemSquare(g, beginWidth+2*padding+sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight, items.get(2), owner);
+        else ImageUtils.paintOutline(g, beginWidth+2*padding+sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight, ConstantFields.amuletOutline);
     }
     
 }

@@ -9,6 +9,7 @@ import creatureLogic.Attributes;
 import creatureLogic.DeathData;
 import gui.Handler;
 import gui.MainClass;
+import gui.Viewable;
 import gui.Window;
 import java.awt.Graphics;
 import java.util.ArrayList;
@@ -18,14 +19,15 @@ import listeners.DeathEvent;
  *
  * @author Adam Whittaker
  */
-public class Hero extends Creature{
+public class Hero extends Creature implements Viewable{
     
     public int hunger = 100;
     public DeathData data;
-    public EnClass job;
+    public EnClass job = EnClass.NoClass;
     public EnSubclass subclass = null; //Null if no subclass selected.
     
     public enum EnClass{
+        NoClass,
         Warrior (new EnSubclass[]{EnSubclass.Berserker, EnSubclass.Gladiator}),
         Mage (new EnSubclass[]{EnSubclass.Battlemage, EnSubclass.Warlock}),
         Rogue (new EnSubclass[]{EnSubclass.Freerunner, EnSubclass.Assassin}),
@@ -108,6 +110,17 @@ public class Hero extends Creature{
         ret.x = Integer.parseInt(profile[7]);
         ret.y = Integer.parseInt(profile[8]);
         return ret;
+    }
+    
+    @Override
+    public void paint(Graphics g){
+        int padding = 4;
+        int beginWidth = MainClass.WIDTH/9;
+        int beginHeight = MainClass.HEIGHT/9;
+        int sqwidth = (MainClass.WIDTH*7/9-7*padding)/6;
+        int sqheight = (MainClass.WIDTH*7/9-6*padding)/5;
+        inventory.paint(g, beginWidth, beginHeight, sqwidth, sqheight, padding, this);
+        equipment.paint(g, beginWidth, beginHeight, sqwidth, sqheight, padding, this);
     }
     
 }

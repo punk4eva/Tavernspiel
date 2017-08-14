@@ -15,8 +15,8 @@ public class Window extends Canvas{
     public static float SFXVolume = 0;
     public static float MusicVolume = 0;
     
-    public Window(int width, int height, String Title, MainClass m){
-        frame = new JFrame(Title);
+    public Window(int width, int height, String title, MainClass m){
+        frame = new JFrame(title);
 
         frame.setPreferredSize(new Dimension(width, height));
         frame.setMaximumSize(new Dimension(width, height));

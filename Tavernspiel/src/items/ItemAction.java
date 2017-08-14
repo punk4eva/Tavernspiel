@@ -58,4 +58,12 @@ public class ItemAction implements Fileable{
         return new ItemAction(profile[0], profile[1].split(","));
     }
     
+    public static String[] toStringArray(ItemAction[] ary){
+        String[] ret = new String[ary.length];
+        for(int n=0;n<ary.length;n++){
+            ret[n] = ary[n].action;
+        }
+        return ret;
+    }
+    
 }

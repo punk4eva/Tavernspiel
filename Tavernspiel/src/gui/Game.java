@@ -2,9 +2,11 @@
 package gui;
 
 import dialogues.Dialogue;
+import java.io.IOException;
 import level.Area;
 import level.Dungeon;
 import listeners.DepthListener;
+import logic.ImageUtils;
 
 /**
  *
@@ -20,9 +22,8 @@ public class Game extends MainClass implements DepthListener{
         window = new Window(WIDTH, HEIGHT, "Tavernspiel", this);
     }
     
-    public static void main(String... args){
+    public static void main(String... args) throws IOException{
         Game game = new Game();
-        Dialogue dia = new Dialogue("Test", null, "Option 1", "Option 2", "Option 3");
     }
 
     @Override

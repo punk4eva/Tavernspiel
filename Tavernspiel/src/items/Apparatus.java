@@ -6,6 +6,7 @@ import gui.MainClass;
 import items.equipment.Artifact;
 import items.equipment.HeldWeapon;
 import items.equipment.Ring;
+import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import logic.Distribution;
 import logic.Formula;
@@ -25,6 +26,7 @@ public class Apparatus extends Item{
     public Formula strengthFormula = null; //null if no strength required.
     public Glyph glyph = null;
     public int strength = -1;
+    public int usesTillIdentify = 20;
     
     public Apparatus(String n, ImageIcon i, int dur, Distribution a){
         super(n, i, false);
@@ -121,6 +123,13 @@ public class Apparatus extends Item{
                 break;
         }
         return ret;
+    }
+
+    public void draw(Graphics g, int x, int y){
+        g.drawImage(icon, x, y, null);
+        if(glyph!=null && (!glyph.unremovable || glyph.isKnownToBeCursed)){
+            
+        }
     }
     
 }

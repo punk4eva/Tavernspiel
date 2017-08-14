@@ -3,6 +3,7 @@ package dialogues;
 
 import gui.MainClass;
 import gui.Screen;
+import gui.Viewable;
 import java.awt.Color;
 import java.awt.Graphics;
 import listeners.ScreenListener;
@@ -12,7 +13,7 @@ import logic.Utils;
  *
  * @author Adam Whittaker
  */
-public class Dialogue implements ScreenListener{
+public class Dialogue implements ScreenListener, Viewable{
     
     final String question;
     final String[] options;
@@ -32,6 +33,7 @@ public class Dialogue implements ScreenListener{
         screenArray = getScreenArray();
     }
     
+    @Override
     public void paint(Graphics g){
         int beginHeight = (MainClass.HEIGHT-height)/2;
         int beginWidth = MainClass.WIDTH/3;

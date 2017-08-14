@@ -1,7 +1,18 @@
 
 package logic;
 
+import creatures.Hero;
+import items.Apparatus;
+import items.Item;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
+import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
+import javax.imageio.ImageIO;
 
 /**
  *
@@ -57,9 +68,16 @@ public class Utils{
         return ret.substring(1);
     }
     
-    
     public @interface optimisable{
         String value() default ""; //notes
+    }
+    
+    public static void main(String... args) throws IOException{
+        //debugging
+        BufferedImage bi = ImageIO.read(new File("C:\\Users\\Adam\\Documents\\NetBeansProjects\\pixel-dungeon\\assets\\items.png"));
+        bi = bi.getSubimage(0, 0, 16, 16);
+        ImageIO.write(bi, "png", new File("graphics/image.png"));
+        ImageUtils.addImageOverlay("graphics/image.png");
     }
     
 }
