@@ -1,9 +1,7 @@
 
 package tiles;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
+import java.awt.Image;
 import level.Location;
 import logic.Gas;
 import logic.ImageHandler;
@@ -12,47 +10,43 @@ import logic.ImageHandler;
  *
  * @author Adam Whittaker
  */
-public class Tile extends JButton{
+public class Tile{
 
+    public Image image;
     public String name;
     public boolean treadable = true;
     public boolean flammable = false;
     public Gas gas = null;
     
-    public Tile(String n, ImageIcon ic){
-        super(ic);
+    public Tile(String n, Image ic){
+        image = ic;
         name = n;
     }
     
     public Tile(Tile t){
-        super(t.getIcon());
+        image = t.image;
         name = t.name;
         treadable = t.treadable;
         flammable = t.flammable;
     }
     
-    public Tile(String n, ImageIcon ic, boolean t, boolean f){
-        super(ic);
+    public Tile(String n, Image ic, boolean t, boolean f){
+        image = ic;
         name = n;
         treadable = t;
         flammable = f;
     }
     
     public Tile(String tile, Location loc){
-        super(ImageHandler.getImageIcon(tile, loc));
+        image = ImageHandler.getImage(tile, loc);
         name = tile;
     }
     
     public Tile(String tile, Location loc, boolean t, boolean f){
-        super(ImageHandler.getImageIcon(tile, loc));
+        image = ImageHandler.getImage(tile, loc);
         name = tile;
         treadable = t;
         flammable = f;
-    }
-    
-    public Tile(String t, Icon ic){
-        super(ic);
-        name = t;
     }
     
     public boolean equals(Tile t){

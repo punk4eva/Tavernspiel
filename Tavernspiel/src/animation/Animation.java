@@ -2,11 +2,9 @@
 package animation;
 
 import java.awt.Graphics;
-import java.awt.MediaTracker;
-import java.awt.event.ActionListener;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
-import javax.swing.Timer;
 import level.Location;
 import logic.ImageHandler;
 
@@ -18,64 +16,27 @@ import logic.ImageHandler;
  */
 public class Animation{
     
-    public int fps = 60;
-    public ImageIcon[] frames;
-    protected Timer timer;
-    public int currentFrame = 0;
+    public Image[] frames;
     
     public Animation(ImageIcon[] f){
-        frames = f;
-    }
-    
-    public void animate(JComponent jc, Graphics g){
-        if(frames[currentFrame].getImageLoadStatus() == MediaTracker.COMPLETE){
-            frames[currentFrame].paintIcon(jc, g, 0, 0);
-            currentFrame = (currentFrame + 1) % frames.length;
+        frames = new BufferedImage[f.length];
+        for(int n=0;n<f.length;n++){
+            frames[n] = f[n].getImage();
         }
     }
     
-    public void start(ActionListener al){
-        if(timer == null){
-            currentFrame = 0;
-            timer = new Timer(1000/fps, al);
-            timer.start();
-        }else if(!timer.isRunning()){
-            timer.restart();
-        }
-    }
-    
-    public void lapAndFade(ActionListener al){
-        new Thread(() -> {
-            start(al);
-            try{
-                Thread.sleep(1000 * frames.length / fps);
-            }catch(InterruptedException ex){
-                System.err.println("Thread interrupted.");
-            }
-            stop();
-            fade();
-        }).start();
-    }
-    
-    /**
-     * @unfinished
-     */
-    public void fade(){
-        //unfinished
-    }
-
-    public void stop(){
-        timer.stop();
+    public void animate(Graphics g, int x, int y, long fn){
+        g.drawImage(frames[(int)(fn%frames.length)], x, y, null);
     }
     
     public void addShaders(String shaderString, Location loc){
         if(shaderString.equals("well") || shaderString.equals("alchemypot")){
-            ImageIcon shader = ImageHandler.getImageIcon(shaderString, loc);
+            Image shader = ImageHandler.getImage(shaderString, loc);
             for(int n=0;n<frames.length;n++){
                 frames[n] = ImageHandler.combineIcons(frames[n], shader);
             }
         }else{
-            ImageIcon shader = ImageHandler.getImageIcon("shader" + shaderString, loc);
+            Image shader = ImageHandler.getImage("shader" + shaderString, loc);
             for(int n=0;n<frames.length;n++){
                 frames[n] = ImageHandler.combineIcons(frames[n], shader);
             }

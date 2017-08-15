@@ -1,7 +1,7 @@
 
 package tiles;
 
-import javax.swing.ImageIcon;
+import java.awt.Image;
 import level.Location;
 import logic.ImageHandler;
 
@@ -11,36 +11,36 @@ import logic.ImageHandler;
  */
 public class Door extends HiddenTile{
     
-    protected final ImageIcon open;
-    protected final ImageIcon closed;
-    protected final ImageIcon locked;
+    protected final Image open;
+    protected final Image closed;
+    protected final Image locked;
     protected boolean isLocked = false;
     protected boolean isOpen = false;
     
     public Door(Location loc){
         super("door", loc, true, true);
-        open = ImageHandler.getImageIcon("opendoor", loc);
-        closed = ImageHandler.getImageIcon("closeddoor", loc);
-        locked = ImageHandler.getImageIcon("lockeddoor", loc);
+        open = ImageHandler.getImage("opendoor", loc);
+        closed = ImageHandler.getImage("closeddoor", loc);
+        locked = ImageHandler.getImage("lockeddoor", loc);
     }
     
     public Door(Location loc, boolean lock, boolean hid){
         super("door", hid ? 
-                ImageHandler.getImageIcon("wall", loc) : lock ?
-                ImageHandler.getImageIcon("lockeddoor", loc) :
-                ImageHandler.getImageIcon("closeddoor", loc), loc, hid, !lock, !lock);
-        open = ImageHandler.getImageIcon("opendoor", loc);
-        closed = ImageHandler.getImageIcon("closeddoor", loc);
-        locked = ImageHandler.getImageIcon("lockeddoor", loc);
+                ImageHandler.getImage("wall", loc) : lock ?
+                ImageHandler.getImage("lockeddoor", loc) :
+                ImageHandler.getImage("closeddoor", loc), loc, hid, !lock, !lock);
+        open = ImageHandler.getImage("opendoor", loc);
+        closed = ImageHandler.getImage("closeddoor", loc);
+        locked = ImageHandler.getImage("lockeddoor", loc);
     }
     
     public Door(Location loc, boolean lock){
         super("door", lock ?
-                ImageHandler.getImageIcon("lockeddoor", loc) :
-                ImageHandler.getImageIcon("closeddoor", loc), loc, false, true, false);
-        open = ImageHandler.getImageIcon("opendoor", loc);
-        closed = ImageHandler.getImageIcon("closeddoor", loc);
-        locked = ImageHandler.getImageIcon("lockeddoor", loc);
+                ImageHandler.getImage("lockeddoor", loc) :
+                ImageHandler.getImage("closeddoor", loc), loc, false, true, false);
+        open = ImageHandler.getImage("opendoor", loc);
+        closed = ImageHandler.getImage("closeddoor", loc);
+        locked = ImageHandler.getImage("lockeddoor", loc);
         isLocked = lock;
         if(lock) treadable = false;
         else flammable = true;
@@ -52,17 +52,17 @@ public class Door extends HiddenTile{
         treadable = true;
         flammable = true;
         isLocked = false;
-        setIcon(closed);
+        image = closed;
     }
     
     public void open(){
         isOpen = true;
-        setIcon(open);
+        image = open;
     }
     
     public void close(){
         isOpen = false;
-        setIcon(closed);
+        image = closed;
     }
     
 }

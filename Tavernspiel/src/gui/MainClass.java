@@ -1,6 +1,7 @@
 
 package gui;
 
+import animation.Animation;
 import containers.Floor;
 import containers.Receptacle;
 import dialogues.Dialogue;
@@ -37,6 +38,7 @@ import listeners.GrimReaper;
 import logic.IDHandler;
 import logic.ImageHandler;
 import logic.SoundHandler;
+import logic.Utils;
 import pathfinding.Point;
 import tiles.AnimatedTile;
 import tiles.Tile;
@@ -65,8 +67,8 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public ArrayList<Screen> activeScreens = new ArrayList<>();
     private Dialogue currentDialogue = null; //null if no dialogue.
     public Area currentArea;
+    public static long frameDivisor = 10000;
     public static long frameNumber = 0;
-    private int framerate = 0;
 
     public MainClass(){
         try{
@@ -101,6 +103,10 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
             activeScreens.remove(sc);
         }
     }
+    
+    public void addAnimation(Animation an){
+        frameDivisor = Utils.frameUpdate(frameDivisor, an.frames.length);
+    }
 
     @Override
     public void run(){
@@ -119,9 +125,9 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
             for(double d = delta; d >= 1; d--){
                 tick();
             }
-            if(running){
-                render();
-            }
+            //if(running){
+                render(frames);
+            //}
             frames++;
             if(System.currentTimeMillis() - timer > 1000){
                 timer += 1000;
@@ -136,7 +142,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         handler.tick();
     }
 
-    public void render(){
+    public void render(int frameInSec){
         BufferStrategy bs = this.getBufferStrategy();
         if(bs == null){
             this.createBufferStrategy(4);
@@ -145,12 +151,10 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         Graphics g = bs.getDrawGraphics();
         g.setColor(Color.black);
         g.fillRect(0, 0, WIDTH, HEIGHT);
-        handler.render(g);
-        framerate++;
-        if(framerate == 60){
-            frameNumber = (frameNumber+1) % 1000000000;
-            framerate = 0;
+        if(frameInSec%16==0){
+            frameNumber = (frameNumber+1) % frameDivisor;
         }
+        handler.render(g);
         paintArea(currentArea, g);
         if(currentDialogue!=null) currentDialogue.paint(g);
         g.dispose();
@@ -183,11 +187,8 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
                 
                 Tile tile = area.map[y/16][x/16];
                 if(tile instanceof AnimatedTile)
-                    g.drawImage(((AnimatedTile)tile)
-                            .animation.frames
-                            [(int)(frameNumber%(((AnimatedTile)tile).animation.frames.length))]
-                            .getImage(),x,y,null);
-                else g.drawImage(((ImageIcon)tile.getIcon()).getImage(),x,y,null);
+                    ((AnimatedTile) tile).animation.animate(g, x, y, frameNumber);
+                else g.drawImage(tile.image,x,y,null);
                 try{
                     Receptacle temp = area.getReceptacle(x, y);
                     if(temp instanceof Floor&&!temp.isEmpty())

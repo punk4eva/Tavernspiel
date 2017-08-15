@@ -5,6 +5,7 @@ import java.awt.AlphaComposite;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
@@ -76,22 +77,22 @@ public class ImageHandler{
         map.put("shader", new Dimension(240, 48));
     }
     
-    public static ImageIcon getImageIcon(String str, Location loc){
+    public static Image getImage(String str, Location loc){
         if(map.isEmpty()) initializeMap();
-        return getImageIcon(
+        return getImage(
                 map.get(str.toLowerCase())==null ?
                 new Dimension(240, 48) : map.get(str.toLowerCase()), loc);
     }
     
-    public static ImageIcon getImageIcon(Dimension dim, Location loc){
+    public static Image getImage(Dimension dim, Location loc){
         BufferedImage bi = new BufferedImage(
-                loc.tileset.getIconWidth(),
-                loc.tileset.getIconHeight(),
+                loc.tileset.getWidth(null),
+                loc.tileset.getHeight(null),
                 BufferedImage.TYPE_INT_ARGB);
         Graphics g = bi.createGraphics();
-        loc.tileset.paintIcon(null, g, 0, 0);
+        g.drawImage(loc.tileset, 0, 0, null);
         g.dispose();
-        return new ImageIcon(bi.getSubimage(dim.width, dim.height, 16, 16));
+        return bi.getSubimage(dim.width, dim.height, 16, 16);
     }
     
     public static ImageIcon[] getFrames(String str, int x){
@@ -121,6 +122,18 @@ public class ImageHandler{
         ic2.paintIcon(null, g, 0, 0);
         g.dispose();
         return new ImageIcon(bi1);
+    }
+    
+    public static Image combineIcons(Image i1, Image i2){
+        BufferedImage bi1 = new BufferedImage(
+                i1.getWidth(null),
+                i1.getHeight(null),
+                BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = bi1.createGraphics();
+        g.drawImage(i1, 0, 0, null);
+        g.drawImage(i2, 0, 0, null);
+        g.dispose();
+        return bi1;
     }
     
 }

@@ -68,6 +68,16 @@ public class Utils{
         return ret.substring(1);
     }
     
+    public static long euclideanAlgorithm(long large, long small){
+        long x = large % small;
+        if(x==0) return small;
+        return euclideanAlgorithm(small, x); 
+    }
+    
+    public static long frameUpdate(long large, long small){
+        return (large/euclideanAlgorithm(large, small))*small;
+    }
+    
     public @interface optimisable{
         String value() default ""; //notes
     }

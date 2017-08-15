@@ -50,7 +50,7 @@ public class Trap extends HiddenTile{
         if(!reusable){
             sprayedGas = null;
             buff = null;
-            setIcon(ImageHandler.getImageIcon("offtrap", area.location));
+            image = ImageHandler.getImage("offtrap", area.location);
         }
     }
     

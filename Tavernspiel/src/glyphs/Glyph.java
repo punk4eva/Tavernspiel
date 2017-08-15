@@ -59,7 +59,7 @@ public class Glyph implements Fileable{
     }
     
     public Color getHue1(){
-        double progress = MainClass.frameNumber/1000000000;
+        double progress = MainClass.frameNumber/MainClass.frameDivisor;
         int R = (int)(((double)hueR2-hueR1)*progress)+hueR1;
         int G = (int)(((double)hueG2-hueG1)*progress)+hueG1;
         int B = (int)(((double)hueB2-hueB1)*progress)+hueB1;
@@ -67,7 +67,7 @@ public class Glyph implements Fileable{
     }
     
     public Color getHue2(){
-        double progress = (1000000000-MainClass.frameNumber)/1000000000;
+        double progress = (MainClass.frameDivisor-MainClass.frameNumber)/MainClass.frameDivisor;
         int R = (int)(((double)hueR2-hueR1)*progress)+hueR1;
         int G = (int)(((double)hueG2-hueG1)*progress)+hueG1;
         int B = (int)(((double)hueB2-hueB1)*progress)+hueB1;

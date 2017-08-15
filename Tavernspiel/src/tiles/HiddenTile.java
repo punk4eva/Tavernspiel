@@ -4,7 +4,7 @@ package tiles;
 import creatures.Creature;
 import creatures.Hero;
 import gui.Window;
-import javax.swing.ImageIcon;
+import java.awt.Image;
 import level.Location;
 import logic.ImageHandler;
 
@@ -14,7 +14,7 @@ import logic.ImageHandler;
  */
 public class HiddenTile extends Tile{
     
-    private final ImageIcon realIcon; 
+    private final Image realIcon; 
     public boolean hidden = true;
     public final boolean reallyFlammable;
     public final boolean reallyTreadable;
@@ -22,7 +22,7 @@ public class HiddenTile extends Tile{
     public HiddenTile(String imposterTileName, String realName, Location loc, boolean reallyFlam, boolean reallyTread){
         super(imposterTileName, loc);
         name = realName;
-        realIcon = ImageHandler.getImageIcon(realName, loc);
+        realIcon = ImageHandler.getImage(realName, loc);
         reallyFlammable = reallyFlam;
         reallyTreadable = reallyTread;
     }
@@ -30,7 +30,7 @@ public class HiddenTile extends Tile{
     public HiddenTile(String imposterTileName, String realName, Location loc, boolean hid, boolean reallyFlam, boolean reallyTread){
         super(imposterTileName, loc);
         name = realName;
-        realIcon = ImageHandler.getImageIcon(realName, loc);
+        realIcon = ImageHandler.getImage(realName, loc);
         hidden = hid;
         reallyFlammable = reallyFlam;
         reallyTreadable = reallyTread;
@@ -40,9 +40,9 @@ public class HiddenTile extends Tile{
         }
     }
     
-    public HiddenTile(String realName, ImageIcon icon, Location loc, boolean hid, boolean reallyFlam, boolean reallyTread){
+    public HiddenTile(String realName, Image icon, Location loc, boolean hid, boolean reallyFlam, boolean reallyTread){
         super(realName, icon);
-        realIcon = ImageHandler.getImageIcon(realName, loc);
+        realIcon = ImageHandler.getImage(realName, loc);
         hidden = hid;
         reallyFlammable = reallyFlam;
         reallyTreadable = reallyTread;
@@ -55,13 +55,13 @@ public class HiddenTile extends Tile{
     public HiddenTile(String realName, Location loc, boolean reallyFlam, boolean reallyTread){
         super(realName, loc, reallyTread, reallyFlam);
         hidden = false;
-        realIcon = ImageHandler.getImageIcon(realName, loc);
+        realIcon = ImageHandler.getImage(realName, loc);
         reallyFlammable = reallyFlam;
         reallyTreadable = reallyTread;
     }
     
     public HiddenTile(HiddenTile tile){
-        super(tile.name, tile.getIcon());
+        super(tile.name, tile.image);
         reallyFlammable = tile.reallyFlammable;
         reallyTreadable = tile.reallyTreadable;
         hidden = tile.hidden;
@@ -78,7 +78,7 @@ public class HiddenTile extends Tile{
         hidden = false;
         flammable = reallyFlammable;
         treadable = reallyTreadable;
-        setIcon(realIcon);
+        image = realIcon;
     }
     
 }
