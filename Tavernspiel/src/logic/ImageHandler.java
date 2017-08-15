@@ -1,7 +1,6 @@
 
 package logic;
 
-import java.awt.AlphaComposite;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -95,19 +94,19 @@ public class ImageHandler{
         return bi.getSubimage(dim.width, dim.height, 16, 16);
     }
     
-    public static ImageIcon[] getFrames(String str, int x){
-        ImageIcon img = new ImageIcon("graphics/" + str + ".png");
+    public static Image[] getFrames(String str, int x){
+        Image img = new ImageIcon("graphics/" + str + ".png").getImage();
         BufferedImage bi = new BufferedImage(
-                img.getIconWidth(),
-                img.getIconHeight(),
+                img.getWidth(null),
+                img.getHeight(null),
                 BufferedImage.TYPE_INT_ARGB);
         Graphics g = bi.createGraphics();
-        img.paintIcon(null, g, 0, 0);
+        g.drawImage(img, 0, 0, null);
         g.dispose();
-        ImageIcon[] ret = new ImageIcon[img.getIconHeight()-15];
+        Image[] ret = new Image[img.getHeight(null)-15];
         x*=16;
         for(int y=ret.length-1;y>=0;y--){
-            ret[ret.length-y-1] = new ImageIcon(bi.getSubimage(x, y, 16, 16));
+            ret[ret.length-y-1] = bi.getSubimage(x, y, 16, 16);
         }
         return ret;
     }

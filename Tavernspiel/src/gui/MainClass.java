@@ -53,7 +53,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public static final int WIDTH = 640, HEIGHT = WIDTH / 12 * 9;
     public static MessageQueue messageQueue = new MessageQueue();
     protected final SoundHandler soundSystem = new SoundHandler();
-    public PrintStream exceptionStream, performanceStream;
+    public static PrintStream exceptionStream, performanceStream;
 
     private Thread thread;
     private boolean running = false;
@@ -69,6 +69,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public Area currentArea;
     public static long frameDivisor = 10000;
     public static long frameNumber = 0;
+    public static double gameTurns = 0;
 
     public MainClass(){
         try{
@@ -79,7 +80,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
         ImageHandler.initializeMap();
 
-        handler = new Handler();
+        handler = new Handler(reaper);
     }
     
     public void changeSFXVolume(float newVolume){
@@ -112,19 +113,19 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public void run(){
         addMouseListener(this);
         this.requestFocus();
-        long lastTime = System.nanoTime();
-        double amountOfTicks = 60.0;
-        double ns = 1000000000 / amountOfTicks;
-        double delta = 0;
+        //long lastTime = System.nanoTime();
+        //double amountOfTicks = 60.0;
+        //double ns = 1000000000 / amountOfTicks;
+        //double delta = 0;
         long timer = System.currentTimeMillis();
         int frames = 0;
         while(running){
-            long now = System.nanoTime();
-            delta += (now - lastTime) / ns;
-            lastTime = now;
-            for(double d = delta; d >= 1; d--){
+            //long now = System.nanoTime();
+            //delta += (now - lastTime) / ns;
+            //lastTime = now;
+            /*for(double d = delta; d >= 1; d--){
                 tick();
-            }
+            }*/
             //if(running){
                 render(frames);
             //}
@@ -138,8 +139,17 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         stop();
     }
 
-    public void tick(){
+    /*public void tick(){
         handler.tick();
+    }*/
+    
+    public void turn(double turnsConsumed){
+        gameTurns += turnsConsumed;
+        double delta=0;
+        for(double d=turnsConsumed;d>0;d-=d>=1 ? (delta=1) : (delta=d)){
+            System.out.println("DELTA: " + delta);
+            handler.turn(delta);
+        }
     }
 
     public void render(int frameInSec){

@@ -70,7 +70,7 @@ public class Dialogue implements ScreenListener, Viewable{
         try{
             wait();
         }catch(InterruptedException ex){
-            ex.printStackTrace(main.exceptionStream);
+            ex.printStackTrace(MainClass.exceptionStream);
         }
         deactivate(main);
         return clickedScreen;

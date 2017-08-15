@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import javax.swing.ImageIcon;
 import level.Location;
+import listeners.AnimationListener;
 import logic.ImageHandler;
 
 /**
@@ -16,17 +17,26 @@ import logic.ImageHandler;
  */
 public class Animation{
     
-    public Image[] frames;
+    public final Image[] frames;
+    private AnimationListener listener;
     
-    public Animation(ImageIcon[] f){
-        frames = new BufferedImage[f.length];
-        for(int n=0;n<f.length;n++){
-            frames[n] = f[n].getImage();
-        }
+    public Animation(Image[] f){
+        frames = f;
+    }
+    
+    public Animation(Image[] f, AnimationListener al){
+        frames = f;
+        listener = al;
+    }
+    
+    public void changeListener(AnimationListener l){
+        listener = l;
     }
     
     public void animate(Graphics g, int x, int y, long fn){
-        g.drawImage(frames[(int)(fn%frames.length)], x, y, null);
+        int m = (int)(fn%frames.length);
+        g.drawImage(frames[m], x, y, null);
+        if(x==0&&listener!=null) listener.done();
     }
     
     public void addShaders(String shaderString, Location loc){

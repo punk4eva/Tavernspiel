@@ -2,6 +2,7 @@
 package logic;
 
 import animation.Animation;
+import animation.GameObjectAnimator;
 import buffs.Buff;
 import gui.Handler;
 import gui.MainClass;
@@ -18,7 +19,7 @@ public class Gas extends GameObject{
     public int spreadNumber;
     public int duration = 10;
     
-    public Gas(String n, String desc, Buff b, Animation a, int spread, int ac, Handler handler){
+    public Gas(String n, String desc, Buff b, GameObjectAnimator a, int spread, int ac, Handler handler){
         super(n, desc, a, ac, handler);
         buffs.add(b);
         spreadNumber = spread;
@@ -29,17 +30,12 @@ public class Gas extends GameObject{
         spreadNumber = (spreadNumber + gas.spreadNumber)/2;
         duration = (int)((duration + gas.duration)/1.5);
     }
-    
-    @Override
-    public void tick(){
-    }
-   
-    @Override
-    public void turn(){
-    }
 
     @Override
     public void render(Graphics g){
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public void turn(double delta){/**Ignore*/}
 }

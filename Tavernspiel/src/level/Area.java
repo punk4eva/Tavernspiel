@@ -106,7 +106,7 @@ public class Area implements AreaListener, DeathListener{
                 getReceptacle(de.getX(), de.getY()).pushAll(de.getCreature().inventory);
                 getReceptacle(de.getX(), de.getY()).pushAll(de.getCreature().equipment);
             }catch(ReceptacleOverflowException ignore){}
-            de.getCreature().dieAnimation();
+            de.getCreature().animator.switchTo("death");
         }
     }
     

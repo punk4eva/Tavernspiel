@@ -95,5 +95,26 @@ public class ImageUtils{
         g.drawImage(img, x+(sqwidth-16)/2,
                 y+(sqheight-16)/2, null);
     }
+
+    public static Image fade(BufferedImage img, int newAlpha){
+        WritableRaster raster = img.getRaster();
+        for(int y=0;y<img.getHeight();y++){
+            for(int x=0;x<img.getWidth();x++){
+                int[] pixel = raster.getPixel(x, y, (int[]) null);
+                pixel[3] = newAlpha;
+                raster.setPixel(x, y, pixel);
+            }
+        }
+        return img;
+    }
+    
+    public static BufferedImage addImageBuffer(Image image){
+        BufferedImage bi = new BufferedImage(image.getWidth(null), image.getHeight(null),
+            BufferedImage.TYPE_INT_ARGB);
+        Graphics g = bi.createGraphics();
+        g.drawImage(image, 0, 0, null);
+        g.dispose();
+        return bi;
+    }
     
 }

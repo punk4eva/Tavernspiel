@@ -3,6 +3,7 @@ package creatures;
 
 import animation.Animation;
 import animation.AnimationBuilder;
+import animation.GameObjectAnimator;
 import buffs.Buff;
 import containers.Equipment;
 import containers.Inventory;
@@ -34,7 +35,7 @@ public class Creature extends GameObject implements BuffListener, Fileable{
     public ArrayList<Buff> buffs = new ArrayList<>();
     
     public Creature(String n, String desc, Equipment eq, Inventory inv, 
-            Attributes atb, Animation an, int ac, Handler handler){
+            Attributes atb, GameObjectAnimator an, int ac, Handler handler){
         super(n, desc, an, ac, handler);
         equipment = eq;
         inventory = inv;
@@ -53,7 +54,7 @@ public class Creature extends GameObject implements BuffListener, Fileable{
         MainClass.buffinitiator.addBuffListener(this);
     }
     
-    public Creature(String n, String desc, Attributes atb, Animation an, int ac, Handler handler){
+    public Creature(String n, String desc, Attributes atb, GameObjectAnimator an, int ac, Handler handler){
         super(n, desc, an, ac, handler);
         attributes = atb;
         MainClass.buffinitiator.addBuffListener(this);
@@ -68,17 +69,7 @@ public class Creature extends GameObject implements BuffListener, Fileable{
     }
     
     public void die(){
-        MainClass.reaper.notify(new DeathEvent(this, x, y, areaCode));
-    }
-    
-    public void dieAnimation(){
-        throw new UnsupportedOperationException("Not supported yet!");
-    }
-    
-    @Override
-    public void tick(){
-        //super.tick();
-        throw new UnsupportedOperationException("Not supported yet!");
+        MainClass.reaper.notify(new DeathEvent(this, x, y, areaCode));  
     }
     
     public void getAttacked(Creature attacker, int damage){
@@ -118,19 +109,19 @@ public class Creature extends GameObject implements BuffListener, Fileable{
         }
     }
     
-    public void decrementAndUpdateBuffs(){
+    public void decrementAndUpdateBuffs(double delta){
         buffs.stream().forEach((buff) -> {
-            buff.duration--;
-            if(buff.duration==0){
+            buff.duration-=delta;
+            if(buff.duration<=0){
                 buff.end(this);
             }
         });
     }
 
     @Override
-    public void turn(){
+    public void turn(double delta){
         //@unfinished
-        decrementAndUpdateBuffs();   
+        decrementAndUpdateBuffs(delta);   
     }
 
     @Override

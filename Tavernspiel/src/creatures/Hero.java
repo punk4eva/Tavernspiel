@@ -2,6 +2,7 @@
 package creatures;
 
 import animation.Animation;
+import animation.GameObjectAnimator;
 import buffs.Buff;
 import containers.Equipment;
 import containers.Inventory;
@@ -51,7 +52,7 @@ public class Hero extends Creature implements Viewable{
         }
     }
     
-    public Hero(Attributes atb, Animation an, int ac, Handler handler){
+    public Hero(Attributes atb, GameObjectAnimator an, int ac, Handler handler){
         super("Hero", "UNWRITTEN", atb, an, ac, handler);
         data = new DeathData(this);
     }
@@ -65,7 +66,7 @@ public class Hero extends Creature implements Viewable{
     }
 
     @Override
-    public void turn(){
+    public void turn(double delta){
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

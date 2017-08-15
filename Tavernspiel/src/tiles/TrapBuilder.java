@@ -2,6 +2,7 @@
 package tiles;
 
 import animation.Animation;
+import animation.GameObjectAnimator;
 import buffs.Buff;
 import containers.Chest;
 import containers.Floor;
@@ -9,7 +10,6 @@ import containers.Mimic;
 import containers.Receptacle;
 import containers.SkeletalRemains;
 import gui.Handler;
-import gui.Window;
 import items.Item;
 import level.Area;
 import level.Location;
@@ -47,7 +47,8 @@ public class TrapBuilder{
                 area.location.stageSpawnDistrib.incrementor-1, 
                 area.location.stageSpawnDistrib.incrementor+1*/
         5, 6);              
-        Animation a = new Animation(ImageHandler.getFrames("water", 0)); //@unfinished, placeholder
+        GameObjectAnimator a = new GameObjectAnimator(new String[]{"placeholder"},
+                new Animation[]{new Animation(ImageHandler.getFrames("water", 0))}); //@unfinished, placeholder
         return new Gas("Toxic Gas", "A poisonous green vapour.", b, a, 7, 
                 area.zipcode, handler);
     }

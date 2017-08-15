@@ -7,7 +7,7 @@ package animation;
  */
 public class AnimationBuilder{
     
-    public static Animation getCreatureAnimation(String name){
+    public static GameObjectAnimator getCreatureAnimation(String name){
         throw new UnsupportedOperationException("Not supported yet!");
     }
     
