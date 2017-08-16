@@ -2,6 +2,7 @@
 package containers;
 
 import items.Item;
+import level.Area;
 
 /**
  *
@@ -15,15 +16,9 @@ public class SkeletalRemains extends Chest{
                 + "of this place. May be worth checking for valuables.";
     }
     
-    public SkeletalRemains(Item item, int x, int y, int id){
-        super(item, x, y, id);
-        description = "A pile of bones from an unlucky adventurer or resident "
-                + "of this place. May be worth checking for valuables.";
-    }
-    
     @Override
-    public void open(){
-        super.open();
+    public void open(Area area){
+        super.open(area);
         //1 in 5 chance of wraith spawn.
     }
     

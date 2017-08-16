@@ -51,9 +51,9 @@ public class Animation{
     
     /**
      * Draws the current frame onto the given graphics.
-     * @param g The
-     * @param x
-     * @param y
+     * @param g The graphics to draw on.
+     * @param x The top left x.
+     * @param y The top left y.
      */
     public void animate(Graphics g, int x, int y){
         int m = (int)((MainClass.frameNumber-offset)%frames.length);
@@ -63,6 +63,12 @@ public class Animation{
         if(x==0&&listener!=null) listener.done();
     }
     
+    /**
+     * Adds shaders (overlay) to this animation.
+     * @param shaderString The regular expression type string indicating where
+     * shaders come from or if it is a special shader.
+     * @param loc The location whose tileset to use.
+     */
     public void addShaders(String shaderString, Location loc){
         if(shaderString.equals("well") || shaderString.equals("alchemypot")){
             Image shader = ImageHandler.getImage(shaderString, loc);

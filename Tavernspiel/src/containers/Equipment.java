@@ -18,61 +18,110 @@ import logic.ImageUtils;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class represents the collection of equipment that a creature has.
  */
 public class Equipment extends Receptacle{
     
+    /**
+     * Creates a new instance
+     */
     public Equipment(){
         super(7, "ERROR: You shouldn't be reading this.", -1, -1);
         for(int n=0;n<7;n++) items.add(null);
     }
     
+    /**
+     * Creates a new instance from a given list of apparatus.
+     * @param i The ArrayList.
+     */
     public Equipment(ArrayList<Apparatus> i){
         super(7, i, "ERROR: You shouldn't be reading this.", -1, -1);
         while(items.size() < 7) items.add(null);
     }
     
+    /**
+     * Returns the weapon if it exists, null otherwise.
+     * @return
+     */
     public HeldWeapon getWeapon(){
         return (HeldWeapon) items.get(0);
     }
     
+    /**
+     * Returns the first amulet if it exists, null otherwise.
+     * @return
+     */
     public Apparatus getAmulet1(){
         return (Apparatus) items.get(1);
     }
     
+    /**
+     * Returns the second amulet if it exists, null otherwise.
+     * @return
+     */
     public Apparatus getAmulet2(){
         return (Apparatus) items.get(2);
     }
     
+    /**
+     * Returns the helmet if it exists, null otherwise.
+     * @return
+     */
     public Helmet getHelmet(){
         return (Helmet) items.get(3);
     }
     
+    /**
+     * Returns the chestplate if it exists, null otherwise.
+     * @return
+     */
     public Chestplate getChestplate(){
         return (Chestplate) items.get(4);
     }
     
+    /**
+     * Returns the leggings if it exists, null otherwise.
+     * @return
+     */
     public Leggings getLeggings(){
         return (Leggings) items.get(5);
     }
     
+    /**
+     * Returns the boots if it exists, null otherwise.
+     * @return
+     */
     public Boots getBoots(){
         return (Boots) items.get(6);
     }
     
-    public <T> T get(T ignore, int index){
+    /**
+     * Returns the Apparatus of the given type if it exists, null otherwise.
+     * @param <T> The type of Apparatus to return.
+     * @param ignore Conveys nothing except the type to return.
+     * @param index The index that it is found.
+     * @return
+     */
+    public <T extends Apparatus> T get(T ignore, int index){
         return (T) items.get(index);
     }
     
     @Override
     public String toFileString(){
-        String ret = "{" + ID + "," + description + "," + x + "," + y +"|";
+        String ret = "{" + /*ID + "," + */description + "," + x + "," + y +"|";
         return items.stream().map((item) -> item.toFileString()).reduce(ret, String::concat) + "}";
     }
     
-    public static <T extends Receptacle> T getFromFileString(String filestring){
+    public static Equipment getFromFileString(String filestring){
         throw new UnsupportedOperationException("Not finished.");
     }
     
+    /**
+     * Returns the strength difference between what is given and what is required.
+     * @param strength The given strength.
+     * @return A positive number IFF strength > req.
+     */
     public int strengthDifference(int strength){
         int ret = 0;
         for(int n=3;n<7;n++){
@@ -81,6 +130,14 @@ public class Equipment extends Receptacle{
         return ret;
     }
     
+    /**
+     * Equips a piece of equipment and returns what was displaced.
+     * @param main The MainClass to use to display a dialogue in the case of the
+     * hero wanting possessing two misc items.
+     * @param app The apparatus to equip.
+     * @param choiceOfAmulet The choice of amulet to remove should it come to it.
+     * @return The apparatus that was displaced, null if nothing.
+     */
     public Apparatus equip(MainClass main, Apparatus app, int... choiceOfAmulet){
         if(app instanceof HeldWeapon){
             HeldWeapon ret = (HeldWeapon) items.remove(0);
@@ -118,6 +175,16 @@ public class Equipment extends Receptacle{
         return ret;
     }
 
+    /**
+     * Paints this object onto the given graphics.
+     * @param g The graphics to draw on.
+     * @param beginWidth The width to begin drawing at.
+     * @param beginHeight The height to begin drawing at.
+     * @param sqwidth The width of item squares.
+     * @param sqheight The height of item squares.
+     * @param padding The length of padding.
+     * @param owner The owner of this equipment.
+     */
     public void paint(Graphics g, int beginWidth, int beginHeight, int sqwidth, int sqheight, int padding, Hero owner){
         if(items.get(0)!=null) ImageUtils.paintItemSquare(g, beginWidth+padding, beginHeight+padding, sqwidth, sqheight, items.get(0), owner);
         else ImageUtils.paintOutline(g, beginWidth+padding, beginHeight+padding, sqwidth, sqheight, ConstantFields.weaponOutline);

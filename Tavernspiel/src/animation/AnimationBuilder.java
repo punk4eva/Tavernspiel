@@ -4,6 +4,8 @@ package animation;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class creates animations.
  */
 public class AnimationBuilder{
     

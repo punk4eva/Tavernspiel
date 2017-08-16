@@ -7,6 +7,8 @@ import creatures.Creature;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class builds buffs.
  */
 public class BuffBuilder{
     

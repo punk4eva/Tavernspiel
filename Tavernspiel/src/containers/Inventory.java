@@ -24,16 +24,12 @@ public class Inventory extends Receptacle{
     public Inventory(ArrayList<Item> i){
         super(i, 18, "ERROR: You shouldn't be reading this.", -1, -1);
     }
-    
-    public Inventory(ArrayList<Item> i, int id){
-        super(18, i, "ERROR: You shouldn't be reading this.", id, -1, -1);
-    }
 
     public static Inventory getFromFileString(String filestring){
         String[] profile = filestring.substring(1, filestring.length()-1).split("|");
         ArrayList<Item> is = new ArrayList<>();
         for(String s : profile[1].split(",")) is.add(Item.getFromFileString(s));
-        return new Inventory(is, Integer.parseInt(profile[0].split(",")[0]));
+        return new Inventory(is);
     }
     
     public void setMoneyAmount(int amount){
@@ -42,7 +38,7 @@ public class Inventory extends Receptacle{
     
     @Override
     public String toFileString(){
-        String ret = "{" + ID + "," + description + "|";
+        String ret = "{" + description + "|";
         return items.stream().map((item) -> item.toFileString()).reduce(ret, String::concat) + "}";
     }
 

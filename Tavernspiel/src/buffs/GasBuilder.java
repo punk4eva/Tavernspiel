@@ -11,6 +11,8 @@ import logic.ImageHandler;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class builds gases.
  */
 public class GasBuilder{
     

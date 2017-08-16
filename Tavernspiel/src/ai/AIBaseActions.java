@@ -77,7 +77,7 @@ public class AIBaseActions{
             try{
                 c.inventory.push(heap.pop());
                 area.replaceHeap(heap.x, heap.y, new Floor(heap.x, heap.y));
-            }catch(ReceptacleOverflowException | ReceptacleIndexOutOfBoundsException e){
+            }catch(ReceptacleOverflowException e){
                 area.replaceHeap(heap.x, heap.y, new Floor(heap.items.get(0), heap.x, heap.y));
             }
             c.inventory.setMoneyAmount(c.inventory.amountOfMoney-heap.price);

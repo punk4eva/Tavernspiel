@@ -10,6 +10,8 @@ import logic.ImageUtils;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class holds the animations that a GameObject will use.
  */
 public class GameObjectAnimator implements AnimationListener{
     
@@ -18,6 +20,11 @@ public class GameObjectAnimator implements AnimationListener{
     public Animation active;
     private boolean waitingForDone = false;
     
+    /**
+     * Creates a new instance of this class.
+     * @param na The array of names of the animations.
+     * @param ani The array of animations.
+     */
     public GameObjectAnimator(String[] na, Animation[] ani){
         if(ani.length!=na.length) throw new IllegalArgumentException("Name length and animation length aren't the same!");
         names = na;
@@ -25,12 +32,20 @@ public class GameObjectAnimator implements AnimationListener{
         active = ani[0];
     }
     
+    /**
+     * Creates an instance of this class personalized for gases.
+     * @param gasAnimation
+     */
     public GameObjectAnimator(Animation gasAnimation){
         animations = new Animation[]{gasAnimation};
         names = new String[]{"gas"};
         active = gasAnimation;
     }
     
+    /**
+     * Switches to a different animation.
+     * @param name The name of the new animation.
+     */
     public void switchTo(String name){
         for(int n=0;n<names.length;n++){
             if(name.equals(names[n])){
@@ -41,6 +56,10 @@ public class GameObjectAnimator implements AnimationListener{
         }
     }
     
+    /**
+     * Switches to a different animation and then back again after 1 cycle.
+     * @param name The name of the new animation.
+     */
     public synchronized void switchAndBack(String name){
         Animation current = active;
         for(int n=0;n<names.length;n++){
@@ -61,6 +80,10 @@ public class GameObjectAnimator implements AnimationListener{
         active.offset = MainClass.frameNumber%active.frames.length;
     }
     
+    /**
+     * Switches to a new animation and then fades away.
+     * @param name The new animation.
+     */
     public synchronized void switchFade(String name){
         for(int n=0;n<names.length;n++){
             if(name.equals(names[n])){
@@ -85,6 +108,11 @@ public class GameObjectAnimator implements AnimationListener{
         if(waitingForDone) notify();
     }
     
+    /**
+     * Gets a fade-away animation of a given image.
+     * @param img The image to fade.
+     * @return The animation.
+     */
     public Animation getFadeAnimation(Image img){
         BufferedImage bi = ImageUtils.addImageBuffer(img);
         Image[] ret = new Image[25];
