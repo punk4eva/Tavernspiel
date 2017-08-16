@@ -1,7 +1,6 @@
 
 package animation;
 
-import gui.Handler;
 import gui.MainClass;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -36,6 +35,7 @@ public class GameObjectAnimator implements AnimationListener{
         for(int n=0;n<names.length;n++){
             if(name.equals(names[n])){
                 active = animations[n];
+                active.offset = MainClass.frameNumber%active.frames.length;
                 break;
             }
         }
@@ -46,6 +46,7 @@ public class GameObjectAnimator implements AnimationListener{
         for(int n=0;n<names.length;n++){
             if(name.equals(names[n])){
                 active = animations[n];
+                active.offset = MainClass.frameNumber%active.frames.length;
                 break;
             }
         }
@@ -57,12 +58,14 @@ public class GameObjectAnimator implements AnimationListener{
         }
         waitingForDone = false;
         active = current;
+        active.offset = MainClass.frameNumber%active.frames.length;
     }
     
     public synchronized void switchFade(String name){
         for(int n=0;n<names.length;n++){
             if(name.equals(names[n])){
                 active = animations[n];
+                active.offset = MainClass.frameNumber%active.frames.length;
                 break;
             }
         }
@@ -74,12 +77,7 @@ public class GameObjectAnimator implements AnimationListener{
             e.printStackTrace(MainClass.exceptionStream);
         }
         active = fade;
-        try{
-            wait();
-        }catch(InterruptedException e){
-            e.printStackTrace(MainClass.exceptionStream);
-        }
-        waitingForDone = false;
+        active.offset = MainClass.frameNumber%active.frames.length;
     }
 
     @Override

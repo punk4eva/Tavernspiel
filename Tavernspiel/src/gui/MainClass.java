@@ -6,32 +6,18 @@ import containers.Floor;
 import containers.Receptacle;
 import dialogues.Dialogue;
 import exceptions.ReceptacleIndexOutOfBoundsException;
-import exceptions.ReceptacleOverflowException;
-import fileLogic.ReadWrite;
-import items.Apparatus;
-import items.Item;
-import items.ItemBuilder;
 import items.equipment.Wand;
 import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferStrategy;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javax.swing.ImageIcon;
 import level.Area;
 import listeners.BuffEventInitiator;
 import listeners.GrimReaper;
@@ -48,7 +34,7 @@ import tiles.Tile;
  *
  * @author Adam Whittaker
  */
-public abstract class MainClass extends Canvas implements Runnable, MouseListener{
+public abstract class MainClass extends Canvas implements Runnable, MouseListener, MouseMotionListener{
     
     public static final int WIDTH = 640, HEIGHT = WIDTH / 12 * 9;
     public static MessageQueue messageQueue = new MessageQueue();
@@ -65,8 +51,11 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public static final GrimReaper reaper = new GrimReaper(); //Handles death.
     public static final BuffEventInitiator buffinitiator = new BuffEventInitiator(); //Handles buffs.
     public ArrayList<Screen> activeScreens = new ArrayList<>();
+    public ArrayList<Viewable> activeViewables = new ArrayList<>();
     private Dialogue currentDialogue = null; //null if no dialogue.
     public Area currentArea;
+    private int focusX=16, focusY=16;
+    private int xOfDrag=-1, yOfDrag=-1;
     public static long frameDivisor = 10000;
     public static long frameNumber = 0;
     public static double gameTurns = 0;
@@ -105,13 +94,15 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
     }
     
-    public void addAnimation(Animation an){
-        frameDivisor = Utils.frameUpdate(frameDivisor, an.frames.length);
+    public static void addAnimation(Animation an){
+        if(frameDivisor%an.frames.length!=0) 
+            frameDivisor = Utils.frameUpdate(frameDivisor, an.frames.length);
     }
 
     @Override
     public void run(){
         addMouseListener(this);
+        addMouseMotionListener(this);
         this.requestFocus();
         //long lastTime = System.nanoTime();
         //double amountOfTicks = 60.0;
@@ -190,12 +181,10 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         
     
     public void paintArea(Area area, Graphics g){
-        //window.frame.setLayout(new GridLayout(area.dimension.height, area.dimension.width, 0, 0));
-        for(int y=0;y<area.dimension.height*16;y+=16){
-            for(int x=0;x<area.dimension.width*16;x+=16){
-                //window.frame.add(area.map[y/16][x/16]);
+        for(int y=focusY;y<focusY+area.dimension.height*16;y+=16){
+            for(int x=focusX;x<focusX+area.dimension.width*16;x+=16){
                 
-                Tile tile = area.map[y/16][x/16];
+                Tile tile = area.map[(y-focusY)/16][(x-focusX)/16];
                 if(tile instanceof AnimatedTile)
                     ((AnimatedTile) tile).animation.animate(g, x, y, frameNumber);
                 else g.drawImage(tile.image,x,y,null);
@@ -241,9 +230,14 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
     }
     @Override
-    public void mousePressed(MouseEvent me){/**Ignore*/}
+    public void mousePressed(MouseEvent me){/**Ignore*/System.out.println("pressed");}
     @Override
-    public void mouseReleased(MouseEvent me){/**Ignore*/}
+    public void mouseReleased(MouseEvent me){
+        System.out.println("released");
+        if(xOfDrag!=-1){
+            xOfDrag = -1;
+        }
+    }
     @Override
     public void mouseEntered(MouseEvent me){/**Ignore*/}
     @Override
@@ -252,5 +246,20 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public static int[] translateMouseCoords(double mx, double my){
         return new int[]{(int)Math.floor(mx/16), (int)Math.floor(my/16)};
     }
+
+    @Override
+    public void mouseDragged(MouseEvent me){
+        System.out.println("dragged");
+        if(currentDialogue == null && activeViewables.size() <= 1){
+            if(xOfDrag == -1){
+                xOfDrag = me.getX() - focusX;
+                yOfDrag = me.getY() - focusY;        
+            }
+            focusX = me.getX() - xOfDrag;
+            focusY = me.getY() - yOfDrag;
+        }
+    }
+    @Override
+    public void mouseMoved(MouseEvent me){/**Ignore*/}
     
 }

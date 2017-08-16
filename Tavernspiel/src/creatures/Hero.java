@@ -81,7 +81,7 @@ public class Hero extends Creature implements Viewable{
         if(attributes.hp<=0){
             if(inventory.contains("ankh")){
                 throw new UnsupportedOperationException("Not supported yet!");
-            }else die();
+            }else die(c);
         }
     }
     

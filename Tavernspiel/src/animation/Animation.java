@@ -1,10 +1,9 @@
 
 package animation;
 
+import gui.MainClass;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-import javax.swing.ImageIcon;
 import level.Location;
 import listeners.AnimationListener;
 import logic.ImageHandler;
@@ -19,14 +18,17 @@ public class Animation{
     
     public final Image[] frames;
     private AnimationListener listener;
+    protected long offset = 0;
     
     public Animation(Image[] f){
         frames = f;
+        MainClass.addAnimation(this);
     }
     
     public Animation(Image[] f, AnimationListener al){
         frames = f;
         listener = al;
+        MainClass.addAnimation(this);
     }
     
     public void changeListener(AnimationListener l){
@@ -34,7 +36,7 @@ public class Animation{
     }
     
     public void animate(Graphics g, int x, int y, long fn){
-        int m = (int)(fn%frames.length);
+        int m = (int)((fn-offset)%frames.length);
         g.drawImage(frames[m], x, y, null);
         if(x==0&&listener!=null) listener.done();
     }
