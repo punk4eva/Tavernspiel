@@ -13,6 +13,8 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferStrategy;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -34,9 +36,9 @@ import tiles.Tile;
  *
  * @author Adam Whittaker
  */
-public abstract class MainClass extends Canvas implements Runnable, MouseListener, MouseMotionListener{
+public abstract class MainClass extends Canvas implements Runnable, MouseListener, MouseMotionListener, MouseWheelListener{
     
-    public static final int WIDTH = 640, HEIGHT = WIDTH / 12 * 9;
+    public static final int WIDTH = 780, HEIGHT = WIDTH / 12 * 9;
     public static MessageQueue messageQueue = new MessageQueue();
     protected final SoundHandler soundSystem = new SoundHandler();
     public static PrintStream exceptionStream, performanceStream;
@@ -56,6 +58,9 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public Area currentArea;
     private int focusX=16, focusY=16;
     private int xOfDrag=-1, yOfDrag=-1;
+    private double zoom = 1.0;
+    public final double MAX_ZOOM = 8.0;
+    public final double MIN_ZOOM = 0.512;
     public static long frameDivisor = 10000;
     public static long frameNumber = 0;
     public static double gameTurns = 0;
@@ -103,6 +108,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public void run(){
         addMouseListener(this);
         addMouseMotionListener(this);
+        addMouseWheelListener(this);
         this.requestFocus();
         //long lastTime = System.nanoTime();
         //double amountOfTicks = 60.0;
@@ -185,9 +191,14 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
             for(int x=focusX;x<focusX+area.dimension.width*16;x+=16){
                 
                 Tile tile = area.map[(y-focusY)/16][(x-focusX)/16];
+                int xz = (int)(x*zoom);
+                int yz = (int)(y*zoom);
                 if(tile instanceof AnimatedTile)
-                    ((AnimatedTile) tile).animation.animate(g, x, y, frameNumber);
-                else g.drawImage(tile.image,x,y,null);
+                    ((AnimatedTile) tile).animation.animate(g, xz, yz, frameNumber);
+                else{
+                    int l = (int)(16*zoom);
+                    g.drawImage(tile.image.getScaledInstance(l, l, 0),xz,yz,null);
+                }
                 try{
                     Receptacle temp = area.getReceptacle(x, y);
                     if(temp instanceof Floor&&!temp.isEmpty())
@@ -230,10 +241,9 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
     }
     @Override
-    public void mousePressed(MouseEvent me){/**Ignore*/System.out.println("pressed");}
+    public void mousePressed(MouseEvent me){/**Ignore*/}
     @Override
     public void mouseReleased(MouseEvent me){
-        System.out.println("released");
         if(xOfDrag!=-1){
             xOfDrag = -1;
         }
@@ -249,7 +259,6 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
 
     @Override
     public void mouseDragged(MouseEvent me){
-        System.out.println("dragged");
         if(currentDialogue == null && activeViewables.size() <= 1){
             if(xOfDrag == -1){
                 xOfDrag = me.getX() - focusX;
@@ -261,5 +270,15 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     }
     @Override
     public void mouseMoved(MouseEvent me){/**Ignore*/}
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent me){
+        //zoomCenterX = me.getX();
+        //zoomCenterY = me.getY();
+        switch(me.getWheelRotation()){
+            case 1: if(zoom<MAX_ZOOM) zoom *= 1.25;
+                break;
+            default: if(zoom>MIN_ZOOM) zoom /= 1.25;
+        }
+    }
     
 }
