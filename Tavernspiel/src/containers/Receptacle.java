@@ -75,6 +75,14 @@ public abstract class Receptacle implements Fileable{
         y = yc;
     }
     
+    /**
+     * Creates a new Receptacle.
+     * @param cap The capacity.
+     * @param i The list of apparatus.
+     * @param desc The description.
+     * @param xc
+     * @param yc
+     */
     public Receptacle(int cap, ArrayList<Apparatus> i, String desc, int xc, int yc){
         description = desc;
         items.addAll(i);

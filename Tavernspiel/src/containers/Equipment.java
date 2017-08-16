@@ -4,6 +4,7 @@ package containers;
 import creatures.Hero;
 import dialogues.UnequipAmuletDialogue;
 import gui.MainClass;
+import gui.Screen;
 import items.Apparatus;
 import items.equipment.Helmet;
 import items.equipment.Boots;
@@ -23,12 +24,15 @@ import logic.ImageUtils;
  */
 public class Equipment extends Receptacle{
     
+    public final ArrayList<Screen> screens;
+    
     /**
      * Creates a new instance
      */
     public Equipment(){
         super(7, "ERROR: You shouldn't be reading this.", -1, -1);
         for(int n=0;n<7;n++) items.add(null);
+        screens = getScreens();
     }
     
     /**
@@ -38,6 +42,7 @@ public class Equipment extends Receptacle{
     public Equipment(ArrayList<Apparatus> i){
         super(7, i, "ERROR: You shouldn't be reading this.", -1, -1);
         while(items.size() < 7) items.add(null);
+        screens = getScreens();
     }
     
     /**
@@ -201,6 +206,24 @@ public class Equipment extends Receptacle{
         else ImageUtils.paintOutline(g, beginWidth+padding, beginHeight+2*padding+sqheight, sqwidth, sqheight, ConstantFields.amuletOutline);
         if(items.get(2)!=null) ImageUtils.paintItemSquare(g, beginWidth+2*padding+sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight, items.get(2), owner);
         else ImageUtils.paintOutline(g, beginWidth+2*padding+sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight, ConstantFields.amuletOutline);
+    }
+    
+    private ArrayList<Screen> getScreens(){
+        ArrayList<Screen> ret = new ArrayList<>();
+        int padding = 4;
+        int beginWidth = MainClass.WIDTH/9;
+        int beginHeight = MainClass.HEIGHT/9;
+        int sqwidth = (MainClass.WIDTH*7/9-7*padding)/6;
+        int sqheight = (MainClass.WIDTH*7/9-6*padding)/5;
+        ret.add(new Screen("Weapon", beginWidth+padding, beginHeight+padding, sqwidth, sqheight));
+        ret.add(new Screen("Helmet", beginWidth+2*padding+sqwidth, beginHeight+padding, sqwidth, sqheight));
+        ret.add(new Screen("Chestplate", beginWidth+3*padding+2*sqwidth, beginHeight+padding, sqwidth, sqheight));
+        ret.add(new Screen("Leggings", beginWidth+4*padding+3*sqwidth, beginHeight+padding, sqwidth, sqheight));
+        ret.add(new Screen("Boots", beginWidth+5*padding+4*sqwidth, beginHeight+padding, sqwidth, sqheight));
+
+        ret.add(new Screen("Amulet1", beginWidth+padding, beginHeight+2*padding+sqheight, sqwidth, sqheight));
+        ret.add(new Screen("Amulet2", beginWidth+2*padding+sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight));
+        return ret;
     }
     
 }

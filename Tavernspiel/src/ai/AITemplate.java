@@ -24,7 +24,7 @@ public abstract class AITemplate implements Fileable{
      * @param x
      * @param y
      */
-    protected void setDestination(int x, int y){
+    public void setDestination(int x, int y){
         destinationx = x;
         destinationy = y;
     }

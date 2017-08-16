@@ -82,6 +82,10 @@ public class Utils{
         String value() default ""; //notes
     }
     
+    public @interface unfinished{
+        String value() default ""; //notes
+    }
+    
     public static void main(String... args) throws IOException{
         //debugging
         BufferedImage bi = ImageIO.read(new File("C:\\Users\\Adam\\Documents\\NetBeansProjects\\pixel-dungeon\\assets\\items.png"));

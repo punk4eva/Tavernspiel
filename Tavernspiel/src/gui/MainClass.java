@@ -5,7 +5,6 @@ import animation.Animation;
 import containers.Floor;
 import containers.Receptacle;
 import dialogues.Dialogue;
-import exceptions.ReceptacleIndexOutOfBoundsException;
 import items.equipment.Wand;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -58,6 +57,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public Area currentArea;
     private int focusX=16, focusY=16;
     private int xOfDrag=-1, yOfDrag=-1;
+    private String clickMode = "normal";
     private static double zoom = 1.0;
     public static final double MAX_ZOOM = 8.0;
     public static final double MIN_ZOOM = 0.512;
@@ -75,6 +75,17 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         ImageHandler.initializeMap();
 
         handler = new Handler(reaper);
+    }
+    
+    public void addViewable(Viewable viewable){
+        activeScreens.removeAll(activeViewables.get(activeViewables.size()-1).getScreenList());
+        activeViewables.add(viewable);
+        activeScreens.addAll(viewable.getScreenList());
+    }
+    
+    public void removeTopViewable(){
+        Viewable top = activeViewables.remove(activeViewables.size()-1);
+        activeScreens.removeAll(top.getScreenList());
     }
     
     public void changeSFXVolume(float newVolume){
@@ -167,6 +178,9 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
         handler.render(g);
         paintArea(currentArea, g);
+        activeViewables.stream().forEach(v -> {
+            v.paint(g);
+        });
         if(currentDialogue!=null) currentDialogue.paint(g);
         g.dispose();
         bs.show();

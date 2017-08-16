@@ -1,7 +1,6 @@
 
 package creatures;
 
-import animation.Animation;
 import animation.GameObjectAnimator;
 import buffs.Buff;
 import containers.Equipment;
@@ -10,6 +9,7 @@ import creatureLogic.Attributes;
 import creatureLogic.DeathData;
 import gui.Handler;
 import gui.MainClass;
+import gui.Screen;
 import gui.Viewable;
 import gui.Window;
 import java.awt.Graphics;
@@ -22,6 +22,7 @@ import listeners.DeathEvent;
  */
 public class Hero extends Creature implements Viewable{
     
+    public final ArrayList<Screen> screens;
     public int hunger = 100;
     public DeathData data;
     public EnClass job = EnClass.NoClass;
@@ -55,6 +56,7 @@ public class Hero extends Creature implements Viewable{
     public Hero(Attributes atb, GameObjectAnimator an, int ac, Handler handler){
         super("Hero", "UNWRITTEN", atb, an, ac, handler);
         data = new DeathData(this);
+        screens = getScreens();
     }
     
     public Hero(int id, Equipment eq, Inventory inv, int hung, DeathData da, EnClass j, EnSubclass sub, Attributes atb, ArrayList<Buff> bs, int ac, Handler handler){
@@ -63,6 +65,7 @@ public class Hero extends Creature implements Viewable{
         job = j;
         subclass = sub;
         data = da;
+        screens = getScreens();
     }
 
     @Override
@@ -122,6 +125,19 @@ public class Hero extends Creature implements Viewable{
         int sqheight = (MainClass.WIDTH*7/9-6*padding)/5;
         inventory.paint(g, beginWidth, beginHeight, sqwidth, sqheight, padding, this);
         equipment.paint(g, beginWidth, beginHeight, sqwidth, sqheight, padding, this);
+    }
+
+    @Override
+    public final ArrayList<Screen> getScreens(){
+        ArrayList<Screen> ret = new ArrayList<>();
+        ret.addAll(inventory.screens);
+        ret.addAll(equipment.screens);
+        return ret;
+    }
+    
+    @Override
+    public ArrayList<Screen> getScreenList(){
+        return screens;
     }
     
 }

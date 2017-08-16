@@ -20,7 +20,7 @@ public class Dungeon implements Fileable{
         depthListener = dl;
         handler = hand;
         stages = new Stage[5];
-        stages[0] = new Stage(new Location("Shkoder", "shkoderTileset", "Cyanoshrooms.wav"), 5, new String[]{"The upper level of the caves"}, null);
+        stages[0] = new Stage(new Location("Shkoder", "shkoderTileset", "water", "Cyanoshrooms.wav"), 5, new String[]{"The upper level of the caves"}, null);
         stages[0].areas[0] = RoomBuilder.standard(stages[0].location, handler);
     }
     

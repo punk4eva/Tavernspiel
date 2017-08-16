@@ -86,7 +86,7 @@ public class Room extends Area{
         for(int y=1;y<dimension.height-1;y++){
             for(int x=1;x<dimension.width-1;x++){
                 if(map[y][x].equals("floor")&&location.waterGenChance.chance()){
-                    map[y][x] = new AnimatedTile("water", x%2);
+                    map[y][x] = new AnimatedTile(location, x%2);
                 }
             }
         }
@@ -100,7 +100,7 @@ public class Room extends Area{
                     if(map[y][x].equals("water")){
                         if(ch.chance()){
                             spreads = true;
-                            spreadAnimated("water", x, y);
+                            spreadAnimatedWater(x, y);
                         }
                     }
                 }
@@ -150,6 +150,13 @@ public class Room extends Area{
         if(withinBounds(x-1, y)&&onTreadableTile(x-1, y)) map[y][x-1] = new AnimatedTile(t, x%2);
         if(withinBounds(x, y+1)&&onTreadableTile(x, y+1)) map[y+1][x] = new AnimatedTile(t, x%2);
         if(withinBounds(x, y-1)&&onTreadableTile(x, y-1)) map[y-1][x] = new AnimatedTile(t, x%2);
+    }
+    
+    protected void spreadAnimatedWater(int x, int y){
+        if(withinBounds(x+1, y)&&onTreadableTile(x+1, y)) map[y][x+1] = new AnimatedTile(location, x%2);
+        if(withinBounds(x-1, y)&&onTreadableTile(x-1, y)) map[y][x-1] = new AnimatedTile(location, x%2);
+        if(withinBounds(x, y+1)&&onTreadableTile(x, y+1)) map[y+1][x] = new AnimatedTile(location, x%2);
+        if(withinBounds(x, y-1)&&onTreadableTile(x, y-1)) map[y-1][x] = new AnimatedTile(location, x%2);
     }
     
     protected void addShaders(){

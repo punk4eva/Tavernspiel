@@ -94,7 +94,7 @@ public class ImageHandler{
         return bi.getSubimage(dim.width, dim.height, 16, 16);
     }
     
-    public static Image[] getFrames(String str, int x){
+    public static Image[] getWaterFrames(String str, int x){
         Image img = new ImageIcon("graphics/" + str + ".png").getImage();
         BufferedImage bi = new BufferedImage(
                 img.getWidth(null),
@@ -104,6 +104,22 @@ public class ImageHandler{
         g.drawImage(img, 0, 0, null);
         g.dispose();
         Image[] ret = new Image[img.getHeight(null)-15];
+        x*=16;
+        for(int y=ret.length-1;y>=0;y--){
+            ret[ret.length-y-1] = bi.getSubimage(x, y, 16, 16);
+        }
+        return ret;
+    }
+    
+    public static Image[] getWaterFrames(Location loc, int x){
+        BufferedImage bi = new BufferedImage(
+                loc.waterImage.getWidth(null),
+                loc.waterImage.getHeight(null),
+                BufferedImage.TYPE_INT_ARGB);
+        Graphics g = bi.createGraphics();
+        g.drawImage(loc.waterImage, 0, 0, null);
+        g.dispose();
+        Image[] ret = new Image[loc.waterImage.getHeight(null)-15];
         x*=16;
         for(int y=ret.length-1;y>=0;y--){
             ret[ret.length-y-1] = bi.getSubimage(x, y, 16, 16);

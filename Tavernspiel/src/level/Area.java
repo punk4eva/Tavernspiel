@@ -1,8 +1,10 @@
 
 package level;
 
+import containers.Floor;
 import containers.Receptacle;
 import creatures.Creature;
+import creatures.Hero;
 import exceptions.AreaCoordsOutOfBoundsException;
 import exceptions.ReceptacleOverflowException;
 import gui.MainClass;
@@ -62,6 +64,13 @@ public class Area implements AreaListener, DeathListener{
         return x>=0&&y>=0&&x<dimension.width&&y<dimension.height;
     }
     
+    public void click(int x, int y, String clickMode, Hero hero){
+        switch(clickMode){
+            case "normal":
+                hero.attributes.ai.setDestination(x, y);
+        }
+    }
+    
     protected void burn(int x, int y){
         map[y][x] = new Tile("embers", location);
         Receptacle r = getReceptacle(x, y);
@@ -105,7 +114,15 @@ public class Area implements AreaListener, DeathListener{
             try{
                 getReceptacle(de.getX(), de.getY()).pushAll(de.getCreature().inventory);
                 getReceptacle(de.getX(), de.getY()).pushAll(de.getCreature().equipment);
-            }catch(ReceptacleOverflowException ignore){}
+            }catch(ReceptacleOverflowException ignore){
+            }catch(NullPointerException e){
+                Floor floor = new Floor(de.getX(), de.getY());
+                try{
+                    floor.pushAll(de.getCreature().inventory);
+                    floor.pushAll(de.getCreature().equipment);
+                }catch(ReceptacleOverflowException ignore){}
+                receptacles.add(floor);
+            }
             de.getCreature().animator.switchTo("death");
         }
     }

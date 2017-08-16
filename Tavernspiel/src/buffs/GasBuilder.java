@@ -1,12 +1,11 @@
 
 package buffs;
 
-import animation.Animation;
+import animation.AnimationBuilder;
 import animation.GameObjectAnimator;
 import gui.Handler;
 import level.Area;
 import logic.Gas;
-import logic.ImageHandler;
 
 /**
  *
@@ -20,7 +19,7 @@ public class GasBuilder{
         Gas g = new Gas("shadowmelded", 
                 "Cleansing shafts of light pierce the vegetation.",
                 BuffBuilder.shadowmelded(),
-                new GameObjectAnimator(new Animation(ImageHandler.getFrames("shadowmelded", 0))),
+                new GameObjectAnimator(AnimationBuilder.getAnimation("shadowmelded")),
                 1, area.zipcode, handler);
         g.duration = 1000000;
         return g;

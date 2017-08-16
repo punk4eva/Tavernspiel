@@ -13,7 +13,7 @@ import logic.Utils;
  *
  * @author Adam Whittaker
  */
-public class Dialogue implements ScreenListener, Viewable{
+public class Dialogue implements ScreenListener{
     
     final String question;
     final String[] options;
@@ -30,10 +30,9 @@ public class Dialogue implements ScreenListener, Viewable{
         question = Utils.lineFormat(quest, 20);
         heightOfQuestion = 12*Utils.lineCount(question);
         height = 2*padding + heightOfQuestion + (36+padding)*options.length;
-        screenArray = getScreenArray();
+        screenArray = getScreens();
     }
     
-    @Override
     public void paint(Graphics g){
         int beginHeight = (MainClass.HEIGHT-height)/2;
         int beginWidth = MainClass.WIDTH/3;
@@ -87,7 +86,7 @@ public class Dialogue implements ScreenListener, Viewable{
         notify();
     }
 
-    private Screen[] getScreenArray(){
+    public final Screen[] getScreens(){
         Screen[] ary = new Screen[options.length+1];
         int beginWidth = MainClass.WIDTH/3;
         int beginHeight = (MainClass.HEIGHT-height)/2;

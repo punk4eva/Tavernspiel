@@ -29,10 +29,10 @@ public class TrapBuilder{
     
     public static Trap getTrap(String tr, Area area, Handler handler){
         if(isGaseous(tr)){
-            Gas g = getToxicGas(area, handler); //UNFINISHED
+            Gas g = getToxicGas(area, handler); //@unfinished
             return new Trap(tr, area.location, g);
         }else{
-            Buff b = new Buff("-1"); //UNFINISHED
+            Buff b = new Buff("-1"); //@unfinished
             return new Trap(tr, area.location, b);
         }
     }
@@ -48,7 +48,7 @@ public class TrapBuilder{
                 area.location.stageSpawnDistrib.incrementor+1*/
         5, 6);              
         GameObjectAnimator a = new GameObjectAnimator(new String[]{"placeholder"},
-                new Animation[]{new Animation(ImageHandler.getFrames("water", 0))}); //@unfinished, placeholder
+                new Animation[]{new Animation(ImageHandler.getWaterFrames(area.location, 0))}); //@unfinished, placeholder
         return new Gas("Toxic Gas", "A poisonous green vapour.", b, a, 7, 
                 area.zipcode, handler);
     }

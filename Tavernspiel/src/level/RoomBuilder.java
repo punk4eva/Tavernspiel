@@ -222,7 +222,7 @@ public class RoomBuilder{
             case 1: //North
                 for(int y = 1; y < room.dimension.height - 1; y++){
                     for(int x = 1; x < room.dimension.width - 1; x++){
-                        room.map[y][x] = new AnimatedTile("water", x%2);
+                        room.map[y][x] = new AnimatedTile(loc, x%2);
                     }
                 }
                 room.map[1][room.dimension.width/2] = pedestal;
@@ -233,7 +233,7 @@ public class RoomBuilder{
             case 2: //East
                 for(int y = 1; y < room.dimension.height - 1; y++){
                     for(int x = 1; x < room.dimension.width - 1; x++){
-                        room.map[y][x] = new AnimatedTile("water", x%2);
+                        room.map[y][x] = new AnimatedTile(loc, x%2);
                     }
                 }
                 room.map[room.dimension.height/2][room.dimension.width-2] = pedestal;
@@ -244,7 +244,7 @@ public class RoomBuilder{
             case 3: //South
                 for(int y = 1; y < room.dimension.height - 1; y++){
                    for(int x = 1; x < room.dimension.width - 1; x++)
-                        room.map[y][x] = new AnimatedTile("water", x%2);
+                        room.map[y][x] = new AnimatedTile(loc, x%2);
                 }
                 room.map[room.dimension.height-2][room.dimension.width/2] = pedestal;
                 if(Distribution.chance(1, 2)) room.receptacles.add(new Floor(item, room.dimension.width/2, room.dimension.height-2));
@@ -254,7 +254,7 @@ public class RoomBuilder{
             case 4: //West
                 for(int y = 1; y < room.dimension.height - 1; y++){
                     for(int x = 1; x < room.dimension.width - 1; x++){
-                        room.map[y][x] = new AnimatedTile("water", x%2);
+                        room.map[y][x] = new AnimatedTile(loc, x%2);
                     }
                 }
                 room.map[room.dimension.height/2][1] = pedestal;
