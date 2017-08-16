@@ -20,24 +20,46 @@ public class Animation{
     private AnimationListener listener;
     protected long offset = 0;
     
+    /**
+     * Creates an Animation from the given frames.
+     * @param f The frames.
+     */
     public Animation(Image[] f){
         frames = f;
         MainClass.addAnimation(this);
     }
     
+    /**
+     * Creates an Animation from the given frames and adds an Animation listener.
+     * @param f The frames.
+     * @param al The listener that is interested in when this animation finishes
+     * a cycle.
+     */
     public Animation(Image[] f, AnimationListener al){
         frames = f;
         listener = al;
         MainClass.addAnimation(this);
     }
     
+    /**
+     * Changes the listener of this animation.
+     * @param l The new listener.
+     */
     public void changeListener(AnimationListener l){
         listener = l;
     }
     
-    public void animate(Graphics g, int x, int y, long fn){
-        int m = (int)((fn-offset)%frames.length);
-        g.drawImage(frames[m], x, y, null);
+    /**
+     * Draws the current frame onto the given graphics.
+     * @param g The
+     * @param x
+     * @param y
+     */
+    public void animate(Graphics g, int x, int y){
+        int m = (int)((MainClass.frameNumber-offset)%frames.length);
+        double z = MainClass.getZoom();
+        if(z==1.0) g.drawImage(frames[m], x, y, null);
+        else g.drawImage(frames[m].getScaledInstance((int)(16*z),(int)(16*z),0), x, y, null);
         if(x==0&&listener!=null) listener.done();
     }
     

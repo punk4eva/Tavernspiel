@@ -58,9 +58,9 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public Area currentArea;
     private int focusX=16, focusY=16;
     private int xOfDrag=-1, yOfDrag=-1;
-    private double zoom = 1.0;
-    public final double MAX_ZOOM = 8.0;
-    public final double MIN_ZOOM = 0.512;
+    private static double zoom = 1.0;
+    public static final double MAX_ZOOM = 8.0;
+    public static final double MIN_ZOOM = 0.512;
     public static long frameDivisor = 10000;
     public static long frameNumber = 0;
     public static double gameTurns = 0;
@@ -102,6 +102,10 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public static void addAnimation(Animation an){
         if(frameDivisor%an.frames.length!=0) 
             frameDivisor = Utils.frameUpdate(frameDivisor, an.frames.length);
+    }
+    
+    public static double getZoom(){
+        return zoom;
     }
 
     @Override
@@ -194,10 +198,12 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
                 int xz = (int)(x*zoom);
                 int yz = (int)(y*zoom);
                 if(tile instanceof AnimatedTile)
-                    ((AnimatedTile) tile).animation.animate(g, xz, yz, frameNumber);
+                    ((AnimatedTile) tile).animation.animate(g, xz, yz);
                 else{
-                    int l = (int)(16*zoom);
-                    g.drawImage(tile.image.getScaledInstance(l, l, 0),xz,yz,null);
+                    if(zoom!=1){
+                        int l = (int)(16*zoom);
+                        g.drawImage(tile.image.getScaledInstance(l, l, 0),xz,yz,null);
+                    }else g.drawImage(tile.image,xz,yz,null);
                 }
                 try{
                     Receptacle temp = area.getReceptacle(x, y);
