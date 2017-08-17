@@ -6,7 +6,6 @@ import containers.Floor;
 import containers.PurchasableHeap;
 import creatures.Creature;
 import creatures.Hero;
-import exceptions.ReceptacleIndexOutOfBoundsException;
 import exceptions.ReceptacleOverflowException;
 import gui.MainClass;
 import gui.Window;
