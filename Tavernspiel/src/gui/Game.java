@@ -1,13 +1,10 @@
 
 package gui;
 
-import dialogues.Dialogue;
 import java.io.IOException;
 import level.Area;
 import level.Dungeon;
 import listeners.DepthListener;
-import logic.ImageUtils;
-
 /**
  *
  * @author Adam Whittaker

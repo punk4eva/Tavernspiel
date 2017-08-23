@@ -6,14 +6,14 @@ import items.ItemBuilder;
 import items.consumables.Potion;
 import items.consumables.Scroll;
 import items.equipment.Ring;
+import java.io.Serializable;
 import java.util.ArrayList;
-import logic.Fileable;
 
 /**
  *
  * @author Adam Whittaker
  */
-public class DeathData implements Fileable{
+public class DeathData implements Serializable{
     
     public Hero hero;
     public int maximumDepth = 1;
@@ -41,15 +41,6 @@ public class DeathData implements Fileable{
     
     public DeathData(Hero h){
         hero = h;
-    }
-
-    @Override
-    public String toFileString(){
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
-    public static DeathData getFromFileString(String filestring){
-        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

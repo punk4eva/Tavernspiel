@@ -7,8 +7,8 @@ import gui.MainClass;
 import items.consumables.Potion;
 import items.consumables.Scroll;
 import java.awt.Image;
+import java.io.Serializable;
 import javax.swing.ImageIcon;
-import logic.Fileable;
 
 /**
  *
@@ -16,7 +16,7 @@ import logic.Fileable;
  * 
  * Base class which handles items.
  */
-public class Item implements Fileable{
+public class Item implements Serializable{
     
     public String name;
     public String description;
@@ -148,15 +148,6 @@ public class Item implements Fileable{
             identified = true;
         }
         return true;
-    }
-
-    @Override
-    public String toFileString(){
-        return "<<" + name + ">>";
-    }
-
-    public static Item getFromFileString(String filestring){
-        return ItemBuilder.get(filestring.substring(2, filestring.length()-2));
     }
     
 }

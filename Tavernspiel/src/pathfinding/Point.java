@@ -1,13 +1,13 @@
 
 package pathfinding;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 
 /**
  *
  * @author Adam Whittaker
  */
-public class Point extends Object{
+public class Point implements Serializable{
     
     Boolean checked = false; //null if not treadable
     int x, y;

@@ -1,16 +1,16 @@
 
 package creatureLogic;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Set;
-import logic.Fileable;
 import logic.Utils;
 
 /**
  *
  * @author Adam Whittaker
  */
-public class Badge implements Fileable{
+public class Badge implements Serializable{
     
     public final String name;
     public final String requirements;
@@ -18,23 +18,6 @@ public class Badge implements Fileable{
     public int level = 1;
     public Obtained obtainCheck;
     public boolean superBadge = false;
-
-    @Override
-    public String toFileString(){
-        return name + "^" + requirements + "^" + id + "^" + level + "^" + 
-                superBadge;
-    }
-    
-    public static Badge getFromFileString(String filestring){
-        String[] profile = filestring.split("^");
-        try{
-            return new Badge(profile[0], profile[1], Integer.parseInt(profile[2]),
-                Integer.parseInt(profile[3]), Boolean.parseBoolean(profile[4]));
-        }catch(NumberFormatException e){
-            return new DeathBadge(profile[0], profile[1], Integer.parseInt(profile[2].substring(1)),
-            Integer.parseInt(profile[3]), Boolean.parseBoolean(profile[4]));
-        }
-    }
     
     private interface Obtained{
         boolean check(DeathData data);

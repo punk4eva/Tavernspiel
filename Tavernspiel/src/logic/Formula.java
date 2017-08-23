@@ -1,13 +1,15 @@
 
 package logic;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Adam Whittaker
  * 
  * Stores formulas for leveling up, etc.
  */
-public class Formula implements Fileable{
+public class Formula implements Serializable{
     
     public double multiply = 1;
     public double add = 0;
@@ -39,17 +41,6 @@ public class Formula implements Fileable{
     
     public int getInt(int x){
         return (intMultiply * x) + intAdd;
-    }
-    
-    @Override
-    public String toFileString(){
-        return "*" + multiply + "+" + add;
-    }
-
-    public static Formula getFromFileString(String str){
-        double mult = Double.parseDouble(str.substring(1, str.indexOf("+")));
-        double add = Double.parseDouble(str.substring(str.indexOf("+")+1));
-        return new Formula(mult, add, (int) mult, (int) add);
     }
     
 }

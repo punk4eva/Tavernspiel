@@ -1,8 +1,8 @@
 
 package ai;
 
+import java.io.Serializable;
 import logic.Distribution;
-import logic.Fileable;
 
 /**
  *
@@ -10,7 +10,7 @@ import logic.Fileable;
  * 
  * The innate spiritual magic possessed by a creature.
  */
-public class MagicHexagon implements Fileable{
+public class MagicHexagon implements Serializable{
     
     //The 6 poles of the Hexagon.
     protected int offensive = 0;
@@ -151,20 +151,6 @@ public class MagicHexagon implements Fileable{
                 default: healing--;
             }
         }
-    }
-
-    @Override
-    public String toFileString(){
-        return "<hex>" + offensive + "," + defensive + "," + focus + "," + 
-                mind + "," + healing + "," + sacrificial + "</hex>";
-    }
-
-    public static MagicHexagon getFromFileString(String filestring){
-        String[] profile = filestring.replace("<hex>", "").replace("</hex>", "")
-                .split(",");
-        return new MagicHexagon(Integer.parseInt(profile[0]), Integer.parseInt(profile[1]),
-            Integer.parseInt(profile[2]), Integer.parseInt(profile[3]), 
-            Integer.parseInt(profile[4]), Integer.parseInt(profile[5]));
     }
     
 }

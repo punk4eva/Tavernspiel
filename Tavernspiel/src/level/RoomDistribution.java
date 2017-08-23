@@ -1,6 +1,7 @@
 
 package level;
 
+import java.io.Serializable;
 import logic.Distribution;
 import static logic.Distribution.r;
 
@@ -8,7 +9,7 @@ import static logic.Distribution.r;
  *
  * @author Adam Whittaker
  */
-public class RoomDistribution{
+public class RoomDistribution implements Serializable{
     
     public interface MakeRoom{
         Room make(Stage st);

@@ -30,22 +30,9 @@ public class Inventory extends Receptacle{
         super(i, 18, "ERROR: You shouldn't be reading this.", -1, -1);
         screens = getScreens();
     }
-
-    public static Inventory getFromFileString(String filestring){
-        String[] profile = filestring.substring(1, filestring.length()-1).split("|");
-        ArrayList<Item> is = new ArrayList<>();
-        for(String s : profile[1].split(",")) is.add(Item.getFromFileString(s));
-        return new Inventory(is);
-    }
     
     public void setMoneyAmount(int amount){
         amountOfMoney = amount;
-    }
-    
-    @Override
-    public String toFileString(){
-        String ret = "{" + description + "|";
-        return items.stream().map((item) -> item.toFileString()).reduce(ret, String::concat) + "}";
     }
 
     public void paint(Graphics g, int beginWidth, int beginHeight, int sqwidth, int sqheight, int padding, Hero owner){

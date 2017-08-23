@@ -2,13 +2,13 @@
 package listeners;
 
 import buffs.Buff;
-import logic.Fileable;
+import java.io.Serializable;
 
 /**
  *
  * @author Adam Whittaker
  */
-public class BuffEvent implements Fileable{
+public class BuffEvent implements Serializable{
     
     private Buff followingBuff = null; //null if none.
     private final int ID;
@@ -35,15 +35,6 @@ public class BuffEvent implements Fileable{
     
     public Buff getNext(){
         return followingBuff;
-    }
-
-    @Override
-    public String toFileString(){
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
-    public static BuffEvent getFromFileString(String filestring){
-        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

@@ -1,11 +1,11 @@
 
 package logic;
 
-import animation.Animation;
 import animation.GameObjectAnimator;
 import gui.Handler;
 import gui.MainClass;
 import java.awt.Graphics;
+import java.io.Serializable;
 import listeners.GameEvent;
 
 /**
@@ -14,7 +14,7 @@ import listeners.GameEvent;
  * 
  * @TOPLEVEL
  */
-public abstract class GameObject{
+public abstract class GameObject implements Serializable{
     
     public int ID;
     public String name;

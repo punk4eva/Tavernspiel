@@ -112,16 +112,6 @@ public class Equipment extends Receptacle{
         return (T) items.get(index);
     }
     
-    @Override
-    public String toFileString(){
-        String ret = "{" + /*ID + "," + */description + "," + x + "," + y +"|";
-        return items.stream().map((item) -> item.toFileString()).reduce(ret, String::concat) + "}";
-    }
-    
-    public static Equipment getFromFileString(String filestring){
-        throw new UnsupportedOperationException("Not finished.");
-    }
-    
     /**
      * Returns the strength difference between what is given and what is required.
      * @param strength The given strength.

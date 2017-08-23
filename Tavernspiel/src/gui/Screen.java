@@ -1,13 +1,14 @@
 
 package gui;
 
+import java.io.Serializable;
 import listeners.ScreenListener;
 
 /**
  *
  * @author Adam Whittaker
  */
-public class Screen{
+public class Screen implements Serializable{
     
     protected final String name;
     protected final int tlx, tly, brx, bry;

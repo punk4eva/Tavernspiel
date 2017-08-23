@@ -2,14 +2,14 @@
 package level;
 
 import gui.Handler;
+import java.io.Serializable;
 import listeners.DepthListener;
-import logic.Fileable;
 
 /**
  *
  * @author Adam Whittaker
  */
-public class Dungeon implements Fileable{
+public class Dungeon implements Serializable{
     
     private final DepthListener depthListener;
     protected int depth = 0;
@@ -22,16 +22,6 @@ public class Dungeon implements Fileable{
         stages = new Stage[5];
         stages[0] = new Stage(new Location("Shkoder", "shkoderTileset", "water", "Cyanoshrooms.wav"), 5, new String[]{"The upper level of the caves"}, null);
         stages[0].areas[0] = RoomBuilder.standard(stages[0].location, handler);
-    }
-    
-
-    @Override
-    public String toFileString(){
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-    
-    public static Dungeon getFromFileString(String filestring){
-        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     public void descend(){

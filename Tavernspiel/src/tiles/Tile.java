@@ -2,6 +2,7 @@
 package tiles;
 
 import java.awt.Image;
+import java.io.Serializable;
 import level.Location;
 import logic.Gas;
 import logic.ImageHandler;
@@ -10,7 +11,7 @@ import logic.ImageHandler;
  *
  * @author Adam Whittaker
  */
-public class Tile{
+public class Tile implements Serializable{
 
     public Image image;
     public String name;

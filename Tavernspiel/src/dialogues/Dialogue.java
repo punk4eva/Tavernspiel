@@ -3,7 +3,6 @@ package dialogues;
 
 import gui.MainClass;
 import gui.Screen;
-import gui.Viewable;
 import java.awt.Color;
 import java.awt.Graphics;
 import listeners.ScreenListener;

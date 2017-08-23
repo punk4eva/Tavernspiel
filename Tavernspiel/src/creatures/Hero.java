@@ -95,28 +95,6 @@ public class Hero extends Creature implements Viewable{
     }
     
     @Override
-    public String toFileString(){
-        return "" + hunger + "<hero>" + data.toFileString() + "<hero>" + job.toString()
-                + "<hero>" + subclass.toString() + "<hero>" + super.toFileString();
-    }
-
-    public static Hero getFromFileString(String filestring, Handler handler){
-        String[] hprofile = filestring.split("<hero>");
-        
-        String[] profile = hprofile[4].split("<creat>");
-        ArrayList<Buff> bs = new ArrayList<>();
-        for(String str : profile[7].split("<-b->")) bs.add(Buff.getFromFileString(str));
-        Hero ret = new Hero(Integer.parseInt(profile[2]), Equipment.getFromFileString(profile[3]), 
-            Inventory.getFromFileString(profile[4]), Integer.parseInt(hprofile[0]), 
-            DeathData.getFromFileString(hprofile[1]), EnClass.valueOf(hprofile[2]),
-            EnSubclass.valueOf(hprofile[3]), Attributes.getFromFileString(profile[5]),
-            bs, Integer.parseInt(profile[6]), handler);
-        ret.x = Integer.parseInt(profile[7]);
-        ret.y = Integer.parseInt(profile[8]);
-        return ret;
-    }
-    
-    @Override
     public void paint(Graphics g){
         int padding = 4;
         int beginWidth = MainClass.WIDTH/9;

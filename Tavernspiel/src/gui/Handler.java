@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.LinkedList;
 import listeners.DeathEvent;
 import listeners.DeathListener;
@@ -12,7 +13,7 @@ import logic.GameObject;
  *
  * @author Charlie Hands
  */
-public class Handler implements DeathListener{
+public class Handler implements DeathListener, Serializable{
     LinkedList<GameObject> object = new LinkedList<>();
     
     /**

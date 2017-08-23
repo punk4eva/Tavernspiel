@@ -57,10 +57,4 @@ public class DeathBadge extends Badge{
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
-    @Override
-    public String toFileString(){
-        return name + "^" + requirements + "^d" + id + "^" + level + "^" + 
-                superBadge + "^" + Utils.toFileString(overridesLivingBadges);
-    }
-    
 }

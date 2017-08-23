@@ -2,6 +2,7 @@
 package level;
 
 import items.Item;
+import java.io.Serializable;
 import java.util.ArrayList;
 import level.RoomDistribution.MakeRoom;
 
@@ -9,7 +10,7 @@ import level.RoomDistribution.MakeRoom;
  *
  * @author Adam Whittaker
  */
-public class AreaBuilder{
+public class AreaBuilder implements Serializable{
     
     public ArrayList<Item> forcedItems = new ArrayList<>();
     public ArrayList<MakeRoom> forcedRooms = new ArrayList<>();

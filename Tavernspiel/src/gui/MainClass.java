@@ -292,7 +292,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         //zoomCenterX = me.getX();
         //zoomCenterY = me.getY();
         switch(me.getWheelRotation()){
-            case 1: if(zoom<MAX_ZOOM) zoom *= 1.25;
+            case -1: if(zoom<MAX_ZOOM) zoom *= 1.25;
                 break;
             default: if(zoom>MIN_ZOOM) zoom /= 1.25;
         }

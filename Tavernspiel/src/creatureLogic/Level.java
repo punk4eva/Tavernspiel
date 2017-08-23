@@ -1,14 +1,14 @@
 
 package creatureLogic;
 
-import logic.Fileable;
+import java.io.Serializable;
 import logic.Formula;
 
 /**
  *
  * @author Adam Whittaker
  */
-public class Level implements Fileable{
+public class Level implements Serializable{
     
     public int level = 1;
     public int xp = 0;
@@ -40,33 +40,6 @@ public class Level implements Fileable{
             levelUp(atb);
              xp -= xpReq;
         }
-    }
-
-    @Override
-    public String toFileString(){
-        return level + ","+ xp + "," + xpReq + "," + xpFormula.toFileString() + 
-                speedFormula.toFileString() + 
-                attackSpeedFormula.toFileString() + 
-                dexterityFormula.toFileString() + 
-                hpFormula.toFileString() + 
-                regenSpeedFormula.toFileString() + 
-                strengthFormula.toFileString();
-    }
-
-    public static Level getFromFileString(String filestring){
-        String[] profile = filestring.split(",");
-        Level l = new Level();
-        l.level = Integer.parseInt(profile[0]);
-        l.xp = Integer.parseInt(profile[1]);
-        l.xpReq = Integer.parseInt(profile[2]);
-        l.xpFormula = Formula.getFromFileString(profile[3]);
-        l.speedFormula = Formula.getFromFileString(profile[4]);
-        l.attackSpeedFormula = Formula.getFromFileString(profile[5]);
-        l.dexterityFormula = Formula.getFromFileString(profile[6]);
-        l.hpFormula = Formula.getFromFileString(profile[7]);
-        l.regenSpeedFormula = Formula.getFromFileString(profile[8]);
-        l.strengthFormula = Formula.getFromFileString(profile[9]);
-        return l;
     }
     
 }

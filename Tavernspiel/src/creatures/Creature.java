@@ -1,7 +1,6 @@
 
 package creatures;
 
-import animation.Animation;
 import animation.AnimationBuilder;
 import animation.GameObjectAnimator;
 import buffs.Buff;
@@ -12,12 +11,12 @@ import gui.Handler;
 import gui.MainClass;
 import items.equipment.HeldWeapon;
 import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.ArrayList;
 import listeners.BuffEvent;
 import listeners.BuffListener;
 import listeners.DeathEvent;
 import logic.Distribution;
-import logic.Fileable;
 import logic.GameObject;
 
 /**
@@ -26,7 +25,7 @@ import logic.GameObject;
  * 
  * Base Creature that all others inherit from.
  */
-public class Creature extends GameObject implements BuffListener, Fileable{
+public class Creature extends GameObject implements BuffListener{
     
     public Equipment equipment = new Equipment();
     public Inventory inventory = new Inventory();
@@ -127,28 +126,6 @@ public class Creature extends GameObject implements BuffListener, Fileable{
     @Override
     public void render(Graphics g){
         //@unfinished
-    }
-
-    @Override
-    public String toFileString(){
-        String ret = name + "<creat>" + description + "<creat>" + ID + "<creat>"
-                + equipment.toFileString() + "<creat>" + inventory.toFileString()
-                + attributes.toFileString() + "<creat>" + areaCode + "<creat>" + x + "<creat>" + y + "<creat>";
-        ret = buffs.stream().map((b) -> b.toFileString() + "<-b->").reduce(ret, String::concat);
-        return ret.substring(0, ret.length()-5);
-    }
-
-    public static Creature getFromFileString(String filestring, Handler handler){
-        String[] profile = filestring.split("<creat>");
-        ArrayList<Buff> bs = new ArrayList<>();
-        for(String str : profile[7].split("<-b->")) bs.add(Buff.getFromFileString(str));
-        Creature ret = new Creature(profile[0], profile[1], Integer.parseInt(profile[2]), 
-            Equipment.getFromFileString(profile[3]), Inventory.getFromFileString(profile[4]),
-            Attributes.getFromFileString(profile[5]), Integer.parseInt(profile[6]),
-            bs, handler);
-        ret.x = Integer.parseInt(profile[7]);
-        ret.y = Integer.parseInt(profile[8]);
-        return ret;
     }
     
     public void setXY(int nx, int ny){

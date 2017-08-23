@@ -10,6 +10,7 @@ import exceptions.ReceptacleOverflowException;
 import gui.MainClass;
 import items.Item;
 import java.awt.Dimension;
+import java.io.Serializable;
 import java.util.ArrayList;
 import listeners.AreaEvent;
 import listeners.ZipHandler;
@@ -25,7 +26,7 @@ import tiles.TrapBuilder;
  *
  * @author Adam Whittaker
  */
-public class Area implements AreaListener, DeathListener{
+public class Area implements AreaListener, DeathListener, Serializable{
     
     public Tile[][] map;
     public Dimension dimension;

@@ -2,8 +2,8 @@
 package ai;
 
 import creatures.Creature;
+import java.io.Serializable;
 import level.Area;
-import logic.Fileable;
 
 /**
  *
@@ -11,7 +11,7 @@ import logic.Fileable;
  * 
  * Handles behavior of creatures.
  */
-public abstract class AITemplate implements Fileable{
+public abstract class AITemplate implements Serializable{
     
     public EnType type; //The type of AI
     public int intelligence = 3; //The intelligence
@@ -34,14 +34,7 @@ public abstract class AITemplate implements Fileable{
      */
     public enum EnType{
         PREDEFINED, HANDICAPPED, NORMAL, RANGED
-    };
-    
-    
-    @Override
-    public String toFileString(){
-        return type.toString() + "</ty>" + intelligence + magic.toFileString() + 
-                destinationx + ":" + destinationy;
-    }    
+    };   
     
     /**
      * Decides what to do and does it.

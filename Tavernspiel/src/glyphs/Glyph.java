@@ -4,14 +4,14 @@ package glyphs;
 import gui.MainClass;
 import java.awt.Color;
 import java.awt.Image;
+import java.io.Serializable;
 import logic.Distribution;
-import logic.Fileable;
 
 /**
  *
  * @author Adam Whittaker
  */
-public class Glyph implements Fileable{
+public class Glyph implements Serializable{
     
     public String name;
     public Image overlay1;
@@ -44,18 +44,6 @@ public class Glyph implements Fileable{
         action = d;
         level = l;
         unremovable = u;
-    }
-    
-    @Override
-    public String toFileString(){
-        return "<g>" + name + "," + level + "," + action.toFileString() + "," + 
-                unremovable + "</g>";
-    }
-
-    public static Glyph getFromFileString(String filestring){
-        String profile[] = filestring.substring(3, filestring.length()-4).split(",");
-        return new Glyph(profile[0], Distribution.getFromFileString(profile[2]), 
-                Double.parseDouble(profile[1]), Boolean.parseBoolean(profile[3]));
     }
     
     public Color getHue1(){

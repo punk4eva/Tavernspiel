@@ -1,6 +1,7 @@
 
 package pathfinding;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import level.Area;
 
@@ -8,7 +9,7 @@ import level.Area;
  *
  * @author Adam Whittaker
  */
-public class Graph{
+public class Graph implements Serializable{
     
     Point[][] map;
     Waypoint[] waypoints;

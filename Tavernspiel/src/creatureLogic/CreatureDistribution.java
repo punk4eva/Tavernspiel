@@ -2,6 +2,7 @@
 package creatureLogic;
 
 import creatures.Creature;
+import java.io.Serializable;
 import logic.Distribution;
 import static logic.Distribution.r;
 
@@ -9,7 +10,7 @@ import static logic.Distribution.r;
  *
  * @author Adam Whittaker
  */
-public class CreatureDistribution{
+public class CreatureDistribution implements Serializable{
 
     protected final Creature[] creatures;
     protected final int[] chances;

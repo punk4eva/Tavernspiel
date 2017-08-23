@@ -1,11 +1,11 @@
 
 package creatureLogic;
 
+import fileLogic.FileHandler;
 import fileLogic.ReadWrite;
-import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
-import logic.Fileable;
 
 /**
  *
@@ -13,12 +13,11 @@ import logic.Fileable;
  * 
  * A class that interacts with data from all games played.
  */
-public class PlayData implements Fileable{
+public class PlayData implements Serializable{
     
     public int gamesPlayed;
     public HashSet<Badge> badgesEarned;
     public int gamesWon;
-    private final ReadWrite rw = new ReadWrite("saves/gamedata.plydta");
     
     public PlayData(int gP, int gW, ArrayList<Badge> bE){
         gamesPlayed = gP;
@@ -27,33 +26,14 @@ public class PlayData implements Fileable{
     }
     
     public PlayData(){
-        PlayData pd = getFromFileString(rw.read());
+        PlayData pd = (PlayData) FileHandler.getFromFile("saves/gamedata.plydta");
         gamesPlayed = pd.gamesPlayed;
         badgesEarned = pd.badgesEarned;
         gamesWon = pd.gamesWon;
     }
-
-    @Override
-    public String toFileString(){
-        String ret = gamesPlayed + "|" + gamesWon + "|";
-        ret = badgesEarned.stream().map((b) -> (b instanceof DeathBadge
-               ? ((DeathBadge) b).toFileString() + ","
-               : b.toFileString() + ","
-            )).reduce(ret, String::concat);
-        return ret.substring(0, ret.length()-1);
-    }
-    
-    public static PlayData getFromFileString(String filestring){
-        String[] profile = filestring.split("|");
-        ArrayList<Badge> badges = new ArrayList<>();
-        for(String str : profile[2].split(",")){
-            badges.add(Badge.getFromFileString(str));
-        }
-        return new PlayData(Integer.parseInt(profile[0]), Integer.parseInt(profile[1]), badges);
-    }
     
     public void saveToFile(){
-        rw.overwrite(toFileString());
+        FileHandler.toFile(this, "saves/gamedata.plydta");
     };
     
     

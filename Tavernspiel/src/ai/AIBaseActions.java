@@ -13,6 +13,7 @@ import items.Apparatus;
 import items.Item;
 import items.equipment.MeleeWeapon;
 import items.equipment.Wand;
+import java.io.Serializable;
 import java.util.ArrayList;
 import level.Area;
 import level.Location;
@@ -26,7 +27,7 @@ import tiles.HiddenTile;
  * 
  * Base actions that a creature can do.
  */
-public class AIBaseActions{
+public class AIBaseActions implements Serializable{
     
     
     //Calculations for things.
