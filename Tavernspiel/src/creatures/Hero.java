@@ -7,6 +7,7 @@ import containers.Equipment;
 import containers.Inventory;
 import creatureLogic.Attributes;
 import creatureLogic.DeathData;
+import creatureLogic.Description;
 import creatureLogic.Expertise;
 import gui.Handler;
 import gui.MainClass;
@@ -61,13 +62,13 @@ public class Hero extends Creature implements Viewable{
     }
     
     public Hero(Attributes atb, GameObjectAnimator an, Area ac, Handler handler){
-        super("Hero", "UNWRITTEN", atb, an, ac, handler);
+        super("Hero", new Description("hero","UNWRITTEN"), atb, an, ac, handler);
         data = new DeathData(this);
         screens = getScreens();
     }
     
     public Hero(int id, Equipment eq, Inventory inv, int hung, DeathData da, EnClass j, EnSubclass sub, Attributes atb, ArrayList<Buff> bs, Area ac, Handler handler){
-        super("Hero", "UNWRITTEN", id, eq, inv, atb, ac, bs, handler);
+        super("Hero", new Description("hero","UNWRITTEN"), id, eq, inv, atb, ac, bs, handler);
         hunger = hung;
         job = j;
         subclass = sub;

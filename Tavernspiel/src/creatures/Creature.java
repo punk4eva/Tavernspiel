@@ -7,6 +7,7 @@ import buffs.Buff;
 import containers.Equipment;
 import containers.Inventory;
 import creatureLogic.Attributes;
+import creatureLogic.Description;
 import gui.Handler;
 import gui.MainClass;
 import items.equipment.HeldWeapon;
@@ -30,10 +31,9 @@ public class Creature extends GameObject implements BuffListener{
     public Equipment equipment = new Equipment();
     public Inventory inventory = new Inventory();
     public Attributes attributes;
-    public int x, y;
     public ArrayList<Buff> buffs = new ArrayList<>();
     
-    public Creature(String n, String desc, Equipment eq, Inventory inv, 
+    public Creature(String n, Description desc, Equipment eq, Inventory inv, 
             Attributes atb, GameObjectAnimator an, Area ac, Handler handler){
         super(n, desc, an, ac, handler);
         equipment = eq;
@@ -42,7 +42,7 @@ public class Creature extends GameObject implements BuffListener{
         MainClass.buffinitiator.addBuffListener(this);
     }
     
-    public Creature(String n, String desc, int id, Equipment eq, Inventory inv, 
+    public Creature(String n, Description desc, int id, Equipment eq, Inventory inv, 
             Attributes atb, Area ac, ArrayList<Buff> bs, Handler handler){
         super(n, desc, AnimationBuilder.getCreatureAnimation(n), ac, handler);
         equipment = eq;
@@ -53,7 +53,7 @@ public class Creature extends GameObject implements BuffListener{
         MainClass.buffinitiator.addBuffListener(this);
     }
     
-    public Creature(String n, String desc, Attributes atb, GameObjectAnimator an, Area ac, Handler handler){
+    public Creature(String n, Description desc, Attributes atb, GameObjectAnimator an, Area ac, Handler handler){
         super(n, desc, an, ac, handler);
         attributes = atb;
         MainClass.buffinitiator.addBuffListener(this);

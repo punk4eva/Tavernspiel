@@ -2,11 +2,11 @@
 package logic;
 
 import animation.GameObjectAnimator;
+import creatureLogic.Description;
 import gui.Handler;
 import gui.MainClass;
 import java.awt.Graphics;
 import java.io.Serializable;
-import javax.swing.ImageIcon;
 import level.Area;
 import listeners.GameEvent;
 
@@ -20,9 +20,10 @@ public abstract class GameObject implements Serializable{
     
     public int ID;
     public final String name;
-    public final String description;
+    public final Description description;
     public final GameObjectAnimator animator;
     public int x, y;
+    public double turndelta = 0;
     public Area area;
     
     /**
@@ -33,7 +34,7 @@ public abstract class GameObject implements Serializable{
      * @param ar The area that this GameObject is in.
      * @param handler The handler to add to.
      */
-    public GameObject(String n, String desc, GameObjectAnimator an, Area ar, Handler handler){
+    public GameObject(String n, Description desc, GameObjectAnimator an, Area ar, Handler handler){
         ID = MainClass.idhandler.genID();
         name = n;
         description = desc;

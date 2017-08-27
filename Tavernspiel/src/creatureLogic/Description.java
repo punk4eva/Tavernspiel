@@ -1,11 +1,13 @@
 
 package creatureLogic;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Adam Whittaker
  */
-public class Description{
+public class Description implements Serializable{
     
     public final String type;
     public final String[] layers;
@@ -17,7 +19,7 @@ public class Description{
     
     public String getDescription(Expertise e){
         String ret = "";
-        int level = -1;
+        int level = 0;
         switch(type){
             case "armour": level = e.armour; break;
             case "weapons": level = e.weapons; break;

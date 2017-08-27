@@ -206,7 +206,7 @@ public class RoomBuilder{
                     if(y==1||x==1||y==room.dimension.height-2||x==room.dimension.width-2)
                         room.map[y][x] = new Tile("highgrass", area.location);
                     else room.map[y][x] = new Tile("lowgrass", area.location);
-                    room.map[y][x].gas = GasBuilder.gardengas(area, handler);
+                    room.addObject(GasBuilder.gardengas(area, handler));
                 }
             }
         }

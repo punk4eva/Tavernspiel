@@ -1,13 +1,12 @@
 
 package logic;
 
-import animation.Animation;
 import animation.GameObjectAnimator;
 import buffs.Buff;
+import creatureLogic.Description;
 import gui.Handler;
-import gui.MainClass;
 import java.awt.Graphics;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import level.Area;
 
 /**
@@ -16,27 +15,48 @@ import level.Area;
  */
 public class Gas extends GameObject{
     
-    public ArrayList<Buff> buffs = new ArrayList<>();
+    public LinkedList<Buff> buffs = new LinkedList<>();
     public int spreadNumber;
     public int duration = 10;
+    private final Handler handler;
     
-    public Gas(String n, String desc, Buff b, GameObjectAnimator a, int spread, Area ac, Handler handler){
-        super(n, desc, a, ac, handler);
+    public Gas(String n, Description desc, Buff b, GameObjectAnimator a, int spread, Area ac, Handler hand){
+        super(n, desc, a, ac, hand);
+        handler  = hand;
         buffs.add(b);
         spreadNumber = spread;
     }
     
-    public void merge(Gas gas){
-        buffs.addAll(gas.buffs);
-        spreadNumber = (spreadNumber + gas.spreadNumber)/2;
-        duration = (int)((duration + gas.duration)/1.5);
+    public Gas(Gas gas, int nx, int ny){
+        super(gas.name, gas.description, gas.animator, gas.area, gas.handler);
+        handler = gas.handler;
+        buffs = gas.buffs;
+        x = nx;
+        y = ny;
+        spreadNumber = gas.spreadNumber-1;
+    }
+    
+    private void spread(){
+        if(spreadNumber==0){
+            area.removeObject(this);
+            handler.removeObject(this);
+            return;
+        }
+        if(area.map[y-1][x].treadable&&!area.gasPresent(x, y-1)) area.addObject(new Gas(this, x, y-1));
+        if(area.map[y+1][x].treadable&&!area.gasPresent(x, y+1)) area.addObject(new Gas(this, x, y+1));
+        if(area.map[y][x-1].treadable&&!area.gasPresent(x-1, y)) area.addObject(new Gas(this, x-1, y));
+        if(area.map[y][x+1].treadable&&!area.gasPresent(x+1, y)) area.addObject(new Gas(this, x+1, y));
+        spreadNumber--;
     }
 
     @Override
     public void render(Graphics g){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void turn(double delta){/**Ignore*/}
+    public void turn(double delta){
+        for(double d=delta+turndelta;d>=1;d--) spread();
+        turndelta = (delta+turndelta)%1.0;
+    }
 }

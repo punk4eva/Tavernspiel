@@ -3,18 +3,19 @@ package level;
 
 import containers.Floor;
 import containers.Receptacle;
-import creatures.Creature;
 import creatures.Hero;
 import exceptions.AreaCoordsOutOfBoundsException;
 import exceptions.ReceptacleOverflowException;
-import gui.MainClass;
 import items.Item;
 import java.awt.Dimension;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import listeners.AreaEvent;
 import listeners.DeathEvent;
 import logic.Distribution;
+import logic.GameObject;
+import logic.Gas;
 import pathfinding.Graph;
 import tiles.Tile;
 import tiles.TrapBuilder;
@@ -28,8 +29,8 @@ public class Area implements Serializable{
     public Tile[][] map;
     public Dimension dimension;
     public Location location;
-    public ArrayList<Creature> creatures = new ArrayList<>();
-    public ArrayList<Receptacle> receptacles = new ArrayList<>();
+    public LinkedList<GameObject> objects = new LinkedList<>();
+    public LinkedList<Receptacle> receptacles = new LinkedList<>();
     public Graph graph = null;
     
     
@@ -84,7 +85,7 @@ public class Area implements Serializable{
         return null;
     }
     
-    protected void randomlyPlop(ArrayList<Item> items){
+    protected void randomlyPlop(List<Item> items){
         items.stream().forEach(item -> {
             int x, y;
             do{
@@ -116,6 +117,7 @@ public class Area implements Serializable{
             }catch(ReceptacleOverflowException ignore){}
             receptacles.add(floor);
         }
+        objects.remove(de.getCreature());
         de.getCreature().animator.switchTo("death");
     }
     
@@ -146,6 +148,18 @@ public class Area implements Serializable{
                 break;
             }
         }
+    }
+    
+    public void addObject(GameObject object){
+        objects.add(object);
+    }
+    
+    public void removeObject(GameObject object){
+        objects.remove(object);
+    }
+
+    public boolean gasPresent(int x, int y){
+        return objects.stream().filter(ob -> ob instanceof Gas && ob.y==y && ob.x==x).count()>0;
     }
     
 }

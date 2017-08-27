@@ -4,7 +4,6 @@ package tiles;
 import java.awt.Image;
 import java.io.Serializable;
 import level.Location;
-import logic.Gas;
 import logic.ImageHandler;
 
 /**
@@ -17,7 +16,6 @@ public class Tile implements Serializable{
     public String name;
     public boolean treadable = true;
     public boolean flammable = false;
-    public Gas gas = null;
     
     public Tile(String n, Image ic){
         image = ic;

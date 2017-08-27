@@ -46,7 +46,7 @@ public class Trap extends HiddenTile{
     
     public void activate(Creature c, Area area){
         if(buff!=null) c.buffs.add(buff);
-        else gas.merge(sprayedGas);
+        else area.addObject(sprayedGas);
         if(!reusable){
             sprayedGas = null;
             buff = null;

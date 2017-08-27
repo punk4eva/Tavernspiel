@@ -9,6 +9,7 @@ import containers.Floor;
 import containers.Mimic;
 import containers.Receptacle;
 import containers.SkeletalRemains;
+import creatureLogic.Description;
 import gui.Handler;
 import items.Item;
 import level.Area;
@@ -49,7 +50,7 @@ public class TrapBuilder{
         5, 6);              
         GameObjectAnimator a = new GameObjectAnimator(new String[]{"placeholder"},
                 new Animation[]{new Animation(ImageHandler.getWaterFrames(area.location, 0))}); //@unfinished, placeholder
-        return new Gas("Toxic Gas", "A poisonous green vapour.", b, a, 7, 
+        return new Gas("Toxic Gas", new Description("gas", "A poisonous green vapour."), b, a, 7, 
                 area, handler);
     }
     
