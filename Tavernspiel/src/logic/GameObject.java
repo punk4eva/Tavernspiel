@@ -54,6 +54,11 @@ public abstract class GameObject implements Serializable{
      */
     public abstract void render(Graphics g);
     
+    public void standardAnimation(Graphics g){
+        int[] focus = MainClass.getFocus();
+        animator.active.animate(g, (int)(x*MainClass.getZoom()*16)+focus[0], (int)(y*MainClass.getZoom()*16)+focus[1]);
+    }
+    
     //Might need to make this abstract.
     public void gameEvent(GameEvent ge){
         if(ID==ge.getID()){

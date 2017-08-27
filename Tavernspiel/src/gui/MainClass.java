@@ -55,7 +55,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public ArrayList<Viewable> activeViewables = new ArrayList<>();
     private Dialogue currentDialogue = null; //null if no dialogue.
     public Area currentArea;
-    private int focusX=16, focusY=16;
+    private static int focusX=16, focusY=16;
     private int xOfDrag=-1, yOfDrag=-1;
     private String clickMode = "normal";
     private static double zoom = 1.0;
@@ -117,6 +117,10 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     
     public static double getZoom(){
         return zoom;
+    }
+    
+    public static int[] getFocus(){
+        return new int[]{focusX, focusY};
     }
 
     @Override

@@ -51,7 +51,7 @@ public class Gas extends GameObject{
 
     @Override
     public void render(Graphics g){
-        throw new UnsupportedOperationException("Not supported yet.");
+        standardAnimation(g);
     }
 
     @Override
@@ -59,4 +59,5 @@ public class Gas extends GameObject{
         for(double d=delta+turndelta;d>=1;d--) spread();
         turndelta = (delta+turndelta)%1.0;
     }
+    
 }
