@@ -14,6 +14,7 @@ import gui.Viewable;
 import gui.Window;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import level.Area;
 import listeners.DeathEvent;
 
 /**
@@ -53,13 +54,13 @@ public class Hero extends Creature implements Viewable{
         }
     }
     
-    public Hero(Attributes atb, GameObjectAnimator an, int ac, Handler handler){
+    public Hero(Attributes atb, GameObjectAnimator an, Area ac, Handler handler){
         super("Hero", "UNWRITTEN", atb, an, ac, handler);
         data = new DeathData(this);
         screens = getScreens();
     }
     
-    public Hero(int id, Equipment eq, Inventory inv, int hung, DeathData da, EnClass j, EnSubclass sub, Attributes atb, ArrayList<Buff> bs, int ac, Handler handler){
+    public Hero(int id, Equipment eq, Inventory inv, int hung, DeathData da, EnClass j, EnSubclass sub, Attributes atb, ArrayList<Buff> bs, Area ac, Handler handler){
         super("Hero", "UNWRITTEN", id, eq, inv, atb, ac, bs, handler);
         hunger = hung;
         job = j;
@@ -89,7 +90,7 @@ public class Hero extends Creature implements Viewable{
     }
     
     public void die(Creature killer){
-        MainClass.reaper.notify(new DeathEvent(this, x, y, areaCode));
+        new DeathEvent(this, x, y, area).notifyEvent();
         MainClass.messageQueue.add("red", killer.name + " killed you...");
         Window.main.endGame();
     }

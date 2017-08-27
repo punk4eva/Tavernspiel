@@ -3,6 +3,7 @@ package items;
 
 import creatures.Creature;
 import javax.swing.ImageIcon;
+import level.Area;
 
 /**
  *
@@ -10,21 +11,21 @@ import javax.swing.ImageIcon;
  */
 public abstract class Consumable extends Item{
     
-    public Consumable(String n, ImageIcon i){
-        super(n, i, true);
+    public Consumable(String n, String desc, ImageIcon i){
+        super(n, desc, i, true);
         actions = ItemAction.getArray(3);
     }
     
-    public Consumable(String n, ImageIcon i, int q){
-        super(n, i, q);
+    public Consumable(String n, String desc, ImageIcon i, int q){
+        super(n, desc, i, q);
         actions = ItemAction.getArray(3);
     }
     
-    public Consumable(String n, ImageIcon i, int q, boolean flam){
-        super(n, i, q, flam);
+    public Consumable(String n, String desc, ImageIcon i, int q, boolean flam){
+        super(n, desc, i, q, flam);
         actions = ItemAction.getArray(3);
     }
     
-    public abstract void use(Creature c);
+    public abstract void use(Creature c, Area area);
     
 }

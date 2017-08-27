@@ -12,12 +12,12 @@ import logic.Distribution;
  */
 public class Chestplate extends Apparatus{
     
-    public Chestplate(String s, ImageIcon ic, int dur, Distribution d, int st){
-        super(s, ic, dur, d, st);
+    public Chestplate(String s, String desc, ImageIcon ic, int dur, Distribution d, int st){
+        super(s, desc, ic, dur, d, st);
     }
     
-    public Chestplate(Item i, ImageIcon ic, int dur, Distribution d, int st){
-        super(i.name, ic, dur, d, st);
+    public Chestplate(Item i, int dur, Distribution d, int st){
+        super(i.name, i.description, new ImageIcon(i.icon), dur, d, st);
     }
     
 }

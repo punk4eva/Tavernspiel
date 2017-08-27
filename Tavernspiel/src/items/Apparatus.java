@@ -28,15 +28,15 @@ public class Apparatus extends Item{
     public int strength = -1;
     public int usesTillIdentify = 20;
     
-    public Apparatus(String n, ImageIcon i, int dur, Distribution a){
-        super(n, i, false);
+    public Apparatus(String n, String desc, ImageIcon i, int dur, Distribution a){
+        super(n, desc, i, false);
         durability = dur;
         maxDurability = dur;
         action = a;
     }
     
-    public Apparatus(String n, ImageIcon i, int dur, Distribution a, int st){
-        super(n, i, false);
+    public Apparatus(String n, String desc, ImageIcon i, int dur, Distribution a, int st){
+        super(n, desc, i, false);
         durability = dur;
         maxDurability = dur;
         action = a;

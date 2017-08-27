@@ -41,7 +41,7 @@ public class Chasm extends Tile{
             //unfinished
         }else try{
             Hero hero = (Hero) c;
-            location.notify(new AreaEvent("FELLINTOCHASM", c.areaCode));
+            new AreaEvent("FELLINTOCHASM", c.area).notifyEvent();
         }catch(ClassCastException e){
             //c.fallAnimation();
             //gainXP(); ???

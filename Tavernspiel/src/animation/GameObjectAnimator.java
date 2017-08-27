@@ -4,6 +4,8 @@ package animation;
 import gui.MainClass;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
+import javax.swing.ImageIcon;
 import listeners.AnimationListener;
 import logic.ImageUtils;
 
@@ -13,7 +15,7 @@ import logic.ImageUtils;
  * 
  * This class holds the animations that a GameObject will use.
  */
-public class GameObjectAnimator implements AnimationListener{
+public class GameObjectAnimator implements AnimationListener, Serializable{
     
     private final String[] names;
     private final Animation[] animations;
@@ -40,6 +42,16 @@ public class GameObjectAnimator implements AnimationListener{
         animations = new Animation[]{gasAnimation};
         names = new String[]{"gas"};
         active = gasAnimation;
+    }
+    
+    /**
+     * Creates an instance of a still image.
+     * @param icon
+     */
+    public GameObjectAnimator(ImageIcon icon){
+        names = new String[]{"default"};
+        animations = new Animation[]{new Animation(icon)};
+        active = animations[0];
     }
     
     /**

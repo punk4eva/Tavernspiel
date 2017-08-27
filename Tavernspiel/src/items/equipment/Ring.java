@@ -12,8 +12,8 @@ import logic.Distribution;
  */
 public class Ring extends Apparatus{
     
-    public Ring(String n, ImageIcon ic, int dur, Distribution a, Glyph g){
-        super(n, ic, dur, a);
+    public Ring(String n, String desc, ImageIcon ic, int dur, Distribution a, Glyph g){
+        super(n, desc, ic, dur, a);
         glyph = g;
     }
     

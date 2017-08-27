@@ -1,6 +1,8 @@
 
 package listeners;
 
+import level.Area;
+
 /**
  *
  * @author Adam Whittaker
@@ -10,16 +12,16 @@ public class AreaEvent{
     private final String action;
     private int x;
     private int y;
-    private final int zipcode;
+    private final Area area;
     
-    public AreaEvent(String act, int zip){
+    public AreaEvent(String act, Area a){
         action = act;
-        zipcode = zip;
+        area = a;
     }
     
-    public AreaEvent(String act, int zip, int x, int y){
+    public AreaEvent(String act, Area a, int x, int y){
         action = act;
-        zipcode = zip;
+        area = a;
         this.x = x;
         this.y = y;
     }
@@ -36,8 +38,12 @@ public class AreaEvent{
         return y;
     }
     
-    public int getCode(){
-        return zipcode;
+    public void notifyEvent(){
+        area.areaActedUpon(this);
+    }
+    
+    public Area getArea(){
+        return area;
     }
     
     public void setXY(int nx, int ny){

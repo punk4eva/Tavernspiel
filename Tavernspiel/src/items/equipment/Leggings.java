@@ -12,12 +12,12 @@ import logic.Distribution;
  */
 public class Leggings extends Apparatus{
     
-    public Leggings(String s, ImageIcon ic, int dur, Distribution d, int st){
-        super(s, ic, dur, d, st);
+    public Leggings(String s, String desc, ImageIcon ic, int dur, Distribution d, int st){
+        super(s, desc, ic, dur, d, st);
     }
     
     public Leggings(Item i, ImageIcon ic, int dur, Distribution d, int st){
-        super(i.name, ic, dur, d, st);
+        super(i.name, i.description, new ImageIcon(i.icon), dur, d, st);
     }
     
 }

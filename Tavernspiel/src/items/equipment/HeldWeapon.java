@@ -11,8 +11,8 @@ import logic.Distribution;
  */
 public class HeldWeapon extends Apparatus{
     
-    public HeldWeapon(String s, ImageIcon ic, int dur, Distribution d, int st){
-        super(s, ic, dur, d, st);
+    public HeldWeapon(String s, String desc, ImageIcon ic, int dur, Distribution d, int st){
+        super(s, desc, ic, dur, d, st);
     }
     
 }

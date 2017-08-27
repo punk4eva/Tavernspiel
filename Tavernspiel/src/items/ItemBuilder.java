@@ -16,7 +16,7 @@ import listeners.AreaEvent;
 public class ItemBuilder{
     
     public static Item amulet(){
-        return new Item("amulet", new ImageIcon("graphics/amulet.png"));
+        return new Item("amulet", "Description.", new ImageIcon("graphics/amulet.png"));
     }
 
     public static Item get(String substring){

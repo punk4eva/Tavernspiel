@@ -11,8 +11,8 @@ import gui.Handler;
 import gui.MainClass;
 import items.equipment.HeldWeapon;
 import java.awt.Graphics;
-import java.io.Serializable;
 import java.util.ArrayList;
+import level.Area;
 import listeners.BuffEvent;
 import listeners.BuffListener;
 import listeners.DeathEvent;
@@ -34,7 +34,7 @@ public class Creature extends GameObject implements BuffListener{
     public ArrayList<Buff> buffs = new ArrayList<>();
     
     public Creature(String n, String desc, Equipment eq, Inventory inv, 
-            Attributes atb, GameObjectAnimator an, int ac, Handler handler){
+            Attributes atb, GameObjectAnimator an, Area ac, Handler handler){
         super(n, desc, an, ac, handler);
         equipment = eq;
         inventory = inv;
@@ -43,7 +43,7 @@ public class Creature extends GameObject implements BuffListener{
     }
     
     public Creature(String n, String desc, int id, Equipment eq, Inventory inv, 
-            Attributes atb, int ac, ArrayList<Buff> bs, Handler handler){
+            Attributes atb, Area ac, ArrayList<Buff> bs, Handler handler){
         super(n, desc, AnimationBuilder.getCreatureAnimation(n), ac, handler);
         equipment = eq;
         ID = id;
@@ -53,7 +53,7 @@ public class Creature extends GameObject implements BuffListener{
         MainClass.buffinitiator.addBuffListener(this);
     }
     
-    public Creature(String n, String desc, Attributes atb, GameObjectAnimator an, int ac, Handler handler){
+    public Creature(String n, String desc, Attributes atb, GameObjectAnimator an, Area ac, Handler handler){
         super(n, desc, an, ac, handler);
         attributes = atb;
         MainClass.buffinitiator.addBuffListener(this);
@@ -68,7 +68,7 @@ public class Creature extends GameObject implements BuffListener{
     }
     
     public void die(){
-        MainClass.reaper.notify(new DeathEvent(this, x, y, areaCode));  
+        new DeathEvent(this, x, y, area).notifyEvent();  
     }
     
     public void getAttacked(Creature attacker, int damage){

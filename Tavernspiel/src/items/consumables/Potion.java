@@ -2,6 +2,7 @@
 package items.consumables;
 
 import items.Consumable;
+import items.ItemAction;
 import javax.swing.ImageIcon;
 
 /**
@@ -10,12 +11,14 @@ import javax.swing.ImageIcon;
  */
 public abstract class Potion extends Consumable{
     
-    public Potion(String n, ImageIcon i){
-        super(n, i);
+    public Potion(String n, String desc, ImageIcon i){
+        super(n, desc, i);
+        actions[2] = new ItemAction("DRINK");
     }
     
-    public Potion(String n, ImageIcon i, int q){
-        super(n, i, q);
+    public Potion(String n, String desc, ImageIcon i, int q){
+        super(n, desc, i, q);
+        actions[2] = new ItemAction("DRINK");
     }
     
 }

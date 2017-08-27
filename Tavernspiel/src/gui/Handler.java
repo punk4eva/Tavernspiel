@@ -3,26 +3,15 @@ package gui;
 import java.awt.Graphics;
 import java.io.Serializable;
 import java.util.LinkedList;
-import listeners.DeathEvent;
-import listeners.DeathListener;
 import listeners.GameEvent;
-import listeners.GrimReaper;
 import logic.GameObject;
 
 /**
  *
  * @author Charlie Hands
  */
-public class Handler implements DeathListener, Serializable{
+public class Handler implements Serializable{
     LinkedList<GameObject> object = new LinkedList<>();
-    
-    /**
-     * Creates a new Handler object.
-     * @param gr The GrimReaper to listen to.
-     */
-    public Handler(GrimReaper gr){
-        gr.addDeathListener(this);
-    }
 
     /**
     public void tick(){
@@ -81,11 +70,6 @@ public class Handler implements DeathListener, Serializable{
         object.stream().forEach(gameOb -> {
             gameOb.gameEvent(ge);
         });
-    }
-
-    @Override
-    public void lifeTaken(DeathEvent de){
-        removeObject(de.getCreature());
     }
 
 }

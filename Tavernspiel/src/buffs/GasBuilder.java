@@ -20,7 +20,7 @@ public class GasBuilder{
                 "Cleansing shafts of light pierce the vegetation.",
                 BuffBuilder.shadowmelded(),
                 new GameObjectAnimator(AnimationBuilder.getAnimation("shadowmelded")),
-                1, area.zipcode, handler);
+                1, area, handler);
         g.duration = 1000000;
         return g;
     }

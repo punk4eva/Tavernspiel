@@ -16,8 +16,8 @@ public class Artifact extends Apparatus{
     public int charges;
     public int maxCharges;
     
-    public Artifact(String n, ImageIcon i, int dur, Distribution a, Buff b, int charge){
-        super(n, i, dur, a);
+    public Artifact(String n, String desc, ImageIcon i, int dur, Distribution a, Buff b, int charge){
+        super(n, desc, i, dur, a);
     }
     
 }

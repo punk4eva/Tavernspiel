@@ -12,12 +12,12 @@ import logic.Distribution;
  */
 public class Helmet extends Apparatus{
     
-    public Helmet(String s, ImageIcon ic, int dur, Distribution d, int st){
-        super(s, ic, dur, d, st);
+    public Helmet(String s, String desc, ImageIcon ic, int dur, Distribution d, int st){
+        super(s, desc, ic, dur, d, st);
     }
     
-    public Helmet(Item i, ImageIcon ic, int dur, Distribution d, int st){
-        super(i.name, ic, dur, d, st);
+    public Helmet(Item i, int dur, Distribution d, int st){
+        super(i.name, i.description, new ImageIcon(i.icon), dur, d, st);
     }
     
 }

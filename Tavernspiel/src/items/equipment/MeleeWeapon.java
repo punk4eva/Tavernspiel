@@ -12,11 +12,11 @@ public class MeleeWeapon extends HeldWeapon{
     
     public final double accuracy;
     public final double speed;
-    public final double reach;
+    public final int reach;
     public final double damageBlock;
     
-    public MeleeWeapon(String s, ImageIcon ic, int dur, Distribution d, int st, double ac, double sp, double re, double db){
-        super(s, ic, dur, d, st);
+    public MeleeWeapon(String s, String desc, ImageIcon ic, int dur, Distribution d, int st, double ac, double sp, int re, double db){
+        super(s, desc, ic, dur, d, st);
         accuracy = ac;
         speed = sp;
         reach = re;

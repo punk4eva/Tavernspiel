@@ -8,6 +8,7 @@ import gui.Handler;
 import gui.MainClass;
 import java.awt.Graphics;
 import java.util.ArrayList;
+import level.Area;
 
 /**
  *
@@ -19,7 +20,7 @@ public class Gas extends GameObject{
     public int spreadNumber;
     public int duration = 10;
     
-    public Gas(String n, String desc, Buff b, GameObjectAnimator a, int spread, int ac, Handler handler){
+    public Gas(String n, String desc, Buff b, GameObjectAnimator a, int spread, Area ac, Handler handler){
         super(n, desc, a, ac, handler);
         buffs.add(b);
         spreadNumber = spread;

@@ -2,6 +2,8 @@
 package listeners;
 
 import creatures.Creature;
+import gui.MainClass;
+import level.Area;
 
 /**
  *
@@ -12,13 +14,13 @@ public class DeathEvent{
     private final Creature creature;
     private final int x;
     private final int y;
-    private final int zipcode;
+    private final Area area;
     
-    public DeathEvent(Creature c, int x, int y, int zip){
+    public DeathEvent(Creature c, int x, int y, Area a){
         creature = c;
         this.x = x;
+        area = a;
         this.y = y;
-        zipcode = zip;
     }
     
     public Creature getCreature(){
@@ -33,8 +35,13 @@ public class DeathEvent{
         return y;
     }
     
-    public int getCode(){
-        return zipcode;
+    public void notifyEvent(){
+        area.lifeTaken(this);
+        MainClass.reaper.notify(this);
+    }
+    
+    public Area getArea(){
+        return area;
     }
     
 }

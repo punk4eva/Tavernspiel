@@ -4,6 +4,8 @@ package animation;
 import gui.MainClass;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.io.Serializable;
+import javax.swing.ImageIcon;
 import level.Location;
 import listeners.AnimationListener;
 import logic.ImageHandler;
@@ -14,7 +16,7 @@ import logic.ImageHandler;
  * 
  * Handles animation.
  */
-public class Animation{
+public class Animation implements Serializable{
     
     public final Image[] frames;
     private AnimationListener listener;
@@ -39,6 +41,14 @@ public class Animation{
         frames = f;
         listener = al;
         MainClass.addAnimation(this);
+    }
+    
+    /**
+     * Creates a still image Animation.
+     * @param icon
+     */
+    public Animation(ImageIcon icon){
+        frames = new Image[]{icon.getImage()};
     }
     
     /**

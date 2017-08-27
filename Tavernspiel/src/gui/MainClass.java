@@ -49,7 +49,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     protected final Handler handler;
 
     public static final IDHandler idhandler = new IDHandler(); //Creates UUIDs for GameObjects.
-    public static final GrimReaper reaper = new GrimReaper(); //Handles death.
+    public static GrimReaper reaper; //Handles death.
     public static final BuffEventInitiator buffinitiator = new BuffEventInitiator(); //Handles buffs.
     public ArrayList<Screen> activeScreens = new ArrayList<>();
     public ArrayList<Viewable> activeViewables = new ArrayList<>();
@@ -59,8 +59,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     private int xOfDrag=-1, yOfDrag=-1;
     private String clickMode = "normal";
     private static double zoom = 1.0;
-    public static final double MAX_ZOOM = 8.0;
-    public static final double MIN_ZOOM = 0.512;
+    public static final double MAX_ZOOM = 8.0, MIN_ZOOM = 0.512;
     public static long frameDivisor = 10000;
     public static long frameNumber = 0;
     public static double gameTurns = 0;
@@ -74,7 +73,8 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
         ImageHandler.initializeMap();
 
-        handler = new Handler(reaper);
+        handler = new Handler();
+        reaper = new GrimReaper(handler);
     }
     
     public void addViewable(Viewable viewable){

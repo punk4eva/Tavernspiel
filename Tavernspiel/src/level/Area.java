@@ -13,10 +13,7 @@ import java.awt.Dimension;
 import java.io.Serializable;
 import java.util.ArrayList;
 import listeners.AreaEvent;
-import listeners.ZipHandler;
-import listeners.AreaListener;
 import listeners.DeathEvent;
-import listeners.DeathListener;
 import logic.Distribution;
 import pathfinding.Graph;
 import tiles.Tile;
@@ -26,22 +23,19 @@ import tiles.TrapBuilder;
  *
  * @author Adam Whittaker
  */
-public class Area implements AreaListener, DeathListener, Serializable{
+public class Area implements Serializable{
     
     public Tile[][] map;
     public Dimension dimension;
     public Location location;
     public ArrayList<Creature> creatures = new ArrayList<>();
     public ArrayList<Receptacle> receptacles = new ArrayList<>();
-    public final int zipcode = ZipHandler.next();
     public Graph graph = null;
     
     
     public Area(Dimension dim, Location loc){
         dimension = dim;
         location = loc;
-        location.addAreaListener(this);
-        MainClass.reaper.addDeathListener(this);
         map = createBlank();
     }
     
@@ -108,44 +102,38 @@ public class Area implements AreaListener, DeathListener, Serializable{
     
     
 
-    @Override
     public void lifeTaken(DeathEvent de){
-        if(de.getCode()==zipcode){
-            //@unfinished
+        //@unfinished
+        try{
+            getReceptacle(de.getX(), de.getY()).pushAll(de.getCreature().inventory);
+            getReceptacle(de.getX(), de.getY()).pushAll(de.getCreature().equipment);
+        }catch(ReceptacleOverflowException ignore){
+        }catch(NullPointerException e){
+            Floor floor = new Floor(de.getX(), de.getY());
             try{
-                getReceptacle(de.getX(), de.getY()).pushAll(de.getCreature().inventory);
-                getReceptacle(de.getX(), de.getY()).pushAll(de.getCreature().equipment);
-            }catch(ReceptacleOverflowException ignore){
-            }catch(NullPointerException e){
-                Floor floor = new Floor(de.getX(), de.getY());
-                try{
-                    floor.pushAll(de.getCreature().inventory);
-                    floor.pushAll(de.getCreature().equipment);
-                }catch(ReceptacleOverflowException ignore){}
-                receptacles.add(floor);
-            }
-            de.getCreature().animator.switchTo("death");
+                floor.pushAll(de.getCreature().inventory);
+                floor.pushAll(de.getCreature().equipment);
+            }catch(ReceptacleOverflowException ignore){}
+            receptacles.add(floor);
         }
+        de.getCreature().animator.switchTo("death");
     }
     
-    @Override
     public void areaActedUpon(AreaEvent ae){
-        if(ae.getCode()==zipcode){
-            switch(ae.getAction()){
-                case "FELLINTOCHASM":
-                    //if(nextLevel==null){          @unfinished
-                    //    nextLevel.fullLoad();
-                    //    hero.changeLevel(nextLevel.zipcode);
-                    //    hero.addBuff(BuffBuilder.bleeding(level*2));
-                    //}else{
-                    //    @unfinished
-                    //}
-                    break;
-                case "BURN": burn(ae.getX(), ae.getY());
-                    break;
-                case "FIND": 
-                    break;
-            }
+        switch(ae.getAction()){
+            case "FELLINTOCHASM":
+                //if(nextLevel==null){          @unfinished
+                //    nextLevel.fullLoad();
+                //    hero.changeLevel(nextLevel.zipcode);
+                //    hero.addBuff(BuffBuilder.bleeding(level*2));
+                //}else{
+                //    @unfinished
+                //}
+                break;
+            case "BURN": burn(ae.getX(), ae.getY());
+                break;
+            case "FIND": 
+                break;
         }
     }
 

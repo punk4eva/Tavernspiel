@@ -2,6 +2,7 @@
 package items.consumables;
 
 import items.Consumable;
+import items.ItemAction;
 import javax.swing.ImageIcon;
 
 /**
@@ -10,12 +11,14 @@ import javax.swing.ImageIcon;
  */
 public abstract class Scroll extends Consumable{
     
-    public Scroll(String n, ImageIcon i){
-        super(n, i, 1, true);
+    public Scroll(String n, String desc, ImageIcon i){
+        super(n, desc, i, 1, true);
+        actions[2] = new ItemAction("READ");
     }
     
-    public Scroll(String n, ImageIcon i, int q){
-        super(n, i, q, true);
+    public Scroll(String n, String desc, ImageIcon i, int quantity){
+        super(n, desc, i, quantity, true);
+        actions[2] = new ItemAction("READ");
     }
     
 }

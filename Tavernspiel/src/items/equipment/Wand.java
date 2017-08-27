@@ -33,13 +33,14 @@ public class Wand extends RangedWeapon{
     
     /**
      * @param s The name of the Wand.
+     * @param desc The description.
      * @param ic Its icon.
      * @param dur Its durability.
      * @param d Its action distribution.
      * @param sp Its speed. 
      */
-    public Wand(String s, ImageIcon ic, int dur, Distribution d, double sp){
-        super(s, ic, dur, d, -1, sp);
+    public Wand(String s, String desc, ImageIcon ic, int dur, Distribution d, double sp){
+        super(s, desc, ic, dur, d, -1, sp);
         firingAnimation = ItemBuilder.getWandAnimation(s);
         blockingLevel = ItemBuilder.getWandBlockingLevel(s);
         areaEvent = ItemBuilder.getWandAreaEvent(s);
@@ -47,7 +48,7 @@ public class Wand extends RangedWeapon{
 
     public void setAndNotify(int x, int y, Location loc){
         areaEvent.setXY(x, y);
-        loc.notify(areaEvent);
+        areaEvent.notifyEvent();
     }
     
     

@@ -5,14 +5,13 @@ import creatures.Creature;
 import java.awt.Image;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
-import listeners.AreaEventInitiator;
 import logic.Distribution;
 
 /**
  *
  * @author Adam Whittaker
  */
-public class Location extends AreaEventInitiator implements Serializable{
+public class Location implements Serializable{
     
     public final String name;
     public final Image tileset;

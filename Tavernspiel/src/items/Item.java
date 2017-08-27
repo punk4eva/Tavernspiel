@@ -3,7 +3,6 @@ package items;
 
 import creatures.Creature;
 import creatures.Hero;
-import gui.MainClass;
 import items.consumables.Potion;
 import items.consumables.Scroll;
 import java.awt.Image;
@@ -18,42 +17,41 @@ import javax.swing.ImageIcon;
  */
 public class Item implements Serializable{
     
-    public String name;
-    public String description;
-    public int ID;
     public Image icon;
+    public final String name;
+    public final String description;
     public int quantity = 1;
     public boolean stackable = true;
     public boolean flammable = false;
     public ItemAction actions[];
     private Boolean cursed, identified;
     
-    public Item(String n, ImageIcon i){
+    public Item(String n, String desc, ImageIcon i){
         name = n;
+        description = desc;
         icon = i.getImage();
-        ID = MainClass.idhandler.genID();
     }
     
-    public Item(String n, ImageIcon i, int q){
+    public Item(String n, String desc, ImageIcon i, int q){
         name = n;
+        description = desc;
         icon = i.getImage();
         quantity = q;
-        ID = MainClass.idhandler.genID();
     }
     
-    public Item(String n, ImageIcon i, int q, boolean flam){
+    public Item(String n, String desc, ImageIcon i, int q, boolean flam){
         name = n;
+        description = desc;
         icon = i.getImage();
         quantity = q;
         flammable = flam;
-        ID = MainClass.idhandler.genID();
     }
     
-    public Item(String n, ImageIcon i, boolean s){
+    public Item(String n, String desc, ImageIcon i, boolean s){
         name = n;
+        description = desc;
         icon = i.getImage();
         stackable = s;
-        ID = MainClass.idhandler.genID();
     }
     
     public String getPronounedName(int level, String pro){

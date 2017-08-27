@@ -17,8 +17,8 @@ public class RangedWeapon extends HeldWeapon{
     public Formula[] distanceAccuracyFormulas[];
     public final double speed;
     
-    public RangedWeapon(String s, ImageIcon ic, int dur, Distribution d, int st, double sp){
-        super(s, ic, dur, d, st);
+    public RangedWeapon(String s, String desc, ImageIcon ic, int dur, Distribution d, int st, double sp){
+        super(s, desc, ic, dur, d, st);
         speed = sp;
     }
     

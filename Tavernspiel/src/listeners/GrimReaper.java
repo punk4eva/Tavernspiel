@@ -1,8 +1,7 @@
 
 package listeners;
 
-import java.util.ArrayList;
-import java.util.List;
+import gui.Handler;
 
 /**
  *
@@ -10,19 +9,13 @@ import java.util.List;
  */
 public class GrimReaper{
     
-    private List<DeathListener> listenersInTheShadows = new ArrayList<>();
+    private final Handler handler;
     
-    /**
-     * Adds a DeathListener to the notification list.
-     * @param dl The DeathListener to add.
-     */
-    public void addDeathListener(DeathListener dl){
-        listenersInTheShadows.add(dl);
+    public GrimReaper(Handler h){
+        handler = h;
     }
     
     public void notify(DeathEvent de){
-        listenersInTheShadows.stream().forEach(arealistener -> {
-            arealistener.lifeTaken(de);
-        });
+        handler.removeObject(de.getCreature());
     }
 }

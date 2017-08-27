@@ -50,7 +50,7 @@ public class TrapBuilder{
         GameObjectAnimator a = new GameObjectAnimator(new String[]{"placeholder"},
                 new Animation[]{new Animation(ImageHandler.getWaterFrames(area.location, 0))}); //@unfinished, placeholder
         return new Gas("Toxic Gas", "A poisonous green vapour.", b, a, 7, 
-                area.zipcode, handler);
+                area, handler);
     }
     
     public static Receptacle getRandomReceptacle(Item i, int x, int y){  
