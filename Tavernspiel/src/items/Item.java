@@ -24,7 +24,7 @@ public class Item implements Serializable{
     public boolean stackable = true;
     public boolean flammable = false;
     public ItemAction actions[];
-    private Boolean cursed, identified;
+    Boolean cursed, identified;
     
     public Item(String n, String desc, ImageIcon i){
         name = n;

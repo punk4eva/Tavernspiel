@@ -11,13 +11,13 @@ import javax.swing.ImageIcon;
  */
 public abstract class Potion extends Consumable{
     
-    public Potion(String n, String desc, ImageIcon i){
-        super(n, desc, i);
+    public Potion(String n, String desc, ImageIcon i, boolean idd){
+        super(n, desc, i, idd);
         actions[2] = new ItemAction("DRINK");
     }
     
-    public Potion(String n, String desc, ImageIcon i, int q){
-        super(n, desc, i, q);
+    public Potion(String n, String desc, ImageIcon i, boolean idd, int q){
+        super(n, desc, i, idd, q);
         actions[2] = new ItemAction("DRINK");
     }
     

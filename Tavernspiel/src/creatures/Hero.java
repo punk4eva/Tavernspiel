@@ -7,6 +7,7 @@ import containers.Equipment;
 import containers.Inventory;
 import creatureLogic.Attributes;
 import creatureLogic.DeathData;
+import creatureLogic.Expertise;
 import gui.Handler;
 import gui.MainClass;
 import gui.Screen;
@@ -26,30 +27,35 @@ public class Hero extends Creature implements Viewable{
     public final ArrayList<Screen> screens;
     public int hunger = 100;
     public DeathData data;
+    public Expertise expertise;
     public EnClass job = EnClass.NoClass;
     public EnSubclass subclass = null; //Null if no subclass selected.
     
     public enum EnClass{
-        NoClass,
-        Warrior (new EnSubclass[]{EnSubclass.Berserker, EnSubclass.Gladiator}),
-        Mage (new EnSubclass[]{EnSubclass.Battlemage, EnSubclass.Warlock}),
-        Rogue (new EnSubclass[]{EnSubclass.Freerunner, EnSubclass.Assassin}),
-        Huntress (new EnSubclass[]{EnSubclass.Warden, EnSubclass.Sniper});
+        NoClass (new Expertise()),
+        Warrior (new Expertise(1,0,0,2,1,0), new EnSubclass[]{EnSubclass.Berserker, EnSubclass.Gladiator}),
+        Mage (new Expertise(0,1,2,0,0,2), new EnSubclass[]{EnSubclass.Battlemage, EnSubclass.Warlock}),
+        Rogue (new Expertise(1,1,1,1,1,0), new EnSubclass[]{EnSubclass.Freerunner, EnSubclass.Assassin}),
+        Huntress (new Expertise(2,1,0,0,1,0), new EnSubclass[]{EnSubclass.Warden, EnSubclass.Sniper});
         
         private final EnSubclass[] possibleSubclasses;
-        EnClass(EnSubclass... subclasses){
+        private final Expertise expertiseGained;
+        EnClass(Expertise e, EnSubclass... subclasses){
+            expertiseGained = e;
             possibleSubclasses = subclasses;
         }
     }
     
     public enum EnSubclass{
-        Berserker ("Not finished"), Gladiator ("Not finished"),
-        Battlemage ("Not finished"), Warlock ("Not finished"),
-        Freerunner ("Not finished"), Assassin ("Not finished"),
-        Warden ("Not finished"), Sniper ("Not finished");
+        Berserker (new Expertise(1,0,0,0,0,0), "Not finished"), Gladiator (new Expertise(0,0,0,0,1,0), "Not finished"),
+        Battlemage (new Expertise(0,0,0,1,1,0), "Not finished"), Warlock (new Expertise(1,1,0,0,0,0), "Not finished"),
+        Freerunner (new Expertise(0,0,1,1,0,0), "Not finished"), Assassin (new Expertise(1,0,0,0,1,0), "Not finished"),
+        Warden (new Expertise(0,1,1,0,0,0), "Not finished"), Sniper (new Expertise(0,0,0,0,1,1), "Not finished");
         
         private final String description;
-        EnSubclass(String desc){
+        private final Expertise expertiseGained;
+        EnSubclass(Expertise e, String desc){
+            expertiseGained = e;
             description = desc;
         }
     }
