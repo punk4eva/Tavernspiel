@@ -9,15 +9,16 @@ import creatureLogic.Attributes;
 import creatureLogic.DeathData;
 import creatureLogic.Description;
 import creatureLogic.Expertise;
-import gui.Handler;
 import gui.MainClass;
 import gui.Screen;
 import gui.Viewable;
 import gui.Window;
 import java.awt.Graphics;
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import level.Area;
 import listeners.DeathEvent;
+import listeners.ScreenListener;
 
 /**
  *
@@ -25,19 +26,25 @@ import listeners.DeathEvent;
  */
 public class Hero extends Creature implements Viewable{
     
-    public final ArrayList<Screen> screens;
+    public final LinkedList<Screen> screens;
+    private ScreenListener currentScreenListener;
+    private final MainClass main;
     public int hunger = 100;
     public DeathData data;
     public Expertise expertise;
     public EnClass job = EnClass.NoClass;
     public EnSubclass subclass = null; //Null if no subclass selected.
+
+    public MainClass getMainClass(){
+        return main;
+    }
     
     public enum EnClass{
         NoClass (new Expertise()),
-        Warrior (new Expertise(1,0,0,2,1,0), new EnSubclass[]{EnSubclass.Berserker, EnSubclass.Gladiator}),
-        Mage (new Expertise(0,1,2,0,0,2), new EnSubclass[]{EnSubclass.Battlemage, EnSubclass.Warlock}),
-        Rogue (new Expertise(1,1,1,1,1,0), new EnSubclass[]{EnSubclass.Freerunner, EnSubclass.Assassin}),
-        Huntress (new Expertise(2,1,0,0,1,0), new EnSubclass[]{EnSubclass.Warden, EnSubclass.Sniper});
+        Warrior (new Expertise(1,0,0,2,1,0,0), new EnSubclass[]{EnSubclass.Berserker, EnSubclass.Gladiator}),
+        Mage (new Expertise(0,1,2,0,0,2,1), new EnSubclass[]{EnSubclass.Battlemage, EnSubclass.Warlock}),
+        Rogue (new Expertise(1,1,1,1,1,0,2), new EnSubclass[]{EnSubclass.Freerunner, EnSubclass.Assassin}),
+        Huntress (new Expertise(2,1,0,0,1,0,1), new EnSubclass[]{EnSubclass.Warden, EnSubclass.Sniper});
         
         private final EnSubclass[] possibleSubclasses;
         private final Expertise expertiseGained;
@@ -48,10 +55,10 @@ public class Hero extends Creature implements Viewable{
     }
     
     public enum EnSubclass{
-        Berserker (new Expertise(1,0,0,0,0,0), "Not finished"), Gladiator (new Expertise(0,0,0,0,1,0), "Not finished"),
-        Battlemage (new Expertise(0,0,0,1,1,0), "Not finished"), Warlock (new Expertise(1,1,0,0,0,0), "Not finished"),
-        Freerunner (new Expertise(0,0,1,1,0,0), "Not finished"), Assassin (new Expertise(1,0,0,0,1,0), "Not finished"),
-        Warden (new Expertise(0,1,1,0,0,0), "Not finished"), Sniper (new Expertise(0,0,0,0,1,1), "Not finished");
+        Berserker (new Expertise(1,0,0,0,0,0,0), "Not finished"), Gladiator (new Expertise(0,0,0,0,1,0,0), "Not finished"),
+        Battlemage (new Expertise(0,0,0,1,1,0,0), "Not finished"), Warlock (new Expertise(1,1,0,0,0,0,1), "Not finished"),
+        Freerunner (new Expertise(0,0,1,1,0,0,0), "Not finished"), Assassin (new Expertise(1,0,0,0,1,0,0), "Not finished"),
+        Warden (new Expertise(0,1,1,0,0,0,0), "Not finished"), Sniper (new Expertise(0,0,0,0,1,1,1), "Not finished");
         
         private final String description;
         private final Expertise expertiseGained;
@@ -61,17 +68,19 @@ public class Hero extends Creature implements Viewable{
         }
     }
     
-    public Hero(Attributes atb, GameObjectAnimator an, Area ac, Handler handler){
-        super("Hero", new Description("hero","UNWRITTEN"), atb, an, ac, handler);
+    public Hero(Attributes atb, GameObjectAnimator an, Area ac, MainClass m){
+        super("Hero", new Description("hero","UNWRITTEN"), atb, an, ac, m.getHandler());
         data = new DeathData(this);
         screens = getScreens();
+        main = m;
     }
     
-    public Hero(int id, Equipment eq, Inventory inv, int hung, DeathData da, EnClass j, EnSubclass sub, Attributes atb, ArrayList<Buff> bs, Area ac, Handler handler){
-        super("Hero", new Description("hero","UNWRITTEN"), id, eq, inv, atb, ac, bs, handler);
+    public Hero(int id, Equipment eq, Inventory inv, int hung, DeathData da, EnClass j, EnSubclass sub, Attributes atb, List<Buff> bs, Area ac, MainClass m){
+        super("Hero", new Description("hero","UNWRITTEN"), id, eq, inv, atb, ac, bs, m.getHandler());
         hunger = hung;
         job = j;
         subclass = sub;
+        main = m;
         data = da;
         screens = getScreens();
     }
@@ -109,21 +118,29 @@ public class Hero extends Creature implements Viewable{
         int beginHeight = MainClass.HEIGHT/9;
         int sqwidth = (MainClass.WIDTH*7/9-7*padding)/6;
         int sqheight = (MainClass.WIDTH*7/9-6*padding)/5;
-        inventory.paint(g, beginWidth, beginHeight, sqwidth, sqheight, padding, this);
-        equipment.paint(g, beginWidth, beginHeight, sqwidth, sqheight, padding, this);
+        inventory.paint(g, beginWidth, beginHeight, sqwidth, sqheight, padding);
+        equipment.paint(g, beginWidth, beginHeight, sqwidth, sqheight, padding);
     }
 
     @Override
-    public final ArrayList<Screen> getScreens(){
-        ArrayList<Screen> ret = new ArrayList<>();
+    public final LinkedList<Screen> getScreens(){
+        LinkedList<Screen> ret = new LinkedList<>();
         ret.addAll(inventory.screens);
         ret.addAll(equipment.screens);
         return ret;
     }
     
     @Override
-    public ArrayList<Screen> getScreenList(){
+    public LinkedList<Screen> getScreenList(){
         return screens;
+    }
+    
+    public void setScreenListener(ScreenListener sl){
+        currentScreenListener = sl;
+    }
+    
+    public ScreenListener getScreenListener(){
+        return currentScreenListener;
     }
     
 }

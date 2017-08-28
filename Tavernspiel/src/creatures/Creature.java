@@ -12,7 +12,8 @@ import gui.Handler;
 import gui.MainClass;
 import items.equipment.HeldWeapon;
 import java.awt.Graphics;
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import level.Area;
 import listeners.BuffEvent;
 import listeners.BuffListener;
@@ -25,13 +26,14 @@ import logic.GameObject;
  * @author Adam Whittaker
  * 
  * Base Creature that all others inherit from.
+ * The implementation of Comparable is for determining whether an enemy is likely to win in a fight.
  */
-public class Creature extends GameObject implements BuffListener{
+public class Creature extends GameObject implements BuffListener, Comparable<Creature>{
     
     public Equipment equipment = new Equipment();
     public Inventory inventory = new Inventory();
     public Attributes attributes;
-    public ArrayList<Buff> buffs = new ArrayList<>();
+    public List<Buff> buffs = new LinkedList<>();
     
     public Creature(String n, Description desc, Equipment eq, Inventory inv, 
             Attributes atb, GameObjectAnimator an, Area ac, Handler handler){
@@ -43,7 +45,7 @@ public class Creature extends GameObject implements BuffListener{
     }
     
     public Creature(String n, Description desc, int id, Equipment eq, Inventory inv, 
-            Attributes atb, Area ac, ArrayList<Buff> bs, Handler handler){
+            Attributes atb, Area ac, List<Buff> bs, Handler handler){
         super(n, desc, AnimationBuilder.getCreatureAnimation(n), ac, handler);
         equipment = eq;
         ID = id;
@@ -164,6 +166,11 @@ public class Creature extends GameObject implements BuffListener{
     
     public void removeBuff(Buff b){
         buffs.remove(b);
+    }
+
+    @Override
+    public int compareTo(Creature t){
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

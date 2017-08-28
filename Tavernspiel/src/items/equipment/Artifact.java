@@ -18,6 +18,7 @@ public class Artifact extends Apparatus{
     
     public Artifact(String n, String desc, ImageIcon i, int dur, Distribution a, Buff b, int charge){
         super(n, desc, i, dur, a);
+        description.type = "amulets";
     }
     
 }

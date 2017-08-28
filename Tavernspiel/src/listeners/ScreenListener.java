@@ -1,10 +1,12 @@
 
 package listeners;
 
+import gui.Screen.ScreenEvent;
+
 /**
  *
  * @author Adam Whittaker
  */
 public interface ScreenListener{
-    void screenClicked(String name);
+    void screenClicked(ScreenEvent name);
 }

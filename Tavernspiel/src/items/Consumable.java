@@ -3,7 +3,6 @@ package items;
 
 import creatures.Creature;
 import javax.swing.ImageIcon;
-import level.Area;
 
 /**
  *
@@ -29,6 +28,6 @@ public abstract class Consumable extends Item{
         actions = ItemAction.getArray(3);
     }
     
-    public abstract void use(Creature c, Area area);
+    public abstract void use(Creature c);
     
 }

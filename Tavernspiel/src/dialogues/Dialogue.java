@@ -3,6 +3,7 @@ package dialogues;
 
 import gui.MainClass;
 import gui.Screen;
+import gui.Screen.ScreenEvent;
 import java.awt.Color;
 import java.awt.Graphics;
 import listeners.ScreenListener;
@@ -16,16 +17,25 @@ public class Dialogue implements ScreenListener{
     
     final String question;
     final String[] options;
-    private String clickedScreen;
+    private ScreenEvent clickedScreen;
     private final Screen[] screenArray;
-    private final String offCase;
+    private final ScreenEvent offCase;
     private final int height;
     private final int padding = 8;
     private final int heightOfQuestion;
     
-    public Dialogue(String quest, String off, String... opt){
+    public Dialogue(String quest, ScreenEvent off, String... opt){
         options = opt;
         offCase = off;
+        question = Utils.lineFormat(quest, 20);
+        heightOfQuestion = 12*Utils.lineCount(question);
+        height = 2*padding + heightOfQuestion + (36+padding)*options.length;
+        screenArray = getScreens();
+    }
+    
+    public Dialogue(String quest, String off, String... opt){
+        options = opt;
+        offCase = new ScreenEvent(off);
         question = Utils.lineFormat(quest, 20);
         heightOfQuestion = 12*Utils.lineCount(question);
         height = 2*padding + heightOfQuestion + (36+padding)*options.length;
@@ -63,7 +73,7 @@ public class Dialogue implements ScreenListener{
         main.removeScreens(screenArray);
     }
     
-    public synchronized String action(MainClass main){
+    public synchronized ScreenEvent action(MainClass main){
         activate(main);
         try{
             wait();
@@ -75,8 +85,8 @@ public class Dialogue implements ScreenListener{
     }
 
     @Override
-    public synchronized void screenClicked(String screenName){
-        clickedScreen = screenName;
+    public synchronized void screenClicked(ScreenEvent sce){
+        clickedScreen = sce;
         notify();
     }
     
@@ -95,10 +105,9 @@ public class Dialogue implements ScreenListener{
                     padding+beginWidth, 
                     2*padding+heightOfQuestion+(36+padding)*n+beginHeight, 
                     beginWidth-2*padding, 
-                    36);
-            ary[n].changeScreenListener(this);
+                    36, this);
         }
-        ary[ary.length-1] = new Screen("blank click", beginWidth, beginHeight, beginWidth, 36);
+        ary[ary.length-1] = new Screen("blank click", beginWidth, beginHeight, beginWidth, 36, this);
         return ary;
     }
     

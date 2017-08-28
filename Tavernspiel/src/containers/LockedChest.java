@@ -1,6 +1,7 @@
 
 package containers;
 
+import creatureLogic.Description;
 import items.Item;
 
 /**
@@ -11,7 +12,7 @@ public class LockedChest extends Chest{
     
     public LockedChest(Item item, int x, int y){
         super(item, x, y);
-        description = "You can't open this chest without a key.";
+        description = new Description("receptacle","You can't open this chest without a key.");
     }
     
 }

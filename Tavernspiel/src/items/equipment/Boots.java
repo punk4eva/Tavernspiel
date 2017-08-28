@@ -14,10 +14,12 @@ public class Boots extends Apparatus{
     
     public Boots(String s, String desc, ImageIcon i, int dur, Distribution d, int st){
         super(s, desc, i, dur, d, st);
+        description.type = "armour";
     }
     
     public Boots(Item i, int dur, Distribution d, int st){
         super(i.name, i.description, new ImageIcon(i.icon), dur, d, st);
+        description.type = "armour";
     }
     
 }

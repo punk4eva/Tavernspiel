@@ -12,7 +12,9 @@ import items.equipment.Chestplate;
 import items.equipment.HeldWeapon;
 import items.equipment.Leggings;
 import java.awt.Graphics;
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import listeners.ScreenListener;
 import logic.ConstantFields;
 import logic.ImageUtils;
 
@@ -24,7 +26,8 @@ import logic.ImageUtils;
  */
 public class Equipment extends Receptacle{
     
-    public final ArrayList<Screen> screens;
+    public final List<Screen> screens;
+    private final Hero heroOwner;
     
     /**
      * Creates a new instance
@@ -32,18 +35,30 @@ public class Equipment extends Receptacle{
     public Equipment(){
         super(7, "ERROR: You shouldn't be reading this.", -1, -1);
         for(int n=0;n<7;n++) items.add(null);
-        screens = getScreens();
+        screens = null;
+        heroOwner = null;
     }
     
     /**
-     * Creates a new instance from a given list of apparatus.
-     * @param i The ArrayList.
+     * Creates a new instance
+     * @param hero The owner.
      */
-    public Equipment(ArrayList<Apparatus> i){
+    public Equipment(Hero hero){
+        super(7, "ERROR: You shouldn't be reading this.", -1, -1);
+        for(int n=0;n<7;n++) items.add(null);
+        screens = getScreens(hero.getScreenListener());
+        heroOwner = hero;
+    }
+    
+    /*/**
+    * Creates a new instance from a given list of apparatus.
+    * @param i The ArrayList.
+    *
+    public Equipment(List<Apparatus> i){
         super(7, i, "ERROR: You shouldn't be reading this.", -1, -1);
         while(items.size() < 7) items.add(null);
         screens = getScreens();
-    }
+    }*/
     
     /**
      * Returns the weapon if it exists, null otherwise.
@@ -180,39 +195,40 @@ public class Equipment extends Receptacle{
      * @param padding The length of padding.
      * @param owner The owner of this equipment.
      */
-    public void paint(Graphics g, int beginWidth, int beginHeight, int sqwidth, int sqheight, int padding, Hero owner){
-        if(items.get(0)!=null) ImageUtils.paintItemSquare(g, beginWidth+padding, beginHeight+padding, sqwidth, sqheight, items.get(0), owner);
+    public void paint(Graphics g, int beginWidth, int beginHeight, int sqwidth, int sqheight, int padding){
+        if(items.get(0)!=null) ImageUtils.paintItemSquare(g, beginWidth+padding, beginHeight+padding, sqwidth, sqheight, items.get(0), heroOwner);
         else ImageUtils.paintOutline(g, beginWidth+padding, beginHeight+padding, sqwidth, sqheight, ConstantFields.weaponOutline);
-        if(items.get(3)!=null) ImageUtils.paintItemSquare(g, beginWidth+2*padding+sqwidth, beginHeight+padding, sqwidth, sqheight, items.get(3), owner);
+        if(items.get(3)!=null) ImageUtils.paintItemSquare(g, beginWidth+2*padding+sqwidth, beginHeight+padding, sqwidth, sqheight, items.get(3), heroOwner);
         else ImageUtils.paintOutline(g, beginWidth+2*padding+sqwidth, beginHeight+padding, sqwidth, sqheight, ConstantFields.helmetOutline);
-        if(items.get(4)!=null) ImageUtils.paintItemSquare(g, beginWidth+3*padding+2*sqwidth, beginHeight+padding, sqwidth, sqheight, items.get(4), owner);
+        if(items.get(4)!=null) ImageUtils.paintItemSquare(g, beginWidth+3*padding+2*sqwidth, beginHeight+padding, sqwidth, sqheight, items.get(4), heroOwner);
         else ImageUtils.paintOutline(g, beginWidth+3*padding+2*sqwidth, beginHeight+padding, sqwidth, sqheight, ConstantFields.chestplateOutline);
-        if(items.get(5)!=null) ImageUtils.paintItemSquare(g, beginWidth+4*padding+3*sqwidth, beginHeight+padding, sqwidth, sqheight, items.get(5), owner);
+        if(items.get(5)!=null) ImageUtils.paintItemSquare(g, beginWidth+4*padding+3*sqwidth, beginHeight+padding, sqwidth, sqheight, items.get(5), heroOwner);
         else ImageUtils.paintOutline(g, beginWidth+4*padding+3*sqwidth, beginHeight+padding, sqwidth, sqheight, ConstantFields.leggingsOutline);
-        if(items.get(6)!=null) ImageUtils.paintItemSquare(g, beginWidth+5*padding+4*sqwidth, beginHeight+padding, sqwidth, sqheight, items.get(6), owner);
+        if(items.get(6)!=null) ImageUtils.paintItemSquare(g, beginWidth+5*padding+4*sqwidth, beginHeight+padding, sqwidth, sqheight, items.get(6), heroOwner);
         else ImageUtils.paintOutline(g, beginWidth+5*padding+4*sqwidth, beginHeight+padding, sqwidth, sqheight, ConstantFields.bootsOutline);
         
-        if(items.get(1)!=null) ImageUtils.paintItemSquare(g, beginWidth+padding, beginHeight+2*padding+sqheight, sqwidth, sqheight, items.get(1), owner);
+        if(items.get(1)!=null) ImageUtils.paintItemSquare(g, beginWidth+padding, beginHeight+2*padding+sqheight, sqwidth, sqheight, items.get(1), heroOwner);
         else ImageUtils.paintOutline(g, beginWidth+padding, beginHeight+2*padding+sqheight, sqwidth, sqheight, ConstantFields.amuletOutline);
-        if(items.get(2)!=null) ImageUtils.paintItemSquare(g, beginWidth+2*padding+sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight, items.get(2), owner);
+        if(items.get(2)!=null) ImageUtils.paintItemSquare(g, beginWidth+2*padding+sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight, items.get(2), heroOwner);
         else ImageUtils.paintOutline(g, beginWidth+2*padding+sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight, ConstantFields.amuletOutline);
     }
     
-    private ArrayList<Screen> getScreens(){
-        ArrayList<Screen> ret = new ArrayList<>();
+    private List<Screen> getScreens(ScreenListener sl){
+        if(screens!=null&&heroOwner.getScreenListener().toString().equals(screens.get(0).getListener().toString())) return screens;
+        List<Screen> ret = new LinkedList<>();
         int padding = 4;
         int beginWidth = MainClass.WIDTH/9;
         int beginHeight = MainClass.HEIGHT/9;
         int sqwidth = (MainClass.WIDTH*7/9-7*padding)/6;
         int sqheight = (MainClass.WIDTH*7/9-6*padding)/5;
-        ret.add(new Screen("Weapon", beginWidth+padding, beginHeight+padding, sqwidth, sqheight));
-        ret.add(new Screen("Helmet", beginWidth+2*padding+sqwidth, beginHeight+padding, sqwidth, sqheight));
-        ret.add(new Screen("Chestplate", beginWidth+3*padding+2*sqwidth, beginHeight+padding, sqwidth, sqheight));
-        ret.add(new Screen("Leggings", beginWidth+4*padding+3*sqwidth, beginHeight+padding, sqwidth, sqheight));
-        ret.add(new Screen("Boots", beginWidth+5*padding+4*sqwidth, beginHeight+padding, sqwidth, sqheight));
+        ret.add(new Screen("Weapon", beginWidth+padding, beginHeight+padding, sqwidth, sqheight, sl));
+        ret.add(new Screen("Helmet", beginWidth+2*padding+sqwidth, beginHeight+padding, sqwidth, sqheight, sl));
+        ret.add(new Screen("Chestplate", beginWidth+3*padding+2*sqwidth, beginHeight+padding, sqwidth, sqheight, sl));
+        ret.add(new Screen("Leggings", beginWidth+4*padding+3*sqwidth, beginHeight+padding, sqwidth, sqheight, sl));
+        ret.add(new Screen("Boots", beginWidth+5*padding+4*sqwidth, beginHeight+padding, sqwidth, sqheight, sl));
 
-        ret.add(new Screen("Amulet1", beginWidth+padding, beginHeight+2*padding+sqheight, sqwidth, sqheight));
-        ret.add(new Screen("Amulet2", beginWidth+2*padding+sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight));
+        ret.add(new Screen("Amulet1", beginWidth+padding, beginHeight+2*padding+sqheight, sqwidth, sqheight, sl));
+        ret.add(new Screen("Amulet2", beginWidth+2*padding+sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight, sl));
         return ret;
     }
     

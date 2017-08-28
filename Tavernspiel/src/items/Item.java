@@ -1,6 +1,7 @@
 
 package items;
 
+import creatureLogic.Description;
 import creatures.Creature;
 import creatures.Hero;
 import items.consumables.Potion;
@@ -19,7 +20,7 @@ public class Item implements Serializable{
     
     public Image icon;
     public final String name;
-    public final String description;
+    public final Description description;
     public int quantity = 1;
     public boolean stackable = true;
     public boolean flammable = false;
@@ -28,26 +29,33 @@ public class Item implements Serializable{
     
     public Item(String n, String desc, ImageIcon i){
         name = n;
-        description = desc;
+        description = Description.parseDescription(null, desc);
         icon = i.getImage();
     }
     
     public Item(String n, String desc, ImageIcon i, int q){
         name = n;
-        description = desc;
+        description = Description.parseDescription(null, desc);
         icon = i.getImage();
         quantity = q;
     }
     
     public Item(String n, String desc, ImageIcon i, int q, boolean flam){
         name = n;
-        description = desc;
+        description = Description.parseDescription(null, desc);
         icon = i.getImage();
         quantity = q;
         flammable = flam;
     }
     
     public Item(String n, String desc, ImageIcon i, boolean s){
+        name = n;
+        description = Description.parseDescription(null, desc);
+        icon = i.getImage();
+        stackable = s;
+    }
+    
+    public Item(String n, Description desc, ImageIcon i, boolean s){
         name = n;
         description = desc;
         icon = i.getImage();

@@ -1,7 +1,7 @@
 
 package containers;
 
-import exceptions.ReceptacleIndexOutOfBoundsException;
+import creatureLogic.Description;
 import exceptions.ReceptacleOverflowException;
 import gui.MainClass;
 import items.Item;
@@ -47,7 +47,7 @@ public class Floor extends Receptacle{
         catch(ReceptacleOverflowException e){
             e.printStackTrace(MainClass.exceptionStream);
         }
-        description = items.isEmpty() ? "There is nothing interesting here." : 
+        description = items.isEmpty() ? new Description("tile", "There is nothing interesting here.") : 
                 items.get(items.size()-1).description;
     }
     
@@ -69,7 +69,7 @@ public class Floor extends Receptacle{
     public Floor(ArrayList<Item> ary, int x, int y){
         super("You shouldn't be reading this.", x, y);
         items.addAll(ary);
-        description = items.isEmpty() ? "There is nothing interesting here." :
+        description = items.isEmpty() ? new Description("tile", "There is nothing interesting here.") :
         items.get(items.size()-1).description;
     }
     
@@ -81,7 +81,7 @@ public class Floor extends Receptacle{
     
     @Override
     public final Item pop(){
-        description = items.size()==1 ? "There is nothing interesting here." : 
+        description = items.size()==1 ? new Description("tile", "There is nothing interesting here.") : 
                 items.get(items.size()-2).description;
         return super.pop();
     }

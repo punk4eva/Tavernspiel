@@ -2,14 +2,14 @@
 package gui;
 
 import java.awt.Graphics;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Adam Whittaker
  */
 public interface Viewable{
-    ArrayList<Screen> getScreens();
-    ArrayList<Screen> getScreenList();
+    List<Screen> getScreens();
+    List<Screen> getScreenList();
     void paint(Graphics g);
 }

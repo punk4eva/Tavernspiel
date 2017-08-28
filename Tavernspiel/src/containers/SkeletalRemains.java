@@ -1,6 +1,7 @@
 
 package containers;
 
+import creatureLogic.Description;
 import items.Item;
 import level.Area;
 
@@ -12,8 +13,8 @@ public class SkeletalRemains extends Chest{
     
     public SkeletalRemains(Item item, int x, int y){
         super(item, x, y);
-        description = "A pile of bones from an unlucky adventurer or resident "
-                + "of this place. May be worth checking for valuables.";
+        description = new Description("receptacle", "A pile of bones from an unlucky adventurer or resident "
+                + "of this place. May be worth checking for valuables.");
     }
     
     @Override

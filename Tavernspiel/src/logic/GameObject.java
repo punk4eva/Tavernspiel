@@ -9,6 +9,7 @@ import java.awt.Graphics;
 import java.io.Serializable;
 import level.Area;
 import listeners.GameEvent;
+import logic.Utils.Optimisable;
 
 /**
  *
@@ -34,6 +35,7 @@ public abstract class GameObject implements Serializable{
      * @param ar The area that this GameObject is in.
      * @param handler The handler to add to.
      */
+    @Optimisable("Adding the object to the handler so early could cause problems.")
     public GameObject(String n, Description desc, GameObjectAnimator an, Area ar, Handler handler){
         ID = MainClass.idhandler.genID();
         name = n;

@@ -5,7 +5,6 @@ import creatures.Creature;
 import items.consumables.Scroll;
 import java.awt.Image;
 import javax.swing.ImageIcon;
-import level.Area;
 
 /**
  *
@@ -18,7 +17,7 @@ public class EarthwallScroll extends Scroll{
     }
 
     @Override
-    public void use(Creature c, Area area){
+    public void use(Creature c){
         throw new UnsupportedOperationException("Not supported yet.");
     }
     

@@ -14,11 +14,13 @@ public abstract class Scroll extends Consumable{
     public Scroll(String n, String desc, ImageIcon i, boolean idd){
         super(n, desc, i, idd, 1, true);
         actions[2] = new ItemAction("READ");
+        description.type = "scrolls";
     }
     
     public Scroll(String n, String desc, ImageIcon i, boolean idd, int quantity){
         super(n, desc, i, idd, quantity, true);
         actions[2] = new ItemAction("READ");
+        description.type = "scrolls";
     }
     
 }

@@ -10,7 +10,7 @@ import logic.ImageHandler;
  *
  * @author Adam Whittaker
  */
-public class Tile implements Serializable{
+public class Tile implements Serializable, Comparable<Tile>{
 
     public Image image;
     public String name;
@@ -48,12 +48,13 @@ public class Tile implements Serializable{
         flammable = f;
     }
     
-    public boolean equals(Tile t){
-        return t.name.equals(name);
-    }
-    
     public boolean equals(String str){
         return str.compareToIgnoreCase(name)==0;
+    }
+
+    @Override
+    public int compareTo(Tile t){
+        return name.compareToIgnoreCase(t.name);
     }
     
 }

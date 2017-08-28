@@ -2,10 +2,20 @@
 package items.equipment;
 
 import animation.Animation;
+import creatures.Creature;
+import creatures.Hero;
+import gui.MainClass;
+import gui.Screen;
+import gui.Window;
 import items.ItemBuilder;
+import items.consumables.LocationSpecificScroll;
+import items.consumables.LocationSpecificScroll.LocationViewable;
+import java.util.List;
 import javax.swing.ImageIcon;
+import level.Area;
 import level.Location;
 import listeners.AreaEvent;
+import listeners.ScreenListener;
 import logic.Distribution;
 import logic.Formula;
 
@@ -13,7 +23,7 @@ import logic.Formula;
  *
  * @author Adam Whittaker
  */
-public class Wand extends RangedWeapon{
+public class Wand extends RangedWeapon implements ScreenListener{
     
     public double rechargeSpeed = 1;
     public Formula rechargeFormula = new Formula();
@@ -31,6 +41,12 @@ public class Wand extends RangedWeapon{
      * 5: Stops at creatures and non-treadable tiles and destination.
      */
     
+    private Hero hero;
+    private Area area;
+    private MainClass main;
+    private final LocationViewable locationSelect;
+    protected final List<Screen> screens;
+    
     /**
      * @param s The name of the Wand.
      * @param desc The description.
@@ -44,11 +60,47 @@ public class Wand extends RangedWeapon{
         firingAnimation = ItemBuilder.getWandAnimation(s);
         blockingLevel = ItemBuilder.getWandBlockingLevel(s);
         areaEvent = ItemBuilder.getWandAreaEvent(s);
+        locationSelect = new LocationSpecificScroll(null, null, null, false){
+            @Override
+            public void use(Creature c, int x, int y){
+                throw new UnsupportedOperationException("Wand.locationSelect.use() should remain unused!");
+            }
+        }.new LocationViewable(this){
+            @Override
+            public List<Screen> getScreens(){
+                return screens;
+            }
+        };
+        screens = locationSelect.getScreenList();
+    }
+    
+    public void fire(Hero h){
+        hero = h;
+        area = h.area;
+        main = hero.getMainClass();
+        main.addViewable(locationSelect);
+    }
+    
+    public void fire(Creature c, int x, int y){
+        main.drawWandArc(this, c.x, c.y, x, y);
+        if(areaEvent!=null){
+            areaEvent.setArea(c.area);
+            areaEvent.setXY(x, y);
+            areaEvent.notifyEvent();
+        }
     }
 
-    public void setAndNotify(int x, int y, Location loc){
-        areaEvent.setXY(x, y);
-        areaEvent.notifyEvent();
+    @Override
+    public void screenClicked(Screen.ScreenEvent sc){
+        switch(sc.getName()){
+            case "backLocation":
+                int c[] = MainClass.translateMouseCoords(sc.getMouseEvent().getX(), sc.getMouseEvent().getY());
+                if(hero==null||area==null) new RuntimeException("hero/area uninitialized in LocationSpecificScroll.screenClicked()!").printStackTrace(MainClass.exceptionStream);
+                fire(hero, c[0], c[1]);
+            case "locationPopupX":
+                main.removeTopViewable();
+                break;
+        }
     }
     
     

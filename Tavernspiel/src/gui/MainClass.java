@@ -18,7 +18,8 @@ import java.awt.image.BufferStrategy;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 import level.Area;
 import listeners.BuffEventInitiator;
 import listeners.GrimReaper;
@@ -51,8 +52,8 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public static final IDHandler idhandler = new IDHandler(); //Creates UUIDs for GameObjects.
     public static GrimReaper reaper; //Handles death.
     public static final BuffEventInitiator buffinitiator = new BuffEventInitiator(); //Handles buffs.
-    public ArrayList<Screen> activeScreens = new ArrayList<>();
-    public ArrayList<Viewable> activeViewables = new ArrayList<>();
+    public List<Screen> activeScreens = new LinkedList<>();
+    public List<Viewable> activeViewables = new LinkedList<>();
     private Dialogue currentDialogue = null; //null if no dialogue.
     public Area currentArea;
     private static int focusX=16, focusY=16;
@@ -86,6 +87,10 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public void removeTopViewable(){
         Viewable top = activeViewables.remove(activeViewables.size()-1);
         activeScreens.removeAll(top.getScreenList());
+    }
+    
+    public Handler getHandler(){
+        return handler;
     }
     
     public void changeSFXVolume(float newVolume){
@@ -239,7 +244,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void search(ArrayList<Point> ary, Area area, boolean searchSuccessful){
+    public void search(List<Point> ary, Area area, boolean searchSuccessful){
         if(searchSuccessful) soundSystem.playSFX("Misc/mystery.wav");
         throw new UnsupportedOperationException("Not supported yet.");
     }
@@ -253,7 +258,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
             boolean notClicked = true;
             for(Screen sc : activeScreens){
                 if(sc.withinBounds(me.getX(), me.getY())){
-                    if(!sc.name.equals("blank click")) sc.wasClicked();
+                    if(!sc.name.equals("blank click")) sc.wasClicked(me);
                     notClicked = false;
                     break;
                 }

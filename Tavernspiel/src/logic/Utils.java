@@ -78,11 +78,15 @@ public class Utils{
         return (large/euclideanAlgorithm(large, small))*small;
     }
     
-    public @interface optimisable{
+    public @interface Optimisable{
         String value() default ""; //notes
     }
     
-    public @interface unfinished{
+    public @interface Unfinished{
+        String value() default ""; //notes
+    }
+    
+    public @interface Catch{
         String value() default ""; //notes
     }
     

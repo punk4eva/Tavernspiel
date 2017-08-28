@@ -23,7 +23,7 @@ import java.util.LinkedList;
 import javax.swing.ImageIcon;
 import level.Area;
 import logic.Distribution;
-import logic.Utils.unfinished;
+import logic.Utils.Unfinished;
 
 /**
  *
@@ -82,7 +82,7 @@ public class ScrollBuilder{
         return ret;
     }
     
-    @unfinished("Remember to make custom scrolls part of natural terrain gen.")
+    @Unfinished("Remember to make custom scrolls part of natural terrain gen.")
     private void randomlyAssign(){
         LinkedList<String> scrolls = new LinkedList<>(), runes = new LinkedList<>();
         runes.add("GICH");
@@ -150,7 +150,7 @@ public class ScrollBuilder{
     public WonderScroll wonder(){
         return new WonderScroll(getImage("Scroll of Wonder"), isIdd("Wonder")){
             @Override
-            public void use(Creature c, Area area){
+            public void use(Creature c){
                 Scroll s;
                 Distribution distrib = new Distribution(new double[]{0,1,2,3,4,5,6,7,8}, new int[]{18,3,1,12,18,18,12,15,15});
                 switch((int)distrib.next()){
@@ -164,7 +164,7 @@ public class ScrollBuilder{
                     case 7: s = knowledge(); break;
                     default: s = recharging();
                 }
-                s.use(c, area);
+                s.use(c);
             }
         };
     }

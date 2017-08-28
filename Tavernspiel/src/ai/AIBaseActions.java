@@ -179,11 +179,9 @@ public class AIBaseActions implements Serializable{
      * @param wand The wand that is being fired.
      * @param destx The x coordinate of the destination.
      * @param desty The y coordinate of the destination.
-     * @param loc The location where the wand was fired.
      */
-    public void fireWand(Creature c, Wand wand, int destx, int desty, Location loc){
-        Window.main.drawWandArc(wand, c.x, c.y, destx, desty);
-        if(wand.areaEvent!=null) wand.setAndNotify(destx, desty, loc);
+    public void fireWand(Creature c, Wand wand, int destx, int desty){
+        wand.fire(c, destx, desty);
     }
     
     public void search(Creature c, Area area){

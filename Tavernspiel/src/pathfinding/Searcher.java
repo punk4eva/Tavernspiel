@@ -2,7 +2,7 @@
 package pathfinding;
 
 import java.util.Arrays;
-import logic.Utils.optimisable;
+import logic.Utils.Optimisable;
 import pathfinding.Point.Direction;
 import pathfinding.PriorityQueue.Compare;
 
@@ -142,7 +142,7 @@ public class Searcher{
      * @param end The destination.
      * @return The shortest path between start and end.
      */
-    @optimisable("Heuristic calculations only account for likely scenarios.")
+    @Optimisable("Heuristic calculations only account for likely scenarios.")
     public Path findExpressRoute(Point start, Point end){
         Waypoint startStation = graph.getClosestWaypoint(start.x, start.y);
         Waypoint endStation = graph.getClosestWaypoint(end.x, end.y);

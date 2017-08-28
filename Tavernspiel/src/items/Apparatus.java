@@ -1,6 +1,7 @@
 
 package items;
 
+import creatureLogic.Description;
 import glyphs.Glyph;
 import gui.MainClass;
 import items.equipment.Artifact;
@@ -36,6 +37,14 @@ public class Apparatus extends Item{
     }
     
     public Apparatus(String n, String desc, ImageIcon i, int dur, Distribution a, int st){
+        super(n, desc, i, false);
+        durability = dur;
+        maxDurability = dur;
+        action = a;
+        strength = st;
+    }
+    
+    public Apparatus(String n, Description desc, ImageIcon i, int dur, Distribution a, int st){
         super(n, desc, i, false);
         durability = dur;
         maxDurability = dur;

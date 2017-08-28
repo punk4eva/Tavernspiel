@@ -15,14 +15,14 @@ public class UnequipAmuletDialogue extends Dialogue{
     
     public UnequipAmuletDialogue(Item am0, Item am1){
         super("You can only wear two misc. items at a time, which do you want to"
-                + "unequip?", null, ((Apparatus) am0).toString(4), 
+                + "unequip?", (String) null, ((Apparatus) am0).toString(4), 
                 ((Apparatus) am1).toString(4));
         opA = ((Apparatus) am0).toString(4);
         opB = ((Apparatus) am1).toString(4);
     }
     
     public int next(MainClass game){
-        String ret = super.action(game);
+        String ret = super.action(game).getName();
         if(ret==null) return -1;
         if(ret.equals(opA)) return 0;
         return 1;

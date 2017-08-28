@@ -1,6 +1,7 @@
 
 package containers;
 
+import creatureLogic.Description;
 import exceptions.ReceptacleIndexOutOfBoundsException;
 import exceptions.ReceptacleOverflowException;
 import items.Apparatus;
@@ -23,7 +24,7 @@ public abstract class Receptacle implements Serializable{
     
     public List<Item> items = new ArrayList<>();
     public int capacity = 1000;
-    public String description;
+    public Description description;
     public final int x, y; 
     
     
@@ -38,7 +39,7 @@ public abstract class Receptacle implements Serializable{
      * @param yc The y coord.
      */
     public Receptacle(String desc, int xc, int yc){
-        description = desc;
+        description = Description.parseDescription("receptacle", desc);
         x = xc;
         y = yc;
     }
@@ -51,7 +52,7 @@ public abstract class Receptacle implements Serializable{
      * @param yc The y coord.
      */
     public Receptacle(int cap, String desc, int xc, int yc){
-        description = desc;
+        description = Description.parseDescription("receptacle", desc);
         capacity = cap;
         x = xc;
         y = yc;
@@ -65,8 +66,8 @@ public abstract class Receptacle implements Serializable{
      * @param xc The x coord.
      * @param yc The y coord.
      */
-    public Receptacle(ArrayList<Item> i, int cap, String desc, int xc, int yc){
-        description = desc;
+    public Receptacle(List<Item> i, int cap, String desc, int xc, int yc){
+        description = Description.parseDescription("receptacle", desc);
         items = i;
         capacity = cap;
         x = xc;
@@ -81,8 +82,8 @@ public abstract class Receptacle implements Serializable{
      * @param xc
      * @param yc
      */
-    public Receptacle(int cap, ArrayList<Apparatus> i, String desc, int xc, int yc){
-        description = desc;
+    public Receptacle(int cap, List<Apparatus> i, String desc, int xc, int yc){
+        description = Description.parseDescription("receptacle", desc);
         items.addAll(i);
         capacity = cap;
         x = xc;
@@ -101,6 +102,19 @@ public abstract class Receptacle implements Serializable{
                     + " out of bounds for a receptacle with size " + items.size());
         }
         return items.get(slot);
+    }
+    
+    /**
+     * Retrieves an item from given slot.
+     * @param slot The index of th item to get.
+     * @return The item, null if the slot is empty.
+     */
+    public Item getElse(int slot){
+        try{
+            return items.get(slot);
+        }catch(IndexOutOfBoundsException e){
+            return null;
+        }
     }
     
     /**

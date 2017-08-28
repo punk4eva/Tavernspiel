@@ -12,18 +12,18 @@ public class AreaEvent{
     private final String action;
     private int x;
     private int y;
-    private final Area area;
+    private Area area;
     
     public AreaEvent(String act, Area a){
         action = act;
         area = a;
     }
     
-    public AreaEvent(String act, Area a, int x, int y){
+    public AreaEvent(String act, Area a, int nx, int ny){
         action = act;
         area = a;
-        this.x = x;
-        this.y = y;
+        x = nx;
+        y = ny;
     }
     
     public String getAction(){
@@ -49,6 +49,10 @@ public class AreaEvent{
     public void setXY(int nx, int ny){
         x = nx;
         y = ny;
+    }
+
+    public void setArea(Area ar){
+        area = ar;
     }
     
 }

@@ -18,7 +18,7 @@ public class ExceptionDialogue extends Dialogue{
     
     public synchronized void next(Game game){
         exception.printStackTrace(game.exceptionStream);
-        switch(super.action(game)){
+        switch(super.action(game).getName()){
             case "abort":
                 game.save();
                 System.exit(-1);

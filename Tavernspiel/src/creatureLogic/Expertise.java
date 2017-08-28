@@ -15,11 +15,13 @@ public class Expertise implements Serializable{
     public int scrolls = 0;
     public int weapons = 0;
     public int wands = 0;
+    public int amulets = 0;
     
     public Expertise(){}
     
-    public Expertise(int cr, int po, int sc, int ar, int we, int wa){
+    public Expertise(int cr, int po, int sc, int ar, int we, int wa, int am){
         creatures = cr;
+        amulets = am;
         potions = po;
         armour = ar;
         scrolls = sc;
@@ -33,6 +35,7 @@ public class Expertise implements Serializable{
         scrolls += e.scrolls;
         weapons += e.weapons;
         wands += e.wands;
+        amulets += e.amulets;
         armour += e.armour;
     }
     
