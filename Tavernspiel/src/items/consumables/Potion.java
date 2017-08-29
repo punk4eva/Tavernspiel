@@ -25,6 +25,7 @@ public abstract class Potion extends Consumable{
     
     public Potion(PotionProfile pp, boolean idd){
         super(pp.name, pp.description, pp.image, idd);
+        description.layers[0] += idd ? "\n\n" + PotionDescriptions.pd.get(name) : "\n\nWho knows what will happen when drunk or thrown?";
         actions[2] = new ItemAction("DRINK");
     }
     
