@@ -23,4 +23,9 @@ public abstract class Potion extends Consumable{
         actions[2] = new ItemAction("DRINK");
     }
     
+    public Potion(PotionProfile pp, boolean idd){
+        super(pp.name, pp.description, pp.image, idd);
+        actions[2] = new ItemAction("DRINK");
+    }
+    
 }

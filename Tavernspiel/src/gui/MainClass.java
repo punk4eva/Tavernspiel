@@ -72,7 +72,6 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }catch(FileNotFoundException e){
             System.err.println("PrintStream failed.");
         }
-        ImageHandler.initializeMap();
 
         handler = new Handler();
         reaper = new GrimReaper(handler);

@@ -16,9 +16,8 @@ import level.Location;
  */
 public class ImageHandler{
     
-    private static HashMap<String, Dimension> map = new HashMap<>();
-    
-    public static void initializeMap(){
+    private static final HashMap<String, Dimension> map = new HashMap<>();    
+    static{
         map.put("void", new Dimension(0, 0));
         map.put("floor", new Dimension(16, 0));
         map.put("lowgrass", new Dimension(32, 0));
@@ -77,7 +76,6 @@ public class ImageHandler{
     }
     
     public static Image getImage(String str, Location loc){
-        if(map.isEmpty()) initializeMap();
         return getImage(
                 map.get(str.toLowerCase())==null ?
                 new Dimension(240, 48) : map.get(str.toLowerCase()), loc);

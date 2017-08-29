@@ -63,10 +63,10 @@ public class ScrollBuilder{
         scrollMap.put("REDO", new Dimension(80, 96));
         scrollMap.put("SEMA", new Dimension(96, 96));
         scrollMap.put("BLANK", new Dimension(112, 96));
-        scrollMap.put("FERESI", new Dimension(64, 160));
-        scrollMap.put("MOKATI", new Dimension(80, 160));
-        scrollMap.put("MAZORI", new Dimension(96, 160));
-        scrollMap.put("HULUMI", new Dimension(112, 160));
+        scrollMap.put("FERESI", new Dimension(64, 176));
+        scrollMap.put("MOKATI", new Dimension(80, 176));
+        scrollMap.put("MAZORI", new Dimension(96, 176));
+        scrollMap.put("HULUMI", new Dimension(112, 176));
     }
     
     private boolean isIdd(String scroll){

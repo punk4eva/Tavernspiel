@@ -62,6 +62,13 @@ public class Item implements Serializable{
         stackable = s;
     }
     
+    public Item(String n, Description desc, Image i, int q){
+        name = n;
+        description = desc;
+        icon = i;
+        quantity = q;
+    }
+    
     public String getPronounedName(int level, String pro){
         if(pro.equals("the")) return "the " + toString(level);
         else{
