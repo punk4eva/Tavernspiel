@@ -11,6 +11,12 @@ import level.Area;
  */
 public class SkeletalRemains extends Chest{
     
+    /**
+     * Creates a new instance.
+     * @param item 
+     * @param x
+     * @param y
+     */
     public SkeletalRemains(Item item, int x, int y){
         super(item, x, y);
         description = new Description("receptacle", "A pile of bones from an unlucky adventurer or resident "

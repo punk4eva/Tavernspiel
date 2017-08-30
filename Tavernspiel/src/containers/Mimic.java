@@ -10,6 +10,12 @@ import level.Area;
  */
 public class Mimic extends Chest{
     
+    /**
+     * Creates a new instance.
+     * @param item
+     * @param x
+     * @param y
+     */
     public Mimic(Item item, int x, int y){
         super(item, x, y);
     }

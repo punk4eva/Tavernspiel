@@ -9,6 +9,8 @@ import static logic.Distribution.r;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * A variation of Distribution but for creatures.
  */
 public class CreatureDistribution implements Serializable{
 

@@ -7,6 +7,8 @@ import java.io.Serializable;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * Stores changes in attributes from buffs.
  */
 public class AttributeModifier implements Serializable{
     
@@ -18,7 +20,5 @@ public class AttributeModifier implements Serializable{
     public double attackMultiplier = 1;
     public double regenSpeedMultiplier = 1;
     public Resistance[] newResistances = null; //null if Resistances aren't changed.
-    
-    public AttributeModifier(){}
     
 }

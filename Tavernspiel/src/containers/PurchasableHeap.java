@@ -1,8 +1,6 @@
 
 package containers;
 
-import exceptions.ReceptacleIndexOutOfBoundsException;
-import exceptions.ReceptacleOverflowException;
 import items.Item;
 
 /**
@@ -13,14 +11,21 @@ public class PurchasableHeap extends Floor{
     
     public final int price;
     
-    public PurchasableHeap(Item i, int p, int x, int y) throws ReceptacleOverflowException{
+    /**
+     * Creates an instance.
+     * @param i
+     * @param p The price.
+     * @param x
+     * @param y
+     */
+    public PurchasableHeap(Item i, int p, int x, int y){
         super(i, x, y);
         capacity = 1;
         price = p;
     }
     
-    public PurchasableHeap(Receptacle r, int p, int x, int y) throws ReceptacleOverflowException{
-        super(r, x, y);
+    public PurchasableHeap(Receptacle r, int p){
+        super(r, r.x, r.y);
         price = p;
     }
     
