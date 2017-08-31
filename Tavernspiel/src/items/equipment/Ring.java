@@ -18,4 +18,9 @@ public class Ring extends Apparatus{
         description.type = "amulets";
     }
     
+    public Ring(RingProfile rp){
+        super(rp.getName(), rp.getDescription(), rp.getImage(), rp.durability, rp.distribution);
+        glyph = rp.glyph;
+    }
+    
 }

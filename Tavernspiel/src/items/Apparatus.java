@@ -8,6 +8,7 @@ import items.equipment.Artifact;
 import items.equipment.HeldWeapon;
 import items.equipment.Ring;
 import java.awt.Graphics;
+import java.awt.Image;
 import javax.swing.ImageIcon;
 import logic.Distribution;
 import logic.Formula;
@@ -50,6 +51,13 @@ public class Apparatus extends Item{
         maxDurability = dur;
         action = a;
         strength = st;
+    }
+    
+    public Apparatus(String n, Description desc, Image i, int dur, Distribution a){
+        super(n, desc, i, false);
+        durability = dur;
+        maxDurability = dur;
+        action = a;
     }
     
     

@@ -25,7 +25,7 @@ public class Item implements Serializable{
     public boolean stackable = true;
     public boolean flammable = false;
     public ItemAction actions[];
-    Boolean cursed, identified;
+    protected Boolean cursed, identified;
     
     public Item(String n, String desc, ImageIcon i){
         name = n;
@@ -67,6 +67,13 @@ public class Item implements Serializable{
         description = desc;
         icon = i;
         quantity = q;
+    }
+    
+    public Item(String n, Description desc, Image i, boolean st){
+        name = n;
+        description = desc;
+        icon = i;
+        stackable = st;
     }
     
     public String getPronounedName(int level, String pro){

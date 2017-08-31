@@ -1,10 +1,112 @@
 
 package items.equipment;
 
+import creatureLogic.Description;
+import glyphs.Glyph;
+import items.ItemProfile;
+import static items.ItemProfile.intArrayEquals;
+import static items.ItemProfile.shade;
+import java.awt.Color;
+import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
+import java.util.HashMap;
+import logic.Distribution;
+
 /**
  *
  * @author Adam Whittaker
  */
-public class RingProfile{
+public class RingProfile extends ItemProfile{
+    
+    private static final RingDescriptionBuilder rdb = new RingDescriptionBuilder();
+    protected int durability;
+    protected Distribution distribution;
+    protected Glyph glyph;
+    
+    private static final HashMap<String, RingProfile> bareRingMap = new HashMap<>(); //maps name of ring with stats.
+    static{
+    
+    }
+    
+    private static BufferedImage outfitImage(BufferedImage img, Color band, Color gem){
+        WritableRaster raster = img.getRaster();
+        int[] bandColor = new int[]{band.getRed(), band.getGreen(), band.getBlue(), band.getAlpha()};
+        int[] bandRegex = new int[]{255,199,0};
+        int[] shadedBandColor = shade(bandColor);
+        int[] shadedBandRegex = new int[]{255,157,0};
+        int[] brightenedBandColor = brighten(bandColor);
+        int[] brightenedBandRegex = new int[]{255,215,60};
+        for(int y=0;y<16;y++){
+            for(int x=0;x<16;x++){
+                int[] pixel = raster.getPixel(x, y, (int[]) null);
+                if(intArrayEquals(pixel, bandRegex)) raster.setPixel(x, y, bandColor);
+                else if(intArrayEquals(pixel, shadedBandRegex)) raster.setPixel(x, y, shadedBandColor);
+                else if(intArrayEquals(pixel, brightenedBandRegex)) raster.setPixel(x, y, brightenedBandColor);
+            }
+        }
+        if(gem==null) return img;
+        int[] gemColor = new int[]{gem.getRed(), gem.getGreen(), gem.getBlue(), gem.getAlpha()};
+        int[] gemRegex = new int[]{238,0,156};
+        int[] shadedGemColor = new int[]{gem.getRed(), gem.getGreen(), gem.getBlue(), gem.getAlpha()};
+        int[] shadedGemRegex = new int[]{165,0,107};
+        for(int y=0;y<16;y++){
+            for(int x=0;x<16;x++){
+                int[] pixel = raster.getPixel(x, y, (int[]) null);
+                if(intArrayEquals(pixel, gemRegex)) raster.setPixel(x, y, gemColor);
+                else if(intArrayEquals(pixel, shadedGemRegex)) raster.setPixel(x, y, shadedGemColor);
+            }
+        }
+        return img;
+    }
+    
+    private static final class RingDescriptionBuilder extends DescriptionBuilder{
+        
+        String colour(int type){
+            String ret = word(colour);
+            String mod = "";
+            switch(type){
+                case 2: mod = "braided "; break;
+                case 3: mod = "transparent ";
+            }
+            description += "This is a " + mod + word(colourMod) + ret + " coloured ring";
+            return ret;
+        }
+        
+        String gemColour(int type){
+            String ret = word(colour);
+            String mod = "";
+            switch(type){
+                case 1: description += " with a " + word(colourMod) + ret + " coloured gem that softly glistens in the darkness."; break;
+                case 2: description += " with " + word(colourMod) + ret + " coloured gems that stud the braids of the ring.";
+            }
+            return ret;
+        }
+        
+        RingProfile getProfile(String name, int type, int dur, Distribution dist, Glyph g){
+            String bandColour = colour(type);
+            switch(type){
+                case 0: case 3://plain or transparent
+                    return new RingProfile(name, description+".", outfitImage(getImage(16*type, 176), getColour(bandColour), null), dur, dist, g);
+                default: //gemmed or braided
+                    String gemColour = gemColour(type);
+                    return new RingProfile(name, description, outfitImage(getImage(16*type, 176), getColour(bandColour), getColour(gemColour)), dur, dist, g);
+            }
+        }
+        
+    }
+    
+    public static RingProfile getRandomProfile(String name, boolean idd){
+        RingProfile bp = bareRingMap.get(name);
+        return rdb.getProfile(name, Distribution.r.nextInt(4), bp.durability, bp.distribution, bp.glyph);
+    }
+    
+    RingProfile(String nm, String desc, BufferedImage im, int dur, Distribution dist, Glyph g){
+        name = nm;
+        glyph = g;
+        distribution = dist;
+        durability = dur;
+        image = im;
+        description = new Description("amulets", desc);
+    }
     
 }
