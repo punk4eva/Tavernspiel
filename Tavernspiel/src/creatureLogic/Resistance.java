@@ -15,6 +15,11 @@ public class Resistance implements Serializable{
     public String buffName;
     public Distribution distrib;
     
+    /**
+     * Creates a new instance.
+     * @param bn The buff to be resisted.
+     * @param dist The Distribution to represent imperfect resistance.
+     */
     public Resistance(String bn, Distribution dist){
         buffName = bn;
         distrib = dist;

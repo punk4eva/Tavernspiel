@@ -33,8 +33,6 @@ public class Formula implements Serializable{
         intAdd = ad;
     }
     
-    public Formula(){}
-    
     public double getDouble(double x){
         return (multiply * x) + add;
     }

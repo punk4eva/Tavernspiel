@@ -6,17 +6,29 @@ import java.io.Serializable;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * A layered description that is accessible to different levels based on expertise.
  */
 public class Description implements Serializable{
     
     public String type;
     public final String[] layers;
     
+    /**
+     * Creates a new instance
+     * @param t The type of the thing to be described.
+     * @param l The layers of description.
+     */
     public Description(String t, String... l){
         type = t;
         layers = l;
     }
     
+    /**
+     * Returns a String description stored in this Object.
+     * @param e The Expertise to reference.
+     * @return What the hero sees upon investigation.
+     */
     public String getDescription(Expertise e){
         String ret = "";
         int level = 0;
@@ -33,6 +45,15 @@ public class Description implements Serializable{
         return ret.substring(0, ret.length()-1);
     }
     
+    /**
+     * Creates a Description object from the given Strings.
+     * @param type The type of the Description.
+     * @param str A packaged form of the content of the description, layers 
+     * separated with '|'.
+     * @return
+     * @deprecated
+     * @see Description.new()
+     */
     public static Description parseDescription(String type, String str){
         return new Description(type, str.split("|"));
     }

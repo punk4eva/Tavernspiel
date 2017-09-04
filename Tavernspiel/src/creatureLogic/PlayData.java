@@ -2,10 +2,9 @@
 package creatureLogic;
 
 import fileLogic.FileHandler;
-import fileLogic.ReadWrite;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  *
@@ -19,12 +18,21 @@ public class PlayData implements Serializable{
     public HashSet<Badge> badgesEarned;
     public int gamesWon;
     
-    public PlayData(int gP, int gW, ArrayList<Badge> bE){
+    /**
+     * Creates a new instance.
+     * @param gP
+     * @param gW
+     * @param bE
+     */
+    public PlayData(int gP, int gW, List<Badge> bE){
         gamesPlayed = gP;
         badgesEarned = new HashSet(bE);
         gamesWon = gW;
     }
     
+    /**
+     * Retrieves PlayData from its file.
+     */
     public PlayData(){
         PlayData pd = (PlayData) FileHandler.getFromFile("saves/gamedata.plydta");
         gamesPlayed = pd.gamesPlayed;
@@ -32,19 +40,29 @@ public class PlayData implements Serializable{
         gamesWon = pd.gamesWon;
     }
     
-    public void saveToFile(){
+    /**
+     * Saves this Object.
+     */
+    public void save(){
         FileHandler.toFile(this, "saves/gamedata.plydta");
     };
     
-    
+    /**
+     * Returns the percentage of games won as a String.
+     * @return A String representation.
+     */
     public String successRate(){
         return (((double) gamesWon)/((double) gamesPlayed) * 100) + "%";
     }
     
+    /**
+     * Removes badges that have been overridden.
+     */
     public void updateOverridingBadges(){
-        badgesEarned.stream().forEach((b) -> {
-            if(b.isOverriden(badgesEarned)) badgesEarned.remove(b);
-        });
+        HashSet<Badge> temp = (HashSet<Badge>) badgesEarned.clone();
+        temp.stream().forEach((b) -> {
+            if(b.isOverriden(temp)) badgesEarned.remove(b);
+        });   
     }
     
 }

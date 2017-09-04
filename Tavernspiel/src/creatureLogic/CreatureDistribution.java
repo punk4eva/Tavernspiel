@@ -17,6 +17,9 @@ public class CreatureDistribution implements Serializable{
     protected final Creature[] creatures;
     protected final int[] chances;
 
+    /**
+     * @see Distribution.new
+     */
     public CreatureDistribution(Creature[] out, int[] cha){
         chances = Distribution.convert(cha);
         creatures = out;

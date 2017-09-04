@@ -6,6 +6,7 @@ import items.consumables.Potion;
 import items.consumables.Scroll;
 import items.equipment.Ring;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.ImageIcon;
 import listeners.AreaEvent;
 
@@ -35,15 +36,15 @@ public class ItemBuilder{
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public static ArrayList<Ring> getListOfAllRings(){
+    public static List<Ring> getListOfAllRings(){
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public static ArrayList<Potion> getListOfAllPotions(){
+    public static List<Potion> getListOfAllPotions(){
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public static ArrayList<Scroll> getListOfAllScrolls(){
+    public static List<Scroll> getListOfAllScrolls(){
         throw new UnsupportedOperationException("Not supported yet.");
     }
     

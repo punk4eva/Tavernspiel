@@ -7,33 +7,41 @@ import logic.Formula;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * Represents the experience of the hero.
  */
 public class Level implements Serializable{
     
     public int level = 1;
     public int xp = 0;
     public int xpReq = 20;
-    public Formula xpFormula = new Formula();
-    public Formula speedFormula = new Formula();
-    public Formula attackSpeedFormula = new Formula();
-    public Formula dexterityFormula = new Formula();
-    public Formula hpFormula = new Formula();
-    public Formula regenSpeedFormula = new Formula();
-    public Formula strengthFormula = new Formula();
+    public Formula xpFormula;
+    public Formula speedFormula;
+    public Formula attackSpeedFormula;
+    public Formula dexterityFormula;
+    public Formula hpFormula;
+    public Formula regenSpeedFormula;
+    public Formula strengthFormula;
     
     private void levelUp(Attributes atb){
         level++;
         int prevHp = atb.maxhp;
         xpReq = xpFormula.getInt(level);
-        atb.attackSpeed = attackSpeedFormula.getDouble(level);
-        atb.dexterity = dexterityFormula.getDouble(level);
-        atb.regenSpeed = regenSpeedFormula.getDouble(xp);
-        atb.maxhp = hpFormula.getInt(level);
-        atb.strength = strengthFormula.getInt(level);
-        atb.speed = speedFormula.getDouble(level);
-        atb.hp += atb.maxhp - prevHp;
+        atb.update(
+            attackSpeedFormula.getDouble(level),
+            dexterityFormula.getDouble(level),
+            regenSpeedFormula.getDouble(level),
+            hpFormula.getInt(level),
+            strengthFormula.getInt(level),
+            speedFormula.getDouble(level));
+        atb.setHp(atb.maxhp - prevHp);
     }
 
+    /**
+     * Gains the given amount of experience.
+     * @param e The amount of xp.
+     * @param atb The attributes to level up.
+     */
     public void gainXP(int e, Attributes atb){
         xp += e;
         while(xp>=xpReq){

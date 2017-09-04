@@ -6,6 +6,8 @@ import java.io.Serializable;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * Represents the knowledge of the Hero
  */
 public class Expertise implements Serializable{
     
@@ -17,8 +19,21 @@ public class Expertise implements Serializable{
     public int wands = 0;
     public int amulets = 0;
     
+    /**
+     * Creates an instance with no knowledge.
+     */
     public Expertise(){}
     
+    /**
+     * Creates an instance with knowledge about given subjects.
+     * @param cr Creature knowledge.
+     * @param po Potion knowledge.
+     * @param sc Scroll knowledge.
+     * @param ar Armour knowledge.
+     * @param we Weapon knowledge.
+     * @param wa Wand  knowledge.
+     * @param am Amulet knowledge.
+     */
     public Expertise(int cr, int po, int sc, int ar, int we, int wa, int am){
         creatures = cr;
         amulets = am;
@@ -29,6 +44,10 @@ public class Expertise implements Serializable{
         wands = wa;
     }
     
+    /**
+     * Combines this experience object with another.
+     * @param e The concatenation.
+     */
     public void merge(Expertise e){
         creatures += e.creatures;
         potions += e.potions;

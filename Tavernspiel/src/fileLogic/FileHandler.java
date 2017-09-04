@@ -1,7 +1,6 @@
 
 package fileLogic;
 
-import gui.Handler;
 import gui.MainClass;
 import java.io.File;
 import java.io.FileInputStream;
@@ -17,8 +16,6 @@ import java.io.Serializable;
  */
 public class FileHandler{
     
-    public static ObjectOutputStream output;
-    
     public static String getExtension(File file){
         String filepath = file.getPath();
         return filepath.substring(filepath.lastIndexOf(".")+1);
@@ -28,27 +25,16 @@ public class FileHandler{
         return getExtension(file).equals(extension);
     }
     
-    public static void initOutputDestination(String filepath){
-        try{
-            output = new ObjectOutputStream(new FileOutputStream(filepath));
-        }catch(IOException e){
-            e.printStackTrace(MainClass.exceptionStream);
-        }
-    }
-    
-    public static void toFile(Serializable object, String destinationFilepath){
-        initOutputDestination(destinationFilepath);
-        try{
+    public static void toFile(Serializable object, String filepath){
+        try(ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(filepath))){
             output.writeObject(object);
-            output.close();
         }catch(IOException e){
             e.printStackTrace(MainClass.exceptionStream);
         }
     }
     
     public static Object getFromFile(String filepath){
-        try{
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream(filepath));
+        try(ObjectInputStream in = new ObjectInputStream(new FileInputStream(filepath))) {
             return in.readObject();
         }catch(IOException | ClassNotFoundException e){
             e.printStackTrace(MainClass.exceptionStream);

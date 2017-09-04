@@ -6,14 +6,12 @@ import creatures.Creature;
 import creatures.Hero;
 import gui.MainClass;
 import gui.Screen;
-import gui.Window;
 import items.ItemBuilder;
 import items.consumables.LocationSpecificScroll;
 import items.consumables.LocationSpecificScroll.LocationViewable;
 import java.util.List;
 import javax.swing.ImageIcon;
 import level.Area;
-import level.Location;
 import listeners.AreaEvent;
 import listeners.ScreenListener;
 import logic.Distribution;
@@ -26,7 +24,7 @@ import logic.Formula;
 public class Wand extends RangedWeapon implements ScreenListener{
     
     public double rechargeSpeed = 1;
-    public Formula rechargeFormula = new Formula();
+    public Formula rechargeFormula = new Formula(1,0,1,0);
     public final Animation firingAnimation;
     public int range = -1; //-1 if N/A.
     public Formula rangeFormula = null; //Null if no formula.

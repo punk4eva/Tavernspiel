@@ -25,4 +25,30 @@ public class Attributes implements Serializable{
     public Level level;
     public int xpOnDeath = 0;
     
+    /**
+     * Updates attributes.
+     * @param atksp The new attack speed.
+     * @param dex The new dexterity.
+     * @param regen The new regeneration.
+     * @param mxhp The new maximum hp.
+     * @param st The new strength.
+     * @param sp The new speed.
+     */
+    public void update(double atksp, double dex, double regen, int mxhp, int st, double sp){
+        attackSpeed = atksp;
+        dexterity = dex;
+        regenSpeed = regen;
+        maxhp = mxhp;
+        strength = st;
+        speed = sp;
+    }
+    
+    /**
+     * sets the hp value.
+     * @param h The new hp.
+     */
+    public void setHp(int h){
+        hp = h;
+    }
+    
 }
