@@ -8,10 +8,10 @@ import logic.GameObject;
 
 /**
  *
- * @author Charlie Hands
+ * @author Charlie Hands and Adam Whittaker
  */
 public class Handler implements Serializable{
-    LinkedList<GameObject> object = new LinkedList<>();
+    volatile LinkedList<GameObject> object = new LinkedList<>();
 
     /**
     public void tick(){
@@ -28,11 +28,11 @@ public class Handler implements Serializable{
      * @param g The graphics to draw on.
      */
     public void render(Graphics g){
-        for(int i = 0; i < object.size(); i++){
-            GameObject tempObject = object.get(i);
+        object.stream().forEach(obj -> {
+            GameObject tempObject = obj;
 
-            tempObject.render(g);
-        }
+            tempObject.render(g); //Why do you need a temporary object.
+        });
     }
     
     /**

@@ -10,6 +10,8 @@ import logic.Distribution;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * Represents enchantments on weapons, armour, and effects on rings
  */
 public class Glyph implements Serializable{
     
@@ -22,23 +24,47 @@ public class Glyph implements Serializable{
     public boolean isKnownToBeCursed = false;
     protected int hueR1, hueR2, hueG1, hueG2, hueB1, hueB2;
     
+    /**
+     * Creates a new instance.
+     * @param s The name.
+     * @param d The action distribution.
+     */
     public Glyph(String s, Distribution d){
         name = s;
         action = d;
     }
     
+    /**
+     * Creates a new instance.
+     * @param s The name.
+     * @param d The action distribution.
+     * @param u Whether the glyph is unremovable (AKA a curse).
+     */
     public Glyph(String s, Distribution d, boolean u){
         name = s;
         action = d;
         unremovable = u;
     }
     
+    /**
+     * Creates a new instance.
+     * @param s The name.
+     * @param d The action distribution.
+     * @param l The level.
+     */
     public Glyph(String s, Distribution d, double l){
         name = s;
         action = d;
         level = l;
     }
     
+    /**
+     * Creates a new instance.
+     * @param s The name.
+     * @param d The action distribution.
+     * @param l The level.
+     * @param u Whether the glyph is unremovable (AKA a curse).
+     */
     public Glyph(String s, Distribution d, double l, boolean u){
         name = s;
         action = d;
@@ -46,6 +72,10 @@ public class Glyph implements Serializable{
         unremovable = u;
     }
     
+    /**
+     * Returns a Color representing the general aura of this glyph.
+     * @return the Color.
+     */
     public Color getHue1(){
         double progress = MainClass.frameNumber/MainClass.frameDivisor;
         int R = (int)(((double)hueR2-hueR1)*progress)+hueR1;
@@ -54,6 +84,10 @@ public class Glyph implements Serializable{
         return new Color(R, G, B, 128);
     }
     
+    /**
+     * Returns a Color representing the general aura of this glyph.
+     * @return The Colormate of Glyph.getHue1().
+     */
     public Color getHue2(){
         double progress = (MainClass.frameDivisor-MainClass.frameNumber)/MainClass.frameDivisor;
         int R = (int)(((double)hueR2-hueR1)*progress)+hueR1;
