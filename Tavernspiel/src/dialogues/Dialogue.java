@@ -12,6 +12,8 @@ import logic.Utils;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * An Option Dialogue.
  */
 public class Dialogue implements ScreenListener{
     
@@ -23,7 +25,14 @@ public class Dialogue implements ScreenListener{
     private final int height;
     private final int padding = 8;
     private final int heightOfQuestion;
+    private boolean clickOffable = true;
     
+    /**
+     * Creates a new Dialogue with the given options.
+     * @param quest The question.
+     * @param off What happens if the user clicks away.
+     * @param opt The options.
+     */
     public Dialogue(String quest, ScreenEvent off, String... opt){
         options = opt;
         offCase = off;
@@ -33,6 +42,12 @@ public class Dialogue implements ScreenListener{
         screenArray = getScreens();
     }
     
+    /**
+     * Creates a new Dialogue with the given options.
+     * @param quest The question.
+     * @param off What happens if the user clicks away.
+     * @param opt The options.
+     */
     public Dialogue(String quest, String off, String... opt){
         options = opt;
         offCase = new ScreenEvent(off);
@@ -42,6 +57,27 @@ public class Dialogue implements ScreenListener{
         screenArray = getScreens();
     }
     
+    /**
+     * Creates a new Dialogue with the given options.
+     * @param quest The question.
+     * @param off What happens if the user clicks away.
+     * @param click Sets whether the user can click away.
+     * @param opt The options.
+     */
+    public Dialogue(String quest, String off, boolean click, String... opt){
+        options = opt;
+        clickOffable = click;
+        offCase = new ScreenEvent(off);
+        question = Utils.lineFormat(quest, 20);
+        heightOfQuestion = 12*Utils.lineCount(question);
+        height = 2*padding + heightOfQuestion + (36+padding)*options.length;
+        screenArray = getScreens();
+    }
+    
+    /**
+     * Paints this Dialogue onto the given Graphics.
+     * @param g The Graphics.
+     */
     public void paint(Graphics g){
         int beginHeight = (MainClass.HEIGHT-height)/2;
         int beginWidth = MainClass.WIDTH/3;
@@ -73,6 +109,11 @@ public class Dialogue implements ScreenListener{
         main.removeScreens(screenArray);
     }
     
+    /**
+     * Activates this Dialogue.
+     * @param main The MainClass to draw on.
+     * @return The ScreenEvent that happened.
+     */
     public synchronized ScreenEvent action(MainClass main){
         activate(main);
         try{
@@ -90,11 +131,18 @@ public class Dialogue implements ScreenListener{
         notify();
     }
     
+    /**
+     * Notifies this Dialogue that the user clicked away.
+     */
     public synchronized void clickedOff(){
         clickedScreen = offCase;
-        notify();
+        if(clickOffable) notify();
     }
 
+    /**
+     * Gets the screens associated with this Dialogue.
+     * @return The Screens.
+     */
     public final Screen[] getScreens(){
         Screen[] ary = new Screen[options.length+1];
         int beginWidth = MainClass.WIDTH/3;

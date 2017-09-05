@@ -16,7 +16,6 @@ import items.equipment.Wand;
 import java.io.Serializable;
 import java.util.ArrayList;
 import level.Area;
-import level.Location;
 import logic.Distribution;
 import pathfinding.Point;
 import tiles.HiddenTile;
@@ -60,9 +59,9 @@ public class AIBaseActions implements Serializable{
             case 7: c.setY(c.y-1);
             default: c.setXY(c.x+1, c.x+1);
         }
-        c.moveAnimation();
+        c.changeAnimation("move");
         if(c.attributes.ai.destinationx==c.x&&c.attributes.ai.destinationy==c.y){
-            c.standAnimation();
+            c.changeAnimation("stand");
         }
     }
     
@@ -101,7 +100,7 @@ public class AIBaseActions implements Serializable{
      */
     public void sleep(Creature c){
         ((IntelligentAI1)c.attributes.ai).state = EnState.SLEEPING;
-        c.sleepAnimation();
+        c.changeAnimation("sleep");
     }
     
     /**
@@ -110,7 +109,7 @@ public class AIBaseActions implements Serializable{
      */
     public void wakeUp(Creature c){
         ((IntelligentAI1)c.attributes.ai).state = EnState.WANDERING;
-        c.standAnimation();
+        c.changeAnimation("stand");
     }
     
     /**
@@ -122,7 +121,7 @@ public class AIBaseActions implements Serializable{
     public void wakeUp(Creature c, int xOfDisturbance, int yOfDisturbance){
         ((IntelligentAI1)c.attributes.ai).state = EnState.HUNTING;
         c.attributes.ai.setDestination(xOfDisturbance, yOfDisturbance);
-        c.standAnimation();
+        c.changeAnimation("stand");
     }
     
     /**

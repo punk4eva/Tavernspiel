@@ -6,16 +6,22 @@ import gui.Game;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * A dialogue to catch exceptions at runtime.
  */
 public class ExceptionDialogue extends Dialogue{
     
     private final Exception exception;
     
     public ExceptionDialogue(Exception ex){
-        super(ex.toString().toUpperCase() + ": " + ex.getMessage(), "abort", "abort", "retry", "fail");
+        super(ex.toString().toUpperCase() + ": " + ex.getMessage(), null, false, "abort", "retry", "fail");
         exception = ex;
     }
     
+    /**
+     * Decides how to proceed at the given exception.
+     * @param game The game to act upon.
+     */
     public synchronized void next(Game game){
         exception.printStackTrace(game.exceptionStream);
         switch(super.action(game).getName()){

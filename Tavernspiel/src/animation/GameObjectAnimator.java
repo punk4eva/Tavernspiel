@@ -1,12 +1,14 @@
 
 package animation;
 
+import creatures.Creature;
 import gui.MainClass;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
 import listeners.AnimationListener;
+import listeners.DeathEvent;
 import logic.ImageUtils;
 
 /**
@@ -113,6 +115,21 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
         }
         active = fade;
         active.offset = MainClass.frameNumber%active.frames.length;
+    }
+    
+    /**
+     * Kills the owner of this animation.
+     * @param c The owner.
+     */
+    public synchronized void switchFadeKill(Creature c){
+        switchFade("die");
+        waitingForDone = true;
+        try{
+            wait();
+        }catch(InterruptedException e){
+            e.printStackTrace(MainClass.exceptionStream);
+        }
+        new DeathEvent(c, c.x, c.y, c.area).notifyEvent();
     }
 
     @Override

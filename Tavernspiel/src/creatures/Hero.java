@@ -34,11 +34,10 @@ public class Hero extends Creature implements Viewable{
     public Expertise expertise;
     public EnClass job = EnClass.NoClass;
     public EnSubclass subclass = null; //Null if no subclass selected.
-
-    public MainClass getMainClass(){
-        return main;
-    }
     
+    /**
+     * The class of the hero.
+     */
     public enum EnClass{
         NoClass (new Expertise()),
         Warrior (new Expertise(1,0,0,2,1,0,0), new EnSubclass[]{EnSubclass.Berserker, EnSubclass.Gladiator}),
@@ -46,28 +45,38 @@ public class Hero extends Creature implements Viewable{
         Rogue (new Expertise(1,1,1,1,1,0,2), new EnSubclass[]{EnSubclass.Freerunner, EnSubclass.Assassin}),
         Huntress (new Expertise(2,1,0,0,1,0,1), new EnSubclass[]{EnSubclass.Warden, EnSubclass.Sniper});
         
-        private final EnSubclass[] possibleSubclasses;
-        private final Expertise expertiseGained;
+        protected final EnSubclass[] possibleSubclasses;
+        protected final Expertise expertiseGained;
         EnClass(Expertise e, EnSubclass... subclasses){
             expertiseGained = e;
             possibleSubclasses = subclasses;
         }
     }
     
+    /**
+     * The hero's subclass.
+     */
     public enum EnSubclass{
         Berserker (new Expertise(1,0,0,0,0,0,0), "Not finished"), Gladiator (new Expertise(0,0,0,0,1,0,0), "Not finished"),
         Battlemage (new Expertise(0,0,0,1,1,0,0), "Not finished"), Warlock (new Expertise(1,1,0,0,0,0,1), "Not finished"),
         Freerunner (new Expertise(0,0,1,1,0,0,0), "Not finished"), Assassin (new Expertise(1,0,0,0,1,0,0), "Not finished"),
         Warden (new Expertise(0,1,1,0,0,0,0), "Not finished"), Sniper (new Expertise(0,0,0,0,1,1,1), "Not finished");
         
-        private final String description;
-        private final Expertise expertiseGained;
+        protected final String description;
+        protected final Expertise expertiseGained;
         EnSubclass(Expertise e, String desc){
             expertiseGained = e;
             description = desc;
         }
     }
     
+    /**
+     * Creates a new Hero.
+     * @param atb The attributes.
+     * @param an The animator.
+     * @param ac The area.
+     * @param m The MainClass to register with.
+     */
     public Hero(Attributes atb, GameObjectAnimator an, Area ac, MainClass m){
         super("Hero", new Description("hero","UNWRITTEN"), atb, an, ac, m.getHandler());
         data = new DeathData(this);
@@ -75,7 +84,21 @@ public class Hero extends Creature implements Viewable{
         main = m;
     }
     
-    public Hero(int id, Equipment eq, Inventory inv, int hung, DeathData da, EnClass j, EnSubclass sub, Attributes atb, List<Buff> bs, Area ac, MainClass m){
+    /**
+     * Creates a new Hero
+     * @param id The ID.
+     * @param eq The worn Equipment.
+     * @param inv The Inventory.
+     * @param hung The hunger.
+     * @param da The DeathData.
+     * @param j The Class.
+     * @param sub The SubClass.
+     * @param atb The Attributes.
+     * @param bs The Buffs.
+     * @param ac The Area.
+     * @param m The MainClass.
+     */
+    public Hero(int id, Equipment eq, Inventory inv, int hung, DeathData da, EnClass j, EnSubclass sub, Attributes atb, LinkedList<Buff> bs, Area ac, MainClass m){
         super("Hero", new Description("hero","UNWRITTEN"), id, eq, inv, atb, ac, bs, m.getHandler());
         hunger = hung;
         job = j;
@@ -83,6 +106,14 @@ public class Hero extends Creature implements Viewable{
         main = m;
         data = da;
         screens = getScreens();
+    }
+    
+    /**
+     * Returns the MainClass associated with this Hero.
+     * @return The MainClass.
+     */
+    public MainClass getMainClass(){
+        return main;
     }
 
     @Override
@@ -106,6 +137,7 @@ public class Hero extends Creature implements Viewable{
     }
     
     public void die(Creature killer){
+        animator.switchTo("die");
         new DeathEvent(this, x, y, area).notifyEvent();
         MainClass.messageQueue.add("red", killer.name + " killed you...");
         Window.main.endGame();
@@ -135,10 +167,18 @@ public class Hero extends Creature implements Viewable{
         return screens;
     }
     
+    /**
+     * Sets the ScreenListener (used with Viewable)
+     * @param sl The new ScreenListener
+     */
     public void setScreenListener(ScreenListener sl){
         currentScreenListener = sl;
     }
     
+    /**
+     * Returns the ScreenListener
+     * @return The ScreenListener
+     */
     public ScreenListener getScreenListener(){
         return currentScreenListener;
     }

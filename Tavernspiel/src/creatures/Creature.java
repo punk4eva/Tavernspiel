@@ -13,7 +13,6 @@ import gui.MainClass;
 import items.equipment.HeldWeapon;
 import java.awt.Graphics;
 import java.util.LinkedList;
-import java.util.List;
 import level.Area;
 import listeners.BuffEvent;
 import listeners.BuffListener;
@@ -33,8 +32,19 @@ public class Creature extends GameObject implements BuffListener, Comparable<Cre
     public Equipment equipment = new Equipment();
     public Inventory inventory = new Inventory();
     public Attributes attributes;
-    public List<Buff> buffs = new LinkedList<>();
+    public LinkedList<Buff> buffs = new LinkedList<>();
     
+    /**
+     * Creates a new instance.
+     * @param n The name.
+     * @param desc The description.
+     * @param eq The equipment.
+     * @param inv The inventory.
+     * @param atb The attributes.
+     * @param an The Animator.
+     * @param ac The Area.
+     * @param handler The Handler to register with.
+     */
     public Creature(String n, Description desc, Equipment eq, Inventory inv, 
             Attributes atb, GameObjectAnimator an, Area ac, Handler handler){
         super(n, desc, an, ac, handler);
@@ -44,8 +54,20 @@ public class Creature extends GameObject implements BuffListener, Comparable<Cre
         MainClass.buffinitiator.addBuffListener(this);
     }
     
+    /**
+     * Creates a new instance.
+     * @param n The name.
+     * @param desc The description.
+     * @param id The ID of the creature.
+     * @param eq The equipment.
+     * @param inv The inventory.
+     * @param atb The attributes.
+     * @param ac The Area.
+     * @param bs The list of buffs.
+     * @param handler The Handler to register with.
+     */
     public Creature(String n, Description desc, int id, Equipment eq, Inventory inv, 
-            Attributes atb, Area ac, List<Buff> bs, Handler handler){
+            Attributes atb, Area ac, LinkedList<Buff> bs, Handler handler){
         super(n, desc, AnimationBuilder.getCreatureAnimation(n), ac, handler);
         equipment = eq;
         ID = id;
@@ -55,24 +77,49 @@ public class Creature extends GameObject implements BuffListener, Comparable<Cre
         MainClass.buffinitiator.addBuffListener(this);
     }
     
+    /**
+     * Creates a new instance.
+     * @param n The name.
+     * @param desc The description.
+     * @param atb The attributes.
+     * @param an The Animator.
+     * @param ac The Area.
+     * @param handler The Handler to register with.
+     */
     public Creature(String n, Description desc, Attributes atb, GameObjectAnimator an, Area ac, Handler handler){
         super(n, desc, an, ac, handler);
         attributes = atb;
         MainClass.buffinitiator.addBuffListener(this);
     }
     
+    /**
+     * Gains the given amount of experience.
+     * @param e The amount.
+     */
     public void gainXP(int e){
         attributes.level.gainXP(e, attributes);
     }
     
+    /**
+     * Gains experience from killing a Creature.
+     * @param c The Creature to kill.
+     */
     public void gainXP(Creature c){
         attributes.level.gainXP(c.attributes.xpOnDeath, attributes);
     }
     
-    public void die(){
-        new DeathEvent(this, x, y, area).notifyEvent();  
+    /**
+     * Kills this Creature.
+     */
+    public synchronized void die(){
+        animator.switchFadeKill(this);
     }
     
+    /**
+     * Handles attacks. 
+     * @param attacker The attacking Creature.
+     * @param damage The damage dealt.
+     */
     public void getAttacked(Creature attacker, int damage){
         attributes.hp -= damage;
         if(attributes.hp<=0){
@@ -85,10 +132,19 @@ public class Creature extends GameObject implements BuffListener, Comparable<Cre
         }
     }
     
+    /**
+     * Checks whether the Creature has a given buff.
+     * @param buff The buff to check.
+     * @return True if the buff is present, false if not.
+     */
     public boolean hasBuff(String buff){
         return buffs.stream().anyMatch((b) -> (b.name.equals(buff)));
     }
     
+    /**
+     * Removes the given buff.
+     * @param buff The buff.
+     */
     public void removeBuff(String buff){
         for(Buff b : buffs) if(buff.equals(b.name)){
             buffs.remove(b);
@@ -96,6 +152,10 @@ public class Creature extends GameObject implements BuffListener, Comparable<Cre
         }
     }
     
+    /**
+     * Adds the given buff.
+     * @param buff The buff.
+     */
     public void addBuff(Buff buff){
         buffs.add(buff);
     }
@@ -110,8 +170,13 @@ public class Creature extends GameObject implements BuffListener, Comparable<Cre
         }
     }
     
+    /**
+     *
+     * @param delta
+     */
     public void decrementAndUpdateBuffs(double delta){
-        buffs.stream().forEach((buff) -> {
+        LinkedList<Buff> temp = (LinkedList<Buff>) buffs.clone();
+        temp.stream().forEach((buff) -> {
             buff.duration-=delta;
             if(buff.duration<=0){
                 buff.end(this);
@@ -141,18 +206,10 @@ public class Creature extends GameObject implements BuffListener, Comparable<Cre
         y = ny;
     }
 
-    public void moveAnimation(){
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public void standAnimation(){
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public void sleepAnimation(){
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+    /**
+     * Calculates the next hit damage.
+     * @return The next hit damage.
+     */
     public int nextHit(){
         try{
             HeldWeapon weap = equipment.getWeapon();
@@ -163,14 +220,18 @@ public class Creature extends GameObject implements BuffListener, Comparable<Cre
             return equipment.getWeapon().nextIntAction();
         }
     }
-    
-    public void removeBuff(Buff b){
-        buffs.remove(b);
-    }
 
     @Override
     public int compareTo(Creature t){
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * Switches the Animation. 
+     * @param str The name of the animation to switch to.
+     */
+    public void changeAnimation(String str){
+        animator.switchTo(str);
     }
     
 }

@@ -69,12 +69,22 @@ public class Buff implements Serializable{
      * @param c The creature whose buff has ended.
      */
     public void end(Creature c){
-        c.removeBuff(this);
+        c.removeBuff(name);
         if(event!=null){
             Buff next = event.getNext();
             if(next==null) MainClass.buffinitiator.notify(event);
             else c.addBuff(next);
         }
+    }
+    
+    /**
+     * Decrements the Buff's duration by the given amount and ends it if necessary.
+     * @param delta The amount of turns.
+     * @param c The victim of the buff.
+     */
+    public void decrement(double delta, Creature c){
+        duration -= delta;
+        if(duration<=0) end(c);
     }
     
 }
