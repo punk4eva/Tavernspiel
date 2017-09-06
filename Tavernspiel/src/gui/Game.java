@@ -46,4 +46,13 @@ public class Game extends MainClass implements DepthListener{
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
+    /**
+     * Ends the game.
+     */
+    @Unfinished
+    public void endGame(){
+        stop();
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
 }

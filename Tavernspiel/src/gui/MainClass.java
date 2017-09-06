@@ -20,13 +20,14 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Stream;
 import level.Area;
 import listeners.BuffEventInitiator;
 import listeners.GrimReaper;
 import logic.IDHandler;
-import logic.ImageHandler;
 import logic.SoundHandler;
 import logic.Utils;
+import logic.Utils.Unfinished;
 import pathfinding.Point;
 import tiles.AnimatedTile;
 import tiles.Tile;
@@ -52,8 +53,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public static final IDHandler idhandler = new IDHandler(); //Creates UUIDs for GameObjects.
     public static GrimReaper reaper; //Handles death.
     public static final BuffEventInitiator buffinitiator = new BuffEventInitiator(); //Handles buffs.
-    public List<Screen> activeScreens = new LinkedList<>();
-    public List<Viewable> activeViewables = new LinkedList<>();
+    private final ViewableList viewables = new ViewableList();
     private Dialogue currentDialogue = null; //null if no dialogue.
     public Area currentArea;
     private static int focusX=16, focusY=16;
@@ -64,7 +64,52 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public static long frameDivisor = 10000;
     public static long frameNumber = 0;
     public static double gameTurns = 0;
+    
+    private class ViewableList{
+        
+        private final List<Viewable> viewables = new LinkedList<>();
+        final List<Screen> screens = new LinkedList<>();
+        
+        void removeTopViewable(){
+            Viewable top = viewables.remove(viewables.size()-1);
+            screens.removeAll(top.getScreenList());
+        }
+        
+        void addViewable(Viewable viewable){
+            screens.removeAll(viewables.get(viewables.size()-1).getScreenList());
+            viewables.add(viewable);
+            screens.addAll(viewable.getScreenList());
+        }
+        
+        boolean viewablesEmpty(){
+            return viewables.isEmpty();
+        }
+        
+        boolean screensEmpty(){
+            return screens.isEmpty();
+        }
+        
+        Stream<Viewable> streamViewables(){
+            return viewables.stream();
+        }
+        
+        Stream<Screen> streamScreens(){
+            return screens.stream();
+        }
+        
+        int viewablesSize(){
+            return viewables.size();
+        }
+        
+        int screensSize(){
+            return screens.size();
+        }
+        
+    }
 
+    /**
+     * Creates a new instance.
+     */
     public MainClass(){
         try{
             exceptionStream = new PrintStream(new File("log/exceptions.txt"));
@@ -77,52 +122,92 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         reaper = new GrimReaper(handler);
     }
     
+    /**
+     * Adds a Viewable to the display.
+     * @param viewable
+     */
     public void addViewable(Viewable viewable){
-        activeScreens.removeAll(activeViewables.get(activeViewables.size()-1).getScreenList());
-        activeViewables.add(viewable);
-        activeScreens.addAll(viewable.getScreenList());
+        viewables.addViewable(viewable);
     }
     
+    /**
+     * Removes the top Viewable.
+     */
     public void removeTopViewable(){
-        Viewable top = activeViewables.remove(activeViewables.size()-1);
-        activeScreens.removeAll(top.getScreenList());
+        viewables.removeTopViewable();
     }
     
+    /**
+     * Gets the Handler
+     * @return The Handler
+     */
     public Handler getHandler(){
         return handler;
     }
     
+    /**
+     * Sets the SFX volume.
+     * @param newVolume The gain in dB.
+     */
     public void changeSFXVolume(float newVolume){
         Window.SFXVolume = newVolume;
     }
     
+    /**
+     * Sets the music volume.
+     * @param newVolume The gain in dB.
+     */
     public void changeMusicVolume(float newVolume){
         Window.MusicVolume = newVolume;
     }
     
+    /**
+     * Changes the current Dialogue.
+     * @param dialogue The new Dialogue.
+     */
     public void changeCurrentDialogue(Dialogue dialogue){
         currentDialogue = dialogue;
     }
     
+    /**
+     * Adds a screen to the top of the Viewable.
+     * @param sc
+     */
     public void addScreen(Screen sc){
-        activeScreens.add(sc);
+        viewables.screens.add(sc);
     }
     
+    /**
+     * Removes the array of Screens from the active list.
+     * @param scs The regex.
+     */
     public void removeScreens(Screen[] scs){
         for(Screen sc : scs){
-            activeScreens.remove(sc);
+            viewables.screens.remove(sc);
         }
     }
     
+    /**
+     * Registers an Animation.
+     * @param an The Animation to register.
+     */
     public static void addAnimation(Animation an){
         if(frameDivisor%an.frames.length!=0) 
             frameDivisor = Utils.frameUpdate(frameDivisor, an.frames.length);
     }
     
+    /**
+     * Gets the zoom value.
+     * @return The zoom value.
+     */
     public static double getZoom(){
         return zoom;
     }
     
+    /**
+     * Returns the focus.
+     * @return An array representing the x and y coordinates of focus.
+     */
     public static int[] getFocus(){
         return new int[]{focusX, focusY};
     }
@@ -158,11 +243,11 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
         stop();
     }
-
-    /*public void tick(){
-        handler.tick();
-    }*/
     
+    /**
+     * Runs the game for the given amount of turns.
+     * @param turnsConsumed The amount of turns to run.
+     */
     public void turn(double turnsConsumed){
         gameTurns += turnsConsumed;
         double delta=0;
@@ -172,6 +257,10 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
     }
 
+    /**
+     * Renders the game with the given framerate.
+     * @param frameInSec The framerate.
+     */
     public void render(int frameInSec){
         BufferStrategy bs = this.getBufferStrategy();
         if(bs == null){
@@ -186,7 +275,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
         handler.render(g);
         paintArea(currentArea, g);
-        activeViewables.stream().forEach(v -> {
+        viewables.streamViewables().forEach(v -> {
             v.paint(g);
         });
         if(currentDialogue!=null) currentDialogue.paint(g);
@@ -194,15 +283,19 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         bs.show();
     }
 
+    /**
+     * Starts the game.
+     */
     public synchronized void start(){
         thread = new Thread(this);
         thread.start();
         running = true;
     }
 
+    /**
+     * Stops the game.
+     */
     public synchronized void stop(){
-        System.setOut(performanceStream);
-        performanceStream.flush();
         try{
             thread.join();
             running = false;
@@ -211,7 +304,11 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
     }
         
-    
+    /**
+     * Paints the given area on the given graphics.
+     * @param area The area to paint.
+     * @param g The graphics to paint on.
+     */
     public void paintArea(Area area, Graphics g){
         for(int y=focusY;y<focusY+area.dimension.height*16;y+=16){
             for(int x=focusX;x<focusX+area.dimension.width*16;x+=16){
@@ -234,31 +331,42 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
     }
     
+    /**
+     * Draws a wand arc from the given wand using the given coordinates.
+     * @param wand The wand to draw.
+     * @param x The starting x coordinate.
+     * @param y The starting y coordinate.
+     * @param destx The destination x coordinate.
+     * @param desty The destination y coordinate.
+     */
+    @Unfinished
     public void drawWandArc(Wand wand, int x, int y, int destx, int desty){
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
-    public void endGame(){
-        stop();
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 
-    public void search(List<Point> ary, Area area, boolean searchSuccessful){
+    /**
+     * Displays a searching animation.
+     * @param ary The list of points that was searched.
+     * @param searchSuccessful Whether the search was successful.
+     */
+    public void searchAnimation(List<Point> ary, boolean searchSuccessful){
         if(searchSuccessful) soundSystem.playSFX("Misc/mystery.wav");
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void mouseClicked(MouseEvent me){
-        if(activeScreens.isEmpty()){
+        if(viewables.screens.isEmpty()){
             int[] p = translateMouseCoords(me.getX(), me.getY());
             
         }else{
             boolean notClicked = true;
-            for(Screen sc : activeScreens){
+            for(Screen sc : viewables.screens){ //Used for-each instead of stream because of "break".
                 if(sc.withinBounds(me.getX(), me.getY())){
-                    if(!sc.name.equals("blank click")) sc.wasClicked(me);
-                    notClicked = false;
+                    if(!sc.name.equals("blank click")){
+                        sc.wasClicked(me);
+                        notClicked = false;
+                    }
                     break;
                 }
             }
@@ -278,13 +386,19 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     @Override
     public void mouseExited(MouseEvent me){/**Ignore*/}
     
+    /**
+     * Translates on screen pixel click coordinates to tile coordinates.
+     * @param mx The x coordinate of the click.
+     * @param my The y coordinate of the click.
+     * @return An int array representing the tile coordinates.
+     */
     public static int[] translateMouseCoords(double mx, double my){
         return new int[]{(int)Math.floor(mx/16), (int)Math.floor(my/16)};
     }
 
     @Override
     public void mouseDragged(MouseEvent me){
-        if(currentDialogue == null && activeViewables.size() <= 1){
+        if(currentDialogue == null && viewables.viewables.size() <= 1){
             if(xOfDrag == -1){
                 xOfDrag = me.getX() - focusX;
                 yOfDrag = me.getY() - focusY;        

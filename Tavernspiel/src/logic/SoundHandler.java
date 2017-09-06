@@ -9,6 +9,7 @@ import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.FloatControl;
 import javax.sound.sampled.LineUnavailableException;
+import logic.Utils.Optimisable;
 
 /**
  *
@@ -16,10 +17,15 @@ import javax.sound.sampled.LineUnavailableException;
  */
 public class SoundHandler{
     
-    private Thread backgroundMusicLoop;
-    private boolean flowMode;
-    private ArrayDeque<File> playlist = new ArrayDeque<>();
+    private volatile Thread backgroundMusicLoop;
+    private volatile boolean flowMode;
+    private volatile ArrayDeque<File> playlist = new ArrayDeque<>();
 
+    /**
+     * Plays a sound effect.
+     * @param path The filepath of the sound effect.
+     */
+    @Optimisable("May need to move SFX to its own thread.")
     public void playSFX(String path){
         File file = new File("sound/SFX/" + path);
         try{
@@ -35,6 +41,10 @@ public class SoundHandler{
         }
     }
     
+    /**
+     * Plays a music loop abruptly.
+     * @param path The path of the music.
+     */
     public synchronized void playAbruptLoop(String path){
         File file = new File("sound/songs/" + path);
         if(backgroundMusicLoop!=null) backgroundMusicLoop.interrupt();
@@ -64,6 +74,10 @@ public class SoundHandler{
         backgroundMusicLoop.start();
     }
 
+    /**
+     * Plays a music loop after the current song is over.
+     * @param path The path of the music.
+     */
     public synchronized void playFlowingLoop(String path){
         flowMode = true;
         File file = new File("sound/songs/" + path);
@@ -100,6 +114,9 @@ public class SoundHandler{
         }).start();
     }
     
+    /**
+     * Plays the playlist abruptly.
+     */
     public synchronized void playAbruptQueue(){
         if(backgroundMusicLoop!=null) backgroundMusicLoop.interrupt();
         backgroundMusicLoop = new Thread(
@@ -128,6 +145,9 @@ public class SoundHandler{
         backgroundMusicLoop.start();
     }
     
+    /**
+     * Plays the playlist after the current song is over.
+     */
     public synchronized void playFlowingQueue(){
         flowMode = true;
         new Thread(() -> {
@@ -163,10 +183,17 @@ public class SoundHandler{
         }).start();
     }
     
+    /**
+     * Adds a song to the filepath,
+     * @param path
+     */
     public synchronized void addSong(String path){
         playlist.add(new File("sound/songs/"+path));
     }
     
+    /**
+     * Stops the background music.
+     */
     public synchronized void stopBackground(){
         backgroundMusicLoop.interrupt();
         backgroundMusicLoop = null;

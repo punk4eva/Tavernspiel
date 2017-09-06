@@ -197,7 +197,7 @@ public class AIBaseActions implements Serializable{
                 }
             }
         }
-        Window.main.search(ary, area, searchSuccessful);
+        Window.main.searchAnimation(ary, searchSuccessful);
     }
     
 }

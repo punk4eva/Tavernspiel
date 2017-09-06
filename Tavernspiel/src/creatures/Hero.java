@@ -9,6 +9,7 @@ import creatureLogic.Attributes;
 import creatureLogic.DeathData;
 import creatureLogic.Description;
 import creatureLogic.Expertise;
+import gui.Game;
 import gui.MainClass;
 import gui.Screen;
 import gui.Viewable;
@@ -136,11 +137,15 @@ public class Hero extends Creature implements Viewable{
         }
     }
     
+    /**
+     * Killed by a Creature.
+     * @param killer The killer.
+     */
     public void die(Creature killer){
         animator.switchTo("die");
         new DeathEvent(this, x, y, area).notifyEvent();
         MainClass.messageQueue.add("red", killer.name + " killed you...");
-        Window.main.endGame();
+        ((Game)Window.main).endGame();
     }
     
     @Override
