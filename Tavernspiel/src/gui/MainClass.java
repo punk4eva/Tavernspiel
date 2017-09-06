@@ -273,8 +273,8 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         if(frameInSec%16==0){
             frameNumber = (frameNumber+1) % frameDivisor;
         }
-        handler.render(g);
         paintArea(currentArea, g);
+        handler.render(g);
         viewables.streamViewables().forEach(v -> {
             v.paint(g);
         });
