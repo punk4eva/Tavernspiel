@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 
 /**
  *
- * @author Charlie Hands
+ * @author Charlie Hands and Adam Whittaker
  */
 public class Window extends Canvas{
     
@@ -15,6 +15,13 @@ public class Window extends Canvas{
     public static float SFXVolume = 0;
     public static float MusicVolume = 0;
     
+    /**
+     * Creates a new instance.
+     * @param width The width of the frame.
+     * @param height The height of the frame.
+     * @param title The title of the frame.
+     * @param m The MainClass peer.
+     */
     public Window(int width, int height, String title, MainClass m){
         frame = new JFrame(title);
 

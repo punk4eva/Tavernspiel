@@ -9,6 +9,7 @@ import items.consumables.Scroll;
 import java.awt.Image;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
+import logic.Utils.Unfinished;
 
 /**
  *
@@ -76,6 +77,12 @@ public class Item implements Serializable{
         stackable = st;
     }
     
+    /**
+     * Gets a pronouned representation of this Item.
+     * @param level The level of detail.
+     * @param pro The pronoun.
+     * @return A String
+     */
     public String getPronounedName(int level, String pro){
         if(pro.equals("the")) return "the " + toString(level);
         else{
@@ -87,6 +94,11 @@ public class Item implements Serializable{
         }
     }
     
+    /**
+     * Gets a pronouned representation of this Item.
+     * @param level The level of detail.
+     * @return A String
+     */
     public String toString(int level){
         if(level==0) return getClass().toString().substring(
                 getClass().toString().lastIndexOf("."));
@@ -125,6 +137,12 @@ public class Item implements Serializable{
         return ret;
     }
     
+    /**
+     * Checks whether something has been identified by the given Creature.
+     * @param c The Creature to compare.
+     * @return True if it has, false if not.
+     */
+    @Unfinished
     public boolean isIdentified(Creature c){
         if(identified==null || !identified){
             if(this instanceof Apparatus && ((Apparatus) this).usesTillIdentify!=0){
@@ -140,6 +158,10 @@ public class Item implements Serializable{
         return true;
     }
     
+    /**
+     * Checks if this Item is cursed.
+     * @return True if it is, false if not.
+     */
     public boolean hasKnownCurse(){
         if(cursed==null || !cursed){
             boolean b = this instanceof Apparatus && 
@@ -151,6 +173,11 @@ public class Item implements Serializable{
         return true;
     }
     
+    /**
+     * Checks if the Item is identified by the given hero.
+     * @param h The hero
+     * @return True if it is, false if not.
+     */
     public boolean isIdentified(Hero h){
         if(identified==null || !identified){
             if(this instanceof Apparatus && ((Apparatus) this).usesTillIdentify!=0){
