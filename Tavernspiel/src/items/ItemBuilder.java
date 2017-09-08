@@ -5,7 +5,6 @@ import animation.Animation;
 import items.consumables.Potion;
 import items.consumables.Scroll;
 import items.equipment.Ring;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
 import listeners.AreaEvent;
@@ -13,8 +12,12 @@ import listeners.AreaEvent;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * A static convenience class for building Items.
  */
-public class ItemBuilder{
+public final class ItemBuilder{
+    
+    private ItemBuilder(){}
     
     public static Item amulet(){
         return new Item("amulet", "Description.", new ImageIcon("graphics/amulet.png"));

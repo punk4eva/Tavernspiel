@@ -8,10 +8,14 @@ import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.util.Random;
 import javax.swing.ImageIcon;
+import logic.Utils;
 
 /**
  *
  * @author Adam Whittaker
+ * 
+ * A class that packages and builds the essential parts of an Item.
+ * Not for use on non-subclassed items.
  */
 public abstract class ItemProfile{
     
@@ -78,7 +82,7 @@ public abstract class ItemProfile{
             "There is a label stuck on one side.",
             "There are strange engravings on the container."};
         
-        public String word(String[] ary){
+        protected String word(String[] ary){
             return ary[r.nextInt(ary.length)];
         }
         
@@ -98,25 +102,41 @@ public abstract class ItemProfile{
         
     }
     
+    /**
+     * Shades the given pixel.
+     * @param pixel The pixel to shade.
+     * @return A shaded int array representing a pixel.
+     */
     public static int[] shade(int[] pixel){
         for(int n=0;n<3;n++) pixel[n] = pixel[n]<26 ? 0 : pixel[n]-25;
         return pixel;
     }
     
+    /**
+     * Brightens the given pixel.
+     * @param pixel The pixel to shade.
+     * @return A brightened int array representing a pixel.
+     */
     public static int[] brighten(int[] pixel){
         for(int n=0;n<3;n++) pixel[n] = pixel[n]>229 ? 255 : pixel[n]+25;
         return pixel;
     }
     
-    public static boolean intArrayEquals(int[] p, int[] q){
-        for(int n=0;n<3;n++) if(p[n]!=q[n]) return false;
-        return true;
-    }
-    
+    /**
+     * Gets the Image at the given coordinates in the item tileset.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @return The Image.
+     */
     public static BufferedImage getImage(int x, int y){
         return items.getSubimage(x, y, 16, 16);
     }
     
+    /**
+     * Gets the colour represented by the given name.
+     * @param name The name of the colour.
+     * @return The Color.
+     */
     public static Color getColour(String name){
         switch(name){
             case "apple green": return Color.decode("#00ff1d");
@@ -189,6 +209,13 @@ public abstract class ItemProfile{
         }
     }
     
+    /**
+     * Replaces the given regex on the given image with the given colour.
+     * @param img The image.
+     * @param replace The replacement colour.
+     * @param regex The regex colour.
+     * @return The altered image.
+     */
     public static BufferedImage replaceColour(BufferedImage img, Color replace, Color regex){
         WritableRaster raster = img.getRaster();
         int[] preplace = new int[]{replace.getRed(), replace.getGreen(), replace.getBlue()};
@@ -196,18 +223,30 @@ public abstract class ItemProfile{
         for(int y=0;y<16;y++){
             for(int x=0;x<16;x++){
                 int[] pixel = raster.getPixel(x, y, (int[]) null);
-                if(intArrayEquals(pixel, pregex)) raster.setPixel(x, y, preplace);
+                if(Utils.pixelColourEquals(pixel, pregex)) raster.setPixel(x, y, preplace);
             }
         }
         return img;
     }
     
+    /**
+     * Gets the name of this Potion.
+     * @return The name.
+     */
     public String getName(){
         return name;
     }
+    /**
+     * Gets the image of this Potion.
+     * @return The image.
+     */
     public BufferedImage getImage(){
         return image;
     }
+    /**
+     * Gets the description of this Potion.
+     * @return The description.
+     */
     public Description getDescription(){
         return description;
     }

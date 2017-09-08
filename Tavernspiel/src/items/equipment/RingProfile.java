@@ -4,13 +4,13 @@ package items.equipment;
 import creatureLogic.Description;
 import glyphs.Glyph;
 import items.ItemProfile;
-import static items.ItemProfile.intArrayEquals;
 import static items.ItemProfile.shade;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.util.HashMap;
 import logic.Distribution;
+import logic.Utils;
 
 /**
  *
@@ -39,9 +39,9 @@ public class RingProfile extends ItemProfile{
         for(int y=0;y<16;y++){
             for(int x=0;x<16;x++){
                 int[] pixel = raster.getPixel(x, y, (int[]) null);
-                if(intArrayEquals(pixel, bandRegex)) raster.setPixel(x, y, bandColor);
-                else if(intArrayEquals(pixel, shadedBandRegex)) raster.setPixel(x, y, shadedBandColor);
-                else if(intArrayEquals(pixel, brightenedBandRegex)) raster.setPixel(x, y, brightenedBandColor);
+                if(Utils.pixelColourEquals(pixel, bandRegex)) raster.setPixel(x, y, bandColor);
+                else if(Utils.pixelColourEquals(pixel, shadedBandRegex)) raster.setPixel(x, y, shadedBandColor);
+                else if(Utils.pixelColourEquals(pixel, brightenedBandRegex)) raster.setPixel(x, y, brightenedBandColor);
             }
         }
         if(gem==null) return img;
@@ -52,8 +52,8 @@ public class RingProfile extends ItemProfile{
         for(int y=0;y<16;y++){
             for(int x=0;x<16;x++){
                 int[] pixel = raster.getPixel(x, y, (int[]) null);
-                if(intArrayEquals(pixel, gemRegex)) raster.setPixel(x, y, gemColor);
-                else if(intArrayEquals(pixel, shadedGemRegex)) raster.setPixel(x, y, shadedGemColor);
+                if(Utils.pixelColourEquals(pixel, gemRegex)) raster.setPixel(x, y, gemColor);
+                else if(Utils.pixelColourEquals(pixel, shadedGemRegex)) raster.setPixel(x, y, shadedGemColor);
             }
         }
         return img;

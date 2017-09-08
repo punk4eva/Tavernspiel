@@ -12,6 +12,7 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 import logic.Distribution;
 import logic.Formula;
+import logic.Utils.Unfinished;
 
 /**
  *
@@ -30,6 +31,14 @@ public class Apparatus extends Item{
     public int strength = -1;
     public int usesTillIdentify = 20;
     
+    /**
+     * Creates a new instance.
+     * @param n The name of the Item.
+     * @param desc The description of the Item.
+     * @param i The Image of the Item.
+     * @param dur The durability of the Apparatus.
+     * @param a The Distribution associated with this Apparatus.
+     */
     public Apparatus(String n, String desc, ImageIcon i, int dur, Distribution a){
         super(n, desc, i, false);
         durability = dur;
@@ -37,6 +46,14 @@ public class Apparatus extends Item{
         action = a;
     }
     
+    /**
+     * Creates a new instance.
+     * @param n The name of the Item.
+     * @param desc The description of the Item.
+     * @param i The Image of the Item.
+     * @param dur The durability of the Apparatus.
+     * @param a The Distribution associated with this Apparatus.
+     */
     public Apparatus(String n, String desc, ImageIcon i, int dur, Distribution a, int st){
         super(n, desc, i, false);
         durability = dur;
@@ -45,6 +62,14 @@ public class Apparatus extends Item{
         strength = st;
     }
     
+    /**
+     * Creates a new instance.
+     * @param n The name of the Item.
+     * @param desc The description of the Item.
+     * @param i The Image of the Item.
+     * @param dur The durability of the Apparatus.
+     * @param a The Distribution associated with this Apparatus.
+     */
     public Apparatus(String n, Description desc, ImageIcon i, int dur, Distribution a, int st){
         super(n, desc, i, false);
         durability = dur;
@@ -53,6 +78,14 @@ public class Apparatus extends Item{
         strength = st;
     }
     
+    /**
+     * Creates a new instance.
+     * @param n The name of the Item.
+     * @param desc The description of the Item.
+     * @param i The Image of the Item.
+     * @param dur The durability of the Apparatus.
+     * @param a The Distribution associated with this Apparatus.
+     */
     public Apparatus(String n, Description desc, Image i, int dur, Distribution a){
         super(n, desc, i, false);
         durability = dur;
@@ -60,13 +93,18 @@ public class Apparatus extends Item{
         action = a;
     }
     
-    
+    /**
+     * Updates fields.
+     */
     public void updateFields(){
         maxDurability = durabilityFormula.getInt(level);
         if(strengthFormula!=null) strength = strengthFormula.getInt(level);
         action.updateFromFormula(level, actionFormulas);
     }
     
+    /**
+     * Upgrades this Apparatus.
+     */
     public void upgrade(){
         level++;
         updateFields();
@@ -78,10 +116,18 @@ public class Apparatus extends Item{
         }
     }
     
+    /**
+     * Gets the next double from the Distribution associated with this Apparatus.
+     * @return A double from the Distribution.
+     */
     public double nextAction(){
         return action.next();
     }
     
+    /**
+     * Gets the next int from the Distribution associated with this Apparatus.
+     * @return An int from the Distribution.
+     */
     public int nextIntAction(){
         return action.nextInt();
     }
@@ -125,6 +171,8 @@ public class Apparatus extends Item{
         return ret;
     }
 
+    @Override
+    @Unfinished("Animate glyph")
     public void draw(Graphics g, int x, int y){
         g.drawImage(icon, x, y, null);
         if(glyph!=null && (!glyph.unremovable || glyph.isKnownToBeCursed)){

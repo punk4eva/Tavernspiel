@@ -37,6 +37,17 @@ public class Utils{
         return ret.substring(0, ret.length()-1) + "}";
     }
     
+    /**
+     * Checks if an rgb pixel equals another rgb pixel.
+     * @param p The first pixel.
+     * @param q The second pixel.
+     * @return True if the 1st 3 numbers equal, false if not.
+     */
+    public static boolean pixelColourEquals(int[] p, int[] q){
+        for(int n=0;n<3;n++) if(p[n]!=q[n]) return false;
+        return true;
+    }
+    
     public static int[] getIntArrayFromFileString(String filestring){
         String[] profile = filestring.substring(1, filestring.length()-1).split("*");
         int[] ret = new int[profile.length];

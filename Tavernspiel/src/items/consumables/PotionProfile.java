@@ -9,7 +9,7 @@ import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.util.HashMap;
-import logic.Distribution;
+import logic.Utils;
 
 /**
  *
@@ -69,8 +69,8 @@ public class PotionProfile extends ItemProfile{
         for(int y=0;y<16;y++){
             for(int x=0;x<16;x++){
                 int[] pixel = raster.getPixel(x, y, (int[]) null);
-                if(intArrayEquals(pixel, liquidRegex)) raster.setPixel(x, y, liquid);
-                else if(intArrayEquals(pixel, shadedLiquidRegex)) raster.setPixel(x, y, shadedLiquid);
+                if(Utils.pixelColourEquals(pixel, liquidRegex)) raster.setPixel(x, y, liquid);
+                else if(Utils.pixelColourEquals(pixel, shadedLiquidRegex)) raster.setPixel(x, y, shadedLiquid);
             }
         }
         if(frag==null) return img;
@@ -78,7 +78,7 @@ public class PotionProfile extends ItemProfile{
         int[] fragmentRegex = new int[]{238,159,153};
         for(int y=0;y<16;y++){
             for(int x=0;x<16;x++){
-                if(intArrayEquals(raster.getPixel(x, y, (int[]) null), fragmentRegex)) raster.setPixel(x, y, fragment);
+                if(Utils.pixelColourEquals(raster.getPixel(x, y, (int[]) null), fragmentRegex)) raster.setPixel(x, y, fragment);
             }
         }
         return img;

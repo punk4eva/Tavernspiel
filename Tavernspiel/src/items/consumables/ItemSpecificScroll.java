@@ -13,12 +13,21 @@ import logic.Utils.Catch;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * A Scroll that needs an Item to work on.
  */
 public abstract class ItemSpecificScroll extends Scroll implements ScreenListener{
     
     private Hero hero;
     private MainClass main;
 
+    /**
+     * Creates a new instance.
+     * @param n The name of this Item.
+     * @param desc The description of this Item.
+     * @param i The image of this Item.
+     * @param idd Whether this Consumable is identified.
+     */
     public ItemSpecificScroll(String n, String desc, ImageIcon i, boolean idd){
         super(n, desc, i, idd);
     }
@@ -34,6 +43,11 @@ public abstract class ItemSpecificScroll extends Scroll implements ScreenListene
         }else new RuntimeException("Creature is using LocationSpecificScroll.use()").printStackTrace(MainClass.exceptionStream);
     }
     
+    /**
+     * A use() method specifically for an Item. 
+     * @param c The reader.
+     * @param i The item.
+     */
     public abstract void use(Creature c, Item i);
     
     @Override

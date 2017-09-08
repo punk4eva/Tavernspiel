@@ -6,6 +6,7 @@ import creatures.Creature;
 import creatures.Hero;
 import items.consumables.Potion;
 import items.consumables.Scroll;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
@@ -195,6 +196,16 @@ public class Item implements Serializable{
             identified = true;
         }
         return true;
+    }
+    
+    /**
+     * Draws this Item at the given coordinates.
+     * @param g The Graphics.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     */
+    public void draw(Graphics g, int x, int y){
+        g.drawImage(icon, x, y, null);
     }
     
 }

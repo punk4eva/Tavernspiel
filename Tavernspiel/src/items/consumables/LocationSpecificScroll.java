@@ -18,6 +18,8 @@ import logic.Utils.Catch;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * A Scroll that requires a location to work on.
  */
 public abstract class LocationSpecificScroll extends Scroll implements ScreenListener{
     
@@ -25,6 +27,13 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
     private Area area;
     private MainClass main;
 
+    /**
+     * Creates a new instance.
+     * @param n The name of this Item.
+     * @param desc The description of this Item.
+     * @param i The image of this Item.
+     * @param idd Whether this Consumable is identified.
+     */
     public LocationSpecificScroll(String n, String desc, ImageIcon i, boolean idd){
         super(n, desc, i, idd);
         locationSelect = new LocationViewable(this);
@@ -33,10 +42,17 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
     
     protected final List<Screen> screens;
     protected final LocationViewable locationSelect;
+    /**
+     * This class is the location Viewable.
+     */
     public class LocationViewable implements Viewable{
         
         private final ScreenListener listener;
         
+        /**
+         * Creates a new instance.
+         * @param sl The ScreenListener associated with this Viewable.
+         */
         public LocationViewable(ScreenListener sl){
             listener = sl;
         }
@@ -80,6 +96,12 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
         }else new RuntimeException("Creature is using LocationSpecificScroll.use()").printStackTrace(MainClass.exceptionStream);
     }
     
+    /**
+     * A use() method specifically for an Item. 
+     * @param c The reader.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     */
     public abstract void use(Creature c, int x, int y);
     
     @Override

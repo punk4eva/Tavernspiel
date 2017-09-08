@@ -1,16 +1,7 @@
 
 package items.consumables;
 
-import items.consumables.scrolls.EnchantmentScroll;
-import items.consumables.scrolls.JuxtapositionScroll;
-import items.consumables.scrolls.IdentityScroll;
-import items.consumables.scrolls.EarthwallScroll;
-import items.consumables.scrolls.InfiniteHorseScroll;
-import items.consumables.scrolls.KnowledgeScroll;
-import items.consumables.scrolls.RechargingScroll;
-import items.consumables.scrolls.UpgradeScroll;
-import items.consumables.scrolls.WonderScroll;
-import items.consumables.scrolls.CountercurseScroll;
+import items.consumables.scrolls.*;
 import creatures.Creature;
 import creatures.Hero;
 import java.awt.Dimension;
@@ -21,32 +12,30 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import javax.swing.ImageIcon;
-import level.Area;
 import logic.Distribution;
 import logic.Utils.Unfinished;
 
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class builds Scrolls.
  */
 public class ScrollBuilder{
     
     private Hero hero;
     protected HashMap<String, String> nameAndRune = new HashMap<>(); //Works both ways.
     protected HashMap<String, Dimension> scrollMap = new HashMap<>();
-    private static BufferedImage items = getItemsImage();
-    
-    public ScrollBuilder(Hero h){
-        hero = h;
-        initMap();
-        randomlyAssign();
+    @Unfinished("Remember to make custom scrolls part of natural terrain gen.")
+    private final static BufferedImage items;
+    static{
+        ImageIcon ic = new ImageIcon("graphics/items.png");
+        items = new BufferedImage(ic.getIconWidth(), ic.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics g = items.getGraphics();
+        g.drawImage(ic.getImage(), 0, 0, null);
+        g.dispose();
     }
-    
-    public void identify(String rune){
-        scrollMap.put(nameAndRune.get(rune), scrollMap.get(rune));
-    }
-    
-    private void initMap(){
+    {
         scrollMap.put("GICH", new Dimension(0, 80));
         scrollMap.put("META", new Dimension(16, 80));
         scrollMap.put("ALIKI", new Dimension(32, 80));
@@ -67,23 +56,6 @@ public class ScrollBuilder{
         scrollMap.put("MOKATI", new Dimension(80, 176));
         scrollMap.put("MAZORI", new Dimension(96, 176));
         scrollMap.put("HULUMI", new Dimension(112, 176));
-    }
-    
-    private boolean isIdd(String scroll){
-        return scrollMap.get("Scroll of " + scroll)!=null;
-    }
-    
-    private static BufferedImage getItemsImage(){
-        ImageIcon ic = new ImageIcon("graphics/items.png");
-        BufferedImage ret = new BufferedImage(ic.getIconWidth(), ic.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
-        Graphics g = ret.getGraphics();
-        g.drawImage(ic.getImage(), 0, 0, null);
-        g.dispose();
-        return ret;
-    }
-    
-    @Unfinished("Remember to make custom scrolls part of natural terrain gen.")
-    private void randomlyAssign(){
         LinkedList<String> scrolls = new LinkedList<>(), runes = new LinkedList<>();
         runes.add("GICH");
         runes.add("META");
@@ -140,6 +112,31 @@ public class ScrollBuilder{
         }
     }
     
+    /**
+     * Creates a new instance.
+     * @param h The hero.
+     */
+    public ScrollBuilder(Hero h){
+        hero = h;
+    }
+    
+    /**
+     * Identifies the Scroll with the given rune.
+     * @param rune The rune.
+     */
+    public void identify(String rune){
+        scrollMap.put(nameAndRune.get(rune), scrollMap.get(rune));
+    }
+    
+    private boolean isIdd(String scroll){
+        return scrollMap.get("Scroll of " + scroll)!=null;
+    }
+    
+    /**
+     * Gets the image of the Scroll name.
+     * @param name The name of the Scroll.
+     * @return The image.
+     */
     protected Image getImage(String name){
         Dimension dim = scrollMap.get(name);
         if(dim==null) dim = scrollMap.get(nameAndRune.get(name));
