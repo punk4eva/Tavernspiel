@@ -1,7 +1,7 @@
 
 package level;
 
-import creatures.Creature;
+import creatureLogic.CreatureDistribution;
 import java.awt.Image;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
@@ -10,19 +10,28 @@ import logic.Distribution;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class stores all information for generating a Stage.
  */
 public class Location implements Serializable{
     
     public final String name;
     public final Image tileset;
     public final Image waterImage;
-    protected Creature[] creatureSpawns = null; //null if no creatures spawn.
     protected Distribution waterGenChance = new Distribution(1, 20);
     protected Distribution grassGenChance = new Distribution(1, 20);
-    protected RoomDistribution roomDistrib = null; //null if boss room.
+    protected RoomDistribution[] roomDistrib = null; //null if boss room.
+    protected CreatureDistribution[] spawnDistribution;
     protected boolean waterBeforeGrass = true;
     public final String backgroundMusicPath;
     
+    /**
+     * Creates a new instance.
+     * @param n The name.
+     * @param tiles The tileset.
+     * @param water The water gen. chance.
+     * @param bmp The path for the background music.
+     */
     public Location(String n, Image tiles, Image water, String bmp){
         name = n;
         waterImage = water;
@@ -30,6 +39,13 @@ public class Location implements Serializable{
         backgroundMusicPath = bmp;
     }
     
+    /**
+     * Creates a new instance.
+     * @param n The name.
+     * @param tiles The tileset.
+     * @param water The water gen. chance.
+     * @param bmp The path for the background music.
+     */
     public Location(String n, String tiles, String water, String bmp){
         name = n;
         waterImage = new ImageIcon("graphics/"+water+".png").getImage();
@@ -37,6 +53,15 @@ public class Location implements Serializable{
         backgroundMusicPath = bmp;
     }
     
+    /**
+     * Creates a new instance.
+     * @param n The name.
+     * @param tiles The tileset.
+     * @param waterI The water image.
+     * @param water The water gen. chance.
+     * @param grass The grass gen. chance.
+     * @param bmp The path for the background music.
+     */
     public Location(String n, Image tiles, Image waterI, Distribution water, Distribution grass, String bmp){
         name = n;
         tileset = tiles;
@@ -46,25 +71,53 @@ public class Location implements Serializable{
         grassGenChance = grass;
     }
     
-    public Location(String n, Image tiles, Image waterI, Creature[] sp, Distribution water, Distribution grass, String bmp){
+    /**
+     * Creates a new instance.
+     * @param n The name.
+     * @param tiles The tileset.
+     * @param waterI The water image.
+     * @param sp The CreatureDistributions.
+     * @param water The water gen. chance.
+     * @param grass The grass gen. chance.
+     * @param bmp The path for the background music.
+     */
+    public Location(String n, Image tiles, Image waterI, CreatureDistribution[] sp, Distribution water, Distribution grass, String bmp){
         name = n;
         waterImage = waterI;
         tileset = tiles;
-        creatureSpawns = sp;
+        spawnDistribution = sp;
         backgroundMusicPath = bmp;
         waterGenChance = water;
         grassGenChance = grass;
     }
     
-    public Location(String n, Image tiles,  Image water, Creature[] sp, int difficulties, String bmp){
+    /**
+     * Creates a new instance.
+     * @param n The name.
+     * @param tiles The tileset.
+     * @param water The water image.
+     * @param sp The CreatureDistributions.
+     * @param bmp The path for the background music.
+     */
+    public Location(String n, Image tiles, Image water, CreatureDistribution[] sp, String bmp){
         name = n;
         tileset = tiles;
         backgroundMusicPath = bmp;
         waterImage = water;
-        creatureSpawns = sp;
+        spawnDistribution = sp;
     }
     
-    public Location(String n, Image tiles,  Image waterI, Distribution water, Distribution grass, boolean wbg, String bmp){
+    /**
+     * Creates a new instance.
+     * @param n The name.
+     * @param tiles The tileset.
+     * @param waterI The water image.
+     * @param water The water gen. chance.
+     * @param grass The grass gen. chance.
+     * @param wbg Whether water should be generated before grass.
+     * @param bmp The path for the background music.
+     */
+    public Location(String n, Image tiles, Image waterI, Distribution water, Distribution grass, boolean wbg, String bmp){
         name = n;
         tileset = tiles;
         backgroundMusicPath = bmp;
@@ -74,10 +127,21 @@ public class Location implements Serializable{
         waterBeforeGrass = wbg;
     }
     
-    public Location(String n, Image tiles,  Image waterI, Creature[] sp, Distribution water, Distribution grass, boolean wbg, String bmp){
+    /**
+     * Creates a new instance.
+     * @param n The name.
+     * @param tiles The tileset.
+     * @param waterI The water image.
+     * @param sp The CreatureDistributions.
+     * @param water The water gen. chance.
+     * @param grass The grass gen. chance.
+     * @param wbg Whether water should be generated before grass.
+     * @param bmp The path for the background music.
+     */
+    public Location(String n, Image tiles, Image waterI, CreatureDistribution[] sp, Distribution water, Distribution grass, boolean wbg, String bmp){
         name = n;
         tileset = tiles;
-        creatureSpawns = sp;
+        spawnDistribution = sp;
         waterGenChance = water;
         backgroundMusicPath = bmp;
         waterImage = waterI;

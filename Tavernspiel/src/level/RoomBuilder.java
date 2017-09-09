@@ -9,6 +9,7 @@ import items.Item;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import logic.Distribution;
+import logic.Utils.Unfinished;
 import tiles.AnimatedTile;
 import tiles.Chasm;
 import tiles.Door;
@@ -29,11 +30,10 @@ public class RoomBuilder{
     private static final String[] TRAPCOLOURS = new String[]{
         "blue", "silver", "green", "bear", "red", "yellow", "orange", "purple"}; 
     
-    
-    public static Room standard(Location loc, Handler handler){
-        Room room = Room.genStandard(loc, handler);
-        room.addDoors();
-        return room;
+    public static Room standard(Location loc, Handler hand){
+        Room ret = Room.genStandard(loc, hand);
+        ret.addDoors();
+        return ret;
     }
     
     public static Room roomOfTraps(Location loc, Item item, Handler handler){
@@ -176,7 +176,8 @@ public class RoomBuilder{
     }
     
     public static Room magicWellRoom(Location loc, Handler handler){
-        Room room = standard(loc, handler);
+        Room room = Room.genStandard(loc, handler);
+        room.addDoors();
         switch(Distribution.getRandomInclusiveInt(1, 3)){
             case 1:
                 room.map[room.dimension.height/2][room.dimension.width/2] =
@@ -214,7 +215,7 @@ public class RoomBuilder{
     } 
     
     public static Room floodedVault(Location loc, Item item){
-        Room room = new Room(new Dimension(Distribution.getRandomInclusiveInt(5, 16),
+        Room room = new Room(new Dimension(Distribution.getRandomInclusiveInt(5, 10),
                 Distribution.getRandomInclusiveInt(5, 10)), loc);
         room.paintAndPave();
         Tile pedestal = new Tile("pedestal", loc);
@@ -283,6 +284,7 @@ public class RoomBuilder{
         }
     }
 
+    @Unfinished
     public static RoomDistribution getNormalRoomDistribution(){
         return null;
         //throw new UnsupportedOperationException("Not supported yet.");

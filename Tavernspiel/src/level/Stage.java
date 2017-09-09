@@ -6,37 +6,53 @@ import creatureLogic.CreatureDistribution;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class represents a collection of Areas and their shared Location, with
+ * instructions on how to load the Areas.
  */
 public class Stage{
     
     protected Area[] areas;
-    protected RoomDistribution roomDistrib = RoomBuilder.getNormalRoomDistribution();
-    protected final CreatureDistribution[] spawnDistribution;
     public final Location location;
     public final int length;
-    protected String[] depthClassifiers; //words such as "depth" or "the throne room"
+    protected String[] depthClassifiers; //words such as "depth" or "the throne room".
     protected int loadedLevel = 0;
-    protected AreaBuilder areaBuilderForNextUnloaded;
+    protected AreaBuilder areaBuilder;
     
+    /**
+     * Creates a new instance.
+     * @param loc The Location.
+     * @param l The amount of Areas.
+     * @param depthClass The array of depth classifiers.
+     * @param distrib The array of CreatureDistributions for all Areas.
+     */
     public Stage(Location loc, int l, String[] depthClass, CreatureDistribution[] distrib){
         location = loc;
         areas = new Area[l];
-        spawnDistribution = distrib;
+        location.spawnDistribution = distrib;
         length = l;
         depthClassifiers = depthClass;
-        areaBuilderForNextUnloaded = new AreaBuilder(location);
+        areaBuilder = new AreaBuilder(location);
     }
     
+    /**
+     * Checks whether the given depth is loaded. 
+     * @param depth The depth to check.
+     * @return True if it isn't, false if not.
+     */
     public boolean isLoaded(int depth){
-        return depth <= loadedLevel;
+        return depth%length < loadedLevel;
     }
     
+    /**
+     * Loads the next Area.
+     */
     public void loadNext(){
         if(areas[loadedLevel]==null){
-            areas[loadedLevel] = areaBuilderForNextUnloaded.load();
+            areas[loadedLevel] = areaBuilder.load();
         }else throw new IllegalStateException("Cannot load preloaded area.");
         loadedLevel++;
-        areaBuilderForNextUnloaded.flush();
+        areaBuilder.clear();
     }
     
 }
