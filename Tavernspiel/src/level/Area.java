@@ -23,17 +23,23 @@ import tiles.TrapBuilder;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class represents an Area.
  */
 public class Area implements Serializable{
     
-    public Tile[][] map;
-    public Dimension dimension;
-    public Location location;
-    public LinkedList<GameObject> objects = new LinkedList<>();
-    public LinkedList<Receptacle> receptacles = new LinkedList<>();
+    public final Tile[][] map;
+    public final Dimension dimension;
+    public final Location location;
+    public volatile LinkedList<GameObject> objects = new LinkedList<>();
+    public volatile LinkedList<Receptacle> receptacles = new LinkedList<>();
     public Graph graph = null;
     
-    
+    /**
+     * Creates a new instance.
+     * @param dim The dimension.
+     * @param loc The location.
+     */
     public Area(Dimension dim, Location loc){
         dimension = dim;
         location = loc;
@@ -45,6 +51,14 @@ public class Area implements Serializable{
         return ret;
     }
     
+    /**
+     * Prints the given area onto this area.
+     * @param area The area to print.
+     * @param x1 The top left x.
+     * @param y1 The top left y.
+     * @throws AreaCoordsOutOfBoundsException If it can't be fit in with the
+     * given coordinates.
+     */
     public void blit(Area area, int x1, int y1) throws AreaCoordsOutOfBoundsException{
         if(!withinBounds(x1, y1)||
                 !withinBounds(x1+area.dimension.width, y1+area.dimension.height))
@@ -56,10 +70,23 @@ public class Area implements Serializable{
         }
     }
     
+    /**
+     * Checks the given coordinates are within bounds.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @return True if they are, false if not.
+     */
     public boolean withinBounds(int x, int y){
         return x>=0&&y>=0&&x<dimension.width&&y<dimension.height;
     }
     
+    /**
+     * Clicks on the given tile with the given coordinates.
+     * @param x The x of the Tile.
+     * @param y The y of the Tile.
+     * @param clickMode The click mode.
+     * @param hero The Hero.
+     */
     public void click(int x, int y, String clickMode, Hero hero){
         switch(clickMode){
             case "normal":
@@ -67,16 +94,33 @@ public class Area implements Serializable{
         }
     }
     
+    /**
+     * Burns the given Tile.
+     * @param x The x of the Tile.
+     * @param y The y of the Tile.
+     */
     protected void burn(int x, int y){
         map[y][x] = new Tile("embers", location);
         Receptacle r = getReceptacle(x, y);
         if(r != null) r.keep(item -> !item.flammable);
     }
     
-    protected boolean onTreadableTile(int x, int y){
+    /**
+     * Checks whether the Tile is treadable.
+     * @param x The x of the Tile.
+     * @param y The y of the Tile.
+     * @return Whether this tile is treadable.
+     */
+    protected boolean isTreadable(int x, int y){
         return map[y][x].treadable;
     }
     
+    /**
+     * Returns the receptacle at the given coordinates.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @return The receptacle if it exists, null if not.
+     */
     public Receptacle getReceptacle(int x, int y){
         for(int n=0;n<receptacles.size();n++){
             Receptacle temp = receptacles.get(n);
@@ -85,13 +129,17 @@ public class Area implements Serializable{
         return null;
     }
     
+    /**
+     * Randomly places Items on the ground.
+     * @param items The list of items.
+     */
     protected void randomlyPlop(List<Item> items){
         items.stream().forEach(item -> {
             int x, y;
             do{
                 x = Distribution.getRandomInclusiveInt(0, dimension.width-1);
                 y = Distribution.getRandomInclusiveInt(0, dimension.height-1);
-            }while(!onTreadableTile(x, y));
+            }while(!isTreadable(x, y));
             try{
                 if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
                 else{
@@ -102,7 +150,11 @@ public class Area implements Serializable{
     }
     
     
-
+    
+    /**
+     * Responds to a Creature's death.
+     * @param de The DeathEvent.
+     */
     public void lifeTaken(DeathEvent de){
         //@unfinished
         try{
@@ -118,9 +170,13 @@ public class Area implements Serializable{
             receptacles.add(floor);
         }
         objects.remove(de.getCreature());
-        de.getCreature().animator.switchTo("death");
+        de.getCreature().animator.switchTo("death"); //May want to move this.
     }
     
+    /**
+     * Responds to an AreaEvent.
+     * @param ae The AreaEvent.
+     */
     public void areaActedUpon(AreaEvent ae){
         switch(ae.getAction()){
             case "FELLINTOCHASM":
@@ -139,9 +195,17 @@ public class Area implements Serializable{
         }
     }
 
+    /**
+     * Replaces the receptacle that is on the given coordinates. If no 
+     * receptacle is there, nothing will happen.
+     * @param x The x of the Receptacle.
+     * @param y The x of the Receptacle.
+     * @param receptacle The new Receptacle.
+     */
     public void replaceHeap(int x, int y, Receptacle receptacle){
-        for(int n=0;n<receptacles.size();n++){
-            Receptacle temp = receptacles.get(n);
+        List<Receptacle> tempList = (List<Receptacle>) receptacles.clone();
+        for(int n=0;n<tempList.size();n++){
+            Receptacle temp = tempList.get(n);
             if(temp.x==x&&temp.y==y){
                 receptacles.remove(n);
                 receptacles.add(receptacle);
@@ -150,14 +214,28 @@ public class Area implements Serializable{
         }
     }
     
+    /**
+     * Adds a GameObject to this Area.
+     * @param object The new GameObject.
+     */
     public void addObject(GameObject object){
         objects.add(object);
     }
     
+    /**
+     * Removes a GameObject to this Area.
+     * @param object The new GameObject.
+     */
     public void removeObject(GameObject object){
         objects.remove(object);
     }
 
+    /**
+     * Checks if there is a gas on the given Tile.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @return True if there is, false if not.
+     */
     public boolean gasPresent(int x, int y){
         return objects.stream().filter(ob -> ob instanceof Gas && ob.y==y && ob.x==x).count()>0;
     }

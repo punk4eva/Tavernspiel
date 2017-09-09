@@ -139,24 +139,24 @@ public class Room extends Area{
     }
     
     protected void spread(Tile t, int x, int y){
-        if(withinBounds(x+1, y)&&onTreadableTile(x+1, y)) map[y][x+1] = new Tile(t);
-        if(withinBounds(x-1, y)&&onTreadableTile(x-1, y)) map[y][x-1] = new Tile(t);
-        if(withinBounds(x, y+1)&&onTreadableTile(x, y+1)) map[y+1][x] = new Tile(t);
-        if(withinBounds(x, y-1)&&onTreadableTile(x, y-1)) map[y-1][x] = new Tile(t);
+        if(withinBounds(x+1, y)&&isTreadable(x+1, y)) map[y][x+1] = new Tile(t);
+        if(withinBounds(x-1, y)&&isTreadable(x-1, y)) map[y][x-1] = new Tile(t);
+        if(withinBounds(x, y+1)&&isTreadable(x, y+1)) map[y+1][x] = new Tile(t);
+        if(withinBounds(x, y-1)&&isTreadable(x, y-1)) map[y-1][x] = new Tile(t);
     }
     
     protected void spreadAnimated(String t, int x, int y){
-        if(withinBounds(x+1, y)&&onTreadableTile(x+1, y)) map[y][x+1] = new AnimatedTile(t, x%2);
-        if(withinBounds(x-1, y)&&onTreadableTile(x-1, y)) map[y][x-1] = new AnimatedTile(t, x%2);
-        if(withinBounds(x, y+1)&&onTreadableTile(x, y+1)) map[y+1][x] = new AnimatedTile(t, x%2);
-        if(withinBounds(x, y-1)&&onTreadableTile(x, y-1)) map[y-1][x] = new AnimatedTile(t, x%2);
+        if(withinBounds(x+1, y)&&isTreadable(x+1, y)) map[y][x+1] = new AnimatedTile(t, x%2);
+        if(withinBounds(x-1, y)&&isTreadable(x-1, y)) map[y][x-1] = new AnimatedTile(t, x%2);
+        if(withinBounds(x, y+1)&&isTreadable(x, y+1)) map[y+1][x] = new AnimatedTile(t, x%2);
+        if(withinBounds(x, y-1)&&isTreadable(x, y-1)) map[y-1][x] = new AnimatedTile(t, x%2);
     }
     
     protected void spreadAnimatedWater(int x, int y){
-        if(withinBounds(x+1, y)&&onTreadableTile(x+1, y)) map[y][x+1] = new AnimatedTile(location, x%2);
-        if(withinBounds(x-1, y)&&onTreadableTile(x-1, y)) map[y][x-1] = new AnimatedTile(location, x%2);
-        if(withinBounds(x, y+1)&&onTreadableTile(x, y+1)) map[y+1][x] = new AnimatedTile(location, x%2);
-        if(withinBounds(x, y-1)&&onTreadableTile(x, y-1)) map[y-1][x] = new AnimatedTile(location, x%2);
+        if(withinBounds(x+1, y)&&isTreadable(x+1, y)) map[y][x+1] = new AnimatedTile(location, x%2);
+        if(withinBounds(x-1, y)&&isTreadable(x-1, y)) map[y][x-1] = new AnimatedTile(location, x%2);
+        if(withinBounds(x, y+1)&&isTreadable(x, y+1)) map[y+1][x] = new AnimatedTile(location, x%2);
+        if(withinBounds(x, y-1)&&isTreadable(x, y-1)) map[y-1][x] = new AnimatedTile(location, x%2);
     }
     
     protected void addShaders(){

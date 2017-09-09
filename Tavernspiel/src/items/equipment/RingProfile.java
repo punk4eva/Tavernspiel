@@ -11,10 +11,13 @@ import java.awt.image.WritableRaster;
 import java.util.HashMap;
 import logic.Distribution;
 import logic.Utils;
+import logic.Utils.Unfinished;
 
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class builds the characteristics of a Ring.
  */
 public class RingProfile extends ItemProfile{
     
@@ -22,7 +25,7 @@ public class RingProfile extends ItemProfile{
     protected int durability;
     protected Distribution distribution;
     protected Glyph glyph;
-    
+    @Unfinished
     private static final HashMap<String, RingProfile> bareRingMap = new HashMap<>(); //maps name of ring with stats.
     static{
     
@@ -95,6 +98,12 @@ public class RingProfile extends ItemProfile{
         
     }
     
+    /**
+     * Gets a random RingProfile
+     * @param name The name of the ring.
+     * @param idd Whether it is identified.
+     * @return The RingProfile.
+     */
     public static RingProfile getRandomProfile(String name, boolean idd){
         RingProfile bp = bareRingMap.get(name);
         return rdb.getProfile(name, Distribution.r.nextInt(4), bp.durability, bp.distribution, bp.glyph);

@@ -20,6 +20,8 @@ import logic.Formula;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class represents a Wand.
  */
 public class Wand extends RangedWeapon implements ScreenListener{
     
@@ -72,6 +74,10 @@ public class Wand extends RangedWeapon implements ScreenListener{
         screens = locationSelect.getScreenList();
     }
     
+    /**
+     * Fires this wand.
+     * @param h The shooter.
+     */
     public void fire(Hero h){
         hero = h;
         area = h.area;
@@ -79,6 +85,12 @@ public class Wand extends RangedWeapon implements ScreenListener{
         main.addViewable(locationSelect);
     }
     
+    /**
+     * Fires this wand.
+     * @param c The shooter.
+     * @param x The x destination.
+     * @param y The y destination.
+     */
     public void fire(Creature c, int x, int y){
         main.drawWandArc(this, c.x, c.y, x, y);
         if(areaEvent!=null){

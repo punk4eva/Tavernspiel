@@ -8,6 +8,8 @@ import logic.Distribution;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class represents a weapon that is equipable.
  */
 public class HeldWeapon extends Apparatus{
     
