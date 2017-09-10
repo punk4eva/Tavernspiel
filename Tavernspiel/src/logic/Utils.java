@@ -1,18 +1,12 @@
 
 package logic;
 
-import creatures.Hero;
-import items.Apparatus;
-import items.Item;
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import javax.imageio.ImageIO;
+import static logic.Distribution.r;
 
 /**
  *
@@ -20,7 +14,25 @@ import javax.imageio.ImageIO;
  * 
  * Holds miscellaneous static-access utility methods.
  */
-public class Utils{
+public final class Utils{
+
+    public static int[] shuffle(int[] ary){
+        for(int i = ary.length - 1; i > 0; i--){
+            int index = r.nextInt(i + 1);
+            int a = ary[index];
+            ary[index] = ary[i];
+            ary[i] = a;
+        }
+        return ary;
+    }
+    
+    private Utils(){}
+    
+    public static int[] rangeArray(int from, int to){
+        int[] ret = new int[to-from];
+        for(int n=0;n<ret.length;n++) ret[n] = from + n;
+        return ret;
+    }
     
     public static <T> boolean contains(T[] ary, T object){
         return Arrays.asList(ary).contains(object);
@@ -46,13 +58,6 @@ public class Utils{
     public static boolean pixelColourEquals(int[] p, int[] q){
         for(int n=0;n<3;n++) if(p[n]!=q[n]) return false;
         return true;
-    }
-    
-    public static int[] getIntArrayFromFileString(String filestring){
-        String[] profile = filestring.substring(1, filestring.length()-1).split("*");
-        int[] ret = new int[profile.length];
-        for(int n=0;n<profile.length;n++) ret[n] = Integer.parseInt(profile[n]);
-        return ret;
     }
     
     public static int lineCount(String str){

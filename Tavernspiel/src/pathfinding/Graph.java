@@ -2,7 +2,7 @@
 package pathfinding;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import level.Area;
 
 /**
@@ -13,19 +13,19 @@ public class Graph implements Serializable{
     
     Point[][] map;
     Waypoint[] waypoints;
+    private boolean used = false;
     
     public Graph(Area area){
         map = new Point[area.dimension.height][area.dimension.width];
-        ArrayList<Waypoint> wps = new ArrayList<>();
+        LinkedList<Waypoint> wps = new LinkedList<>();
         for(int y=0;y<area.dimension.height;y++){
             for(int x=0;x<area.dimension.width;x++){
-                if(area.map[y][x].treadable){
+                if(area.map[y][x]==null||!area.map[y][x].treadable) map[y][x] = new Point(x, y, null);
+                else{
                     map[y][x] = new Point(x, y);
                     if(area.map[y][x].equals("Door")){
                         wps.add(new Waypoint(x, y));
                     }
-                }else{
-                    map[y][x] = new Point(x, y, null);
                 }
             }
         }
@@ -49,9 +49,8 @@ public class Graph implements Serializable{
     }
     
     public Path followTrail(int x, int y){
-        Point ref = new Point(x, y);
-        ArrayList<Point> ret = new ArrayList<>();
-        while(!map[y][x].cameFrom.equals(ref)){
+        LinkedList<Point> ret = new LinkedList<>();
+        while(map[y][x].cameFrom!=null){
             ret.add(map[y][x]);
             x = map[y][x].cameFrom.x;
             y = map[y][x].cameFrom.y;
@@ -72,10 +71,10 @@ public class Graph implements Serializable{
         }
     }
     
-    protected void resetMap(){
-        Point[][] ret = new Point[map.length][map[0].length];
-        for(int y=0;y<ret.length;y++){
-            for(int x=0;x<ret[0].length;x++){
+    protected void use(){
+        if(!used) return;
+        for(int y=0;y<map.length;y++){
+            for(int x=0;x<map[0].length;x++){
                 if(map[y][x].checked!=null){
                     map[y][x] = new Point(x, y);
                 }else{
@@ -83,6 +82,21 @@ public class Graph implements Serializable{
                 }
             }
         }
+        used = true;
+    }
+    
+    protected void resetMap(){
+        if(!used) return;
+        for(int y=0;y<map.length;y++){
+            for(int x=0;x<map[0].length;x++){
+                if(map[y][x].checked!=null){
+                    map[y][x] = new Point(x, y);
+                }else{
+                    map[y][x] = new Point(x, y, null);
+                }
+            }
+        }
+        used = false;
     }
     
 }

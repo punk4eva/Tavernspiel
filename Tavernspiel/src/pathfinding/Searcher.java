@@ -40,7 +40,7 @@ public class Searcher{
      * @param end The destination to navigate to.
      */
     public void greedyBest(Point end){
-        addCheck = (from, to) -> false;
+        addCheck = (from, to) -> true;
         frontier = new PriorityQueue<>(p -> p.getOODistance(end));
     }
     /**
@@ -86,8 +86,9 @@ public class Searcher{
      * @param start The starting point.
      */
     public void floodfill(Point start){
-        graph.resetMap();
+        graph.use();
         frontier.clear();
+        start.currentCost = 0;
         frontier.add(start);
         int nx, ny;
         while(!frontier.isEmpty()){
@@ -95,7 +96,7 @@ public class Searcher{
             for(Direction dir : directions){
                 nx = dir.x.update(p.x);
                 ny = dir.y.update(p.y);
-                if(!graph.map[ny][nx].checked||addCheck.check(p, graph.map[ny][nx])){
+                if(graph.map[ny][nx].checked!=null&&(!graph.map[ny][nx].checked||addCheck.check(p, graph.map[ny][nx]))){
                     graph.map[ny][nx].checked = true;
                     graph.map[ny][nx].cameFrom = p;
                     graph.map[ny][nx].currentCost = p.currentCost + graph.map[ny][nx].movementCost;

@@ -14,6 +14,7 @@ public class Point implements Serializable{
     int movementCost = 1; //The cost to step into this tile.
     Point cameFrom = null; //null if starting point. 
     int currentCost = Integer.MAX_VALUE;
+    boolean isCorridor = false;
     static enum Direction{
         START(0, x->x, y->y),
         UNCHECKED(-1, x->-1, y->-1),
@@ -66,6 +67,13 @@ public class Point implements Serializable{
     public Point(int x1, int y1, Boolean c){
         x = x1;
         y = y1;
+        checked = c;
+    }
+    
+    public Point(int x1, int y1, Boolean c, boolean corr){
+        x = x1;
+        y = y1;
+        isCorridor = corr;
         checked = c;
     }
     

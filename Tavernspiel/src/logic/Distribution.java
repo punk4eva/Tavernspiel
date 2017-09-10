@@ -2,7 +2,6 @@
 package logic;
 
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -150,6 +149,30 @@ public class Distribution implements Serializable{
     
     public static double randomDouble(double low, double up){
         return r.nextDouble() * (up-low) + low;
+    }
+    
+    public static int getRandomInt(int from, int to, int... not){
+        try{
+            return getRandomIntHelper(from, to, 0, not);
+        }catch(StackOverflowError e){
+            int ary[] = Utils.shuffle(Utils.rangeArray(from, to));
+            for(int i : ary){
+                boolean notPresent = true;
+                for(int j : not) if(j==i){
+                    notPresent = false;
+                    break;
+                }
+                if(notPresent) return i;
+            }
+        }
+        return Integer.MIN_VALUE;
+    }
+    
+    private static int getRandomIntHelper(int from, int to, int count, int... not){
+        if(count>=80) throw new StackOverflowError();
+        int n = r.nextInt(to-from) + from;
+        for(int i : not) if(i==n) return getRandomIntHelper(from, to, count+1, not);
+        return n;
     }
     
 }
