@@ -28,6 +28,7 @@ import tiles.HiddenTile;
  */
 public class AIBaseActions implements Serializable{
     
+    private final static long serialVersionUID = 1749300132;
     
     //Calculations for things.
     public interface calcAccuracy{

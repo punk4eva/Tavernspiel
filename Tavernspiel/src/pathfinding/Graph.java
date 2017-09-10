@@ -11,6 +11,8 @@ import level.Area;
  */
 public class Graph implements Serializable{
     
+    private final static long serialVersionUID = 69062958;
+    
     Point[][] map;
     Waypoint[] waypoints;
     private boolean used = false;

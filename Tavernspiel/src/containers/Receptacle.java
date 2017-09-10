@@ -5,9 +5,9 @@ import creatureLogic.Description;
 import exceptions.ReceptacleIndexOutOfBoundsException;
 import exceptions.ReceptacleOverflowException;
 import items.Apparatus;
-import java.util.ArrayList;
 import items.Item;
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +22,9 @@ import java.util.stream.Collectors;
  */
 public abstract class Receptacle implements Serializable{
     
-    public List<Item> items = new ArrayList<>();
+    private final static long serialVersionUID = -1893808300;
+    
+    public List<Item> items = new LinkedList<>();
     public int capacity = 1000;
     public Description description;
     public final int x, y; 
@@ -121,14 +123,14 @@ public abstract class Receptacle implements Serializable{
      * Clears this receptacle.
      */
     protected void clear(){
-        items = new ArrayList<>();
+        items = new LinkedList<>();
     }
     
     /**
      * Trims the receptacle to its capacity. 
      */
     public void trimToCapacity(){
-        ArrayList<Item> ret = new ArrayList<>();
+        LinkedList<Item> ret = new LinkedList<>();
         for(int n=0;n<capacity;n++) ret.add(items.get(n));
         items = ret;
     }

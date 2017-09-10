@@ -16,7 +16,6 @@ import java.util.LinkedList;
 import level.Area;
 import listeners.BuffEvent;
 import listeners.BuffListener;
-import listeners.DeathEvent;
 import logic.Distribution;
 import logic.GameObject;
 

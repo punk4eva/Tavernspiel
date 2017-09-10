@@ -11,6 +11,8 @@ import java.io.Serializable;
  */
 public class Expertise implements Serializable{
     
+    private final static long serialVersionUID = 2140086769;
+    
     public int creatures = 0;
     public int potions = 0;
     public int armour = 0;

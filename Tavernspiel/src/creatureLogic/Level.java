@@ -12,6 +12,8 @@ import logic.Formula;
  */
 public class Level implements Serializable{
     
+    private final static long serialVersionUID = 73313124;
+    
     public int level = 1;
     public int xp = 0;
     public int xpReq = 20;

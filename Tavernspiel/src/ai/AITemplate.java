@@ -13,6 +13,8 @@ import level.Area;
  */
 public abstract class AITemplate implements Serializable{
     
+    private final static long serialVersionUID = 54431988;
+    
     public EnType type; //The type of AI
     public int intelligence = 3; //The intelligence
     public MagicHexagon magic = new MagicHexagon(); //The AI's inate magic abilities.

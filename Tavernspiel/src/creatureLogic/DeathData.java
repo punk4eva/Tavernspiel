@@ -17,6 +17,8 @@ import java.util.List;
  */
 public class DeathData implements Serializable{
     
+    private final static long serialVersionUID = 890027038;
+    
     public final Hero hero;
     public int maximumDepth = 1;
     public int mobsKilled = 0;

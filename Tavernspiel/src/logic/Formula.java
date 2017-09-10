@@ -11,6 +11,8 @@ import java.io.Serializable;
  */
 public class Formula implements Serializable{
     
+    private final static long serialVersionUID = 987228486;
+    
     public double multiply = 1;
     public double add = 0;
     public int intMultiply = 1;

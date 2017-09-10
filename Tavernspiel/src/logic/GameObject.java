@@ -19,6 +19,8 @@ import logic.Utils.Optimisable;
  */
 public abstract class GameObject implements Serializable{
     
+    private static final long serialVersionUID = -1805157903;
+    
     public int ID;
     public final String name;
     public final Description description;

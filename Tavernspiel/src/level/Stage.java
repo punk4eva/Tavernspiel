@@ -12,6 +12,8 @@ import creatureLogic.CreatureDistribution;
  */
 public class Stage{
     
+    private final static long serialVersionUID = 80204510;
+    
     protected Area[] areas;
     public final Location location;
     public final int length;

@@ -14,6 +14,8 @@ import listeners.ScreenListener;
  */
 public class Screen implements Serializable{
     
+    private final static long serialVersionUID = -1823822708;
+    
     protected final String name;
     protected final int tlx, tly, brx, bry;
     private ScreenListener listener;

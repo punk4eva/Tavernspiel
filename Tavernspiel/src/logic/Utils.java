@@ -1,11 +1,8 @@
 
 package logic;
 
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import javax.imageio.ImageIO;
 import static logic.Distribution.r;
 
 /**
@@ -106,12 +103,13 @@ public final class Utils{
         String value() default ""; //notes
     }
     
+    public static void printHashCodes(String... strs){
+        for(String str : strs) System.out.println(str.hashCode());
+    }
+    
     public static void main(String... args) throws IOException{
         //debugging
-        BufferedImage bi = ImageIO.read(new File("C:\\Users\\Adam\\Documents\\NetBeansProjects\\pixel-dungeon\\assets\\items.png"));
-        bi = bi.getSubimage(0, 0, 16, 16);
-        ImageIO.write(bi, "png", new File("graphics/image.png"));
-        ImageUtils.addImageOverlay("graphics/image.png");
+        printHashCodes("CreatureDistribution");
     }
     
 }

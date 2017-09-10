@@ -13,6 +13,8 @@ import logic.Utils;
  */
 public class Badge implements Serializable{
     
+    private final static long serialVersionUID = 63941507;
+    
     public static final List<Badge> allLivingBadges = new LinkedList<>();
     static{
         allLivingBadges.add(new Badge("Killer of rats", "10 enemies slain", 0, 1, d -> d.mobsKilled>=10));

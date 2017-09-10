@@ -12,6 +12,8 @@ import logic.Distribution;
  */
 public class MagicHexagon implements Serializable{
     
+    private final static long serialVersionUID = -1800688685;
+    
     //The 6 poles of the Hexagon.
     protected int offensive = 0;
     protected int focus = 0;

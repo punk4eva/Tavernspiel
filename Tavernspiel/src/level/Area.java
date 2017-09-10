@@ -28,6 +28,8 @@ import tiles.TrapBuilder;
  */
 public class Area implements Serializable{
     
+    private final static long serialVersionUID = 2049197;
+    
     public final Tile[][] map;
     public final Dimension dimension;
     public final Location location;

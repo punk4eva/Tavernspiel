@@ -24,6 +24,8 @@ import pathfinding.Point;
  */
 public class AreaBuilder implements Serializable{
     
+    private final static long serialVersionUID = 2141875790;
+    
     public List<Item> forcedItems = new LinkedList<>(), forcedKeys = new LinkedList<>();
     public List<MakeRoom> forcedRooms = new LinkedList<>();
     private final Location location;

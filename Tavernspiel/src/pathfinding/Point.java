@@ -9,6 +9,8 @@ import java.io.Serializable;
  */
 public class Point implements Serializable{
     
+    private final static long serialVersionUID = 77292912;
+    
     Boolean checked = false; //null if not treadable
     int x, y;
     int movementCost = 1; //The cost to step into this tile.

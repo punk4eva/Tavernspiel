@@ -13,6 +13,8 @@ import static logic.Distribution.r;
  */
 public class RoomDistribution implements Serializable{
     
+    private final static long serialVersionUID = 1600386847;
+    
     public interface MakeRoom{
         Room make(Location loc, List<Item> items);
     };

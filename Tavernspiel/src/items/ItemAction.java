@@ -12,6 +12,8 @@ import java.io.Serializable;
  */
 public class ItemAction implements Serializable{
     
+    private final static long serialVersionUID = -832184255;
+    
     private final String action;
     private String data[];
     

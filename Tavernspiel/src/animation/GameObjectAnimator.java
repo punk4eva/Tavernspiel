@@ -19,6 +19,8 @@ import logic.ImageUtils;
  */
 public class GameObjectAnimator implements AnimationListener, Serializable{
     
+    private final static long serialVersionUID = -21002248;
+    
     private final String[] names;
     private final Animation[] animations;
     public Animation active;

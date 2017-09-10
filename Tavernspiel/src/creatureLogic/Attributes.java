@@ -12,6 +12,8 @@ import java.io.Serializable;
  */
 public class Attributes implements Serializable{
     
+    private final static long serialVersionUID = -1895856777;
+    
     public AITemplate ai;
     public double speed = 1;
     public double attackSpeed = 1;

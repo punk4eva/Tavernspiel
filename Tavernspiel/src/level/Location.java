@@ -15,6 +15,8 @@ import logic.Distribution;
  */
 public class Location implements Serializable{
     
+    private final static long serialVersionUID = 1965687765;
+    
     public final String name;
     public final Image tileset;
     public final Image waterImage;

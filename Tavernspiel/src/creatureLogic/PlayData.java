@@ -14,6 +14,8 @@ import java.util.List;
  */
 public class PlayData implements Serializable{
     
+    private final static long serialVersionUID = 1942919454;
+    
     public int gamesPlayed;
     public HashSet<Badge> badgesEarned;
     public int gamesWon;

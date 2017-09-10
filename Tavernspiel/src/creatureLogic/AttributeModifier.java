@@ -12,6 +12,8 @@ import java.io.Serializable;
  */
 public class AttributeModifier implements Serializable{
     
+    private final static long serialVersionUID = -551553677;
+    
     public AITemplate newAi = null; //null if AITemplate is not changed.
     public double speedMultiplier = 1;
     public double attackSpeedMultiplier = 1;

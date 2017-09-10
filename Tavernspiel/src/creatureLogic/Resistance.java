@@ -12,6 +12,8 @@ import logic.Distribution;
  */
 public class Resistance implements Serializable{
     
+    private final static long serialVersionUID = -437701543;
+    
     public String buffName;
     public Distribution distrib;
     

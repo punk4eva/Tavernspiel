@@ -20,6 +20,8 @@ import logic.Utils.Unfinished;
  */
 public class Item implements Serializable{
     
+    private final static long serialVersionUID = 2289459;
+    
     public Image icon;
     public final String name;
     public final Description description;

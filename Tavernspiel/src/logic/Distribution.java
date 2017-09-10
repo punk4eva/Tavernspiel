@@ -12,9 +12,11 @@ import java.util.Random;
  */
 public class Distribution implements Serializable{
     
+    private final static long serialVersionUID = -1416387932;
+    
     protected double[] outputs;
     protected int[] chances;
-    public static final Random r = new Random();
+    public transient static final Random r = new Random();
     
     public Distribution(double[] out, int[] cha){
         outputs = out;

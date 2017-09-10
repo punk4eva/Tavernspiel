@@ -18,6 +18,8 @@ import logic.ImageHandler;
  */
 public class Animation implements Serializable{
     
+    private final static long serialVersionUID = -1172489372;
+    
     public final Image[] frames;
     private AnimationListener listener;
     protected long offset = 0;

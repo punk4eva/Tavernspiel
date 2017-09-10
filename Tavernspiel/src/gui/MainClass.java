@@ -42,7 +42,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public static final int WIDTH = 780, HEIGHT = WIDTH / 12 * 9;
     public static MessageQueue messageQueue = new MessageQueue();
     protected final SoundHandler soundSystem = new SoundHandler();
-    public static PrintStream exceptionStream, performanceStream;
+    public transient static PrintStream exceptionStream, performanceStream;
 
     private Thread thread;
     private boolean running = false;

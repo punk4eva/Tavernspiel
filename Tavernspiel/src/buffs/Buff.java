@@ -16,6 +16,8 @@ import logic.Distribution;
  */
 public class Buff implements Serializable{
     
+    private final static long serialVersionUID = 2081907;
+    
     public final String name;
     public double duration = 1000000;
     public Distribution damageDistribution = null; //null if deals no damage.

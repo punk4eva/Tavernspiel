@@ -13,6 +13,8 @@ import listeners.DepthListener;
  */
 public class Dungeon implements Serializable{
     
+    private final static long serialVersionUID = -619892070;
+    
     private final DepthListener depthListener;
     protected int depth = 0;
     private final Handler handler;

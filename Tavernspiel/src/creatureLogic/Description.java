@@ -11,6 +11,8 @@ import java.io.Serializable;
  */
 public class Description implements Serializable{
     
+    private final static long serialVersionUID = -56677412;
+    
     public String type;
     public final String[] layers;
     

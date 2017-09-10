@@ -12,6 +12,8 @@ import logic.ImageHandler;
  */
 public class Tile implements Serializable, Comparable<Tile>{
 
+    private final static long serialVersionUID = 2606798;
+    
     public Image image;
     public String name;
     public boolean treadable = true;

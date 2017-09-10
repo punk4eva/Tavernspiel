@@ -13,6 +13,8 @@ import static logic.Distribution.r;
  * A variation of Distribution but for creatures.
  */
 public class CreatureDistribution implements Serializable{
+    
+    private final static long serialVersionUID = -191951741;
 
     protected final Creature[] creatures;
     protected final int[] chances;

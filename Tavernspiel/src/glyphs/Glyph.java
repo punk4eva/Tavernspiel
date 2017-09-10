@@ -15,6 +15,8 @@ import logic.Distribution;
  */
 public class Glyph implements Serializable{
     
+    private final static long serialVersionUID = 68907276;
+    
     public String name;
     public Image overlay1;
     public Image overlay2;

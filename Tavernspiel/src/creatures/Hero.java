@@ -16,7 +16,6 @@ import gui.Viewable;
 import gui.Window;
 import java.awt.Graphics;
 import java.util.LinkedList;
-import java.util.List;
 import level.Area;
 import listeners.DeathEvent;
 import listeners.ScreenListener;
@@ -29,7 +28,6 @@ public class Hero extends Creature implements Viewable{
     
     public final LinkedList<Screen> screens;
     private ScreenListener currentScreenListener;
-    private final MainClass main;
     public int hunger = 100;
     public DeathData data;
     public Expertise expertise;
@@ -38,6 +36,8 @@ public class Hero extends Creature implements Viewable{
     
     /**
      * The class of the hero.
+     * 
+     * This class represents the Hero.
      */
     public enum EnClass{
         NoClass (new Expertise()),
@@ -82,7 +82,7 @@ public class Hero extends Creature implements Viewable{
         super("Hero", new Description("hero","UNWRITTEN"), atb, an, ac, m.getHandler());
         data = new DeathData(this);
         screens = getScreens();
-        main = m;
+        Window.main = m;
     }
     
     /**
@@ -104,7 +104,7 @@ public class Hero extends Creature implements Viewable{
         hunger = hung;
         job = j;
         subclass = sub;
-        main = m;
+        Window.main = m;
         data = da;
         screens = getScreens();
     }
@@ -112,9 +112,10 @@ public class Hero extends Creature implements Viewable{
     /**
      * Returns the MainClass associated with this Hero.
      * @return The MainClass.
+     * @deprecated Switched to static Window.main.
      */
     public MainClass getMainClass(){
-        return main;
+        return Window.main;
     }
 
     @Override

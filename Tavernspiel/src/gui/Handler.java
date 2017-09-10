@@ -11,6 +11,9 @@ import logic.GameObject;
  * @author Charlie Hands and Adam Whittaker
  */
 public class Handler implements Serializable{
+    
+    private final static long serialVersionUID = -1937510614;
+    
     volatile LinkedList<GameObject> object = new LinkedList<>();
 
     /**
