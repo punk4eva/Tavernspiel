@@ -68,6 +68,29 @@ public class Area implements Serializable{
                 map[y][x] = area.map[y-y1][x-x1];
             }
         }
+        objects.addAll(area.objects);
+        receptacles.addAll(area.receptacles);
+    }
+    
+    /**
+     * Prints the given area onto this area (not replacing preexisting Tiles).
+     * @param area The area to print.
+     * @param x1 The top left x.
+     * @param y1 The top left y.
+     * @throws AreaCoordsOutOfBoundsException If it can't be fit in with the
+     * given coordinates.
+     */
+    public void blitSafely(Area area, int x1, int y1) throws AreaCoordsOutOfBoundsException{
+        if(!withinBounds(x1, y1)||
+                !withinBounds(x1+area.dimension.width, y1+area.dimension.height))
+            throw new AreaCoordsOutOfBoundsException("Coords out of bounds.");
+        for(int y=y1;y<y1+area.dimension.width;y++){
+            for(int x=x1;x<x1+area.dimension.height;x++){
+                if(map[y][x]==null) map[y][x] = area.map[y-y1][x-x1];
+            }
+        }
+        objects.addAll(area.objects);
+        receptacles.addAll(area.receptacles);
     }
     
     /**

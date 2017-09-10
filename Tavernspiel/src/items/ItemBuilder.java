@@ -5,6 +5,7 @@ import animation.Animation;
 import items.consumables.Potion;
 import items.consumables.Scroll;
 import items.equipment.Ring;
+import java.util.LinkedList;
 import java.util.List;
 import javax.swing.ImageIcon;
 import listeners.AreaEvent;
@@ -49,6 +50,16 @@ public final class ItemBuilder{
 
     public static List<Scroll> getListOfAllScrolls(){
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public static Item genRandom(){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public static List<Item> genRandom(int amount){
+        LinkedList<Item> ret = new LinkedList<>();
+        for(int n=0;n<amount;n++) ret.add(genRandom());
+        return ret;
     }
     
 }

@@ -90,4 +90,8 @@ public class Point implements Serializable{
         return x==p.x&&y==p.y;
     }
     
+    public int[] getCoords(){
+        return new int[]{x, y};
+    }
+    
 }

@@ -49,7 +49,7 @@ public class Stage{
      */
     public void loadNext(){
         if(areas[loadedLevel]==null){
-            areas[loadedLevel] = areaBuilder.load();
+            areas[loadedLevel] = areaBuilder.load(location.roomDistrib[loadedLevel]);
         }else throw new IllegalStateException("Cannot load preloaded area.");
         loadedLevel++;
         areaBuilder.clear();
