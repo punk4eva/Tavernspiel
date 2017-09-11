@@ -19,13 +19,45 @@ public class Attributes implements Serializable{
     public double attackSpeed = 1;
     public double dexterity = 1;
     public double accuracy = 1;
-    public double regenSpeed = 1;
+    public double regenSpeed = 0.025;
     public int maxhp;
     public int hp;
     protected Resistance[] resistances;
     public int strength = 10;
     public Level level;
     public int xpOnDeath = 0;
+    
+    /**
+     * Creates a new instance.
+     */
+    public Attributes(){}
+    
+    /**
+     * Creates a new instance.
+     * @param ait The AITemplate.
+     * @param sp The speed.
+     * @param atksp The attack speed.
+     * @param dex The dexterity.
+     * @param acc The accuracy.
+     * @param reg The regeneration speed.
+     * @param mhp The maximum hp.
+     * @param stg The strength.
+     * @param xp The xp obtained by the killer on death.
+     * @param rst The array of Resistances.
+     */
+    public Attributes(AITemplate ait, double sp, double atksp, double dex, double acc, double reg, int mhp, int stg, int xp, Resistance... rst){
+        speed = sp;
+        ai = ait;
+        resistances = rst;
+        maxhp = mhp;
+        attackSpeed = atksp;
+        dexterity = dex;
+        accuracy = acc;
+        regenSpeed = reg;
+        hp = mhp;
+        strength = stg;
+        xpOnDeath = xp;
+    }
     
     /**
      * Updates attributes.

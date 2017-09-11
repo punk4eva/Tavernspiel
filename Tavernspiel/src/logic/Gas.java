@@ -12,6 +12,8 @@ import level.Area;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class represents Gas.
  */
 public class Gas extends GameObject{
     
@@ -20,15 +22,15 @@ public class Gas extends GameObject{
     public int duration = 10;
     private final Handler handler;
     
-    public Gas(String n, Description desc, Buff b, GameObjectAnimator a, int spread, Area ac, Handler hand){
-        super(n, desc, a, ac, hand);
-        handler  = hand;
+    public Gas(String n, Description desc, Buff b, GameObjectAnimator a, int spread, Handler hand){
+        super(n, desc, a);
+        handler = hand;
         buffs.add(b);
         spreadNumber = spread;
     }
     
     public Gas(Gas gas, int nx, int ny){
-        super(gas.name, gas.description, gas.animator, gas.area, gas.handler);
+        super(gas.name, gas.description, gas.animator);
         handler = gas.handler;
         buffs = gas.buffs;
         x = nx;

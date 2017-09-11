@@ -75,24 +75,24 @@ public class ImageHandler{
         map.put("shader", new Dimension(240, 48));
     }
     
-    public static Image getImage(String str, Location loc){
+    public static ImageIcon getImage(String str, Location loc){
         return getImage(
                 map.get(str.toLowerCase())==null ?
                 new Dimension(240, 48) : map.get(str.toLowerCase()), loc);
     }
     
-    public static Image getImage(Dimension dim, Location loc){
+    public static ImageIcon getImage(Dimension dim, Location loc){
         BufferedImage bi = new BufferedImage(
-                loc.tileset.getWidth(null),
-                loc.tileset.getHeight(null),
+                loc.tileset.getIconWidth(),
+                loc.tileset.getIconHeight(),
                 BufferedImage.TYPE_INT_ARGB);
         Graphics g = bi.createGraphics();
-        g.drawImage(loc.tileset, 0, 0, null);
+        g.drawImage(loc.tileset.getImage(), 0, 0, null);
         g.dispose();
-        return bi.getSubimage(dim.width, dim.height, 16, 16);
+        return new ImageIcon(bi.getSubimage(dim.width, dim.height, 16, 16));
     }
     
-    public static Image[] getWaterFrames(String str, int x){
+    public static ImageIcon[] getWaterFrames(String str, int x){
         Image img = new ImageIcon("graphics/" + str + ".png").getImage();
         BufferedImage bi = new BufferedImage(
                 img.getWidth(null),
@@ -101,26 +101,26 @@ public class ImageHandler{
         Graphics g = bi.createGraphics();
         g.drawImage(img, 0, 0, null);
         g.dispose();
-        Image[] ret = new Image[img.getHeight(null)-15];
+        ImageIcon[] ret = new ImageIcon[img.getHeight(null)-15];
         x*=16;
         for(int y=ret.length-1;y>=0;y--){
-            ret[ret.length-y-1] = bi.getSubimage(x, y, 16, 16);
+            ret[ret.length-y-1] = new ImageIcon(bi.getSubimage(x, y, 16, 16));
         }
         return ret;
     }
     
-    public static Image[] getWaterFrames(Location loc, int x){
+    public static ImageIcon[] getWaterFrames(Location loc, int x){
         BufferedImage bi = new BufferedImage(
-                loc.waterImage.getWidth(null),
-                loc.waterImage.getHeight(null),
+                loc.waterImage.getIconWidth(),
+                loc.waterImage.getIconHeight(),
                 BufferedImage.TYPE_INT_ARGB);
         Graphics g = bi.createGraphics();
-        g.drawImage(loc.waterImage, 0, 0, null);
+        g.drawImage(loc.waterImage.getImage(), 0, 0, null);
         g.dispose();
-        Image[] ret = new Image[loc.waterImage.getHeight(null)-15];
+        ImageIcon[] ret = new ImageIcon[loc.waterImage.getIconHeight()-15];
         x*=16;
         for(int y=ret.length-1;y>=0;y--){
-            ret[ret.length-y-1] = bi.getSubimage(x, y, 16, 16);
+            ret[ret.length-y-1] = new ImageIcon(bi.getSubimage(x, y, 16, 16));
         }
         return ret;
     }

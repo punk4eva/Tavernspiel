@@ -3,7 +3,6 @@ package items;
 
 import creatureLogic.Description;
 import creatures.Creature;
-import java.awt.Image;
 import javax.swing.ImageIcon;
 
 /**
@@ -61,7 +60,7 @@ public abstract class Consumable extends Item{
      * @param im The Item's Image. 
      * @param idd Whether the Item is identified.
      */
-    public Consumable(String n, Description desc, Image im, boolean idd){
+    public Consumable(String n, Description desc, ImageIcon im, boolean idd){
         super(n, desc, im, 1);
         identified = idd;
         actions = ItemAction.getArray(3);

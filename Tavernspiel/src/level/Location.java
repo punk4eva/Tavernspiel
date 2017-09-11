@@ -3,6 +3,7 @@ package level;
 
 import creatureLogic.CreatureDistribution;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
 import logic.Distribution;
@@ -18,8 +19,8 @@ public class Location implements Serializable{
     private final static long serialVersionUID = 1965687765;
     
     public final String name;
-    public final Image tileset;
-    public final Image waterImage;
+    public final ImageIcon tileset;
+    public final ImageIcon waterImage;
     protected Distribution waterGenChance = new Distribution(1, 20);
     protected Distribution grassGenChance = new Distribution(1, 20);
     protected RoomDistribution[] roomDistrib = null; //null if boss room.
@@ -34,10 +35,10 @@ public class Location implements Serializable{
      * @param water The water gen. chance.
      * @param bmp The path for the background music.
      */
-    public Location(String n, Image tiles, Image water, String bmp){
+    public Location(String n, BufferedImage tiles, BufferedImage water, String bmp){
         name = n;
-        waterImage = water;
-        tileset = tiles;
+        waterImage = new ImageIcon(water);
+        tileset = new ImageIcon(tiles);
         backgroundMusicPath = bmp;
     }
     
@@ -50,8 +51,8 @@ public class Location implements Serializable{
      */
     public Location(String n, String tiles, String water, String bmp){
         name = n;
-        waterImage = new ImageIcon("graphics/"+water+".png").getImage();
-        tileset = new ImageIcon("graphics/"+tiles+".png").getImage();
+        waterImage = new ImageIcon("graphics/"+water+".png");
+        tileset = new ImageIcon("graphics/"+tiles+".png");
         backgroundMusicPath = bmp;
     }
     
@@ -64,10 +65,10 @@ public class Location implements Serializable{
      * @param grass The grass gen. chance.
      * @param bmp The path for the background music.
      */
-    public Location(String n, Image tiles, Image waterI, Distribution water, Distribution grass, String bmp){
+    public Location(String n, BufferedImage tiles, BufferedImage waterI, Distribution water, Distribution grass, String bmp){
         name = n;
-        tileset = tiles;
-        waterImage = waterI;
+        tileset = new ImageIcon(tiles);
+        waterImage = new ImageIcon(waterI);
         backgroundMusicPath = bmp;
         waterGenChance = water;
         grassGenChance = grass;
@@ -83,10 +84,10 @@ public class Location implements Serializable{
      * @param grass The grass gen. chance.
      * @param bmp The path for the background music.
      */
-    public Location(String n, Image tiles, Image waterI, CreatureDistribution[] sp, Distribution water, Distribution grass, String bmp){
+    public Location(String n, BufferedImage tiles, BufferedImage waterI, CreatureDistribution[] sp, Distribution water, Distribution grass, String bmp){
         name = n;
-        waterImage = waterI;
-        tileset = tiles;
+        waterImage = new ImageIcon(waterI);
+        tileset = new ImageIcon(tiles);
         spawnDistribution = sp;
         backgroundMusicPath = bmp;
         waterGenChance = water;
@@ -101,11 +102,11 @@ public class Location implements Serializable{
      * @param sp The CreatureDistributions.
      * @param bmp The path for the background music.
      */
-    public Location(String n, Image tiles, Image water, CreatureDistribution[] sp, String bmp){
+    public Location(String n, BufferedImage tiles, BufferedImage water, CreatureDistribution[] sp, String bmp){
         name = n;
-        tileset = tiles;
+        tileset = new ImageIcon(tiles);
         backgroundMusicPath = bmp;
-        waterImage = water;
+        waterImage = new ImageIcon(water);
         spawnDistribution = sp;
     }
     
@@ -119,13 +120,13 @@ public class Location implements Serializable{
      * @param wbg Whether water should be generated before grass.
      * @param bmp The path for the background music.
      */
-    public Location(String n, Image tiles, Image waterI, Distribution water, Distribution grass, boolean wbg, String bmp){
+    public Location(String n, BufferedImage tiles, BufferedImage waterI, Distribution water, Distribution grass, boolean wbg, String bmp){
         name = n;
-        tileset = tiles;
+        tileset = new ImageIcon(tiles);
         backgroundMusicPath = bmp;
         waterGenChance = water;
         grassGenChance = grass;
-        waterImage = waterI;
+        waterImage = new ImageIcon(waterI);
         waterBeforeGrass = wbg;
     }
     
@@ -140,13 +141,13 @@ public class Location implements Serializable{
      * @param wbg Whether water should be generated before grass.
      * @param bmp The path for the background music.
      */
-    public Location(String n, Image tiles, Image waterI, CreatureDistribution[] sp, Distribution water, Distribution grass, boolean wbg, String bmp){
+    public Location(String n, BufferedImage tiles, BufferedImage waterI, CreatureDistribution[] sp, Distribution water, Distribution grass, boolean wbg, String bmp){
         name = n;
-        tileset = tiles;
+        tileset = new ImageIcon(tiles);
         spawnDistribution = sp;
         waterGenChance = water;
         backgroundMusicPath = bmp;
-        waterImage = waterI;
+        waterImage = new ImageIcon(waterI);
         grassGenChance = grass;
         waterBeforeGrass = wbg;
     }

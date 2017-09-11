@@ -34,17 +34,13 @@ public abstract class GameObject implements Serializable{
      * @param n The name.
      * @param desc The description.
      * @param an The animator.
-     * @param ar The area that this GameObject is in.
-     * @param handler The handler to add to.
      */
     @Optimisable("Adding the object to the handler so early could cause problems.")
-    public GameObject(String n, Description desc, GameObjectAnimator an, Area ar, Handler handler){
+    public GameObject(String n, Description desc, GameObjectAnimator an){
         ID = MainClass.idhandler.genID();
         name = n;
         description = desc;
         animator = an;
-        area = ar;
-        handler.addObject(this);
     }
     
     /**
@@ -72,6 +68,14 @@ public abstract class GameObject implements Serializable{
     
     public void passEvent(GameEvent ge, Handler handler){
         handler.notify(ge);
+    }
+
+    /**
+     * Sets the GameObject's Area.
+     * @param ar
+     */
+    public void setArea(Area ar){
+        area = ar;
     }
     
 }

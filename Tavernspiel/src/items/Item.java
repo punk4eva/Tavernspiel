@@ -7,7 +7,6 @@ import creatures.Hero;
 import items.consumables.Potion;
 import items.consumables.Scroll;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
 import logic.Utils.Unfinished;
@@ -22,7 +21,7 @@ public class Item implements Serializable{
     
     private final static long serialVersionUID = 2289459;
     
-    public Image icon;
+    public ImageIcon icon;
     public final String name;
     public final Description description;
     public int quantity = 1;
@@ -34,50 +33,43 @@ public class Item implements Serializable{
     public Item(String n, String desc, ImageIcon i){
         name = n;
         description = Description.parseDescription(null, desc);
-        icon = i.getImage();
+        icon = i;
     }
     
     public Item(String n, String desc, ImageIcon i, int q){
         name = n;
         description = Description.parseDescription(null, desc);
-        icon = i.getImage();
+        icon = i;
         quantity = q;
     }
     
     public Item(String n, String desc, ImageIcon i, int q, boolean flam){
         name = n;
         description = Description.parseDescription(null, desc);
-        icon = i.getImage();
+        icon = i;
         quantity = q;
         flammable = flam;
     }
     
-    public Item(String n, String desc, ImageIcon i, boolean s){
+    public Item(String n, String desc, ImageIcon i, boolean st){
         name = n;
         description = Description.parseDescription(null, desc);
-        icon = i.getImage();
-        stackable = s;
+        icon = i;
+        stackable = st;
     }
     
     public Item(String n, Description desc, ImageIcon i, boolean s){
         name = n;
         description = desc;
-        icon = i.getImage();
+        icon = i;
         stackable = s;
     }
     
-    public Item(String n, Description desc, Image i, int q){
+    public Item(String n, Description desc, ImageIcon i, int q){
         name = n;
         description = desc;
         icon = i;
         quantity = q;
-    }
-    
-    public Item(String n, Description desc, Image i, boolean st){
-        name = n;
-        description = desc;
-        icon = i;
-        stackable = st;
     }
     
     /**
@@ -207,7 +199,7 @@ public class Item implements Serializable{
      * @param y The y coordinate.
      */
     public void draw(Graphics g, int x, int y){
-        g.drawImage(icon, x, y, null);
+        g.drawImage(icon.getImage(), x, y, null);
     }
     
 }

@@ -23,6 +23,8 @@ import listeners.ScreenListener;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class represents the Hero.
  */
 public class Hero extends Creature implements Viewable{
     
@@ -36,8 +38,6 @@ public class Hero extends Creature implements Viewable{
     
     /**
      * The class of the hero.
-     * 
-     * This class represents the Hero.
      */
     public enum EnClass{
         NoClass (new Expertise()),
@@ -76,13 +76,11 @@ public class Hero extends Creature implements Viewable{
      * @param atb The attributes.
      * @param an The animator.
      * @param ac The area.
-     * @param m The MainClass to register with.
      */
-    public Hero(Attributes atb, GameObjectAnimator an, Area ac, MainClass m){
-        super("Hero", new Description("hero","UNWRITTEN"), atb, an, ac, m.getHandler());
+    public Hero(Attributes atb, GameObjectAnimator an){
+        super("Hero", new Description("hero","UNWRITTEN"), atb, an);
         data = new DeathData(this);
         screens = getScreens();
-        Window.main = m;
     }
     
     /**
@@ -96,15 +94,12 @@ public class Hero extends Creature implements Viewable{
      * @param sub The SubClass.
      * @param atb The Attributes.
      * @param bs The Buffs.
-     * @param ac The Area.
-     * @param m The MainClass.
      */
-    public Hero(int id, Equipment eq, Inventory inv, int hung, DeathData da, EnClass j, EnSubclass sub, Attributes atb, LinkedList<Buff> bs, Area ac, MainClass m){
-        super("Hero", new Description("hero","UNWRITTEN"), id, eq, inv, atb, ac, bs, m.getHandler());
+    public Hero(int id, Equipment eq, Inventory inv, int hung, DeathData da, EnClass j, EnSubclass sub, Attributes atb, LinkedList<Buff> bs){
+        super("Hero", new Description("hero","UNWRITTEN"), id, eq, inv, atb, bs);
         hunger = hung;
         job = j;
         subclass = sub;
-        Window.main = m;
         data = da;
         screens = getScreens();
     }

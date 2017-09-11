@@ -3,7 +3,7 @@ package tiles;
 
 import animation.Animation;
 import animation.AnimationBuilder;
-import java.awt.Image;
+import javax.swing.ImageIcon;
 import level.Location;
 import logic.ImageHandler;
 
@@ -16,12 +16,12 @@ public class AnimatedTile extends Tile{
     public Animation animation;
     
     public AnimatedTile(String tile, Animation an){
-        super(tile, (Image) null);
+        super(tile, (ImageIcon) null);
         animation = an;
     }
     
     public AnimatedTile(String tile){
-        super(tile, (Image) null);
+        super(tile, (ImageIcon) null);
         if(tile.startsWith("water")){
             animation = new Animation(ImageHandler.getWaterFrames(tile, 0));
         }else
@@ -34,7 +34,7 @@ public class AnimatedTile extends Tile{
      * @param x The offset.
      */
     public AnimatedTile(String tile, int x){
-        super(tile, (Image) null);
+        super(tile, (ImageIcon) null);
         animation = new Animation(ImageHandler.getWaterFrames(tile, x));
     }
     
@@ -44,7 +44,7 @@ public class AnimatedTile extends Tile{
      * @param x The offset.
      */
     public AnimatedTile(Location loc, int x){
-        super("water", (Image) null);
+        super("water", (ImageIcon) null);
         animation = new Animation(ImageHandler.getWaterFrames(loc, x));
     }
     

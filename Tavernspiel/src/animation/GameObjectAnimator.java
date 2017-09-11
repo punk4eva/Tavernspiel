@@ -6,6 +6,8 @@ import gui.MainClass;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 import javax.swing.ImageIcon;
 import listeners.AnimationListener;
 import listeners.DeathEvent;
@@ -35,6 +37,7 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
         if(ani.length!=na.length) throw new IllegalArgumentException("Name length and animation length aren't the same!");
         names = na;
         animations = ani;
+        for(Animation an : animations) an.changeListener(this);
         active = ani[0];
     }
     
@@ -43,6 +46,7 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
      * @param gasAnimation
      */
     public GameObjectAnimator(Animation gasAnimation){
+        gasAnimation.changeListener(this);
         animations = new Animation[]{gasAnimation};
         names = new String[]{"gas"};
         active = gasAnimation;
@@ -56,6 +60,29 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
         names = new String[]{"default"};
         animations = new Animation[]{new Animation(icon)};
         active = animations[0];
+    }
+    
+    /**
+     * Creates an instance.
+     * @param spriteSheet The sprite sheet to copy.
+     * @param nms The array of names of the Animations.
+     * @param lengths The length of each Animation.
+     */
+    public GameObjectAnimator(BufferedImage spriteSheet, String[] nms, int[] lengths){
+        names = nms;
+        animations = new Animation[nms.length];
+        List<ImageIcon> imgList = new LinkedList<>();
+        for(int y=0, ych=spriteSheet.getHeight();y<ych;y+=16){
+            for(int x=0, xch=spriteSheet.getWidth();x<xch;x+=16){
+                imgList.add(new ImageIcon(spriteSheet.getSubimage(x, y, 16, 16)));
+            }
+        }
+        int count = 0;
+        for(int n=0;n<animations.length;n++){
+            List<ImageIcon> sublist = imgList.subList(count, count+lengths[n]);
+            count+=lengths[n];
+            animations[n] = new Animation(sublist.toArray(new ImageIcon[lengths[n]]), this);
+        }
     }
     
     /**
@@ -144,11 +171,11 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
      * @param img The image to fade.
      * @return The animation.
      */
-    public Animation getFadeAnimation(Image img){
+    public Animation getFadeAnimation(ImageIcon img){
         BufferedImage bi = ImageUtils.addImageBuffer(img);
-        Image[] ret = new Image[25];
+        ImageIcon[] ret = new ImageIcon[25];
         for(int n=0;n<25;n++){
-            ret[n] = ImageUtils.fade(bi, 245-10*n);
+            ret[n] = new ImageIcon(ImageUtils.fade(bi, 245-10*n));
         }
         return new Animation(ret, this); 
     }

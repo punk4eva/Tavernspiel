@@ -8,7 +8,6 @@ import containers.Equipment;
 import containers.Inventory;
 import creatureLogic.Attributes;
 import creatureLogic.Description;
-import gui.Handler;
 import gui.MainClass;
 import items.equipment.HeldWeapon;
 import java.awt.Graphics;
@@ -41,12 +40,10 @@ public class Creature extends GameObject implements BuffListener, Comparable<Cre
      * @param inv The inventory.
      * @param atb The attributes.
      * @param an The Animator.
-     * @param ac The Area.
-     * @param handler The Handler to register with.
      */
     public Creature(String n, Description desc, Equipment eq, Inventory inv, 
-            Attributes atb, GameObjectAnimator an, Area ac, Handler handler){
-        super(n, desc, an, ac, handler);
+            Attributes atb, GameObjectAnimator an){
+        super(n, desc, an);
         equipment = eq;
         inventory = inv;
         attributes = atb;
@@ -61,13 +58,11 @@ public class Creature extends GameObject implements BuffListener, Comparable<Cre
      * @param eq The equipment.
      * @param inv The inventory.
      * @param atb The attributes.
-     * @param ac The Area.
      * @param bs The list of buffs.
-     * @param handler The Handler to register with.
      */
     public Creature(String n, Description desc, int id, Equipment eq, Inventory inv, 
-            Attributes atb, Area ac, LinkedList<Buff> bs, Handler handler){
-        super(n, desc, AnimationBuilder.getCreatureAnimation(n), ac, handler);
+            Attributes atb, LinkedList<Buff> bs){
+        super(n, desc, AnimationBuilder.getCreatureAnimation(n));
         equipment = eq;
         ID = id;
         buffs = bs;
@@ -82,11 +77,9 @@ public class Creature extends GameObject implements BuffListener, Comparable<Cre
      * @param desc The description.
      * @param atb The attributes.
      * @param an The Animator.
-     * @param ac The Area.
-     * @param handler The Handler to register with.
      */
-    public Creature(String n, Description desc, Attributes atb, GameObjectAnimator an, Area ac, Handler handler){
-        super(n, desc, an, ac, handler);
+    public Creature(String n, Description desc, Attributes atb, GameObjectAnimator an){
+        super(n, desc, an);
         attributes = atb;
         MainClass.buffinitiator.addBuffListener(this);
     }

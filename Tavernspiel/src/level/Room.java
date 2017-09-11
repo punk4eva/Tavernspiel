@@ -79,7 +79,7 @@ public class Room extends Area{
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
                 if(room.map[y][x].equals("floor")&&Distribution.chance(1, 30))
-                    room.map[y][x] = RoomBuilder.getRandomTrap(room, handler);
+                    room.map[y][x] = RoomBuilder.getRandomTrap(loc, handler);
             }
         }
         return room;
@@ -106,7 +106,7 @@ public class Room extends Area{
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
                 if(room.map[y][x].equals("floor")&&Distribution.chance(1, 30))
-                    room.map[y][x] = RoomBuilder.getRandomTrap(room, handler);
+                    room.map[y][x] = RoomBuilder.getRandomTrap(loc, handler);
             }
         }
         return room;
@@ -129,7 +129,7 @@ public class Room extends Area{
         for(int y=1;y<dimension.height-1;y++){
             for(int x=1;x<dimension.width-1;x++){
                 if(map[y][x].equals("floor")&&Distribution.chance(1, 30))
-                    map[y][x] = RoomBuilder.getRandomTrap(this, handler);
+                    map[y][x] = RoomBuilder.getRandomTrap(location, handler);
             }
         }
     }

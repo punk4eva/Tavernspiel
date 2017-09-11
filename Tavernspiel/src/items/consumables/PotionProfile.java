@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.util.HashMap;
+import javax.swing.ImageIcon;
 import logic.Utils;
 
 /**
@@ -152,7 +153,7 @@ public class PotionProfile extends ItemProfile{
         tasteMessage = taste;
         identified = idd;
         Dimension dim = unknownToDimension.get(un);
-        image = outfitImage(getImage(dim.width, dim.height), getColour(colour), texture==null ? null : getColour(texture));
+        image = new ImageIcon(outfitImage(getImage(dim.width, dim.height), getColour(colour), texture==null ? null : getColour(texture)));
         description = new Description("potions", desc);
     }
     

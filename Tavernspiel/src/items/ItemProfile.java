@@ -19,7 +19,7 @@ import logic.Utils;
  */
 public abstract class ItemProfile{
     
-    protected BufferedImage image;
+    protected ImageIcon image;
     protected String name;
     protected Description description;
     
@@ -240,7 +240,7 @@ public abstract class ItemProfile{
      * Gets the image of this Potion.
      * @return The image.
      */
-    public BufferedImage getImage(){
+    public ImageIcon getImageIcon(){
         return image;
     }
     /**

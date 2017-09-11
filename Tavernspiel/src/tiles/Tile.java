@@ -1,8 +1,8 @@
 
 package tiles;
 
-import java.awt.Image;
 import java.io.Serializable;
+import javax.swing.ImageIcon;
 import level.Location;
 import logic.ImageHandler;
 
@@ -14,12 +14,12 @@ public class Tile implements Serializable, Comparable<Tile>{
 
     private final static long serialVersionUID = 2606798;
     
-    public Image image;
+    public ImageIcon image;
     public String name;
     public boolean treadable = true;
     public boolean flammable = false;
     
-    public Tile(String n, Image ic){
+    public Tile(String n, ImageIcon ic){
         image = ic;
         name = n;
     }
@@ -31,7 +31,7 @@ public class Tile implements Serializable, Comparable<Tile>{
         flammable = t.flammable;
     }
     
-    public Tile(String n, Image ic, boolean t, boolean f){
+    public Tile(String n, ImageIcon ic, boolean t, boolean f){
         image = ic;
         name = n;
         treadable = t;

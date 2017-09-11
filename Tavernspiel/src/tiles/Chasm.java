@@ -6,6 +6,7 @@ import creatures.Creature;
 import creatures.Hero;
 import level.Area;
 import listeners.AreaEvent;
+import logic.Utils.Unfinished;
 
 /**
  *
@@ -13,29 +14,25 @@ import listeners.AreaEvent;
  */
 public class Chasm extends Tile{
     
-    private final Location location;
     private boolean isPitroom = false;
     
     public Chasm(String tileAbove, Location loc){
         super(tileAbove.equals("void") ? "void" : tileAbove + "cutoff", loc);
-        location = loc;
     }
     
-    public Chasm(Area area, int x, int y, Location loc){
-        super(area.map[y-1][x].name + "cutoff", loc);
-        location = loc;
+    public Chasm(Area area, int x, int y){
+        super(area.map[y-1][x].name + "cutoff", area.location);
     }
     
-    public Chasm(Area area, int x, int y, Location loc, boolean pit){
-        super(area.map[y-1][x].name + "cutoff", loc);
-        location = loc;
+    public Chasm(Area area, int x, int y, boolean pit){
+        super(area.map[y-1][x].name + "cutoff", area.location);
         isPitroom = pit;
     }
     
     /**
      * @param c The creature to perform the action on.
-     * @unfinished
      */
+    @Unfinished
     public void action(Creature c){
         if(!isPitroom){
             //unfinished

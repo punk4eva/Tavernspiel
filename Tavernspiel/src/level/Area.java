@@ -244,6 +244,7 @@ public class Area implements Serializable{
      * @param object The new GameObject.
      */
     public void addObject(GameObject object){
+        object.setArea(this);
         objects.add(object);
     }
     

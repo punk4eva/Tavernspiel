@@ -4,7 +4,7 @@ package tiles;
 import creatures.Creature;
 import creatures.Hero;
 import gui.Window;
-import java.awt.Image;
+import javax.swing.ImageIcon;
 import level.Location;
 import logic.ImageHandler;
 
@@ -14,7 +14,7 @@ import logic.ImageHandler;
  */
 public class HiddenTile extends Tile{
     
-    private final Image realIcon; 
+    private final ImageIcon realIcon; 
     public boolean hidden = true;
     public final boolean reallyFlammable;
     public final boolean reallyTreadable;
@@ -40,7 +40,7 @@ public class HiddenTile extends Tile{
         }
     }
     
-    public HiddenTile(String realName, Image icon, Location loc, boolean hid, boolean reallyFlam, boolean reallyTread){
+    public HiddenTile(String realName, ImageIcon icon, Location loc, boolean hid, boolean reallyFlam, boolean reallyTread){
         super(realName, icon);
         realIcon = ImageHandler.getImage(realName, loc);
         hidden = hid;

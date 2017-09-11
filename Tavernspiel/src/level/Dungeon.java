@@ -16,7 +16,7 @@ public class Dungeon implements Serializable{
     private final static long serialVersionUID = -619892070;
     
     private final DepthListener depthListener;
-    protected int depth = 0;
+    protected int depth = -1;
     private final Handler handler;
     protected Stage[] stages;
     
@@ -30,7 +30,7 @@ public class Dungeon implements Serializable{
         handler = hand;
         stages = new Stage[5];
         stages[0] = new Stage(new Location("Shkoder", "shkoderTileset", "water", "Cyanoshrooms.wav"), 5, new String[]{"The upper level of the caves"}, null);
-        stages[0].areas[0] = RoomBuilder.standard(stages[0].location, handler);
+        stages[0].areas[0] = RoomBuilder.standard(stages[0].location, handler); depth=0;stages[0].loadedLevel=3;
     }
     
     /**

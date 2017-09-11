@@ -34,7 +34,7 @@ public class Ring extends Apparatus{
      * @param rp The RingProfile to copy from.
      */
     public Ring(RingProfile rp){
-        super(rp.getName(), rp.getDescription(), rp.getImage(), rp.durability, rp.distribution);
+        super(rp.getName(), rp.getDescription(), rp.getImageIcon(), rp.durability, rp.distribution);
         glyph = rp.glyph;
     }
     

@@ -65,7 +65,7 @@ public abstract class Potion extends Consumable{
      * @param idd Whether the Consumable is identified.
      */
     public Potion(PotionProfile pp, boolean idd){
-        super(pp.getName(), pp.getDescription(), pp.getImage(), idd);
+        super(pp.getName(), pp.getDescription(), pp.getImageIcon(), idd);
         description.layers[0] += idd ? "\n\n" + PotionProfile.bareProfileMap.get(pp.getName()).getDescription().layers[0] : "\n\nWho knows what will happen when drunk or thrown?";
         actions[2] = new ItemAction("DRINK");
         unknownName = pp.unknownName;

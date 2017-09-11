@@ -12,6 +12,7 @@ import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -34,7 +35,7 @@ public class ImageUtils{
             ((Apparatus) i).draw(g, x+(sqwidth-16)/2,
                     y+(sqheight-16)/2);
         }else{
-            g.drawImage(i.icon, x+(sqwidth-16)/2,
+            g.drawImage(i.icon.getImage(), x+(sqwidth-16)/2,
                     y+(sqheight-16)/2, null);
         }
         g.setColor(Color.white);
@@ -108,11 +109,13 @@ public class ImageUtils{
         return img;
     }
     
-    public static BufferedImage addImageBuffer(Image image){
-        BufferedImage bi = new BufferedImage(image.getWidth(null), image.getHeight(null),
+    public static BufferedImage addImageBuffer(ImageIcon image){
+        Image img = image.getImage();
+        if(img instanceof BufferedImage) return (BufferedImage) img;
+        BufferedImage bi = new BufferedImage(image.getIconWidth(), image.getIconHeight(),
             BufferedImage.TYPE_INT_ARGB);
         Graphics g = bi.createGraphics();
-        g.drawImage(image, 0, 0, null);
+        g.drawImage(img, 0, 0, null);
         g.dispose();
         return bi;
     }

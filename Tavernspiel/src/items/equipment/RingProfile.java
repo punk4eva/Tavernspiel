@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.util.HashMap;
+import javax.swing.ImageIcon;
 import logic.Distribution;
 import logic.Utils;
 import logic.Utils.Unfinished;
@@ -114,7 +115,7 @@ public class RingProfile extends ItemProfile{
         glyph = g;
         distribution = dist;
         durability = dur;
-        image = im;
+        image = new ImageIcon(im);
         description = new Description("amulets", desc);
     }
     

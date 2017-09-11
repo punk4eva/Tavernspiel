@@ -17,6 +17,7 @@ import level.Location;
 import logic.Distribution;
 import logic.Gas;
 import logic.ImageHandler;
+import logic.Utils.Unfinished;
 
 /**
  *
@@ -28,13 +29,14 @@ public class TrapBuilder{
         return new Chasm(area.map[y-1][x].name, loc);
     }
     
-    public static Trap getTrap(String tr, Area area, Handler handler){
+    @Unfinished
+    public static Trap getTrap(String tr, Location location, Handler handler){
         if(isGaseous(tr)){
-            Gas g = getToxicGas(area, handler); //@unfinished
-            return new Trap(tr, area.location, g);
+            Gas g = getToxicGas(location, handler); //@unfinished
+            return new Trap(tr, location, g);
         }else{
             Buff b = new Buff("-1"); //@unfinished
-            return new Trap(tr, area.location, b);
+            return new Trap(tr, location, b);
         }
     }
     
@@ -42,16 +44,16 @@ public class TrapBuilder{
         return str.contains("yellow")||str.contains("green");
     }
     
-    public static Gas getToxicGas(Area area, Handler handler){
+    @Unfinished
+    public static Gas getToxicGas(Location location, Handler handler){
         Buff b = new Buff("toxic gas", 1);
         b.damageDistribution = new Distribution(/**
                 area.location.stageSpawnDistrib.incrementor-1, 
                 area.location.stageSpawnDistrib.incrementor+1*/
         5, 6);              
         GameObjectAnimator a = new GameObjectAnimator(new String[]{"placeholder"},
-                new Animation[]{new Animation(ImageHandler.getWaterFrames(area.location, 0))}); //@unfinished, placeholder
-        return new Gas("Toxic Gas", new Description("gas", "A poisonous green vapour."), b, a, 7, 
-                area, handler);
+                new Animation[]{new Animation(ImageHandler.getWaterFrames(location, 0))}); //@unfinished, placeholder
+        return new Gas("Toxic Gas", new Description("gas", "A poisonous green vapour."), b, a, 7, handler);
     }
     
     public static Receptacle getRandomReceptacle(Item i, int x, int y){  

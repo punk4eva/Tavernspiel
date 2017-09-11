@@ -8,7 +8,6 @@ import items.equipment.Artifact;
 import items.equipment.HeldWeapon;
 import items.equipment.Ring;
 import java.awt.Graphics;
-import java.awt.Image;
 import javax.swing.ImageIcon;
 import logic.Distribution;
 import logic.Formula;
@@ -86,7 +85,7 @@ public class Apparatus extends Item{
      * @param dur The durability of the Apparatus.
      * @param a The Distribution associated with this Apparatus.
      */
-    public Apparatus(String n, Description desc, Image i, int dur, Distribution a){
+    public Apparatus(String n, Description desc, ImageIcon i, int dur, Distribution a){
         super(n, desc, i, false);
         durability = dur;
         maxDurability = dur;
@@ -174,7 +173,7 @@ public class Apparatus extends Item{
     @Override
     @Unfinished("Animate glyph")
     public void draw(Graphics g, int x, int y){
-        g.drawImage(icon, x, y, null);
+        g.drawImage(icon.getImage(), x, y, null);
         if(glyph!=null && (!glyph.unremovable || glyph.isKnownToBeCursed)){
             
         }

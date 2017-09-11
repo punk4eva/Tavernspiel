@@ -36,7 +36,7 @@ public class Chestplate extends Apparatus{
      * @param st The strength.
      */
     public Chestplate(Item i, int dur, Distribution d, int st){
-        super(i.name, i.description, new ImageIcon(i.icon), dur, d, st);
+        super(i.name, i.description, i.icon, dur, d, st);
         description.type = "armour";
     }
     

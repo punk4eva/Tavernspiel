@@ -1,7 +1,7 @@
 
 package tiles;
 
-import java.awt.Image;
+import javax.swing.ImageIcon;
 import level.Location;
 import logic.ImageHandler;
 
@@ -11,9 +11,9 @@ import logic.ImageHandler;
  */
 public class Door extends HiddenTile{
     
-    protected final Image open;
-    protected final Image closed;
-    protected final Image locked;
+    protected final ImageIcon open;
+    protected final ImageIcon closed;
+    protected final ImageIcon locked;
     protected boolean isLocked = false;
     protected boolean isOpen = false;
     
