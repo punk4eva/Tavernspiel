@@ -76,9 +76,14 @@ public class ImageHandler{
     }
     
     public static ImageIcon getImage(String str, Location loc){
-        return getImage(
-                map.get(str.toLowerCase())==null ?
-                new Dimension(240, 48) : map.get(str.toLowerCase()), loc);
+        str = str.toLowerCase();
+        ImageIcon img = loc.tilemap.get(str);
+        if(img!=null) return img;
+        img = getImage(
+                map.get(str)==null ?
+                new Dimension(240, 48) : map.get(str), loc);
+        loc.tilemap.put(str, img);
+        return img;
     }
     
     public static ImageIcon getImage(Dimension dim, Location loc){

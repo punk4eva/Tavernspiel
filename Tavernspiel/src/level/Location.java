@@ -2,9 +2,9 @@
 package level;
 
 import creatureLogic.CreatureDistribution;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.util.HashMap;
 import javax.swing.ImageIcon;
 import logic.Distribution;
 
@@ -27,6 +27,7 @@ public class Location implements Serializable{
     protected CreatureDistribution[] spawnDistribution;
     protected boolean waterBeforeGrass = true;
     public final String backgroundMusicPath;
+    public final HashMap<String, ImageIcon> tilemap = new HashMap<>();
     
     /**
      * Creates a new instance.
