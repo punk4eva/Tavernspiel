@@ -3,7 +3,6 @@ package animation;
 
 import gui.MainClass;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
 import level.Location;
@@ -23,6 +22,7 @@ public class Animation implements Serializable{
     public final ImageIcon[] frames;
     private AnimationListener listener;
     protected long offset = 0;
+    protected long delay = 1;
     
     /**
      * Creates an Animation from the given frames.
@@ -68,7 +68,7 @@ public class Animation implements Serializable{
      * @param y The top left y.
      */
     public void animate(Graphics g, int x, int y){
-        int m = (int)((MainClass.frameNumber-offset)%frames.length);
+        int m = (int)((MainClass.frameNumber/delay-offset)%frames.length);
         double z = MainClass.getZoom();
         if(z==1.0) g.drawImage(frames[m].getImage(), x, y, null);
         else g.drawImage(frames[m].getImage().getScaledInstance((int)(16*z),(int)(16*z),0), x, y, null);
