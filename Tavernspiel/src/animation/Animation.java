@@ -22,7 +22,7 @@ public class Animation implements Serializable{
     public final ImageIcon[] frames;
     private AnimationListener listener;
     protected long offset = 0;
-    protected long delay = 1;
+    protected double delay = 1;
     
     /**
      * Creates an Animation from the given frames.
