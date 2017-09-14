@@ -267,6 +267,20 @@ public class RoomBuilder{
         //room.spawnUncounted(CreatureBuilder.piranha(loc));
         return room;
     }
+    
+    public static Room stalagnate(Location location, Handler handler){
+        Room room = Room.genStandard(location, handler);
+        room.addDoors();
+        for(int y=1;y<room.dimension.height-1;y++){
+            for(int x=1;x<room.dimension.width-1;x++){
+                if(Distribution.chance(1, 7)){
+                    if(Distribution.chance(1, 10)) room.map[y][x] = new Tile("specialwall", location);
+                    else room.map[y][x] = new Tile("wall", location);
+                }
+            }
+        }
+        return room;
+    }
                     
             
     
