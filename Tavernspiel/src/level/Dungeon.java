@@ -30,7 +30,7 @@ public class Dungeon implements Serializable{
         handler = hand;
         stages = new Stage[5];
         stages[0] = new Stage(new Location("Shkoder", "shkoderTileset", "water", "Cyanoshrooms.wav"), 5, new String[]{"The upper level of the caves"}, null);
-        stages[0].areas[0] = RoomBuilder.standard(stages[0].location, handler); depth=0;stages[0].loadedLevel=3;
+        stages[0].areas[0] = RoomBuilder.maze(stages[0].location, 25, 25); depth=0;stages[0].loadedLevel=3;
     }
     
     /**

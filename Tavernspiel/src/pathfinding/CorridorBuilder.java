@@ -1,7 +1,6 @@
 
 package pathfinding;
 
-import gui.Handler;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,7 +17,6 @@ import tiles.Tile;
 public class CorridorBuilder{
     
     private final Area area;
-    private final Handler handler;
     
     private final class WanderingCorridorAlgorithm extends Searcher{
         
@@ -77,10 +75,9 @@ public class CorridorBuilder{
         
     }
     
-    public CorridorBuilder(Area a, Handler hand){
+    public CorridorBuilder(Area a){
         area = a;
         if(area.graph==null) area.graph = new Graph(area);
-        handler = hand;
     }
     
     private void extend(Point p, boolean hor){

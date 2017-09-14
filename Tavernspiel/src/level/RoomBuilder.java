@@ -10,6 +10,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 import logic.Distribution;
 import logic.Utils.Unfinished;
+import pathfinding.MazeBuilder;
 import tiles.AnimatedTile;
 import tiles.Chasm;
 import tiles.Door;
@@ -279,6 +280,12 @@ public class RoomBuilder{
                 }
             }
         }
+        return room;
+    }
+    
+    public static Room maze(Location loc, int width, int height){
+        Room room = new Room(new Dimension(width, height), loc);
+        new MazeBuilder(room, 0, 0, width, height);
         return room;
     }
                     
