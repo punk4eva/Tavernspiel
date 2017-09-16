@@ -1,6 +1,7 @@
 
 package ai;
 
+import creatureLogic.Attack;
 import creatures.Creature;
 import creatures.Hero;
 import creatures.Hero.EnClass;
@@ -22,16 +23,22 @@ public class AIPlayerActions extends AIBaseActions{
             c.attributes.dexterity / Math.pow(1.5, c.equipment.strengthDifference(c.attributes.strength)) : 
             c.attributes.dexterity / (c.equipment.strengthDifference(c.attributes.strength)<0 ? Math.pow(1.5, c.equipment.strengthDifference(c.attributes.strength)) : 1);}
     
-    public void attack(Hero attacker, Creature attacked){
-        if(successfulHit(attacker, attacked)){
-            attacked.getAttacked(attacker, attacker.nextHit()); 
+    @Override
+    public void attack(Attack attack, Creature attacked){
+        if(successfulHit(attack, attacked)){
+            attacked.getAttacked(attack); 
         }
     }
     
-    public static boolean successfulHit(Creature attacker, Hero attacked){
-        double attackerAccuracy = accuracyCalculation.calc(attacker);
+    /**
+     * Tests whether a hit was successful.
+     * @param attack
+     * @param attacked
+     * @return True if it was, false if not.
+     */
+    public static boolean successfulHit(Attack attack, Hero attacked){
         double attackedDexterity = dexterityCalculation.calc(attacked);
-        return Distribution.randomDouble(0, attackerAccuracy) >=
+        return Distribution.randomDouble(0, attack.accuracy) >=
                 Distribution.randomDouble(0, attackedDexterity);
     }
     

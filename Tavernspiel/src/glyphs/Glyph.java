@@ -1,6 +1,8 @@
 
 package glyphs;
 
+import creatureLogic.Attack.AttackType;
+import creatureLogic.Description;
 import gui.MainClass;
 import java.awt.Color;
 import java.awt.Image;
@@ -18,10 +20,12 @@ public class Glyph implements Serializable{
     private final static long serialVersionUID = 68907276;
     
     public String name;
+    public Description description;
     public Image overlay1;
     public Image overlay2;
     public double level = 0.5;
     public Distribution action;
+    public AttackType attackType;
     public boolean unremovable = false;
     public boolean isKnownToBeCursed = false;
     protected int hueR1, hueR2, hueG1, hueG2, hueB1, hueB2;

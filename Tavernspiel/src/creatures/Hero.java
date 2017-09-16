@@ -5,6 +5,7 @@ import animation.GameObjectAnimator;
 import buffs.Buff;
 import containers.Equipment;
 import containers.Inventory;
+import creatureLogic.Attack;
 import creatureLogic.Attributes;
 import creatureLogic.DeathData;
 import creatureLogic.Description;
@@ -16,7 +17,6 @@ import gui.Viewable;
 import gui.Window;
 import java.awt.Graphics;
 import java.util.LinkedList;
-import level.Area;
 import listeners.DeathEvent;
 import listeners.ScreenListener;
 
@@ -75,7 +75,6 @@ public class Hero extends Creature implements Viewable{
      * Creates a new Hero.
      * @param atb The attributes.
      * @param an The animator.
-     * @param ac The area.
      */
     public Hero(Attributes atb, GameObjectAnimator an){
         super("Hero", new Description("hero","UNWRITTEN"), atb, an);
@@ -124,12 +123,12 @@ public class Hero extends Creature implements Viewable{
     }
     
     @Override
-    public void getAttacked(Creature c, int damage){
-        attributes.hp -= damage;
+    public void getAttacked(Attack attack){
+        attributes.hp -= attack.damage;
         if(attributes.hp<=0){
             if(inventory.contains("ankh")){
                 throw new UnsupportedOperationException("Not supported yet!");
-            }else die(c);
+            }else die(attack.attacker);
         }
     }
     

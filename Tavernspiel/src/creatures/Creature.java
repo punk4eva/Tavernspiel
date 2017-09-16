@@ -6,6 +6,7 @@ import animation.GameObjectAnimator;
 import buffs.Buff;
 import containers.Equipment;
 import containers.Inventory;
+import creatureLogic.Attack;
 import creatureLogic.Attributes;
 import creatureLogic.Description;
 import gui.MainClass;
@@ -109,16 +110,15 @@ public class Creature extends GameObject implements BuffListener, Comparable<Cre
     
     /**
      * Handles attacks. 
-     * @param attacker The attacking Creature.
-     * @param damage The damage dealt.
+     * @param attack The attack.
      */
-    public void getAttacked(Creature attacker, int damage){
-        attributes.hp -= damage;
+    public void getAttacked(Attack attack){
+        attributes.hp -= attack.damage;
         if(attributes.hp<=0){
             if(inventory.contains("ankh")){
                 throw new UnsupportedOperationException("Not supported yet!");
             }else{
-                attacker.gainXP(attributes.xpOnDeath);
+                attack.attacker.gainXP(attributes.xpOnDeath);
                 die();
             }
         }

@@ -4,6 +4,7 @@ package ai;
 import ai.IntelligentAI1.EnState;
 import containers.Floor;
 import containers.PurchasableHeap;
+import creatureLogic.Attack;
 import creatures.Creature;
 import creatures.Hero;
 import exceptions.ReceptacleOverflowException;
@@ -127,36 +128,34 @@ public class AIBaseActions implements Serializable{
     
     /**
      * A creature attacks another creature.
-     * @param attacker
+     * @param attack 
      * @param attacked
      */
-    public void attack(Creature attacker, Creature attacked){
-        if(successfulHit(attacker, attacked)){
-            attacked.getAttacked(attacker, attacker.nextHit()); 
+    public void attack(Attack attack, Creature attacked){
+        if(successfulHit(attack, attacked)){
+            attacked.getAttacked(attack); 
         }
     }
     
     /**
      * When a creature attacks a Hero.
-     * @param attacker 
+     * @param attack
      * @param attacked
      */
-    public void attack(Creature attacker, Hero attacked){
-        if(AIPlayerActions.successfulHit(attacker, attacked)){
-            attacked.getAttacked(attacker, attacker.nextHit()); 
-        }
+    public void attack(Attack attack, Hero attacked){
+        if(AIPlayerActions.successfulHit(attack, attacked))
+            attacked.getAttacked(attack);
     }
     
     /**
      * Calculates whether a hit was successful.
-     * @param attacker
+     * @param attack
      * @param attacked
      * @return true if is was, false if not.
      */
-    public boolean successfulHit(Creature attacker, Creature attacked){
-        double attackerAccuracy = accuracyCalculation.calc(attacker);
+    public boolean successfulHit(Attack attack, Creature attacked){
         double attackedDexterity = dexterityCalculation.calc(attacked);
-        return Distribution.randomDouble(0, attackerAccuracy) >=
+        return Distribution.randomDouble(0, attack.accuracy) >=
                 Distribution.randomDouble(0, attackedDexterity);
     }
     
