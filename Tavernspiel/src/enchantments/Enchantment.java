@@ -23,22 +23,11 @@ public class Enchantment implements Serializable{
     public Description description;
     public Image overlay1;
     public Image overlay2;
-    public double level = 0.5;
+    public double level; //A double from 0 to 1.
     public Distribution action;
-    public AttackType attackType;
     public boolean unremovable = false;
     public boolean isKnownToBeCursed = false;
     protected int hueR1, hueR2, hueG1, hueG2, hueB1, hueB2;
-    
-    /**
-     * Creates a new instance.
-     * @param s The name.
-     * @param d The action distribution.
-     */
-    public Enchantment(String s, Distribution d){
-        name = s;
-        action = d;
-    }
     
     /**
      * Creates a new instance.

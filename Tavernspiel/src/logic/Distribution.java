@@ -24,7 +24,7 @@ public class Distribution implements Serializable{
     }
     
     public Distribution(int l, int u){
-        outputs = new double[] {l, u};
+        outputs = new double[]{l, u};
     }
     
     public Distribution(double[] out){
