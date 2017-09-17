@@ -2,7 +2,7 @@
 package items.equipment;
 
 import creatureLogic.Description;
-import glyphs.Glyph;
+import enchantments.Enchantment;
 import items.ItemProfile;
 import static items.ItemProfile.shade;
 import java.awt.Color;
@@ -25,7 +25,7 @@ public class RingProfile extends ItemProfile{
     private static final RingDescriptionBuilder rdb = new RingDescriptionBuilder();
     protected int durability;
     protected Distribution distribution;
-    protected Glyph glyph;
+    protected Enchantment glyph;
     @Unfinished
     private static final HashMap<String, RingProfile> bareRingMap = new HashMap<>(); //maps name of ring with stats.
     static{
@@ -86,7 +86,7 @@ public class RingProfile extends ItemProfile{
             return ret;
         }
         
-        RingProfile getProfile(String name, int type, int dur, Distribution dist, Glyph g){
+        RingProfile getProfile(String name, int type, int dur, Distribution dist, Enchantment g){
             String bandColour = colour(type);
             switch(type){
                 case 0: case 3://plain or transparent
@@ -110,7 +110,7 @@ public class RingProfile extends ItemProfile{
         return rdb.getProfile(name, Distribution.r.nextInt(4), bp.durability, bp.distribution, bp.glyph);
     }
     
-    RingProfile(String nm, String desc, BufferedImage im, int dur, Distribution dist, Glyph g){
+    RingProfile(String nm, String desc, BufferedImage im, int dur, Distribution dist, Enchantment g){
         name = nm;
         glyph = g;
         distribution = dist;

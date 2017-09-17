@@ -101,16 +101,16 @@ public class Item implements Serializable{
         switch(level){
             case 2:
                 try{
-                    return ((Apparatus) this).glyph.unremovable ?
+                    return ((Apparatus) this).enchantment.unremovable ?
                             ("cursed " + ret) : ("enchanted " + ret);
                 }catch(ClassCastException | NullPointerException e){
                     //do nothing
                 }
             case 3:
                 try{
-                    return ((Apparatus) this).glyph.unremovable ?
-                            ("cursed " + ret + " of " + ((Apparatus) this).glyph.name) :
-                            (ret + " of " + ((Apparatus) this).glyph.name);
+                    return ((Apparatus) this).enchantment.unremovable ?
+                            ("cursed " + ret + " of " + ((Apparatus) this).enchantment.name) :
+                            (ret + " of " + ((Apparatus) this).enchantment.name);
                 }catch(ClassCastException | NullPointerException e){
                     //do nothing
                 }
@@ -118,11 +118,11 @@ public class Item implements Serializable{
                 String add = ((Apparatus) this).level==0 ? "" : ((Apparatus) this).level<0 ? ""+((Apparatus) this).level
                             : "+"+((Apparatus) this).level;
                 try{
-                    return ((Apparatus) this).glyph.unremovable ?
+                    return ((Apparatus) this).enchantment.unremovable ?
                             ("cursed " + ret + add + " of " +
-                            ((Apparatus) this).glyph.name) :
+                            ((Apparatus) this).enchantment.name) :
                             (ret + ((Apparatus) this).level + " of " +
-                            ((Apparatus) this).glyph.name);
+                            ((Apparatus) this).enchantment.name);
                 }catch(NullPointerException e){
                     return ret + add;
                 }
@@ -160,8 +160,8 @@ public class Item implements Serializable{
     public boolean hasKnownCurse(){
         if(cursed==null || !cursed){
             boolean b = this instanceof Apparatus && 
-                ((Apparatus)this).glyph!=null &&
-                ((Apparatus)this).glyph.isKnownToBeCursed;
+                ((Apparatus)this).enchantment!=null &&
+                ((Apparatus)this).enchantment.isKnownToBeCursed;
             cursed = b;
             return b;
         }

@@ -1,5 +1,5 @@
 
-package glyphs;
+package enchantments;
 
 import creatureLogic.Attack.AttackType;
 import creatureLogic.Description;
@@ -15,7 +15,7 @@ import logic.Distribution;
  * 
  * Represents enchantments on weapons, armour, and effects on rings
  */
-public class Glyph implements Serializable{
+public class Enchantment implements Serializable{
     
     private final static long serialVersionUID = 68907276;
     
@@ -35,7 +35,7 @@ public class Glyph implements Serializable{
      * @param s The name.
      * @param d The action distribution.
      */
-    public Glyph(String s, Distribution d){
+    public Enchantment(String s, Distribution d){
         name = s;
         action = d;
     }
@@ -46,7 +46,7 @@ public class Glyph implements Serializable{
      * @param d The action distribution.
      * @param u Whether the glyph is unremovable (AKA a curse).
      */
-    public Glyph(String s, Distribution d, boolean u){
+    public Enchantment(String s, Distribution d, boolean u){
         name = s;
         action = d;
         unremovable = u;
@@ -58,7 +58,7 @@ public class Glyph implements Serializable{
      * @param d The action distribution.
      * @param l The level.
      */
-    public Glyph(String s, Distribution d, double l){
+    public Enchantment(String s, Distribution d, double l){
         name = s;
         action = d;
         level = l;
@@ -71,7 +71,7 @@ public class Glyph implements Serializable{
      * @param l The level.
      * @param u Whether the glyph is unremovable (AKA a curse).
      */
-    public Glyph(String s, Distribution d, double l, boolean u){
+    public Enchantment(String s, Distribution d, double l, boolean u){
         name = s;
         action = d;
         level = l;
@@ -92,7 +92,7 @@ public class Glyph implements Serializable{
     
     /**
      * Returns a Color representing the general aura of this glyph.
-     * @return The Colormate of Glyph.getHue1().
+     * @return The Colormate of Enchantment.getHue1().
      */
     public Color getHue2(){
         double progress = (MainClass.frameDivisor-MainClass.frameNumber)/MainClass.frameDivisor;

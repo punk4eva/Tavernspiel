@@ -2,7 +2,7 @@
 package items;
 
 import creatureLogic.Description;
-import glyphs.Glyph;
+import enchantments.Enchantment;
 import gui.MainClass;
 import items.equipment.Artifact;
 import items.equipment.HeldWeapon;
@@ -26,7 +26,7 @@ public class Apparatus extends Item{
     public Formula durabilityFormula;
     public Formula[] actionFormulas;
     public Formula strengthFormula = null; //null if no strength required.
-    public Glyph glyph = null;
+    public Enchantment enchantment = null;
     public int strength = -1;
     public int usesTillIdentify = 20;
     
@@ -108,8 +108,8 @@ public class Apparatus extends Item{
         level++;
         updateFields();
         durability = maxDurability;
-        if(glyph!=null && !(this instanceof Ring || this instanceof Artifact) && (level>11 || Distribution.chance(1, 12-level))){
-            glyph = null;
+        if(enchantment!=null && !(this instanceof Ring || this instanceof Artifact) && (level>11 || Distribution.chance(1, 12-level))){
+            enchantment = null;
             MainClass.messageQueue.add("<html color=\"orange\">Interaction of different types of magic has erased the " + 
                     (this instanceof HeldWeapon ? "enchantment on your weapon!" : "glyph on your armour!"));
         }
@@ -139,16 +139,16 @@ public class Apparatus extends Item{
         switch(level){
             case 2:
                 try{
-                    return glyph.unremovable ?
+                    return enchantment.unremovable ?
                             ("cursed " + ret) : ("enchanted " + ret);
                 }catch(NullPointerException e){
                     //do nothing
                 }
             case 3:
                 try{
-                    return glyph.unremovable ?
-                            ("cursed " + ret + " of " + glyph.name) :
-                            (ret + " of " + glyph.name);
+                    return enchantment.unremovable ?
+                            ("cursed " + ret + " of " + enchantment.name) :
+                            (ret + " of " + enchantment.name);
                 }catch(NullPointerException e){
                     //do nothing
                 }
@@ -156,11 +156,11 @@ public class Apparatus extends Item{
                 String add = this.level==0 ? "" : this.level<0 ? ""+this.level
                             : "+"+this.level;
                 try{
-                    return glyph.unremovable ?
+                    return enchantment.unremovable ?
                             ("cursed " + ret + add + " of " +
-                            glyph.name) :
+                            enchantment.name) :
                             (ret + this.level + " of " +
-                            glyph.name);
+                            enchantment.name);
                 }catch(NullPointerException e){
                     return ret + add;
                 }
@@ -174,7 +174,7 @@ public class Apparatus extends Item{
     @Unfinished("Animate glyph")
     public void draw(Graphics g, int x, int y){
         g.drawImage(icon.getImage(), x, y, null);
-        if(glyph!=null && (!glyph.unremovable || glyph.isKnownToBeCursed)){
+        if(enchantment!=null && (!enchantment.unremovable || enchantment.isKnownToBeCursed)){
             
         }
     }

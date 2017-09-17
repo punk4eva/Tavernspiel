@@ -1,7 +1,7 @@
 
 package items.equipment;
 
-import glyphs.Glyph;
+import enchantments.Enchantment;
 import items.Apparatus;
 import javax.swing.ImageIcon;
 import logic.Distribution;
@@ -21,11 +21,11 @@ public class Ring extends Apparatus{
      * @param ic The image.
      * @param dur The durability.
      * @param a The action distribution.
-     * @param g The Glyph.
+     * @param g The Enchantment.
      */
-    public Ring(String n, String desc, ImageIcon ic, int dur, Distribution a, Glyph g){
+    public Ring(String n, String desc, ImageIcon ic, int dur, Distribution a, Enchantment g){
         super(n, desc, ic, dur, a);
-        glyph = g;
+        enchantment = g;
         description.type = "amulets";
     }
     
@@ -35,7 +35,7 @@ public class Ring extends Apparatus{
      */
     public Ring(RingProfile rp){
         super(rp.getName(), rp.getDescription(), rp.getImageIcon(), rp.durability, rp.distribution);
-        glyph = rp.glyph;
+        enchantment = rp.glyph;
     }
     
 }

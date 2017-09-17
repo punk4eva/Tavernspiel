@@ -2,7 +2,7 @@
 package creatureLogic;
 
 import creatures.Creature;
-import glyphs.Glyph;
+import enchantments.Enchantment;
 
 /**
  *
@@ -13,7 +13,7 @@ public class Attack{
     public final Creature attacker;
     public final int damage;
     public final int accuracy;
-    public final Glyph glyph;
+    public final Enchantment enchantment;
     public final boolean usingMagic;
     public final AttackType type;
     
@@ -29,13 +29,13 @@ public class Attack{
      * @param a The attacker.
      * @param d The damage.
      * @param acc The accuracy.
-     * @param g The Glyph.
+     * @param g The Enchantment.
      */
-    public Attack(Creature a, int d, int acc, Glyph g){
+    public Attack(Creature a, int d, int acc, Enchantment g){
         attacker = a;
         damage = d;
         accuracy = acc;
-        glyph = g;
+        enchantment = g;
         type = g!=null&&g.attackType!=null ? g.attackType : AttackType.PHYSICAL;
         usingMagic = false;
     }
@@ -45,14 +45,14 @@ public class Attack{
      * @param a The attacker.
      * @param d The damage.
      * @param acc The accuracy.
-     * @param g The Glyph.
+     * @param g The Enchantment.
      * @param t The type of attack.
      */
-    public Attack(Creature a, int d, int acc, Glyph g, AttackType t){
+    public Attack(Creature a, int d, int acc, Enchantment g, AttackType t){
         attacker = a;
         damage = d;
         accuracy = acc * 2;
-        glyph = g;
+        enchantment = g;
         type = t;
         usingMagic = true;
     }
