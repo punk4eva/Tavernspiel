@@ -17,14 +17,29 @@ public class Formula implements Serializable{
     public double add = 0;
     public int intMultiply = 1;
     public int intAdd = 0;
+    private final boolean divideMode;
     
     public Formula(double mult, double a){
         multiply = mult;
         add = a;
+        divideMode = false;
     }
     
     public Formula(int multi, int ad){
         intMultiply = multi;
+        intAdd = ad;
+        divideMode = false;
+    }
+    
+    public Formula(double mult, double a, boolean div){
+        multiply = mult;
+        add = a;
+        divideMode = div;
+    }
+    
+    public Formula(int multi, int ad, boolean div){
+        intMultiply = multi;
+        divideMode = div;
         intAdd = ad;
     }
     
@@ -33,14 +48,23 @@ public class Formula implements Serializable{
         intMultiply = multi;
         add = a;
         intAdd = ad;
+        divideMode = false;
+    }
+    
+    public Formula(double mult, double a, int multi, int ad, boolean div){
+        multiply = mult;
+        intMultiply = multi;
+        add = a;
+        divideMode = div;
+        intAdd = ad;
     }
     
     public double getDouble(double x){
-        return (multiply * x) + add;
+        return divideMode ? (multiply / x) + add : (multiply * x) + add;
     }
     
     public int getInt(int x){
-        return (intMultiply * x) + intAdd;
+        return divideMode ? (intMultiply / x) + intAdd : (intMultiply * x) + intAdd;
     }
     
 }

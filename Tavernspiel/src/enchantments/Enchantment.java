@@ -1,7 +1,6 @@
 
 package enchantments;
 
-import creatureLogic.Attack.AttackType;
 import creatureLogic.Description;
 import gui.MainClass;
 import java.awt.Color;
@@ -15,12 +14,13 @@ import logic.Distribution;
  * 
  * Represents enchantments on weapons, armour, and effects on rings
  */
-public class Enchantment implements Serializable{
+public abstract class Enchantment implements Serializable{
     
     private final static long serialVersionUID = 68907276;
     
-    public String name;
-    public Description description;
+    public final String name;
+    public final Description description;
+    public final EnchantmentAffinity affinity;
     public Image overlay1;
     public Image overlay2;
     public double level; //A double from 0 to 1.
@@ -29,43 +29,112 @@ public class Enchantment implements Serializable{
     public boolean isKnownToBeCursed = false;
     protected int hueR1, hueR2, hueG1, hueG2, hueB1, hueB2;
     
+    public enum EnchantmentAffinity{
+        OFFENSIVE, DEFENSIVE, HEALING, FOCUS, SACRIFICIAL, MIND, NULL;
+    }
+    
     /**
      * Creates a new instance.
      * @param s The name.
+     * @param desc The Description.
      * @param d The action distribution.
      * @param u Whether the glyph is unremovable (AKA a curse).
      */
-    public Enchantment(String s, Distribution d, boolean u){
+    public Enchantment(String s, Description desc, Distribution d, boolean u){
         name = s;
+        description = desc;
         action = d;
+        unremovable = u;
+        affinity = EnchantmentAffinity.NULL;
+    }
+    
+    /**
+     * Creates a new instance.
+     * @param s The name.
+     * @param desc The Description.
+     * @param d The action distribution.
+     * @param l The level.
+     */
+    public Enchantment(String s, Description desc, Distribution d, double l){
+        name = s;
+        description = desc;
+        action = d;
+        level = l;
+        affinity = EnchantmentAffinity.NULL;
+    }
+    
+    /**
+     * Creates a new instance.
+     * @param s The name.
+     * @param desc The Description.
+     * @param d The action distribution.
+     * @param l The level.
+     * @param u Whether the glyph is unremovable (AKA a curse).
+     */
+    public Enchantment(String s, Description desc, Distribution d, double l, boolean u){
+        name = s;
+        description = desc;
+        action = d;
+        level = l;
+        affinity = EnchantmentAffinity.NULL;
         unremovable = u;
     }
     
     /**
      * Creates a new instance.
      * @param s The name.
+     * @param desc The Description.
      * @param d The action distribution.
-     * @param l The level.
+     * @param u Whether the glyph is unremovable (AKA a curse).
+     * @param aff The affinity of the Enchantment.
      */
-    public Enchantment(String s, Distribution d, double l){
+    public Enchantment(String s, Description desc, Distribution d, boolean u, EnchantmentAffinity aff){
         name = s;
+        description = desc;
         action = d;
-        level = l;
+        unremovable = u;
+        affinity = aff;
     }
     
     /**
      * Creates a new instance.
      * @param s The name.
+     * @param desc The Description.
+     * @param d The action distribution.
+     * @param l The level.
+     * @param aff The affinity of the Enchantment.
+     */
+    public Enchantment(String s, Description desc, Distribution d, double l, EnchantmentAffinity aff){
+        name = s;
+        description = desc;
+        action = d;
+        level = l;
+        affinity = aff;
+    }
+    
+    /**
+     * Creates a new instance.
+     * @param s The name.
+     * @param desc The Description.
      * @param d The action distribution.
      * @param l The level.
      * @param u Whether the glyph is unremovable (AKA a curse).
+     * @param aff The affinity of the Enchantment.
      */
-    public Enchantment(String s, Distribution d, double l, boolean u){
+    public Enchantment(String s, Description desc, Distribution d, double l, boolean u, EnchantmentAffinity aff){
         name = s;
+        description = desc;
         action = d;
         level = l;
+        affinity = aff;
         unremovable = u;
     }
+    
+    /**
+     * Updates the Enchantment with a new level.
+     * @param lev The new level.
+     */
+    public abstract void update(int lev);
     
     /**
      * Returns a Color representing the general aura of this glyph.
@@ -81,7 +150,7 @@ public class Enchantment implements Serializable{
     
     /**
      * Returns a Color representing the general aura of this glyph.
-     * @return The Colormate of Enchantment.getHue1().
+     * @return An analogous Color of Enchantment.getHue1().
      */
     public Color getHue2(){
         double progress = (MainClass.frameDivisor-MainClass.frameNumber)/MainClass.frameDivisor;

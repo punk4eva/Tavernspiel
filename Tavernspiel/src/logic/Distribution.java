@@ -23,7 +23,7 @@ public class Distribution implements Serializable{
         chances = convert(cha);
     }
     
-    public Distribution(int l, int u){
+    public Distribution(double l, double u){
         outputs = new double[]{l, u};
     }
     
@@ -130,8 +130,8 @@ public class Distribution implements Serializable{
      * @return true if a randomly generated integer between 0 and in is less than
      * chance.
      */
-    public static boolean chance(int chance, int in){
-        return r.nextInt(in)<chance;
+    public static boolean chance(double chance, double in){
+        return r.nextDouble()*in<chance;
     }
     
     /**
@@ -140,7 +140,7 @@ public class Distribution implements Serializable{
      * output[0].
      */
     public boolean chance(){
-        return chance((int)outputs[0], (int)outputs[1]);
+        return r.nextDouble()*outputs[1]<outputs[0];
     }
     
     public void updateFromFormula(int x, Formula... formulas){

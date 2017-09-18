@@ -1,6 +1,7 @@
 
 package enchantments;
 
+import creatureLogic.Description;
 import creatureLogic.Resistance;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,30 +13,59 @@ import logic.Distribution;
  * 
  * An enchantment that can be affixed to armour.
  */
-public class ArmourEnchantment extends Enchantment{
+public abstract class ArmourEnchantment extends Enchantment{
     
     public List<Resistance> resistances;
     
     /**
      * Creates a new instance.
      * @param s The name.
+     * @param desc The Description.
      * @param d The distribution.
      * @param l The level.
      */
-    public ArmourEnchantment(String s, Distribution d, double l){
-        super(s, d, l);
+    public ArmourEnchantment(String s, Description desc, Distribution d, double l){
+        super(s, desc, d, l);
         resistances = new ArrayList<>();
     }
     
     /**
      * Creates a new instance.
      * @param s The name.
+     * @param desc The Description.
      * @param d The distribution.
      * @param l The level.
      * @param r The Resistances provided.
      */
-    public ArmourEnchantment(String s, Distribution d, double l, List<Resistance> r){
-        super(s, d, l);
+    public ArmourEnchantment(String s, Description desc, Distribution d, double l, List<Resistance> r){
+        super(s, desc, d, l);
+        resistances = r;
+    }
+    
+    /**
+     * Creates a new instance.
+     * @param s The name.
+     * @param desc The Description.
+     * @param d The distribution.
+     * @param l The level.
+     * @param aff The affinity of this Enchantment.
+     */
+    public ArmourEnchantment(String s, Description desc, Distribution d, double l, EnchantmentAffinity aff){
+        super(s, desc, d, l, aff);
+        resistances = new ArrayList<>();
+    }
+    
+    /**
+     * Creates a new instance.
+     * @param s The name.
+     * @param desc The Description.
+     * @param d The distribution.
+     * @param l The level.
+     * @param r The Resistances provided.
+     * @param aff The affinity of this Enchantment.
+     */
+    public ArmourEnchantment(String s, Description desc, Distribution d, double l, List<Resistance> r, EnchantmentAffinity aff){
+        super(s, desc, d, l, aff);
         resistances = r;
     }
     

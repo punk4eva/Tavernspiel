@@ -2,6 +2,7 @@
 package enchantments;
 
 import creatureLogic.Attack.AttackType;
+import creatureLogic.Description;
 import logic.Distribution;
 
 /**
@@ -17,8 +18,15 @@ public class EnchantmentOfHoliness extends WeaponEnchantment{
      * @param level The level.
      */
     public EnchantmentOfHoliness(double level){
-        super("Holiness", new Distribution(0, (int)(20*level)),
-                level, AttackType.HOLY);
+        super("Holiness", new Description("enchantments", "The enchantment blesses the weapon with extra holy damage."),
+                new Distribution(0, (int)(20.0*level)),
+                level, AttackType.HOLY, EnchantmentAffinity.HEALING);
+    }
+    
+    @Override
+    public void update(int lev){
+        level = lev;
+        action = new Distribution(0, (int)(level*20.0));
     }
     
 }
