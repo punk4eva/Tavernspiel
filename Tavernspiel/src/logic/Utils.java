@@ -57,6 +57,17 @@ public final class Utils{
         return true;
     }
     
+    /**
+     * Checks if an rgba pixel equals another rgb pixel.
+     * @param p The first pixel.
+     * @param q The second pixel.
+     * @return True if the 1st 3 numbers equal, false if not.
+     */
+    public static boolean alphaColourEquals(int[] p, int[] q){
+        for(int n=0;n<4;n++) if(p[n]!=q[n]) return false;
+        return true;
+    }
+    
     public static int lineCount(String str){
         int count = 1;
         for(int n=0;n<str.length()-1;n++){

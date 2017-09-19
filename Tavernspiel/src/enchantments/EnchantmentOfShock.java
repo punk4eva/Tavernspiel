@@ -8,11 +8,17 @@ import logic.Distribution;
  *
  * @author Adam Whittaker
  */
-public class EnchantmentOfShock extends WeaponEnchantment{
+public final class EnchantmentOfShock extends WeaponEnchantment{
     
     public EnchantmentOfShock(double level){
         super("Shock", new Description("enchantments", "The enchantment sends electric sparks through the opponent's body."),
                 new Distribution(1, 10.0-(level*10.0)), level);
+        hueR2=13;
+        hueG2=166;
+        hueB2=236;
+        hueR1=24;
+        hueG1=80;
+        hueB1=182;
     }
     
     @Override

@@ -9,7 +9,7 @@ import logic.Formula;
  *
  * @author Adam Whittaker
  */
-public class EnchantmentOfExcess extends WeaponEnchantment{
+public final class EnchantmentOfExcess extends WeaponEnchantment{
     
     private Formula damageExtra;
     private int limitHp;
@@ -20,6 +20,12 @@ public class EnchantmentOfExcess extends WeaponEnchantment{
                 null, level);
         damageExtra = new Formula(360.0, 0.0, true);
         limitHp = (int)Math.ceil(72*level);
+        hueR1=76;
+        hueG1=76;
+        hueB1=76;
+        hueR2=165;
+        hueG2=165;
+        hueB2=165;
     }
     
     public int getExtraDamage(int hp){

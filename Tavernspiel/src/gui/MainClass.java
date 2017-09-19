@@ -325,7 +325,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
                     }else g.drawImage(tile.image.getImage(),xz,yz,null);
                 }
                 Receptacle temp = area.getReceptacle(x, y);
-                if(temp instanceof Floor&&!temp.isEmpty()) temp.peek().draw(g, x, y);
+                if(temp instanceof Floor&&!temp.isEmpty()) temp.peek().animation.animate(g, x, y);
             }
         }
     }

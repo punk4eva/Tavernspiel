@@ -31,13 +31,7 @@ public class ImageUtils{
             g.setColor(ConstantFields.unidentifiedColour);
             g.fillRect(x+2, y+2, sqwidth-4, sqheight-4);
         }
-        if(i instanceof Apparatus){
-            ((Apparatus) i).draw(g, x+(sqwidth-16)/2,
-                    y+(sqheight-16)/2);
-        }else{
-            g.drawImage(i.icon.getImage(), x+(sqwidth-16)/2,
-                    y+(sqheight-16)/2, null);
-        }
+        i.animation.animate(g, x+(sqwidth-16)/2, y+(sqheight-16)/2);
         g.setColor(Color.white);
         if(i.quantity!=1) g.drawString(""+i.quantity, x+4, y+4);
     }
@@ -63,6 +57,21 @@ public class ImageUtils{
         ImageIO.write(ret, "png", new File("graphics/image.png"));
     }
     
+    public static BufferedImage buildOverlay(BufferedImage img){
+        BufferedImage ret = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+        WritableRaster retRaster = ret.getRaster(), imgRaster = img.getRaster();
+        for(int y=0;y<16;y++){
+            for(int x=16;x<12;x++){
+                int[] pixel = imgRaster.getPixel(x-16, y, (int[]) null);
+                if(pixel[3]==255){
+                    setTransparentAround(retRaster, x, y);
+                    imgRaster.setPixel(x, y, new int[]{11, 18, 1, 13}); //Mark the pixel wth a unique colour.
+                }
+            }
+        }
+        return ret;
+    }
+    
     public static void setRasterPixel(WritableRaster raster, int x, int y, int R, int G, int B, int A){
         raster.setPixel(x, y, new int[]{R,G,B,A});
     }
@@ -72,7 +81,7 @@ public class ImageUtils{
             for(int x=nx-2;x<=nx+2;x++){
                 try{
                     int[] pixel = raster.getPixel(x-16, y, (int[]) null);
-                    if(pixel[3]==0){
+                    if(pixel[3]!=255){
                         raster.setPixel(x, y, new int[]{13, 1, 18, 11}); //Mark the pixel with unique colour. 
                     }
                 }catch(ArrayIndexOutOfBoundsException e){}

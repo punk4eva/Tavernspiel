@@ -36,7 +36,7 @@ public class Helmet extends Apparatus{
      * @param st The strength.
      */
     public Helmet(Item i, int dur, Distribution d, int st){
-        super(i.name, i.description, i.icon, dur, d, st);
+        super(i.name, i.description, i.animation, dur, d, st);
         description.type = "armour";
     }
     

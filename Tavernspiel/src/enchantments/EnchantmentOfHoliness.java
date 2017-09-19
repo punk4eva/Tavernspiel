@@ -11,7 +11,7 @@ import logic.Distribution;
  * 
  * Adds some more Holy damage on top of an attack.
  */
-public class EnchantmentOfHoliness extends WeaponEnchantment{
+public final class EnchantmentOfHoliness extends WeaponEnchantment{
     
     /**
      * Creates a new instance.
@@ -21,6 +21,12 @@ public class EnchantmentOfHoliness extends WeaponEnchantment{
         super("Holiness", new Description("enchantments", "The enchantment blesses the weapon with extra holy damage."),
                 new Distribution(0, (int)(20.0*level)),
                 level, AttackType.HOLY, EnchantmentAffinity.HEALING);
+        hueR1=190;
+        hueG1=190;
+        hueB1=190;
+        hueR2=237;
+        hueG2=237;
+        hueB2=237;
     }
     
     @Override

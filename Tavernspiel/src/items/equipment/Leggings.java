@@ -36,7 +36,7 @@ public class Leggings extends Apparatus{
      * @param st The strength.
      */
     public Leggings(Item i, int dur, Distribution d, int st){
-        super(i.name, i.description, i.icon, dur, d, st);
+        super(i.name, i.description, i.animation, dur, d, st);
         description.type = "armour";
     }
     

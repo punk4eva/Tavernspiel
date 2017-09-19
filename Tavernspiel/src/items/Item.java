@@ -1,12 +1,13 @@
 
 package items;
 
+import animation.Animation;
+import animation.StillAnimation;
 import creatureLogic.Description;
 import creatures.Creature;
 import creatures.Hero;
 import items.consumables.Potion;
 import items.consumables.Scroll;
-import java.awt.Graphics;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
 import logic.Utils.Unfinished;
@@ -21,7 +22,7 @@ public class Item implements Serializable{
     
     private final static long serialVersionUID = 2289459;
     
-    public ImageIcon icon;
+    public Animation animation;
     public final String name;
     public final Description description;
     public int quantity = 1;
@@ -33,20 +34,20 @@ public class Item implements Serializable{
     public Item(String n, String desc, ImageIcon i){
         name = n;
         description = Description.parseDescription(null, desc);
-        icon = i;
+        animation = new StillAnimation(i);
     }
     
     public Item(String n, String desc, ImageIcon i, int q){
         name = n;
         description = Description.parseDescription(null, desc);
-        icon = i;
+        animation = new StillAnimation(i);
         quantity = q;
     }
     
     public Item(String n, String desc, ImageIcon i, int q, boolean flam){
         name = n;
         description = Description.parseDescription(null, desc);
-        icon = i;
+        animation = new StillAnimation(i);
         quantity = q;
         flammable = flam;
     }
@@ -54,21 +55,28 @@ public class Item implements Serializable{
     public Item(String n, String desc, ImageIcon i, boolean st){
         name = n;
         description = Description.parseDescription(null, desc);
-        icon = i;
+        animation = new StillAnimation(i);
         stackable = st;
     }
     
     public Item(String n, Description desc, ImageIcon i, boolean s){
         name = n;
         description = desc;
-        icon = i;
+        animation = new StillAnimation(i);
+        stackable = s;
+    }
+    
+    public Item(String n, Description desc, Animation i, boolean s){
+        name = n;
+        description = desc;
+        animation = i;
         stackable = s;
     }
     
     public Item(String n, Description desc, ImageIcon i, int q){
         name = n;
         description = desc;
-        icon = i;
+        animation = new StillAnimation(i);
         quantity = q;
     }
     
@@ -190,16 +198,6 @@ public class Item implements Serializable{
             identified = true;
         }
         return true;
-    }
-    
-    /**
-     * Draws this Item at the given coordinates.
-     * @param g The Graphics.
-     * @param x The x coordinate.
-     * @param y The y coordinate.
-     */
-    public void draw(Graphics g, int x, int y){
-        g.drawImage(icon.getImage(), x, y, null);
     }
     
 }

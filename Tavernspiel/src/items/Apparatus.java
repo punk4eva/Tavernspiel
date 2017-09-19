@@ -1,17 +1,17 @@
 
 package items;
 
+import animation.Animation;
+import animation.StillAnimation;
 import creatureLogic.Description;
 import enchantments.Enchantment;
 import gui.MainClass;
 import items.equipment.Artifact;
 import items.equipment.HeldWeapon;
 import items.equipment.Ring;
-import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import logic.Distribution;
 import logic.Formula;
-import logic.Utils.Unfinished;
 
 /**
  *
@@ -26,9 +26,10 @@ public class Apparatus extends Item{
     public Formula durabilityFormula;
     public Formula[] actionFormulas;
     public Formula strengthFormula = null; //null if no strength required.
-    public Enchantment enchantment = null;
+    protected Enchantment enchantment;
     public int strength = -1;
     public int usesTillIdentify = 20;
+    private final ImageIcon imageWithoutEnchantment;
     
     /**
      * Creates a new instance.
@@ -43,6 +44,7 @@ public class Apparatus extends Item{
         durability = dur;
         maxDurability = dur;
         action = a;
+        imageWithoutEnchantment = i;
     }
     
     /**
@@ -52,10 +54,12 @@ public class Apparatus extends Item{
      * @param i The Image of the Item.
      * @param dur The durability of the Apparatus.
      * @param a The Distribution associated with this Apparatus.
+     * @param st The strength requirement.
      */
     public Apparatus(String n, String desc, ImageIcon i, int dur, Distribution a, int st){
         super(n, desc, i, false);
         durability = dur;
+        imageWithoutEnchantment = i;
         maxDurability = dur;
         action = a;
         strength = st;
@@ -68,12 +72,14 @@ public class Apparatus extends Item{
      * @param i The Image of the Item.
      * @param dur The durability of the Apparatus.
      * @param a The Distribution associated with this Apparatus.
+     * @param st The strength requirement.
      */
     public Apparatus(String n, Description desc, ImageIcon i, int dur, Distribution a, int st){
         super(n, desc, i, false);
         durability = dur;
         maxDurability = dur;
         action = a;
+        imageWithoutEnchantment = i;
         strength = st;
     }
     
@@ -90,6 +96,24 @@ public class Apparatus extends Item{
         durability = dur;
         maxDurability = dur;
         action = a;
+        imageWithoutEnchantment = i;
+    }
+    
+    /**
+     * Creates a new instance.
+     * @param n The name of the Item.
+     * @param desc The description of the Item.
+     * @param i The Animation of the Item.
+     * @param dur The durability of the Apparatus.
+     * @param a The Distribution associated with this Apparatus.
+     */
+    public Apparatus(String n, Description desc, Animation i, int dur, Distribution a, int st){
+        super(n, desc, i, false);
+        durability = dur;
+        strength = st;
+        maxDurability = dur;
+        action = a;
+        imageWithoutEnchantment = i.frames[0];
     }
     
     /**
@@ -131,6 +155,12 @@ public class Apparatus extends Item{
         return action.nextInt();
     }
     
+    public void changeEnchantment(Enchantment ench){
+        enchantment = ench;
+        if(ench==null) animation = new StillAnimation(imageWithoutEnchantment);
+        else animation = enchantment.buildAnimation(imageWithoutEnchantment);
+    }
+    
     @Override
     public String toString(int level){
         if(level==0) return getClass().toString().substring(
@@ -168,15 +198,6 @@ public class Apparatus extends Item{
                 break;
         }
         return ret;
-    }
-
-    @Override
-    @Unfinished("Animate glyph")
-    public void draw(Graphics g, int x, int y){
-        g.drawImage(icon.getImage(), x, y, null);
-        if(enchantment!=null && (!enchantment.unremovable || enchantment.isKnownToBeCursed)){
-            
-        }
     }
     
 }

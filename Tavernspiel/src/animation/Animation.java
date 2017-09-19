@@ -34,6 +34,17 @@ public class Animation implements Serializable{
     }
     
     /**
+     * Creates an Animation from the given frames.
+     * @param f The frames.
+     * @param d The delay between each frame.
+     */
+    public Animation(ImageIcon[] f, double d){
+        frames = f;
+        delay = d;
+        MainClass.addAnimation(this);
+    }
+    
+    /**
      * Creates an Animation from the given frames and adds an Animation listener.
      * @param f The frames.
      * @param al The listener that is interested in when this animation finishes
@@ -47,9 +58,11 @@ public class Animation implements Serializable{
     
     /**
      * Creates a still image Animation.
-     * @param icon
+     * @param icon The Icon.
+     * @deprecated
+     * Only for use with StillAnimation
      */
-    public Animation(ImageIcon icon){
+    protected Animation(ImageIcon icon){
         frames = new ImageIcon[]{icon};
     }
     

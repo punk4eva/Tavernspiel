@@ -1,12 +1,20 @@
 
 package enchantments;
 
+import animation.Animation;
 import creatureLogic.Description;
 import gui.MainClass;
+import static items.ItemProfile.shade;
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
 import java.io.Serializable;
+import javax.swing.ImageIcon;
 import logic.Distribution;
+import logic.ImageHandler;
+import logic.ImageUtils;
+import logic.Utils;
 
 /**
  *
@@ -21,13 +29,14 @@ public abstract class Enchantment implements Serializable{
     public final String name;
     public final Description description;
     public final EnchantmentAffinity affinity;
-    public Image overlay1;
-    public Image overlay2;
+    public ImageIcon overlay;
     public double level; //A double from 0 to 1.
     public Distribution action;
     public boolean unremovable = false;
     public boolean isKnownToBeCursed = false;
     protected int hueR1, hueR2, hueG1, hueG2, hueB1, hueB2;
+    private final static int[] hue1Regex = new int[]{11, 18, 1, 13}, 
+        hue2Regex = new int[]{13, 1, 18, 11};
     
     public enum EnchantmentAffinity{
         OFFENSIVE, DEFENSIVE, HEALING, FOCUS, SACRIFICIAL, MIND, NULL;
@@ -137,27 +146,56 @@ public abstract class Enchantment implements Serializable{
     public abstract void update(int lev);
     
     /**
-     * Returns a Color representing the general aura of this glyph.
-     * @return the Color.
+     * Returns a colour representing this Enchantment.
+     * @param n The progress of the animation.
+     * @return An int array representing the color.
      */
-    public Color getHue1(){
-        double progress = MainClass.frameNumber/MainClass.frameDivisor;
-        int R = (int)(((double)hueR2-hueR1)*progress)+hueR1;
-        int G = (int)(((double)hueG2-hueG1)*progress)+hueG1;
-        int B = (int)(((double)hueB2-hueB1)*progress)+hueB1;
-        return new Color(R, G, B, 128);
+    protected int[] getHue1(double n){
+        double mult = n/9.0;
+        int R = (int)(((double)hueR2-hueR1)*mult)+hueR1;
+        int G = (int)(((double)hueG2-hueG1)*mult)+hueG1;
+        int B = (int)(((double)hueB2-hueB1)*mult)+hueB1;
+        return new int[]{R, G, B, 128};
+    }
+
+    /**
+     * Returns a colour representing this Enchantment.
+     * @param n The progress of the animation.
+     * @return An int array representing the color analogous to getHue1().
+     */
+    protected int[] getHue2(double n){
+        double mult = ((n+5)%10)/9.0;
+        int R = (int)(((double)hueR2-hueR1)*mult)+hueR1;
+        int G = (int)(((double)hueG2-hueG1)*mult)+hueG1;
+        int B = (int)(((double)hueB2-hueB1)*mult)+hueB1;
+        return new int[]{R, G, B, 128};
+    }
+    
+    private ImageIcon outfitImage(ImageIcon img, int i){
+        BufferedImage ret = ImageUtils.addImageBuffer(img);
+        WritableRaster raster = ret.getRaster();
+        int[] hue1 = getHue1(i);
+        int[] hue2 = getHue2(i);
+        for(int y=0;y<16;y++){
+            for(int x=0;x<16;x++){
+                int[] pixel = raster.getPixel(x, y, (int[]) null);
+                if(Utils.alphaColourEquals(pixel, hue1Regex)) raster.setPixel(x, y, hue1);
+                else if(Utils.alphaColourEquals(pixel, hue2Regex)) raster.setPixel(x, y, hue2);
+            }
+        }
+        return new ImageIcon(ret);
     }
     
     /**
-     * Returns a Color representing the general aura of this glyph.
-     * @return An analogous Color of Enchantment.getHue1().
+     * Builds an Animation with hue change.
+     * @param img The Image to overlay.
+     * @return The Animation.
      */
-    public Color getHue2(){
-        double progress = (MainClass.frameDivisor-MainClass.frameNumber)/MainClass.frameDivisor;
-        int R = (int)(((double)hueR2-hueR1)*progress)+hueR1;
-        int G = (int)(((double)hueG2-hueG1)*progress)+hueG1;
-        int B = (int)(((double)hueB2-hueB1)*progress)+hueB1;
-        return new Color(R, G, B, 128);
+    public Animation buildAnimation(ImageIcon img){
+        if(overlay==null) overlay = new ImageIcon(ImageUtils.buildOverlay(ImageUtils.addImageBuffer(img)));
+        ImageIcon[] icons = new ImageIcon[10];
+        for(int n=0;n<10;n++) icons[n] = ImageHandler.combineIcons(img, outfitImage(overlay, n));
+        return new Animation(icons, 10);
     }
     
 }
