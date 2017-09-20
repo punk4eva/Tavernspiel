@@ -7,6 +7,7 @@ import gui.Screen.ScreenEvent;
 import java.awt.Color;
 import java.awt.Graphics;
 import listeners.ScreenListener;
+import logic.ConstantFields;
 import logic.Utils;
 
 /**
@@ -81,16 +82,16 @@ public class Dialogue implements ScreenListener{
     public void paint(Graphics g){
         int beginHeight = (MainClass.HEIGHT-height)/2;
         int beginWidth = MainClass.WIDTH/3;
-        g.setColor(Color.gray);
+        g.setColor(ConstantFields.backColor);
         g.fill3DRect(beginWidth, beginHeight, beginWidth, height, false);
-        g.setColor(Color.magenta);
+        g.setColor(ConstantFields.frontColor);
         for(int n=0;n<options.length;n++){
             g.fill3DRect(padding+beginWidth, 
                     beginHeight+heightOfQuestion+2*padding+(36+padding)*n, 
                     beginWidth-2*padding, 
                     36, true);
         }
-        g.setColor(Color.yellow);
+        g.setColor(ConstantFields.textColor);
         g.drawString(question, 2*padding+beginWidth, beginHeight+2*padding);
         for(int n=0;n<options.length;n++){
             g.drawString(options[n], 

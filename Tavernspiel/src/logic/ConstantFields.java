@@ -18,6 +18,10 @@ public interface ConstantFields{
     public static final Color unidentifiedColour = new Color(129, 35, 160, 40);
     public static final Color cursedColour = new Color(210, 0, 0, 40);
     
+    public static final Color textColor = Color.YELLOW;
+    public static final Color backColor = Color.GRAY;
+    public static final Color frontColor = Color.MAGENTA;
+    
     public static final Image helmetOutline = new ImageIcon("").getImage(); //@unfinished
     public static final Image chestplateOutline = new ImageIcon("").getImage(); //@unfinished
     public static final Image leggingsOutline = new ImageIcon("").getImage(); //@unfinished
