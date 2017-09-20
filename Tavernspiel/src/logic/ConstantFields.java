@@ -2,6 +2,7 @@
 package logic;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import javax.swing.ImageIcon;
 
@@ -21,6 +22,7 @@ public interface ConstantFields{
     public static final Color textColor = Color.YELLOW;
     public static final Color backColor = Color.GRAY;
     public static final Color frontColor = Color.MAGENTA;
+    public static final Font textFont = new Font(Font.SERIF, Font.PLAIN, 18);
     
     public static final Image helmetOutline = new ImageIcon("").getImage(); //@unfinished
     public static final Image chestplateOutline = new ImageIcon("").getImage(); //@unfinished

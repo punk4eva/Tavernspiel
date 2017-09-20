@@ -1,6 +1,7 @@
 
 package gui;
 
+import dialogues.PauseMenu;
 import animation.Animation;
 import containers.Floor;
 import containers.Receptacle;
@@ -65,7 +66,6 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public static long frameNumber = 0;
     public static double gameTurns = 0;
     
-    public PauseMenu pm= new PauseMenu();
     private class ViewableList{
         
         private final List<Viewable> viewables = new LinkedList<>();

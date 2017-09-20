@@ -1,6 +1,7 @@
 
 package gui;
 
+import dialogues.PauseMenu;
 import level.Area;
 import level.Dungeon;
 import listeners.DepthListener;
@@ -27,6 +28,7 @@ public class Game extends MainClass implements DepthListener{
     
     public static void main(String... args){
         Game game = new Game();
+        new PauseMenu().next(game);
     }
 
     @Override

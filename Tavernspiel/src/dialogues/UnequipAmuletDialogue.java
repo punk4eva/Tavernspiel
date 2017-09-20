@@ -31,7 +31,7 @@ public class UnequipAmuletDialogue extends Dialogue{
     /**
      * Returns which item to unequip.
      * @param game The MainClass to act upon.
-     * @return The index of the unequiped Item.
+     * @return The index of the unequipped Item.
      */
     public int next(MainClass game){
         String ret = super.action(game).getName();

@@ -4,7 +4,6 @@ package dialogues;
 import gui.MainClass;
 import gui.Screen;
 import gui.Screen.ScreenEvent;
-import java.awt.Color;
 import java.awt.Graphics;
 import listeners.ScreenListener;
 import logic.ConstantFields;
@@ -82,6 +81,7 @@ public class Dialogue implements ScreenListener{
     public void paint(Graphics g){
         int beginHeight = (MainClass.HEIGHT-height)/2;
         int beginWidth = MainClass.WIDTH/3;
+        g.setFont(ConstantFields.textFont);
         g.setColor(ConstantFields.backColor);
         g.fill3DRect(beginWidth, beginHeight, beginWidth, height, false);
         g.setColor(ConstantFields.frontColor);
