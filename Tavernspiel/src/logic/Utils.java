@@ -1,8 +1,12 @@
 
 package logic;
 
+import gui.Screen;
+import guiUtils.CComponent;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 import static logic.Distribution.r;
 
 /**
@@ -21,6 +25,16 @@ public final class Utils{
             ary[i] = a;
         }
         return ary;
+    }
+
+    public static Screen[] getScreens(CComponent[] comp){
+        List<Screen> screens = new LinkedList<>();
+        for(CComponent cc : comp) screens.addAll(Arrays.asList(cc.getScreens()));
+        return screens.toArray(new Screen[screens.size()]);
+    }
+    
+    public static int roundToClosest(float d, int increment){
+        return Math.round(d/(float)increment)*increment;
     }
     
     private Utils(){}

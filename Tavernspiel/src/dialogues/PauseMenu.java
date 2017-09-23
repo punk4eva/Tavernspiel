@@ -11,7 +11,7 @@ import gui.Game;
 public class PauseMenu extends Dialogue{
     
     public PauseMenu(){
-        super("PAUSE", "offCase", false, "Resume", "Options", "Exit to menu");
+        super("PAUSE", "offCase", false, "Resume", "How to play", "Options", "Exit to menu");
     }
     
     /**
@@ -23,6 +23,9 @@ public class PauseMenu extends Dialogue{
         switch(ret){
             case "Options":
                 new OptionsMenu().next(game);
+                break;
+            case "How to play":
+                new InstructionsMenu().next(game);
                 break;
             case "Exit to menu":
                 game.save();

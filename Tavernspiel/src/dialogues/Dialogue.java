@@ -4,7 +4,11 @@ package dialogues;
 import gui.MainClass;
 import gui.Screen;
 import gui.Screen.ScreenEvent;
+import guiUtils.CButton;
+import guiUtils.CComponent;
+import guiUtils.CSlider;
 import java.awt.Graphics;
+import java.util.LinkedList;
 import listeners.ScreenListener;
 import logic.ConstantFields;
 import logic.Utils;
@@ -18,7 +22,7 @@ import logic.Utils;
 public class Dialogue implements ScreenListener{
     
     final String question;
-    final String[] options;
+    final CComponent[] options;
     private ScreenEvent clickedScreen;
     private final Screen[] screenArray;
     private final ScreenEvent offCase;
@@ -34,12 +38,12 @@ public class Dialogue implements ScreenListener{
      * @param opt The options.
      */
     public Dialogue(String quest, ScreenEvent off, String... opt){
-        options = opt;
-        offCase = off;
         question = Utils.lineFormat(quest, 20);
         heightOfQuestion = 12*Utils.lineCount(question);
-        height = 2*padding + heightOfQuestion + (36+padding)*options.length;
-        screenArray = getScreens();
+        height = 2*padding + heightOfQuestion + (36+padding)*opt.length;
+        options = getButtons(opt);
+        offCase = off;
+        screenArray = convertCComponents(options);
     }
     
     /**
@@ -49,12 +53,12 @@ public class Dialogue implements ScreenListener{
      * @param opt The options.
      */
     public Dialogue(String quest, String off, String... opt){
-        options = opt;
-        offCase = new ScreenEvent(off);
         question = Utils.lineFormat(quest, 20);
         heightOfQuestion = 12*Utils.lineCount(question);
-        height = 2*padding + heightOfQuestion + (36+padding)*options.length;
-        screenArray = getScreens();
+        height = 2*padding + heightOfQuestion + (36+padding)*opt.length;
+        options = getButtons(opt);
+        offCase = new ScreenEvent(off);
+        screenArray = convertCComponents(options);
     }
     
     /**
@@ -65,13 +69,31 @@ public class Dialogue implements ScreenListener{
      * @param opt The options.
      */
     public Dialogue(String quest, String off, boolean click, String... opt){
-        options = opt;
-        clickOffable = click;
-        offCase = new ScreenEvent(off);
         question = Utils.lineFormat(quest, 20);
         heightOfQuestion = 12*Utils.lineCount(question);
-        height = 2*padding + heightOfQuestion + (36+padding)*options.length;
-        screenArray = getScreens();
+        height = 2*padding + heightOfQuestion + (36+padding)*opt.length;
+        options = getButtons(opt);
+        clickOffable = click;
+        offCase = new ScreenEvent(off);
+        screenArray = convertCComponents(options);
+    }
+    
+    /**
+     * Creates a new Dialogue with the given options.
+     * @param quest The question.
+     * @param off What happens if the user clicks away.
+     * @param click Sets whether the user can click away.
+     * @param opt The interactables.
+     */
+    public Dialogue(String quest, String off, boolean click, CComponent... opt){
+        question = Utils.lineFormat(quest, 20);
+        heightOfQuestion = 12*Utils.lineCount(question);
+        height = 2*padding + heightOfQuestion + (36+padding)*opt.length;
+        options = opt;
+        dressCComponents();
+        clickOffable = click;
+        offCase = new ScreenEvent(off);
+        screenArray = Utils.getScreens(opt);
     }
     
     /**
@@ -85,24 +107,15 @@ public class Dialogue implements ScreenListener{
         g.setColor(ConstantFields.backColor);
         g.fill3DRect(beginWidth, beginHeight, beginWidth, height, false);
         g.setColor(ConstantFields.frontColor);
-        for(int n=0;n<options.length;n++){
-            g.fill3DRect(padding+beginWidth, 
-                    beginHeight+heightOfQuestion+2*padding+(36+padding)*n, 
-                    beginWidth-2*padding, 
-                    36, true);
-        }
+        for(CComponent cc : options) cc.paint(g);
         g.setColor(ConstantFields.textColor);
         g.drawString(question, 2*padding+beginWidth, beginHeight+2*padding);
-        for(int n=0;n<options.length;n++){
-            g.drawString(options[n], 
-                    2*padding+beginWidth, 
-                    beginHeight+heightOfQuestion+5*padding+(36+padding)*n);
-        }
     }
     
     private void activate(MainClass main){
         main.changeCurrentDialogue(this);
-        for(Screen sc : screenArray) main.addScreen(sc);
+        for(Screen sc : screenArray) if(sc instanceof CSlider.CSliderHandle) main.addDraggable(sc);
+        else main.addScreen(sc);
     }
     
     private void deactivate(MainClass main){
@@ -140,24 +153,39 @@ public class Dialogue implements ScreenListener{
         if(clickOffable) notify();
     }
 
+    private CButton[] getButtons(String[] strs){
+        CButton[] ary = new CButton[strs.length];
+        int beginWidth = MainClass.WIDTH/3;
+        int beginHeight = (MainClass.HEIGHT-height)/2;
+        for(int n=0;n<ary.length;n++){
+            ary[n] = new CButton(strs[n], 
+                    padding+beginWidth, 
+                    2*padding+heightOfQuestion+(36+padding)*n+beginHeight, 
+                    padding, this);
+        }
+        return ary;
+    }
+    
     /**
      * Gets the screens associated with this Dialogue.
      * @return The Screens.
      */
-    public final Screen[] getScreens(){
-        Screen[] ary = new Screen[options.length+1];
+    public final Screen[] getScreenArray(){
+        return screenArray;
+    }
+    
+    private Screen[] convertCComponents(CComponent[] ary){
+        LinkedList<Screen> lst = new LinkedList<>();
+        for(CComponent cc : ary) lst.add((CButton)cc);
+        lst.add(new Screen("blank click", MainClass.WIDTH/3, (MainClass.HEIGHT-height)/2, MainClass.WIDTH/3, 36, this));
+        return lst.toArray(new Screen[lst.size()]);
+    }
+    
+    private void dressCComponents(){
         int beginWidth = MainClass.WIDTH/3;
         int beginHeight = (MainClass.HEIGHT-height)/2;
-        for(int n=0;n<ary.length-1;n++){
-            System.out.println(n + ": " + options[n]);
-            ary[n] = new Screen(options[n], 
-                    padding+beginWidth, 
-                    2*padding+heightOfQuestion+(36+padding)*n+beginHeight, 
-                    beginWidth-2*padding, 
-                    36, this);
-        }
-        ary[ary.length-1] = new Screen("blank click", beginWidth, beginHeight, beginWidth, 36, this);
-        return ary;
+        for(int n=0;n<options.length;n++) options[n].setTopLeft(padding+beginWidth, 
+                    2*padding+heightOfQuestion+(36+padding)*n+beginHeight);
     }
     
 }

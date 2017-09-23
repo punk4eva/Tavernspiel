@@ -1,7 +1,9 @@
 
 package gui;
 
+import dialogues.Dialogue;
 import dialogues.PauseMenu;
+import guiUtils.CSlider;
 import level.Area;
 import level.Dungeon;
 import listeners.DepthListener;
@@ -28,7 +30,7 @@ public class Game extends MainClass implements DepthListener{
     
     public static void main(String... args){
         Game game = new Game();
-        new PauseMenu().next(game);
+        new Dialogue("Dialogue", "offCase", false, new CSlider("Temperature", 0, 0, 1, 5, 1)).action(game);
     }
 
     @Override

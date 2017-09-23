@@ -1,7 +1,6 @@
 
 package gui;
 
-import dialogues.PauseMenu;
 import animation.Animation;
 import containers.Floor;
 import containers.Receptacle;
@@ -70,6 +69,8 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         
         private final List<Viewable> viewables = new LinkedList<>();
         final List<Screen> screens = new LinkedList<>();
+        final List<Screen> draggables = new LinkedList<>();
+        private Screen lastDragged;
         
         void removeTopViewable(){
             Viewable top = viewables.remove(viewables.size()-1);
@@ -80,6 +81,11 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
             screens.removeAll(viewables.get(viewables.size()-1).getScreenList());
             viewables.add(viewable);
             screens.addAll(viewable.getScreenList());
+        }
+        
+        void addDraggable(Screen lst){
+            if(draggables.isEmpty()) lastDragged = lst;
+            draggables.add(lst);
         }
         
         boolean viewablesEmpty(){
@@ -129,6 +135,14 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
      */
     public void addViewable(Viewable viewable){
         viewables.addViewable(viewable);
+    }
+    
+    /**
+     * Adds a Viewable to the display.
+     * @param scs
+     */
+    public void addDraggable(Screen scs){
+        viewables.addDraggable(scs);
     }
     
     /**
@@ -362,8 +376,9 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
             
         }else{
             boolean notClicked = true;
+            int x = me.getX(), y = me.getY();
             for(Screen sc : viewables.screens){ //Used for-each instead of stream because of "break".
-                if(sc.withinBounds(me.getX(), me.getY())){
+                if(sc.withinBounds(x, y)){
                     if(!sc.name.equals("blank click")){
                         sc.wasClicked(me);
                         notClicked = false;
@@ -378,7 +393,17 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public void mousePressed(MouseEvent me){/**Ignore*/}
     @Override
     public void mouseReleased(MouseEvent me){
-        if(xOfDrag!=-1){
+        if(!viewables.draggables.isEmpty()){
+            int x = me.getX(), y = me.getY();
+            if(viewables.lastDragged.withinBounds(x,y)) viewables.lastDragged.wasClicked(me);
+            else for(Screen sc : viewables.draggables){
+                if(sc.withinBounds(x, y)){
+                    viewables.lastDragged = sc;
+                    sc.wasClicked(me);
+                    break;
+                }
+            }
+        }else if(xOfDrag!=-1){
             xOfDrag = -1;
         }
     }
@@ -399,7 +424,17 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
 
     @Override
     public void mouseDragged(MouseEvent me){
-        if(currentDialogue == null && viewables.viewables.size() <= 1){
+        if(!viewables.draggables.isEmpty()){
+            int x = me.getX(), y = me.getY();
+            if(viewables.lastDragged.withinBounds(x,y)) viewables.lastDragged.wasClicked(me);
+            else for(Screen sc : viewables.draggables){
+                if(sc.withinBounds(x, y)){
+                    viewables.lastDragged = sc;
+                    sc.wasClicked(me);
+                    break;
+                }
+            }
+        }else if(currentDialogue == null && viewables.viewables.size() <= 1){
             if(xOfDrag == -1){
                 xOfDrag = me.getX() - focusX;
                 yOfDrag = me.getY() - focusY;        
