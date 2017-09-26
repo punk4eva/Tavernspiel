@@ -43,8 +43,6 @@ public abstract class AITemplate implements Serializable{
      * @param c The creature who owns this AI.
      * @param area The area that the creature is in.
      */
-    public void turn(Creature c, Area area){
-        throw new UnsupportedOperationException("Unfinished AITemplate.turn()");
-    }
+    public abstract void turn(Creature c, Area area);
     
 }

@@ -58,7 +58,6 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public Area currentArea;
     private static int focusX=16, focusY=16;
     private int xOfDrag=-1, yOfDrag=-1;
-    private String clickMode = "normal";
     private static double zoom = 1.0;
     public static final double MAX_ZOOM = 8.0, MIN_ZOOM = 0.512;
     public static long frameDivisor = 10000;
@@ -226,6 +225,17 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public static int[] getFocus(){
         return new int[]{focusX, focusY};
     }
+    
+    /**
+     * Sets the focus based on the tile coordinates.
+     * @param tilex
+     * @param tiley
+     */
+    public void setFocus(int tilex, int tiley){
+        int z = (int)(8*zoom);
+        focusX = WIDTH/2 - z - tilex * 16;
+        focusY = HEIGHT/2 - z - tiley * 16;
+    }
 
     @Override
     public void run(){
@@ -334,12 +344,10 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
                 int yz = (int)(y*zoom);
                 if(tile instanceof AnimatedTile)
                     ((AnimatedTile) tile).animation.animate(g, xz, yz);
-                else{
-                    if(zoom!=1){
-                        int l = (int)(16*zoom);
-                        g.drawImage(tile.image.getImage().getScaledInstance(l, l, 0),xz,yz,null);
-                    }else g.drawImage(tile.image.getImage(),xz,yz,null);
-                }
+                else if(zoom!=1){
+                    int l = (int)(16*zoom);
+                    g.drawImage(tile.image.getImage().getScaledInstance(l, l, 0),xz,yz,null);
+                }else g.drawImage(tile.image.getImage(),xz,yz,null);
                 Receptacle temp = area.getReceptacle(x, y);
                 if(temp instanceof Floor&&!temp.isEmpty()) temp.peek().animation.animate(g, x, y);
             }

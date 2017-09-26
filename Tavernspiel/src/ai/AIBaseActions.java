@@ -46,21 +46,12 @@ public class AIBaseActions implements Serializable{
     
     
     /**
-     * Moves a creature in the given direction;
+     * Moves a creature in the given direction.
      * @param c The creature to be moved.
-     * @param directionCode The [N,NE,E,SE,S,SW,W,NW] -> [1-8] direction.
+     * @param dir The displacement vector of movement.
      */
-    public void move(Creature c, int directionCode){
-        switch(directionCode){
-            case 1: c.setXY(c.x-1, c.y-1);
-            case 2: c.setY(c.y-1);
-            case 3: c.setXY(c.x+1, c.y-1);
-            case 4: c.setX(c.x-1);
-            case 5: c.setX(c.x+1);
-            case 6: c.setXY(c.x-1, c.y+1);
-            case 7: c.setY(c.y-1);
-            default: c.setXY(c.x+1, c.x+1);
-        }
+    public void move(Creature c, Integer[] dir){
+        c.setXY(c.x+dir[0], c.y+dir[1]);
         c.changeAnimation("move");
         if(c.attributes.ai.destinationx==c.x&&c.attributes.ai.destinationy==c.y){
             c.changeAnimation("stand");
