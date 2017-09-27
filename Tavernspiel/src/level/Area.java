@@ -266,4 +266,19 @@ public class Area implements Serializable{
         return objects.stream().filter(ob -> ob instanceof Gas && ob.y==y && ob.x==x).count()>0;
     }
     
+    /**
+     * Tests if a Creature can step on a given coordinate.
+     * @param x
+     * @param y
+     * @return true if it is, false if not.
+     */
+    public boolean tileFree(int x, int y){
+        boolean stood = true;
+        for(GameObject ob : objects) if(!(ob instanceof Gas) && ob.x==x && ob.y==y){
+            stood = false;
+            break;
+        }
+        return stood&&map[y][x].treadable;
+    }
+    
 }

@@ -2,7 +2,6 @@
 package gui;
 
 import dialogues.Dialogue;
-import dialogues.PauseMenu;
 import guiUtils.CSlider;
 import level.Area;
 import level.Dungeon;
