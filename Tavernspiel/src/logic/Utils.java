@@ -33,8 +33,13 @@ public final class Utils{
         return screens.toArray(new Screen[screens.size()]);
     }
     
-    public static int roundToClosest(float d, int increment){
-        return Math.round(d/(float)increment)*increment;
+    public static int roundToClosest(float d, int increment, double intersection){
+        return aboveAssist(d/(float)increment, intersection)*increment;
+    }
+    
+    private static int aboveAssist(double d, double inter){
+        if((d-Math.floor(d))<inter) return (int)Math.floor(d);
+        return (int)Math.ceil(d);
     }
     
     private Utils(){}

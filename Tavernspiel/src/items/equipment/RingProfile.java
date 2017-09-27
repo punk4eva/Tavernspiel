@@ -111,12 +111,10 @@ public class RingProfile extends ItemProfile{
     }
     
     RingProfile(String nm, String desc, BufferedImage im, int dur, Distribution dist, Enchantment g){
-        name = nm;
+        super(nm, new ImageIcon(im), new Description("amulets", desc));
         glyph = g;
         distribution = dist;
         durability = dur;
-        image = new ImageIcon(im);
-        description = new Description("amulets", desc);
     }
     
 }

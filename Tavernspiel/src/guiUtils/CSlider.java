@@ -8,7 +8,6 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import listeners.ScreenListener;
-import logic.ImageUtils;
 import logic.Utils;
 
 /**
@@ -74,7 +73,7 @@ public class CSlider implements CComponent, ScreenListener{
         }
         
         private int getX(){
-            int rounded = Utils.roundToClosest(12+tlx-TLX, (BRX-TLX)/(numberSlots));
+            int rounded = Utils.roundToClosest(12+tlx-TLX, (BRX-TLX)/(numberSlots), 1.0-0.05*(double)numberSlots);
             return rounded+TLX-12;
         }
         

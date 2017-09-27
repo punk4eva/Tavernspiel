@@ -30,7 +30,7 @@ public class Game extends MainClass implements DepthListener{
     
     public static void main(String... args){
         Game game = new Game();
-        new Dialogue("Dialogue", "offCase", false, new CSlider("Temperature", 0, 0, 1, 5, 1)).action(game);
+        new Dialogue("Dialogue", "offCase", false, new CSlider("Temperature", 0, 0, 2, 5, 1)).action(game);
     }
 
     @Override
