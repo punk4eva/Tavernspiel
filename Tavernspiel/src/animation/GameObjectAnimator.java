@@ -3,6 +3,7 @@ package animation;
 
 import creatures.Creature;
 import gui.MainClass;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
@@ -58,7 +59,7 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
      */
     public GameObjectAnimator(ImageIcon icon){
         names = new String[]{"default"};
-        animations = new Animation[]{new Animation(icon)};
+        animations = new Animation[]{new StillAnimation(icon)};
         active = animations[0];
     }
     
@@ -83,6 +84,7 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
             count+=lengths[n];
             animations[n] = new Animation(sublist.toArray(new ImageIcon[lengths[n]]), this);
         }
+        active = animations[0];
     }
     
     /**
@@ -178,6 +180,10 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
             ret[n] = new ImageIcon(ImageUtils.fade(bi, 245-10*n));
         }
         return new Animation(ret, this); 
+    }
+    
+    public void animate(Graphics g, int x, int y){
+        active.animate(g, x, y);
     }
     
 }

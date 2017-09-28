@@ -10,10 +10,10 @@ import creatureLogic.Attack;
 import creatureLogic.Attributes;
 import creatureLogic.Description;
 import gui.MainClass;
+import gui.Window;
 import items.equipment.HeldWeapon;
 import java.awt.Graphics;
 import java.util.LinkedList;
-import level.Area;
 import listeners.BuffEvent;
 import listeners.BuffListener;
 import logic.Distribution;
@@ -184,7 +184,8 @@ public class Creature extends GameObject implements BuffListener, Comparable<Cre
 
     @Override
     public void render(Graphics g){
-        //@unfinished
+        int[] focus = MainClass.getFocus();
+        animator.animate(g, x*16+focus[0], y*16+focus[1]);
     }
     
     public void setXY(int nx, int ny){

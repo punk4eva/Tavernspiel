@@ -1,11 +1,16 @@
 
 package gui;
 
+import animation.GameObjectAnimator;
+import creatureLogic.Attributes;
+import creatures.Hero;
 import dialogues.Dialogue;
 import guiUtils.CSlider;
+import javax.swing.ImageIcon;
 import level.Area;
 import level.Dungeon;
 import listeners.DepthListener;
+import logic.ImageUtils;
 import logic.Utils.Unfinished;
 
 /**
@@ -29,7 +34,13 @@ public class Game extends MainClass implements DepthListener{
     
     public static void main(String... args){
         Game game = new Game();
-        new Dialogue("Dialogue", "offCase", false, new CSlider("Temperature", 0, 0, 2, 5, 1)).action(game);
+        GameObjectAnimator goa = new GameObjectAnimator(ImageUtils.addImageBuffer(new ImageIcon("graphics/spritesheets/tree.png")),
+                new String[]{"stand", "move", "attack", "die"}, new int[]{2, 4, 8, 5});
+        Hero hero = new Hero(new Attributes(), goa);
+        hero.x = 1;
+        hero.y = 1;
+        Window.main.currentArea.addObject(hero);
+        //new Dialogue("Dialogue", "offCase", false, new CSlider("Temperature", 0, 0, 2, 5, 1)).action(game);
     }
 
     @Override

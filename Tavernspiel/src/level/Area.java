@@ -8,6 +8,7 @@ import exceptions.AreaCoordsOutOfBoundsException;
 import exceptions.ReceptacleOverflowException;
 import items.Item;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -279,6 +280,12 @@ public class Area implements Serializable{
             break;
         }
         return stood&&map[y][x].treadable;
+    }
+    
+    public void renderObjects(Graphics g){
+        objects.stream().forEach(ob -> {
+            ob.render(g);
+        });
     }
     
 }
