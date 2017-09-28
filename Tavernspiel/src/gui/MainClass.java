@@ -30,6 +30,7 @@ import logic.Utils;
 import logic.Utils.Unfinished;
 import pathfinding.Point;
 import tiles.AnimatedTile;
+import tiles.Door;
 import tiles.Tile;
 
 

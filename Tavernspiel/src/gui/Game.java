@@ -4,8 +4,6 @@ package gui;
 import animation.GameObjectAnimator;
 import creatureLogic.Attributes;
 import creatures.Hero;
-import dialogues.Dialogue;
-import guiUtils.CSlider;
 import javax.swing.ImageIcon;
 import level.Area;
 import level.Dungeon;

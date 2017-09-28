@@ -1,15 +1,17 @@
 
 package tiles;
 
+import creatures.Creature;
 import javax.swing.ImageIcon;
 import level.Location;
+import listeners.StepListener;
 import logic.ImageHandler;
 
 /**
  *
  * @author Adam Whittaker
  */
-public class Door extends HiddenTile{
+public class Door extends HiddenTile implements StepListener{
     
     protected final ImageIcon open;
     protected final ImageIcon closed;
@@ -63,6 +65,15 @@ public class Door extends HiddenTile{
     public void close(){
         isOpen = false;
         image = closed;
+    }
+
+    @Override
+    public void steppedOn(Creature c){
+        open();
+    }
+
+    public void stepOff(Creature c){
+        if(c.area.getReceptacle(c.x, c.y)==null) close();
     }
     
 }

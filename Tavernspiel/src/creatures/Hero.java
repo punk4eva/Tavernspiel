@@ -1,6 +1,7 @@
 
 package creatures;
 
+import ai.PlayerAI;
 import animation.GameObjectAnimator;
 import buffs.Buff;
 import containers.Equipment;
@@ -46,6 +47,7 @@ public class Hero extends Creature implements Viewable{
     @Catch("Unnessesary catch")
     public Hero(Attributes atb, GameObjectAnimator an){
         super("Hero", new Description("hero","UNWRITTEN"), atb, an);
+        attributes.ai = new PlayerAI(this);
         try{data = new DeathData(this);}catch(Exception e){}
         //screens = getScreens();
         screens = null;
@@ -66,6 +68,7 @@ public class Hero extends Creature implements Viewable{
     public Hero(int id, Equipment eq, Inventory inv, int hung, DeathData da, EnClass j, EnSubclass sub, Attributes atb, LinkedList<Buff> bs){
         super("Hero", new Description("hero","UNWRITTEN"), id, eq, inv, atb, bs);
         hunger = hung;
+        attributes.ai = new PlayerAI(this);
         job = j;
         subclass = sub;
         data = da;

@@ -17,8 +17,10 @@ import items.equipment.Wand;
 import java.io.Serializable;
 import java.util.ArrayList;
 import level.Area;
+import listeners.StepListener;
 import logic.Distribution;
 import pathfinding.Point;
+import tiles.Door;
 import tiles.HiddenTile;
 
 /**
@@ -51,10 +53,14 @@ public class AIBaseActions implements Serializable{
      * @param dir The displacement vector of movement.
      */
     public void move(Creature c, Integer[] dir){
+        if(c.area.map[c.y][c.x] instanceof Door) ((Door)c.area.map[c.y][c.x]).stepOff(c);
         c.setXY(c.x+dir[0], c.y+dir[1]);
         c.changeAnimation("move");
         if(c.attributes.ai.destinationx==c.x&&c.attributes.ai.destinationy==c.y){
             c.changeAnimation("stand");
+        }
+        if(c.area.map[c.y][c.x] instanceof StepListener){
+            ((StepListener)c.area.map[c.y][c.x]).steppedOn(c);
         }
     }
     
@@ -189,6 +195,10 @@ public class AIBaseActions implements Serializable{
             }
         }
         Window.main.searchAnimation(ary, searchSuccessful);
+    }
+    
+    public boolean canMove(Creature c, Integer[] dir){
+        return c.area.tileFree(c.x+dir[0], c.y+dir[1]);
     }
     
 }
