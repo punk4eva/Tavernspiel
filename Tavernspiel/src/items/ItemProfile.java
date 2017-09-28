@@ -23,9 +23,9 @@ public abstract class ItemProfile{
     protected String name;
     protected Description description;
     
-    protected ItemProfile(ImageIcon i, String n, Description desc){
+    protected ItemProfile(String nm, ImageIcon i, Description desc){
+        name = nm;
         image = i;
-        name = n;
         description = desc;
     }
     
