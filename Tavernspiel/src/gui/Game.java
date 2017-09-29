@@ -38,7 +38,7 @@ public class Game extends MainClass implements DepthListener{
         hero.x = 1;
         hero.y = 1;
         Window.main.currentArea.addObject(hero);
-        //new Dialogue("Dialogue", "offCase", false, new CSlider("Temperature", 0, 0, 2, 5, 1)).action(game);
+        //new Dialogue("Dialogue", "offCase", false, new CSlider("Temperature", 0, 0, 1, 5, 1)).action(game);
     }
 
     @Override

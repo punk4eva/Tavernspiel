@@ -1,7 +1,6 @@
 
-package creatures;
+package creatureLogic;
 
-import creatureLogic.Expertise;
 
 /**
  *
@@ -9,20 +8,23 @@ import creatureLogic.Expertise;
  */
 public enum EnClass{
     
-    NoClass (new Expertise()),
-    Warrior (new Expertise(1,0,0,2,1,0,0), new EnSubclass[]{EnSubclass.Berserker, EnSubclass.Gladiator}),
-    Mage (new Expertise(0,1,2,0,0,2,1), new EnSubclass[]{EnSubclass.Battlemage, EnSubclass.Warlock}),
+    NoClass (new Expertise(), new Attributes()),
+    Warrior (new Expertise(1,0,0,2,1,0,0), new Attributes(null,1,1,1.1,1,0.025,20,10,0), new EnSubclass[]{EnSubclass.Berserker, EnSubclass.Gladiator}),
+    Mage (new Expertise(0,1,2,0,0,2,1), new Attributes(null,1,1,1,1,0.025,20,10,0), new EnSubclass[]{EnSubclass.Battlemage, EnSubclass.Warlock}),
     Rogue (new Expertise(1,1,1,1,1,0,2), new EnSubclass[]{EnSubclass.Freerunner, EnSubclass.Assassin}),
     Huntress (new Expertise(2,1,0,0,1,0,1), new EnSubclass[]{EnSubclass.Warden, EnSubclass.Sniper}),
-    Summoner (new Expertise(2,1,1,0,0,1,0), new EnSubclass[]{EnSubclass.Corruptor, EnSubclass.Necromancer});
+    Summoner (new Expertise(2,1,1,0,0,1,0), new EnSubclass[]{EnSubclass.Corruptor, EnSubclass.Necromancer}),
+    Paladin (new Expertise(1,0,0,2,2,0,0), new EnSubclass[]{EnSubclass.Knight, EnSubclass.Cleric});
 
     
     protected final EnSubclass[] possibleSubclasses;
     protected final Expertise expertiseGained;
+    protected final Attributes attributes; 
     
-    EnClass(Expertise e, EnSubclass... subclasses){
+    EnClass(Expertise e, Attributes atb, EnSubclass... subclasses){
         expertiseGained = e;
         possibleSubclasses = subclasses;
+        attributes = atb;
     }
     
     
@@ -34,13 +36,16 @@ public enum EnClass{
         Battlemage (new Expertise(0,0,0,1,1,0,0), "Not finished"), Warlock (new Expertise(1,1,0,0,0,0,1), "Not finished"),
         Freerunner (new Expertise(0,0,1,1,0,0,0), "Not finished"), Assassin (new Expertise(1,0,0,0,1,0,0), "Not finished"),
         Warden (new Expertise(0,1,1,0,0,0,0), "Not finished"), Sniper (new Expertise(0,0,0,0,1,1,1), "Not finished"),
-        Corruptor (new Expertise(0,1,1,0,0,1,0), "Not finished"), Necromancer (new Expertise(0,1,1,0,0,0,1), "Not finished");
+        Corruptor (new Expertise(0,1,1,0,0,1,0), "Not finished"), Necromancer (new Expertise(0,1,1,0,0,0,1), "Not finished"),
+        Cleric (new Expertise(0,0,0,0,0,1,1), "Not finished"), Knight (new Expertise(1,1,0,0,0,0,0), "Not finished");
         
         protected final String description;
         protected final Expertise expertiseGained;
-        EnSubclass(Expertise e, String desc){
+        protected final Attributes attributes;
+        EnSubclass(Expertise e, Attributes atb, String desc){
             expertiseGained = e;
             description = desc;
+            attributes = atb;
         }
     }
     
