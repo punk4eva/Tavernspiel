@@ -3,7 +3,6 @@ package tiles;
 
 import buffs.Buff;
 import creatures.Creature;
-import level.Area;
 import level.Location;
 import listeners.StepListener;
 import logic.Gas;
@@ -16,6 +15,7 @@ import logic.ImageHandler;
 public class Trap extends HiddenTile implements StepListener{
     
     public boolean reusable = false;
+    public boolean used = false;
     private Gas sprayedGas = null; //null if there is no gas.
     private Buff buff = null; //null if there is no buff.
     
@@ -47,11 +47,11 @@ public class Trap extends HiddenTile implements StepListener{
     
     @Override
     public void steppedOn(Creature c){
+        if(used) return;
         if(buff!=null) c.buffs.add(buff);
         else c.area.addObject(sprayedGas);
         if(!reusable){
-            sprayedGas = null;
-            buff = null;
+            used = true;
             image = ImageHandler.getImage("offtrap", c.area.location);
         }
     }

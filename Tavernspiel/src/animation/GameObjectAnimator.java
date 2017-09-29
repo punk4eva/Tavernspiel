@@ -82,7 +82,13 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
         for(int n=0;n<animations.length;n++){
             List<ImageIcon> sublist = imgList.subList(count, count+lengths[n]);
             count+=lengths[n];
-            animations[n] = new Animation(sublist.toArray(new ImageIcon[lengths[n]]), this);
+            animations[n] = new Animation(sublist.toArray(new ImageIcon[lengths[n]]), 170, this);
+        }
+        for(int n=0;n<names.length;n++){
+            if(names[n].equals("stand")){
+                animations[n] = new RandomAnimation(animations[n], 30);
+                break;
+            }
         }
         active = animations[0];
     }
