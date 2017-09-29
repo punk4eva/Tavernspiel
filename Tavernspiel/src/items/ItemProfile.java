@@ -32,7 +32,7 @@ public abstract class ItemProfile{
         g.dispose();
     }
     
-    protected abstract class DescriptionBuilder{
+    protected static abstract class DescriptionBuilder{
         protected final Random r = new Random();
         protected String description = "";
         public final String[] colour = {"apple green", "aquamarine", "apricot",
