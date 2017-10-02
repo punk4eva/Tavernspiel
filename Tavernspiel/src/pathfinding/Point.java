@@ -18,15 +18,15 @@ public class Point implements Serializable{
     int currentCost = Integer.MAX_VALUE;
     boolean isCorridor = false;
     static enum Direction{
-        START(0, x->x, y->y),
-        UNCHECKED(-1, x->-1, y->-1),
-        NORTHWEST(1, x->x-1, y->y-1),
+        //START(0, x->x, y->y),
+        //UNCHECKED(-1, x->-1, y->-1),
+        //NORTHWEST(1, x->x-1, y->y-1),
         NORTH(2, x->x, y->y-1),
-        NORTHEAST(3, x->x+1, y->y-1),
+        //NORTHEAST(3, x->x+1, y->y-1),
         EAST(5, x->x-1, y->y),
-        SOUTHEAST(8, x->x+1, y->y+1),
+        //SOUTHEAST(8, x->x+1, y->y+1),
         SOUTH(7, x->x, y->y+1), 
-        SOUTHWEST(6, x->x+1, y->y+1),
+        //SOUTHWEST(6, x->x+1, y->y+1),
         WEST(4, x->x-1, y->y);
         
         int code;
@@ -47,14 +47,14 @@ public class Point implements Serializable{
         
         public Direction polar(){
             switch(this){
-                case NORTHWEST: return SOUTHEAST;
-                case SOUTHEAST: return NORTHWEST;
+                //case NORTHWEST: return SOUTHEAST;
+                //case SOUTHEAST: return NORTHWEST;
                 case NORTH: return SOUTH;
                 case SOUTH: return NORTH;
                 case WEST: return EAST;
                 case EAST: return WEST;
-                case NORTHEAST: return SOUTHWEST;
-                case SOUTHWEST: return NORTHEAST;
+                //case NORTHEAST: return SOUTHWEST;
+                //case SOUTHWEST: return NORTHEAST;
                 default: return null;
             }
         }

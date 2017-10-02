@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.swing.ImageIcon;
 import listeners.AreaEvent;
+import logic.Utils.Unfinished;
 
 /**
  *
@@ -56,9 +57,10 @@ public final class ItemBuilder{
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
+    @Unfinished("Uncomment bookmarked line.")
     public static List<Item> genRandom(int amount){
         LinkedList<Item> ret = new LinkedList<>();
-        for(int n=0;n<amount;n++) ret.add(genRandom());
+        //for(int n=0;n<amount;n++) ret.add(genRandom());
         return ret;
     }
     

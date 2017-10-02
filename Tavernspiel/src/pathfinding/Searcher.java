@@ -1,7 +1,6 @@
 
 package pathfinding;
 
-import java.util.Arrays;
 import logic.Utils.Optimisable;
 import pathfinding.Point.Direction;
 import pathfinding.PriorityQueue.Compare;
@@ -14,7 +13,7 @@ public class Searcher{
     
     public PriorityQueue<Point> frontier = new PriorityQueue<>(p -> p.currentCost);
     public final Graph graph;
-    public static Direction[] directions = Arrays.copyOfRange(Direction.values(), 2, Direction.values().length);
+    public static Direction[] directions = Direction.values();
     public FrontierAdd addCheck = (from, to) -> to.currentCost > from.currentCost + to.movementCost; //A Predicate to check whether to add a new Point to the frontier. Dijkstra's algorithm is default.
     interface FrontierAdd{
         boolean check(Point from, Point to);

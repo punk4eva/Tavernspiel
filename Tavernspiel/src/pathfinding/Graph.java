@@ -32,7 +32,7 @@ public class Graph implements Serializable{
             }
         }
         waypoints = wps.toArray(new Waypoint[wps.size()]);
-        initializeWaypoints();
+        //initializeWaypoints();
     }
     
     public Waypoint getClosestWaypoint(int x, int y){
@@ -51,13 +51,13 @@ public class Graph implements Serializable{
     }
     
     public Path followTrail(int x, int y){
+        Point p = map[y][x];
         LinkedList<Point> ret = new LinkedList<>();
-        while(map[y][x].cameFrom!=null){
-            ret.add(map[y][x]);
-            x = map[y][x].cameFrom.x;
-            y = map[y][x].cameFrom.y;
+        while(p.cameFrom!=null){
+            ret.add(p);
+            p = p.cameFrom;
         }
-        ret.add(map[y][x]);
+        ret.add(map[p.y][p.x]);
         return new Path(ret.toArray(new Point[ret.size()])).reverse();
     }
     

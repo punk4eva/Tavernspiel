@@ -14,6 +14,7 @@ import java.util.List;
 import level.RoomDistribution.MakeRoom;
 import logic.Distribution;
 import logic.Utils.Unfinished;
+import pathfinding.CorridorBuilder;
 import pathfinding.Point;
 
 /**
@@ -59,12 +60,16 @@ public class AreaBuilder implements Serializable{
         
         List<Item> key1 = forcedKeys.subList(0, k), key2 = forcedKeys.subList(k, forcedKeys.size());
         for(int n=0, ch=Distribution.r.nextInt(7)+5;n<ch;n++){
-            roomItems = partElements(normalItems, ch-n);
+            /*roomItems = partElements(normalItems, ch-n);
             if(!key1.isEmpty()) roomItems.add(key1.remove(0));
-            else if(ch-n==1) roomItems.addAll(key1);
+            else if(ch-n==1) roomItems.addAll(key1);*/
+            roomItems = new LinkedList<>();
             selectAndBlit(area, roomDist.next(roomItems));
         }
-        throw new UnsupportedOperationException("Not supported yet.");
+        
+        new CorridorBuilder(area).build();
+        return area;
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
     
     private void selectAndBlit(Area area, Area add){
@@ -136,10 +141,10 @@ public class AreaBuilder implements Serializable{
     }
     
     private int getDoorDirection(Area area, int x, int y){
-        if(area.map[y-1][x].treadable) return 0;
-        if(area.map[y][x+1].treadable) return 1;
-        if(area.map[y+1][x].treadable) return 2;
-        if(area.map[y][x-1].treadable) return 3;
+        if(area.map[y-1][x]!=null&&area.map[y-1][x].treadable) return 0;
+        if(area.map[y][x+1]!=null&&area.map[y][x+1].treadable) return 1;
+        if(area.map[y+1][x]!=null&&area.map[y+1][x].treadable) return 2;
+        if(area.map[y][x-1]!=null&&area.map[y][x-1].treadable) return 3;
         throw new IllegalStateException("No valid door direction.");
     }
     

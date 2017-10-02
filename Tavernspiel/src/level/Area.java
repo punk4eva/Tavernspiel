@@ -66,8 +66,8 @@ public class Area implements Serializable{
         if(!withinBounds(x1, y1)||
                 !withinBounds(x1+area.dimension.width, y1+area.dimension.height))
             throw new AreaCoordsOutOfBoundsException("Coords out of bounds.");
-        for(int y=y1;y<y1+area.dimension.width;y++){
-            for(int x=x1;x<x1+area.dimension.height;x++){
+        for(int y=y1;y<y1+area.dimension.height;y++){
+            for(int x=x1;x<x1+area.dimension.width;x++){
                 map[y][x] = area.map[y-y1][x-x1];
             }
         }
@@ -87,8 +87,8 @@ public class Area implements Serializable{
         if(!withinBounds(x1, y1)||
                 !withinBounds(x1+area.dimension.width, y1+area.dimension.height))
             throw new AreaCoordsOutOfBoundsException("Coords out of bounds.");
-        for(int y=y1;y<y1+area.dimension.width;y++){
-            for(int x=x1;x<x1+area.dimension.height;x++){
+        for(int y=y1;y<y1+area.dimension.height;y++){
+            for(int x=x1;x<x1+area.dimension.width;x++){
                 if(map[y][x]==null) map[y][x] = area.map[y-y1][x-x1];
             }
         }

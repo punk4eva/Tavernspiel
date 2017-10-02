@@ -7,6 +7,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.ImageIcon;
@@ -24,8 +25,7 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
     
     private final static long serialVersionUID = -21002248;
     
-    private final String[] names;
-    private final Animation[] animations;
+    private final HashMap<String, Animation> map = new HashMap<>();
     public Animation active;
     private boolean waitingForDone = false;
     
@@ -36,9 +36,10 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
      */
     public GameObjectAnimator(String[] na, Animation[] ani){
         if(ani.length!=na.length) throw new IllegalArgumentException("Name length and animation length aren't the same!");
-        names = na;
-        animations = ani;
-        for(Animation an : animations) an.changeListener(this);
+        for(int n=0;n<na.length;n++){
+            ani[n].changeListener(this);
+            map.put(na[n], ani[n]);
+        }
         active = ani[0];
     }
     
@@ -48,8 +49,7 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
      */
     public GameObjectAnimator(Animation gasAnimation){
         gasAnimation.changeListener(this);
-        animations = new Animation[]{gasAnimation};
-        names = new String[]{"gas"};
+        map.put("gas", gasAnimation);
         active = gasAnimation;
     }
     
@@ -58,9 +58,8 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
      * @param icon
      */
     public GameObjectAnimator(ImageIcon icon){
-        names = new String[]{"default"};
-        animations = new Animation[]{new StillAnimation(icon)};
-        active = animations[0];
+        active = new StillAnimation(icon);
+        map.put("default", active);
     }
     
     /**
@@ -70,8 +69,6 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
      * @param lengths The length of each Animation.
      */
     public GameObjectAnimator(BufferedImage spriteSheet, String[] nms, int[] lengths){
-        names = nms;
-        animations = new Animation[nms.length];
         List<ImageIcon> imgList = new LinkedList<>();
         for(int y=0, ych=spriteSheet.getHeight();y<ych;y+=16){
             for(int x=0, xch=spriteSheet.getWidth();x<xch;x+=16){
@@ -79,18 +76,13 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
             }
         }
         int count = 0;
-        for(int n=0;n<animations.length;n++){
+        for(int n=0;n<nms.length;n++){
             List<ImageIcon> sublist = imgList.subList(count, count+lengths[n]);
             count+=lengths[n];
-            animations[n] = new Animation(sublist.toArray(new ImageIcon[lengths[n]]), 170, this);
+            map.put(nms[n], new Animation(sublist.toArray(new ImageIcon[lengths[n]]), 170, this));
         }
-        for(int n=0;n<names.length;n++){
-            if(names[n].equals("stand")){
-                animations[n] = new RandomAnimation(animations[n], 30);
-                break;
-            }
-        }
-        active = animations[0];
+        active = map.get("stand");
+        map.put("stand", new RandomAnimation(active, 30));
     }
     
     /**
@@ -98,13 +90,8 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
      * @param name The name of the new animation.
      */
     public void switchTo(String name){
-        for(int n=0;n<names.length;n++){
-            if(name.equals(names[n])){
-                active = animations[n];
-                active.offset = MainClass.frameNumber%active.frames.length;
-                break;
-            }
-        }
+        active = map.get(name);
+        active.offset = MainClass.frameNumber%active.frames.length;
     }
     
     /**
@@ -113,13 +100,8 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
      */
     public synchronized void switchAndBack(String name){
         Animation current = active;
-        for(int n=0;n<names.length;n++){
-            if(name.equals(names[n])){
-                active = animations[n];
-                active.offset = MainClass.frameNumber%active.frames.length;
-                break;
-            }
-        }
+        active = map.get(name);
+        active.offset = MainClass.frameNumber%active.frames.length;
         waitingForDone = true;
         try{
             wait();
@@ -136,13 +118,8 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
      * @param name The new animation.
      */
     public synchronized void switchFade(String name){
-        for(int n=0;n<names.length;n++){
-            if(name.equals(names[n])){
-                active = animations[n];
-                active.offset = MainClass.frameNumber%active.frames.length;
-                break;
-            }
-        }
+        active = map.get(name);
+        active.offset = MainClass.frameNumber%active.frames.length;
         Animation fade = getFadeAnimation(active.frames[active.frames.length-1]);
         waitingForDone = true;
         try{

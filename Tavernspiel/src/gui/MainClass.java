@@ -341,7 +341,8 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
                 Tile tile = area.map[(y-focusY)/16][(x-focusX)/16];
                 int xz = (int)(x*zoom);
                 int yz = (int)(y*zoom);
-                if(tile instanceof AnimatedTile)
+                if(tile==null){
+                }else if(tile instanceof AnimatedTile)
                     ((AnimatedTile) tile).animation.animate(g, xz, yz);
                 else if(zoom!=1){
                     int l = (int)(16*zoom);
