@@ -24,8 +24,7 @@ public class AnimatedTile extends Tile{
         super(tile, (ImageIcon) null);
         if(tile.startsWith("water")){
             animation = new Animation(ImageHandler.getWaterFrames(tile, 0));
-        }else
-            animation = AnimationBuilder.getAnimation(tile);
+        }else animation = AnimationBuilder.getAnimation(tile);
     }
     
     /**

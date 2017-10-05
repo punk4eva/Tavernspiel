@@ -22,7 +22,7 @@ public class Animation implements Serializable{
     public final ImageIcon[] frames;
     private AnimationListener listener;
     protected long offset = 0;
-    protected double delay = 1;
+    public double delay = 1;
     
     /**
      * Creates an Animation from the given frames.
@@ -57,6 +57,20 @@ public class Animation implements Serializable{
     }
     
     /**
+     * Creates an Animation from the given frames.
+     * @param f The frames.
+     * @param d The delay between each frame.
+     * @param al The listener that is interested in when this animation finishes
+     * a cycle.
+     */
+    public Animation(ImageIcon[] f, double d, AnimationListener al){
+        frames = f;
+        delay = d;
+        listener = al;
+        MainClass.addAnimation(this);
+    }
+    
+    /**
      * Creates a still image Animation.
      * @param icon The Icon.
      * @deprecated
@@ -85,7 +99,7 @@ public class Animation implements Serializable{
         double z = MainClass.getZoom();
         if(z==1.0) g.drawImage(frames[m].getImage(), x, y, null);
         else g.drawImage(frames[m].getImage().getScaledInstance((int)(16*z),(int)(16*z),0), x, y, null);
-        if(x==0&&listener!=null) listener.done();
+        if(m==frames.length-1&&listener!=null) listener.done();
     }
     
     /**

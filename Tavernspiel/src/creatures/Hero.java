@@ -1,6 +1,8 @@
 
 package creatures;
 
+import creatureLogic.EnClass;
+import ai.PlayerAI;
 import animation.GameObjectAnimator;
 import buffs.Buff;
 import containers.Equipment;
@@ -10,6 +12,7 @@ import creatureLogic.Attributes;
 import creatureLogic.DeathData;
 import creatureLogic.Description;
 import creatureLogic.Expertise;
+import creatureLogic.EnClass.EnSubclass;
 import gui.Game;
 import gui.MainClass;
 import gui.Screen;
@@ -19,6 +22,7 @@ import java.awt.Graphics;
 import java.util.LinkedList;
 import listeners.DeathEvent;
 import listeners.ScreenListener;
+import logic.Utils.Catch;
 
 /**
  *
@@ -37,49 +41,17 @@ public class Hero extends Creature implements Viewable{
     public EnSubclass subclass = null; //Null if no subclass selected.
     
     /**
-     * The class of the hero.
-     */
-    public enum EnClass{
-        NoClass (new Expertise()),
-        Warrior (new Expertise(1,0,0,2,1,0,0), new EnSubclass[]{EnSubclass.Berserker, EnSubclass.Gladiator}),
-        Mage (new Expertise(0,1,2,0,0,2,1), new EnSubclass[]{EnSubclass.Battlemage, EnSubclass.Warlock}),
-        Rogue (new Expertise(1,1,1,1,1,0,2), new EnSubclass[]{EnSubclass.Freerunner, EnSubclass.Assassin}),
-        Huntress (new Expertise(2,1,0,0,1,0,1), new EnSubclass[]{EnSubclass.Warden, EnSubclass.Sniper});
-        
-        protected final EnSubclass[] possibleSubclasses;
-        protected final Expertise expertiseGained;
-        EnClass(Expertise e, EnSubclass... subclasses){
-            expertiseGained = e;
-            possibleSubclasses = subclasses;
-        }
-    }
-    
-    /**
-     * The hero's subclass.
-     */
-    public enum EnSubclass{
-        Berserker (new Expertise(1,0,0,0,0,0,0), "Not finished"), Gladiator (new Expertise(0,0,0,0,1,0,0), "Not finished"),
-        Battlemage (new Expertise(0,0,0,1,1,0,0), "Not finished"), Warlock (new Expertise(1,1,0,0,0,0,1), "Not finished"),
-        Freerunner (new Expertise(0,0,1,1,0,0,0), "Not finished"), Assassin (new Expertise(1,0,0,0,1,0,0), "Not finished"),
-        Warden (new Expertise(0,1,1,0,0,0,0), "Not finished"), Sniper (new Expertise(0,0,0,0,1,1,1), "Not finished");
-        
-        protected final String description;
-        protected final Expertise expertiseGained;
-        EnSubclass(Expertise e, String desc){
-            expertiseGained = e;
-            description = desc;
-        }
-    }
-    
-    /**
      * Creates a new Hero.
      * @param atb The attributes.
      * @param an The animator.
      */
+    @Catch("Unnessesary catch")
     public Hero(Attributes atb, GameObjectAnimator an){
         super("Hero", new Description("hero","UNWRITTEN"), atb, an);
-        data = new DeathData(this);
-        screens = getScreens();
+        attributes.ai = new PlayerAI(this);
+        try{data = new DeathData(this);}catch(Exception e){}
+        //screens = getScreens();
+        screens = null;
     }
     
     /**
@@ -97,6 +69,7 @@ public class Hero extends Creature implements Viewable{
     public Hero(int id, Equipment eq, Inventory inv, int hung, DeathData da, EnClass j, EnSubclass sub, Attributes atb, LinkedList<Buff> bs){
         super("Hero", new Description("hero","UNWRITTEN"), id, eq, inv, atb, bs);
         hunger = hung;
+        attributes.ai = new PlayerAI(this);
         job = j;
         subclass = sub;
         data = da;
@@ -115,11 +88,6 @@ public class Hero extends Creature implements Viewable{
     @Override
     public void turn(double delta){
         throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void render(Graphics g){
-        throw new UnsupportedOperationException("Not supported yet."); 
     }
     
     @Override

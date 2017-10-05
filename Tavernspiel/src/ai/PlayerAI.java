@@ -20,6 +20,12 @@ public final class PlayerAI extends AITemplate implements KeyListener{
     
     public PlayerAI(Hero h){
         hero = h;
+        Window.main.addKeyListener(this);
+    }
+    
+    private void updateDestination(Integer[] ary){
+        hero.attributes.ai.destinationx = hero.x + ary[0];
+        hero.attributes.ai.destinationy = hero.y + ary[1];
     }
     
     @Override
@@ -35,18 +41,21 @@ public final class PlayerAI extends AITemplate implements KeyListener{
             case 'd': m = new Integer[]{1, 0};
                 break;
         }
-        BASEACTIONS.move(hero, m);
+        if(BASEACTIONS.canMove(hero, m)){
+            updateDestination(m);
+            BASEACTIONS.move(hero, m);
+        }
         Window.main.setFocus(hero.x, hero.y);
     }
 
     @Override
     public void keyPressed(KeyEvent ke){
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
     @Override
     public void keyReleased(KeyEvent ke){
-        throw new UnsupportedOperationException("Not supported yet.");
+        
     }
 
     @Override

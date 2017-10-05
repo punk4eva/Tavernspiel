@@ -3,6 +3,7 @@ package level;
 
 import gui.Handler;
 import java.io.Serializable;
+import level.RoomDistribution.MakeRoom;
 import listeners.DepthListener;
 
 /**
@@ -29,8 +30,10 @@ public class Dungeon implements Serializable{
         depthListener = dl;
         handler = hand;
         stages = new Stage[5];
-        stages[0] = new Stage(new Location("Shkoder", "shkoderTileset", "water", "Cyanoshrooms.wav"), 5, new String[]{"The upper level of the caves"}, null);
-        stages[0].areas[0] = RoomBuilder.maze(stages[0].location, 25, 25); depth=0;stages[0].loadedLevel=3;
+        Location loc = new Location("Shkoder", "shkoderTileset", "water", "Cyanoshrooms.wav");
+        loc.roomDistrib = new RoomDistribution[]{new RoomDistribution(loc, new MakeRoom[]{(loca, items) -> RoomBuilder.standard(loca, hand)}, null, new int[]{1}, new int[]{1})};
+        stages[0] = new Stage(loc, 5, new String[]{"The upper level of the caves"}, null);
+        stages[0].areas[0] = stages[0].areaBuilder.load(stages[0].location.roomDistrib[0]); depth=0;stages[0].loadedLevel=3;
     }
     
     /**

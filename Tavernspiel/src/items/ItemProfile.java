@@ -23,6 +23,12 @@ public abstract class ItemProfile{
     protected String name;
     protected Description description;
     
+    protected ItemProfile(String nm, ImageIcon i, Description desc){
+        name = nm;
+        image = i;
+        description = desc;
+    }
+    
     public static final BufferedImage items;
     static{
         ImageIcon ic = new ImageIcon("graphics/items.png");
@@ -99,6 +105,8 @@ public abstract class ItemProfile{
             }
             return new String[]{texture[n]};
         }
+        
+        protected DescriptionBuilder(){}
         
     }
     

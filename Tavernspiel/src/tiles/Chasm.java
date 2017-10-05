@@ -6,13 +6,14 @@ import creatures.Creature;
 import creatures.Hero;
 import level.Area;
 import listeners.AreaEvent;
+import listeners.StepListener;
 import logic.Utils.Unfinished;
 
 /**
  *
  * @author Adam Whittaker
  */
-public class Chasm extends Tile{
+public class Chasm extends Tile implements StepListener{
     
     private boolean isPitroom = false;
     
@@ -33,7 +34,8 @@ public class Chasm extends Tile{
      * @param c The creature to perform the action on.
      */
     @Unfinished
-    public void action(Creature c){
+    @Override
+    public void steppedOn(Creature c){
         if(!isPitroom){
             //unfinished
         }else try{

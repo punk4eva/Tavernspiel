@@ -3,8 +3,8 @@ package tiles;
 
 import buffs.Buff;
 import creatures.Creature;
-import level.Area;
 import level.Location;
+import listeners.StepListener;
 import logic.Gas;
 import logic.ImageHandler;
 
@@ -12,9 +12,10 @@ import logic.ImageHandler;
  *
  * @author Adam Whittaker
  */
-public class Trap extends HiddenTile{
+public class Trap extends HiddenTile implements StepListener{
     
     public boolean reusable = false;
+    public boolean used = false;
     private Gas sprayedGas = null; //null if there is no gas.
     private Buff buff = null; //null if there is no buff.
     
@@ -44,13 +45,14 @@ public class Trap extends HiddenTile{
         else buff = trap.buff;
     }
     
-    public void activate(Creature c, Area area){
+    @Override
+    public void steppedOn(Creature c){
+        if(used) return;
         if(buff!=null) c.buffs.add(buff);
-        else area.addObject(sprayedGas);
+        else c.area.addObject(sprayedGas);
         if(!reusable){
-            sprayedGas = null;
-            buff = null;
-            image = ImageHandler.getImage("offtrap", area.location);
+            used = true;
+            image = ImageHandler.getImage("offtrap", c.area.location);
         }
     }
     

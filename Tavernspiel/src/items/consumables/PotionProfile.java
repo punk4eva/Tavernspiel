@@ -87,6 +87,8 @@ public class PotionProfile extends ItemProfile{
     
     private static final class PotionDescriptionBuilder extends DescriptionBuilder{
         
+        private PotionDescriptionBuilder(){super();}
+        
         void temp(){
             description += "The potion is a" + word(temp) + ", ";
         }
@@ -137,7 +139,7 @@ public class PotionProfile extends ItemProfile{
             viscosity();
             shapeContainer(name);
             decoration();
-            return new PotionProfile(name, un, description, taste(), _colour, _texture, idd);   
+            return new PotionProfile(name, un, description, taste(), _colour, _texture, unknownToDimension.get(un), idd);   
         }
         
     }
@@ -147,19 +149,17 @@ public class PotionProfile extends ItemProfile{
         return pdb.getProfile(name, unknownName, idd);
     }
     
-    PotionProfile(String nm, String un, String desc, String taste, String colour, String texture, boolean idd){
-        name = nm;
+    PotionProfile(String nm, String un, String desc, String taste, String colour, String texture, Dimension dim, boolean idd){
+        super(nm, new ImageIcon(outfitImage(getImage(dim.width, dim.height), getColour(colour), texture==null ? null : getColour(texture))),
+                new Description("potions", desc));
         unknownName = un;
         tasteMessage = taste;
         identified = idd;
-        Dimension dim = unknownToDimension.get(un);
-        image = new ImageIcon(outfitImage(getImage(dim.width, dim.height), getColour(colour), texture==null ? null : getColour(texture)));
-        description = new Description("potions", desc);
     }
     
     private PotionProfile(Description desc, Type t){
+        super(null, null, desc);
         type = t;
-        description = desc;
     }
     
 }

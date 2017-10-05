@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import level.Area;
 import logic.Distribution;
+import tiles.Door;
 import tiles.Tile;
 
 /**
@@ -50,13 +51,13 @@ public class MazeBuilder{
                 while(next==null){
                     if(start.cameFrom==null){
                         for(int n=0;n<2;n++) switch(Distribution.r.nextInt(4)){
-                            case 0: area.map[TLY][TLX+Distribution.r.nextInt(area.dimension.width-2)+1] = new Tile("Door", area.location);
+                            case 0: area.map[TLY][TLX+Distribution.r.nextInt(area.dimension.width-2)+1] = new Door(area.location);
                                 break;
-                            case 1: area.map[TLY+height-1][TLX+Distribution.r.nextInt(area.dimension.width-2)+1] = new Tile("Door", area.location);
+                            case 1: area.map[TLY+height-1][TLX+Distribution.r.nextInt(area.dimension.width-2)+1] = new Door(area.location);
                                 break;
-                            case 2: area.map[TLY+Distribution.r.nextInt(area.dimension.height-2)+1][TLX] = new Tile("Door", area.location);
+                            case 2: area.map[TLY+Distribution.r.nextInt(area.dimension.height-2)+1][TLX] = new Door(area.location);
                                 break;
-                            default: area.map[TLY+Distribution.r.nextInt(area.dimension.height-2)+1][TLX+width-1] = new Tile("Door", area.location);
+                            default: area.map[TLY+Distribution.r.nextInt(area.dimension.height-2)+1][TLX+width-1] = new Door(area.location);
                                 break;
                         }
                         return;
@@ -67,7 +68,7 @@ public class MazeBuilder{
                 carve(start, next);
                 if(onEdge(next)){
                     doors--;
-                    area.map[next.y][next.x] = new Tile("Door", area.location);
+                    area.map[next.y][next.x] = new Door(area.location);
                     if(doors==0) break;
                     checkAll(next);
                 }
@@ -79,10 +80,10 @@ public class MazeBuilder{
 
         private Point getDirection(Point p){
             List<Point> points = new LinkedList<>();
-            if(withinBounds(p.x, p.y-2)&&!graph.map[p.y-2][p.x].checked) points.add(graph.map[p.y-2][p.x]);
-            if(withinBounds(p.x, p.y+2)&&!graph.map[p.y+2][p.x].checked) points.add(graph.map[p.y+2][p.x]);
-            if(withinBounds(p.x-2, p.y)&&!graph.map[p.y][p.x-2].checked) points.add(graph.map[p.y][p.x-2]);
-            if(withinBounds(p.x+2, p.y)&&!graph.map[p.y][p.x+2].checked) points.add(graph.map[p.y][p.x+2]);
+            if(withinBounds(p.x, p.y-2)&&(graph.map[p.y-2][p.x].checked==null||!graph.map[p.y-2][p.x].checked)) points.add(graph.map[p.y-2][p.x]);
+            if(withinBounds(p.x, p.y+2)&&(graph.map[p.y+2][p.x].checked==null||!graph.map[p.y+2][p.x].checked)) points.add(graph.map[p.y+2][p.x]);
+            if(withinBounds(p.x-2, p.y)&&(graph.map[p.y][p.x-2].checked==null||!graph.map[p.y][p.x-2].checked)) points.add(graph.map[p.y][p.x-2]);
+            if(withinBounds(p.x+2, p.y)&&(graph.map[p.y][p.x+2].checked==null||!graph.map[p.y][p.x+2].checked)) points.add(graph.map[p.y][p.x+2]);
             return points.isEmpty()? null : points.get(Distribution.r.nextInt(points.size()));
         }
         

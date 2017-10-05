@@ -41,6 +41,8 @@ public class Tile implements Serializable, Comparable<Tile>{
     public Tile(String tile, Location loc){
         image = ImageHandler.getImage(tile, loc);
         name = tile;
+        if(tile.equals("wall")||tile.equals("specialwall")||tile.equals("barricade")||
+                tile.equals("statue")||tile.equals("specialstatue")||tile.equals("bookshelf")) treadable = false;
     }
     
     public Tile(String tile, Location loc, boolean t, boolean f){

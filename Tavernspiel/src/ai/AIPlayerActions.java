@@ -4,7 +4,7 @@ package ai;
 import creatureLogic.Attack;
 import creatures.Creature;
 import creatures.Hero;
-import creatures.Hero.EnClass;
+import creatureLogic.EnClass;
 import logic.Distribution;
 
 /**
