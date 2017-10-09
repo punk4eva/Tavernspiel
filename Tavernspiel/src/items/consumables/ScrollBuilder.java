@@ -94,8 +94,9 @@ public class ScrollBuilder{
         Collections.shuffle(scrolls);
         Collections.shuffle(runes);
         for(int n=0;n<scrolls.size();n++){
-            nameAndRune.put(scrolls.get(n), runes.get(n));
-            nameAndRune.put(runes.get(n), scrolls.get(n));
+            String scr = scrolls.get(n), rune = runes.get(n);
+            nameAndRune.put(scr, rune);
+            nameAndRune.put(rune, scr);
         }
         nameAndRune.put("Scroll of Magical Storage", "BLANK");
         nameAndRune.put("BLANK", "Scroll of Magical Storage");
@@ -130,6 +131,10 @@ public class ScrollBuilder{
     
     private boolean isIdd(String scroll){
         return scrollMap.get("Scroll of " + scroll)!=null;
+    }
+    
+    private boolean isCustomIdd(){
+        return scrollMap.get("Custom Scroll")!=null;
     }
     
     /**
@@ -200,6 +205,43 @@ public class ScrollBuilder{
     
     public RechargingScroll recharging(){
         return new RechargingScroll(getImage("Scroll of Recharging"), isIdd("Recharging"));
+    }
+    
+    public SmiteScroll smite(){
+        return new SmiteScroll(getImage("Scroll of Smite"), isIdd("Smite"));
+    }
+    
+    public CurseScroll curse(){
+        return new CurseScroll(getImage("Scroll of Curse"), isIdd("Curse"));
+    }
+    
+    public SkeletonScroll skeleton(){
+        return new SkeletonScroll(getImage("Scroll of Skeleton"), isIdd("Skeleton"));
+    }
+    
+    public EarthquakeScroll earthquake(){
+        return new EarthquakeScroll(getImage("Scroll of Earthquake"), isIdd("Earthquake"));
+    }
+    
+    public AnimationScroll animation(){
+        return new AnimationScroll(getImage("Scroll of Animation"), isIdd("Animation"));
+    }
+    
+    public BurialScroll burial(){
+        return new BurialScroll(getImage("Scroll of Burial"), isIdd("Burial"));
+    }
+    
+    public GrimScroll grim(){
+        return new GrimScroll(getImage("Scroll of the Grim"), isIdd("Grim"));
+    }
+    
+    public CustomScroll custom(){
+        return new CustomScroll(getImage("Custom Scroll"), isCustomIdd());
+    }
+    
+    public ImageIcon getRandomSmudge(){
+        if(Distribution.chance(1, 2)) return new ImageIcon(getImage("SMUDGE1"));
+        else return new ImageIcon(getImage("SMUDGE2"));
     }
     
 }

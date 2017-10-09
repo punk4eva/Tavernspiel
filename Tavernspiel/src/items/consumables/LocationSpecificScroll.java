@@ -23,7 +23,7 @@ import logic.Utils.Catch;
  */
 public abstract class LocationSpecificScroll extends Scroll implements ScreenListener{
     
-    private Hero hero;
+    protected Hero hero;
     private Area area;
     private MainClass main;
 

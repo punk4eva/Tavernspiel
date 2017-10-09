@@ -18,6 +18,7 @@ import gui.MainClass;
 import gui.Screen;
 import gui.Viewable;
 import gui.Window;
+import items.consumables.ScrollBuilder;
 import java.awt.Graphics;
 import java.util.LinkedList;
 import listeners.DeathEvent;
@@ -34,6 +35,7 @@ public class Hero extends Creature implements Viewable{
     
     public final LinkedList<Screen> screens;
     private ScreenListener currentScreenListener;
+    public final ScrollBuilder scrollBuilder;
     public int hunger = 100;
     public DeathData data;
     public Expertise expertise;
@@ -52,6 +54,7 @@ public class Hero extends Creature implements Viewable{
         try{data = new DeathData(this);}catch(Exception e){}
         //screens = getScreens();
         screens = null;
+        scrollBuilder = new ScrollBuilder(this);
     }
     
     /**
@@ -74,6 +77,7 @@ public class Hero extends Creature implements Viewable{
         subclass = sub;
         data = da;
         screens = getScreens();
+        scrollBuilder = new ScrollBuilder(this);
     }
     
     /**
