@@ -18,6 +18,7 @@ import listeners.BuffEvent;
 import listeners.BuffListener;
 import logic.Distribution;
 import logic.GameObject;
+import logic.Utils.Unfinished;
 
 /**
  * 
@@ -177,8 +178,9 @@ public class Creature extends GameObject implements BuffListener, Comparable<Cre
     }
 
     @Override
+    @Unfinished
     public void turn(double delta){
-        //@unfinished
+        attributes.ai.turn(this, area);
         decrementAndUpdateBuffs(delta);   
     }
 

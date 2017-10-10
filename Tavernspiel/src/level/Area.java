@@ -288,4 +288,10 @@ public class Area implements Serializable{
         });
     }
     
+    public void turn(double turnNum){
+        objects.stream().forEach(ob -> {
+            ob.turn(turnNum);
+        });
+    }
+    
 }

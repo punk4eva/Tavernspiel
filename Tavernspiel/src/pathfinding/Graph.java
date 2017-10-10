@@ -16,6 +16,7 @@ public class Graph implements Serializable{
     Point[][] map;
     Waypoint[] waypoints;
     private boolean used = false;
+    public final Searcher searcher;
     
     public Graph(Area area){
         map = new Point[area.dimension.height][area.dimension.width];
@@ -33,6 +34,7 @@ public class Graph implements Serializable{
         }
         waypoints = wps.toArray(new Waypoint[wps.size()]);
         //initializeWaypoints();
+        searcher = new Searcher(this);
     }
     
     public Waypoint getClosestWaypoint(int x, int y){

@@ -10,10 +10,10 @@ import javax.swing.ImageIcon;
  *
  * @author Adam Whittaker
  */
-public class SmiteScroll extends LocationSpecificScroll{
+public class GrimScroll extends LocationSpecificScroll{
 
-    public SmiteScroll(Image i, boolean idd){
-        super("Scroll of Smite", "Even the most mute of wizards can bring about magical destruction with this battle scroll.", new ImageIcon(i), idd);
+    public GrimScroll(Image i, boolean idd){
+        super("Scroll of the Grim", "The horrible text on this sheet of paper aggrevates the spirits of this place when read aloud, and they drag a creature of the reader's choosing with them to the underworld.", new ImageIcon(i), idd);
     }
 
     @Override

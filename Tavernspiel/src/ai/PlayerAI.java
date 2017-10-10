@@ -7,6 +7,7 @@ import gui.Window;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import level.Area;
+import pathfinding.Point;
 
 /**
  *
@@ -17,13 +18,15 @@ import level.Area;
 public final class PlayerAI extends AITemplate implements KeyListener{    
 
     private final Hero hero;
+    public boolean unfinished = false;
     
     public PlayerAI(Hero h){
         hero = h;
         Window.main.addKeyListener(this);
+        Window.main.player = hero;
     }
     
-    private void updateDestination(Integer[] ary){
+    public final void updateDestination(Integer... ary){
         hero.attributes.ai.destinationx = hero.x + ary[0];
         hero.attributes.ai.destinationy = hero.y + ary[1];
     }
@@ -43,9 +46,7 @@ public final class PlayerAI extends AITemplate implements KeyListener{
         }
         if(BASEACTIONS.canMove(hero, m)){
             updateDestination(m);
-            BASEACTIONS.move(hero, m);
         }
-        Window.main.setFocus(hero.x, hero.y);
     }
 
     @Override
@@ -59,6 +60,27 @@ public final class PlayerAI extends AITemplate implements KeyListener{
     }
 
     @Override
-    public void turn(Creature c, Area area){}
+    public void turn(Creature c, Area area){
+        if(hero.x!=hero.attributes.ai.destinationx||
+                hero.y!=hero.attributes.ai.destinationy){
+            decideAndMove(hero);
+        }
+    }
+    
+    @Override
+    public void decideAndMove(Creature c){
+        if(currentPath==null){
+            currentPath = c.area.graph.searcher.findExpressRoute(new Point(c.x, c.y), new Point(destinationx, destinationy)).iterator();
+            c.changeAnimation("move");
+            unfinished = true;
+        }
+        Point next = currentPath.next();
+        BASEACTIONS.moveRaw(c, next.x, next.y);
+        if(!currentPath.hasNext()){
+            currentPath = null;
+            unfinished = false;
+            c.changeAnimation("stand");
+        }
+    }
     
 }
