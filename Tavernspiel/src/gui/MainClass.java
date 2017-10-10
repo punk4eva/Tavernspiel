@@ -4,6 +4,7 @@ package gui;
 import animation.Animation;
 import containers.Floor;
 import containers.Receptacle;
+import creatures.Hero;
 import dialogues.Dialogue;
 import items.equipment.Wand;
 import java.awt.Canvas;
@@ -56,6 +57,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     private final ViewableList viewables = new ViewableList();
     private Dialogue currentDialogue = null; //null if no dialogue.
     public Area currentArea;
+    public Hero player;
     private static int focusX=16, focusY=16;
     private int xOfDrag=-1, yOfDrag=-1;
     private static double zoom = 1.0;
@@ -380,8 +382,9 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     @Override
     public void mouseClicked(MouseEvent me){
         if(viewables.screens.isEmpty()){
-            int[] p = translateMouseCoords(me.getX(), me.getY());
-            
+            Integer[] p = translateMouseCoords(me.getX(), me.getY());
+            player.attributes.ai.setDestination(p[0], p[1]);
+            player.turnUntilDone();
         }else{
             boolean notClicked = true;
             int x = me.getX(), y = me.getY();
@@ -426,8 +429,8 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
      * @param my The y coordinate of the click.
      * @return An int array representing the tile coordinates.
      */
-    public static int[] translateMouseCoords(double mx, double my){
-        return new int[]{(int)Math.floor(mx/16), (int)Math.floor(my/16)};
+    public static Integer[] translateMouseCoords(double mx, double my){
+        return new Integer[]{(int)Math.floor(mx/16), (int)Math.floor(my/16)};
     }
 
     @Override

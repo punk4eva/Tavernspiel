@@ -104,7 +104,7 @@ public class Wand extends RangedWeapon implements ScreenListener{
     public void screenClicked(Screen.ScreenEvent sc){
         switch(sc.getName()){
             case "backLocation":
-                int c[] = MainClass.translateMouseCoords(sc.getMouseEvent().getX(), sc.getMouseEvent().getY());
+                Integer c[] = MainClass.translateMouseCoords(sc.getMouseEvent().getX(), sc.getMouseEvent().getY());
                 if(hero==null||area==null) new RuntimeException("hero/area uninitialized in LocationSpecificScroll.screenClicked()!").printStackTrace(MainClass.exceptionStream);
                 fire(hero, c[0], c[1]);
             case "locationPopupX":

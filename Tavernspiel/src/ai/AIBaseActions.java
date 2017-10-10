@@ -65,6 +65,20 @@ public class AIBaseActions implements Serializable{
     }
     
     /**
+     * Moves a creature to the given coordinates and doesn't handle animation.
+     * @param c The creature to be moved.
+     * @param x
+     * @param y
+     */
+    public void moveRaw(Creature c, int x, int y){
+        if(c.area.map[c.y][c.x] instanceof Door) ((Door)c.area.map[c.y][c.x]).stepOff(c);
+        c.setXY(x, y);
+        if(c.area.map[c.y][c.x] instanceof StepListener){
+            ((StepListener)c.area.map[c.y][c.x]).steppedOn(c);
+        }
+    }
+    
+    /**
      * Buys a purchasable heap.
      * @param c The consumer.
      * @param heap The product.

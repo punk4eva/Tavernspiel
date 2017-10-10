@@ -91,7 +91,23 @@ public class Hero extends Creature implements Viewable{
 
     @Override
     public void turn(double delta){
-        throw new UnsupportedOperationException("Not supported yet.");
+        double d = delta;
+        for(;d>=attributes.speed;d-=attributes.speed){
+            attributes.ai.turn(this, area);
+            area.turn(attributes.speed);
+        }
+        if(d!=0) area.turn(d);
+    }
+    
+    public void quickTurn(){
+        attributes.ai.turn(this, area);
+        area.turn(attributes.speed);
+    }
+    
+    public void turnUntilDone(){
+        PlayerAI ai = (PlayerAI) attributes.ai;
+        do quickTurn();
+        while(ai.unfinished);
     }
     
     @Override

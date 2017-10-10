@@ -3,7 +3,10 @@ package ai;
 
 import creatures.Creature;
 import java.io.Serializable;
+import java.util.Iterator;
 import level.Area;
+import pathfinding.Path;
+import pathfinding.Point;
 
 /**
  *
@@ -19,6 +22,7 @@ public abstract class AITemplate implements Serializable{
     public int intelligence = 3; //The intelligence
     public MagicHexagon magic = new MagicHexagon(); //The AI's inate magic abilities.
     public int destinationx = -1, destinationy = -1; //The destination coords of the AI.
+    public Iterator<Point> currentPath;
     public AIBaseActions BASEACTIONS = new AIBaseActions(); //The basic actions that the ai can do.
 
     /**
@@ -29,6 +33,19 @@ public abstract class AITemplate implements Serializable{
     public void setDestination(int x, int y){
         destinationx = x;
         destinationy = y;
+    }
+    
+    public void decideAndMove(Creature c){
+        if(currentPath==null){
+            currentPath = c.area.graph.searcher.findExpressRoute(new Point(c.x, c.y), new Point(destinationx, destinationy)).iterator();
+            c.changeAnimation("move");
+        }
+        Point next = currentPath.next();
+        BASEACTIONS.moveRaw(c, next.x, next.y);
+        if(!currentPath.hasNext()){
+            currentPath = null;
+            c.changeAnimation("stand");
+        }
     }
     
     /**
