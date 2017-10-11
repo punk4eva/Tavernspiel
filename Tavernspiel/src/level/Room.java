@@ -1,7 +1,6 @@
 
 package level;
 
-import gui.Handler;
 import java.awt.Dimension;
 import logic.Distribution;
 import tiles.AnimatedTile;
@@ -65,7 +64,7 @@ public class Room extends Area{
      * @param handler The Handler.
      * @return The Room.
      */
-    public static Room genStandard(Location loc, Handler handler){
+    public static Room genStandard(Location loc){
         Room room = genBlank(loc);
         room.paintAndPave();
         if(loc.waterBeforeGrass){
@@ -79,7 +78,7 @@ public class Room extends Area{
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
                 if(room.map[y][x].equals("floor")&&Distribution.chance(1, 30))
-                    room.map[y][x] = RoomBuilder.getRandomTrap(loc, handler);
+                    room.map[y][x] = RoomBuilder.getRandomTrap(loc);
             }
         }
         return room;
@@ -92,7 +91,7 @@ public class Room extends Area{
      * @param lock Whether the Room is locked.
      * @return The Room.
      */
-    public static Room genStandard(Location loc, Handler handler, boolean lock){
+    public static Room genStandard(Location loc, boolean lock){
         Room room = genBlank(loc, lock);
         room.paintAndPave();
         if(loc.waterBeforeGrass){
@@ -106,7 +105,7 @@ public class Room extends Area{
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
                 if(room.map[y][x].equals("floor")&&Distribution.chance(1, 30))
-                    room.map[y][x] = RoomBuilder.getRandomTrap(loc, handler);
+                    room.map[y][x] = RoomBuilder.getRandomTrap(loc);
             }
         }
         return room;
@@ -116,7 +115,7 @@ public class Room extends Area{
      * Standardifies this Room.
      * @param handler
      */
-    public void standardify(Handler handler){
+    public void standardify(){
         paintAndPave();
         if(location.waterBeforeGrass){
             water();
@@ -129,7 +128,7 @@ public class Room extends Area{
         for(int y=1;y<dimension.height-1;y++){
             for(int x=1;x<dimension.width-1;x++){
                 if(map[y][x].equals("floor")&&Distribution.chance(1, 30))
-                    map[y][x] = RoomBuilder.getRandomTrap(location, handler);
+                    map[y][x] = RoomBuilder.getRandomTrap(location);
             }
         }
     }

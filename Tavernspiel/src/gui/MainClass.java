@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.stream.Stream;
 import level.Area;
 import listeners.BuffEventInitiator;
-import listeners.GrimReaper;
 import logic.IDHandler;
 import logic.SoundHandler;
 import logic.Utils;
@@ -49,10 +48,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     private boolean running = false;
     protected Window window;
 
-    protected final Handler handler;
-
     public static final IDHandler idhandler = new IDHandler(); //Creates UUIDs for GameObjects.
-    public static GrimReaper reaper; //Handles death.
     public static final BuffEventInitiator buffinitiator = new BuffEventInitiator(); //Handles buffs.
     private final ViewableList viewables = new ViewableList();
     private Dialogue currentDialogue = null; //null if no dialogue.
@@ -125,9 +121,6 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }catch(FileNotFoundException e){
             System.err.println("PrintStream failed.");
         }
-
-        handler = new Handler();
-        reaper = new GrimReaper(handler);
     }
     
     /**
@@ -151,14 +144,6 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
      */
     public void removeTopViewable(){
         viewables.removeTopViewable();
-    }
-    
-    /**
-     * Gets the Handler
-     * @return The Handler
-     */
-    public Handler getHandler(){
-        return handler;
     }
     
     /**
@@ -280,7 +265,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         double delta=0;
         for(double d=turnsConsumed;d>0;d-=d>=1 ? (delta=1) : (delta=d)){
             System.out.println("DELTA: " + delta);
-            handler.turn(delta);
+            currentArea.turn(delta);
         }
     }
 

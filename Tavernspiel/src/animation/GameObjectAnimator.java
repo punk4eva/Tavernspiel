@@ -4,7 +4,6 @@ package animation;
 import creatures.Creature;
 import gui.MainClass;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.HashMap;

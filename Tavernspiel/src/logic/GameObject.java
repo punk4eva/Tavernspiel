@@ -3,7 +3,6 @@ package logic;
 
 import animation.GameObjectAnimator;
 import creatureLogic.Description;
-import gui.Handler;
 import gui.MainClass;
 import java.awt.Graphics;
 import java.io.Serializable;
@@ -66,8 +65,8 @@ public abstract class GameObject implements Serializable{
         }
     }
     
-    public void passEvent(GameEvent ge, Handler handler){
-        handler.notify(ge);
+    public void passEvent(GameEvent ge){
+        throw new UnsupportedOperationException("When have we ever used passEvent()?");
     }
 
     /**

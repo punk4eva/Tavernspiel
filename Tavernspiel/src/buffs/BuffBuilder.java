@@ -10,7 +10,13 @@ import creatures.Creature;
  * 
  * This class builds buffs.
  */
-public class BuffBuilder{
+public final class BuffBuilder{
+    
+    private BuffBuilder(){}
+    
+    public static Buff fire(){
+        return new Buff("fire");
+    }
     
     public static Buff enraged(Creature c){
         AttributeModifier am = new AttributeModifier();

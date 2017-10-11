@@ -10,12 +10,11 @@ import containers.Mimic;
 import containers.Receptacle;
 import containers.SkeletalRemains;
 import creatureLogic.Description;
-import gui.Handler;
 import items.Item;
 import level.Area;
 import level.Location;
 import logic.Distribution;
-import logic.Gas;
+import blob.Gas;
 import logic.ImageHandler;
 import logic.Utils.Unfinished;
 
@@ -30,9 +29,9 @@ public class TrapBuilder{
     }
     
     @Unfinished
-    public static Trap getTrap(String tr, Location location, Handler handler){
+    public static Trap getTrap(String tr, Location location){
         if(isGaseous(tr)){
-            Gas g = getToxicGas(location, handler); //@unfinished
+            Gas g = getToxicGas(location); //@unfinished
             return new Trap(tr, location, g);
         }else{
             Buff b = new Buff("-1"); //@unfinished
@@ -45,7 +44,7 @@ public class TrapBuilder{
     }
     
     @Unfinished
-    public static Gas getToxicGas(Location location, Handler handler){
+    public static Gas getToxicGas(Location location){
         Buff b = new Buff("toxic gas", 1);
         b.damageDistribution = new Distribution(/**
                 area.location.stageSpawnDistrib.incrementor-1, 
@@ -53,7 +52,7 @@ public class TrapBuilder{
         5, 6);              
         GameObjectAnimator a = new GameObjectAnimator(new String[]{"placeholder"},
                 new Animation[]{new Animation(ImageHandler.getWaterFrames(location, 0))}); //@unfinished, placeholder
-        return new Gas("Toxic Gas", new Description("gas", "A poisonous green vapour."), b, a, 7, handler);
+        return new Gas("Toxic Gas", new Description("gas", "A poisonous green vapour."), b, a, 7);
     }
     
     public static Receptacle getRandomReceptacle(Item i, int x, int y){  

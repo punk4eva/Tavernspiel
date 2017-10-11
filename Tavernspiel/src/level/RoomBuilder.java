@@ -4,7 +4,6 @@ package level;
 import buffs.GasBuilder;
 import containers.Chest;
 import containers.Floor;
-import gui.Handler;
 import items.Item;
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -31,17 +30,17 @@ public class RoomBuilder{
     private static final String[] TRAPCOLOURS = new String[]{
         "blue", "silver", "green", "bear", "red", "yellow", "orange", "purple"}; 
     
-    public static Room standard(Location loc, Handler hand){
-        Room ret = Room.genStandard(loc, hand);
+    public static Room standard(Location loc){
+        Room ret = Room.genStandard(loc);
         ret.addDoors();
         return ret;
     }
     
-    public static Room roomOfTraps(Location loc, Item item, Handler handler){
+    public static Room roomOfTraps(Location loc, Item item){
         Room room = new Room(new Dimension(Distribution.getRandomInclusiveInt(5, 16),
                 Distribution.getRandomInclusiveInt(5, 10)), loc);
-        room.standardify(handler);
-        Trap trap = getRandomTrap(loc, handler);
+        room.standardify();
+        Trap trap = getRandomTrap(loc);
         switch(Distribution.getRandomInclusiveInt(1, 4)){
             case 1: //North
                 for(int y = 2; y < room.dimension.height - 1; y++){
@@ -176,8 +175,8 @@ public class RoomBuilder{
         return room;
     }
     
-    public static Room magicWellRoom(Location loc, Handler handler){
-        Room room = Room.genStandard(loc, handler);
+    public static Room magicWellRoom(Location loc){
+        Room room = Room.genStandard(loc);
         room.addDoors();
         switch(Distribution.getRandomInclusiveInt(1, 3)){
             case 1:
@@ -196,7 +195,7 @@ public class RoomBuilder{
         return room;
     }
     
-    public static Room garden(Location location, Handler handler){
+    public static Room garden(Location location){
         Room room = new Room(new Dimension(Distribution.getRandomInclusiveInt(5, 16),
                 Distribution.getRandomInclusiveInt(5, 16)), location);
         for(int y=0;y<room.dimension.height;y++){
@@ -208,7 +207,7 @@ public class RoomBuilder{
                     if(y==1||x==1||y==room.dimension.height-2||x==room.dimension.width-2)
                         room.map[y][x] = new Tile("highgrass", location);
                     else room.map[y][x] = new Tile("lowgrass", location);
-                    room.addObject(GasBuilder.gardengas(handler));
+                    room.addObject(GasBuilder.gardengas());
                 }
             }
         }
@@ -269,8 +268,8 @@ public class RoomBuilder{
         return room;
     }
     
-    public static Room stalagnate(Location location, Handler handler){
-        Room room = Room.genStandard(location, handler);
+    public static Room stalagnate(Location location){
+        Room room = Room.genStandard(location);
         room.addDoors();
         for(int y=1;y<room.dimension.height-1;y++){
             for(int x=1;x<room.dimension.width-1;x++){
@@ -291,15 +290,15 @@ public class RoomBuilder{
                     
             
     
-    public static Trap getRandomTrap(Location loc, Handler handler){
+    public static Trap getRandomTrap(Location loc){
         String tr = TRAPCOLOURS[Distribution.getRandomInclusiveInt(0, TRAPCOLOURS.length-1)] + "trap";
-        return TrapBuilder.getTrap(tr, loc, handler);
+        return TrapBuilder.getTrap(tr, loc);
     }
     
-    public static Tile getRandomTrapOrChasm(Area area, int x, int y, Handler handler){
+    public static Tile getRandomTrapOrChasm(Area area, int x, int y){
         if(Distribution.chance(9, 10)){
             String tr = TRAPCOLOURS[Distribution.getRandomInclusiveInt(0, TRAPCOLOURS.length)] + "trap";
-            return TrapBuilder.getTrap(tr, area.location, handler);
+            return TrapBuilder.getTrap(tr, area.location);
         }else{
             return new Chasm(area, x, y);
         }

@@ -16,7 +16,7 @@ import listeners.AreaEvent;
 import listeners.DeathEvent;
 import logic.Distribution;
 import logic.GameObject;
-import logic.Gas;
+import blob.Gas;
 import pathfinding.Graph;
 import tiles.Tile;
 import tiles.TrapBuilder;

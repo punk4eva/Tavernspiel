@@ -37,7 +37,6 @@ public class DeathEvent{
     
     public void notifyEvent(){
         area.lifeTaken(this);
-        MainClass.reaper.notify(this);
     }
     
     public Area getArea(){

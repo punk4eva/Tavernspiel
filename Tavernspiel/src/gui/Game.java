@@ -25,7 +25,7 @@ public class Game extends MainClass implements DepthListener{
      * Starts the game.
      */
     public Game(){
-        dungeon = new Dungeon(this, handler);
+        dungeon = new Dungeon(this);
         dungeon.descend();
         window = new Window(WIDTH, HEIGHT, "Tavernspiel", this);
     }

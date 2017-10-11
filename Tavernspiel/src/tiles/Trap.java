@@ -5,7 +5,7 @@ import buffs.Buff;
 import creatures.Creature;
 import level.Location;
 import listeners.StepListener;
-import logic.Gas;
+import blob.Gas;
 import logic.ImageHandler;
 
 /**

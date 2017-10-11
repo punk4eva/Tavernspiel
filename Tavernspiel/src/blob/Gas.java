@@ -1,13 +1,12 @@
 
-package logic;
+package blob;
 
 import animation.GameObjectAnimator;
 import buffs.Buff;
 import creatureLogic.Description;
-import gui.Handler;
 import java.awt.Graphics;
 import java.util.LinkedList;
-import level.Area;
+import logic.GameObject;
 
 /**
  *
@@ -20,28 +19,24 @@ public class Gas extends GameObject{
     public LinkedList<Buff> buffs = new LinkedList<>();
     public int spreadNumber;
     public int duration = 10;
-    private final Handler handler;
     
-    public Gas(String n, Description desc, Buff b, GameObjectAnimator a, int spread, Handler hand){
+    public Gas(String n, Description desc, Buff b, GameObjectAnimator a, int spread){
         super(n, desc, a);
-        handler = hand;
         buffs.add(b);
         spreadNumber = spread;
     }
     
     public Gas(Gas gas, int nx, int ny){
         super(gas.name, gas.description, gas.animator);
-        handler = gas.handler;
         buffs = gas.buffs;
         x = nx;
         y = ny;
         spreadNumber = gas.spreadNumber-1;
     }
     
-    private void spread(){
+    protected void spread(){
         if(spreadNumber==0){
             area.removeObject(this);
-            handler.removeObject(this);
             return;
         }
         if(area.map[y-1][x].treadable&&!area.gasPresent(x, y-1)) area.addObject(new Gas(this, x, y-1));
