@@ -5,7 +5,6 @@ import creatures.Creature;
 import java.io.Serializable;
 import java.util.Iterator;
 import level.Area;
-import pathfinding.Path;
 import pathfinding.Point;
 
 /**
