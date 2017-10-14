@@ -16,7 +16,7 @@ import listeners.AreaEvent;
 import listeners.DeathEvent;
 import logic.Distribution;
 import logic.GameObject;
-import blob.Gas;
+import blob.Potpourri;
 import pathfinding.Graph;
 import tiles.Tile;
 import tiles.TrapBuilder;
@@ -125,7 +125,7 @@ public class Area implements Serializable{
      * @param x The x of the Tile.
      * @param y The y of the Tile.
      */
-    protected void burn(int x, int y){
+    public void burn(int x, int y){
         map[y][x] = new Tile("embers", location);
         Receptacle r = getReceptacle(x, y);
         if(r != null) r.keep(item -> !item.flammable);
@@ -163,8 +163,8 @@ public class Area implements Serializable{
         items.stream().forEach(item -> {
             int x, y;
             do{
-                x = Distribution.getRandomInclusiveInt(0, dimension.width-1);
-                y = Distribution.getRandomInclusiveInt(0, dimension.height-1);
+                x = Distribution.getRandomInt(0, dimension.width-1);
+                y = Distribution.getRandomInt(0, dimension.height-1);
             }while(!isTreadable(x, y));
             try{
                 if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
@@ -264,7 +264,7 @@ public class Area implements Serializable{
      * @return True if there is, false if not.
      */
     public boolean gasPresent(int x, int y){
-        return objects.stream().filter(ob -> ob instanceof Gas && ob.y==y && ob.x==x).count()>0;
+        return objects.stream().filter(ob -> ob instanceof Potpourri && ob.y==y && ob.x==x).count()>0;
     }
     
     /**
@@ -275,7 +275,7 @@ public class Area implements Serializable{
      */
     public boolean tileFree(int x, int y){
         boolean stood = true;
-        for(GameObject ob : objects) if(!(ob instanceof Gas) && ob.x==x && ob.y==y){
+        for(GameObject ob : objects) if(!(ob instanceof Potpourri) && ob.x==x && ob.y==y){
             stood = false;
             break;
         }

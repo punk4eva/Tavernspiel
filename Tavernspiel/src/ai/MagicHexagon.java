@@ -55,7 +55,7 @@ public class MagicHexagon implements Serializable{
         if(defensive + offensive > 15) defensive--;
         else if(total<30) total++;
         else{
-            switch(Distribution.getRandomInclusiveInt(1, 8)){
+            switch(Distribution.getRandomInt(1, 8)){
                 case 1: focus--;
                 case 2: healing--;
                 case 3: mind--;
@@ -73,7 +73,7 @@ public class MagicHexagon implements Serializable{
         if(mind + focus > 15) mind--;
         else if(total<30) total++;
         else{
-            switch(Distribution.getRandomInclusiveInt(1, 8)){
+            switch(Distribution.getRandomInt(1, 8)){
                 case 1: defensive--;
                 case 2: healing--;
                 case 3: offensive--;
@@ -91,7 +91,7 @@ public class MagicHexagon implements Serializable{
         if(defensive + offensive > 15) offensive--;
         else if(total<30) total++;
         else{
-            switch(Distribution.getRandomInclusiveInt(1, 8)){
+            switch(Distribution.getRandomInt(1, 8)){
                 case 1: focus--;
                 case 2: healing--;
                 case 3: mind--;
@@ -109,7 +109,7 @@ public class MagicHexagon implements Serializable{
         if(mind + focus > 15) focus--;
         else if(total<30) total++;
         else{
-            switch(Distribution.getRandomInclusiveInt(1, 8)){
+            switch(Distribution.getRandomInt(1, 8)){
                 case 1: defensive--;
                 case 2: healing--;
                 case 3: offensive--;
@@ -127,7 +127,7 @@ public class MagicHexagon implements Serializable{
         if(healing + sacrificial > 15) sacrificial--;
         else if(total<30) total++;
         else{
-            switch(Distribution.getRandomInclusiveInt(1, 8)){
+            switch(Distribution.getRandomInt(1, 8)){
                 case 1: focus--;
                 case 2: defensive--;
                 case 3: mind--;
@@ -145,7 +145,7 @@ public class MagicHexagon implements Serializable{
         if(sacrificial + healing > 15) healing--;
         else if(total<30) total++;
         else{
-            switch(Distribution.getRandomInclusiveInt(1, 8)){
+            switch(Distribution.getRandomInt(1, 8)){
                 case 1: focus--;
                 case 2: defensive--;
                 case 3: mind--;

@@ -30,7 +30,7 @@ public class CorridorBuilder{
         
         void setDestination(Point d){
             end = d;
-            frontier = new PriorityQueue<>(p -> Distribution.getRandomInclusiveInt(5, 15) +  p.currentCost + p.getOODistance(d));
+            frontier = new PriorityQueue<>(p -> Distribution.getRandomInt(5, 15) +  p.currentCost + p.getOODistance(d));
         }
         
         @Override

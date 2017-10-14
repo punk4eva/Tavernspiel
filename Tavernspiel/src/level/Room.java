@@ -43,8 +43,8 @@ public class Room extends Area{
      * @return The Room.
      */
     public static Room genBlank(Location loc){
-        return new Room(new Dimension(Distribution.getRandomInclusiveInt(4, 16),
-        Distribution.getRandomInclusiveInt(4, 16)), loc);
+        return new Room(new Dimension(Distribution.getRandomInt(4, 16),
+        Distribution.getRandomInt(4, 16)), loc);
     }
     
     /**
@@ -54,8 +54,8 @@ public class Room extends Area{
      * @return The Room.
      */
     public static Room genBlank(Location loc, boolean lock){
-        return new Room(new Dimension(Distribution.getRandomInclusiveInt(4, 16),
-        Distribution.getRandomInclusiveInt(4, 16)), loc, lock);
+        return new Room(new Dimension(Distribution.getRandomInt(4, 16),
+        Distribution.getRandomInt(4, 16)), loc, lock);
     }
     
     /**
@@ -283,10 +283,10 @@ public class Room extends Area{
         if(locked){
             int x, y;
             if(Distribution.chance(1, 2)){
-                x = Distribution.getRandomInclusiveInt(1, dimension.width-2);
+                x = Distribution.getRandomInt(1, dimension.width-2);
                 y = (int) yDistrib.next();
             }else{
-                y = Distribution.getRandomInclusiveInt(1, dimension.height-2);
+                y = Distribution.getRandomInt(1, dimension.height-2);
                 x = (int) xDistrib.next();
             }
             map[y][x] = new Door(location, true);
@@ -298,10 +298,10 @@ public class Room extends Area{
         while(numDoors>0||failed>=40){
             int x, y;
             if(Distribution.chance(1, 2)){
-                x = Distribution.getRandomInclusiveInt(1, dimension.width-2);
+                x = Distribution.getRandomInt(1, dimension.width-2);
                 y = (int) yDistrib.next();
             }else{
-                y = Distribution.getRandomInclusiveInt(1, dimension.height-2);
+                y = Distribution.getRandomInt(1, dimension.height-2);
                 x = (int) xDistrib.next();
             }
             if(map[y][x].equals("wall")||map[y][x].equals("specialwall")){
@@ -327,10 +327,10 @@ public class Room extends Area{
         while(running){
             int x, y;
             if(Distribution.chance(1, 2)){
-                x = Distribution.getRandomInclusiveInt(1, dimension.width-2);
+                x = Distribution.getRandomInt(1, dimension.width-2);
                 y = (int) yDistrib.next();
             }else{
-                y = Distribution.getRandomInclusiveInt(1, dimension.height-2);
+                y = Distribution.getRandomInt(1, dimension.height-2);
                 x = (int) xDistrib.next();
             }
             if(map[y][x].equals("wall")||map[y][x].equals("specialwall")){

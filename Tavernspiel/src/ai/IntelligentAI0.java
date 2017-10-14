@@ -53,7 +53,7 @@ public class IntelligentAI0 extends AITemplate{
         updateDirections(c, area);
         BASEACTIONS.move(c, 
             directionsToMove.get(
-                    Distribution.getRandomInclusiveInt(0, directionsToMove.size()-1)));
+                    Distribution.getRandomInt(0, directionsToMove.size()-1)));
     }
     
 }

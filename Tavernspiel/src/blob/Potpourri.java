@@ -11,22 +11,23 @@ import logic.GameObject;
 /**
  *
  * @author Adam Whittaker
- * 
- * This class represents Gas.
+ 
+ This class represents PotpourriPotpourri.
  */
-public class Gas extends GameObject{
+public class Potpourri extends GameObject{
     
     public LinkedList<Buff> buffs = new LinkedList<>();
     public int spreadNumber;
-    public int duration = 10;
     
-    public Gas(String n, Description desc, Buff b, GameObjectAnimator a, int spread){
+    public Potpourri(String n, Description desc, Buff b, GameObjectAnimator a, int spread, int nx, int ny){
         super(n, desc, a);
         buffs.add(b);
         spreadNumber = spread;
+        x = nx;
+        y = ny;
     }
     
-    public Gas(Gas gas, int nx, int ny){
+    public Potpourri(Potpourri gas, int nx, int ny){
         super(gas.name, gas.description, gas.animator);
         buffs = gas.buffs;
         x = nx;
@@ -39,10 +40,10 @@ public class Gas extends GameObject{
             area.removeObject(this);
             return;
         }
-        if(area.map[y-1][x].treadable&&!area.gasPresent(x, y-1)) area.addObject(new Gas(this, x, y-1));
-        if(area.map[y+1][x].treadable&&!area.gasPresent(x, y+1)) area.addObject(new Gas(this, x, y+1));
-        if(area.map[y][x-1].treadable&&!area.gasPresent(x-1, y)) area.addObject(new Gas(this, x-1, y));
-        if(area.map[y][x+1].treadable&&!area.gasPresent(x+1, y)) area.addObject(new Gas(this, x+1, y));
+        if(area.map[y-1][x].treadable) area.addObject(new Potpourri(this, x, y-1));
+        if(area.map[y+1][x].treadable) area.addObject(new Potpourri(this, x, y+1));
+        if(area.map[y][x-1].treadable) area.addObject(new Potpourri(this, x-1, y));
+        if(area.map[y][x+1].treadable) area.addObject(new Potpourri(this, x+1, y));
         spreadNumber--;
     }
 

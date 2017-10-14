@@ -83,7 +83,7 @@ public class Distribution implements Serializable{
      * @param up The upper bound.
      * @return A random integer.
      */
-    public static int getRandomInclusiveInt(int lo, int up){
+    public static int getRandomInt(int lo, int up){
         return r.nextInt(1+up-lo)+lo;
     }
     

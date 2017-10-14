@@ -14,7 +14,7 @@ import items.Item;
 import level.Area;
 import level.Location;
 import logic.Distribution;
-import blob.Gas;
+import blob.Potpourri;
 import logic.ImageHandler;
 import logic.Utils.Unfinished;
 
@@ -31,7 +31,7 @@ public class TrapBuilder{
     @Unfinished
     public static Trap getTrap(String tr, Location location){
         if(isGaseous(tr)){
-            Gas g = getToxicGas(location); //@unfinished
+            Potpourri g = getToxicGas(location, Integer.MIN_VALUE, Integer.MIN_VALUE); //@unfinished
             return new Trap(tr, location, g);
         }else{
             Buff b = new Buff("-1"); //@unfinished
@@ -44,7 +44,7 @@ public class TrapBuilder{
     }
     
     @Unfinished
-    public static Gas getToxicGas(Location location){
+    public static Potpourri getToxicGas(Location location, int x, int y){
         Buff b = new Buff("toxic gas", 1);
         b.damageDistribution = new Distribution(/**
                 area.location.stageSpawnDistrib.incrementor-1, 
@@ -52,7 +52,7 @@ public class TrapBuilder{
         5, 6);              
         GameObjectAnimator a = new GameObjectAnimator(new String[]{"placeholder"},
                 new Animation[]{new Animation(ImageHandler.getWaterFrames(location, 0))}); //@unfinished, placeholder
-        return new Gas("Toxic Gas", new Description("gas", "A poisonous green vapour."), b, a, 7);
+        return new Potpourri("Toxic Gas", new Description("gas", "A poisonous green vapour."), b, a, 7, x, y);
     }
     
     public static Receptacle getRandomReceptacle(Item i, int x, int y){  

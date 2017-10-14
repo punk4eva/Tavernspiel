@@ -45,7 +45,7 @@ public class MazeBuilder{
             graph.use();
             Point next;
             start.checked = true;
-            int doors = Distribution.getRandomInclusiveInt(2, (area.dimension.width+area.dimension.height)*7/50);
+            int doors = Distribution.getRandomInt(2, (area.dimension.width+area.dimension.height)*7/50);
             while(true){
                 next = getDirection(start);
                 while(next==null){

@@ -37,11 +37,11 @@ public class RoomBuilder{
     }
     
     public static Room roomOfTraps(Location loc, Item item){
-        Room room = new Room(new Dimension(Distribution.getRandomInclusiveInt(5, 16),
-                Distribution.getRandomInclusiveInt(5, 10)), loc);
+        Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
+                Distribution.getRandomInt(5, 10)), loc);
         room.standardify();
         Trap trap = getRandomTrap(loc);
-        switch(Distribution.getRandomInclusiveInt(1, 4)){
+        switch(Distribution.getRandomInt(1, 4)){
             case 1: //North
                 for(int y = 2; y < room.dimension.height - 1; y++){
                     for(int x = 1; x < room.dimension.width - 1; x++){
@@ -95,11 +95,11 @@ public class RoomBuilder{
     }
     
     public static Room chasmVault(Location loc, Item item){
-        Room room = new Room(new Dimension(Distribution.getRandomInclusiveInt(5, 16),
-                Distribution.getRandomInclusiveInt(5, 10)), loc);
+        Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
+                Distribution.getRandomInt(5, 10)), loc);
         room.paintAndPave();
         Tile pedestal = new Tile("pedestal", loc);
-        switch(Distribution.getRandomInclusiveInt(1, 4)){
+        switch(Distribution.getRandomInt(1, 4)){
             case 1: //North
                 for(int y = 1; y < room.dimension.height - 1; y++){
                     if(y==1) for(int x = 1; x < room.dimension.width - 1; x++){
@@ -160,8 +160,8 @@ public class RoomBuilder{
     }
     
     public static Room storage(Location loc, ArrayList<Item> items){
-        Room room = new Room(new Dimension(Distribution.getRandomInclusiveInt(5, 16),
-                Distribution.getRandomInclusiveInt(5, 16)), loc);
+        Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
+                Distribution.getRandomInt(5, 16)), loc);
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
                 if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1){
@@ -178,7 +178,7 @@ public class RoomBuilder{
     public static Room magicWellRoom(Location loc){
         Room room = Room.genStandard(loc);
         room.addDoors();
-        switch(Distribution.getRandomInclusiveInt(1, 3)){
+        switch(Distribution.getRandomInt(1, 3)){
             case 1:
                 room.map[room.dimension.height/2][room.dimension.width/2] =
                         new Well("transmutation", loc);
@@ -196,8 +196,8 @@ public class RoomBuilder{
     }
     
     public static Room garden(Location location){
-        Room room = new Room(new Dimension(Distribution.getRandomInclusiveInt(5, 16),
-                Distribution.getRandomInclusiveInt(5, 16)), location);
+        Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
+                Distribution.getRandomInt(5, 16)), location);
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
                 if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1){
@@ -207,7 +207,7 @@ public class RoomBuilder{
                     if(y==1||x==1||y==room.dimension.height-2||x==room.dimension.width-2)
                         room.map[y][x] = new Tile("highgrass", location);
                     else room.map[y][x] = new Tile("lowgrass", location);
-                    room.addObject(GasBuilder.gardengas());
+                    room.addObject(GasBuilder.gardengas(x, y));
                 }
             }
         }
@@ -215,11 +215,11 @@ public class RoomBuilder{
     } 
     
     public static Room floodedVault(Location loc, Item item){
-        Room room = new Room(new Dimension(Distribution.getRandomInclusiveInt(5, 10),
-                Distribution.getRandomInclusiveInt(5, 10)), loc);
+        Room room = new Room(new Dimension(Distribution.getRandomInt(5, 10),
+                Distribution.getRandomInt(5, 10)), loc);
         room.paintAndPave();
         Tile pedestal = new Tile("pedestal", loc);
-        switch(Distribution.getRandomInclusiveInt(1, 4)){
+        switch(Distribution.getRandomInt(1, 4)){
             case 1: //North
                 for(int y = 1; y < room.dimension.height - 1; y++){
                     for(int x = 1; x < room.dimension.width - 1; x++){
@@ -291,13 +291,13 @@ public class RoomBuilder{
             
     
     public static Trap getRandomTrap(Location loc){
-        String tr = TRAPCOLOURS[Distribution.getRandomInclusiveInt(0, TRAPCOLOURS.length-1)] + "trap";
+        String tr = TRAPCOLOURS[Distribution.getRandomInt(0, TRAPCOLOURS.length-1)] + "trap";
         return TrapBuilder.getTrap(tr, loc);
     }
     
     public static Tile getRandomTrapOrChasm(Area area, int x, int y){
         if(Distribution.chance(9, 10)){
-            String tr = TRAPCOLOURS[Distribution.getRandomInclusiveInt(0, TRAPCOLOURS.length)] + "trap";
+            String tr = TRAPCOLOURS[Distribution.getRandomInt(0, TRAPCOLOURS.length)] + "trap";
             return TrapBuilder.getTrap(tr, area.location);
         }else{
             return new Chasm(area, x, y);
