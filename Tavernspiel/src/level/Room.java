@@ -1,11 +1,18 @@
 
 package level;
 
+import containers.Receptacle;
+import exceptions.ReceptacleOverflowException;
+import items.Item;
+import items.ItemBuilder;
+import items.ItemMap;
 import java.awt.Dimension;
+import java.util.List;
 import logic.Distribution;
 import tiles.AnimatedTile;
 import tiles.Door;
 import tiles.Tile;
+import tiles.TrapBuilder;
 
 /**
  *
@@ -15,7 +22,9 @@ import tiles.Tile;
  */
 public class Room extends Area{
     
-    public boolean locked = false;
+    public boolean locked;
+    public ItemMap itemMap;
+    public Item key;
     
     /**
      * Creates a new instance.
@@ -24,17 +33,21 @@ public class Room extends Area{
      */
     public Room(Dimension dim, Location loc){
         super(dim, loc);
+        locked = false;
+        itemMap = ItemBuilder.getStandardItemMap();
     }
     
     /**
      * Creates a new instance.
      * @param dim The dimension of the Room.
      * @param loc The Location.
-     * @param l Whether the Room is locked.
+     * @param key The key required to open this room.
+     * @param itMap The Room's ItemMap.
      */
-    public Room(Dimension dim, Location loc, boolean l){
+    public Room(Dimension dim, Location loc, Item key, ItemMap itMap){
         super(dim, loc);
-        locked = l;
+        locked = true;
+        itemMap = itMap;
     }
     
     /**
@@ -50,18 +63,18 @@ public class Room extends Area{
     /**
      * Generates a Room with no Tiles.
      * @param loc The location.
-     * @param lock Whether the Room is locked.
+     * @param key The key required to open this room.
+     * @param itMap The Room's ItemMap.
      * @return The Room.
      */
-    public static Room genBlank(Location loc, boolean lock){
+    public static Room genBlank(Location loc, Item key, ItemMap itMap){
         return new Room(new Dimension(Distribution.getRandomInt(4, 16),
-        Distribution.getRandomInt(4, 16)), loc, lock);
+        Distribution.getRandomInt(4, 16)), loc, key, itMap);
     }
     
     /**
      * Generates a standard Room (without doors).
-     * @param loc The location,
-     * @param handler The Handler.
+     * @param loc The location.
      * @return The Room.
      */
     public static Room genStandard(Location loc){
@@ -86,13 +99,13 @@ public class Room extends Area{
     
     /**
      * Generates a standard Room (without doors).
-     * @param loc The location,
-     * @param handler The Handler.
-     * @param lock Whether the Room is locked.
+     * @param loc The location.
+     * @param key The key required to open this room.
+     * @param itMap The Room's ItemMap.
      * @return The Room.
      */
-    public static Room genStandard(Location loc, boolean lock){
-        Room room = genBlank(loc, lock);
+    public static Room genStandard(Location loc, Item key, ItemMap itMap){
+        Room room = genBlank(loc, key, itMap);
         room.paintAndPave();
         if(loc.waterBeforeGrass){
             room.water();
@@ -113,7 +126,6 @@ public class Room extends Area{
     
     /**
      * Standardifies this Room.
-     * @param handler
      */
     public void standardify(){
         paintAndPave();
@@ -339,6 +351,71 @@ public class Room extends Area{
                 else map[y][x] = new Tile("barricade", location, false, true);
             }
         }
+    }
+    
+    /**
+     * Randomly places Items on the ground.
+     * @param items The list of items.
+     */
+    protected void randomlyPlop(List<Item> items){
+        items.stream().forEach(item -> {
+            int x, y;
+            do{
+                x = Distribution.getRandomInt(1, dimension.width-2);
+                y = Distribution.getRandomInt(1, dimension.height-2);
+            }while(!isTreadable(x, y));
+            try{
+                if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
+                else{
+                    receptacles.add(TrapBuilder.getRandomReceptacle(item, x, y));
+                }
+            }catch(ReceptacleOverflowException ignore){}
+        });
+    }
+    
+    /**
+     * Randomly places Items on the ground.
+     */
+    protected void randomlyPlop(){
+        itemMap.genList().stream().forEach(item -> {
+            int x, y;
+            do{
+                x = Distribution.getRandomInt(1, dimension.width-2);
+                y = Distribution.getRandomInt(1, dimension.height-2);
+            }while(!isTreadable(x, y));
+            try{
+                if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
+                else{
+                    receptacles.add(TrapBuilder.getRandomReceptacle(item, x, y));
+                }
+            }catch(ReceptacleOverflowException ignore){}
+        });
+    }
+    
+    /**
+     * Randomly places an Item on the ground.
+     * @param item The Item.
+     */
+    protected void randomlyPlop(Item item){
+        int x, y;
+        do{
+            x = Distribution.getRandomInt(1, dimension.width-2);
+            y = Distribution.getRandomInt(1, dimension.height-2);
+        }while(!isTreadable(x, y));
+        try{
+            if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
+            else{
+                receptacles.add(TrapBuilder.getRandomReceptacle(item, x, y));
+            }
+        }catch(ReceptacleOverflowException ignore){}
+    }
+    
+    /**
+     * Gets the receptacle of this room (only to be used if there is one receptacle).
+     * @return The Receptacle.
+     */
+    public Receptacle getReceptacle(){
+        return receptacles.get(0);
     }
     
 }

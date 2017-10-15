@@ -2,6 +2,7 @@
 package level;
 
 import creatureLogic.CreatureDistribution;
+import java.io.Serializable;
 
 /**
  *
@@ -10,7 +11,7 @@ import creatureLogic.CreatureDistribution;
  * This class represents a collection of Areas and their shared Location, with
  * instructions on how to load the Areas.
  */
-public class Stage{
+public class Stage implements Serializable{
     
     private final static long serialVersionUID = 80204510;
     
@@ -54,7 +55,7 @@ public class Stage{
             areas[loadedLevel] = areaBuilder.load(location.roomDistrib[loadedLevel]);
         }else throw new IllegalStateException("Cannot load preloaded area.");
         loadedLevel++;
-        areaBuilder.clear();
+        areaBuilder.reset();
     }
     
 }

@@ -18,6 +18,18 @@ import logic.Utils.Unfinished;
  * A static convenience class for building Items.
  */
 public final class ItemBuilder{
+
+    @Unfinished
+    public static ItemMap getStandardItemMap(){
+        //return new ItemMap();
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    @Unfinished
+    public static ItemMap getGardenItemMap(){
+        //return new ItemMap();
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
     private ItemBuilder(){}
     

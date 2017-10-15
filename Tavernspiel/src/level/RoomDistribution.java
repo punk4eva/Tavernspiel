@@ -1,9 +1,7 @@
 
 package level;
 
-import items.Item;
 import java.io.Serializable;
-import java.util.List;
 import logic.Distribution;
 import static logic.Distribution.r;
 
@@ -16,7 +14,7 @@ public class RoomDistribution implements Serializable{
     private final static long serialVersionUID = 1600386847;
     
     public interface MakeRoom{
-        Room make(Location loc, List<Item> items);
+        Room make(Location loc);
     };
     private final MakeRoom[] roomMethods, lockedRoomMethods;
     protected final int[] chances, lockedChances;
@@ -33,21 +31,19 @@ public class RoomDistribution implements Serializable{
     /**
      * Generates a random output from this Distribution's output array based on its
      * chances.
-     * @param items The Items to plop.
      * @return A randomly generated Room.
      */
-    public Room next(List<Item> items){
-        return roomMethods[chanceToInt(r.nextInt(chances[chances.length-1])+1)].make(location, items);
+    public Room next(){
+        return roomMethods[chanceToInt(r.nextInt(chances[chances.length-1])+1)].make(location);
     }
     
     /**
      * Generates a random output from this Distribution's output array based on its
      * chances.
-     * @param items The Items to plop.
      * @return A randomly generated locked Room.
      */
-    public Room nextLocked(List<Item> items){
-        return lockedRoomMethods[lockedChanceToInt(r.nextInt(lockedChances[lockedChances.length-1])+1)].make(location, items);
+    public Room nextLocked(){
+        return lockedRoomMethods[lockedChanceToInt(r.nextInt(lockedChances[lockedChances.length-1])+1)].make(location);
     }
     
     /**

@@ -1,6 +1,7 @@
 
 package level;
 
+import creatures.Hero;
 import java.io.Serializable;
 import level.RoomDistribution.MakeRoom;
 import listeners.DepthListener;
@@ -18,6 +19,7 @@ public class Dungeon implements Serializable{
     private final DepthListener depthListener;
     protected int depth = -1;
     protected Stage[] stages;
+    public Area currentArea;
     
     /**
      * Creates a new instance.
@@ -27,28 +29,32 @@ public class Dungeon implements Serializable{
         depthListener = dl;
         stages = new Stage[5];
         Location loc = new Location("Shkoder", "shkoderTileset", "water", "Cyanoshrooms.wav");
-        loc.roomDistrib = new RoomDistribution[]{new RoomDistribution(loc, new MakeRoom[]{(loca, items) -> RoomBuilder.standard(loca)}, null, new int[]{1}, new int[]{1})};
+        loc.roomDistrib = new RoomDistribution[]{new RoomDistribution(loc, new MakeRoom[]{(loca) -> RoomBuilder.standard(loca)}, null, new int[]{1}, new int[]{1})};
         stages[0] = new Stage(loc, 5, new String[]{"The upper level of the caves"}, null);
         stages[0].areas[0] = stages[0].areaBuilder.load(stages[0].location.roomDistrib[0]); depth=0;stages[0].loadedLevel=3;
     }
     
     /**
      * Descends to the next depth.
+     * @param hero
      */
-    public void descend(){
+    public void descend(Hero hero){
         depth++;
         if(!getStage().isLoaded(depth)){
             getStage().loadNext();
         }
-        depthListener.updateDepth(getArea());
+        depthListener.updateDepth(getArea2());
+        hero.setXY(currentArea.startCoords[0], currentArea.startCoords[1]);
     }
     
     /**
      * Ascends to the previous depth.
+     * @param hero
      */
-    public void ascend(){
+    public void ascend(Hero hero){
         depth--;
-        depthListener.updateDepth(getArea());
+        depthListener.updateDepth(getArea2());
+        hero.setXY(currentArea.startCoords[0], currentArea.startCoords[1]);
     }
     
     /**
@@ -68,11 +74,29 @@ public class Dungeon implements Serializable{
      * @return The current Area.
      */
     public Area getArea(){
+        if(currentArea==null){
+            int roll = depth;
+            for(int n=0;true;n++){
+                if(roll<=stages[n].length){
+                    currentArea = stages[n].areas[roll-1];
+                    break;
+                }
+                else roll-=stages[n].length;
+            }
+        }
+        return currentArea;
+    }
+    
+    private Area getArea2(){
         int roll = depth;
         for(int n=0;true;n++){
-            if(roll<=stages[n].length) return stages[n].areas[roll-1];
+            if(roll<=stages[n].length){
+                currentArea = stages[n].areas[roll-1];
+                break;
+            }
             else roll-=stages[n].length;
         }
+        return currentArea;
     }
 
     /**

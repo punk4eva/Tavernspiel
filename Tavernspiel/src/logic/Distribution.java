@@ -35,6 +35,12 @@ public class Distribution implements Serializable{
         }
     }
     
+    public Distribution(int[] cha){
+        chances = convert(cha);
+        outputs = new double[cha.length];
+        for(int n=0;n<cha.length;n++) chances[n] = n;
+    }
+    
     /**
      * Gives a random output from this Distribution's output array based on its
      * chances.

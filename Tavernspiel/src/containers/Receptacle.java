@@ -27,7 +27,7 @@ public abstract class Receptacle implements Serializable{
     public List<Item> items = new LinkedList<>();
     public int capacity = 1000;
     public Description description;
-    public final int x, y; 
+    public int x, y; 
     
     
     public interface Sort{
@@ -210,6 +210,17 @@ public abstract class Receptacle implements Serializable{
         int s = items.size();
         items = items.stream().filter(item -> sort.select(item)).collect(Collectors.toList());
         return items.size()!=s;
+    }
+    
+    /**
+     * Swaps the Item in this Receptacle with another.
+     * @param i The other Item.
+     * @return The regex.
+     */
+    public Item swapItem(Item i){
+        if(items.size()!=1) throw new IllegalStateException();
+        items.add(i);
+        return items.remove(0);
     }
     
 }

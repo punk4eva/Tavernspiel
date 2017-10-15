@@ -5,18 +5,12 @@ import buffs.GasBuilder;
 import containers.Chest;
 import containers.Floor;
 import items.Item;
+import items.ItemBuilder;
 import java.awt.Dimension;
-import java.util.ArrayList;
 import logic.Distribution;
 import logic.Utils.Unfinished;
 import pathfinding.MazeBuilder;
-import tiles.AnimatedTile;
-import tiles.Chasm;
-import tiles.Door;
-import tiles.Tile;
-import tiles.Trap;
-import tiles.TrapBuilder;
-import tiles.Well;
+import tiles.*;
 
 /**
  *
@@ -33,6 +27,7 @@ public class RoomBuilder{
     public static Room standard(Location loc){
         Room ret = Room.genStandard(loc);
         ret.addDoors();
+        ret.randomlyPlop();
         return ret;
     }
     
@@ -159,7 +154,7 @@ public class RoomBuilder{
         return room;
     }
     
-    public static Room storage(Location loc, ArrayList<Item> items){
+    public static Room storage(Location loc){
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
                 Distribution.getRandomInt(5, 16)), loc);
         for(int y=0;y<room.dimension.height;y++){
@@ -171,12 +166,14 @@ public class RoomBuilder{
             }
         }
         room.barricade();
-        room.randomlyPlop(items);
+        room.randomlyPlop();
         return room;
     }
     
     public static Room magicWellRoom(Location loc){
-        Room room = Room.genStandard(loc);
+        Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
+                Distribution.getRandomInt(5, 16)), loc);
+        room.standardify();
         room.addDoors();
         switch(Distribution.getRandomInt(1, 3)){
             case 1:
@@ -195,9 +192,33 @@ public class RoomBuilder{
         return room;
     }
     
+    public static Room depthEntrance(Location loc){
+        Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
+                Distribution.getRandomInt(5, 16)), loc);
+        room.standardify();
+        room.addDoors();
+        room.map[room.dimension.height/2][room.dimension.width/2] =
+                        new DepthEntrance(loc);
+        room.startCoords = new Integer[]{room.dimension.width/2, room.dimension.height/2};
+        room.randomlyPlop();
+        return room;
+    }
+    
+    public static Room depthExit(Location loc){
+        Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
+                Distribution.getRandomInt(5, 16)), loc);
+        room.standardify();
+        room.addDoors();
+        room.map[room.dimension.height/2][room.dimension.width/2] =
+                        new DepthExit(loc);
+        room.randomlyPlop();
+        return room;
+    }
+    
     public static Room garden(Location location){
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
                 Distribution.getRandomInt(5, 16)), location);
+        room.itemMap = ItemBuilder.getGardenItemMap();
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
                 if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1){
@@ -211,6 +232,7 @@ public class RoomBuilder{
                 }
             }
         }
+        room.randomlyPlop();
         return room;
     } 
     
@@ -279,6 +301,7 @@ public class RoomBuilder{
                 }
             }
         }
+        room.randomlyPlop();
         return room;
     }
     

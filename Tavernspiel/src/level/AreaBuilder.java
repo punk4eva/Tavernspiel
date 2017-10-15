@@ -4,11 +4,8 @@ package level;
 import exceptions.AreaCoordsOutOfBoundsException;
 import gui.MainClass;
 import items.Item;
-import items.ItemBuilder;
 import java.awt.Dimension;
 import java.io.Serializable;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import level.RoomDistribution.MakeRoom;
@@ -37,14 +34,18 @@ public class AreaBuilder implements Serializable{
      */
     public AreaBuilder(Location loc){
         location = loc;
+        forcedRooms.add((l) -> RoomBuilder.depthExit(l));
+        forcedRooms.add((l) -> RoomBuilder.depthEntrance(l));
     }
     
     /**
-     * Clears forced objects for the next Area.
+     * Clears forced objects and adds depth entrances and exits for the next Area.
      */
-    protected void clear(){
+    protected void reset(){
         forcedItems.clear();
         forcedRooms.clear();
+        forcedRooms.add((loc) -> RoomBuilder.depthExit(loc));
+        forcedRooms.add((loc) -> RoomBuilder.depthEntrance(loc));
     }
 
     /**
@@ -52,20 +53,45 @@ public class AreaBuilder implements Serializable{
      * @param roomDist The RoomDistribution.
      * @return The Area that was built.
      */
-    @Unfinished("Generate locked rooms.")
+    @Unfinished("Generate forced rooms.")
     protected Area load(RoomDistribution roomDist){
         Area area = new Area(new Dimension(80, 80), location);
-        int k = Distribution.r.nextInt(forcedKeys.size()+1);
-        List<Item> normalItems = ItemBuilder.genRandom(Distribution.r.nextInt(24)+12), roomItems;
         
-        List<Item> key1 = forcedKeys.subList(0, k), key2 = forcedKeys.subList(k, forcedKeys.size());
-        for(int n=0, ch=Distribution.r.nextInt(7)+5;n<ch;n++){
-            /*roomItems = partElements(normalItems, ch-n);
-            if(!key1.isEmpty()) roomItems.add(key1.remove(0));
-            else if(ch-n==1) roomItems.addAll(key1);*/
-            roomItems = new LinkedList<>();
-            selectAndBlit(area, roomDist.next(roomItems));
+        List<Room> rooms = new LinkedList<>(), lockedRooms = new LinkedList<>();
+        //Adds the unlocked natural rooms.
+        for(int n=0, roomNum = Distribution.r.nextInt(7)+3;n<roomNum;n++){
+            rooms.add(roomDist.next());
         }
+        //Adds the locked Rooms to a separate list and generates their keys.
+        List<Item> keys = new LinkedList<>();
+        for(int n=0, roomNum = Distribution.r.nextInt(3)+1;n<roomNum;n++){
+            Room room = roomDist.nextLocked();
+            lockedRooms.add(room);
+            keys.add(room.key);
+        }
+        //Adds forcedKeys to forcedItems.
+        forcedItems.addAll(forcedKeys);
+        rooms.get(Distribution.r.nextInt(rooms.size())).randomlyPlop(keys.remove(0));
+        //
+        for(int n=0;n<lockedRooms.size()-1;n++){
+            Room room = lockedRooms.get(n);
+            if(room.itemMap==null){
+                forcedItems.add(room.getReceptacle().swapItem(keys.remove(0)));
+            }else{
+                room.randomlyPlop(keys.remove(0));
+            }
+        }
+        //Adds the forced Items and keys to the normally generating rooms.
+        while(!forcedItems.isEmpty()){
+            rooms.get(Distribution.r.nextInt(rooms.size())).randomlyPlop(forcedItems.remove(0));
+        }
+        //Adds the forced Rooms.
+        forcedRooms.stream().forEach((mr) -> {
+            rooms.add(mr.make(location));
+        });
+        //Blits the Rooms to the Area.
+        rooms.addAll(lockedRooms);
+        rooms.stream().forEach(r -> selectAndBlit(area, r));
         
         new CorridorBuilder(area).build();
         return area;
@@ -146,23 +172,6 @@ public class AreaBuilder implements Serializable{
         if(area.map[y+1][x]!=null&&area.map[y+1][x].treadable) return 2;
         if(area.map[y][x-1]!=null&&area.map[y][x-1].treadable) return 3;
         throw new IllegalStateException("No valid door direction.");
-    }
-    
-    private <E> List<E> partElements(List<? extends E> ary, int remaining){
-        List<E> ret = new LinkedList<>();
-        Collections.shuffle(ary);
-        if(remaining==1){
-            ret.addAll(ary);
-            return ret;
-        }
-        Iterator<? extends E> iter = ary.iterator();
-        int n = 0, ch = Distribution.r.nextInt(Math.round(((float)ary.size())/remaining));
-        while(iter.hasNext()&&n<ch){
-            ret.add(iter.next());
-            iter.remove();
-            n++;
-        }
-        return ret;
     }
     
 }

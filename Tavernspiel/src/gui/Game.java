@@ -19,14 +19,15 @@ import logic.Utils.Unfinished;
  */
 public class Game extends MainClass implements DepthListener{
     
-    Dungeon dungeon;
+    public final Dungeon dungeon;
+    
     
     /**
      * Starts the game.
      */
     public Game(){
         dungeon = new Dungeon(this);
-        dungeon.descend();
+        dungeon.descend(player);
         window = new Window(WIDTH, HEIGHT, "Tavernspiel", this);
     }
     

@@ -6,7 +6,6 @@ import containers.Receptacle;
 import creatures.Hero;
 import exceptions.AreaCoordsOutOfBoundsException;
 import exceptions.ReceptacleOverflowException;
-import items.Item;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.io.Serializable;
@@ -14,12 +13,11 @@ import java.util.LinkedList;
 import java.util.List;
 import listeners.AreaEvent;
 import listeners.DeathEvent;
-import logic.Distribution;
 import logic.GameObject;
 import blob.Potpourri;
+import java.util.stream.Collectors;
 import pathfinding.Graph;
 import tiles.Tile;
-import tiles.TrapBuilder;
 
 /**
  *
@@ -34,6 +32,7 @@ public class Area implements Serializable{
     public final Tile[][] map;
     public final Dimension dimension;
     public final Location location;
+    public Integer[] startCoords;
     public volatile LinkedList<GameObject> objects = new LinkedList<>();
     public volatile LinkedList<Receptacle> receptacles = new LinkedList<>();
     public Graph graph = null;
@@ -71,8 +70,17 @@ public class Area implements Serializable{
                 map[y][x] = area.map[y-y1][x-x1];
             }
         }
-        objects.addAll(area.objects);
-        receptacles.addAll(area.receptacles);
+        objects.addAll(area.objects.stream().map(ob -> {
+            ob.x += x1;
+            ob.y += y1;
+            return ob;
+        }).collect(Collectors.toList()));
+        receptacles.addAll(area.receptacles.stream().map(rec -> {
+            rec.x += x1;
+            rec.y += y1;
+            return rec;
+        }).collect(Collectors.toList()));
+        if(area.startCoords!=null) startCoords = new Integer[]{startCoords[0]+x1, startCoords[1]+y1};
     }
     
     /**
@@ -92,8 +100,17 @@ public class Area implements Serializable{
                 if(map[y][x]==null) map[y][x] = area.map[y-y1][x-x1];
             }
         }
-        objects.addAll(area.objects);
-        receptacles.addAll(area.receptacles);
+        objects.addAll(area.objects.stream().map(ob -> {
+            ob.x += x1;
+            ob.y += y1;
+            return ob;
+        }).collect(Collectors.toList()));
+        receptacles.addAll(area.receptacles.stream().map(rec -> {
+            rec.x += x1;
+            rec.y += y1;
+            return rec;
+        }).collect(Collectors.toList()));
+        if(area.startCoords!=null) startCoords = new Integer[]{startCoords[0]+x1, startCoords[1]+y1};
     }
     
     /**
@@ -153,28 +170,7 @@ public class Area implements Serializable{
             if(temp.x==x&&temp.y==y) return temp;
         }
         return null;
-    }
-    
-    /**
-     * Randomly places Items on the ground.
-     * @param items The list of items.
-     */
-    protected void randomlyPlop(List<Item> items){
-        items.stream().forEach(item -> {
-            int x, y;
-            do{
-                x = Distribution.getRandomInt(0, dimension.width-1);
-                y = Distribution.getRandomInt(0, dimension.height-1);
-            }while(!isTreadable(x, y));
-            try{
-                if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
-                else{
-                    receptacles.add(TrapBuilder.getRandomReceptacle(item, x, y));
-                }
-            }catch(ReceptacleOverflowException ignore){}
-        });
-    }
-    
+    }   
     
     
     /**
