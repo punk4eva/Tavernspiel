@@ -1,7 +1,9 @@
 
 package dialogues;
 
+import gui.MainClass;
 import guiUtils.CComponent;
+import level.Location;
 import logic.Utils.Unfinished;
 
 /**
@@ -13,6 +15,11 @@ public class LocationBuilderDialogue extends Dialogue{
     
     public LocationBuilderDialogue(CComponent... opt){
         super("Settings for location", "offCase", false, opt);
+    }
+    
+    @Unfinished
+    public Location next(MainClass main){
+        throw new UnsupportedOperationException("Unfinished.");
     }
     
 }

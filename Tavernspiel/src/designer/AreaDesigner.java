@@ -2,6 +2,7 @@
 package designer;
 
 import dialogues.Dialogue;
+import dialogues.LocationBuilderDialogue;
 import gui.MainClass;
 import guiUtils.CComponent;
 import guiUtils.CSlider;
@@ -17,6 +18,14 @@ public class AreaDesigner extends MainClass{
     
     AreaTemplate area;
     
+    public AreaDesigner(){
+        
+        
+        area = new AreaTemplate(
+            new BoundsDialogue().getDimension(this),
+            new LocationBuilderDialogue().next(this));
+    }
+    
     static class BoundsDialogue extends Dialogue{
         
         public BoundsDialogue(){
@@ -25,7 +34,7 @@ public class AreaDesigner extends MainClass{
                         new CSlider("height", 0, 0, 0, 120, 1)});
         }
         
-        public Dimension getDimension(AreaDesigner des, MainClass main){
+        public Dimension getDimension(MainClass main){
             Object[] data = action(main).getData();
             return new Dimension((int)data[0], (int)data[1]);
         }

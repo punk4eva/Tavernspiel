@@ -18,8 +18,9 @@ public class AreaTemplate implements Serializable{
     TileSelection[][] map;
     Location location;
     
-    public AreaTemplate(int width, int height, Location loc){
-        map = new TileSelection[height][width];
+    public AreaTemplate(Dimension dim, Location loc){
+        map = new TileSelection[dim.height][dim.width];
+        location = loc;
     }
     
     public void serialize(String filepath){
