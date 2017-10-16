@@ -5,8 +5,10 @@ package dialogues;
  *
  * @author Charlie Hands
  */
-public class NPCSpeech extends Dialogue{
-    public NPCSpeech(String speech){
+public class SpeechDialogue extends Dialogue{
+    
+    public SpeechDialogue(String speech){
         super(speech, "offCase");
     }
+    
 }

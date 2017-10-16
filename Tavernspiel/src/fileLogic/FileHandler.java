@@ -3,7 +3,6 @@ package fileLogic;
 
 import dialogues.ExceptionDialogue;
 import gui.Game;
-import gui.MainClass;
 import gui.Window;
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,6 +19,8 @@ import java.io.Serializable;
  * Handles IO
  */
 public final class FileHandler{
+    
+    private FileHandler(){}
     
     /**
      * Gets the extension for a given File.
@@ -46,7 +47,7 @@ public final class FileHandler{
      * @param object The object.
      * @param filepath The destination file path.
      */
-    public static void toFile(Serializable object, String filepath){
+    public static void serialize(Serializable object, String filepath){
         try(ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(filepath))){
             output.writeObject(object);
         }catch(IOException e){
@@ -59,7 +60,7 @@ public final class FileHandler{
      * @param filepath The file path.
      * @return The Object obtained.
      */
-    public static Object getFromFile(String filepath){
+    public static Object deserialize(String filepath){
         try(ObjectInputStream in = new ObjectInputStream(new FileInputStream(filepath))) {
             return in.readObject();
         }catch(IOException | ClassNotFoundException e){

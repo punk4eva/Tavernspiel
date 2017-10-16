@@ -14,5 +14,6 @@ public interface CComponent{
     public void paint(Graphics g);
     public int[] getBounds();
     public Screen[] getScreens();
+    public Object getValue();
     
 }

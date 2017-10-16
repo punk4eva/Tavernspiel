@@ -45,12 +45,7 @@ public class Area implements Serializable{
     public Area(Dimension dim, Location loc){
         dimension = dim;
         location = loc;
-        map = createBlank();
-    }
-    
-    private Tile[][] createBlank(){
-        Tile[][] ret = new Tile[dimension.height][dimension.width];
-        return ret;
+        map = new Tile[dimension.height][dimension.width];
     }
     
     /**

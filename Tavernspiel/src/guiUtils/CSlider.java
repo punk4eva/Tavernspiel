@@ -127,6 +127,12 @@ public class CSlider implements CComponent, ScreenListener{
             brx = tlx + width;
             bry = tly + height;
         }
+
+        @Override
+        @Deprecated
+        public Object getValue(){
+            throw new UnsupportedOperationException("Trying to call getValue() for CSliderHandle().");
+        }
     
     }
 
@@ -175,7 +181,8 @@ public class CSlider implements CComponent, ScreenListener{
         return new Screen[]{handle};
     }
     
-    public int getValue(){
+    @Override
+    public Integer getValue(){
         return value;
     }
     

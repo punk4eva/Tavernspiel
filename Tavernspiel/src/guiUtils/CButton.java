@@ -48,5 +48,10 @@ public class CButton extends Screen implements CComponent{
         brx = tlx + width;
         bry = tly + height;
     }
+
+    @Override
+    public Object getValue(){
+        return null;
+    }
     
 }

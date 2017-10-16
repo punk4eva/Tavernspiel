@@ -8,6 +8,8 @@ import guiUtils.CButton;
 import guiUtils.CComponent;
 import guiUtils.CSlider;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.LinkedList;
 import listeners.ScreenListener;
 import logic.ConstantFields;
@@ -19,7 +21,7 @@ import logic.Utils;
  * 
  * An Option Dialogue.
  */
-public class Dialogue implements ScreenListener{
+public class Dialogue implements ScreenListener, KeyListener{
     
     final String question;
     final CComponent[] options;
@@ -30,6 +32,7 @@ public class Dialogue implements ScreenListener{
     private final int padding = 8;
     private final int heightOfQuestion;
     private boolean clickOffable = true;
+    private boolean customComponents = false;
     
     /**
      * Creates a new Dialogue with the given options.
@@ -94,6 +97,7 @@ public class Dialogue implements ScreenListener{
         clickOffable = click;
         offCase = new ScreenEvent(off);
         screenArray = Utils.getScreens(opt);
+        customComponents = true;
     }
     
     /**
@@ -186,6 +190,18 @@ public class Dialogue implements ScreenListener{
         int beginHeight = (MainClass.HEIGHT-height)/2;
         for(int n=0;n<options.length;n++) options[n].setTopLeft(padding+beginWidth, 
                     2*padding+heightOfQuestion+(36+padding)*n+beginHeight);
+    }
+
+    @Override
+    public void keyTyped(KeyEvent ke){}
+    @Override
+    public void keyPressed(KeyEvent ke){}
+    @Override
+    public synchronized void keyReleased(KeyEvent ke){
+        if(ke.getKeyCode()==KeyEvent.VK_ENTER&&customComponents){
+            clickedScreen = new ScreenEvent(options);
+            notify();
+        }
     }
     
 }

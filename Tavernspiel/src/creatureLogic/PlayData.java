@@ -36,7 +36,7 @@ public class PlayData implements Serializable{
      * Retrieves PlayData from its file.
      */
     public PlayData(){
-        PlayData pd = (PlayData) FileHandler.getFromFile("saves/gamedata.plydta");
+        PlayData pd = (PlayData) FileHandler.deserialize("saves/gamedata.plydta");
         gamesPlayed = pd.gamesPlayed;
         badgesEarned = pd.badgesEarned;
         gamesWon = pd.gamesWon;
@@ -46,7 +46,7 @@ public class PlayData implements Serializable{
      * Saves this Object.
      */
     public void save(){
-        FileHandler.toFile(this, "saves/gamedata.plydta");
+        FileHandler.serialize(this, "saves/gamedata.plydta");
     };
     
     /**

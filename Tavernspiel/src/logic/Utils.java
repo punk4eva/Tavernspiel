@@ -139,7 +139,7 @@ public final class Utils{
     
     public static void main(String... args) throws IOException{
         //debugging
-        printHashCodes("SERImage");
+        printHashCodes("TileSelection");
     }
     
 }

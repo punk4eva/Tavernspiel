@@ -1,6 +1,7 @@
 
 package gui;
 
+import guiUtils.CComponent;
 import java.awt.event.MouseEvent;
 import java.io.Serializable;
 import listeners.ScreenListener;
@@ -53,6 +54,7 @@ public class Screen implements Serializable{
         
         private final String name;
         private final MouseEvent me;
+        private Object[] data;
         
         public ScreenEvent(Screen sc, MouseEvent m){
             name = sc.name;
@@ -64,12 +66,29 @@ public class Screen implements Serializable{
             me = null;
         }
         
+        public ScreenEvent(CComponent[] comps){
+            data = new Object[comps.length];
+            for(int n=0;n<comps.length;n++){
+                data[n] = comps[n].getValue();
+            }
+            name = "Components";
+            me = null;
+        }
+        
         public String getName(){
             return name;
         }
         
         public MouseEvent getMouseEvent(){
             return me;
+        }
+        
+        public boolean hasData(){
+            return data!=null;
+        }
+        
+        public Object[] getData(){
+            return data;
         }
         
     }
