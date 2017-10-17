@@ -1,6 +1,8 @@
 
 package designer;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.io.Serializable;
 import level.Location;
 import logic.Distribution;
@@ -18,6 +20,7 @@ public class TileSelection implements Serializable{
     final Distribution distrib;
     final String[] tiles;
     boolean boundary = false;
+    Color color;
     
     public TileSelection(int[] chances, String[] t){
         distrib = new Distribution(chances);
@@ -26,6 +29,15 @@ public class TileSelection implements Serializable{
     
     public Tile getTile(Location loc){
         return new Tile(tiles[(int)distrib.next()], loc);
+    }
+    
+    public void paint(Graphics g, int x, int y){
+        g.setColor(color);
+        g.fillRect(x, y, 16, 16);
+        if(boundary){
+            g.setColor(Color.black);
+            g.fillOval(x+4, y+4, 8, 8);
+        }
     }
     
     

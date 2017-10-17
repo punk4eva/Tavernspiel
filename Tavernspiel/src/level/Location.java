@@ -136,6 +136,26 @@ public class Location implements Serializable{
      * @param n The name.
      * @param tiles The tileset.
      * @param waterI The water image.
+     * @param water The water gen. chance.
+     * @param grass The grass gen. chance.
+     * @param wbg Whether water should be generated before grass.
+     * @param bmp The path for the background music.
+     */
+    public Location(String n, String tiles, String waterI, Distribution water, Distribution grass, boolean wbg, String bmp){
+        name = n;
+        tileset = new ImageIcon(tiles);
+        backgroundMusicPath = bmp;
+        waterGenChance = water;
+        grassGenChance = grass;
+        waterImage = new ImageIcon(waterI);
+        waterBeforeGrass = wbg;
+    }
+    
+    /**
+     * Creates a new instance.
+     * @param n The name.
+     * @param tiles The tileset.
+     * @param waterI The water image.
      * @param sp The CreatureDistributions.
      * @param water The water gen. chance.
      * @param grass The grass gen. chance.

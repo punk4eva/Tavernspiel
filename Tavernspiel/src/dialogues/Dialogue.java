@@ -117,6 +117,7 @@ public class Dialogue implements ScreenListener, KeyListener{
     }
     
     private void activate(MainClass main){
+        if(customComponents) main.addKeyListener(this);
         main.changeCurrentDialogue(this);
         for(Screen sc : screenArray) if(sc instanceof CSlider.CSliderHandle) main.addDraggable(sc);
         else main.addScreen(sc);

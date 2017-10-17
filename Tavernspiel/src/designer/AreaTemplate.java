@@ -17,10 +17,12 @@ public class AreaTemplate implements Serializable{
     
     TileSelection[][] map;
     Location location;
+    final Dimension dimension;
     
     public AreaTemplate(Dimension dim, Location loc){
         map = new TileSelection[dim.height][dim.width];
         location = loc;
+        dimension = dim;
     }
     
     public void serialize(String filepath){
