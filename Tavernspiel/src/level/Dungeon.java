@@ -5,6 +5,7 @@ import creatures.Hero;
 import java.io.Serializable;
 import level.RoomDistribution.MakeRoom;
 import listeners.DepthListener;
+import logic.Utils.Unfinished;
 
 /**
  *
@@ -31,20 +32,23 @@ public class Dungeon implements Serializable{
         Location loc = new Location("Shkoder", "shkoderTileset", "water", "Cyanoshrooms.wav");
         loc.roomDistrib = new RoomDistribution[]{new RoomDistribution(loc, new MakeRoom[]{(loca) -> RoomBuilder.standard(loca)}, null, new int[]{1}, new int[]{1})};
         stages[0] = new Stage(loc, 5, new String[]{"The upper level of the caves"}, null);
-        stages[0].areas[0] = stages[0].areaBuilder.load(stages[0].location.roomDistrib[0]); depth=0;stages[0].loadedLevel=3;
+        //stages[0].areas[0] = stages[0].areaBuilder.load(stages[0].location.roomDistrib[0]); 
+        depth=0;stages[0].loadedLevel=3;
+        stages[0].areas[0] = Area.getPreloadedArea("filetesting/phallus.map");
     }
     
     /**
      * Descends to the next depth.
      * @param hero
      */
+    @Unfinished("Uncomment setXY()")
     public void descend(Hero hero){
         depth++;
         if(!getStage().isLoaded(depth)){
             getStage().loadNext();
         }
         depthListener.updateDepth(getArea2());
-        hero.setXY(currentArea.startCoords[0], currentArea.startCoords[1]);
+        //hero.setXY(currentArea.startCoords[0], currentArea.startCoords[1]);
     }
     
     /**

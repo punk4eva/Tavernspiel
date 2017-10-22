@@ -15,6 +15,7 @@ import listeners.AreaEvent;
 import listeners.DeathEvent;
 import logic.GameObject;
 import blob.Potpourri;
+import designer.AreaTemplate;
 import java.util.stream.Collectors;
 import pathfinding.Graph;
 import tiles.Tile;
@@ -271,6 +272,10 @@ public class Area implements Serializable{
             break;
         }
         return stood&&map[y][x].treadable;
+    }
+    
+    public static Area getPreloadedArea(String filepath){
+        return AreaTemplate.deserialize(filepath).toArea();
     }
     
     public void renderObjects(Graphics g){

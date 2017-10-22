@@ -29,7 +29,7 @@ public class AreaTemplate implements Serializable{
         FileHandler.serialize(this, filepath);
     }
     
-    public AreaTemplate deserialize(String filepath){
+    public static AreaTemplate deserialize(String filepath){
         return (AreaTemplate) FileHandler.deserialize(filepath);
     }
     
@@ -37,8 +37,10 @@ public class AreaTemplate implements Serializable{
         Area area = new Area(new Dimension(map[0].length, map.length), location);
         for(int y=0;y<map.length;y++){
             for(int x=0;x<map[0].length;x++){
-                area.map[y][x] = map[y][x].getTile(location);
-                if(map[y][x].boundary) area.map[y][x].treadable = false;
+                if(map[y][x]!=null){
+                    area.map[y][x] = map[y][x].getTile(location);
+                    if(map[y][x].boundary) area.map[y][x].treadable = false;
+                }
             }
         }
         return area;

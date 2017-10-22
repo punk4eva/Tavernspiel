@@ -51,6 +51,7 @@ public final class FileHandler{
         try(ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(filepath))){
             output.writeObject(object);
         }catch(IOException e){
+            e.printStackTrace();
             new ExceptionDialogue(e).next((Game)Window.main);
         }
     }

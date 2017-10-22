@@ -38,7 +38,7 @@ public class Distribution implements Serializable{
     public Distribution(int[] cha){
         chances = convert(cha);
         outputs = new double[cha.length];
-        for(int n=0;n<cha.length;n++) chances[n] = n;
+        for(int n=0;n<cha.length;n++) outputs[n] = n;
     }
     
     /**
