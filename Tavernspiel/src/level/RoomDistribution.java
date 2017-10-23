@@ -16,11 +16,15 @@ public class RoomDistribution implements Serializable{
     public interface MakeRoom{
         Room make(Location loc);
     };
-    private final MakeRoom[] roomMethods, lockedRoomMethods;
+    public interface MakeLockedRoom{
+        Room make(Location loc, int depth);
+    };
+    private final MakeRoom[] roomMethods;
+    private final MakeLockedRoom[] lockedRoomMethods;
     protected final int[] chances, lockedChances;
     private final Location location;
     
-    public RoomDistribution(Location loc, MakeRoom[] rMethods, MakeRoom[] lMethods, int[] cha, int[] lCha){
+    public RoomDistribution(Location loc, MakeRoom[] rMethods, MakeLockedRoom[] lMethods, int[] cha, int[] lCha){
         chances = Distribution.convert(cha);
         lockedRoomMethods = lMethods;
         location = loc;
@@ -40,10 +44,11 @@ public class RoomDistribution implements Serializable{
     /**
      * Generates a random output from this Distribution's output array based on its
      * chances.
+     * @param depth The depth of the Room.
      * @return A randomly generated locked Room.
      */
-    public Room nextLocked(){
-        return lockedRoomMethods[lockedChanceToInt(r.nextInt(lockedChances[lockedChances.length-1])+1)].make(location);
+    public Room nextLocked(int depth){
+        return lockedRoomMethods[lockedChanceToInt(r.nextInt(lockedChances[lockedChances.length-1])+1)].make(location, depth);
     }
     
     /**

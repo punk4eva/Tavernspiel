@@ -51,10 +51,11 @@ public class AreaBuilder implements Serializable{
     /**
      * Builds the next Area.
      * @param roomDist The RoomDistribution.
+     * @param depth The depth of the next Area.
      * @return The Area that was built.
      */
     @Unfinished("Generate forced rooms.")
-    protected Area load(RoomDistribution roomDist){
+    protected Area load(RoomDistribution roomDist, int depth){
         Area area = new Area(new Dimension(80, 80), location);
         
         List<Room> rooms = new LinkedList<>(), lockedRooms = new LinkedList<>();
@@ -65,14 +66,14 @@ public class AreaBuilder implements Serializable{
         //Adds the locked Rooms to a separate list and generates their keys.
         List<Item> keys = new LinkedList<>();
         for(int n=0, roomNum = Distribution.r.nextInt(3)+1;n<roomNum;n++){
-            Room room = roomDist.nextLocked();
+            Room room = roomDist.nextLocked(depth);
             lockedRooms.add(room);
             keys.add(room.key);
         }
         //Adds forcedKeys to forcedItems.
         forcedItems.addAll(forcedKeys);
         rooms.get(Distribution.r.nextInt(rooms.size())).randomlyPlop(keys.remove(0));
-        //
+        //Does something
         for(int n=0;n<lockedRooms.size()-1;n++){
             Room room = lockedRooms.get(n);
             if(room.itemMap==null){

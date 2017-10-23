@@ -5,6 +5,8 @@ import animation.Animation;
 import items.consumables.Potion;
 import items.consumables.Scroll;
 import items.equipment.Ring;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.ImageIcon;
@@ -18,6 +20,15 @@ import logic.Utils.Unfinished;
  * A static convenience class for building Items.
  */
 public final class ItemBuilder{
+    
+    public static final BufferedImage items;
+    static{
+        ImageIcon ic = new ImageIcon("graphics/items.png");
+        items = new BufferedImage(ic.getIconWidth(), ic.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics g = items.getGraphics();
+        g.drawImage(ic.getImage(), 0, 0, null);
+        g.dispose();
+    }
 
     @Unfinished
     public static ItemMap getStandardItemMap(){
@@ -63,6 +74,10 @@ public final class ItemBuilder{
 
     public static List<Scroll> getListOfAllScrolls(){
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public static ImageIcon getIcon(int x, int y){
+        return new ImageIcon(items.getSubimage(x*16, y*16, 16, 16));
     }
     
     public static Item genRandom(){

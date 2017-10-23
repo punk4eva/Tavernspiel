@@ -14,7 +14,7 @@ import java.util.List;
 import listeners.AreaEvent;
 import listeners.DeathEvent;
 import logic.GameObject;
-import blob.Potpourri;
+import blob.Blob;
 import designer.AreaTemplate;
 import java.util.stream.Collectors;
 import pathfinding.Graph;
@@ -256,7 +256,7 @@ public class Area implements Serializable{
      * @return True if there is, false if not.
      */
     public boolean gasPresent(int x, int y){
-        return objects.stream().filter(ob -> ob instanceof Potpourri && ob.y==y && ob.x==x).count()>0;
+        return objects.stream().filter(ob -> ob instanceof Blob && ob.y==y && ob.x==x).count()>0;
     }
     
     /**
@@ -267,7 +267,7 @@ public class Area implements Serializable{
      */
     public boolean tileFree(int x, int y){
         boolean stood = true;
-        for(GameObject ob : objects) if(!(ob instanceof Potpourri) && ob.x==x && ob.y==y){
+        for(GameObject ob : objects) if(!(ob instanceof Blob) && ob.x==x && ob.y==y){
             stood = false;
             break;
         }

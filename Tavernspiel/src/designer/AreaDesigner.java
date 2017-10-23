@@ -13,7 +13,9 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayDeque;
 import java.util.Scanner;
+import pathfinding.Point;
 
 /**
  *
@@ -23,7 +25,7 @@ public class AreaDesigner extends MainClass{
     
     AreaTemplate area = new AreaTemplate(new Dimension(1, 1), null);
     CommandLibrary command = new CommandLibrary();
-    boolean boundary = false;
+    boolean boundary = false, fillMode = false;
     TileSelection brush = TileSelection.floor;
     
     
@@ -49,7 +51,7 @@ public class AreaDesigner extends MainClass{
     class CommandLibrary{
         
         String commands[] = new String[]{"/tile * ", "/tile ", "/boundary",
-            "/custom ", "/save ", "/exit", "/erasor"};
+            "/custom ", "/save ", "/exit", "/erasor", "/fill"};
         Scanner scan = new Scanner(System.in);
         
         public void activate(){
@@ -59,6 +61,8 @@ public class AreaDesigner extends MainClass{
                     case "/tile * ": tileStar(command.substring(str.length()));
                         return;
                     case "/tile ": tile(command.substring(str.length()));
+                        return;
+                    case "/fill": fill();
                         return;
                     case "/boundary": boundary();
                         return;
@@ -97,6 +101,31 @@ public class AreaDesigner extends MainClass{
     
     void save(String filepath){
         area.serialize(filepath);
+    }
+    
+    void fill(){
+        fillMode = !fillMode;
+    }
+    
+    void fill(int x, int y){
+        ArrayDeque<Integer[]> queue = new ArrayDeque<>();
+        try{
+            queue.add(new Integer[]{x, y});
+            area.map[y][x] = brush.clone();
+        }catch(Exception e){return;}
+        while(!queue.isEmpty()){
+            Integer[] current = queue.pop();
+            for(Point.Direction dir : Point.Direction.values()){
+                Integer[] next = new Integer[]{dir.x.update(current[0]), dir.y.update(current[1])};
+                System.out.println(current[0] + ", " + current[1]);
+                try{
+                    if(area.map[next[1]][next[0]]==null){
+                        queue.add(next);
+                        area.map[next[1]][next[0]] = brush.clone();
+                    }
+                }catch(Exception e){}
+            }
+        }
     }
     
     /**
@@ -156,7 +185,8 @@ public class AreaDesigner extends MainClass{
     public void mouseClicked(MouseEvent me){
         Integer[] p = translateMouseCoords(me.getX(), me.getY());
         try{
-            if(boundary) area.map[p[1]][p[0]].boundary = !area.map[p[1]][p[0]].boundary;
+            if(fillMode) fill(p[0], p[1]);
+            else if(boundary) area.map[p[1]][p[0]].boundary = !area.map[p[1]][p[0]].boundary;
             else if(brush==null) area.map[p[1]][p[0]] = null;
             else area.map[p[1]][p[0]] = brush.clone();
         }catch(Exception e){}

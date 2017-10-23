@@ -29,15 +29,6 @@ public abstract class ItemProfile{
         description = desc;
     }
     
-    public static final BufferedImage items;
-    static{
-        ImageIcon ic = new ImageIcon("graphics/items.png");
-        items = new BufferedImage(ic.getIconWidth(), ic.getIconHeight(), BufferedImage.TYPE_INT_ARGB);
-        Graphics g = items.getGraphics();
-        g.drawImage(ic.getImage(), 0, 0, null);
-        g.dispose();
-    }
-    
     protected static abstract class DescriptionBuilder{
         protected final Random r = new Random();
         protected String description = "";
@@ -137,7 +128,7 @@ public abstract class ItemProfile{
      * @return The Image.
      */
     public static BufferedImage getImage(int x, int y){
-        return items.getSubimage(x, y, 16, 16);
+        return ItemBuilder.items.getSubimage(x, y, 16, 16);
     }
     
     /**

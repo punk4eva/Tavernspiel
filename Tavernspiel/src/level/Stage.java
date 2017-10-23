@@ -52,7 +52,7 @@ public class Stage implements Serializable{
      */
     public void loadNext(){
         if(areas[loadedLevel]==null){
-            areas[loadedLevel] = areaBuilder.load(location.roomDistrib[loadedLevel]);
+            areas[loadedLevel] = areaBuilder.load(location.roomDistrib[loadedLevel], loadedLevel);
         }else throw new IllegalStateException("Cannot load preloaded area.");
         loadedLevel++;
         areaBuilder.reset();

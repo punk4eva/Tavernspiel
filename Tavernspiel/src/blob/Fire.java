@@ -12,7 +12,7 @@ import logic.Utils.Unfinished;
  * @author Adam Whittaker
  */
 @Unfinished("Need to override turn() and create burn method.")
-public class Fire extends Potpourri{
+public class Fire extends Blob{
     
     public Fire(GameObjectAnimator a, int x, int y){
         super("fire", new Description("naturals", "A fire is raging here"), BuffBuilder.fire(), a, Distribution.getRandomInt(2, 5),x,y);

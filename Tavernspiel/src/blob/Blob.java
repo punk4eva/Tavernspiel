@@ -14,12 +14,12 @@ import logic.GameObject;
  
  This class represents PotpourriPotpourri.
  */
-public class Potpourri extends GameObject{
+public class Blob extends GameObject{
     
     public LinkedList<Buff> buffs = new LinkedList<>();
     public int spreadNumber;
     
-    public Potpourri(String n, Description desc, Buff b, GameObjectAnimator a, int spread, int nx, int ny){
+    public Blob(String n, Description desc, Buff b, GameObjectAnimator a, int spread, int nx, int ny){
         super(n, desc, a);
         buffs.add(b);
         spreadNumber = spread;
@@ -27,7 +27,7 @@ public class Potpourri extends GameObject{
         y = ny;
     }
     
-    public Potpourri(Potpourri gas, int nx, int ny){
+    public Blob(Blob gas, int nx, int ny){
         super(gas.name, gas.description, gas.animator);
         buffs = gas.buffs;
         x = nx;
@@ -40,10 +40,10 @@ public class Potpourri extends GameObject{
             area.removeObject(this);
             return;
         }
-        if(area.map[y-1][x].treadable) area.addObject(new Potpourri(this, x, y-1));
-        if(area.map[y+1][x].treadable) area.addObject(new Potpourri(this, x, y+1));
-        if(area.map[y][x-1].treadable) area.addObject(new Potpourri(this, x-1, y));
-        if(area.map[y][x+1].treadable) area.addObject(new Potpourri(this, x+1, y));
+        if(area.map[y-1][x].treadable) area.addObject(new Blob(this, x, y-1));
+        if(area.map[y+1][x].treadable) area.addObject(new Blob(this, x, y+1));
+        if(area.map[y][x-1].treadable) area.addObject(new Blob(this, x-1, y));
+        if(area.map[y][x+1].treadable) area.addObject(new Blob(this, x+1, y));
         spreadNumber--;
     }
 

@@ -4,7 +4,7 @@ package buffs;
 import animation.AnimationBuilder;
 import animation.GameObjectAnimator;
 import creatureLogic.Description;
-import blob.Potpourri;
+import blob.Blob;
 
 /**
  *
@@ -14,8 +14,8 @@ import blob.Potpourri;
  */
 public class GasBuilder{
     
-    public static Potpourri gardengas(int x, int y){
-        Potpourri g = new Potpourri("shadowmelded", 
+    public static Blob gardengas(int x, int y){
+        Blob g = new Blob("shadowmelded", 
                 new Description("gas", "Cleansing shafts of light pierce the vegetation."),
                 BuffBuilder.shadowmelded(),
                 new GameObjectAnimator(AnimationBuilder.getAnimation("shadowmelded")), 1, x, y){

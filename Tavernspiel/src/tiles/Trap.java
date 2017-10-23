@@ -5,7 +5,7 @@ import buffs.Buff;
 import creatures.Creature;
 import level.Location;
 import listeners.StepListener;
-import blob.Potpourri;
+import blob.Blob;
 import logic.ImageHandler;
 
 /**
@@ -16,7 +16,7 @@ public class Trap extends HiddenTile implements StepListener{
     
     public boolean reusable = false;
     public boolean used = false;
-    private Potpourri sprayedGas = null; //null if there is no gas.
+    private Blob sprayedGas = null; //null if there is no gas.
     private Buff buff = null; //null if there is no buff.
     
     public Trap(String tile, Location loc, Buff b){
@@ -24,7 +24,7 @@ public class Trap extends HiddenTile implements StepListener{
         buff = b;
     }
     
-    public Trap(String tile, Location loc, Potpourri g){
+    public Trap(String tile, Location loc, Blob g){
         super("floor", tile, loc, false, true);
         sprayedGas = g;
     }
@@ -34,7 +34,7 @@ public class Trap extends HiddenTile implements StepListener{
         buff = b;
     }
     
-    public Trap(String tile, Location loc, Potpourri g, boolean hid){
+    public Trap(String tile, Location loc, Blob g, boolean hid){
         super("floor", tile, loc, hid, false, true);
         sprayedGas = g;
     }

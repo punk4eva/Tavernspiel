@@ -3,6 +3,7 @@ package level;
 
 import creatures.Hero;
 import java.io.Serializable;
+import level.RoomDistribution.MakeLockedRoom;
 import level.RoomDistribution.MakeRoom;
 import listeners.DepthListener;
 import logic.Utils.Unfinished;
@@ -30,11 +31,13 @@ public class Dungeon implements Serializable{
         depthListener = dl;
         stages = new Stage[5];
         Location loc = new Location("Shkoder", "shkoderTileset", "water", "Cyanoshrooms.wav");
-        loc.roomDistrib = new RoomDistribution[]{new RoomDistribution(loc, new MakeRoom[]{(loca) -> RoomBuilder.standard(loca)}, null, new int[]{1}, new int[]{1})};
+        loc.roomDistrib = new RoomDistribution[]{new RoomDistribution(loc, 
+                new MakeRoom[]{(loca) -> RoomBuilder.itemless(loca)}, 
+                new MakeLockedRoom[]{(loca, d) -> RoomBuilder.lockedItemless(loca, d)}, 
+                new int[]{1}, new int[]{1})};
         stages[0] = new Stage(loc, 5, new String[]{"The upper level of the caves"}, null);
-        //stages[0].areas[0] = stages[0].areaBuilder.load(stages[0].location.roomDistrib[0]); 
-        depth=0;stages[0].loadedLevel=3;
-        stages[0].areas[0] = Area.getPreloadedArea("filetesting/phallus.map");
+        stages[0].areas[0] = stages[0].areaBuilder.load(stages[0].location.roomDistrib[0], 0); depth=0;stages[0].loadedLevel=3;
+        //stages[0].areas[0] = Area.getPreloadedArea("filetesting/phallus.map");
     }
     
     /**

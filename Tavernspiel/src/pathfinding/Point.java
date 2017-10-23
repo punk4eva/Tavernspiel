@@ -17,7 +17,7 @@ public class Point implements Serializable{
     Point cameFrom = null; //null if starting point. 
     int currentCost = Integer.MAX_VALUE;
     boolean isCorridor = false;
-    static enum Direction{
+    public static enum Direction{
         //START(0, x->x, y->y),
         //UNCHECKED(-1, x->-1, y->-1),
         //NORTHWEST(1, x->x-1, y->y-1),
@@ -27,21 +27,21 @@ public class Point implements Serializable{
         //SOUTHEAST(8, x->x+1, y->y+1),
         SOUTH(7, x->x, y->y+1), 
         //SOUTHWEST(6, x->x+1, y->y+1),
-        WEST(4, x->x-1, y->y);
+        WEST(4, x->x+1, y->y);
         
         int code;
-        xDir x;
-        yDir y;
+        public final xDir x;
+        public final yDir y;
         Direction(int c, xDir xd, yDir yd){
             code = c;
             x = xd;
             y = yd;
         }
         
-        interface xDir{
+        public interface xDir{
             int update(int x);
         }
-        interface yDir{
+        public interface yDir{
             int update(int y);
         }
         
