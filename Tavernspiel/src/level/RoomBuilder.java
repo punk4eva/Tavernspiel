@@ -6,6 +6,7 @@ import containers.Chest;
 import containers.Floor;
 import items.Item;
 import items.ItemBuilder;
+import items.ItemMap;
 import items.Key;
 import java.awt.Dimension;
 import logic.Distribution;
@@ -39,7 +40,7 @@ public class RoomBuilder{
     }
     
     public static Room lockedItemless(Location loc, int depth){
-        Room ret = Room.genStandard(loc, new Key(depth), null);
+        Room ret = Room.genStandard(loc, new Key(depth), new ItemMap());
         ret.addDoors();
         return ret;
     }

@@ -4,6 +4,7 @@ package logic;
 import gui.Screen;
 import guiUtils.CComponent;
 import java.io.IOException;
+import java.lang.annotation.Inherited;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -125,10 +126,11 @@ public final class Utils{
         String value() default ""; //notes
     }
     
+    @Inherited
     public @interface Unfinished{
         String value() default ""; //notes
     }
-    
+
     public @interface Catch{
         String value() default ""; //notes
     }

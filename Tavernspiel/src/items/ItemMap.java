@@ -4,6 +4,7 @@ package items;
 import java.util.LinkedList;
 import java.util.List;
 import logic.Distribution;
+import logic.Utils.Unfinished;
 
 /**
  *
@@ -30,6 +31,14 @@ public class ItemMap{
         lower = l;
         stackSizes = stk;
         upper = u;
+    }
+    
+    @Unfinished("This is a placeholder constructor.")
+    @Deprecated
+    public ItemMap(){
+        distrib = new Distribution(new int[]{});
+        items = new Item[]{};
+        stackSizes = null;
     }
     
     public List<Item> genList(){

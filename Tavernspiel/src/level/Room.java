@@ -9,7 +9,6 @@ import items.ItemMap;
 import java.awt.Dimension;
 import java.util.List;
 import logic.Distribution;
-import logic.Utils.Unfinished;
 import tiles.AnimatedTile;
 import tiles.Door;
 import tiles.Tile;
@@ -32,23 +31,23 @@ public class Room extends Area{
      * @param dim The dimension of the Room.
      * @param loc The Location.
      */
-    @Unfinished("Uncomment")
     public Room(Dimension dim, Location loc){
         super(dim, loc);
         locked = false;
-        //itemMap = ItemBuilder.getStandardItemMap();
+        itemMap = ItemBuilder.getStandardItemMap();
     }
     
     /**
      * Creates a new instance.
      * @param dim The dimension of the Room.
      * @param loc The Location.
-     * @param key The key required to open this room.
+     * @param k The key required to open this room.
      * @param itMap The Room's ItemMap.
      */
-    public Room(Dimension dim, Location loc, Item key, ItemMap itMap){
+    public Room(Dimension dim, Location loc, Item k, ItemMap itMap){
         super(dim, loc);
         locked = true;
+        key = k;
         itemMap = itMap;
     }
     

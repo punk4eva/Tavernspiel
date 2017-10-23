@@ -32,8 +32,8 @@ public final class ItemBuilder{
 
     @Unfinished
     public static ItemMap getStandardItemMap(){
-        //return new ItemMap();
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new ItemMap();
+        //throw new UnsupportedOperationException("Not supported yet.");
     }
     
     @Unfinished

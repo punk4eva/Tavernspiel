@@ -76,7 +76,7 @@ public class Area implements Serializable{
             rec.y += y1;
             return rec;
         }).collect(Collectors.toList()));
-        if(area.startCoords!=null) startCoords = new Integer[]{startCoords[0]+x1, startCoords[1]+y1};
+        if(area.startCoords!=null) startCoords = new Integer[]{area.startCoords[0]+x1, area.startCoords[1]+y1};
     }
     
     /**

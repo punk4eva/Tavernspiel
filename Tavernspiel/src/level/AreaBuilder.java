@@ -72,6 +72,7 @@ public class AreaBuilder implements Serializable{
         }
         //Adds forcedKeys to forcedItems.
         forcedItems.addAll(forcedKeys);
+        System.out.println(keys);
         rooms.get(Distribution.r.nextInt(rooms.size())).randomlyPlop(keys.remove(0));
         //Does something
         for(int n=0;n<lockedRooms.size()-1;n++){
