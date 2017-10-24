@@ -3,7 +3,6 @@ package level;
 
 import creatures.Hero;
 import java.io.Serializable;
-import level.RoomDistribution.MakeLockedRoom;
 import level.RoomDistribution.MakeRoom;
 import listeners.DepthListener;
 import logic.Utils.Unfinished;
@@ -30,10 +29,10 @@ public class Dungeon implements Serializable{
     public Dungeon(DepthListener dl){
         depthListener = dl;
         stages = new Stage[5];
-        Location loc = new Location("Shkoder", "shkoderTileset", "water", "Cyanoshrooms.wav");
+        Location loc = new Location("Shkoder", "shkoderTileset", "water", "Cyanoshrooms.wav", 2);
         loc.roomDistrib = new RoomDistribution[]{new RoomDistribution(loc, 
-                new MakeRoom[]{(loca) -> RoomBuilder.itemless(loca)}, 
-                new MakeLockedRoom[]{(loca, d) -> RoomBuilder.lockedItemless(loca, d)}, 
+                new MakeRoom[]{(loca, depth) -> RoomBuilder.itemless(loca, depth)}, 
+                new MakeRoom[]{(loca, d) -> RoomBuilder.lockedItemless(loca, d)}, 
                 new int[]{1}, new int[]{1})};
         stages[0] = new Stage(loc, 5, new String[]{"The upper level of the caves"}, null);
         stages[0].areas[0] = stages[0].areaBuilder.load(stages[0].location.roomDistrib[0], 0); depth=0;stages[0].loadedLevel=3;

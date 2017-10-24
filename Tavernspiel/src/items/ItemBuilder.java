@@ -10,7 +10,9 @@ import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.ImageIcon;
+import level.Location;
 import listeners.AreaEvent;
+import logic.Distribution;
 import logic.Utils.Unfinished;
 
 /**
@@ -31,9 +33,36 @@ public final class ItemBuilder{
     }
 
     @Unfinished
-    public static ItemMap getStandardItemMap(){
-        return new ItemMap();
-        //throw new UnsupportedOperationException("Not supported yet.");
+    public static ItemMap getStandardItemMap(int depth, Location loc){
+        return new ItemMap(null, null, -1, -1){
+            @Override
+            public List<Item> genList(){
+                List<Item> ret = new LinkedList<>();
+                Distribution type = new Distribution(new int[]{12, 3, 3, 9, 9, 1, 1});
+                while(Distribution.chance(1, 3)){
+                    switch((int)type.next()){
+                        case 0: //gold
+                            ret.add(new Gold(Distribution.getRandomInt(depth*(5-loc.difficulty), depth*(40-2*loc.difficulty))));
+                            break;
+                        case 1: //armour
+                            ret.add(Apparatus.getRandomArmour(depth, loc));
+                            break;
+                        case 2: //weapons
+                            ret.add(Apparatus.getRandomWeapon(depth, loc));
+                            break;
+                        case 3: //potions
+                            break;
+                        case 4: //scrolls
+                            break;
+                        case 5: //rings
+                            break;
+                        case 6: //wands
+                            break;
+                    }
+                }
+                return ret;
+            }
+        };
     }
     
     @Unfinished

@@ -14,7 +14,7 @@ public class LocationFactory{
     
     Scanner scan = new Scanner(System.in);
     Location defaultLocation = new Location("Default", "shkoderTileset",
-            "water", "sound/songs/Cyanoshrooms.wav");
+            "water", "sound/songs/Cyanoshrooms.wav", 2);
     
     public Location produce(){
         out.println("What is the name?");
@@ -28,7 +28,9 @@ public class LocationFactory{
         String bmp = scan.nextLine();
         out.println("Should water be generated before grass?");
         Boolean wbg = Boolean.parseBoolean(scan.nextLine());
-        return new Location(name, tiles, water, getWaterDistrib(), getGrassDistrib(), wbg, bmp);
+        System.out.println("What's the country code?");
+        int i = Integer.parseInt(scan.nextLine());
+        return new Location(name, tiles, water, getWaterDistrib(), getGrassDistrib(), wbg, bmp, i);
     }
     
     private Distribution getWaterDistrib(){

@@ -34,8 +34,8 @@ public class AreaBuilder implements Serializable{
      */
     public AreaBuilder(Location loc){
         location = loc;
-        forcedRooms.add((l) -> RoomBuilder.depthExit(l));
-        forcedRooms.add((l) -> RoomBuilder.depthEntrance(l));
+        forcedRooms.add((l, depth) -> RoomBuilder.depthExit(l, depth));
+        forcedRooms.add((l, depth) -> RoomBuilder.depthEntrance(l, depth));
     }
     
     /**
@@ -44,8 +44,8 @@ public class AreaBuilder implements Serializable{
     protected void reset(){
         forcedItems.clear();
         forcedRooms.clear();
-        forcedRooms.add((loc) -> RoomBuilder.depthExit(loc));
-        forcedRooms.add((loc) -> RoomBuilder.depthEntrance(loc));
+        forcedRooms.add((loc, dep) -> RoomBuilder.depthExit(loc, dep));
+        forcedRooms.add((loc, dep) -> RoomBuilder.depthEntrance(loc, dep));
     }
 
     /**
@@ -61,7 +61,7 @@ public class AreaBuilder implements Serializable{
         List<Room> rooms = new LinkedList<>(), lockedRooms = new LinkedList<>();
         //Adds the unlocked natural rooms.
         for(int n=0, roomNum = Distribution.r.nextInt(7)+3;n<roomNum;n++){
-            rooms.add(roomDist.next());
+            rooms.add(roomDist.next(depth));
         }
         //Adds the locked Rooms to a separate list and generates their keys.
         List<Item> keys = new LinkedList<>();
@@ -89,7 +89,7 @@ public class AreaBuilder implements Serializable{
         }
         //Adds the forced Rooms.
         forcedRooms.stream().forEach((mr) -> {
-            rooms.add(mr.make(location));
+            rooms.add(mr.make(location, depth));
         });
         //Blits the Rooms to the Area.
         rooms.addAll(lockedRooms);

@@ -26,15 +26,15 @@ public class RoomBuilder{
     private static final String[] TRAPCOLOURS = new String[]{
         "blue", "silver", "green", "bear", "red", "yellow", "orange", "purple"}; 
     
-    public static Room standard(Location loc){
-        Room ret = Room.genStandard(loc);
+    public static Room standard(Location loc, int depth){
+        Room ret = Room.genStandard(loc, depth);
         ret.addDoors();
         ret.randomlyPlop();
         return ret;
     }
     
-    public static Room itemless(Location loc){
-        Room ret = Room.genStandard(loc);
+    public static Room itemless(Location loc, int depth){
+        Room ret = Room.genStandard(loc, depth);
         ret.addDoors();
         return ret;
     }
@@ -45,9 +45,9 @@ public class RoomBuilder{
         return ret;
     }
     
-    public static Room roomOfTraps(Location loc, Item item){
+    public static Room roomOfTraps(Location loc, Item item, int depth){
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
-                Distribution.getRandomInt(5, 10)), loc);
+                Distribution.getRandomInt(5, 10)), loc, depth);
         room.standardify();
         Trap trap = getRandomTrap(loc);
         switch(Distribution.getRandomInt(1, 4)){
@@ -103,9 +103,9 @@ public class RoomBuilder{
         return room;
     }
     
-    public static Room chasmVault(Location loc, Item item){
+    public static Room chasmVault(Location loc, Item item, int depth){
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
-                Distribution.getRandomInt(5, 10)), loc);
+                Distribution.getRandomInt(5, 10)), loc, depth);
         room.paintAndPave();
         Tile pedestal = new Tile("pedestal", loc);
         switch(Distribution.getRandomInt(1, 4)){
@@ -168,9 +168,9 @@ public class RoomBuilder{
         return room;
     }
     
-    public static Room storage(Location loc){
+    public static Room storage(Location loc, int depth){
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
-                Distribution.getRandomInt(5, 16)), loc);
+                Distribution.getRandomInt(5, 16)), loc, depth);
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
                 if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1){
@@ -184,9 +184,9 @@ public class RoomBuilder{
         return room;
     }
     
-    public static Room magicWellRoom(Location loc){
+    public static Room magicWellRoom(Location loc, int depth){
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
-                Distribution.getRandomInt(5, 16)), loc);
+                Distribution.getRandomInt(5, 16)), loc, depth);
         room.standardify();
         room.addDoors();
         switch(Distribution.getRandomInt(1, 3)){
@@ -206,9 +206,9 @@ public class RoomBuilder{
         return room;
     }
     
-    public static Room depthEntrance(Location loc){
+    public static Room depthEntrance(Location loc, int depth){
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
-                Distribution.getRandomInt(5, 16)), loc);
+                Distribution.getRandomInt(5, 16)), loc, depth);
         room.standardify();
         room.addDoors();
         room.map[room.dimension.height/2][room.dimension.width/2] =
@@ -218,9 +218,9 @@ public class RoomBuilder{
         return room;
     }
     
-    public static Room depthExit(Location loc){
+    public static Room depthExit(Location loc, int depth){
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
-                Distribution.getRandomInt(5, 16)), loc);
+                Distribution.getRandomInt(5, 16)), loc, depth);
         room.standardify();
         room.addDoors();
         room.map[room.dimension.height/2][room.dimension.width/2] =
@@ -229,9 +229,9 @@ public class RoomBuilder{
         return room;
     }
     
-    public static Room garden(Location location){
+    public static Room garden(Location location, int depth){
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
-                Distribution.getRandomInt(5, 16)), location);
+                Distribution.getRandomInt(5, 16)), location, depth);
         room.itemMap = ItemBuilder.getGardenItemMap();
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
@@ -252,7 +252,7 @@ public class RoomBuilder{
     
     public static Room floodedVault(Location loc, Item item){
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 10),
-                Distribution.getRandomInt(5, 10)), loc);
+                Distribution.getRandomInt(5, 10)), loc, -1);
         room.paintAndPave();
         Tile pedestal = new Tile("pedestal", loc);
         switch(Distribution.getRandomInt(1, 4)){
@@ -304,8 +304,8 @@ public class RoomBuilder{
         return room;
     }
     
-    public static Room stalagnate(Location location){
-        Room room = Room.genStandard(location);
+    public static Room stalagnate(Location location, int depth){
+        Room room = Room.genStandard(location, depth);
         room.addDoors();
         for(int y=1;y<room.dimension.height-1;y++){
             for(int x=1;x<room.dimension.width-1;x++){
@@ -320,7 +320,7 @@ public class RoomBuilder{
     }
     
     public static Room maze(Location loc, int width, int height){
-        Room room = new Room(new Dimension(width, height), loc);
+        Room room = new Room(new Dimension(width, height), loc, -1);
         new MazeBuilder(room, 0, 0, width, height);
         return room;
     }

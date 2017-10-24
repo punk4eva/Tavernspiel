@@ -30,11 +30,12 @@ public class Room extends Area{
      * Creates a new instance.
      * @param dim The dimension of the Room.
      * @param loc The Location.
+     * @param depth
      */
-    public Room(Dimension dim, Location loc){
+    public Room(Dimension dim, Location loc, int depth){
         super(dim, loc);
         locked = false;
-        itemMap = ItemBuilder.getStandardItemMap();
+        itemMap = ItemBuilder.getStandardItemMap(depth, loc);
     }
     
     /**
@@ -54,11 +55,12 @@ public class Room extends Area{
     /**
      * Generates an unlocked Room with no Tiles.
      * @param loc The location.
+     * @param depth
      * @return The Room.
      */
-    public static Room genBlank(Location loc){
+    public static Room genBlank(Location loc, int depth){
         return new Room(new Dimension(Distribution.getRandomInt(4, 16),
-        Distribution.getRandomInt(4, 16)), loc);
+        Distribution.getRandomInt(4, 16)), loc, depth);
     }
     
     /**
@@ -76,10 +78,11 @@ public class Room extends Area{
     /**
      * Generates a standard Room (without doors).
      * @param loc The location.
+     * @param depth
      * @return The Room.
      */
-    public static Room genStandard(Location loc){
-        Room room = genBlank(loc);
+    public static Room genStandard(Location loc, int depth){
+        Room room = genBlank(loc, depth);
         room.paintAndPave();
         if(loc.waterBeforeGrass){
             room.water();

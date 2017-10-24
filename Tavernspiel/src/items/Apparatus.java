@@ -10,6 +10,7 @@ import items.equipment.Artifact;
 import items.equipment.HeldWeapon;
 import items.equipment.Ring;
 import javax.swing.ImageIcon;
+import level.Location;
 import logic.Distribution;
 import logic.Formula;
 
@@ -198,6 +199,20 @@ public class Apparatus extends Item{
                 break;
         }
         return ret;
+    }
+    
+    public static Apparatus getRandomArmour(int depth, Location loc){
+        switch(Distribution.r.nextInt(4)){
+            case 0: //helmet
+            case 1: //chest
+            case 2: //legs
+            case 3: //boots
+        }
+        throw new UnsupportedOperationException("Not Supported Yet!");
+    }
+    
+    public static HeldWeapon getRandomWeapon(int depth, Location loc){
+        throw new UnsupportedOperationException("Not Supported Yet!");
     }
     
 }
