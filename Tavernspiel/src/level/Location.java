@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
 import logic.Distribution;
+import logic.Utils.Unfinished;
 
 /**
  *
@@ -192,6 +193,7 @@ public class Location implements Serializable{
         weaponIndex = WeaponIndex.getIndex(a);
     }
     
+    @Unfinished("Fill in weapon stats.")
     static class WeaponIndex{
         
         HashMap<Integer, WeaponEntry> map = new HashMap<>();
@@ -204,38 +206,38 @@ public class Location implements Serializable{
         sudaizuita = new WeaponIndex(),
         hurihuidoite = new WeaponIndex();
         static{
-            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 0, 32));
-            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 16, 32));
-            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 32, 32));
-            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 48, 32));
-            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 64, 32));
-            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 80, 32));
-            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 96, 32));
-            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 112, 32));
-            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 0 , 48));
-            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 16, 48));
-            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 32, 48));
-            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 48, 48));
-            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 64, 48));
-            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 80, 48));
-            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 96, 48));
-            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 112, 48));
-            sudaizuita.map.put(0, new WeaponEntry("Nunchaku", 0 , 64));
-            sudaizuita.map.put(0, new WeaponEntry("Kama", 16, 64));
-            sudaizuita.map.put(0, new WeaponEntry("Tanto", 32, 64));
-            sudaizuita.map.put(0, new WeaponEntry("Sai", 48, 64));
-            sudaizuita.map.put(0, new WeaponEntry("Kanabo", 64, 64));
-            sudaizuita.map.put(0, new WeaponEntry("Katana", 80, 64));
-            sudaizuita.map.put(0, new WeaponEntry("Naginata", 96, 64));
-            sudaizuita.map.put(0, new WeaponEntry("Kusarigama", 112, 64));
-            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 0,  80));
-            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 16, 80));
-            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 32, 80));
-            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 48, 80));
-            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 64, 80));
-            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 80, 80));
-            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 96, 80));
-            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 112, 80));
+            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 0, 32, "", -1, -1, null));
+            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 16, 32, "", -1, -1, null));
+            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 32, 32, "", -1, -1, null));
+            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 48, 32, "", -1, -1, null));
+            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 64, 32, "", -1, -1, null));
+            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 80, 32, "", -1, -1, null));
+            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 96, 32, "", -1, -1, null));
+            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 112, 32, "", -1, -1, null));
+            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 0 , 48, "", -1, -1, null));
+            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 16, 48, "", -1, -1, null));
+            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 32, 48, "", -1, -1, null));
+            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 48, 48, "", -1, -1, null));
+            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 64, 48, "", -1, -1, null));
+            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 80, 48, "", -1, -1, null));
+            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 96, 48, "", -1, -1, null));
+            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 112, 48, "", -1, -1, null));
+            sudaizuita.map.put(0, new WeaponEntry("Nunchaku", 0 , 64, "", -1, -1, null));
+            sudaizuita.map.put(0, new WeaponEntry("Kama", 16, 64, "", -1, -1, null));
+            sudaizuita.map.put(0, new WeaponEntry("Tanto", 32, 64, "", -1, -1, null));
+            sudaizuita.map.put(0, new WeaponEntry("Sai", 48, 64, "", -1, -1, null));
+            sudaizuita.map.put(0, new WeaponEntry("Kanabo", 64, 64, "", -1, -1, null));
+            sudaizuita.map.put(0, new WeaponEntry("Katana", 80, 64, "", -1, -1, null));
+            sudaizuita.map.put(0, new WeaponEntry("Naginata", 96, 64, "", -1, -1, null));
+            sudaizuita.map.put(0, new WeaponEntry("Kusarigama", 112, 64, "", -1, -1, null));
+            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 0,  80, "", -1, -1, null));
+            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 16, 80, "", -1, -1, null));
+            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 32, 80, "", -1, -1, null));
+            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 48, 80, "", -1, -1, null));
+            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 64, 80, "", -1, -1, null));
+            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 80, 80, "", -1, -1, null));
+            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 96, 80, "", -1, -1, null));
+            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 112, 80, "", -1, -1, null));
         }
         
         static WeaponIndex getIndex(int i){
@@ -251,11 +253,17 @@ public class Location implements Serializable{
     }
     
     public static class WeaponEntry{
-        final Dimension dim;
-        final String name;
+        public final Dimension dim;
+        public final String name, description;
+        public final int durability, strength;
+        public final Distribution distrib;
         
-        WeaponEntry(String n, int x, int y){
+        WeaponEntry(String n, int x, int y, String desc, int dur, int st, Distribution d){
             name = n;
+            distrib = d;
+            durability = dur;
+            strength = st;
+            description = desc;
             dim = new Dimension(x, y);
         }
     }
