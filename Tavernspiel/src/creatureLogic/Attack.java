@@ -12,7 +12,7 @@ public class Attack{
     
     public final Creature attacker;
     public final int damage;
-    public final int accuracy;
+    public final double accuracy;
     public final WeaponEnchantment enchantment;
     public final boolean usingMagic;
     public final AttackType type;
@@ -31,7 +31,7 @@ public class Attack{
      * @param acc The accuracy.
      * @param g The Enchantment.
      */
-    public Attack(Creature a, int d, int acc, WeaponEnchantment g){
+    public Attack(Creature a, int d, double acc, WeaponEnchantment g){
         attacker = a;
         damage = d;
         accuracy = acc;
@@ -48,7 +48,7 @@ public class Attack{
      * @param g The Enchantment.
      * @param t The type of attack.
      */
-    public Attack(Creature a, int d, int acc, WeaponEnchantment g, AttackType t){
+    public Attack(Creature a, int d, double acc, WeaponEnchantment g, AttackType t){
         attacker = a;
         damage = d;
         accuracy = acc * 2;

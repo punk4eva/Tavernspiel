@@ -3,6 +3,7 @@ package containers;
 
 import creatures.Hero;
 import dialogues.UnequipAmuletDialogue;
+import enchantments.WeaponEnchantment;
 import gui.MainClass;
 import gui.Screen;
 import items.Apparatus;
@@ -11,11 +12,13 @@ import items.equipment.Boots;
 import items.equipment.Chestplate;
 import items.equipment.HeldWeapon;
 import items.equipment.Leggings;
+import items.equipment.MeleeWeapon;
 import java.awt.Graphics;
 import java.util.LinkedList;
 import java.util.List;
 import listeners.ScreenListener;
 import logic.ConstantFields;
+import logic.Distribution;
 import logic.ImageUtils;
 
 /**
@@ -49,16 +52,6 @@ public class Equipment extends Receptacle{
         screens = getScreens(hero.getScreenListener());
         heroOwner = hero;
     }
-    
-    /*/**
-    * Creates a new instance from a given list of apparatus.
-    * @param i The ArrayList.
-    *
-    public Equipment(List<Apparatus> i){
-        super(7, i, "ERROR: You shouldn't be reading this.", -1, -1);
-        while(items.size() < 7) items.add(null);
-        screens = getScreens();
-    }*/
     
     /**
      * Returns the weapon if it exists, null otherwise.
@@ -114,6 +107,22 @@ public class Equipment extends Receptacle{
      */
     public Boots getBoots(){
         return (Boots) items.get(6);
+    }
+    
+    public WeaponEnchantment getWeaponEnchantment(){
+        return (WeaponEnchantment) ((HeldWeapon) items.get(0)).enchantment;
+    }
+    
+    public int nextHit(int strength){
+        try{
+            return ((HeldWeapon) items.get(0)).action.nextInt();
+        }catch(Exception e){
+            return Distribution.r.nextInt(strength);
+        }
+    }
+    
+    public double getWeaponAccuracy(){
+        return ((MeleeWeapon) items.get(0)).accuracy;
     }
     
     /**

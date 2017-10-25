@@ -22,7 +22,7 @@ public class HeldWeapon extends Apparatus{
     
     public HeldWeapon(WeaponEntry entry){
         super(entry.name, entry.description, 
-                ItemBuilder.getIcon(entry.dim.width, entry.dim.height), 
+                ItemBuilder.getIcon(entry.x, entry.y), 
                 entry.durability, entry.distrib, entry.strength);
         description.type = "weapons";
     }

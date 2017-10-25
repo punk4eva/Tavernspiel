@@ -8,7 +8,6 @@ import java.awt.Graphics;
 import java.io.Serializable;
 import level.Area;
 import listeners.GameEvent;
-import logic.Utils.Optimisable;
 
 /**
  *
@@ -34,7 +33,6 @@ public abstract class GameObject implements Serializable{
      * @param desc The description.
      * @param an The animator.
      */
-    @Optimisable("Adding the object to the handler so early could cause problems.")
     public GameObject(String n, Description desc, GameObjectAnimator an){
         ID = MainClass.idhandler.genID();
         name = n;
@@ -61,7 +59,7 @@ public abstract class GameObject implements Serializable{
     //Might need to make this abstract.
     public void gameEvent(GameEvent ge){
         if(ID==ge.getID()){
-            throw new UnsupportedOperationException("Not supported yet.");
+            throw new UnsupportedOperationException("Is this even going to be used?");
         }
     }
     

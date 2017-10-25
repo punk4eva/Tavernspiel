@@ -2,6 +2,7 @@
 package items.equipment;
 
 import javax.swing.ImageIcon;
+import level.Location.WeaponEntry;
 import logic.Distribution;
 
 /**
@@ -25,6 +26,10 @@ public class MeleeWeapon extends HeldWeapon{
      * @param dur The durability.
      * @param d The action distribution.
      * @param st The strength.
+     * @param ac
+     * @param sp
+     * @param re
+     * @param db
      */
     public MeleeWeapon(String s, String desc, ImageIcon ic, int dur, Distribution d, int st, double ac, double sp, int re, double db){
         super(s, desc, ic, dur, d, st);
@@ -32,6 +37,14 @@ public class MeleeWeapon extends HeldWeapon{
         speed = sp;
         reach = re;
         damageBlock = db;
+    }
+    
+    public MeleeWeapon(WeaponEntry entry){
+        super(entry);
+        accuracy = entry.ac;
+        speed = entry.sp;
+        reach = entry.re;
+        damageBlock = entry.bl;
     }
     
 }

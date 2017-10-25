@@ -10,7 +10,6 @@ import creatureLogic.Attack;
 import creatureLogic.Attributes;
 import creatureLogic.Description;
 import gui.MainClass;
-import gui.Window;
 import items.equipment.HeldWeapon;
 import java.awt.Graphics;
 import java.util.LinkedList;
@@ -227,6 +226,18 @@ public class Creature extends GameObject implements BuffListener, Comparable<Cre
      */
     public void changeAnimation(String str){
         animator.switchTo(str);
+    }
+    
+    public Attack nextAttack(){
+        int stDif = equipment.strengthDifference(attributes.strength);
+        if(stDif<0) return new Attack(this, 
+                (int)(equipment.nextHit(attributes.strength)/Math.pow(1.5, 0-stDif)), 
+                attributes.accuracy*equipment.getWeaponAccuracy()/Math.pow(1.5, 0-stDif), 
+                equipment.getWeaponEnchantment());
+        return new Attack(this, 
+                equipment.nextHit(attributes.strength), 
+                attributes.accuracy*equipment.getWeaponAccuracy(), 
+                equipment.getWeaponEnchantment());
     }
     
 }

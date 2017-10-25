@@ -206,38 +206,38 @@ public class Location implements Serializable{
         sudaizuita = new WeaponIndex(),
         hurihuidoite = new WeaponIndex();
         static{
-            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 0, 32, "", -1, -1, null));
-            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 16, 32, "", -1, -1, null));
-            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 32, 32, "", -1, -1, null));
-            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 48, 32, "", -1, -1, null));
-            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 64, 32, "", -1, -1, null));
-            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 80, 32, "", -1, -1, null));
-            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 96, 32, "", -1, -1, null));
-            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 112, 32, "", -1, -1, null));
-            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 0 , 48, "", -1, -1, null));
-            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 16, 48, "", -1, -1, null));
-            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 32, 48, "", -1, -1, null));
-            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 48, 48, "", -1, -1, null));
-            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 64, 48, "", -1, -1, null));
-            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 80, 48, "", -1, -1, null));
-            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 96, 48, "", -1, -1, null));
-            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 112, 48, "", -1, -1, null));
-            sudaizuita.map.put(0, new WeaponEntry("Nunchaku", 0 , 64, "", -1, -1, null));
-            sudaizuita.map.put(0, new WeaponEntry("Kama", 16, 64, "", -1, -1, null));
-            sudaizuita.map.put(0, new WeaponEntry("Tanto", 32, 64, "", -1, -1, null));
-            sudaizuita.map.put(0, new WeaponEntry("Sai", 48, 64, "", -1, -1, null));
-            sudaizuita.map.put(0, new WeaponEntry("Kanabo", 64, 64, "", -1, -1, null));
-            sudaizuita.map.put(0, new WeaponEntry("Katana", 80, 64, "", -1, -1, null));
-            sudaizuita.map.put(0, new WeaponEntry("Naginata", 96, 64, "", -1, -1, null));
-            sudaizuita.map.put(0, new WeaponEntry("Kusarigama", 112, 64, "", -1, -1, null));
-            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 0,  80, "", -1, -1, null));
-            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 16, 80, "", -1, -1, null));
-            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 32, 80, "", -1, -1, null));
-            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 48, 80, "", -1, -1, null));
-            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 64, 80, "", -1, -1, null));
-            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 80, 80, "", -1, -1, null));
-            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 96, 80, "", -1, -1, null));
-            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 112, 80, "", -1, -1, null));
+            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 0, 32, "", -1, -1, -2, -2, 1, 1, 1, 0));
+            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 16, 32, "", -1, -1, -2, -2, 1, 1, 1, 0));
+            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 32, 32, "", -1, -1, -2, -2, 1, 1, 1, 0));
+            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 48, 32, "", -1, -1, -2, -2, 1, 1, 1, 0));
+            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 64, 32, "", -1, -1, -2, -2, 1, 1, 1, 0));
+            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 80, 32, "", -1, -1, -2, -2, 1, 1, 1, 0));
+            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 96, 32, "", -1, -1, -2, -2, 1, 1, 1, 0));
+            kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 112, 32, "", -1, -1, -2, -2, 1, 1, 1, 0));
+            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 0 , 48, "", -1, -1, -2, -2, 1, 1, 1, 0));
+            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 16, 48, "", -1, -1, -2, -2, 1, 1, 1, 0));
+            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 32, 48, "", -1, -1, -2, -2, 1, 1, 1, 0));
+            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 48, 48, "", -1, -1, -2, -2, 1, 1, 1, 0));
+            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 64, 48, "", -1, -1, -2, -2, 1, 1, 1, 0));
+            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 80, 48, "", -1, -1, -2, -2, 1, 1, 1, 0));
+            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 96, 48, "", -1, -1, -2, -2, 1, 1, 1, 0));
+            kyoukuOkeshte.map.put(0, new WeaponEntry("UNFINISHED", 112, 48, "", -1, -1, -2, -2, 1, 1, 1, 0));
+            sudaizuita.map.put(0, new WeaponEntry("Nunchaku", 0 , 64, "Two short wooden rods with a chain attaching them.|This weapon is rather fast and accurate. It has quite low durability.", 130, 11, 2, 8, 1, 1.2, 1.2, 0));
+            sudaizuita.map.put(0, new WeaponEntry("Kama", 16, 64, "A short sickle designed as a reliable, easy-to-use battle weapon.|This weapon is slightly slow and blocks slight amounts of damage.", 150, 12, 3, 9, 1, 1, 1, 1));
+            sudaizuita.map.put(0, new WeaponEntry("Tanto", 32, 64, "A long dagger, commonly used by assassins and the military.|This weapon is durable.", 160, 13, 4, 13, 1, 1, 1.1, 0));
+            sudaizuita.map.put(0, new WeaponEntry("Sai", 48, 64, "This oriental sword was designed to kill single opponents quickly and effectively.|This weapon is rather accurate.", 150, 14, 6, 18, 1, 1.1, 1.1, 0));
+            sudaizuita.map.put(0, new WeaponEntry("Kanabo", 64, 64, "This powerful instrument of war can only serve those powerful enough to wield it.|This weapon is extremely durable but slow and inaccurate. It blocks a tremendous amount of damage.", 210, 17, 10, 25, 1, 0.8, 0.9, 7));
+            sudaizuita.map.put(0, new WeaponEntry("Katana", 80, 64, "This light but powerful sword is the weapon of choice for most ninjas.|It is slightly deficient in durability.", 140, 15, 8, 23, 1, 1, 1.15, 0));
+            sudaizuita.map.put(0, new WeaponEntry("Naginata", 96, 64, "A long, heavy polearm capable of inflicting fatal wounds relatively quickly.|This weapon blocks some damage.", 150, 17, 11, 26, 1, 1, 1.1, 2));
+            sudaizuita.map.put(0, new WeaponEntry("Kusarigama", 112, 64, "A sickle attacked to a long metal chain.|It has a long reach but is very slow.", 150, 19, 17, 39, 2, 1, 0.6, 0));
+            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 0,  80, "", -1, -1, -2, -2, 1, 1, 1, 0));
+            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 16, 80, "", -1, -1, -2, -2, 1, 1, 1, 0));
+            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 32, 80, "", -1, -1, -2, -2, 1, 1, 1, 0));
+            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 48, 80, "", -1, -1, -2, -2, 1, 1, 1, 0));
+            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 64, 80, "", -1, -1, -2, -2, 1, 1, 1, 0));
+            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 80, 80, "", -1, -1, -2, -2, 1, 1, 1, 0));
+            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 96, 80, "", -1, -1, -2, -2, 1, 1, 1, 0));
+            hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 112, 80, "", -1, -1, -2, -2, 1, 1, 1, 0));
         }
         
         static WeaponIndex getIndex(int i){
@@ -253,18 +253,23 @@ public class Location implements Serializable{
     }
     
     public static class WeaponEntry{
-        public final Dimension dim;
+        public final int x, y, re, durability, strength;
         public final String name, description;
-        public final int durability, strength;
         public final Distribution distrib;
+        public final double ac, sp, bl;
         
-        WeaponEntry(String n, int x, int y, String desc, int dur, int st, Distribution d){
+        WeaponEntry(String n, int _x, int _y, String desc, int dur, int st, int lo, int up, int r, double a, double s, double b){
             name = n;
-            distrib = d;
+            distrib = new Distribution(lo, up);
             durability = dur;
             strength = st;
             description = desc;
-            dim = new Dimension(x, y);
+            x = _x;
+            y = _y;
+            re = r;
+            sp = s;
+            ac = a;
+            bl = b;
         }
     }
     
