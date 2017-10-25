@@ -48,7 +48,7 @@ public final class ItemBuilder{
                             ret.add(Apparatus.getRandomArmour(depth, loc));
                             break;
                         case 2: //weapons
-                            ret.add(Apparatus.getRandomWeapon(depth, loc));
+                            ret.add(Apparatus.getRandomMeleeWeapon(depth, loc));
                             break;
                         case 3: //potions
                             break;

@@ -31,7 +31,7 @@ public class Location implements Serializable{
     public final String backgroundMusicPath;
     public final HashMap<String, ImageIcon> tilemap = new HashMap<>();
     public int difficulty;
-    final WeaponIndex weaponIndex;
+    public final WeaponIndex weaponIndex;
     
     /**
      * Creates a new instance.
@@ -194,16 +194,19 @@ public class Location implements Serializable{
     }
     
     @Unfinished("Fill in weapon stats.")
-    static class WeaponIndex{
+    public static class WeaponIndex{
         
-        HashMap<Integer, WeaponEntry> map = new HashMap<>();
+        private final HashMap<Integer, WeaponEntry> map = new HashMap<>();
+        public final int[] rarities;
         
-        private WeaponIndex(){}
+        private WeaponIndex(int... r){
+            rarities = r;
+        }
         
         private final static WeaponIndex 
         kirikisande = new WeaponIndex(),
         kyoukuOkeshte = new WeaponIndex(),
-        sudaizuita = new WeaponIndex(),
+        sudaizuita = new WeaponIndex(10, 10, 12, 8, 6, 1, 2, 2),
         hurihuidoite = new WeaponIndex();
         static{
             kirikisande.map.put(0, new WeaponEntry("UNFINISHED", 0, 32, "", -1, -1, -2, -2, 1, 1, 1, 0));
@@ -240,7 +243,7 @@ public class Location implements Serializable{
             hurihuidoite.map.put(0, new WeaponEntry("UNFINISHED", 112, 80, "", -1, -1, -2, -2, 1, 1, 1, 0));
         }
         
-        static WeaponIndex getIndex(int i){
+        private static WeaponIndex getIndex(int i){
             switch(i){
                 case 0: return kirikisande;
                 case 1: return kyoukuOkeshte;
@@ -273,7 +276,7 @@ public class Location implements Serializable{
         }
     }
     
-    WeaponEntry getEntry(Integer i){
+    public WeaponEntry getWeaponEntry(Integer i){
             return weaponIndex.map.get(i);
     }
     

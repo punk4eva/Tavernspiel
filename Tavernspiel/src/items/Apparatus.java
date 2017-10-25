@@ -8,6 +8,7 @@ import enchantments.Enchantment;
 import gui.MainClass;
 import items.equipment.Artifact;
 import items.equipment.HeldWeapon;
+import items.equipment.MeleeWeapon;
 import items.equipment.Ring;
 import javax.swing.ImageIcon;
 import level.Location;
@@ -211,8 +212,8 @@ public class Apparatus extends Item{
         throw new UnsupportedOperationException("Not Supported Yet!");
     }
     
-    public static HeldWeapon getRandomWeapon(int depth, Location loc){
-        throw new UnsupportedOperationException("Not Supported Yet!");
+    public static HeldWeapon getRandomMeleeWeapon(int depth, Location loc){
+        return new MeleeWeapon(loc.getWeaponEntry((int)new Distribution(loc.weaponIndex.rarities).next()));
     }
     
 }
