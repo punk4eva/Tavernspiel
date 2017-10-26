@@ -59,13 +59,13 @@ public class Tile implements Serializable, Comparable<Tile>{
     }
     
     public static Tile wall(Location loc){
-        if(Distribution.chance(1, 10)) return new Tile("specialwall", loc, false, false);
+        if(Distribution.chance(1, 22)) return new Tile("specialwall", loc, false, false);
         return new Tile("wall", loc, false, false);
     }
     
     public static Tile floor(Location loc){
         if(Distribution.chance(1, 30)) return RoomBuilder.getRandomTrap(loc);
-        if(Distribution.chance(1, 10)) return new Tile("decofloor", loc, true, false);
+        if(Distribution.chance(1, 22)) return new Tile("decofloor", loc, true, false);
         return new Tile("floor", loc, true, false);
     }
     

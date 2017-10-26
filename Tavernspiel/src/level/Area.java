@@ -16,7 +16,9 @@ import listeners.DeathEvent;
 import logic.GameObject;
 import blob.Blob;
 import designer.AreaTemplate;
+import gui.MainClass;
 import java.util.stream.Collectors;
+import logic.Utils.Unfinished;
 import pathfinding.Graph;
 import tiles.Tile;
 
@@ -278,10 +280,13 @@ public class Area implements Serializable{
         return AreaTemplate.deserialize(filepath).toArea();
     }
     
+    @Unfinished("Remove bookmarks.")
     public void renderObjects(Graphics g){
         objects.stream().forEach(ob -> {
             ob.render(g);
         });
+        int[] f = MainClass.getFocus();
+        graph.paint(g, f[0], f[1]);
     }
     
     public void turn(double turnNum){

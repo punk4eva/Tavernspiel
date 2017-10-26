@@ -142,7 +142,6 @@ public class CorridorBuilder{
     }
     
     private void fillGaps(Point p, boolean hor){
-        System.out.println(p.x + ", " + p.y);
         area.map[p.y+1][p.x+1] = Tile.wall(area.location);
         area.map[p.y-1][p.x-1] = Tile.wall(area.location);
         area.map[p.y-1][p.x+1] = Tile.wall(area.location);

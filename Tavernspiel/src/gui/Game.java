@@ -42,9 +42,6 @@ public class Game extends MainClass implements DepthListener{
         hero.x = Window.main.currentArea.startCoords[0];
         hero.y = Window.main.currentArea.startCoords[1];
         Window.main.currentArea.addObject(hero);
-        CorridorBuilder builder = new CorridorBuilder(Window.main.currentArea);
-        builder.buildCorridor(new Path(new Point(5, 5), new Point(5, 6), new Point(5, 7), new Point(5, 8), new Point(5, 9), new Point(5, 10), 
-                new Point(5, 11), new Point(6, 11), new Point(7, 11), new Point(8, 11), new Point(9, 11), new Point(10, 11), new Point(11, 11), new Point(12, 11)));
     }
 
     @Override

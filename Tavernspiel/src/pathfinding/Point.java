@@ -1,6 +1,8 @@
 
 package pathfinding;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.io.Serializable;
 
 /**
@@ -94,6 +96,15 @@ public class Point implements Serializable{
     
     public int[] getCoords(){
         return new int[]{x, y};
+    }
+    
+    public void paint(Graphics g, int x, int y){
+        if(isCorridor) g.setColor(Color.BLUE);
+        else if(cameFrom==null) g.setColor(Color.YELLOW);
+        else if(checked==null) g.setColor(Color.WHITE);
+        else if(checked) g.setColor(Color.RED);
+        else g.setColor(Color.BLACK);
+        g.fillOval(x+4, y+4, 8, 8);
     }
     
 }

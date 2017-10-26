@@ -1,6 +1,7 @@
 
 package pathfinding;
 
+import java.awt.Graphics;
 import java.io.Serializable;
 import java.util.LinkedList;
 import level.Area;
@@ -101,6 +102,15 @@ public class Graph implements Serializable{
             }
         }
         used = false;
+    }
+    
+    public void paint(Graphics g, int focusX, int focusY){
+        for(int y=focusY;y<focusY+map.length*16;y+=16){
+            for(int x=focusX;x<focusX+map[0].length*16;x+=16){ 
+                Point point = map[(y-focusY)/16][(x-focusX)/16];
+                if(point!=null) point.paint(g, x, y);
+            }
+        }
     }
     
 }
