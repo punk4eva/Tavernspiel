@@ -95,23 +95,18 @@ public class CorridorBuilder{
     
     private void extend(Point p, boolean hor){
         int x = p.x, y = p.y;
-        if(Distribution.chance(1, 10)) area.map[y][x] = new Tile("decofloor", area.location);
-        else area.map[y][x] = new Tile("floor", area.location);
+        area.map[y][x] = Tile.floor(area.location);
         area.graph.map[y][x].isCorridor = true;
         if(hor){
             if(area.map[y][x-1]!=null&&area.map[y][x-1].treadable) return;
-            if(Distribution.chance(1, 10)) area.map[y][x-1] = new Tile("specwall", area.location);
-            else area.map[y][x-1] = new Tile("wall", area.location);
-            if(Distribution.chance(1, 10)) area.map[y][x+1] = new Tile("specwall", area.location);
-            else area.map[y][x+1] = new Tile("wall", area.location);
+            area.map[y][x-1] = Tile.wall(area.location);
+            area.map[y][x+1] = Tile.wall(area.location);
             area.graph.map[y][x-1].isCorridor = true;
             area.graph.map[y][x+1].isCorridor = true;
         }else{
             if(area.map[y-1][x]!=null&&area.map[y-1][x].treadable) return;
-            if(Distribution.chance(1, 10)) area.map[y-1][x] = new Tile("specwall", area.location);
-            else area.map[y-1][x] = new Tile("wall", area.location);
-            if(Distribution.chance(1, 10)) area.map[y+1][x] = new Tile("specwall", area.location);
-            else area.map[y+1][x] = new Tile("wall", area.location);
+            area.map[y-1][x] = Tile.wall(area.location);
+            area.map[y+1][x] = Tile.wall(area.location);
             area.graph.map[y-1][x].isCorridor = true;
             area.graph.map[y+1][x].isCorridor = true;
         }
@@ -135,7 +130,7 @@ public class CorridorBuilder{
         for(int n=1;n<path.points.length-1;n++){
             nowHorizontal = Path.isHorizontal(path.points[n], path.points[n+1]);
             extend(path.points[n+1], horizontal);
-            if(nowHorizontal!=horizontal) fillCorners(path.points[n]);
+            if(nowHorizontal!=horizontal) fillGaps(path.points[n], horizontal);
             horizontal = nowHorizontal;
         }
         extend(path.points[path.points.length-1], horizontal);
@@ -146,15 +141,35 @@ public class CorridorBuilder{
                 area.map[wp.y][wp.x-1]!=null&&area.map[wp.y][wp.x-1].treadable&&area.map[wp.y][wp.x+1]!=null&&area.map[wp.y][wp.x+1].treadable;
     }
     
-    private void fillCorners(Point p){
-        area.map[p.y+1][p.x+1] = new Tile("wall", area.location);
-        area.map[p.y-1][p.x-1] = new Tile("wall", area.location);
-        area.map[p.y-1][p.x+1] = new Tile("wall", area.location);
-        area.map[p.y+1][p.x-1] = new Tile("wall", area.location);
+    private void fillGaps(Point p, boolean hor){
+        System.out.println(p.x + ", " + p.y);
+        area.map[p.y+1][p.x+1] = Tile.wall(area.location);
+        area.map[p.y-1][p.x-1] = Tile.wall(area.location);
+        area.map[p.y-1][p.x+1] = Tile.wall(area.location);
+        area.map[p.y+1][p.x-1] = Tile.wall(area.location);
         area.graph.map[p.y+1][p.x+1].isCorridor = true;
         area.graph.map[p.y-1][p.x-1].isCorridor = true;
         area.graph.map[p.y-1][p.x+1].isCorridor = true;
         area.graph.map[p.y+1][p.x-1].isCorridor = true;
+        if(hor){
+            if(area.map[p.y-1][p.x]==null){
+                area.map[p.y-1][p.x] = Tile.wall(area.location);
+                area.graph.map[p.y-1][p.x].isCorridor = true;
+            }
+            if(area.map[p.y+1][p.x]==null){
+                area.map[p.y+1][p.x] = Tile.wall(area.location);
+                area.graph.map[p.y+1][p.x].isCorridor = true;
+            }
+        }else{
+            if(area.map[p.y][p.x-1]==null){
+                area.map[p.y][p.x-1] = Tile.wall(area.location);
+                area.graph.map[p.y][p.x-1].isCorridor = true;
+            }
+            if(area.map[p.y][p.x+1]==null){
+                area.map[p.y][p.x+1] = Tile.wall(area.location);
+                area.graph.map[p.y][p.x+1].isCorridor = true;
+            }
+        }
     }
     
 }

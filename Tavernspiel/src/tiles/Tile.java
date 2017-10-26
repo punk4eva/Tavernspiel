@@ -4,6 +4,8 @@ package tiles;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
 import level.Location;
+import level.RoomBuilder;
+import logic.Distribution;
 import logic.ImageHandler;
 
 /**
@@ -16,12 +18,14 @@ public class Tile implements Serializable, Comparable<Tile>{
     
     public ImageIcon image;
     public String name;
-    public boolean treadable = true;
-    public boolean flammable = false;
+    public boolean treadable;
+    public boolean flammable;
     
     public Tile(String n, ImageIcon ic){
         image = ic;
         name = n;
+        treadable = true;
+        flammable = false;
     }
     
     public Tile(Tile t){
@@ -38,13 +42,6 @@ public class Tile implements Serializable, Comparable<Tile>{
         flammable = f;
     }
     
-    public Tile(String tile, Location loc){
-        image = ImageHandler.getImage(tile, loc);
-        name = tile;
-        if(tile.equals("wall")||tile.equals("specialwall")||tile.equals("barricade")||
-                tile.equals("statue")||tile.equals("specialstatue")||tile.equals("bookshelf")) treadable = false;
-    }
-    
     public Tile(String tile, Location loc, boolean t, boolean f){
         image = ImageHandler.getImage(tile, loc);
         name = tile;
@@ -59,6 +56,17 @@ public class Tile implements Serializable, Comparable<Tile>{
     @Override
     public int compareTo(Tile t){
         return name.compareToIgnoreCase(t.name);
+    }
+    
+    public static Tile wall(Location loc){
+        if(Distribution.chance(1, 10)) return new Tile("specialwall", loc, false, false);
+        return new Tile("wall", loc, false, false);
+    }
+    
+    public static Tile floor(Location loc){
+        if(Distribution.chance(1, 30)) return RoomBuilder.getRandomTrap(loc);
+        if(Distribution.chance(1, 10)) return new Tile("decofloor", loc, true, false);
+        return new Tile("floor", loc, true, false);
     }
     
 }

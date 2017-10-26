@@ -159,7 +159,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
      * @param newVolume The gain in dB.
      */
     public void changeMusicVolume(float newVolume){
-        Window.MusicVolume = newVolume;
+        Window.musicVolume = newVolume;
     }
     
     /**

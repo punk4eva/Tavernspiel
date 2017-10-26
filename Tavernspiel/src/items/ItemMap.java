@@ -18,7 +18,7 @@ public class ItemMap{
     public int lower, upper;
     
     public ItemMap(int[] chances, Item[] it, int l, int u){
-        distrib = new Distribution(chances);
+        distrib = chances==null ? null : new Distribution(chances);
         items = it;
         lower = l;
         stackSizes = null;
@@ -26,7 +26,7 @@ public class ItemMap{
     }
     
     public ItemMap(int[] chances, Item[] it, Distribution[] stk, int l, int u){
-        distrib = new Distribution(chances);
+        distrib = chances==null ? null : new Distribution(chances);
         items = it;
         lower = l;
         stackSizes = stk;

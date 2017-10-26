@@ -19,16 +19,16 @@ public class HiddenTile extends Tile{
     public final boolean reallyFlammable;
     public final boolean reallyTreadable;
 
-    public HiddenTile(String imposterTileName, String realName, Location loc, boolean reallyFlam, boolean reallyTread){
-        super(imposterTileName, loc);
+    public HiddenTile(String imposterTileName, boolean t, boolean f, String realName, Location loc, boolean reallyFlam, boolean reallyTread){
+        super(imposterTileName, loc, t, f);
         name = realName;
         realIcon = ImageHandler.getImage(realName, loc);
         reallyFlammable = reallyFlam;
         reallyTreadable = reallyTread;
     }
     
-    public HiddenTile(String imposterTileName, String realName, Location loc, boolean hid, boolean reallyFlam, boolean reallyTread){
-        super(imposterTileName, loc);
+    public HiddenTile(String imposterTileName, boolean t, boolean f, String realName, Location loc, boolean hid, boolean reallyFlam, boolean reallyTread){
+        super(imposterTileName, loc, t, f);
         name = realName;
         realIcon = ImageHandler.getImage(realName, loc);
         hidden = hid;

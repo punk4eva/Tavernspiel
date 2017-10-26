@@ -15,7 +15,7 @@ public class Path implements Iterable<Point>, RandomAccess{
     public Point[] points;
     private int incrementor = 0;
     
-    public Path(Point[] ps){
+    public Path(Point... ps){
         points = ps;
     }
     

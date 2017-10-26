@@ -35,10 +35,12 @@ public final class ItemBuilder{
     @Unfinished
     public static ItemMap getStandardItemMap(int depth, Location loc){
         return new ItemMap(null, null, -1, -1){
+            
+            Distribution type = new Distribution(new int[]{12, 3, 3, 9, 9, 1, 1});
+            
             @Override
             public List<Item> genList(){
                 List<Item> ret = new LinkedList<>();
-                Distribution type = new Distribution(new int[]{12, 3, 3, 9, 9, 1, 1});
                 while(Distribution.chance(1, 3)){
                     switch((int)type.next()){
                         case 0: //gold

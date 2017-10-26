@@ -107,7 +107,7 @@ public class RoomBuilder{
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
                 Distribution.getRandomInt(5, 10)), loc, depth);
         room.paintAndPave();
-        Tile pedestal = new Tile("pedestal", loc);
+        Tile pedestal = new Tile("pedestal", loc, true, false);
         switch(Distribution.getRandomInt(1, 4)){
             case 1: //North
                 for(int y = 1; y < room.dimension.height - 1; y++){
@@ -173,10 +173,8 @@ public class RoomBuilder{
                 Distribution.getRandomInt(5, 16)), loc, depth);
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
-                if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1){
-                    if(Distribution.chance(1, 10)) room.map[y][x] = new Tile("specialwall", loc, false, false);
-                    else room.map[y][x] = new Tile("wall", loc, false, false);
-                }else room.map[y][x] = new Tile("specialfloor", loc);
+                if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) room.map[y][x] = Tile.wall(loc);
+                else room.map[y][x] = new Tile("specialfloor", loc, true, false);
             }
         }
         room.barricade();
@@ -235,13 +233,11 @@ public class RoomBuilder{
         room.itemMap = ItemBuilder.getGardenItemMap();
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
-                if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1){
-                    if(Distribution.chance(1, 10)) room.map[y][x] = new Tile("specialwall", location, false, false);
-                    else room.map[y][x] = new Tile("wall", location, false, false);
-                }else{
+                if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) room.map[y][x] = Tile.wall(location);
+                else{
                     if(y==1||x==1||y==room.dimension.height-2||x==room.dimension.width-2)
-                        room.map[y][x] = new Tile("highgrass", location);
-                    else room.map[y][x] = new Tile("lowgrass", location);
+                        room.map[y][x] = new Tile("highgrass", location, true, true);
+                    else room.map[y][x] = new Tile("lowgrass", location, true, true);
                     room.addObject(GasBuilder.gardengas(x, y));
                 }
             }
@@ -254,7 +250,7 @@ public class RoomBuilder{
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 10),
                 Distribution.getRandomInt(5, 10)), loc, -1);
         room.paintAndPave();
-        Tile pedestal = new Tile("pedestal", loc);
+        Tile pedestal = new Tile("pedestal", loc, true, false);
         switch(Distribution.getRandomInt(1, 4)){
             case 1: //North
                 for(int y = 1; y < room.dimension.height - 1; y++){
@@ -307,14 +303,9 @@ public class RoomBuilder{
     public static Room stalagnate(Location location, int depth){
         Room room = Room.genStandard(location, depth);
         room.addDoors();
-        for(int y=1;y<room.dimension.height-1;y++){
-            for(int x=1;x<room.dimension.width-1;x++){
-                if(Distribution.chance(1, 7)){
-                    if(Distribution.chance(1, 10)) room.map[y][x] = new Tile("specialwall", location);
-                    else room.map[y][x] = new Tile("wall", location);
-                }
-            }
-        }
+        for(int y=1;y<room.dimension.height-1;y++)
+            for(int x=1;x<room.dimension.width-1;x++)
+                if(Distribution.chance(1, 7)) room.map[y][x] = Tile.wall(location);
         room.randomlyPlop();
         return room;
     }

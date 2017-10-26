@@ -61,7 +61,7 @@ public class SoundHandler{
                             clip.open(inputStream);
                             FloatControl gainControl =
                                     (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                            gainControl.setValue(Window.MusicVolume);
+                            gainControl.setValue(Window.musicVolume);
                             clip.start();
                             Thread.sleep(clip.getMicrosecondLength()/1000);
                             clip.close();
@@ -97,7 +97,7 @@ public class SoundHandler{
                             clip.open(inputStream);
                             FloatControl gainControl =
                                     (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                            gainControl.setValue(Window.MusicVolume);
+                            gainControl.setValue(Window.musicVolume);
                             clip.start();
                             Thread.sleep(clip.getMicrosecondLength()/1000);
                             clip.close();
@@ -132,7 +132,7 @@ public class SoundHandler{
                             clip.open(inputStream);
                             FloatControl gainControl =
                                     (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                            gainControl.setValue(Window.MusicVolume);
+                            gainControl.setValue(Window.musicVolume);
                             clip.start();
                             Thread.sleep(clip.getMicrosecondLength()/1000);
                             clip.close();
@@ -166,7 +166,7 @@ public class SoundHandler{
                             clip.open(inputStream);
                             FloatControl gainControl =
                                     (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-                            gainControl.setValue(Window.MusicVolume);
+                            gainControl.setValue(Window.musicVolume);
                             clip.start();
                             Thread.sleep(clip.getMicrosecondLength()/1000);
                             clip.close();

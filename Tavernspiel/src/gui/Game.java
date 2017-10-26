@@ -10,6 +10,9 @@ import level.Dungeon;
 import listeners.DepthListener;
 import logic.ImageUtils;
 import logic.Utils.Unfinished;
+import pathfinding.CorridorBuilder;
+import pathfinding.Path;
+import pathfinding.Point;
 
 /**
  *
@@ -36,10 +39,12 @@ public class Game extends MainClass implements DepthListener{
         GameObjectAnimator goa = new GameObjectAnimator(ImageUtils.addImageBuffer(new ImageIcon("graphics/spritesheets/tree.png")),
                 new String[]{"stand", "move", "attack", "die"}, new int[]{2, 4, 8, 5});
         Hero hero = new Hero(new Attributes(), goa);
-        hero.x = 1;
-        hero.y = 1;
+        hero.x = Window.main.currentArea.startCoords[0];
+        hero.y = Window.main.currentArea.startCoords[1];
         Window.main.currentArea.addObject(hero);
-        //new Dialogue("Dialogue", "offCase", false, new CSlider("Temperature", 0, 0, 1, 5, 1)).action(game);
+        CorridorBuilder builder = new CorridorBuilder(Window.main.currentArea);
+        builder.buildCorridor(new Path(new Point(5, 5), new Point(5, 6), new Point(5, 7), new Point(5, 8), new Point(5, 9), new Point(5, 10), 
+                new Point(5, 11), new Point(6, 11), new Point(7, 11), new Point(8, 11), new Point(9, 11), new Point(10, 11), new Point(11, 11), new Point(12, 11)));
     }
 
     @Override

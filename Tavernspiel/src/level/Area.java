@@ -139,7 +139,7 @@ public class Area implements Serializable{
      * @param y The y of the Tile.
      */
     public void burn(int x, int y){
-        map[y][x] = new Tile("embers", location);
+        map[y][x] = new Tile("embers", location, true, false);
         Receptacle r = getReceptacle(x, y);
         if(r != null) r.keep(item -> !item.flammable);
     }

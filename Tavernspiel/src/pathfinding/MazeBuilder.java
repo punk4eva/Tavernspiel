@@ -23,12 +23,8 @@ public class MazeBuilder{
         TLY = y;
         width = w;
         height = h;
-        for(int cy=y;cy<height+y;cy++){
-            for(int cx=x;cx<width+x;cx++){
-                if(Distribution.chance(1, 10)) area.map[cy][cx] = new Tile("specialwall", area.location);
-                else area.map[cy][cx] = new Tile("wall", area.location);
-            }
-        }
+        for(int cy=y;cy<height+y;cy++)
+            for(int cx=x;cx<width+x;cx++) area.map[cy][cx] = Tile.wall(area.location);
         if(area.graph==null) area.graph = new Graph(area);
         new MazeAlgorithm().floodfill(area.graph.map[Distribution.r.nextInt(area.dimension.height/2)]
                 [Distribution.r.nextInt(area.dimension.width/2)]);
@@ -98,22 +94,22 @@ public class MazeBuilder{
     
     private void carve(Point s, Point n){
         if(s.x<n.x){
-            area.map[s.y][s.x+1] = new Tile("floor", area.location);
-            area.map[s.y][n.x] = new Tile("floor", area.location);
+            area.map[s.y][s.x+1] = new Tile("floor", area.location, true, false);
+            area.map[s.y][n.x] = new Tile("floor", area.location, true, false);
             return;
         }
         if(s.x>n.x){
-            area.map[s.y][s.x-1] = new Tile("floor", area.location);
-            area.map[s.y][n.x] = new Tile("floor", area.location);
+            area.map[s.y][s.x-1] = new Tile("floor", area.location, true, false);
+            area.map[s.y][n.x] = new Tile("floor", area.location, true, false);
             return;
         }
         if(s.y<n.y){
-            area.map[s.y+1][s.x] = new Tile("floor", area.location);
-            area.map[n.y][s.x] = new Tile("floor", area.location);
+            area.map[s.y+1][s.x] = new Tile("floor", area.location, true, false);
+            area.map[n.y][s.x] = new Tile("floor", area.location, true, false);
             return;
         }
-        area.map[s.y-1][s.x] = new Tile("floor", area.location);
-        area.map[n.y][s.x] = new Tile("floor", area.location);
+        area.map[s.y-1][s.x] = new Tile("floor", area.location, true, false);
+        area.map[n.y][s.x] = new Tile("floor", area.location, true, false);
     }
     
     private boolean withinBounds(int x, int y){

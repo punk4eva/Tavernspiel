@@ -155,13 +155,9 @@ public class Room extends Area{
     protected void paintAndPave(){
         for(int y=0;y<dimension.height;y++){
             for(int x=0;x<dimension.width;x++){
-                if(y==0||x==0||y==dimension.height-1||x==dimension.width-1){
-                    if(Distribution.chance(1, 10)) map[y][x] = new Tile("specialwall", location, false, false);
-                    else map[y][x] = new Tile("wall", location, false, false);
-                }else{
-                    if(Distribution.chance(1, 10)) map[y][x] = new Tile("decofloor", location);
-                    else map[y][x] = new Tile("floor", location);
-                }
+                if(y==0||x==0||y==dimension.height-1||x==dimension.width-1) 
+                    map[y][x] = Tile.wall(location);
+                else map[y][x] = Tile.wall(location);
             }
         }
     }
@@ -202,7 +198,7 @@ public class Room extends Area{
         for(int y=1;y<dimension.height-1;y++){
             for(int x=1;x<dimension.width-1;x++){
                 if(map[y][x].equals("floor")&&location.grassGenChance.chance()) 
-                    map[y][x] = new Tile("lowgrass", location);
+                    map[y][x] = new Tile("lowgrass", location, true, true);
             }
         }
         
@@ -213,7 +209,7 @@ public class Room extends Area{
                 for(int x=1;x<dimension.width-1;x++){
                     if(map[y][x].equals("lowgrass")&&Distribution.chance(1, n)){
                         spreads = true;
-                        spread(new Tile("lowgrass", location), x, y);
+                        spread(new Tile("lowgrass", location, true, true), x, y);
                     }
                 }
             }
@@ -222,7 +218,7 @@ public class Room extends Area{
         for(int y=1;y<dimension.height-1;y++){
             for(int x=1;x<dimension.width-1;x++){
                 if(map[y][x].equals("lowgrass")&&Distribution.chance(1, 2)){
-                    map[y][x] = new Tile("highgrass", location);
+                    map[y][x] = new Tile("highgrass", location, true, true);
                 }
             }
         }
