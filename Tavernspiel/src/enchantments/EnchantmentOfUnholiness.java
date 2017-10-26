@@ -11,7 +11,7 @@ import logic.Distribution;
  */
 public final class EnchantmentOfUnholiness extends WeaponEnchantment{
     
-    public EnchantmentOfUnholiness(int level){
+    public EnchantmentOfUnholiness(double level){
         super("Unholiness", new Description("enchantments", "The malevolent energies in the enchantment are itching for the next kill."), 
                 new Distribution(0, (int)(level*20.0)), level, AttackType.DEMONIC,
                 EnchantmentAffinity.SACRIFICIAL);
