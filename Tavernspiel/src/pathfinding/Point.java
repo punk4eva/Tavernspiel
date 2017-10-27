@@ -100,8 +100,8 @@ public class Point implements Serializable{
     
     public void paint(Graphics g, int x, int y){
         if(isCorridor) g.setColor(Color.BLUE);
-        else if(cameFrom==null) g.setColor(Color.YELLOW);
         else if(checked==null) g.setColor(Color.WHITE);
+        else if(cameFrom==null) g.setColor(Color.YELLOW);
         else if(checked) g.setColor(Color.RED);
         else g.setColor(Color.BLACK);
         g.fillOval(x+4, y+4, 8, 8);

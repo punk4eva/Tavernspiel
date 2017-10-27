@@ -24,7 +24,7 @@ public class CorridorBuilder{
         
         WanderingCorridorAlgorithm(){
             super(area.graph);
-            addCheck = (from, to) -> to.currentCost > from.currentCost + to.movementCost/* && to.checked!=null && !to.checked*/;
+            addCheck = (from, to) -> /*to.currentCost > from.currentCost + to.movementCost &&*/ to.checked==null || !to.checked;
             frontier = null;
         }
         
@@ -98,17 +98,23 @@ public class CorridorBuilder{
         area.map[y][x] = Tile.floor(area.location);
         area.graph.map[y][x].isCorridor = true;
         if(hor){
-            if(area.map[y][x-1]!=null&&area.map[y][x-1].treadable) return;
-            area.map[y][x-1] = Tile.wall(area.location);
-            area.map[y][x+1] = Tile.wall(area.location);
-            area.graph.map[y][x-1].isCorridor = true;
-            area.graph.map[y][x+1].isCorridor = true;
+            if(area.map[y][x-1]==null){
+                area.map[y][x-1] = Tile.wall(area.location);
+                area.graph.map[y][x-1].isCorridor = true;
+            }
+            if(area.map[y][x+1]==null){
+                area.map[y][x+1] = Tile.wall(area.location);
+                area.graph.map[y][x+1].isCorridor = true;
+            }
         }else{
-            if(area.map[y-1][x]!=null&&area.map[y-1][x].treadable) return;
-            area.map[y-1][x] = Tile.wall(area.location);
-            area.map[y+1][x] = Tile.wall(area.location);
-            area.graph.map[y-1][x].isCorridor = true;
-            area.graph.map[y+1][x].isCorridor = true;
+            if(area.map[y-1][x]==null){
+                area.map[y-1][x] = Tile.wall(area.location);
+                area.graph.map[y-1][x].isCorridor = true;
+            }
+            if(area.map[y+1][x]==null){
+                area.map[y+1][x] = Tile.wall(area.location);
+                area.graph.map[y+1][x].isCorridor = true;
+            }
         }
     }
     
@@ -142,14 +148,22 @@ public class CorridorBuilder{
     }
     
     private void fillGaps(Point p, boolean hor){
-        area.map[p.y+1][p.x+1] = Tile.wall(area.location);
-        area.map[p.y-1][p.x-1] = Tile.wall(area.location);
-        area.map[p.y-1][p.x+1] = Tile.wall(area.location);
-        area.map[p.y+1][p.x-1] = Tile.wall(area.location);
-        area.graph.map[p.y+1][p.x+1].isCorridor = true;
-        area.graph.map[p.y-1][p.x-1].isCorridor = true;
-        area.graph.map[p.y-1][p.x+1].isCorridor = true;
-        area.graph.map[p.y+1][p.x-1].isCorridor = true;
+        if(area.map[p.y+1][p.x+1]==null){
+            area.map[p.y+1][p.x+1] = Tile.wall(area.location);
+            area.graph.map[p.y+1][p.x+1].isCorridor = true;
+        }
+        if(area.map[p.y-1][p.x-1]==null){
+            area.map[p.y-1][p.x-1] = Tile.wall(area.location);
+            area.graph.map[p.y-1][p.x-1].isCorridor = true;
+        }
+        if(area.map[p.y-1][p.x+1]==null){
+            area.map[p.y-1][p.x+1] = Tile.wall(area.location);
+            area.graph.map[p.y-1][p.x+1].isCorridor = true;
+        }
+        if(area.map[p.y+1][p.x-1]==null){
+            area.map[p.y+1][p.x-1] = Tile.wall(area.location);
+            area.graph.map[p.y+1][p.x-1].isCorridor = true;
+        }
         if(hor){
             if(area.map[p.y-1][p.x]==null){
                 area.map[p.y-1][p.x] = Tile.wall(area.location);
