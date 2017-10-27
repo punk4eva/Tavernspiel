@@ -95,12 +95,12 @@ public class Searcher{
             for(Direction dir : directions){
                 nx = dir.x.update(p.x);
                 ny = dir.y.update(p.y);
-                if(graph.map[ny][nx].checked!=null&&(!graph.map[ny][nx].checked||addCheck.check(p, graph.map[ny][nx]))){
+                try{ if(graph.map[ny][nx].checked!=null&&(!graph.map[ny][nx].checked||addCheck.check(p, graph.map[ny][nx]))){
                     graph.map[ny][nx].checked = true;
                     graph.map[ny][nx].cameFrom = p;
                     graph.map[ny][nx].currentCost = p.currentCost + graph.map[ny][nx].movementCost;
                     frontier.add(graph.map[ny][nx]);
-                }
+                }}catch(ArrayIndexOutOfBoundsException e){}
             }
         }
     }

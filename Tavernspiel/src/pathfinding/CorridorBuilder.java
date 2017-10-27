@@ -128,6 +128,7 @@ public class CorridorBuilder{
         paths.stream().forEach((path) -> {
             buildCorridor(path);
         });
+        area.graph.initializeWaypoints();
     }
     
     public void buildCorridor(Path path){

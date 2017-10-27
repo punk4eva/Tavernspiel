@@ -27,14 +27,11 @@ public class Graph implements Serializable{
                 if(area.map[y][x]==null||!area.map[y][x].treadable) map[y][x] = new Point(x, y, null);
                 else{
                     map[y][x] = new Point(x, y);
-                    if(area.map[y][x].equals("Door")){
-                        wps.add(new Waypoint(x, y));
-                    }
+                    if(area.map[y][x].equals("Door")) wps.add(new Waypoint(x, y));
                 }
             }
         }
         waypoints = wps.toArray(new Waypoint[wps.size()]);
-        //initializeWaypoints();
         searcher = new Searcher(this);
     }
     
@@ -64,15 +61,11 @@ public class Graph implements Serializable{
         return new Path(ret.toArray(new Point[ret.size()])).reverse();
     }
     
-    private void initializeWaypoints(){
-        Searcher searcher = new Searcher(this);
+    protected void initializeWaypoints(){
         for(int w=0;w<waypoints.length;w++){
             searcher.floodfill(waypoints[w]);
-            for(int ow=0;ow<waypoints.length;ow++){
-                if(ow!=w){
-                    waypoints[w].pathsToWaypoints.put(waypoints[ow], followTrail(waypoints[ow].x, waypoints[ow].y));
-                }
-            }
+            for(int ow=0;ow<waypoints.length;ow++) if(ow!=w)
+                waypoints[w].pathsToWaypoints.put(waypoints[ow], followTrail(waypoints[ow].x, waypoints[ow].y));
         }
     }
     
