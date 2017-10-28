@@ -164,8 +164,8 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
         return new Animation(ret, this); 
     }
     
-    public void animate(Graphics g, int x, int y){
-        active.animate(g, x, y);
+    public void animate(Graphics g, int x, int y, double zoom){
+        active.animate(g, x, y, zoom);
     }
     
 }

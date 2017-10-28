@@ -29,10 +29,9 @@ public class RandomAnimation extends Animation{
     }
     
     @Override
-    public void animate(Graphics g, int x, int y){
+    public void animate(Graphics g, int x, int y, double z){
         int m = (int)((MainClass.frameNumber/currentDelay)%frames.length);
         if(MainClass.frameNumber%100==0) currentDelay = Distribution.randomDouble(delay-delayError, delay+delayError);
-        double z = MainClass.getZoom();
         if(z==1.0) g.drawImage(frames[m].getImage(), x, y, null);
         else g.drawImage(frames[m].getImage().getScaledInstance((int)(16*z),(int)(16*z),0), x, y, null);
     }

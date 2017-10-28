@@ -31,7 +31,7 @@ public class ImageUtils{
             g.setColor(ConstantFields.unidentifiedColour);
             g.fillRect(x+2, y+2, sqwidth-4, sqheight-4);
         }
-        i.animation.animate(g, x+(sqwidth-16)/2, y+(sqheight-16)/2);
+        i.animation.animate(g, x+(sqwidth-16)/2, y+(sqheight-16)/2, 1);
         g.setColor(Color.white);
         if(i.quantity!=1) g.drawString(""+i.quantity, x+4, y+4);
     }

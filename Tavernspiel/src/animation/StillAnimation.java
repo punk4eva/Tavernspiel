@@ -35,8 +35,7 @@ public class StillAnimation extends Animation{
     }
     
     @Override
-    public void animate(Graphics g, int x, int y){
-        double z = MainClass.getZoom();
+    public void animate(Graphics g, int x, int y, double z){
         if(z==1.0) g.drawImage(frames[0].getImage(), x, y, null);
         else g.drawImage(frames[0].getImage().getScaledInstance((int)(16*z),(int)(16*z),0), x, y, null);
     }

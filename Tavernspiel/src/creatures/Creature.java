@@ -184,9 +184,8 @@ public class Creature extends GameObject implements BuffListener, Comparable<Cre
     }
 
     @Override
-    public void render(Graphics g){
-        int[] focus = MainClass.getFocus();
-        animator.animate(g, x*16+focus[0], y*16+focus[1]);
+    public void render(Graphics g, int focusX, int focusY, double zoom){
+        animator.animate(g, x*16+focusX, y*16+focusY, zoom);
     }
     
     public void setXY(int nx, int ny){

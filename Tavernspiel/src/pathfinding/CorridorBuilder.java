@@ -122,9 +122,6 @@ public class CorridorBuilder{
         List<Path> paths = new WanderingCorridorAlgorithm().generatePaths(
                 Arrays.asList(area.graph.waypoints).stream().filter(p -> !waypointReached(p)).collect(Collectors.toList()),
                 new LinkedList<>(), new LinkedList<>());
-        paths.stream().forEach((p) -> {
-            System.out.println(p.points.length);
-        });
         paths.stream().forEach((path) -> {
             buildCorridor(path);
         });

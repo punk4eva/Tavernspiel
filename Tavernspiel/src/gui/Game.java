@@ -4,6 +4,7 @@ package gui;
 import animation.GameObjectAnimator;
 import creatureLogic.Attributes;
 import creatures.Hero;
+import java.awt.Dimension;
 import javax.swing.ImageIcon;
 import level.Area;
 import level.Dungeon;
@@ -13,6 +14,7 @@ import logic.Utils.Unfinished;
 import pathfinding.CorridorBuilder;
 import pathfinding.Path;
 import pathfinding.Point;
+import pathfinding.Searcher;
 
 /**
  *
@@ -42,6 +44,10 @@ public class Game extends MainClass implements DepthListener{
         hero.x = Window.main.currentArea.startCoords[0];
         hero.y = Window.main.currentArea.startCoords[1];
         Window.main.currentArea.addObject(hero);
+        /*Window.main.currentArea = new Area(new Dimension(80, 80), Window.main.currentArea.location);
+        CorridorBuilder builder = new CorridorBuilder(Window.main.currentArea);
+        Path path = new Searcher(Window.main.currentArea.graph).findNullPath(new Point(5, 5), new Point(14, 13));
+        builder.buildCorridor(path);*/
     }
 
     @Override

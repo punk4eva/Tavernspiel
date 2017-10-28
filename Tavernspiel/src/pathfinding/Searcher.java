@@ -114,8 +114,9 @@ public class Searcher{
      * @see findExpressRoute()
      */
     public Path findPath(Point start, Point end){
-        graph.resetMap();
+        graph.use();
         frontier.clear();
+        start.currentCost = 0;
         frontier.add(start);
         int nx, ny;
         while(!frontier.isEmpty()){
@@ -123,13 +124,39 @@ public class Searcher{
             for(Direction dir : directions){
                 nx = dir.x.update(p.x);
                 ny = dir.y.update(p.y);
-                if(!graph.map[ny][nx].checked||addCheck.check(p, graph.map[ny][nx])){
+                try{ if(graph.map[ny][nx].checked!=null&&(!graph.map[ny][nx].checked||addCheck.check(p, graph.map[ny][nx]))){
                     graph.map[ny][nx].checked = true;
                     graph.map[ny][nx].cameFrom = p;
                     graph.map[ny][nx].currentCost = p.currentCost + graph.map[ny][nx].movementCost;
                     if(graph.map[ny][nx].equals(end)) break;
                     frontier.add(graph.map[ny][nx]);
-                }
+                }}catch(ArrayIndexOutOfBoundsException e){}
+            }
+        }
+        return graph.followTrail(end.x, end.y);
+    }
+    
+    public Path findNullPath(Point start, Point end){
+        graph.use();
+        frontier.clear();
+        start.currentCost = 0;
+        frontier.add(start);
+        int nx, ny;
+        search: while(!frontier.isEmpty()){
+            Point p = frontier.poll();
+            for(Direction dir : directions){
+                nx = dir.x.update(p.x);
+                ny = dir.y.update(p.y);
+                try{ if(graph.map[ny][nx].equals(end)){
+                    graph.map[ny][nx].cameFrom = p;
+                    break search;
+                }else if((graph.map[ny][nx].checked==null||graph.map[ny][nx].isCorridor)&&addCheck.check(p, graph.map[ny][nx])){
+                    graph.map[ny][nx].checked = true;
+                    graph.map[ny][nx].cameFrom = p;
+                    graph.map[ny][nx].currentCost = p.currentCost + graph.map[ny][nx].movementCost;
+                    if(graph.map[ny][nx].equals(end)) break;
+                    frontier.add(graph.map[ny][nx]);
+                }}catch(ArrayIndexOutOfBoundsException e){}
             }
         }
         return graph.followTrail(end.x, end.y);

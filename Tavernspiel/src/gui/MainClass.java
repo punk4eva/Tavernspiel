@@ -286,7 +286,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
             frameNumber = (frameNumber+1) % frameDivisor;
         }
         paintArea(currentArea, g);
-        currentArea.renderObjects(g);
+        currentArea.renderObjects(g, focusX, focusY, zoom);
         viewables.streamViewables().forEach(v -> {
             v.paint(g);
         });
@@ -322,21 +322,19 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
      * @param g The graphics to paint on.
      */
     public void paintArea(Area area, Graphics g){
-        for(int y=focusY;y<focusY+area.dimension.height*16;y+=16){
-            for(int x=focusX;x<focusX+area.dimension.width*16;x+=16){
-                
+        for(int y=focusY, maxY=focusY+area.dimension.height*16;y<maxY;y+=16){
+            for(int x=focusX, maxX=focusX+area.dimension.width*16;x<maxX;x+=16){
+                if(x<0||y<0||x*zoom>WIDTH||y*zoom>HEIGHT) continue;
                 Tile tile = area.map[(y-focusY)/16][(x-focusX)/16];
-                int xz = (int)(x*zoom);
-                int yz = (int)(y*zoom);
                 if(tile==null){
                 }else if(tile instanceof AnimatedTile)
-                    ((AnimatedTile) tile).animation.animate(g, xz, yz);
+                    ((AnimatedTile) tile).animation.animate(g, x, y, zoom);
                 else if(zoom!=1){
                     int l = (int)(16*zoom);
-                    g.drawImage(tile.image.getImage().getScaledInstance(l, l, 0),xz,yz,null);
-                }else g.drawImage(tile.image.getImage(),xz,yz,null);
+                    g.drawImage(tile.image.getImage().getScaledInstance(l, l, 0),(int)(x*zoom),(int)(y*zoom),null);
+                }else g.drawImage(tile.image.getImage(), x, y, null);
                 Receptacle temp = area.getReceptacle(x, y);
-                if(temp instanceof Floor&&!temp.isEmpty()) temp.peek().animation.animate(g, x, y);
+                if(temp instanceof Floor&&!temp.isEmpty()) temp.peek().animation.animate(g, x, y, zoom);
             }
         }
     }
@@ -446,9 +444,15 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         //zoomCenterX = me.getX();
         //zoomCenterY = me.getY();
         switch(me.getWheelRotation()){
-            case -1: if(zoom<MAX_ZOOM) zoom *= 1.25;
+            case -1: if(zoom<MAX_ZOOM){
+                zoom *= 1.25;
+                performanceStream.println("ZOOM: " + zoom);
+            }
                 break;
-            default: if(zoom>MIN_ZOOM) zoom /= 1.25;
+            default: if(zoom>MIN_ZOOM){
+                zoom /= 1.25;
+                performanceStream.println("ZOOM: " + zoom);
+            }
         }
     }
     
