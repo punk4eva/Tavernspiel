@@ -34,6 +34,7 @@ public class Game extends MainClass implements DepthListener{
         dungeon = new Dungeon(this);
         dungeon.descend(player);
         window = new Window(WIDTH, HEIGHT, "Tavernspiel", this);
+        hud = new HUD(this);
     }
     
     public static void main(String... args){
@@ -44,6 +45,7 @@ public class Game extends MainClass implements DepthListener{
         hero.x = Window.main.currentArea.startCoords[0];
         hero.y = Window.main.currentArea.startCoords[1];
         Window.main.currentArea.addObject(hero);
+        //game.addViewable(game.hud);
         /*Window.main.currentArea = new Area(new Dimension(80, 80), Window.main.currentArea.location);
         CorridorBuilder builder = new CorridorBuilder(Window.main.currentArea);
         Path path = new Searcher(Window.main.currentArea.graph).findNullPath(new Point(5, 5), new Point(14, 13));

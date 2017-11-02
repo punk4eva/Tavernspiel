@@ -47,6 +47,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     private Thread thread;
     private boolean running = false;
     protected Window window;
+    protected HUD hud;
 
     public static final IDHandler idhandler = new IDHandler(); //Creates UUIDs for GameObjects.
     public static final BuffEventInitiator buffinitiator = new BuffEventInitiator(); //Handles buffs.
@@ -75,7 +76,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
         
         void addViewable(Viewable viewable){
-            screens.removeAll(viewables.get(viewables.size()-1).getScreenList());
+            if(!viewables.isEmpty())screens.removeAll(viewables.get(viewables.size()-1).getScreenList());
             viewables.add(viewable);
             screens.addAll(viewable.getScreenList());
         }
@@ -381,6 +382,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
                 }
             }
             if(notClicked) currentDialogue.clickedOff();
+            
         }
     }
     @Override
