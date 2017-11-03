@@ -10,6 +10,5 @@ import java.util.List;
  */
 public interface Viewable{
     List<Screen> getScreens();
-    List<Screen> getScreenList();
     void paint(Graphics g);
 }

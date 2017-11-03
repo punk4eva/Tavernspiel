@@ -30,7 +30,10 @@ public class Attributes implements Serializable{
     /**
      * Creates a new instance.
      */
-    public Attributes(){}
+    public Attributes(){
+        hp = 20;
+        maxhp = 20;
+    }
     
     /**
      * Creates a new instance.

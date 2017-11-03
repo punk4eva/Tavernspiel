@@ -72,13 +72,13 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         
         void removeTopViewable(){
             Viewable top = viewables.remove(viewables.size()-1);
-            screens.removeAll(top.getScreenList());
+            screens.removeAll(top.getScreens());
         }
         
         void addViewable(Viewable viewable){
-            if(!viewables.isEmpty())screens.removeAll(viewables.get(viewables.size()-1).getScreenList());
+            if(!viewables.isEmpty())screens.removeAll(viewables.get(viewables.size()-1).getScreens());
             viewables.add(viewable);
-            screens.addAll(viewable.getScreenList());
+            screens.addAll(viewable.getScreens());
         }
         
         void addDraggable(Screen lst){
@@ -326,16 +326,18 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         for(int y=focusY, maxY=focusY+area.dimension.height*16;y<maxY;y+=16){
             for(int x=focusX, maxX=focusX+area.dimension.width*16;x<maxX;x+=16){
                 if(x<0||y<0||x*zoom>WIDTH||y*zoom>HEIGHT) continue;
-                Tile tile = area.map[(y-focusY)/16][(x-focusX)/16];
-                if(tile==null){
-                }else if(tile instanceof AnimatedTile)
-                    ((AnimatedTile) tile).animation.animate(g, x, y, zoom);
-                else if(zoom!=1){
-                    int l = (int)(16*zoom);
-                    g.drawImage(tile.image.getImage().getScaledInstance(l, l, 0),(int)(x*zoom),(int)(y*zoom),null);
-                }else g.drawImage(tile.image.getImage(), x, y, null);
-                Receptacle temp = area.getReceptacle(x, y);
-                if(temp instanceof Floor&&!temp.isEmpty()) temp.peek().animation.animate(g, x, y, zoom);
+                try{
+                    Tile tile = area.map[(y-focusY)/16][(x-focusX)/16];
+                    if(tile==null){
+                    }else if(tile instanceof AnimatedTile)
+                        ((AnimatedTile) tile).animation.animate(g, x, y, zoom);
+                    else if(zoom!=1){
+                        int l = (int)(16*zoom);
+                        g.drawImage(tile.image.getImage().getScaledInstance(l, l, 0),(int)(x*zoom),(int)(y*zoom),null);
+                    }else g.drawImage(tile.image.getImage(), x, y, null);
+                    Receptacle temp = area.getReceptacle(x, y);
+                    if(temp instanceof Floor&&!temp.isEmpty()) temp.peek().animation.animate(g, x, y, zoom);
+                }catch(ArrayIndexOutOfBoundsException e){/*skip frame*/}
             }
         }
     }

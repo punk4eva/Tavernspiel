@@ -43,14 +43,13 @@ public class Dungeon implements Serializable{
      * Descends to the next depth.
      * @param hero
      */
-    @Unfinished("Uncomment setXY()")
     public void descend(Hero hero){
         depth++;
         if(!getStage().isLoaded(depth)){
             getStage().loadNext();
         }
         depthListener.updateDepth(getArea2());
-        //hero.setXY(currentArea.startCoords[0], currentArea.startCoords[1]);
+        if(hero!=null) currentArea.addHero(hero);
     }
     
     /**
@@ -60,7 +59,7 @@ public class Dungeon implements Serializable{
     public void ascend(Hero hero){
         depth--;
         depthListener.updateDepth(getArea2());
-        hero.setXY(currentArea.startCoords[0], currentArea.startCoords[1]);
+        currentArea.addHero(hero);
     }
     
     /**

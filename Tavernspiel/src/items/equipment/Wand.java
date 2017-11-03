@@ -45,7 +45,6 @@ public class Wand extends RangedWeapon implements ScreenListener{
     private Area area;
     private MainClass main;
     private final LocationViewable locationSelect;
-    protected final List<Screen> screens;
     
     /**
      * @param s The name of the Wand.
@@ -71,7 +70,6 @@ public class Wand extends RangedWeapon implements ScreenListener{
                 return screens;
             }
         };
-        screens = locationSelect.getScreenList();
     }
     
     /**

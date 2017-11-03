@@ -26,6 +26,7 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
     
     private final HashMap<String, Animation> map = new HashMap<>();
     public Animation active;
+    public String currentName = "DEFAULT";
     private boolean waitingForDone = false;
     
     /**
@@ -90,6 +91,7 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
      */
     public void switchTo(String name){
         active = map.get(name);
+        currentName = name;
         active.offset = MainClass.frameNumber%active.frames.length;
     }
     

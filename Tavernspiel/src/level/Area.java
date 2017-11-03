@@ -39,6 +39,7 @@ public class Area implements Serializable{
     public volatile LinkedList<GameObject> objects = new LinkedList<>();
     public volatile LinkedList<Receptacle> receptacles = new LinkedList<>();
     public Graph graph = null;
+    private Hero hero;
     
     /**
      * Creates a new instance.
@@ -285,6 +286,7 @@ public class Area implements Serializable{
         objects.stream().forEach(ob -> {
             ob.render(g, focusX, focusY, zoom);
         });
+        hero.render(g, focusX, focusY, zoom);
         //graph.paint(g, focusX, focusY);
     }
     
@@ -292,6 +294,12 @@ public class Area implements Serializable{
         objects.stream().forEach(ob -> {
             ob.turn(turnNum);
         });
+    }
+    
+    public void addHero(Hero h){
+        h.setArea(this);
+        h.setXY(startCoords[0], startCoords[1]);
+        hero = h;
     }
     
 }

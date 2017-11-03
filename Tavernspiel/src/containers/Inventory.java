@@ -25,7 +25,7 @@ public class Inventory extends Receptacle{
     
     public Inventory(){
         super(18, "ERROR: You shouldn't be reading this.", -1, -1);
-        screens = null;
+        screens = getScreens(null);
         heroOwner = null;
     }
     
@@ -34,11 +34,6 @@ public class Inventory extends Receptacle{
         screens = getScreens(hero.getScreenListener());
         heroOwner = hero;
     }
-    
-    /*public Inventory(List<Item> i){
-    super(i, 18, "ERROR: You shouldn't be reading this.", -1, -1);
-    screens = getScreens();
-    }*/
     
     public void setMoneyAmount(int amount){
         amountOfMoney = amount;
@@ -79,6 +74,12 @@ public class Inventory extends Receptacle{
         }
         ret.add(new Screen("Money", beginWidth+3*padding+2*sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight, sl));
         return ret;
+    }
+    
+    public void changeScreenListener(ScreenListener sl){
+        screens.stream().forEach((sc) -> {
+            sc.changeScreenListener(sl);
+        });
     }
     
 }

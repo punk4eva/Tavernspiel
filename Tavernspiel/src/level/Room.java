@@ -11,6 +11,7 @@ import java.util.List;
 import logic.Distribution;
 import tiles.AnimatedTile;
 import tiles.Door;
+import tiles.Grass;
 import tiles.Tile;
 import tiles.TrapBuilder;
 
@@ -198,7 +199,7 @@ public class Room extends Area{
         for(int y=1;y<dimension.height-1;y++){
             for(int x=1;x<dimension.width-1;x++){
                 if(map[y][x].equals("floor")&&location.grassGenChance.chance()) 
-                    map[y][x] = new Tile("lowgrass", location, true, true);
+                    map[y][x] = new Grass(location, false);
             }
         }
         
@@ -209,7 +210,7 @@ public class Room extends Area{
                 for(int x=1;x<dimension.width-1;x++){
                     if(map[y][x].equals("lowgrass")&&Distribution.chance(1, n)){
                         spreads = true;
-                        spread(new Tile("lowgrass", location, true, true), x, y);
+                        spread(new Grass(location, false), x, y);
                     }
                 }
             }
@@ -218,7 +219,7 @@ public class Room extends Area{
         for(int y=1;y<dimension.height-1;y++){
             for(int x=1;x<dimension.width-1;x++){
                 if(map[y][x].equals("lowgrass")&&Distribution.chance(1, 2)){
-                    map[y][x] = new Tile("highgrass", location, true, true);
+                    map[y][x] = new Grass(location, true);
                 }
             }
         }

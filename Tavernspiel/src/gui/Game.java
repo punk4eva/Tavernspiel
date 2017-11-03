@@ -1,6 +1,7 @@
 
 package gui;
 
+import ai.PlayerAI;
 import animation.GameObjectAnimator;
 import creatureLogic.Attributes;
 import creatures.Hero;
@@ -31,20 +32,19 @@ public class Game extends MainClass implements DepthListener{
      * Starts the game.
      */
     public Game(){
+        GameObjectAnimator goa = new GameObjectAnimator(ImageUtils.addImageBuffer(new ImageIcon("graphics/spritesheets/tree.png")),
+                new String[]{"stand", "move", "attack", "die"}, new int[]{2, 4, 8, 5});
         dungeon = new Dungeon(this);
         dungeon.descend(player);
+        player = new Hero(new Attributes(), goa);
         window = new Window(WIDTH, HEIGHT, "Tavernspiel", this);
+        addKeyListener((PlayerAI) player.attributes.ai);
         hud = new HUD(this);
     }
     
     public static void main(String... args){
         Game game = new Game();
-        GameObjectAnimator goa = new GameObjectAnimator(ImageUtils.addImageBuffer(new ImageIcon("graphics/spritesheets/tree.png")),
-                new String[]{"stand", "move", "attack", "die"}, new int[]{2, 4, 8, 5});
-        Hero hero = new Hero(new Attributes(), goa);
-        hero.x = Window.main.currentArea.startCoords[0];
-        hero.y = Window.main.currentArea.startCoords[1];
-        Window.main.currentArea.addObject(hero);
+        Window.main.currentArea.addHero(game.player);
         //game.addViewable(game.hud);
         /*Window.main.currentArea = new Area(new Dimension(80, 80), Window.main.currentArea.location);
         CorridorBuilder builder = new CorridorBuilder(Window.main.currentArea);

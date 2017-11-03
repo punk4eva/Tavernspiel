@@ -13,14 +13,9 @@ import java.util.RandomAccess;
 public class Path implements Iterable<Point>, RandomAccess{
     
     public Point[] points;
-    private int incrementor = 0;
     
     public Path(Point... ps){
         points = ps;
-    }
-    
-    public Point next(){
-        return points[(incrementor++)];
     }
     
     public Path reverse(){
@@ -62,6 +57,7 @@ public class Path implements Iterable<Point>, RandomAccess{
             public Point next(){
                 return points[currentIndex++];
             }
+            
         };
     }
     

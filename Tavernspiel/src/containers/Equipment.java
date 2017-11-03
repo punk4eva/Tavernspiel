@@ -38,7 +38,7 @@ public class Equipment extends Receptacle{
     public Equipment(){
         super(7, "ERROR: You shouldn't be reading this.", -1, -1);
         for(int n=0;n<7;n++) items.add(null);
-        screens = null;
+        screens = getScreens(null);
         heroOwner = null;
     }
     
@@ -239,6 +239,12 @@ public class Equipment extends Receptacle{
         ret.add(new Screen("Amulet1", beginWidth+padding, beginHeight+2*padding+sqheight, sqwidth, sqheight, sl));
         ret.add(new Screen("Amulet2", beginWidth+2*padding+sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight, sl));
         return ret;
+    }
+    
+    public void changeScreenListener(ScreenListener sl){
+        screens.stream().forEach((sc) -> {
+            sc.changeScreenListener(sl);
+        });
     }
     
 }

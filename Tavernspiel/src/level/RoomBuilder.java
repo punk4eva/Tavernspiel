@@ -236,8 +236,8 @@ public class RoomBuilder{
                 if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) room.map[y][x] = Tile.wall(location);
                 else{
                     if(y==1||x==1||y==room.dimension.height-2||x==room.dimension.width-2)
-                        room.map[y][x] = new Tile("highgrass", location, true, true);
-                    else room.map[y][x] = new Tile("lowgrass", location, true, true);
+                        room.map[y][x] = new Grass(location, true);
+                    else room.map[y][x] = new Grass(location, false);
                     room.addObject(GasBuilder.gardengas(x, y));
                 }
             }

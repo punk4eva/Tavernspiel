@@ -33,7 +33,11 @@ import logic.Utils.Catch;
  */
 public class Hero extends Creature implements Viewable{
     
-    public final LinkedList<Screen> screens;
+    public final LinkedList<Screen> screens = new LinkedList<>();
+    {
+        screens.addAll(inventory.screens);
+        screens.addAll(equipment.screens);
+    }
     private ScreenListener currentScreenListener;
     public final ScrollBuilder scrollBuilder;
     public int hunger = 100;
@@ -52,8 +56,6 @@ public class Hero extends Creature implements Viewable{
         super("Hero", new Description("hero","UNWRITTEN"), atb, an);
         attributes.ai = new PlayerAI(this);
         try{data = new DeathData(this);}catch(Exception e){}
-        //screens = getScreens();
-        screens = null;
         scrollBuilder = new ScrollBuilder(this);
     }
     
@@ -76,7 +78,6 @@ public class Hero extends Creature implements Viewable{
         job = j;
         subclass = sub;
         data = da;
-        screens = getScreens();
         scrollBuilder = new ScrollBuilder(this);
     }
     
@@ -144,14 +145,6 @@ public class Hero extends Creature implements Viewable{
 
     @Override
     public final LinkedList<Screen> getScreens(){
-        LinkedList<Screen> ret = new LinkedList<>();
-        ret.addAll(inventory.screens);
-        ret.addAll(equipment.screens);
-        return ret;
-    }
-    
-    @Override
-    public LinkedList<Screen> getScreenList(){
         return screens;
     }
     
@@ -160,7 +153,11 @@ public class Hero extends Creature implements Viewable{
      * @param sl The new ScreenListener
      */
     public void setScreenListener(ScreenListener sl){
-        currentScreenListener = sl;
+        if(!sl.equals(currentScreenListener)){
+            currentScreenListener = sl;
+            inventory.changeScreenListener(sl);
+            equipment.changeScreenListener(sl);
+        }
     }
     
     /**

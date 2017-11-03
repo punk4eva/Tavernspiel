@@ -54,8 +54,8 @@ public class AIBaseActions implements Serializable{
      */
     public void move(Creature c, Integer[] dir){
         if(c.area.map[c.y][c.x] instanceof Door) ((Door)c.area.map[c.y][c.x]).stepOff(c);
+        if(!c.animator.currentName.equals("move")) c.changeAnimation("move");
         c.setXY(c.x+dir[0], c.y+dir[1]);
-        c.changeAnimation("move");
         if(c.attributes.ai.destinationx==c.x&&c.attributes.ai.destinationy==c.y){
             c.changeAnimation("stand");
         }

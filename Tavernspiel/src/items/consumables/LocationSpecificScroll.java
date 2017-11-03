@@ -37,17 +37,17 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
     public LocationSpecificScroll(String n, String desc, ImageIcon i, boolean idd){
         super(n, desc, i, idd);
         locationSelect = new LocationViewable(this);
-        screens = locationSelect.getScreenList();
     }
     
-    protected final List<Screen> screens;
     protected final LocationViewable locationSelect;
+    
     /**
      * This class is the location Viewable.
      */
     public class LocationViewable implements Viewable{
         
         private final ScreenListener listener;
+        protected final List<Screen> screens;
         
         /**
          * Creates a new instance.
@@ -55,21 +55,16 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
          */
         public LocationViewable(ScreenListener sl){
             listener = sl;
+            int bw = MainClass.WIDTH/2-72, bh = MainClass.HEIGHT-64;
+            screens = new LinkedList<>();
+            screens.add(new Screen("backLocation", 0, 0, MainClass.WIDTH, MainClass.HEIGHT, listener));
+            screens.add(new Screen("locationPopup", bw, bh, 144, 48, listener));
+            screens.add(new Screen("locationPopupX", bw+108, bh+12, 24, 24, listener));
         }
         
         @Override
         public List<Screen> getScreens(){
             return screens;
-        }
-
-        @Override
-        public List<Screen> getScreenList(){
-            int bw = MainClass.WIDTH/2-72, bh = MainClass.HEIGHT-64;
-            List<Screen> list = new LinkedList<>();
-            list.add(new Screen("backLocation", 0, 0, MainClass.WIDTH, MainClass.HEIGHT, listener));
-            list.add(new Screen("locationPopup", bw, bh, 144, 48, listener));
-            list.add(new Screen("locationPopupX", bw+108, bh+12, 24, 24, listener));
-            return list;
         }
 
         @Override
@@ -83,6 +78,7 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
             g.drawString("Select a location", bw+8, bh+8);
             g.drawString("X", bw+116, bh+20);
         }
+        
     };
 
     @Override

@@ -18,12 +18,10 @@ import pathfinding.Point;
 public final class PlayerAI extends AITemplate implements KeyListener{    
 
     private final Hero hero;
-    public boolean unfinished = false;
+    public boolean unfinished = false, turned = false;
     
     public PlayerAI(Hero h){
         hero = h;
-        Window.main.addKeyListener(this);
-        Window.main.player = hero;
     }
     
     public final void updateDestination(Integer... ary){
@@ -45,7 +43,9 @@ public final class PlayerAI extends AITemplate implements KeyListener{
                 break;
         }
         if(BASEACTIONS.canMove(hero, m)){
-            updateDestination(m);
+            turned = true;
+            BASEACTIONS.move(hero, m);
+            hero.turn(1);
         }
     }
 
@@ -61,6 +61,10 @@ public final class PlayerAI extends AITemplate implements KeyListener{
 
     @Override
     public void turn(Creature c, Area area){
+        if(turned){
+            turned = false;
+            return;
+        }
         if(hero.x!=hero.attributes.ai.destinationx||
                 hero.y!=hero.attributes.ai.destinationy){
             decideAndMove(hero);
