@@ -1,7 +1,10 @@
 
 package creatureLogic;
 
+import java.util.LinkedList;
+import java.util.List;
 import level.Area;
+import pathfinding.Point.ExtendedDirection;
 
 /**
  *
@@ -24,11 +27,35 @@ public class VisibilityOverlay extends FieldOfView{
         x = x_;
         y = y_;
         clearVisible();
-        for(int ny=y-range;ny<=y+range;ny++){
-            for(int nx=x-range;nx<=x+range;nx++){
+        followGradient(x, y, area);
+    }
+    
+    @Override
+    public void followGradient(int x_, int y_, Area area){
+        List<Double[]> blockedRanges = new LinkedList<>();
+        double increment = 0.125/((double)range);
+        double st = -1;
+        map[y_][x_] = 2;
+        for(int r=1;r<=range;r++){
+            for(double theta=0, max=2*Math.PI;theta<max;theta+=increment){
+                if(st!=-1){
+                    try{
+                        Integer c[] = polarToCartesian(r, theta, x_, y_);
+                        if(area.map[c[1]][c[0]].transparent){
+                            blockedRanges.add(new Double[]{st, theta});
+                            st = -1;
+                        }                    
+                    }catch(ArrayIndexOutOfBoundsException | NullPointerException e){}
+                    continue;
+                }
+                if(blocked(theta, blockedRanges)) continue;
                 try{
-                    if(followGradient(nx, ny, area)) map[ny][nx] = 2;
-                }catch(ArrayIndexOutOfBoundsException e){}
+                    Integer c[] = polarToCartesian(r, theta, x_, y_);
+                    map[c[1]][c[0]] = 2;
+                    if(!area.map[c[1]][c[0]].transparent){
+                        st = theta;
+                    }
+                }catch(ArrayIndexOutOfBoundsException | NullPointerException e){}
             }
         }
     }

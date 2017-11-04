@@ -1,8 +1,10 @@
 
 package creatureLogic;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import level.Area;
 
 /**
@@ -11,7 +13,7 @@ import level.Area;
  */
 public class FieldOfView{
     
-    private final List<Integer[]> visible = new LinkedList<>();
+    private final Set<Integer[]> visible = new HashSet<>();
     protected int x, y;
     public int range;
     
@@ -25,76 +27,48 @@ public class FieldOfView{
         x = x_;
         y = y_;
         visible.clear();
-        for(int ny=y-range;ny<=y+range;ny++){
-            for(int nx=x-range;nx<=x+range;nx++){
-                try{
-                    if(followGradient(nx, ny, area)) visible.add(new Integer[]{nx, ny});
-                }catch(ArrayIndexOutOfBoundsException e){}
-            }
-        }
+        followGradient(x, y, area);
     }
     
     public boolean isVisible(int x_, int y_){
         return visible.stream().anyMatch(c -> c[0]==x&&c[1]==y);
-    }
+    }    
     
-    protected boolean followGradient(double x_, double y_, Area area){
-        double gradient = (y_ - y) / (x_ - x), nx = x, ny = y;
-        if(x_ == x){
-            if(y < y_){
-                while(true){
-                    if((int) ny == y_){
-                        return true;
+    public void followGradient(int x_, int y_, Area area){
+        List<Double[]> blockedRanges = new LinkedList<>();
+        double increment = 0.5/range;
+        double st = -1;
+        for(int r=1;r<=range;r++){
+            for(double theta=0, max=2*Math.PI;theta<max;theta+=increment){
+                if(st!=-1){
+                    try{
+                        Integer c[] = polarToCartesian(r, theta, x_, y_);
+                        if(area.map[c[1]][c[0]].transparent){
+                            visible.add(c);
+                            blockedRanges.add(new Double[]{st, theta});
+                            st = -1;
+                        }                    
+                    }catch(ArrayIndexOutOfBoundsException | NullPointerException e){}
+                    continue;
+                }
+                if(blocked(theta, blockedRanges)) continue;
+                try{
+                    Integer c[] = polarToCartesian(r, theta, x_, y_);
+                    visible.add(c);
+                    if(!area.map[c[1]][c[0]].transparent){
+                        st = theta;
                     }
-                    if(area.map[(int) ny][(int) nx] != null && !area.map[(int) ny][(int) nx].transparent){
-                        return false;
-                    }
-                    ny++;
-                }
-            }else{
-                while(true){
-                    if((int) ny == y_){
-                        return true;
-                    }
-                    if(area.map[(int) ny][(int) nx] != null && !area.map[(int) ny][(int) nx].transparent){
-                        return false;
-                    }
-                    ny--;
-                }
-            }
-        }else if(x_ > x){
-            while(true){
-                if((int) nx == x_ && (int) ny == y_){
-                    return true;
-                }
-                if(area.map[(int) ny][(int) nx] != null && !area.map[(int) ny][(int) nx].transparent){
-                    return false;
-                }
-                if(gradient < 1){
-                    nx++;
-                    ny += gradient;
-                }else{
-                    ny++;
-                    nx += 1.0 / gradient;
-                }
-            }
-        }else{
-            while(true){
-                if((int) nx == x_ && (int) ny == y_){
-                    return true;
-                }
-                if(area.map[(int) ny][(int) nx] != null && !area.map[(int) ny][(int) nx].transparent){
-                    return false;
-                }
-                if(gradient < 1){
-                    nx--;
-                    ny -= gradient;
-                }else{
-                    ny--;
-                    nx -= 1.0 / gradient;
-                }
+                }catch(ArrayIndexOutOfBoundsException | NullPointerException e){}
             }
         }
+    }
+    
+    protected Integer[] polarToCartesian(int r, double theta, int x_, int y_){
+        return new Integer[]{x_+(int)Math.round(r*Math.cos(theta)), y_+(int)Math.round(r*Math.sin(theta))};    
+    }
+    
+    protected boolean blocked(double theta, List<Double[]> block){
+        return block.stream().anyMatch(c -> theta>=c[0]&&theta<=c[1]);
     }
             
 }
