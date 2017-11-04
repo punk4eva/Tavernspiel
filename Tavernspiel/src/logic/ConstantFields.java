@@ -22,6 +22,7 @@ public interface ConstantFields{
     public static final Color textColor = Color.YELLOW;
     public static final Color backColor = Color.GRAY;
     public static final Color frontColor = Color.MAGENTA;
+    public static final Color exploredColor = new Color(122, 122, 122, 122);
     public static final Color fadeColor = new Color(90, 90, 90);
     public static final Font textFont = new Font(Font.SERIF, Font.PLAIN, 18);
     

@@ -5,6 +5,7 @@ import creatures.Creature;
 import creatures.Hero;
 import gui.MainClass;
 import gui.Screen;
+import gui.Window;
 import items.Item;
 import javax.swing.ImageIcon;
 import listeners.ScreenListener;
@@ -19,7 +20,6 @@ import logic.Utils.Catch;
 public abstract class ItemSpecificScroll extends Scroll implements ScreenListener{
     
     private Hero hero;
-    private MainClass main;
 
     /**
      * Creates a new instance.
@@ -38,8 +38,7 @@ public abstract class ItemSpecificScroll extends Scroll implements ScreenListene
         if(c instanceof Hero){
             hero = (Hero) c;
             hero.setScreenListener(this);
-            main = hero.getMainClass();
-            main.addViewable(hero);
+            Window.main.addViewable(hero);
         }else new RuntimeException("Creature is using LocationSpecificScroll.use()").printStackTrace(MainClass.exceptionStream);
     }
     
@@ -55,7 +54,7 @@ public abstract class ItemSpecificScroll extends Scroll implements ScreenListene
     public void screenClicked(Screen.ScreenEvent sc){
         switch(sc.getName()){
             case "background":
-                main.removeTopViewable();
+                Window.main.removeTopViewable();
                 break;
             case "Weapon": if(hero.equipment.getWeapon()!=null){
                 use(hero, hero.equipment.getWeapon());

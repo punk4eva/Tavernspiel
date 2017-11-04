@@ -107,7 +107,7 @@ public class RoomBuilder{
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
                 Distribution.getRandomInt(5, 10)), loc, depth);
         room.paintAndPave();
-        Tile pedestal = new Tile("pedestal", loc, true, false);
+        Tile pedestal = new Tile("pedestal", loc, true, false, true);
         switch(Distribution.getRandomInt(1, 4)){
             case 1: //North
                 for(int y = 1; y < room.dimension.height - 1; y++){
@@ -174,7 +174,7 @@ public class RoomBuilder{
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
                 if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) room.map[y][x] = Tile.wall(loc);
-                else room.map[y][x] = new Tile("specialfloor", loc, true, false);
+                else room.map[y][x] = new Tile("specialfloor", loc, true, false, true);
             }
         }
         room.barricade();
@@ -250,7 +250,7 @@ public class RoomBuilder{
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 10),
                 Distribution.getRandomInt(5, 10)), loc, -1);
         room.paintAndPave();
-        Tile pedestal = new Tile("pedestal", loc, true, false);
+        Tile pedestal = new Tile("pedestal", loc, true, false, true);
         switch(Distribution.getRandomInt(1, 4)){
             case 1: //North
                 for(int y = 1; y < room.dimension.height - 1; y++){

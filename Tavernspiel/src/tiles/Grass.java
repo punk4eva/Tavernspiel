@@ -17,7 +17,7 @@ public class Grass extends Tile implements StepListener{
     private ImageIcon shortImage;
     
     public Grass(Location loc, boolean t){
-        super(t ? "highgrass" : "lowgrass", loc, true, true);
+        super(t ? "highgrass" : "lowgrass", loc, true, true, !t);
         tall = t;
         if(tall) shortImage = ImageHandler.getImage("lowgrass", loc);
     }
@@ -26,6 +26,7 @@ public class Grass extends Tile implements StepListener{
     public void steppedOn(Creature c){
         if(tall){
             tall = false;
+            transparent = true;
             image = shortImage;
         }
     }

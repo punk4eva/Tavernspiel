@@ -18,46 +18,53 @@ public class HiddenTile extends Tile{
     public boolean hidden = true;
     public final boolean reallyFlammable;
     public final boolean reallyTreadable;
+    public final boolean reallyTransparent;
 
-    public HiddenTile(String imposterTileName, boolean t, boolean f, String realName, Location loc, boolean reallyFlam, boolean reallyTread){
-        super(imposterTileName, loc, t, f);
+    public HiddenTile(String imposterTileName, boolean t, boolean f, boolean tr, String realName, Location loc, boolean reallyFlam, boolean reallyTread, boolean reallyTrans){
+        super(imposterTileName, loc, t, f, tr);
         name = realName;
         realIcon = ImageHandler.getImage(realName, loc);
         reallyFlammable = reallyFlam;
         reallyTreadable = reallyTread;
+        reallyTransparent = reallyTrans;
     }
     
-    public HiddenTile(String imposterTileName, boolean t, boolean f, String realName, Location loc, boolean hid, boolean reallyFlam, boolean reallyTread){
-        super(imposterTileName, loc, t, f);
+    public HiddenTile(String imposterTileName, boolean t, boolean f, boolean tr, String realName, Location loc, boolean hid, boolean reallyFlam, boolean reallyTread, boolean reallyTrans){
+        super(imposterTileName, loc, t, f, tr);
         name = realName;
         realIcon = ImageHandler.getImage(realName, loc);
         hidden = hid;
         reallyFlammable = reallyFlam;
         reallyTreadable = reallyTread;
+        reallyTransparent = reallyTrans;
         if(!hid){
             flammable = reallyFlammable;
+            transparent = reallyTrans;
             treadable = reallyTreadable; 
         }
     }
     
-    public HiddenTile(String realName, ImageIcon icon, Location loc, boolean hid, boolean reallyFlam, boolean reallyTread){
+    public HiddenTile(String realName, ImageIcon icon, Location loc, boolean hid, boolean reallyFlam, boolean reallyTread, boolean reallyTrans){
         super(realName, icon);
         realIcon = ImageHandler.getImage(realName, loc);
         hidden = hid;
         reallyFlammable = reallyFlam;
         reallyTreadable = reallyTread;
+        reallyTransparent = reallyTrans;
         if(!hid){
+            transparent = reallyTrans;
             flammable = reallyFlammable;
             treadable = reallyTreadable; 
         }
     }
     
-    public HiddenTile(String realName, Location loc, boolean reallyFlam, boolean reallyTread){
-        super(realName, loc, reallyTread, reallyFlam);
+    public HiddenTile(String realName, Location loc, boolean reallyFlam, boolean reallyTread, boolean reallyTrans){
+        super(realName, loc, reallyTread, reallyFlam, reallyTrans);
         hidden = false;
         realIcon = ImageHandler.getImage(realName, loc);
         reallyFlammable = reallyFlam;
         reallyTreadable = reallyTread;
+        reallyTransparent = reallyTrans;
     }
     
     public HiddenTile(HiddenTile tile){
@@ -66,7 +73,9 @@ public class HiddenTile extends Tile{
         reallyTreadable = tile.reallyTreadable;
         hidden = tile.hidden;
         realIcon = tile.realIcon;
+        reallyTransparent = tile.reallyTransparent;
         if(!hidden){
+            transparent = reallyTransparent;
             flammable = reallyFlammable;
             treadable = reallyTreadable; 
         }

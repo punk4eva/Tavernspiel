@@ -9,6 +9,7 @@ import containers.Inventory;
 import creatureLogic.Attack;
 import creatureLogic.Attributes;
 import creatureLogic.Description;
+import creatureLogic.FieldOfView;
 import gui.MainClass;
 import items.equipment.HeldWeapon;
 import java.awt.Graphics;
@@ -31,6 +32,7 @@ public class Creature extends GameObject implements BuffListener, Comparable<Cre
     public Equipment equipment = new Equipment();
     public Inventory inventory = new Inventory();
     public Attributes attributes;
+    public FieldOfView FOV;
     public LinkedList<Buff> buffs = new LinkedList<>();
     
     /**
@@ -48,6 +50,7 @@ public class Creature extends GameObject implements BuffListener, Comparable<Cre
         equipment = eq;
         inventory = inv;
         attributes = atb;
+        FOV = new FieldOfView(x, y, 6);
         MainClass.buffinitiator.addBuffListener(this);
     }
     
@@ -68,6 +71,7 @@ public class Creature extends GameObject implements BuffListener, Comparable<Cre
         ID = id;
         buffs = bs;
         inventory = inv;
+        FOV = new FieldOfView(x, y, 6);
         attributes = atb;
         MainClass.buffinitiator.addBuffListener(this);
     }
@@ -82,6 +86,7 @@ public class Creature extends GameObject implements BuffListener, Comparable<Cre
     public Creature(String n, Description desc, Attributes atb, GameObjectAnimator an){
         super(n, desc, an);
         attributes = atb;
+        FOV = new FieldOfView(x, y, 6);
         MainClass.buffinitiator.addBuffListener(this);
     }
     
@@ -190,12 +195,6 @@ public class Creature extends GameObject implements BuffListener, Comparable<Cre
     
     public void setXY(int nx, int ny){
         x = nx;
-        y = ny;
-    }
-    public void setX(int nx){
-        x = nx;
-    }
-    public void setY(int ny){
         y = ny;
     }
 

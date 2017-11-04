@@ -20,12 +20,14 @@ public class Tile implements Serializable, Comparable<Tile>{
     public String name;
     public boolean treadable;
     public boolean flammable;
+    public boolean transparent;
     
     public Tile(String n, ImageIcon ic){
         image = ic;
         name = n;
         treadable = true;
         flammable = false;
+        transparent = true;
     }
     
     public Tile(Tile t){
@@ -33,20 +35,23 @@ public class Tile implements Serializable, Comparable<Tile>{
         name = t.name;
         treadable = t.treadable;
         flammable = t.flammable;
+        transparent = t.transparent;
     }
     
-    public Tile(String n, ImageIcon ic, boolean t, boolean f){
+    public Tile(String n, ImageIcon ic, boolean t, boolean f, boolean tr){
         image = ic;
         name = n;
         treadable = t;
         flammable = f;
+        transparent = tr;
     }
     
-    public Tile(String tile, Location loc, boolean t, boolean f){
+    public Tile(String tile, Location loc, boolean t, boolean f, boolean tr){
         image = ImageHandler.getImage(tile, loc);
         name = tile;
         treadable = t;
         flammable = f;
+        transparent = tr;
     }
     
     public boolean equals(String str){
@@ -59,14 +64,14 @@ public class Tile implements Serializable, Comparable<Tile>{
     }
     
     public static Tile wall(Location loc){
-        if(Distribution.chance(1, 22)) return new Tile("specialwall", loc, false, false);
-        return new Tile("wall", loc, false, false);
+        if(Distribution.chance(1, 22)) return new Tile("specialwall", loc, false, false, false);
+        return new Tile("wall", loc, false, false, false);
     }
     
     public static Tile floor(Location loc){
         if(Distribution.chance(1, 30)) return RoomBuilder.getRandomTrap(loc);
-        if(Distribution.chance(1, 22)) return new Tile("decofloor", loc, true, false);
-        return new Tile("floor", loc, true, false);
+        if(Distribution.chance(1, 22)) return new Tile("decofloor", loc, true, false, true);
+        return new Tile("floor", loc, true, false, true);
     }
     
 }

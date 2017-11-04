@@ -6,6 +6,7 @@ import gui.MainClass;
 import gui.Screen;
 import gui.Screen.ScreenEvent;
 import gui.Viewable;
+import gui.Window;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.LinkedList;
@@ -25,7 +26,6 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
     
     protected Hero hero;
     private Area area;
-    private MainClass main;
 
     /**
      * Creates a new instance.
@@ -87,8 +87,7 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
         if(c instanceof Hero){
             hero = (Hero) c;
             area = c.area;
-            main = hero.getMainClass();
-            main.addViewable(locationSelect);
+            Window.main.addViewable(locationSelect);
         }else new RuntimeException("Creature is using LocationSpecificScroll.use()").printStackTrace(MainClass.exceptionStream);
     }
     
@@ -109,7 +108,7 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
                 if(hero==null||area==null) new RuntimeException("hero/area uninitialized in LocationSpecificScroll.screenClicked()!").printStackTrace(MainClass.exceptionStream);
                 use(hero, c[0], c[1]);
             case "locationPopupX":
-                main.removeTopViewable();
+                Window.main.removeTopViewable();
                 break;
         }
     }

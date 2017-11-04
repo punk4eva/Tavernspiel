@@ -13,6 +13,7 @@ import creatureLogic.DeathData;
 import creatureLogic.Description;
 import creatureLogic.Expertise;
 import creatureLogic.EnClass.EnSubclass;
+import creatureLogic.VisibilityOverlay;
 import gui.Game;
 import gui.MainClass;
 import gui.Screen;
@@ -21,6 +22,7 @@ import gui.Window;
 import items.consumables.ScrollBuilder;
 import java.awt.Graphics;
 import java.util.LinkedList;
+import level.Area;
 import listeners.DeathEvent;
 import listeners.ScreenListener;
 import logic.Utils.Catch;
@@ -80,15 +82,6 @@ public class Hero extends Creature implements Viewable{
         data = da;
         scrollBuilder = new ScrollBuilder(this);
     }
-    
-    /**
-     * Returns the MainClass associated with this Hero.
-     * @return The MainClass.
-     * @deprecated Switched to static Window.main.
-     */
-    public MainClass getMainClass(){
-        return Window.main;
-    }
 
     @Override
     public void turn(double delta){
@@ -109,6 +102,13 @@ public class Hero extends Creature implements Viewable{
         PlayerAI ai = (PlayerAI) attributes.ai;
         do quickTurn();
         while(ai.unfinished);
+    }
+    
+    @Override
+    public void setXY(int nx, int ny){
+        x = nx;
+        y = ny;
+        Window.main.setFocus(x, y);
     }
     
     @Override
@@ -166,6 +166,15 @@ public class Hero extends Creature implements Viewable{
      */
     public ScreenListener getScreenListener(){
         return currentScreenListener;
+    }
+    
+    @Override
+    public void setArea(Area a){
+        area = a;
+        FOV = area.overlay;
+        x = a.startCoords[0];
+        y = a.startCoords[1];
+        FOV.update(x, y, area);
     }
     
 }

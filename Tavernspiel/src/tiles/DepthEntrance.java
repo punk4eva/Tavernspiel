@@ -15,7 +15,7 @@ import listeners.StepListener;
 public class DepthEntrance extends Tile implements StepListener{
     
     public DepthEntrance(Location loc){
-        super("depthentrance", loc, true, false);
+        super("depthentrance", loc, true, false, true);
     }
 
     @Override

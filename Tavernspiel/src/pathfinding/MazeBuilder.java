@@ -94,22 +94,18 @@ public class MazeBuilder{
     
     private void carve(Point s, Point n){
         if(s.x<n.x){
-            area.map[s.y][s.x+1] = new Tile("floor", area.location, true, false);
-            area.map[s.y][n.x] = new Tile("floor", area.location, true, false);
-            return;
+            area.map[s.y][s.x+1] = Tile.floor(area.location);
+            area.map[s.y][n.x] = Tile.floor(area.location);
+        }else if(s.x>n.x){
+            area.map[s.y][s.x-1] = Tile.floor(area.location);
+            area.map[s.y][n.x] = Tile.floor(area.location);
+        }else if(s.y<n.y){
+            area.map[s.y+1][s.x] = Tile.floor(area.location);
+            area.map[n.y][s.x] = Tile.floor(area.location);
+        }else{
+            area.map[s.y-1][s.x] = Tile.floor(area.location);
+            area.map[n.y][s.x] = Tile.floor(area.location);
         }
-        if(s.x>n.x){
-            area.map[s.y][s.x-1] = new Tile("floor", area.location, true, false);
-            area.map[s.y][n.x] = new Tile("floor", area.location, true, false);
-            return;
-        }
-        if(s.y<n.y){
-            area.map[s.y+1][s.x] = new Tile("floor", area.location, true, false);
-            area.map[n.y][s.x] = new Tile("floor", area.location, true, false);
-            return;
-        }
-        area.map[s.y-1][s.x] = new Tile("floor", area.location, true, false);
-        area.map[n.y][s.x] = new Tile("floor", area.location, true, false);
     }
     
     private boolean withinBounds(int x, int y){

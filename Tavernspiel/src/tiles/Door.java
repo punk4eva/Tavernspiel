@@ -20,7 +20,7 @@ public class Door extends HiddenTile implements StepListener{
     protected boolean isOpen = false;
     
     public Door(Location loc){
-        super("door", loc, true, true);
+        super("door", loc, true, true, false);
         open = ImageHandler.getImage("opendoor", loc);
         closed = ImageHandler.getImage("closeddoor", loc);
         locked = ImageHandler.getImage("lockeddoor", loc);
@@ -30,7 +30,7 @@ public class Door extends HiddenTile implements StepListener{
         super("door", hid ? 
                 ImageHandler.getImage("wall", loc) : lock ?
                 ImageHandler.getImage("lockeddoor", loc) :
-                ImageHandler.getImage("closeddoor", loc), loc, hid, !lock, !lock);
+                ImageHandler.getImage("closeddoor", loc), loc, hid, !lock, !lock, false);
         open = ImageHandler.getImage("opendoor", loc);
         closed = ImageHandler.getImage("closeddoor", loc);
         locked = ImageHandler.getImage("lockeddoor", loc);
@@ -39,7 +39,7 @@ public class Door extends HiddenTile implements StepListener{
     public Door(Location loc, boolean lock){
         super("door", lock ?
                 ImageHandler.getImage("lockeddoor", loc) :
-                ImageHandler.getImage("closeddoor", loc), loc, false, true, false);
+                ImageHandler.getImage("closeddoor", loc), loc, false, true, false, false);
         open = ImageHandler.getImage("opendoor", loc);
         closed = ImageHandler.getImage("closeddoor", loc);
         locked = ImageHandler.getImage("lockeddoor", loc);
@@ -59,11 +59,13 @@ public class Door extends HiddenTile implements StepListener{
     
     public void open(){
         isOpen = true;
+        transparent = true;
         image = open;
     }
     
     public void close(){
         isOpen = false;
+        transparent = false;
         image = closed;
     }
 

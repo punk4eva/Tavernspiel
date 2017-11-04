@@ -61,32 +61,6 @@ public class CorridorBuilder{
             }
         }
         
-        /*List<Path> generatePaths(List<Waypoint> points, List<Waypoint> cleared, List<Path> paths){
-        int n = Distribution.r.nextInt(points.size());
-        Waypoint start = points.remove(n);
-        if(points.isEmpty()){
-        setDestination(cleared.get(Distribution.r.nextInt(cleared.size()-1)));
-        floodfill(start);
-        Path pa = graph.followTrail(end.x, end.y);
-        if(pa.points.length!=1) paths.add(pa);
-        return paths;
-        }else if(points.size()==2){
-        Waypoint dest = cleared.get(Distribution.r.nextInt(cleared.size()));
-        setDestination(dest);
-        floodfill(start);
-        Path pa = graph.followTrail(end.x, end.y);
-        if(pa.points.length!=1) paths.add(pa);
-        return paths;
-        }
-        Waypoint dest = points.get(Distribution.getRandomInt(0, points.size(), n));
-        cleared.add(start);
-        setDestination(dest);
-        floodfill(start);
-        Path pa = graph.followTrail(end.x, end.y);
-        if(pa.points.length!=1) paths.add(pa);
-        return generatePaths(points, cleared, paths);
-        }*/
-        
         List<Path> generatePaths(List<Waypoint> points, List<Path> carry){
             int s = Distribution.r.nextInt(points.size()),
                     e = Distribution.getRandomInt(0, points.size(), s);
@@ -144,7 +118,7 @@ public class CorridorBuilder{
                 Arrays.asList(area.graph.waypoints).stream().filter(p -> !waypointReached(p)).collect(Collectors.toList()),
                 new LinkedList<>());
         paths.stream().forEach((path) -> {
-            if(path.points.length!=1) buildCorridor(path);
+            buildCorridor(path);
         });
         area.graph.initializeWaypoints();
     }

@@ -15,8 +15,8 @@ import listeners.AreaEvent;
 import listeners.DeathEvent;
 import logic.GameObject;
 import blob.Blob;
+import creatureLogic.VisibilityOverlay;
 import designer.AreaTemplate;
-import gui.MainClass;
 import java.util.stream.Collectors;
 import logic.Utils.Unfinished;
 import pathfinding.Graph;
@@ -40,6 +40,7 @@ public class Area implements Serializable{
     public volatile LinkedList<Receptacle> receptacles = new LinkedList<>();
     public Graph graph = null;
     private Hero hero;
+    public final VisibilityOverlay overlay;
     
     /**
      * Creates a new instance.
@@ -50,6 +51,7 @@ public class Area implements Serializable{
         dimension = dim;
         location = loc;
         map = new Tile[dimension.height][dimension.width];
+        overlay = new VisibilityOverlay(0,0,6,this);
     }
     
     /**
@@ -142,7 +144,7 @@ public class Area implements Serializable{
      * @param y The y of the Tile.
      */
     public void burn(int x, int y){
-        map[y][x] = new Tile("embers", location, true, false);
+        map[y][x] = new Tile("embers", location, true, false, true);
         Receptacle r = getReceptacle(x, y);
         if(r != null) r.keep(item -> !item.flammable);
     }
@@ -298,7 +300,6 @@ public class Area implements Serializable{
     
     public void addHero(Hero h){
         h.setArea(this);
-        h.setXY(startCoords[0], startCoords[1]);
         hero = h;
     }
     

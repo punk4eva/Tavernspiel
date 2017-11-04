@@ -39,6 +39,7 @@ public class Game extends MainClass implements DepthListener{
         dungeon = new Dungeon(this);
         dungeon.descend(player);
         player = new Hero(new Attributes(), goa);
+        currentArea.addHero(player);
         window = new Window(WIDTH, HEIGHT, "Tavernspiel", this);
         addKeyListener((PlayerAI) player.attributes.ai);
         hud = new HUD(this);

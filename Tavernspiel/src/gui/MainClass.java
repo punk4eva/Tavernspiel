@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.stream.Stream;
 import level.Area;
 import listeners.BuffEventInitiator;
+import logic.ConstantFields;
 import logic.IDHandler;
 import logic.SoundHandler;
 import logic.Utils;
@@ -323,11 +324,13 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
      * @param g The graphics to paint on.
      */
     public void paintArea(Area area, Graphics g){
+        g.setColor(ConstantFields.exploredColor);
         for(int y=focusY, maxY=focusY+area.dimension.height*16;y<maxY;y+=16){
             for(int x=focusX, maxX=focusX+area.dimension.width*16;x<maxX;x+=16){
-                if(x<0||y<0||x*zoom>WIDTH||y*zoom>HEIGHT) continue;
+                int tx = (x-focusX)/16, ty = (y-focusY)/16;
                 try{
-                    Tile tile = area.map[(y-focusY)/16][(x-focusX)/16];
+                    if(area.overlay.isUnexplored(tx, ty)||x<0||y<0||x*zoom>WIDTH||y*zoom>HEIGHT) continue;
+                    Tile tile = area.map[ty][tx];
                     if(tile==null){
                     }else if(tile instanceof AnimatedTile)
                         ((AnimatedTile) tile).animation.animate(g, x, y, zoom);
@@ -337,6 +340,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
                     }else g.drawImage(tile.image.getImage(), x, y, null);
                     Receptacle temp = area.getReceptacle(x, y);
                     if(temp instanceof Floor&&!temp.isEmpty()) temp.peek().animation.animate(g, x, y, zoom);
+                    if(area.overlay.isExplored(tx, ty)) g.fillRect(x, y, 16, 16);
                 }catch(ArrayIndexOutOfBoundsException e){/*skip frame*/}
             }
         }
@@ -367,7 +371,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
 
     @Override
     public void mouseClicked(MouseEvent me){
-        if(viewables.screens.isEmpty()){
+        if(viewables.screens.size()==1){
             Integer[] p = translateMouseCoords(me.getX(), me.getY());
             player.attributes.ai.setDestination(p[0], p[1]);
             player.turnUntilDone();

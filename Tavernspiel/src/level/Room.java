@@ -349,8 +349,8 @@ public class Room extends Area{
             }
             if(map[y][x].equals("wall")||map[y][x].equals("specialwall")){
                 running = false;
-                if(Distribution.chance(1, 3)) map[y][x] = new Tile("bookshelf", location, false, true);
-                else map[y][x] = new Tile("barricade", location, false, true);
+                if(Distribution.chance(1, 3)) map[y][x] = new Tile("bookshelf", location, false, true, false);
+                else map[y][x] = new Tile("barricade", location, false, true, false);
             }
         }
     }

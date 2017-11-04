@@ -62,6 +62,7 @@ public class AIBaseActions implements Serializable{
         if(c.area.map[c.y][c.x] instanceof StepListener){
             ((StepListener)c.area.map[c.y][c.x]).steppedOn(c);
         }
+        c.FOV.update(c.x, c.y, c.area);
     }
     
     /**

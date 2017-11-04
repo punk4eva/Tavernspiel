@@ -15,7 +15,7 @@ import listeners.StepListener;
 public class DepthExit extends Tile implements StepListener{
     
     public DepthExit(Location loc){
-        super("depthexit", loc, true, false);
+        super("depthexit", loc, true, false, true);
     }
     
     @Override

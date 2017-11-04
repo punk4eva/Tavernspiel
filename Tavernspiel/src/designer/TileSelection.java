@@ -22,6 +22,7 @@ public class TileSelection implements Serializable, Cloneable{
     final String[] tiles;
     final boolean[] treadible;
     final boolean[] flammable;
+    final boolean[] transparent;
     boolean boundary = false;
     final Color color;
     
@@ -31,6 +32,7 @@ public class TileSelection implements Serializable, Cloneable{
         color = col;
         treadible = new boolean[t.length];
         flammable = new boolean[t.length];
+        transparent = new boolean[t.length];
         initialize();
     }
     
@@ -40,6 +42,7 @@ public class TileSelection implements Serializable, Cloneable{
         color = ItemProfile.getColour(col);
         treadible = new boolean[1];
         flammable = new boolean[1];
+        transparent = new boolean[1];
         initialize();
     }
     
@@ -49,13 +52,14 @@ public class TileSelection implements Serializable, Cloneable{
         color = col;
         boundary = b;
         treadible = new boolean[t.length];
+        transparent = new boolean[t.length];
         flammable = new boolean[t.length];
         initialize();
     }
     
     public Tile getTile(Location loc){
         int n = (int)distrib.next();
-        return new Tile(tiles[n], loc, treadible[n], flammable[n]);
+        return new Tile(tiles[n], loc, treadible[n], flammable[n], transparent[n]);
     }
     
     public void paint(Graphics g, int x, int y){
@@ -98,6 +102,7 @@ public class TileSelection implements Serializable, Cloneable{
             if(tiles[n].equals("lowgrass")||tiles[n].equals("highgrass")||
                     tiles[n].equals("barricade")||tiles[n].equals("bookcase")||
                     tiles[n].equals("door")) flammable[n] = true;
+            if(treadible[n]) transparent[n] = true;
         }
     }
     
