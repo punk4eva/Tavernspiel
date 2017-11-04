@@ -40,7 +40,7 @@ public class Screen implements Serializable{
     }
 
     /**
-     * Gets the ScreenListener associated with this object.
+     * Gets the ScreenListener associated with this Object.
      * @return The ScreenListener.
      */
     public ScreenListener getListener(){

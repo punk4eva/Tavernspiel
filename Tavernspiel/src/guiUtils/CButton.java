@@ -24,7 +24,7 @@ public class CButton extends Screen implements CComponent{
     }
 
     @Override
-    public void paint(Graphics g){
+    public final void paint(Graphics g){
         g.setColor(ConstantFields.frontColor);
         g.fill3DRect(tlx, tly, width, height, true);
         g.setColor(ConstantFields.textColor);

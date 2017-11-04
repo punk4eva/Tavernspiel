@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import javax.swing.ImageIcon;
 import listeners.ScreenListener;
+import logic.ConstantFields;
 import logic.Utils;
 
 /**
@@ -151,6 +152,8 @@ public class CSlider implements CComponent, ScreenListener{
         g.fillRect(TLX, TLY+15, width, height-30);
         g.setColor(SLIDER_COLOR1);
         g.fillRect(TLX, TLY+17, width, height-34);
+        g.setColor(ConstantFields.fadeColor);
+        g.drawString(name, TLX+width/2-32, TLY+12);
         handle.paint(g);
     }
 

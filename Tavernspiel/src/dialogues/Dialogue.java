@@ -33,6 +33,7 @@ public class Dialogue implements ScreenListener, KeyListener{
     private final int heightOfQuestion;
     private boolean clickOffable = true;
     private boolean customComponents = false;
+    private String[] cnames;
     
     /**
      * Creates a new Dialogue with the given options.
@@ -87,8 +88,9 @@ public class Dialogue implements ScreenListener, KeyListener{
      * @param off What happens if the user clicks away.
      * @param click Sets whether the user can click away.
      * @param opt The interactables.
+     * @param n The names of the options.
      */
-    public Dialogue(String quest, String off, boolean click, CComponent... opt){
+    public Dialogue(String quest, String off, boolean click, CComponent[] opt, String... n){
         question = Utils.lineFormat(quest, 20);
         heightOfQuestion = 12*Utils.lineCount(question);
         height = 2*padding + heightOfQuestion + (36+padding)*opt.length;
@@ -97,6 +99,7 @@ public class Dialogue implements ScreenListener, KeyListener{
         clickOffable = click;
         offCase = new ScreenEvent(off);
         screenArray = Utils.getScreens(opt);
+        cnames = n;
         customComponents = true;
     }
     
@@ -111,7 +114,7 @@ public class Dialogue implements ScreenListener, KeyListener{
         g.setColor(ConstantFields.backColor);
         g.fill3DRect(beginWidth, beginHeight, beginWidth, height, false);
         g.setColor(ConstantFields.frontColor);
-        for(CComponent cc : options) cc.paint(g);
+        for(CComponent option : options) option.paint(g);
         g.setColor(ConstantFields.textColor);
         g.drawString(question, 2*padding+beginWidth, beginHeight+2*padding);
     }
@@ -189,8 +192,11 @@ public class Dialogue implements ScreenListener, KeyListener{
     private void dressCComponents(){
         int beginWidth = MainClass.WIDTH/3;
         int beginHeight = (MainClass.HEIGHT-height)/2;
-        for(int n=0;n<options.length;n++) options[n].setTopLeft(padding+beginWidth, 
+        for(int n=0;n<options.length;n++){
+            options[n].setTopLeft(padding+beginWidth, 
                     2*padding+heightOfQuestion+(36+padding)*n+beginHeight);
+            if(options[n] instanceof Screen) ((Screen) options[n]).changeScreenListener(this);
+        }
     }
 
     @Override
