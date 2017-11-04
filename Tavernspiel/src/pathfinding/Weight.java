@@ -9,7 +9,7 @@ public class Weight{
     
     public double array[];
     
-    public Weight(long[] ary){
+    public Weight(long... ary){
         long avg = average(ary);
         array = new double[ary.length];
         for(int n=0;n<ary.length;n++){

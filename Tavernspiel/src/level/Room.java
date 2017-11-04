@@ -303,6 +303,7 @@ public class Room extends Area{
                 x = (int) xDistrib.next();
             }
             map[y][x] = new Door(location, true);
+            System.out.println("LOCKED");
             return;
         }
         int numDoors = (int)new Distribution(new double[]{1,2,3,4,5,6},

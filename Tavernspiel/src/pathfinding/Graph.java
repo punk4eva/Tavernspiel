@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.io.Serializable;
 import java.util.LinkedList;
 import level.Area;
+import tiles.Door;
 
 /**
  *
@@ -24,15 +25,18 @@ public class Graph implements Serializable{
         LinkedList<Waypoint> wps = new LinkedList<>();
         for(int y=0;y<area.dimension.height;y++){
             for(int x=0;x<area.dimension.width;x++){
-                if(area.map[y][x]==null||!area.map[y][x].treadable) map[y][x] = new Point(x, y, null);
-                else{
+                if(area.map[y][x]==null||(!area.map[y][x].treadable&&!(area.map[y][x] instanceof Door))){
+                    map[y][x] = new Point(x, y, null);
+                }else{
                     map[y][x] = new Point(x, y);
-                    if(area.map[y][x].equals("Door")) wps.add(new Waypoint(x, y));
+                    if(area.map[y][x] instanceof Door){
+                        wps.add(new Waypoint(x, y));
+                    }
                 }
             }
         }
         waypoints = wps.toArray(new Waypoint[wps.size()]);
-        searcher = new Searcher(this);
+        searcher = new Searcher(this, area);
     }
     
     public Waypoint getClosestWaypoint(int x, int y){
@@ -63,14 +67,17 @@ public class Graph implements Serializable{
     
     protected void initializeWaypoints(){
         for(int w=0;w<waypoints.length;w++){
-            searcher.floodfill(waypoints[w]);
+            searcher.diagonalFloodfill(waypoints[w]);
             for(int ow=0;ow<waypoints.length;ow++) if(ow!=w)
                 waypoints[w].pathsToWaypoints.put(waypoints[ow], followTrail(waypoints[ow].x, waypoints[ow].y));
         }
     }
     
     protected void use(){
-        if(!used) return;
+        if(!used){
+            used = true;
+            return;
+        }
         for(int y=0;y<map.length;y++){
             for(int x=0;x<map[0].length;x++){
                 if(map[y][x].checked!=null){
@@ -80,7 +87,6 @@ public class Graph implements Serializable{
                 }
             }
         }
-        used = true;
     }
     
     protected void resetMap(){
@@ -104,6 +110,9 @@ public class Graph implements Serializable{
                 if(point!=null) point.paint(g, x, y);
             }
         }
+        for(Waypoint w : waypoints)
+            for(Path p : w.pathsToWaypoints.values())
+                p.paint(g, focusX, focusY);
     }
     
 }

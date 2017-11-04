@@ -10,6 +10,7 @@ import java.util.HashMap;
 public class Waypoint extends Point{
     
     public HashMap<Waypoint, Path> pathsToWaypoints = new HashMap<>();
+    public boolean reached = false;
     
     public Waypoint(int x1, int y1){
         super(x1, y1);

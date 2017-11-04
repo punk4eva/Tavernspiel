@@ -33,7 +33,7 @@ public class MazeBuilder{
     private final class MazeAlgorithm extends Searcher{
         
         MazeAlgorithm(){
-            super(area.graph);
+            super(area.graph, area);
         }
         
         @Override

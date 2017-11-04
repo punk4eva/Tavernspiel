@@ -1,10 +1,12 @@
 
 package pathfinding;
 
+import java.awt.Graphics;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.RandomAccess;
+import logic.ConstantFields;
 
 /**
  *
@@ -42,6 +44,13 @@ public class Path implements Iterable<Point>, RandomAccess{
         return prev.x==next.x;
     }
 
+    public void paint(Graphics g, int focusX, int focusY){
+        g.setColor(ConstantFields.frontColor);
+        for(Point point : points){
+            g.fillOval(point.x*16+focusX+4, point.y*16+focusY+4, 8, 8);
+        }
+    }
+    
     @Override
     public Iterator<Point> iterator(){
         return new Iterator<Point>(){

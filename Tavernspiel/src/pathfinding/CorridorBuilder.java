@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import level.Area;
 import logic.Distribution;
 import static pathfinding.Searcher.directions;
+import tiles.Door;
 import tiles.Tile;
 
 /**
@@ -23,7 +24,7 @@ public class CorridorBuilder{
         Point end;
         
         WanderingCorridorAlgorithm(){
-            super(area.graph);
+            super(area.graph, area);
             addCheck = (from, to) -> /*to.currentCost > from.currentCost + to.movementCost &&*/ to.checked==null || !to.checked;
             frontier = null;
         }
@@ -45,7 +46,7 @@ public class CorridorBuilder{
                 for(Point.Direction dir : directions){
                     nx = dir.x.update(p.x);
                     ny = dir.y.update(p.y);
-                    if(area.withinBounds(nx, ny)){
+                    if(area.withinBounds(nx-1, ny-1)&&area.withinBounds(nx+1, ny+1)){
                         if(graph.map[ny][nx].equals(end)){
                             graph.map[ny][nx].cameFrom = p;
                             return;
@@ -60,30 +61,48 @@ public class CorridorBuilder{
             }
         }
         
-        List<Path> generatePaths(List<Waypoint> points, List<Waypoint> cleared, List<Path> paths){
-            int n = Distribution.r.nextInt(points.size());
-            Waypoint start = points.remove(n);
-            if(points.isEmpty()){
-                setDestination(cleared.get(Distribution.r.nextInt(cleared.size()-1)));
-                floodfill(start);
-                Path pa = graph.followTrail(end.x, end.y);
-                if(pa.points.length!=1) paths.add(pa);
-                return paths;
-            }else if(points.size()==2){
-                Waypoint dest = cleared.get(Distribution.r.nextInt(cleared.size()));
-                setDestination(dest);
-                floodfill(start);
-                Path pa = graph.followTrail(end.x, end.y);
-                if(pa.points.length!=1) paths.add(pa);
-                return paths;
-            }
-            Waypoint dest = points.get(Distribution.getRandomInt(0, points.size(), n));
-            cleared.add(start);
-            setDestination(dest);
+        /*List<Path> generatePaths(List<Waypoint> points, List<Waypoint> cleared, List<Path> paths){
+        int n = Distribution.r.nextInt(points.size());
+        Waypoint start = points.remove(n);
+        if(points.isEmpty()){
+        setDestination(cleared.get(Distribution.r.nextInt(cleared.size()-1)));
+        floodfill(start);
+        Path pa = graph.followTrail(end.x, end.y);
+        if(pa.points.length!=1) paths.add(pa);
+        return paths;
+        }else if(points.size()==2){
+        Waypoint dest = cleared.get(Distribution.r.nextInt(cleared.size()));
+        setDestination(dest);
+        floodfill(start);
+        Path pa = graph.followTrail(end.x, end.y);
+        if(pa.points.length!=1) paths.add(pa);
+        return paths;
+        }
+        Waypoint dest = points.get(Distribution.getRandomInt(0, points.size(), n));
+        cleared.add(start);
+        setDestination(dest);
+        floodfill(start);
+        Path pa = graph.followTrail(end.x, end.y);
+        if(pa.points.length!=1) paths.add(pa);
+        return generatePaths(points, cleared, paths);
+        }*/
+        
+        List<Path> generatePaths(List<Waypoint> points, List<Path> carry){
+            int s = Distribution.r.nextInt(points.size()),
+                    e = Distribution.getRandomInt(0, points.size(), s);
+            Waypoint start = points.get(s);
+            setDestination(points.remove(e));
             floodfill(start);
-            Path pa = graph.followTrail(end.x, end.y);
-            if(pa.points.length!=1) paths.add(pa);
-            return generatePaths(points, cleared, paths);
+            carry.add(graph.followTrail(end.x, end.y));
+            if(points.size()==1) return carry;
+            if(points.size()==2){
+                setDestination(points.get(1));
+                floodfill(points.get(0));
+                carry.add(graph.followTrail(end.x, end.y));
+                return carry;
+            }
+            if(Distribution.chance(1, 2)) points.remove(start);
+            return generatePaths(points, carry);
         }
         
     }
@@ -95,8 +114,10 @@ public class CorridorBuilder{
     
     private void extend(Point p, boolean hor){
         int x = p.x, y = p.y;
-        area.map[y][x] = Tile.floor(area.location);
-        area.graph.map[y][x].isCorridor = true;
+        if(!(area.map[y][x] instanceof Door)){
+            area.map[y][x] = Tile.floor(area.location);
+            area.graph.map[y][x].isCorridor = true;
+        }
         if(hor){
             if(area.map[y][x-1]==null){
                 area.map[y][x-1] = Tile.wall(area.location);
@@ -121,9 +142,9 @@ public class CorridorBuilder{
     public void build(){
         List<Path> paths = new WanderingCorridorAlgorithm().generatePaths(
                 Arrays.asList(area.graph.waypoints).stream().filter(p -> !waypointReached(p)).collect(Collectors.toList()),
-                new LinkedList<>(), new LinkedList<>());
+                new LinkedList<>());
         paths.stream().forEach((path) -> {
-            buildCorridor(path);
+            if(path.points.length!=1) buildCorridor(path);
         });
         area.graph.initializeWaypoints();
     }

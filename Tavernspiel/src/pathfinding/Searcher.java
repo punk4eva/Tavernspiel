@@ -1,8 +1,10 @@
 
 package pathfinding;
 
+import level.Area;
 import logic.Utils.Optimisable;
-import pathfinding.Point.Direction;
+import logic.Utils.Unfinished;
+import pathfinding.Point.*;
 import pathfinding.PriorityQueue.Compare;
 
 /**
@@ -11,9 +13,11 @@ import pathfinding.PriorityQueue.Compare;
  */
 public class Searcher{
     
+    private final Area area;
     public PriorityQueue<Point> frontier = new PriorityQueue<>(p -> p.currentCost);
     public final Graph graph;
-    public static Direction[] directions = Direction.values();
+    public final static Direction[] directions = Direction.values();
+    public final static ExtendedDirection[] extendedDirections = ExtendedDirection.values();
     public FrontierAdd addCheck = (from, to) -> to.currentCost > from.currentCost + to.movementCost; //A Predicate to check whether to add a new Point to the frontier. Dijkstra's algorithm is default.
     interface FrontierAdd{
         boolean check(Point from, Point to);
@@ -75,8 +79,9 @@ public class Searcher{
     }
     
     
-    public Searcher(Graph g){
+    public Searcher(Graph g, Area a){
         graph = g;
+        area = a;
     }
     
     /**
@@ -95,12 +100,39 @@ public class Searcher{
             for(Direction dir : directions){
                 nx = dir.x.update(p.x);
                 ny = dir.y.update(p.y);
-                try{ if(graph.map[ny][nx].checked!=null&&(!graph.map[ny][nx].checked||addCheck.check(p, graph.map[ny][nx]))){
+                try{ if(area.map[ny][nx].treadable&&(!graph.map[ny][nx].checked||addCheck.check(p, graph.map[ny][nx]))){
                     graph.map[ny][nx].checked = true;
                     graph.map[ny][nx].cameFrom = p;
                     graph.map[ny][nx].currentCost = p.currentCost + graph.map[ny][nx].movementCost;
                     frontier.add(graph.map[ny][nx]);
-                }}catch(ArrayIndexOutOfBoundsException e){}
+                }}catch(ArrayIndexOutOfBoundsException | NullPointerException e){}
+            }
+        }
+    }
+    
+    /**
+     * Flood fills the Searcher's graph using a breadth first search prioritizing
+     * based on the Searcher's comparator in PriorityQueue.
+     * @param start The starting point.
+     */
+    @Unfinished("addCheck needs to be reenabled because dikstra is necessary!")
+    public void diagonalFloodfill(Point start){
+        graph.use();
+        frontier.clear();
+        start.currentCost = 0;
+        frontier.add(start);
+        int nx, ny;
+        while(!frontier.isEmpty()){
+            Point p = frontier.poll();
+            for(ExtendedDirection dir : extendedDirections){
+                nx = dir.x.update(p.x);
+                ny = dir.y.update(p.y);
+                try{ if(area.map[ny][nx].treadable&&(!graph.map[ny][nx].checked/*||addCheck.check(p, graph.map[ny][nx])*/)){
+                    graph.map[ny][nx].checked = true;
+                    graph.map[ny][nx].cameFrom = p;
+                    graph.map[ny][nx].currentCost = p.currentCost + graph.map[ny][nx].movementCost;
+                    frontier.add(graph.map[ny][nx]);
+                }}catch(ArrayIndexOutOfBoundsException | NullPointerException e){}
             }
         }
     }

@@ -16,7 +16,7 @@ public class Door extends HiddenTile implements StepListener{
     protected final ImageIcon open;
     protected final ImageIcon closed;
     protected final ImageIcon locked;
-    protected boolean isLocked = false;
+    public boolean isLocked = false;
     protected boolean isOpen = false;
     
     public Door(Location loc){

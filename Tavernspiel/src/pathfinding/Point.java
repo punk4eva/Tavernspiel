@@ -20,15 +20,9 @@ public class Point implements Serializable{
     int currentCost = Integer.MAX_VALUE;
     boolean isCorridor = false;
     public static enum Direction{
-        //START(0, x->x, y->y),
-        //UNCHECKED(-1, x->-1, y->-1),
-        //NORTHWEST(1, x->x-1, y->y-1),
         NORTH(2, x->x, y->y-1),
-        //NORTHEAST(3, x->x+1, y->y-1),
         EAST(5, x->x-1, y->y),
-        //SOUTHEAST(8, x->x+1, y->y+1),
         SOUTH(7, x->x, y->y+1), 
-        //SOUTHWEST(6, x->x+1, y->y+1),
         WEST(4, x->x+1, y->y);
         
         int code;
@@ -49,19 +43,54 @@ public class Point implements Serializable{
         
         public Direction polar(){
             switch(this){
-                //case NORTHWEST: return SOUTHEAST;
-                //case SOUTHEAST: return NORTHWEST;
                 case NORTH: return SOUTH;
                 case SOUTH: return NORTH;
                 case WEST: return EAST;
                 case EAST: return WEST;
-                //case NORTHEAST: return SOUTHWEST;
-                //case SOUTHWEST: return NORTHEAST;
                 default: return null;
             }
         }
     }
-    
+    public static enum ExtendedDirection{
+        NORTHWEST(1, x->x-1, y->y-1),
+        NORTH(2, x->x, y->y-1),
+        NORTHEAST(3, x->x+1, y->y-1),
+        EAST(5, x->x-1, y->y),
+        SOUTHEAST(8, x->x+1, y->y+1),
+        SOUTH(7, x->x, y->y+1), 
+        SOUTHWEST(6, x->x+1, y->y+1),
+        WEST(4, x->x+1, y->y);
+        
+        int code;
+        public final xDir x;
+        public final yDir y;
+        ExtendedDirection(int c, xDir xd, yDir yd){
+            code = c;
+            x = xd;
+            y = yd;
+        }
+        
+        public interface xDir{
+            int update(int x);
+        }
+        public interface yDir{
+            int update(int y);
+        }
+        
+        public ExtendedDirection polar(){
+            switch(this){
+                case NORTHWEST: return SOUTHEAST;
+                case SOUTHEAST: return NORTHWEST;
+                case NORTH: return SOUTH;
+                case SOUTH: return NORTH;
+                case WEST: return EAST;
+                case EAST: return WEST;
+                case NORTHEAST: return SOUTHWEST;
+                case SOUTHWEST: return NORTHEAST;
+                default: return null;
+            }
+        }
+    }
     
     public Point(int x1, int y1){
         x = x1;

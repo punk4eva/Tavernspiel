@@ -45,18 +45,17 @@ public class Game extends MainClass implements DepthListener{
     }
     
     public static void main(String... args){
-        Screen sc = new Screen("Name", 0, 0, 5, 5, null);
         Game game = new Game();
         Window.main.currentArea.addHero(game.player);
         /*Window.main.currentArea = new Area(new Dimension(80, 80), Window.main.currentArea.location);
         CorridorBuilder builder = new CorridorBuilder(Window.main.currentArea);
         Path path = new Searcher(Window.main.currentArea.graph).findNullPath(new Point(5, 5), new Point(14, 13));
         builder.buildCorridor(path);*/
-        Dialogue dialogue = new Dialogue("Test", "offCase", true, new CComponent[]{
-            new CButton("Button", 0, 0, 8, null),
-            new CCheckbox("Checkbox", 0, 0, null),
-            new CSlider("Slider", 0, 0, 1, 7, 1)});
-        dialogue.action(game);
+        /*Dialogue dialogue = new Dialogue("Test", "offCase", true, new CComponent[]{
+        new CButton("Button", 0, 0, 8, null),
+        new CCheckbox("Checkbox", 0, 0, null),
+        new CSlider("Slider", 0, 0, 1, 7, 1)});
+        dialogue.action(game);*/
     }
 
     @Override
