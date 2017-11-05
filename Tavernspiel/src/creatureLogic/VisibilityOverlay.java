@@ -1,10 +1,12 @@
 
 package creatureLogic;
 
+import gui.Shaders;
 import java.awt.Dimension;
 import java.util.LinkedList;
 import java.util.List;
 import level.Area;
+import logic.ConstantFields;
 
 /**
  *
@@ -15,8 +17,11 @@ public class VisibilityOverlay extends FieldOfView{
     //0: unexplored
     //1: explored
     //2: visible
-    private final int[][] map;
+    public final int[][] map;
     private final Dimension dimension;
+    public static final Shaders unexploredFog = new Shaders();
+    public static final Shaders exploredFog = new Shaders(ConstantFields.fadeColor, 
+            255.0/(double)ConstantFields.exploredColor.getAlpha());
 
     public VisibilityOverlay(int x, int y, int range, Area area){
         super(x, y, range);

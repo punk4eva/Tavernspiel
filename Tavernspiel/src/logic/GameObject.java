@@ -23,7 +23,7 @@ public abstract class GameObject implements Serializable{
     public final String name;
     public final Description description;
     public final GameObjectAnimator animator;
-    public int x, y;
+    public volatile int x, y;
     public double turndelta = 0;
     public Area area;
     

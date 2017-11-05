@@ -17,9 +17,12 @@ import logic.GameObject;
 import blob.Blob;
 import creatureLogic.VisibilityOverlay;
 import designer.AreaTemplate;
+import static gui.MainClass.HEIGHT;
+import static gui.MainClass.WIDTH;
 import java.util.stream.Collectors;
 import logic.Utils.Unfinished;
 import pathfinding.Graph;
+import tiles.AnimatedTile;
 import tiles.Tile;
 
 /**
@@ -292,15 +295,28 @@ public class Area implements Serializable{
         //graph.paint(g, focusX, focusY);
     }
     
-    public void turn(double turnNum){
+    public synchronized void turn(double turnNum){
         objects.stream().forEach(ob -> {
             ob.turn(turnNum);
         });
     }
     
-    public void addHero(Hero h){
+    public synchronized void addHero(Hero h){
         h.setArea(this);
         hero = h;
+    }
+
+    public synchronized void shade(Graphics g, int focusX, int focusY, double zoom){
+        for(int y=focusY, maxY=focusY+dimension.height*16;y<maxY;y+=16){
+            for(int x=focusX, maxX=focusX+dimension.width*16;x<maxX;x+=16){
+                if(x<0||y<0||x*zoom>WIDTH||y*zoom>HEIGHT) continue;
+                try{
+                    int tx = (x-focusX)/16, ty = (y-focusY)/16;
+                    if(overlay.isExplored(tx, ty)) g.drawImage(VisibilityOverlay.exploredFog.getShadow(overlay.map, x, y, 1), x, y, null);
+                    else if(overlay.isUnexplored(tx, ty)) g.drawImage(VisibilityOverlay.unexploredFog.getShadow(overlay.map, x, y, 0), x, y, null);
+                }catch(ArrayIndexOutOfBoundsException e){/*skip frame*/}
+            }
+        }
     }
     
 }

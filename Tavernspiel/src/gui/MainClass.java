@@ -4,6 +4,7 @@ package gui;
 import animation.Animation;
 import containers.Floor;
 import containers.Receptacle;
+import creatureLogic.VisibilityOverlay;
 import creatures.Hero;
 import dialogues.Dialogue;
 import items.equipment.Wand;
@@ -329,7 +330,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
             for(int x=focusX, maxX=focusX+area.dimension.width*16;x<maxX;x+=16){
                 int tx = (x-focusX)/16, ty = (y-focusY)/16;
                 try{
-                    if(area.overlay.isUnexplored(tx, ty)||x<0||y<0||x*zoom>WIDTH||y*zoom>HEIGHT) continue;
+                    if(x<0||y<0||x*zoom>WIDTH||y*zoom>HEIGHT) continue;
                     Tile tile = area.map[ty][tx];
                     if(tile==null){
                     }else if(tile instanceof AnimatedTile)
@@ -340,7 +341,8 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
                     }else g.drawImage(tile.image.getImage(), x, y, null);
                     Receptacle temp = area.getReceptacle(x, y);
                     if(temp instanceof Floor&&!temp.isEmpty()) temp.peek().animation.animate(g, x, y, zoom);
-                    if(area.overlay.isExplored(tx, ty)) g.fillRect(x, y, 16, 16);
+                    if(area.overlay.isExplored(tx, ty)) g.drawImage(VisibilityOverlay.exploredFog.getShadow(area.overlay.map, tx, ty, 1), x, y, null);
+                    else if(area.overlay.isUnexplored(tx, ty)) g.drawImage(VisibilityOverlay.unexploredFog.getShadow(area.overlay.map, tx, ty, 0), x, y, null);
                 }catch(ArrayIndexOutOfBoundsException e){/*skip frame*/}
             }
         }

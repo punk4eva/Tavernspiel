@@ -30,7 +30,7 @@ public final class PlayerAI extends AITemplate implements KeyListener{
     }
     
     @Override
-    public void keyTyped(KeyEvent ke){
+    public synchronized void keyTyped(KeyEvent ke){
         Integer[] m = null;
         switch(ke.getKeyChar()){
             case 'w': m = new Integer[]{0, -1};
@@ -60,7 +60,7 @@ public final class PlayerAI extends AITemplate implements KeyListener{
     }
 
     @Override
-    public void turn(Creature c, Area area){
+    public synchronized void turn(Creature c, Area area){
         if(turned){
             turned = false;
             return;
@@ -72,7 +72,7 @@ public final class PlayerAI extends AITemplate implements KeyListener{
     }
     
     @Override
-    public void decideAndMove(Creature c){
+    public synchronized void decideAndMove(Creature c){
         if(currentPath==null){
             currentPath = c.area.graph.searcher.findExpressRoute(new Point(c.x, c.y), new Point(destinationx, destinationy)).iterator();
             c.changeAnimation("move");
