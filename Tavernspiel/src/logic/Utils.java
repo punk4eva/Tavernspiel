@@ -139,9 +139,41 @@ public final class Utils{
         for(String str : strs) System.out.println(str.hashCode());
     }
     
+    public static Integer[] testPolarConversion(int r, double theta){
+        return new Integer[]{(int)Math.round(r*Math.cos(theta)), (int)Math.round(r*Math.sin(theta))};
+    }
+    
+    protected static boolean testBlocked(double theta, List<Double[]> block){
+        return block.stream().anyMatch(c -> theta>=c[0]&&theta<=c[1]);
+    }
+    
     public static void main(String... args) throws IOException{
         //debugging
-        printHashCodes("TileSelection");
+        //printHashCodes("TileSelection");
+        /*double increment = Math.PI/60;
+        for(double theta=0,max=2*Math.PI;theta<max;theta+=increment){
+        Integer[] c1 = testPolarConversion(1, theta),
+        c2 = testPolarConversion(2, theta),
+        c3 = testPolarConversion(3, theta),
+        c4 = testPolarConversion(4, theta),
+        c5 = testPolarConversion(5, theta),
+        c6 = testPolarConversion(6, theta);
+        System.out.println("1, "+theta+" -> "+c1[0]+", "+c1[1]+"\t  "+
+        "2, "+theta+" -> "+c2[0]+", "+c2[1]+"\t  "+
+        "3, "+theta+" -> "+c3[0]+", "+c3[1]+"\t  "+
+        "4, "+theta+" -> "+c4[0]+", "+c4[1]+"\t  "+
+        "5, "+theta+" -> "+c5[0]+", "+c5[1]+"\t  "+
+        "6, "+theta+" -> "+c6[0]+", "+c6[1]);
+        }*/
+        List<Double[]> blocking = new LinkedList<>();
+        //blocking.add(new Double[]{0D, 1D});
+        blocking.add(new Double[]{-Math.PI/4, Math.PI/4});
+        //blocking.add(new Double[]{0D, 3D});
+        //blocking.add(new Double[]{0D, 3D});
+        double increment = Math.PI/60;
+        for(double theta=0,max=2*Math.PI;theta<max;theta+=increment){
+            System.out.println(theta + " -> " + testBlocked(theta, blocking));
+        }
     }
     
 }
