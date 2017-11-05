@@ -19,6 +19,7 @@ import gui.MainClass;
 import gui.Screen;
 import gui.Viewable;
 import gui.Window;
+import items.consumables.ItemSpecificScroll;
 import items.consumables.ScrollBuilder;
 import java.awt.Graphics;
 import java.util.LinkedList;
@@ -40,7 +41,6 @@ public class Hero extends Creature implements Viewable{
         screens.addAll(inventory.screens);
         screens.addAll(equipment.screens);
     }
-    private ScreenListener currentScreenListener;
     public final ScrollBuilder scrollBuilder;
     public int hunger = 100;
     public DeathData data;
@@ -148,26 +148,6 @@ public class Hero extends Creature implements Viewable{
         return screens;
     }
     
-    /**
-     * Sets the ScreenListener (used with Viewable)
-     * @param sl The new ScreenListener
-     */
-    public void setScreenListener(ScreenListener sl){
-        if(!sl.equals(currentScreenListener)){
-            currentScreenListener = sl;
-            inventory.changeScreenListener(sl);
-            equipment.changeScreenListener(sl);
-        }
-    }
-    
-    /**
-     * Returns the ScreenListener
-     * @return The ScreenListener
-     */
-    public ScreenListener getScreenListener(){
-        return currentScreenListener;
-    }
-    
     @Override
     public void setArea(Area a){
         area = a;
@@ -175,6 +155,14 @@ public class Hero extends Creature implements Viewable{
         x = a.startCoords[0];
         y = a.startCoords[1];
         FOV.update(x, y, area);
+    }
+
+    public void hijackInventoryManager(ScreenListener hijacker){
+        inventory.manager.hijacker = hijacker;
+    }
+
+    public void stopInventoryHijack(){
+        inventory.manager.hijacker = null;
     }
     
 }

@@ -42,7 +42,7 @@ public class Game extends MainClass implements DepthListener{
         currentArea.addHero(player);
         window = new Window(WIDTH, HEIGHT, "Tavernspiel", this);
         addKeyListener((PlayerAI) player.attributes.ai);
-        hud = new HUD(this);
+        hud = new HUD();
     }
     
     public static void main(String... args){

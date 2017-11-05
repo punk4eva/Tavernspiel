@@ -373,25 +373,22 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
 
     @Override
     public void mouseClicked(MouseEvent me){
+        boolean notClicked = true;
+        int x = me.getX(), y = me.getY();
+        for(Screen sc : viewables.screens){ //Used for-each instead of stream because of "break".
+            if(sc.withinBounds(x, y)){
+                if(!sc.name.equals("blank click")){
+                    sc.wasClicked(me);
+                    notClicked = false;
+                }
+                break;
+            }
+        }
         if(viewables.screens.size()==1){
-            Integer[] p = translateMouseCoords(me.getX(), me.getY());
+            Integer[] p = translateMouseCoords(x, y);
             player.attributes.ai.setDestination(p[0], p[1]);
             player.turnUntilDone();
-        }else{
-            boolean notClicked = true;
-            int x = me.getX(), y = me.getY();
-            for(Screen sc : viewables.screens){ //Used for-each instead of stream because of "break".
-                if(sc.withinBounds(x, y)){
-                    if(!sc.name.equals("blank click")){
-                        sc.wasClicked(me);
-                        notClicked = false;
-                    }
-                    break;
-                }
-            }
-            if(notClicked) currentDialogue.clickedOff();
-            
-        }
+        }else if(notClicked) currentDialogue.clickedOff();
     }
     @Override
     public void mousePressed(MouseEvent me){/**Ignore*/}
