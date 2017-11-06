@@ -5,11 +5,11 @@ import creatures.Hero;
 import gui.MainClass;
 import gui.Screen;
 import gui.Screen.ScreenEvent;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.LinkedList;
 import java.util.List;
 import listeners.ScreenListener;
+import logic.ConstantFields;
 import logic.ImageUtils;
 
 /**
@@ -42,21 +42,29 @@ public class Inventory extends Receptacle{
     }
 
     public void paint(Graphics g, int beginWidth, int beginHeight, int sqwidth, int sqheight, int padding){
-        g.setColor(Color.gray);
+        g.setColor(ConstantFields.backColor);
         g.fill3DRect(beginWidth, beginHeight, MainClass.WIDTH*7/9, MainClass.HEIGHT*7/9, false);
+        ImageUtils.paintGold(g, beginWidth+3*padding+2*sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight, amountOfMoney);
         beginWidth += padding;
         beginHeight += 3*padding + 2*sqheight;
-        int n=0;
-        for(;n<items.size();n++){
-            ImageUtils.paintItemSquare(g, beginWidth + padding + n*(padding+sqwidth),
-                    beginHeight + padding+(n+2)*(padding+sqheight),
-                    sqwidth, sqheight, items.get(n), heroOwner);
+        int n=0, y=0, x;
+        for(;y<3&&n<items.size();y++){
+            x = 0;
+            for(;x<6&&n<items.size();x++){
+                ImageUtils.paintItemSquare(g, beginWidth+x*(padding+sqwidth), 
+                        beginHeight+y*(padding+sqheight),
+                        sqwidth, sqheight, items.get(n), heroOwner);
+                n++;
+            }
         }
-        for(;n<capacity;n++){
-            g.fill3DRect(beginWidth + padding + n*(padding+sqwidth),
-                    beginHeight + padding+(n+2)*(padding+sqheight), sqwidth, sqheight, true);
+        for(;y<3;y++){
+            x = 0;
+            for(;x<6;x++){
+                g.fill3DRect(beginWidth+x*(padding+sqwidth), 
+                        beginHeight+y*(padding+sqheight),
+                        sqwidth, sqheight, true);
+            }
         }
-        ImageUtils.paintGold(g, beginWidth+3*padding+2*sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight, amountOfMoney);
     }
     
     private List<Screen> getScreens(){
@@ -84,7 +92,9 @@ public class Inventory extends Receptacle{
         @Override
         public void screenClicked(ScreenEvent sc){
             if(hijacker!=null) hijacker.screenClicked(sc);
-            else throw new UnsupportedOperationException("Not supported yet.");
+            else{
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
         }
     
     }

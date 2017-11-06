@@ -108,7 +108,7 @@ public final class ItemBuilder{
     }
     
     public static ImageIcon getIcon(int x, int y){
-        return new ImageIcon(items.getSubimage(x*16, y*16, 16, 16));
+        return new ImageIcon(items.getSubimage(x, y, 16, 16));
     }
     
     public static Item genRandom(){

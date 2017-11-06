@@ -165,15 +165,16 @@ public final class Utils{
         "5, "+theta+" -> "+c5[0]+", "+c5[1]+"\t  "+
         "6, "+theta+" -> "+c6[0]+", "+c6[1]);
         }*/
-        List<Double[]> blocking = new LinkedList<>();
+        /*List<Double[]> blocking = new LinkedList<>();
         //blocking.add(new Double[]{0D, 1D});
         blocking.add(new Double[]{-Math.PI/4, Math.PI/4});
         //blocking.add(new Double[]{0D, 3D});
         //blocking.add(new Double[]{0D, 3D});
         double increment = Math.PI/60;
         for(double theta=0,max=2*Math.PI;theta<max;theta+=increment){
-            System.out.println(theta + " -> " + testBlocked(theta, blocking));
-        }
+        System.out.println(theta + " -> " + testBlocked(theta, blocking));
+        }*/
+        printHashCodes("english");
     }
     
 }

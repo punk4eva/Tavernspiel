@@ -34,16 +34,6 @@ public class Equipment extends Receptacle{
     
     /**
      * Creates a new instance
-     */
-    public Equipment(){
-        super(7, "ERROR: You shouldn't be reading this.", -1, -1);
-        for(int n=0;n<7;n++) items.add(null);
-        screens = getScreens(null);
-        heroOwner = null;
-    }
-    
-    /**
-     * Creates a new instance
      * @param hero The owner.
      */
     public Equipment(Hero hero){
@@ -202,7 +192,6 @@ public class Equipment extends Receptacle{
      * @param sqwidth The width of item squares.
      * @param sqheight The height of item squares.
      * @param padding The length of padding.
-     * @param owner The owner of this equipment.
      */
     public void paint(Graphics g, int beginWidth, int beginHeight, int sqwidth, int sqheight, int padding){
         if(items.get(0)!=null) ImageUtils.paintItemSquare(g, beginWidth+padding, beginHeight+padding, sqwidth, sqheight, items.get(0), heroOwner);

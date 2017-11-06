@@ -29,7 +29,7 @@ import logic.Utils.Unfinished;
  */
 public class Creature extends GameObject implements BuffListener, Comparable<Creature>{
     
-    public Equipment equipment = new Equipment();
+    public Equipment equipment;
     public Inventory inventory = new Inventory();
     public Attributes attributes;
     public FieldOfView FOV;

@@ -37,10 +37,6 @@ import logic.Utils.Catch;
 public class Hero extends Creature implements Viewable{
     
     public final LinkedList<Screen> screens = new LinkedList<>();
-    {
-        screens.addAll(inventory.screens);
-        screens.addAll(equipment.screens);
-    }
     public final ScrollBuilder scrollBuilder;
     public int hunger = 100;
     public DeathData data;
@@ -56,9 +52,12 @@ public class Hero extends Creature implements Viewable{
     @Catch("Unnessesary catch")
     public Hero(Attributes atb, GameObjectAnimator an){
         super("Hero", new Description("hero","UNWRITTEN"), atb, an);
+        equipment = new Equipment(this);
         attributes.ai = new PlayerAI(this);
         try{data = new DeathData(this);}catch(Exception e){}
         scrollBuilder = new ScrollBuilder(this);
+        screens.addAll(inventory.screens);
+        screens.addAll(equipment.screens);
     }
     
     /**
@@ -81,6 +80,8 @@ public class Hero extends Creature implements Viewable{
         subclass = sub;
         data = da;
         scrollBuilder = new ScrollBuilder(this);
+        screens.addAll(inventory.screens);
+        screens.addAll(equipment.screens);
     }
 
     @Override
@@ -132,13 +133,14 @@ public class Hero extends Creature implements Viewable{
         ((Game)Window.main).endGame();
     }
     
+    private final static int padding = 8,
+        beginWidth = MainClass.WIDTH/9,
+        beginHeight = MainClass.HEIGHT/9,
+        sqwidth = (int)(((double)MainClass.WIDTH*(7.0/9.0)-7*padding)/6.0),
+        sqheight = (int)(((double)MainClass.HEIGHT*(7.0/9.0)-6*padding)/5.0);
+    
     @Override
     public void paint(Graphics g){
-        int padding = 4;
-        int beginWidth = MainClass.WIDTH/9;
-        int beginHeight = MainClass.HEIGHT/9;
-        int sqwidth = (MainClass.WIDTH*7/9-7*padding)/6;
-        int sqheight = (MainClass.WIDTH*7/9-6*padding)/5;
         inventory.paint(g, beginWidth, beginHeight, sqwidth, sqheight, padding);
         equipment.paint(g, beginWidth, beginHeight, sqwidth, sqheight, padding);
     }

@@ -2,7 +2,6 @@
 package logic;
 
 import creatures.Hero;
-import items.Apparatus;
 import items.Item;
 import java.awt.Color;
 import java.awt.Graphics;
