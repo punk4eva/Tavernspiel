@@ -52,7 +52,7 @@ public class AIBaseActions implements Serializable{
      * @param c The creature to be moved.
      * @param dir The displacement vector of movement.
      */
-    public void move(Creature c, Integer[] dir){
+    public synchronized void move(Creature c, Integer[] dir){
         if(c.area.map[c.y][c.x] instanceof Door) ((Door)c.area.map[c.y][c.x]).stepOff(c);
         if(!c.animator.currentName.equals("move")) c.changeAnimation("move");
         c.setXY(c.x+dir[0], c.y+dir[1]);
@@ -71,7 +71,7 @@ public class AIBaseActions implements Serializable{
      * @param x
      * @param y
      */
-    public void moveRaw(Creature c, int x, int y){
+    public synchronized void moveRaw(Creature c, int x, int y){
         if(c.area.map[c.y][c.x] instanceof Door) ((Door)c.area.map[c.y][c.x]).stepOff(c);
         c.setXY(x, y);
         if(c.area.map[c.y][c.x] instanceof StepListener){
@@ -212,7 +212,7 @@ public class AIBaseActions implements Serializable{
         Window.main.searchAnimation(ary, searchSuccessful);
     }
     
-    public boolean canMove(Creature c, Integer[] dir){
+    public synchronized boolean canMove(Creature c, Integer[] dir){
         return c.area.tileFree(c.x+dir[0], c.y+dir[1]);
     }
     

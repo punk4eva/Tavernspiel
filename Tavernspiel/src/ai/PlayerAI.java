@@ -3,7 +3,6 @@ package ai;
 
 import creatures.Creature;
 import creatures.Hero;
-import gui.Window;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import level.Area;
@@ -18,10 +17,11 @@ import pathfinding.Point;
 public final class PlayerAI extends AITemplate implements KeyListener{    
 
     private final Hero hero;
-    public boolean unfinished = false, turned = false;
+    public volatile boolean unfinished = false, turned = false;
     
     public PlayerAI(Hero h){
         hero = h;
+        BASEACTIONS = new AIPlayerActions();
     }
     
     public final void updateDestination(Integer... ary){

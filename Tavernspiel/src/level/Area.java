@@ -22,7 +22,6 @@ import static gui.MainClass.WIDTH;
 import java.util.stream.Collectors;
 import logic.Utils.Unfinished;
 import pathfinding.Graph;
-import tiles.AnimatedTile;
 import tiles.Tile;
 
 /**
@@ -42,7 +41,7 @@ public class Area implements Serializable{
     public volatile LinkedList<GameObject> objects = new LinkedList<>();
     public volatile LinkedList<Receptacle> receptacles = new LinkedList<>();
     public Graph graph = null;
-    private Hero hero;
+    private volatile Hero hero;
     public final VisibilityOverlay overlay;
     
     /**

@@ -54,10 +54,10 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public static final IDHandler idhandler = new IDHandler(); //Creates UUIDs for GameObjects.
     public static final BuffEventInitiator buffinitiator = new BuffEventInitiator(); //Handles buffs.
     private final ViewableList viewables = new ViewableList();
-    protected Dialogue currentDialogue = null; //null if no dialogue.
-    public Area currentArea;
-    public Hero player;
-    protected static int focusX=16, focusY=16;
+    protected volatile Dialogue currentDialogue = null; //null if no dialogue.
+    public volatile Area currentArea;
+    public volatile Hero player;
+    protected volatile static int focusX=16, focusY=16;
     private int xOfDrag=-1, yOfDrag=-1;
     private static double zoom = 1.0;
     public static final double MAX_ZOOM = 8.0, MIN_ZOOM = 0.512;
