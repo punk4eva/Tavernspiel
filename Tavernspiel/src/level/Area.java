@@ -286,11 +286,11 @@ public class Area implements Serializable{
     }
     
     @Unfinished("Remove bookmarks.")
-    public void renderObjects(Graphics g, int focusX, int focusY, double zoom){
+    public void renderObjects(Graphics g, int focusX, int focusY){
         objects.stream().forEach(ob -> {
-            ob.render(g, focusX, focusY, zoom);
+            ob.render(g, focusX, focusY);
         });
-        hero.render(g, focusX, focusY, zoom);
+        hero.render(g, focusX, focusY);
         //graph.paint(g, focusX, focusY);
     }
     

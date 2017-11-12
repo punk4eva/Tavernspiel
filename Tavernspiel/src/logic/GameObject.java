@@ -52,10 +52,10 @@ public abstract class GameObject implements Serializable{
      * @param focusY The y focus.
      * @param zoom The zoom.
      */
-    public abstract void render(Graphics g, int focusX, int focusY, double zoom);
+    public abstract void render(Graphics g, int focusX, int focusY);
     
-    public void standardAnimation(Graphics g, int focusX, int focusY, double zoom){
-        animator.active.animate(g, x*16+focusX, y*16+focusY, zoom);
+    public void standardAnimation(Graphics g, int focusX, int focusY){
+        animator.active.animate(g, x*16+focusX, y*16+focusY);
     }
     
     //Might need to make this abstract.

@@ -11,12 +11,15 @@ import items.equipment.Wand;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
@@ -201,14 +204,6 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     }
     
     /**
-     * Gets the zoom value.
-     * @return The zoom value.
-     */
-    public static double getZoom(){
-        return zoom;
-    }
-    
-    /**
      * Returns the focus.
      * @return An array representing the x and y coordinates of focus.
      */
@@ -279,22 +274,29 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public void render(int frameInSec){
         BufferStrategy bs = this.getBufferStrategy();
         if(bs == null){
-            this.createBufferStrategy(4);
+            this.createBufferStrategy(2);
             return;
         }
-        Graphics g = bs.getDrawGraphics();
-        g.setColor(Color.black);
-        g.fillRect(0, 0, WIDTH, HEIGHT);
+        Graphics2D bsg = (Graphics2D) bs.getDrawGraphics();
+        BufferedImage buffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
+        Graphics g = buffer.getGraphics();
+        bsg.setColor(Color.black);
+        bsg.fillRect(0, 0, WIDTH, HEIGHT);
         if(frameInSec%16==0){
             frameNumber = (frameNumber+1) % frameDivisor;
         }
         paintArea(currentArea, g);
-        currentArea.renderObjects(g, focusX, focusY, zoom);
+        currentArea.renderObjects(g, focusX, focusY);
+        AffineTransform at = AffineTransform.getScaleInstance(zoom, zoom);
+        //at.concatenate(AffineTransform.getTranslateInstance(zoom*-20, zoom*-20));
+        bsg.drawRenderedImage(buffer, at);
         viewables.streamViewables().forEach(v -> {
-            v.paint(g);
+            v.paint(bsg);
         });
-        if(currentDialogue!=null) currentDialogue.paint(g);
+        if(currentDialogue!=null) currentDialogue.paint(bsg);
+        
         g.dispose();
+        bsg.dispose();
         bs.show();
     }
 
@@ -334,13 +336,10 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
                     Tile tile = area.map[ty][tx];
                     if(tile==null){
                     }else if(tile instanceof AnimatedTile)
-                        ((AnimatedTile) tile).animation.animate(g, x, y, zoom);
-                    else if(zoom!=1){
-                        int l = (int)(16*zoom);
-                        g.drawImage(tile.image.getImage().getScaledInstance(l, l, 0),(int)(x*zoom),(int)(y*zoom),null);
-                    }else g.drawImage(tile.image.getImage(), x, y, null);
+                        ((AnimatedTile) tile).animation.animate(g, x, y);
+                    else g.drawImage(tile.image.getImage(), x, y, null);
                     Receptacle temp = area.getReceptacle(x, y);
-                    if(temp instanceof Floor&&!temp.isEmpty()) temp.peek().animation.animate(g, x, y, zoom);
+                    if(temp instanceof Floor&&!temp.isEmpty()) temp.peek().animation.animate(g, x, y);
                     if(area.overlay.isExplored(tx, ty)) g.drawImage(VisibilityOverlay.exploredFog.getShadow(area.overlay.map, tx, ty, 1), x, y, null);
                     else if(area.overlay.isUnexplored(tx, ty)) g.drawImage(VisibilityOverlay.unexploredFog.getShadow(area.overlay.map, tx, ty, 0), x, y, null);
                 }catch(ArrayIndexOutOfBoundsException e){/*skip frame*/}

@@ -1,0 +1,5 @@
+Fix FOV
+Allow ascending and descending
+Allow shadows to work with different zooms. (It might be possible to zoom in on the entire graphics in one go.)
+Fix sprite animation, i.e: moving
+Work on item graphics
