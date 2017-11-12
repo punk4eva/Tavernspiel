@@ -72,11 +72,7 @@ public class Buff implements Serializable{
      */
     public void end(Creature c){
         c.removeBuff(name);
-        if(event!=null){
-            Buff next = event.getNext();
-            if(next==null) MainClass.buffinitiator.notify(event);
-            else c.addBuff(next);
-        }
+        if(event!=null) event.fire();
     }
     
     /**

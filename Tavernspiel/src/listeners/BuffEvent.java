@@ -2,6 +2,7 @@
 package listeners;
 
 import buffs.Buff;
+import creatures.Creature;
 import java.io.Serializable;
 
 /**
@@ -13,17 +14,17 @@ public class BuffEvent implements Serializable{
     private final static long serialVersionUID = 2036043239;
     
     private Buff followingBuff = null; //null if none.
-    private final int ID;
+    private final Creature creature;
     private final String name;
     
-    public BuffEvent(String n, int id){
+    public BuffEvent(String n, Creature c){
         name = n;
-        ID = id;
+        creature = c;
     }
     
-    public BuffEvent(String n, int id, Buff follow){
+    public BuffEvent(String n, Creature c, Buff follow){
         name = n;
-        ID = id;
+        creature = c;
         followingBuff = follow;
     }
     
@@ -31,12 +32,12 @@ public class BuffEvent implements Serializable{
         return name;
     }
     
-    public int getID(){
-        return ID;
-    }
-    
     public Buff getNext(){
         return followingBuff;
+    }
+    
+    public void fire(){
+        creature.buffTriggered(this);
     }
     
 }

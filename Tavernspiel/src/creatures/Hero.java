@@ -59,8 +59,7 @@ public class Hero extends Creature implements Viewable{
     }
     
     /**
-     * Creates a new Hero
-     * @param id The ID.
+     * Creates a new Hero.
      * @param eq The worn Equipment.
      * @param inv The Inventory.
      * @param hung The hunger.
@@ -70,8 +69,8 @@ public class Hero extends Creature implements Viewable{
      * @param atb The Attributes.
      * @param bs The Buffs.
      */
-    public Hero(int id, Equipment eq, Inventory inv, int hung, DeathData da, EnClass j, EnSubclass sub, Attributes atb, LinkedList<Buff> bs){
-        super("Hero", new Description("hero","UNWRITTEN"), id, eq, inv, atb, bs);
+    public Hero(Equipment eq, Inventory inv, int hung, DeathData da, EnClass j, EnSubclass sub, Attributes atb, LinkedList<Buff> bs){
+        super("Hero", new Description("hero","UNWRITTEN"), eq, inv, atb, bs);
         hunger = hung;
         attributes.ai = new PlayerAI(this);
         job = j;

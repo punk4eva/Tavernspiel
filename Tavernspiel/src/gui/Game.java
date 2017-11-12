@@ -11,7 +11,6 @@ import java.awt.Dimension;
 import javax.swing.ImageIcon;
 import level.Area;
 import level.Dungeon;
-import listeners.DepthListener;
 import logic.ImageUtils;
 import logic.Utils.Unfinished;
 import pathfinding.CorridorBuilder;
@@ -25,7 +24,7 @@ import pathfinding.Searcher;
  * 
  * Plays the Game.
  */
-public class Game extends MainClass implements DepthListener{
+public class Game extends MainClass{
     
     public final Dungeon dungeon;
     
@@ -59,7 +58,6 @@ public class Game extends MainClass implements DepthListener{
         dialogue.action(game);*/
     }
 
-    @Override
     @Unfinished("The sfx for newDepth.")
     public void updateDepth(Area area){
         currentArea = area;

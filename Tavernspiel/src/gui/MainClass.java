@@ -27,9 +27,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 import level.Area;
-import listeners.BuffEventInitiator;
 import logic.ConstantFields;
-import logic.IDHandler;
 import logic.SoundHandler;
 import logic.Utils;
 import logic.Utils.Unfinished;
@@ -54,8 +52,6 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     protected Window window;
     protected HUD hud;
 
-    public static final IDHandler idhandler = new IDHandler(); //Creates UUIDs for GameObjects.
-    public static final BuffEventInitiator buffinitiator = new BuffEventInitiator(); //Handles buffs.
     private final ViewableList viewables = new ViewableList();
     protected volatile Dialogue currentDialogue = null; //null if no dialogue.
     public volatile Area currentArea;

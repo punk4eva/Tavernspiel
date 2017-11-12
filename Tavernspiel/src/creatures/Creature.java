@@ -10,12 +10,10 @@ import creatureLogic.Attack;
 import creatureLogic.Attributes;
 import creatureLogic.Description;
 import creatureLogic.FieldOfView;
-import gui.MainClass;
 import items.equipment.HeldWeapon;
 import java.awt.Graphics;
 import java.util.LinkedList;
 import listeners.BuffEvent;
-import listeners.BuffListener;
 import logic.Distribution;
 import logic.GameObject;
 import logic.Utils.Unfinished;
@@ -27,7 +25,7 @@ import logic.Utils.Unfinished;
  * Base Creature that all others inherit from.
  * The implementation of Comparable is for determining whether an enemy is likely to win in a fight.
  */
-public class Creature extends GameObject implements BuffListener, Comparable<Creature>{
+public class Creature extends GameObject implements Comparable<Creature>{
     
     public Equipment equipment;
     public Inventory inventory = new Inventory();
@@ -50,30 +48,26 @@ public class Creature extends GameObject implements BuffListener, Comparable<Cre
         equipment = eq;
         inventory = inv;
         attributes = atb;
-        FOV = new FieldOfView(x, y, 6);
-        MainClass.buffinitiator.addBuffListener(this);
+        FOV = new FieldOfView(x, y, 5);
     }
     
     /**
      * Creates a new instance.
      * @param n The name.
      * @param desc The description.
-     * @param id The ID of the creature.
      * @param eq The equipment.
      * @param inv The inventory.
      * @param atb The attributes.
      * @param bs The list of buffs.
      */
-    public Creature(String n, Description desc, int id, Equipment eq, Inventory inv, 
+    public Creature(String n, Description desc, Equipment eq, Inventory inv, 
             Attributes atb, LinkedList<Buff> bs){
         super(n, desc, AnimationBuilder.getCreatureAnimation(n));
         equipment = eq;
-        ID = id;
         buffs = bs;
         inventory = inv;
-        FOV = new FieldOfView(x, y, 6);
+        FOV = new FieldOfView(x, y, 5);
         attributes = atb;
-        MainClass.buffinitiator.addBuffListener(this);
     }
     
     /**
@@ -86,8 +80,7 @@ public class Creature extends GameObject implements BuffListener, Comparable<Cre
     public Creature(String n, Description desc, Attributes atb, GameObjectAnimator an){
         super(n, desc, an);
         attributes = atb;
-        FOV = new FieldOfView(x, y, 6);
-        MainClass.buffinitiator.addBuffListener(this);
+        FOV = new FieldOfView(x, y, 5);
     }
     
     /**
@@ -157,13 +150,10 @@ public class Creature extends GameObject implements BuffListener, Comparable<Cre
         buffs.add(buff);
     }
 
-    @Override
     public void buffTriggered(BuffEvent be){
-        if(be.getID()==ID){
-            switch(be.getName()){
-                //@unfinished
-                default: buffs.add(be.getNext());
-            }
+        switch(be.getName()){
+            //@unfinished
+            default: buffs.add(be.getNext());
         }
     }
     
