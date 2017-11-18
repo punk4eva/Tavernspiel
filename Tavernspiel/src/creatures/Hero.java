@@ -83,23 +83,8 @@ public class Hero extends Creature implements Viewable{
 
     @Override
     public synchronized void turn(double delta){
-        double d = delta;
-        for(;d>=attributes.speed;d-=attributes.speed){
-            attributes.ai.turn(this, area);
-            area.turn(attributes.speed);
-        }
-        if(d!=0) area.turn(d);
-    }
-    
-    public synchronized void quickTurn(){
-        attributes.ai.turn(this, area);
-        area.turn(attributes.speed);
-    }
-    
-    public synchronized void turnUntilDone(){
-        PlayerAI ai = (PlayerAI) attributes.ai;
-        do quickTurn();
-        while(ai.unfinished);
+        super.turn(delta);
+        area.semaphore.release();
     }
     
     @Override

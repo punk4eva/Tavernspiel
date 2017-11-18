@@ -1,6 +1,7 @@
 
 package gui;
 
+import ai.PlayerAI;
 import animation.Animation;
 import containers.Floor;
 import containers.Receptacle;
@@ -25,6 +26,8 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 import java.util.stream.Stream;
 import level.Area;
 import logic.ConstantFields;
@@ -47,8 +50,9 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     protected final SoundHandler soundSystem = new SoundHandler();
     public transient static PrintStream exceptionStream, performanceStream;
 
-    private Thread thread;
-    private boolean running = false;
+    private volatile boolean running = false;
+    private Thread renderThread;
+    public TurnThread turnThread = new TurnThread("Turn Thread");
     protected Window window;
     protected HUD hud;
 
@@ -112,9 +116,53 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
         
     }
+    
+    public class TurnThread extends Thread{
+        
+        private int x, y;
+        public CyclicBarrier barrier = new CyclicBarrier(2);
+        
+        TurnThread(String str){
+            super(str);
+        }
+        
+        @Override
+        public synchronized void run(){
+            while(running){
+                try{
+                    barrier.await();
+                }catch(BrokenBarrierException | InterruptedException e){}
+                barrier.reset();
+                player.attributes.ai.setDestination(x, y);
+                while(((PlayerAI)player.attributes.ai).unfinished){
+                    turn(player.attributes.speed);
+                }
+            }
+        }
+        
+        public void click(int _x, int _y){
+            x = _x;
+            y = _y;
+            try{
+                barrier.await();
+            }catch(BrokenBarrierException | InterruptedException e){}
+        }
+        
+        /**
+         * Runs the game for the given amount of turns.
+         * @param delta The amount of turns to run.
+         */
+        private void turn(double delta){
+            gameTurns += delta;
+            for(;delta>=1;delta--) currentArea.turn(1.0);
+            if(delta!=0) currentArea.turn(delta);
+        }
+        
+    }
 
     /**
      * Creates a new instance.
+     * @thread progenitor
      */
     public MainClass(){
         try{
@@ -218,28 +266,19 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         focusY = HEIGHT/2 - z - tiley * 16;
     }
 
+    /**
+     * @thread render
+     */
     @Override
     public void run(){
         addMouseListener(this);
         addMouseMotionListener(this);
         addMouseWheelListener(this);
         this.requestFocus();
-        //long lastTime = System.nanoTime();
-        //double amountOfTicks = 60.0;
-        //double ns = 1000000000 / amountOfTicks;
-        //double delta = 0;
         long timer = System.currentTimeMillis();
         int frames = 0;
         while(running){
-            //long now = System.nanoTime();
-            //delta += (now - lastTime) / ns;
-            //lastTime = now;
-            /*for(double d = delta; d >= 1; d--){
-                tick();
-            }*/
-            //if(running){
-                render(frames);
-            //}
+            render(frames);
             frames++;
             if(System.currentTimeMillis() - timer > 1000){
                 timer += 1000;
@@ -249,22 +288,10 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
         stop();
     }
-    
-    /**
-     * Runs the game for the given amount of turns.
-     * @param turnsConsumed The amount of turns to run.
-     */
-    public void turn(double turnsConsumed){
-        gameTurns += turnsConsumed;
-        double delta=0;
-        for(double d=turnsConsumed;d>0;d-=d>=1 ? (delta=1) : (delta=d)){
-            System.out.println("DELTA: " + delta);
-            currentArea.turn(delta);
-        }
-    }
 
     /**
      * Renders the game with the given framerate.
+     * @thread render
      * @param frameInSec The framerate.
      */
     public void render(int frameInSec){
@@ -295,13 +322,14 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         bsg.dispose();
         bs.show();
     }
-
+    
     /**
      * Starts the game.
      */
     public synchronized void start(){
-        thread = new Thread(this);
-        thread.start();
+        renderThread = new Thread(this, "Render Thread");
+        renderThread.start();
+        turnThread.start();
         running = true;
     }
 
@@ -310,7 +338,8 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
      */
     public synchronized void stop(){
         try{
-            thread.join();
+            renderThread.join();
+            turnThread.join();
             running = false;
         }catch(Exception e){
             e.printStackTrace(exceptionStream);
@@ -319,6 +348,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         
     /**
      * Paints the given area on the given graphics.
+     * @thread render
      * @param area The area to paint.
      * @param g The graphics to paint on.
      */
@@ -381,8 +411,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
         if(viewables.screens.size()==1){
             Integer[] p = translateMouseCoords(x, y);
-            player.attributes.ai.setDestination(p[0], p[1]);
-            player.turnUntilDone();
+            turnThread.click(p[0], p[1]);
         }else if(notClicked) currentDialogue.clickedOff();
     }
     @Override

@@ -3,6 +3,7 @@ package ai;
 
 import creatures.Creature;
 import creatures.Hero;
+import gui.Window;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import level.Area;
@@ -17,7 +18,7 @@ import pathfinding.Point;
 public final class PlayerAI extends AITemplate implements KeyListener{    
 
     private final Hero hero;
-    public volatile boolean unfinished = false, turned = false;
+    public volatile boolean unfinished = false, skipping = false;
     
     public PlayerAI(Hero h){
         hero = h;
@@ -43,9 +44,8 @@ public final class PlayerAI extends AITemplate implements KeyListener{
                 break;
         }
         if(BASEACTIONS.canMove(hero, m)){
-            turned = true;
-            BASEACTIONS.move(hero, m);
-            hero.turn(1);
+            unfinished = true;
+            Window.main.turnThread.click(hero.x+m[0], hero.y+m[1]);
         }
     }
 
@@ -61,10 +61,6 @@ public final class PlayerAI extends AITemplate implements KeyListener{
 
     @Override
     public synchronized void turn(Creature c, Area area){
-        if(turned){
-            turned = false;
-            return;
-        }
         if(hero.x!=hero.attributes.ai.destinationx||
                 hero.y!=hero.attributes.ai.destinationy){
             decideAndMove(hero);
@@ -77,6 +73,7 @@ public final class PlayerAI extends AITemplate implements KeyListener{
             currentPath = c.area.graph.searcher.findExpressRoute(new Point(c.x, c.y), new Point(destinationx, destinationy)).iterator();
             c.changeAnimation("move");
             unfinished = true;
+            currentPath.next();
         }
         Point next = currentPath.next();
         BASEACTIONS.moveRaw(c, next.x, next.y);

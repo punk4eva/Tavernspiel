@@ -1,6 +1,7 @@
 
-package ai;
+package ai.intelligence;
 
+import ai.AITemplate;
 import creatures.Creature;
 import java.util.LinkedList;
 import level.Area;

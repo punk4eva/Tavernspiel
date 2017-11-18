@@ -56,9 +56,11 @@ public class Dungeon implements Serializable{
      * @param hero
      */
     public void ascend(Hero hero){
-        depth--;
-        game.updateDepth(getArea2());
-        currentArea.addHero(hero);
+        if(depth!=1){
+            depth--;
+            game.updateDepth(getArea2());
+            currentArea.addHero(hero);
+        }
     }
     
     /**

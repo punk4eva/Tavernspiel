@@ -16,7 +16,6 @@ import java.util.LinkedList;
 import listeners.BuffEvent;
 import logic.Distribution;
 import logic.GameObject;
-import logic.Utils.Unfinished;
 
 /**
  * 
@@ -29,9 +28,9 @@ public class Creature extends GameObject implements Comparable<Creature>{
     
     public Equipment equipment;
     public Inventory inventory = new Inventory();
-    public Attributes attributes;
+    public volatile Attributes attributes;
     public FieldOfView FOV;
-    public LinkedList<Buff> buffs = new LinkedList<>();
+    public volatile LinkedList<Buff> buffs = new LinkedList<>();
     
     /**
      * Creates a new instance.
@@ -172,10 +171,12 @@ public class Creature extends GameObject implements Comparable<Creature>{
     }
 
     @Override
-    @Unfinished
-    public void turn(double delta){
-        attributes.ai.turn(this, area);
-        decrementAndUpdateBuffs(delta);   
+    public synchronized void turn(double delta){
+        for(delta+=turndelta;delta>=attributes.speed;delta-=attributes.speed){
+            attributes.ai.turn(this, area);
+            decrementAndUpdateBuffs(1.0);
+        }
+        turndelta = delta;
     }
 
     @Override
@@ -183,7 +184,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
         animator.animate(g, x*16+focusX, y*16+focusY);
     }
     
-    public void setXY(int nx, int ny){
+    public synchronized void setXY(int nx, int ny){
         x = nx;
         y = ny;
     }

@@ -38,6 +38,7 @@ public abstract class AITemplate implements Serializable{
         if(currentPath==null){
             currentPath = c.area.graph.searcher.findExpressRoute(new Point(c.x, c.y), new Point(destinationx, destinationy)).iterator();
             c.changeAnimation("move");
+            currentPath.next();
         }
         Point next = currentPath.next();
         BASEACTIONS.moveRaw(c, next.x, next.y);

@@ -1,7 +1,8 @@
 
 package ai;
 
-import ai.IntelligentAI1.EnState;
+import ai.intelligence.IntelligentAI1;
+import ai.intelligence.IntelligentAI1.EnState;
 import containers.Floor;
 import containers.PurchasableHeap;
 import creatureLogic.Attack;
@@ -77,6 +78,7 @@ public class AIBaseActions implements Serializable{
         if(c.area.map[c.y][c.x] instanceof StepListener){
             ((StepListener)c.area.map[c.y][c.x]).steppedOn(c);
         }
+        c.FOV.update(c.x, c.y, c.area);
     }
     
     /**

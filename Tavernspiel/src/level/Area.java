@@ -19,6 +19,7 @@ import creatureLogic.VisibilityOverlay;
 import designer.AreaTemplate;
 import static gui.MainClass.HEIGHT;
 import static gui.MainClass.WIDTH;
+import java.util.concurrent.Semaphore;
 import java.util.stream.Collectors;
 import logic.Utils.Unfinished;
 import pathfinding.Graph;
@@ -43,6 +44,7 @@ public class Area implements Serializable{
     public Graph graph = null;
     private volatile Hero hero;
     public final VisibilityOverlay overlay;
+    public final Semaphore semaphore = new Semaphore(0);
     
     /**
      * Creates a new instance.
@@ -131,9 +133,8 @@ public class Area implements Serializable{
      * @param x The x of the Tile.
      * @param y The y of the Tile.
      * @param clickMode The click mode.
-     * @param hero The Hero.
      */
-    public void click(int x, int y, String clickMode, Hero hero){
+    public void click(int x, int y, String clickMode){
         switch(clickMode){
             case "normal":
                 hero.attributes.ai.setDestination(x, y);
@@ -245,6 +246,7 @@ public class Area implements Serializable{
      */
     public void addObject(GameObject object){
         object.setArea(this);
+        object.start();
         objects.add(object);
     }
     
@@ -254,6 +256,7 @@ public class Area implements Serializable{
      */
     public void removeObject(GameObject object){
         objects.remove(object);
+        object.stop();
     }
 
     /**
@@ -290,18 +293,40 @@ public class Area implements Serializable{
         objects.stream().forEach(ob -> {
             ob.render(g, focusX, focusY);
         });
-        hero.render(g, focusX, focusY);
         //graph.paint(g, focusX, focusY);
     }
     
     public synchronized void turn(double turnNum){
-        objects.stream().forEach(ob -> {
-            ob.turn(turnNum);
-        });
+        for(;turnNum>=1;turnNum--){
+            objects.stream().forEach(ob -> {
+                ob.threadTurn(1.0);
+                try{
+                    semaphore.acquire();
+                }catch(InterruptedException e){}
+            });
+        }
+        if(turnNum!=0.0){
+            double d = turnNum; //effective finalization.
+            objects.stream().forEach(ob -> {
+                ob.threadTurn(d);
+                try{
+                    semaphore.acquire();
+                }catch(InterruptedException e){}
+            });
+        }
     }
     
     public synchronized void addHero(Hero h){
         h.setArea(this);
+        try{
+        if(!(objects.get(0) instanceof Hero)){
+            h.start();
+            objects.add(0, h);
+        }
+        }catch(IndexOutOfBoundsException e){
+            h.start();
+            objects.add(h);
+        }
         hero = h;
     }
 

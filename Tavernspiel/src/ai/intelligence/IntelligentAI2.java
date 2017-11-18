@@ -1,5 +1,5 @@
 
-package ai;
+package ai.intelligence;
 
 /**
  *
