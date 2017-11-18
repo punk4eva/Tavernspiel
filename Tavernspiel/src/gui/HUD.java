@@ -56,6 +56,9 @@ public class HUD implements Viewable, ScreenListener{
                 viewingInventory = true;
                 Window.main.addViewable(Window.main.player);
             }else Window.main.removeTopViewable();
+                break;
+            case "Wait": Window.main.player.attributes.ai.paralyze(1.0);
+                break;
         }
     }
     

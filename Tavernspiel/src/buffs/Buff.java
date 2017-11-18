@@ -6,6 +6,7 @@ import creatureLogic.AttributeModifier;
 import creatures.Creature;
 import gui.MainClass;
 import java.io.Serializable;
+import java.util.function.Consumer;
 import logic.Distribution;
 
 /**
@@ -23,6 +24,7 @@ public class Buff implements Serializable{
     public Distribution damageDistribution = null; //null if deals no damage.
     public AttributeModifier atribMod = null; //null if no attributes modified.
     public boolean visible = false;
+    public Consumer<Creature> action;
     private BuffEvent event = null; //The event to broadcast once the buff ends (null if no event).
     
     /**
@@ -63,6 +65,18 @@ public class Buff implements Serializable{
         name = n;
         duration = d;
         atribMod = am;
+    }
+    
+    /**
+     * Creates a new Buff with the given name, duration, and action.
+     * @param n The name of the buff.
+     * @param d The duration.
+     * @param act The action.
+     */
+    public Buff(String n, double d, Consumer<Creature> act){
+        name = n;
+        duration = d;
+        action = act;
     }
     
     /**

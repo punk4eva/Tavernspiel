@@ -120,7 +120,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public class TurnThread extends Thread{
         
         private int x, y;
-        public CyclicBarrier barrier = new CyclicBarrier(2);
+        private final CyclicBarrier barrier = new CyclicBarrier(2);
         
         TurnThread(String str){
             super(str);

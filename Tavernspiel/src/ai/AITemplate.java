@@ -19,6 +19,7 @@ public abstract class AITemplate implements Serializable{
     
     public EnType type; //The type of AI
     public int intelligence = 3; //The intelligence
+    public volatile double skipping = 0;
     public MagicHexagon magic = new MagicHexagon(); //The AI's inate magic abilities.
     public int destinationx = -1, destinationy = -1; //The destination coords of the AI.
     public Iterator<Point> currentPath;
@@ -61,5 +62,9 @@ public abstract class AITemplate implements Serializable{
      * @param area The area that the creature is in.
      */
     public abstract void turn(Creature c, Area area);
+    
+    public void paralyze(double duration){
+        skipping += duration;
+    }
     
 }

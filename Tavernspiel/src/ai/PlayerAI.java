@@ -18,7 +18,7 @@ import pathfinding.Point;
 public final class PlayerAI extends AITemplate implements KeyListener{    
 
     private final Hero hero;
-    public volatile boolean unfinished = false, skipping = false;
+    public volatile boolean unfinished = false;
     
     public PlayerAI(Hero h){
         hero = h;
@@ -61,7 +61,13 @@ public final class PlayerAI extends AITemplate implements KeyListener{
 
     @Override
     public synchronized void turn(Creature c, Area area){
-        if(hero.x!=hero.attributes.ai.destinationx||
+        if(skipping>0){
+            skipping-=hero.attributes.speed;
+            if(skipping<=0){
+                unfinished = false;
+                skipping = 0;
+            }
+        }else if(hero.x!=hero.attributes.ai.destinationx||
                 hero.y!=hero.attributes.ai.destinationy){
             decideAndMove(hero);
         }
@@ -82,6 +88,15 @@ public final class PlayerAI extends AITemplate implements KeyListener{
             unfinished = false;
             c.changeAnimation("stand");
         }
+    }
+    
+    @Override
+    public void paralyze(double turns){
+        skipping += turns;
+        unfinished = true;
+        new Thread(() -> {
+            Window.main.turnThread.click(hero.x, hero.y);
+        }).start();
     }
     
 }

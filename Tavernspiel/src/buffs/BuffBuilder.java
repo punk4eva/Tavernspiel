@@ -38,4 +38,8 @@ public final class BuffBuilder{
         return new Buff("shadowmelded", am);
     }
     
+    public static Buff paralyzed(double duration){
+        return new Buff("paralyzed", duration, c -> c.attributes.ai.paralyze(duration));
+    }
+    
 }

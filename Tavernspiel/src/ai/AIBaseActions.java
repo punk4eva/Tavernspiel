@@ -82,6 +82,14 @@ public class AIBaseActions implements Serializable{
     }
     
     /**
+     * Waits for one turn.
+     * @param c The waiter.
+     */
+    public void wait(Creature c){
+        c.attributes.ai.paralyze(1.0);
+    }
+    
+    /**
      * Buys a purchasable heap.
      * @param c The consumer.
      * @param heap The product.

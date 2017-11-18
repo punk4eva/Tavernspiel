@@ -51,10 +51,17 @@ public class IntelligentAI0 extends AITemplate{
     
     @Override
     public void turn(Creature c, Area area){
-        updateDirections(c, area);
-        BASEACTIONS.move(c, 
-            directionsToMove.get(
-                    Distribution.getRandomInt(0, directionsToMove.size()-1)));
+        if(skipping>0){
+            skipping-=c.attributes.speed;
+            if(skipping<0){
+                skipping = 0;
+            }
+        }else{
+            updateDirections(c, area);
+            BASEACTIONS.move(c, 
+                directionsToMove.get(
+                        Distribution.getRandomInt(0, directionsToMove.size()-1)));
+        }
     }
     
 }
