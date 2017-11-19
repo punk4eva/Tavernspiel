@@ -1,6 +1,6 @@
 package creatures.passives;
 
-import ai.IntelligentAI1;
+import ai.intelligence.IntelligentAI1;
 import animation.GameObjectAnimator;
 import creatureLogic.Attack;
 import creatureLogic.Attributes;

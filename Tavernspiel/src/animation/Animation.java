@@ -93,12 +93,10 @@ public class Animation implements Serializable{
      * @param g The graphics to draw on.
      * @param x The top left x.
      * @param y The top left y.
-     * @param z The zoom.
      */
-    public void animate(Graphics g, int x, int y, double z){
+    public void animate(Graphics g, int x, int y){
         int m = (int)(((MainClass.frameNumber-offset)/delay)%frames.length);
-        if(z==1.0) g.drawImage(frames[m].getImage(), x, y, null);
-        else g.drawImage(frames[m].getImage().getScaledInstance((int)(16*z),(int)(16*z),0), (int)(x*z), (int)(y*z), null);
+        g.drawImage(frames[m].getImage(), x, y, null);
         if(m==frames.length-1&&listener!=null) listener.done();
     }
     

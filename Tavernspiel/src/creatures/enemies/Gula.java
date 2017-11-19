@@ -1,7 +1,7 @@
 
 package creatures.enemies;
 
-import ai.IntelligentAI3;
+import ai.intelligence.IntelligentAI3;
 import animation.GameObjectAnimator;
 import creatureLogic.Attributes;
 import creatureLogic.Description;

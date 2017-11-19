@@ -13,7 +13,6 @@ import creatureLogic.DeathData;
 import creatureLogic.Description;
 import creatureLogic.Expertise;
 import creatureLogic.EnClass.EnSubclass;
-import creatureLogic.VisibilityOverlay;
 import gui.Game;
 import gui.MainClass;
 import gui.Screen;
@@ -36,11 +35,6 @@ import logic.Utils.Catch;
 public class Hero extends Creature implements Viewable{
     
     public final LinkedList<Screen> screens = new LinkedList<>();
-    {
-        screens.addAll(inventory.screens);
-        screens.addAll(equipment.screens);
-    }
-    private ScreenListener currentScreenListener;
     public final ScrollBuilder scrollBuilder;
     public int hunger = 100;
     public DeathData data;
@@ -56,14 +50,16 @@ public class Hero extends Creature implements Viewable{
     @Catch("Unnessesary catch")
     public Hero(Attributes atb, GameObjectAnimator an){
         super("Hero", new Description("hero","UNWRITTEN"), atb, an);
+        equipment = new Equipment(this);
         attributes.ai = new PlayerAI(this);
         try{data = new DeathData(this);}catch(Exception e){}
         scrollBuilder = new ScrollBuilder(this);
+        screens.addAll(inventory.screens);
+        screens.addAll(equipment.screens);
     }
     
     /**
-     * Creates a new Hero
-     * @param id The ID.
+     * Creates a new Hero.
      * @param eq The worn Equipment.
      * @param inv The Inventory.
      * @param hung The hunger.
@@ -73,35 +69,22 @@ public class Hero extends Creature implements Viewable{
      * @param atb The Attributes.
      * @param bs The Buffs.
      */
-    public Hero(int id, Equipment eq, Inventory inv, int hung, DeathData da, EnClass j, EnSubclass sub, Attributes atb, LinkedList<Buff> bs){
-        super("Hero", new Description("hero","UNWRITTEN"), id, eq, inv, atb, bs);
+    public Hero(Equipment eq, Inventory inv, int hung, DeathData da, EnClass j, EnSubclass sub, Attributes atb, LinkedList<Buff> bs){
+        super("Hero", new Description("hero","UNWRITTEN"), eq, inv, atb, bs);
         hunger = hung;
         attributes.ai = new PlayerAI(this);
         job = j;
         subclass = sub;
         data = da;
         scrollBuilder = new ScrollBuilder(this);
+        screens.addAll(inventory.screens);
+        screens.addAll(equipment.screens);
     }
 
     @Override
     public synchronized void turn(double delta){
-        double d = delta;
-        for(;d>=attributes.speed;d-=attributes.speed){
-            attributes.ai.turn(this, area);
-            area.turn(attributes.speed);
-        }
-        if(d!=0) area.turn(d);
-    }
-    
-    public synchronized void quickTurn(){
-        attributes.ai.turn(this, area);
-        area.turn(attributes.speed);
-    }
-    
-    public synchronized void turnUntilDone(){
-        PlayerAI ai = (PlayerAI) attributes.ai;
-        do quickTurn();
-        while(ai.unfinished);
+        super.turn(delta);
+        area.semaphore.release();
     }
     
     @Override
@@ -132,13 +115,14 @@ public class Hero extends Creature implements Viewable{
         ((Game)Window.main).endGame();
     }
     
+    private final static int padding = 8,
+        beginWidth = MainClass.WIDTH/9,
+        beginHeight = MainClass.HEIGHT/9,
+        sqwidth = (int)(((double)MainClass.WIDTH*(7.0/9.0)-7*padding)/6.0),
+        sqheight = (int)(((double)MainClass.HEIGHT*(7.0/9.0)-6*padding)/5.0);
+    
     @Override
     public void paint(Graphics g){
-        int padding = 4;
-        int beginWidth = MainClass.WIDTH/9;
-        int beginHeight = MainClass.HEIGHT/9;
-        int sqwidth = (MainClass.WIDTH*7/9-7*padding)/6;
-        int sqheight = (MainClass.WIDTH*7/9-6*padding)/5;
         inventory.paint(g, beginWidth, beginHeight, sqwidth, sqheight, padding);
         equipment.paint(g, beginWidth, beginHeight, sqwidth, sqheight, padding);
     }
@@ -148,26 +132,6 @@ public class Hero extends Creature implements Viewable{
         return screens;
     }
     
-    /**
-     * Sets the ScreenListener (used with Viewable)
-     * @param sl The new ScreenListener
-     */
-    public void setScreenListener(ScreenListener sl){
-        if(!sl.equals(currentScreenListener)){
-            currentScreenListener = sl;
-            inventory.changeScreenListener(sl);
-            equipment.changeScreenListener(sl);
-        }
-    }
-    
-    /**
-     * Returns the ScreenListener
-     * @return The ScreenListener
-     */
-    public ScreenListener getScreenListener(){
-        return currentScreenListener;
-    }
-    
     @Override
     public void setArea(Area a){
         area = a;
@@ -175,6 +139,14 @@ public class Hero extends Creature implements Viewable{
         x = a.startCoords[0];
         y = a.startCoords[1];
         FOV.update(x, y, area);
+    }
+
+    public void hijackInventoryManager(ScreenListener hijacker){
+        inventory.manager.hijacker = hijacker;
+    }
+
+    public void stopInventoryHijack(){
+        inventory.manager.hijacker = null;
     }
     
 }

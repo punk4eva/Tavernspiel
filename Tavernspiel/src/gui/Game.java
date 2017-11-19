@@ -8,10 +8,10 @@ import creatures.Hero;
 import dialogues.Dialogue;
 import guiUtils.*;
 import java.awt.Dimension;
+import java.util.concurrent.CyclicBarrier;
 import javax.swing.ImageIcon;
 import level.Area;
 import level.Dungeon;
-import listeners.DepthListener;
 import logic.ImageUtils;
 import logic.Utils.Unfinished;
 import pathfinding.CorridorBuilder;
@@ -25,7 +25,7 @@ import pathfinding.Searcher;
  * 
  * Plays the Game.
  */
-public class Game extends MainClass implements DepthListener{
+public class Game extends MainClass{
     
     public final Dungeon dungeon;
     
@@ -42,9 +42,10 @@ public class Game extends MainClass implements DepthListener{
         currentArea.addHero(player);
         window = new Window(WIDTH, HEIGHT, "Tavernspiel", this);
         addKeyListener((PlayerAI) player.attributes.ai);
-        hud = new HUD(this);
+        hud = new HUD();
     }
     
+    //Progenitor Thread
     public static void main(String... args){
         Game game = new Game();
         Window.main.currentArea.addHero(game.player);
@@ -59,7 +60,6 @@ public class Game extends MainClass implements DepthListener{
         dialogue.action(game);*/
     }
 
-    @Override
     @Unfinished("The sfx for newDepth.")
     public void updateDepth(Area area){
         currentArea = area;

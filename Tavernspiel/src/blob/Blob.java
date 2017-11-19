@@ -48,8 +48,8 @@ public class Blob extends GameObject{
     }
 
     @Override
-    public void render(Graphics g, int fx, int fy, double z){
-        standardAnimation(g, fx, fy, z);
+    public void render(Graphics g, int fx, int fy){
+        standardAnimation(g, fx, fy);
     }
 
     @Override

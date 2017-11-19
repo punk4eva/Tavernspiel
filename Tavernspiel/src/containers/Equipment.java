@@ -34,22 +34,12 @@ public class Equipment extends Receptacle{
     
     /**
      * Creates a new instance
-     */
-    public Equipment(){
-        super(7, "ERROR: You shouldn't be reading this.", -1, -1);
-        for(int n=0;n<7;n++) items.add(null);
-        screens = getScreens(null);
-        heroOwner = null;
-    }
-    
-    /**
-     * Creates a new instance
      * @param hero The owner.
      */
     public Equipment(Hero hero){
         super(7, "ERROR: You shouldn't be reading this.", -1, -1);
         for(int n=0;n<7;n++) items.add(null);
-        screens = getScreens(hero.getScreenListener());
+        screens = getScreens(hero.inventory);
         heroOwner = hero;
     }
     
@@ -202,7 +192,6 @@ public class Equipment extends Receptacle{
      * @param sqwidth The width of item squares.
      * @param sqheight The height of item squares.
      * @param padding The length of padding.
-     * @param owner The owner of this equipment.
      */
     public void paint(Graphics g, int beginWidth, int beginHeight, int sqwidth, int sqheight, int padding){
         if(items.get(0)!=null) ImageUtils.paintItemSquare(g, beginWidth+padding, beginHeight+padding, sqwidth, sqheight, items.get(0), heroOwner);
@@ -222,29 +211,23 @@ public class Equipment extends Receptacle{
         else ImageUtils.paintOutline(g, beginWidth+2*padding+sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight, ConstantFields.amuletOutline);
     }
     
-    private List<Screen> getScreens(ScreenListener sl){
-        if(screens!=null&&heroOwner.getScreenListener().toString().equals(screens.get(0).getListener().toString())) return screens;
+    private List<Screen> getScreens(Inventory inv){
+        if(screens!=null) return screens;
         List<Screen> ret = new LinkedList<>();
         int padding = 4;
         int beginWidth = MainClass.WIDTH/9;
         int beginHeight = MainClass.HEIGHT/9;
         int sqwidth = (MainClass.WIDTH*7/9-7*padding)/6;
         int sqheight = (MainClass.WIDTH*7/9-6*padding)/5;
-        ret.add(new Screen("Weapon", beginWidth+padding, beginHeight+padding, sqwidth, sqheight, sl));
-        ret.add(new Screen("Helmet", beginWidth+2*padding+sqwidth, beginHeight+padding, sqwidth, sqheight, sl));
-        ret.add(new Screen("Chestplate", beginWidth+3*padding+2*sqwidth, beginHeight+padding, sqwidth, sqheight, sl));
-        ret.add(new Screen("Leggings", beginWidth+4*padding+3*sqwidth, beginHeight+padding, sqwidth, sqheight, sl));
-        ret.add(new Screen("Boots", beginWidth+5*padding+4*sqwidth, beginHeight+padding, sqwidth, sqheight, sl));
+        ret.add(new Screen("Weapon", beginWidth+padding, beginHeight+padding, sqwidth, sqheight, inv.manager));
+        ret.add(new Screen("Helmet", beginWidth+2*padding+sqwidth, beginHeight+padding, sqwidth, sqheight, inv.manager));
+        ret.add(new Screen("Chestplate", beginWidth+3*padding+2*sqwidth, beginHeight+padding, sqwidth, sqheight, inv.manager));
+        ret.add(new Screen("Leggings", beginWidth+4*padding+3*sqwidth, beginHeight+padding, sqwidth, sqheight, inv.manager));
+        ret.add(new Screen("Boots", beginWidth+5*padding+4*sqwidth, beginHeight+padding, sqwidth, sqheight, inv.manager));
 
-        ret.add(new Screen("Amulet1", beginWidth+padding, beginHeight+2*padding+sqheight, sqwidth, sqheight, sl));
-        ret.add(new Screen("Amulet2", beginWidth+2*padding+sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight, sl));
+        ret.add(new Screen("Amulet1", beginWidth+padding, beginHeight+2*padding+sqheight, sqwidth, sqheight, inv.manager));
+        ret.add(new Screen("Amulet2", beginWidth+2*padding+sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight, inv.manager));
         return ret;
-    }
-    
-    public void changeScreenListener(ScreenListener sl){
-        screens.stream().forEach((sc) -> {
-            sc.changeScreenListener(sl);
-        });
     }
     
 }

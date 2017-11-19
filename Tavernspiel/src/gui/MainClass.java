@@ -1,6 +1,7 @@
 
 package gui;
 
+import ai.PlayerAI;
 import animation.Animation;
 import containers.Floor;
 import containers.Receptacle;
@@ -11,22 +12,25 @@ import items.equipment.Wand;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 import java.util.stream.Stream;
 import level.Area;
-import listeners.BuffEventInitiator;
 import logic.ConstantFields;
-import logic.IDHandler;
 import logic.SoundHandler;
 import logic.Utils;
 import logic.Utils.Unfinished;
@@ -46,18 +50,17 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     protected final SoundHandler soundSystem = new SoundHandler();
     public transient static PrintStream exceptionStream, performanceStream;
 
-    private Thread thread;
-    private boolean running = false;
+    private volatile boolean running = false;
+    private Thread renderThread;
+    public TurnThread turnThread = new TurnThread("Turn Thread");
     protected Window window;
     protected HUD hud;
 
-    public static final IDHandler idhandler = new IDHandler(); //Creates UUIDs for GameObjects.
-    public static final BuffEventInitiator buffinitiator = new BuffEventInitiator(); //Handles buffs.
     private final ViewableList viewables = new ViewableList();
-    protected Dialogue currentDialogue = null; //null if no dialogue.
-    public Area currentArea;
-    public Hero player;
-    protected static int focusX=16, focusY=16;
+    protected volatile Dialogue currentDialogue = null; //null if no dialogue.
+    public volatile Area currentArea;
+    public volatile Hero player;
+    protected volatile static int focusX=16, focusY=16;
     private int xOfDrag=-1, yOfDrag=-1;
     private static double zoom = 1.0;
     public static final double MAX_ZOOM = 8.0, MIN_ZOOM = 0.512;
@@ -113,9 +116,53 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
         
     }
+    
+    public class TurnThread extends Thread{
+        
+        private int x, y;
+        private final CyclicBarrier barrier = new CyclicBarrier(2);
+        
+        TurnThread(String str){
+            super(str);
+        }
+        
+        @Override
+        public synchronized void run(){
+            while(running){
+                try{
+                    barrier.await();
+                }catch(BrokenBarrierException | InterruptedException e){}
+                barrier.reset();
+                player.attributes.ai.setDestination(x, y);
+                while(((PlayerAI)player.attributes.ai).unfinished){
+                    turn(player.attributes.speed);
+                }
+            }
+        }
+        
+        public void click(int _x, int _y){
+            x = _x;
+            y = _y;
+            try{
+                barrier.await();
+            }catch(BrokenBarrierException | InterruptedException e){}
+        }
+        
+        /**
+         * Runs the game for the given amount of turns.
+         * @param delta The amount of turns to run.
+         */
+        private void turn(double delta){
+            gameTurns += delta;
+            for(;delta>=1;delta--) currentArea.turn(1.0);
+            if(delta!=0) currentArea.turn(delta);
+        }
+        
+    }
 
     /**
      * Creates a new instance.
+     * @thread progenitor
      */
     public MainClass(){
         try{
@@ -201,14 +248,6 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     }
     
     /**
-     * Gets the zoom value.
-     * @return The zoom value.
-     */
-    public static double getZoom(){
-        return zoom;
-    }
-    
-    /**
      * Returns the focus.
      * @return An array representing the x and y coordinates of focus.
      */
@@ -227,28 +266,19 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         focusY = HEIGHT/2 - z - tiley * 16;
     }
 
+    /**
+     * @thread render
+     */
     @Override
     public void run(){
         addMouseListener(this);
         addMouseMotionListener(this);
         addMouseWheelListener(this);
         this.requestFocus();
-        //long lastTime = System.nanoTime();
-        //double amountOfTicks = 60.0;
-        //double ns = 1000000000 / amountOfTicks;
-        //double delta = 0;
         long timer = System.currentTimeMillis();
         int frames = 0;
         while(running){
-            //long now = System.nanoTime();
-            //delta += (now - lastTime) / ns;
-            //lastTime = now;
-            /*for(double d = delta; d >= 1; d--){
-                tick();
-            }*/
-            //if(running){
-                render(frames);
-            //}
+            render(frames);
             frames++;
             if(System.currentTimeMillis() - timer > 1000){
                 timer += 1000;
@@ -258,52 +288,48 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
         stop();
     }
-    
-    /**
-     * Runs the game for the given amount of turns.
-     * @param turnsConsumed The amount of turns to run.
-     */
-    public void turn(double turnsConsumed){
-        gameTurns += turnsConsumed;
-        double delta=0;
-        for(double d=turnsConsumed;d>0;d-=d>=1 ? (delta=1) : (delta=d)){
-            System.out.println("DELTA: " + delta);
-            currentArea.turn(delta);
-        }
-    }
 
     /**
      * Renders the game with the given framerate.
+     * @thread render
      * @param frameInSec The framerate.
      */
     public void render(int frameInSec){
         BufferStrategy bs = this.getBufferStrategy();
         if(bs == null){
-            this.createBufferStrategy(4);
+            this.createBufferStrategy(2);
             return;
         }
-        Graphics g = bs.getDrawGraphics();
-        g.setColor(Color.black);
-        g.fillRect(0, 0, WIDTH, HEIGHT);
+        Graphics2D bsg = (Graphics2D) bs.getDrawGraphics();
+        BufferedImage buffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
+        Graphics g = buffer.getGraphics();
+        bsg.setColor(Color.black);
+        bsg.fillRect(0, 0, WIDTH, HEIGHT);
         if(frameInSec%16==0){
             frameNumber = (frameNumber+1) % frameDivisor;
         }
         paintArea(currentArea, g);
-        currentArea.renderObjects(g, focusX, focusY, zoom);
+        currentArea.renderObjects(g, focusX, focusY);
+        AffineTransform at = AffineTransform.getScaleInstance(zoom, zoom);
+        //at.concatenate(AffineTransform.getTranslateInstance(zoom*-20, zoom*-20));
+        bsg.drawRenderedImage(buffer, at);
         viewables.streamViewables().forEach(v -> {
-            v.paint(g);
+            v.paint(bsg);
         });
-        if(currentDialogue!=null) currentDialogue.paint(g);
+        if(currentDialogue!=null) currentDialogue.paint(bsg);
+        
         g.dispose();
+        bsg.dispose();
         bs.show();
     }
-
+    
     /**
      * Starts the game.
      */
     public synchronized void start(){
-        thread = new Thread(this);
-        thread.start();
+        renderThread = new Thread(this, "Render Thread");
+        renderThread.start();
+        turnThread.start();
         running = true;
     }
 
@@ -312,7 +338,8 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
      */
     public synchronized void stop(){
         try{
-            thread.join();
+            renderThread.join();
+            turnThread.join();
             running = false;
         }catch(Exception e){
             e.printStackTrace(exceptionStream);
@@ -321,6 +348,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         
     /**
      * Paints the given area on the given graphics.
+     * @thread render
      * @param area The area to paint.
      * @param g The graphics to paint on.
      */
@@ -334,13 +362,10 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
                     Tile tile = area.map[ty][tx];
                     if(tile==null){
                     }else if(tile instanceof AnimatedTile)
-                        ((AnimatedTile) tile).animation.animate(g, x, y, zoom);
-                    else if(zoom!=1){
-                        int l = (int)(16*zoom);
-                        g.drawImage(tile.image.getImage().getScaledInstance(l, l, 0),(int)(x*zoom),(int)(y*zoom),null);
-                    }else g.drawImage(tile.image.getImage(), x, y, null);
+                        ((AnimatedTile) tile).animation.animate(g, x, y);
+                    else g.drawImage(tile.image.getImage(), x, y, null);
                     Receptacle temp = area.getReceptacle(x, y);
-                    if(temp instanceof Floor&&!temp.isEmpty()) temp.peek().animation.animate(g, x, y, zoom);
+                    if(temp instanceof Floor&&!temp.isEmpty()) temp.peek().animation.animate(g, x, y);
                     if(area.overlay.isExplored(tx, ty)) g.drawImage(VisibilityOverlay.exploredFog.getShadow(area.overlay.map, tx, ty, 1), x, y, null);
                     else if(area.overlay.isUnexplored(tx, ty)) g.drawImage(VisibilityOverlay.unexploredFog.getShadow(area.overlay.map, tx, ty, 0), x, y, null);
                 }catch(ArrayIndexOutOfBoundsException e){/*skip frame*/}
@@ -373,25 +398,21 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
 
     @Override
     public void mouseClicked(MouseEvent me){
-        if(viewables.screens.size()==1){
-            Integer[] p = translateMouseCoords(me.getX(), me.getY());
-            player.attributes.ai.setDestination(p[0], p[1]);
-            player.turnUntilDone();
-        }else{
-            boolean notClicked = true;
-            int x = me.getX(), y = me.getY();
-            for(Screen sc : viewables.screens){ //Used for-each instead of stream because of "break".
-                if(sc.withinBounds(x, y)){
-                    if(!sc.name.equals("blank click")){
-                        sc.wasClicked(me);
-                        notClicked = false;
-                    }
-                    break;
+        boolean notClicked = true;
+        int x = me.getX(), y = me.getY();
+        for(Screen sc : viewables.screens){ //Used for-each instead of stream because of "break".
+            if(sc.withinBounds(x, y)){
+                if(!sc.name.equals("blank click")){
+                    sc.wasClicked(me);
+                    notClicked = false;
                 }
+                break;
             }
-            if(notClicked) currentDialogue.clickedOff();
-            
         }
+        if(viewables.screens.size()==1){
+            Integer[] p = translateMouseCoords(x, y);
+            turnThread.click(p[0], p[1]);
+        }else if(notClicked) currentDialogue.clickedOff();
     }
     @Override
     public void mousePressed(MouseEvent me){/**Ignore*/}

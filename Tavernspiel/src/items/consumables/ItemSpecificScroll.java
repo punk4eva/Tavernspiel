@@ -37,9 +37,9 @@ public abstract class ItemSpecificScroll extends Scroll implements ScreenListene
     public void use(Creature c){
         if(c instanceof Hero){
             hero = (Hero) c;
-            hero.setScreenListener(this);
+            hero.hijackInventoryManager(this);
             Window.main.addViewable(hero);
-        }else new RuntimeException("Creature is using LocationSpecificScroll.use()").printStackTrace(MainClass.exceptionStream);
+        }else new RuntimeException("Creature is using ItemSpecificScroll.use()").printStackTrace(MainClass.exceptionStream);
     }
     
     /**
@@ -77,12 +77,13 @@ public abstract class ItemSpecificScroll extends Scroll implements ScreenListene
             case "Amulet2": if(hero.equipment.getAmulet2()!=null){
                 use(hero, hero.equipment.getAmulet2());
             } break;
+            default: try{
+                int n = Integer.parseInt(sc.getName());
+                Item item = hero.inventory.getElse(n);
+                if(item!=null) use(hero, item);
+            }catch(Exception e){}
         }
-        try{
-            int n = Integer.parseInt(sc.getName());
-            Item item = hero.inventory.getElse(n);
-            if(item!=null) use(hero, item);
-        }catch(Exception e){}
+        hero.stopInventoryHijack();
     }
     
 }

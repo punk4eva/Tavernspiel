@@ -18,10 +18,11 @@ import pathfinding.Point;
 public final class PlayerAI extends AITemplate implements KeyListener{    
 
     private final Hero hero;
-    public boolean unfinished = false, turned = false;
+    public volatile boolean unfinished = false;
     
     public PlayerAI(Hero h){
         hero = h;
+        BASEACTIONS = new AIPlayerActions();
     }
     
     public final void updateDestination(Integer... ary){
@@ -43,9 +44,8 @@ public final class PlayerAI extends AITemplate implements KeyListener{
                 break;
         }
         if(BASEACTIONS.canMove(hero, m)){
-            turned = true;
-            BASEACTIONS.move(hero, m);
-            hero.turn(1);
+            unfinished = true;
+            Window.main.turnThread.click(hero.x+m[0], hero.y+m[1]);
         }
     }
 
@@ -61,11 +61,13 @@ public final class PlayerAI extends AITemplate implements KeyListener{
 
     @Override
     public synchronized void turn(Creature c, Area area){
-        if(turned){
-            turned = false;
-            return;
-        }
-        if(hero.x!=hero.attributes.ai.destinationx||
+        if(skipping>0){
+            skipping-=hero.attributes.speed;
+            if(skipping<=0){
+                unfinished = false;
+                skipping = 0;
+            }
+        }else if(hero.x!=hero.attributes.ai.destinationx||
                 hero.y!=hero.attributes.ai.destinationy){
             decideAndMove(hero);
         }
@@ -77,6 +79,7 @@ public final class PlayerAI extends AITemplate implements KeyListener{
             currentPath = c.area.graph.searcher.findExpressRoute(new Point(c.x, c.y), new Point(destinationx, destinationy)).iterator();
             c.changeAnimation("move");
             unfinished = true;
+            currentPath.next();
         }
         Point next = currentPath.next();
         BASEACTIONS.moveRaw(c, next.x, next.y);
@@ -85,6 +88,15 @@ public final class PlayerAI extends AITemplate implements KeyListener{
             unfinished = false;
             c.changeAnimation("stand");
         }
+    }
+    
+    @Override
+    public void paralyze(double turns){
+        skipping += turns;
+        unfinished = true;
+        new Thread(() -> {
+            Window.main.turnThread.click(hero.x, hero.y);
+        }).start();
     }
     
 }

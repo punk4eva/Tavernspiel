@@ -2,7 +2,6 @@
 package listeners;
 
 import creatures.Creature;
-import gui.MainClass;
 import level.Area;
 
 /**

@@ -1,7 +1,8 @@
 
 package ai;
 
-import ai.IntelligentAI1.EnState;
+import ai.intelligence.IntelligentAI1;
+import ai.intelligence.IntelligentAI1.EnState;
 import containers.Floor;
 import containers.PurchasableHeap;
 import creatureLogic.Attack;
@@ -52,7 +53,7 @@ public class AIBaseActions implements Serializable{
      * @param c The creature to be moved.
      * @param dir The displacement vector of movement.
      */
-    public void move(Creature c, Integer[] dir){
+    public synchronized void move(Creature c, Integer[] dir){
         if(c.area.map[c.y][c.x] instanceof Door) ((Door)c.area.map[c.y][c.x]).stepOff(c);
         if(!c.animator.currentName.equals("move")) c.changeAnimation("move");
         c.setXY(c.x+dir[0], c.y+dir[1]);
@@ -71,12 +72,21 @@ public class AIBaseActions implements Serializable{
      * @param x
      * @param y
      */
-    public void moveRaw(Creature c, int x, int y){
+    public synchronized void moveRaw(Creature c, int x, int y){
         if(c.area.map[c.y][c.x] instanceof Door) ((Door)c.area.map[c.y][c.x]).stepOff(c);
         c.setXY(x, y);
         if(c.area.map[c.y][c.x] instanceof StepListener){
             ((StepListener)c.area.map[c.y][c.x]).steppedOn(c);
         }
+        c.FOV.update(c.x, c.y, c.area);
+    }
+    
+    /**
+     * Waits for one turn.
+     * @param c The waiter.
+     */
+    public void wait(Creature c){
+        c.attributes.ai.paralyze(1.0);
     }
     
     /**
@@ -212,7 +222,7 @@ public class AIBaseActions implements Serializable{
         Window.main.searchAnimation(ary, searchSuccessful);
     }
     
-    public boolean canMove(Creature c, Integer[] dir){
+    public synchronized boolean canMove(Creature c, Integer[] dir){
         return c.area.tileFree(c.x+dir[0], c.y+dir[1]);
     }
     
