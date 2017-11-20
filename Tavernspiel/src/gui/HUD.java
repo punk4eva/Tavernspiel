@@ -24,6 +24,9 @@ public class HUD implements Viewable, ScreenListener{
     }
     private boolean viewingInventory = false;
     
+    private ImageIcon eye = new ImageIcon("graphics/gui/eye1.png");
+    private ImageIcon waitButton = new ImageIcon("graphics/gui/WaitButton1.png");
+    
     public HUD(){
         Window.main.addViewable(this);
     }
@@ -41,8 +44,9 @@ public class HUD implements Viewable, ScreenListener{
         g.fillRect(70,5,200,10);
         
         g.fill3DRect(Game.WIDTH - 50, Game.HEIGHT - 73, 40, 40, true);
-        g.drawImage(new ImageIcon("graphics/gui/eye1.png").getImage(), Game.WIDTH - 50, Game.HEIGHT - 70, null);
+        g.drawImage(eye.getImage(), Game.WIDTH - 50, Game.HEIGHT - 70, null);
         g.fill3DRect(Game.WIDTH - 95, Game.HEIGHT - 73, 40, 40, true);
+        g.drawImage(waitButton.getImage(),Game.WIDTH - 95, Game.HEIGHT - 74,null);
         g.fill3DRect(Game.WIDTH - 140, Game.HEIGHT - 73, 40, 40, true);
         
         g.setColor(Color.red);
