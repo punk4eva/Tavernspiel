@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.LinkedList;
 import java.util.List;
-import javax.swing.ImageIcon;
 import listeners.ScreenListener;
 import logic.ConstantFields;
 
@@ -41,7 +40,7 @@ public class HUD implements Viewable, ScreenListener{
         g.fillRect(70,5,200,10);
         
         g.fill3DRect(Game.WIDTH - 50, Game.HEIGHT - 73, 40, 40, true);
-        g.drawImage(new ImageIcon("graphics/gui/eye1.png").getImage(), Game.WIDTH - 50, Game.HEIGHT - 70, null);
+        g.drawImage(ConstantFields.eyeImg, Game.WIDTH - 50, Game.HEIGHT - 70, null);
         g.fill3DRect(Game.WIDTH - 95, Game.HEIGHT - 73, 40, 40, true);
         g.fill3DRect(Game.WIDTH - 140, Game.HEIGHT - 73, 40, 40, true);
         

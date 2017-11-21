@@ -34,5 +34,6 @@ public interface ConstantFields{
     public static final Image goldOutline = new ImageIcon("").getImage(); //@unfinished
     public static final Image amuletOutline = new ImageIcon("").getImage(); //@unfinished
     public static final Image gold = new ImageIcon("").getImage(); //@unfinished
+    public static final Image eyeImg = new ImageIcon("graphics/gui/eye1.png").getImage();
     
 }
