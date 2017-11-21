@@ -40,8 +40,9 @@ public class HUD implements Viewable, ScreenListener{
         g.fillRect(70,5,200,10);
         
         g.fill3DRect(Game.WIDTH - 50, Game.HEIGHT - 73, 40, 40, true);
-        g.drawImage(ConstantFields.eyeImg, Game.WIDTH - 50, Game.HEIGHT - 70, null);
+        g.drawImage(ConstantFields.eyeButtonImg, Game.WIDTH - 50, Game.HEIGHT - 70, null);
         g.fill3DRect(Game.WIDTH - 95, Game.HEIGHT - 73, 40, 40, true);
+        g.drawImage(ConstantFields.waitButtonImg,Game.WIDTH - 95, Game.HEIGHT - 74,null);
         g.fill3DRect(Game.WIDTH - 140, Game.HEIGHT - 73, 40, 40, true);
         
         g.setColor(Color.red);
