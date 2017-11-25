@@ -275,13 +275,13 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         addMouseMotionListener(this);
         addMouseWheelListener(this);
         this.requestFocus();
-        long timer = System.currentTimeMillis();
+        long time = System.currentTimeMillis();
         int frames = 0;
         while(running){
             render(frames);
             frames++;
-            if(System.currentTimeMillis() - timer > 1000){
-                timer += 1000;
+            if(System.currentTimeMillis() - time > 1000){
+                time += 1000;
                 performanceStream.println("FPS: " + frames);
                 frames = 0;
             }

@@ -39,12 +39,11 @@ public class Area implements Serializable{
     public final Dimension dimension;
     public final Location location;
     public Integer[] startCoords;
-    public volatile LinkedList<GameObject> objects = new LinkedList<>();
+    private volatile LinkedList<GameObject> objects = new LinkedList<>();
     public volatile LinkedList<Receptacle> receptacles = new LinkedList<>();
     public Graph graph = null;
     private volatile Hero hero;
     public final VisibilityOverlay overlay;
-    public final Semaphore semaphore = new Semaphore(0);
     
     /**
      * Creates a new instance.
@@ -246,7 +245,6 @@ public class Area implements Serializable{
      */
     public void addObject(GameObject object){
         object.setArea(this);
-        object.start();
         objects.add(object);
     }
     
@@ -256,7 +254,6 @@ public class Area implements Serializable{
      */
     public void removeObject(GameObject object){
         objects.remove(object);
-        object.stop();
     }
 
     /**
@@ -299,19 +296,13 @@ public class Area implements Serializable{
     public synchronized void turn(double turnNum){
         for(;turnNum>=1;turnNum--){
             objects.stream().forEach(ob -> {
-                ob.threadTurn(1.0);
-                try{
-                    semaphore.acquire();
-                }catch(InterruptedException e){}
+                ob.turn(1.0);
             });
         }
         if(turnNum!=0.0){
             double d = turnNum; //effective finalization.
             objects.stream().forEach(ob -> {
-                ob.threadTurn(d);
-                try{
-                    semaphore.acquire();
-                }catch(InterruptedException e){}
+                ob.turn(d);
             });
         }
     }
@@ -319,12 +310,10 @@ public class Area implements Serializable{
     public synchronized void addHero(Hero h){
         h.setArea(this);
         try{
-        if(!(objects.get(0) instanceof Hero)){
-            h.start();
-            objects.add(0, h);
-        }
+            if(!(objects.get(0) instanceof Hero)){
+                objects.add(0, h);
+            }
         }catch(IndexOutOfBoundsException e){
-            h.start();
             objects.add(h);
         }
         hero = h;

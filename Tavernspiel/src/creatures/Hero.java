@@ -84,7 +84,6 @@ public class Hero extends Creature implements Viewable{
     @Override
     public synchronized void turn(double delta){
         super.turn(delta);
-        area.semaphore.release();
     }
     
     @Override
