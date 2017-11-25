@@ -1,10 +1,12 @@
 
 package animation;
 
-import gui.MainClass;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
+import javax.swing.Timer;
 import level.Location;
 import listeners.AnimationListener;
 import logic.ImageHandler;
@@ -15,14 +17,14 @@ import logic.ImageHandler;
  * 
  * Handles animation.
  */
-public class Animation implements Serializable{
+public class Animation implements Serializable, ActionListener{
     
     private final static long serialVersionUID = -1172489372;
     
     public final ImageIcon[] frames;
+    protected int currentFrame = 0;
     private AnimationListener listener;
-    protected long offset = 0;
-    public double delay = 1;
+    protected Timer timer;
     
     /**
      * Creates an Animation from the given frames.
@@ -30,18 +32,17 @@ public class Animation implements Serializable{
      */
     public Animation(ImageIcon[] f){
         frames = f;
-        MainClass.addAnimation(this);
+        timer = new Timer(5, this);
     }
     
     /**
      * Creates an Animation from the given frames.
      * @param f The frames.
-     * @param d The delay between each frame.
+     * @param delay The delay between each frame.
      */
-    public Animation(ImageIcon[] f, double d){
+    public Animation(ImageIcon[] f, int delay){
         frames = f;
-        delay = d;
-        MainClass.addAnimation(this);
+        timer = new Timer(delay, this);
     }
     
     /**
@@ -53,7 +54,7 @@ public class Animation implements Serializable{
     public Animation(ImageIcon[] f, AnimationListener al){
         frames = f;
         listener = al;
-        MainClass.addAnimation(this);
+        timer = new Timer(5, this);
     }
     
     /**
@@ -63,11 +64,10 @@ public class Animation implements Serializable{
      * @param al The listener that is interested in when this animation finishes
      * a cycle.
      */
-    public Animation(ImageIcon[] f, double d, AnimationListener al){
+    public Animation(ImageIcon[] f, int d, AnimationListener al){
         frames = f;
-        delay = d;
+        timer = new Timer(d, this);
         listener = al;
-        MainClass.addAnimation(this);
     }
     
     /**
@@ -95,9 +95,7 @@ public class Animation implements Serializable{
      * @param y The top left y.
      */
     public void animate(Graphics g, int x, int y){
-        int m = (int)(((MainClass.frameNumber-offset)/delay)%frames.length);
-        g.drawImage(frames[m].getImage(), x, y, null);
-        if(m==frames.length-1&&listener!=null) listener.done();
+        g.drawImage(frames[currentFrame].getImage(), x, y, null);
     }
     
     /**
@@ -118,6 +116,23 @@ public class Animation implements Serializable{
                 frames[n] = ImageHandler.combineIcons(frames[n], shader);
             }
         }
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent ae){
+        currentFrame++;
+        if(currentFrame>=frames.length){
+            currentFrame = 0;
+            if(listener!=null) listener.done();
+        }
+    }
+    
+    public void start(){
+        timer.start();
+    }
+
+    public void stop(){
+        timer.stop();
     }
     
 }

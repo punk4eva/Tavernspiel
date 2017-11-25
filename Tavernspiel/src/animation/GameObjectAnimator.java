@@ -12,6 +12,7 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import listeners.AnimationListener;
 import listeners.DeathEvent;
+import logic.Distribution;
 import logic.ImageUtils;
 
 /**
@@ -41,6 +42,7 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
             map.put(na[n], ani[n]);
         }
         active = ani[0];
+        active.start();
     }
     
     /**
@@ -51,6 +53,7 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
         gasAnimation.changeListener(this);
         map.put("gas", gasAnimation);
         active = gasAnimation;
+        active.start();
     }
     
     /**
@@ -79,10 +82,10 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
         for(int n=0;n<nms.length;n++){
             List<ImageIcon> sublist = imgList.subList(count, count+lengths[n]);
             count+=lengths[n];
-            map.put(nms[n], new Animation(sublist.toArray(new ImageIcon[lengths[n]]), 170, this));
+            map.put(nms[n], new Animation(sublist.toArray(new ImageIcon[lengths[n]]), 500, this));
         }
         active = map.get("stand");
-        map.put("stand", new RandomAnimation(active, 30));
+        map.put("stand", new RandomAnimation(active, new Distribution(7, 8)));
     }
     
     /**
@@ -90,9 +93,10 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
      * @param name The name of the new animation.
      */
     public void switchTo(String name){
+        active.stop();
         active = map.get(name);
         currentName = name;
-        active.offset = MainClass.frameNumber%active.frames.length;
+        active.start();
     }
     
     /**
@@ -101,17 +105,19 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
      */
     public synchronized void switchAndBack(String name){
         Animation current = active;
+        active.stop();
         active = map.get(name);
-        active.offset = MainClass.frameNumber%active.frames.length;
+        active.start();
         waitingForDone = true;
         try{
             wait();
         }catch(InterruptedException e){
             e.printStackTrace(MainClass.exceptionStream);
         }
+        active.stop();
         waitingForDone = false;
         active = current;
-        active.offset = MainClass.frameNumber%active.frames.length;
+        active.start();
     }
     
     /**
@@ -119,8 +125,9 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
      * @param name The new animation.
      */
     public synchronized void switchFade(String name){
+        active.stop();
         active = map.get(name);
-        active.offset = MainClass.frameNumber%active.frames.length;
+        active.start();
         Animation fade = getFadeAnimation(active.frames[active.frames.length-1]);
         waitingForDone = true;
         try{
@@ -128,8 +135,9 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
         }catch(InterruptedException e){
             e.printStackTrace(MainClass.exceptionStream);
         }
+        active.stop();
         active = fade;
-        active.offset = MainClass.frameNumber%active.frames.length;
+        active.start();
     }
     
     /**

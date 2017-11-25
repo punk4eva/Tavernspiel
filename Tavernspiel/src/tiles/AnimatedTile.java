@@ -23,7 +23,7 @@ public class AnimatedTile extends Tile{
     public AnimatedTile(String tile){
         super(tile, (ImageIcon) null);
         if(tile.startsWith("water")){
-            animation = new Animation(ImageHandler.getWaterFrames(tile, 0));
+            animation = new Animation(ImageHandler.getWaterFrames(tile, 0), 110);
         }else animation = AnimationBuilder.getAnimation(tile);
     }
     
@@ -34,7 +34,7 @@ public class AnimatedTile extends Tile{
      */
     public AnimatedTile(String tile, int x){
         super(tile, (ImageIcon) null);
-        animation = new Animation(ImageHandler.getWaterFrames(tile, x));
+        animation = new Animation(ImageHandler.getWaterFrames(tile, x), 110);
     }
     
     /**
@@ -44,7 +44,7 @@ public class AnimatedTile extends Tile{
      */
     public AnimatedTile(Location loc, int x){
         super("water", (ImageIcon) null);
-        animation = new Animation(ImageHandler.getWaterFrames(loc, x));
+        animation = new Animation(ImageHandler.getWaterFrames(loc, x), 110);
     }
     
     public void addShaders(String shaderString, Location loc){

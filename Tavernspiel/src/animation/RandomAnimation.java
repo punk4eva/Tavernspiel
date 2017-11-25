@@ -1,8 +1,7 @@
 
 package animation;
 
-import gui.MainClass;
-import java.awt.Graphics;
+import java.awt.event.ActionEvent;
 import javax.swing.ImageIcon;
 import listeners.AnimationListener;
 import logic.Distribution;
@@ -13,26 +12,25 @@ import logic.Distribution;
  */
 public class RandomAnimation extends Animation{
     
-    private final int delayError;
-    private double currentDelay;
+    private final Distribution skipChance;
 
-    public RandomAnimation(ImageIcon[] f, double d, int delayE){
+    public RandomAnimation(ImageIcon[] f, int d, Distribution s){
         super(f, d);
-        delayError = delayE;
-        currentDelay = Distribution.randomDouble(delay-delayError, delay+delayError);
+        skipChance = s;
     }
     
-    public RandomAnimation(Animation a, int delayE){
-        super(a.frames, a.delay);
-        delayError = delayE;
-        currentDelay = Distribution.randomDouble(delay-delayError, delay+delayError);
+    public RandomAnimation(Animation a, Distribution s){
+        super(a.frames, a.timer.getDelay());
+        skipChance = s;
     }
     
     @Override
-    public void animate(Graphics g, int x, int y){
-        int m = (int)((MainClass.frameNumber/currentDelay)%frames.length);
-        if(MainClass.frameNumber%100==0) currentDelay = Distribution.randomDouble(delay-delayError, delay+delayError);
-        g.drawImage(frames[m].getImage(), x, y, null);
+    public void actionPerformed(ActionEvent ae){
+        if(skipChance.chance()) return;
+        currentFrame++;
+        if(currentFrame>=frames.length){
+            currentFrame = 0;
+        }
     }
     
     /**

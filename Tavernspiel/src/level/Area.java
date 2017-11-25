@@ -19,10 +19,10 @@ import creatureLogic.VisibilityOverlay;
 import designer.AreaTemplate;
 import static gui.MainClass.HEIGHT;
 import static gui.MainClass.WIDTH;
-import java.util.concurrent.Semaphore;
 import java.util.stream.Collectors;
 import logic.Utils.Unfinished;
 import pathfinding.Graph;
+import tiles.AnimatedTile;
 import tiles.Tile;
 
 /**
@@ -328,6 +328,22 @@ public class Area implements Serializable{
                     if(overlay.isExplored(tx, ty)) g.drawImage(VisibilityOverlay.exploredFog.getShadow(overlay.map, x, y, 1), x, y, null);
                     else if(overlay.isUnexplored(tx, ty)) g.drawImage(VisibilityOverlay.unexploredFog.getShadow(overlay.map, x, y, 0), x, y, null);
                 }catch(ArrayIndexOutOfBoundsException e){/*skip frame*/}
+            }
+        }
+    }
+    
+    public void startAllAnimations(){
+        for(int y=0;y<dimension.height;y++){
+            for(int x=0;x<dimension.width;x++){
+                if(map[y][x] instanceof AnimatedTile) ((AnimatedTile) map[y][x]).animation.start();
+            }
+        }
+    }
+    
+    public void stopAllAnimations(){
+        for(int y=0;y<dimension.height;y++){
+            for(int x=0;x<dimension.width;x++){
+                if(map[y][x] instanceof AnimatedTile) ((AnimatedTile) map[y][x]).animation.stop();
             }
         }
     }

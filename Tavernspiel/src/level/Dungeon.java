@@ -43,12 +43,14 @@ public class Dungeon implements Serializable{
      * @param hero
      */
     public void descend(Hero hero){
+        if(currentArea!=null) currentArea.stopAllAnimations();
         depth++;
         if(!getStage().isLoaded(depth)){
             getStage().loadNext();
         }
         game.updateDepth(getArea2());
         if(hero!=null) currentArea.addHero(hero);
+        currentArea.startAllAnimations();
     }
     
     /**
@@ -57,9 +59,11 @@ public class Dungeon implements Serializable{
      */
     public void ascend(Hero hero){
         if(depth!=1){
+            currentArea.stopAllAnimations();
             depth--;
             game.updateDepth(getArea2());
             currentArea.addHero(hero);
+            currentArea.startAllAnimations();
         }
     }
     
