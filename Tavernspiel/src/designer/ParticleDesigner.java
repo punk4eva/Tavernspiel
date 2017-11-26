@@ -44,6 +44,8 @@ public class ParticleDesigner extends MainClass implements ActionListener{
     
     /**
      * Creates an instance.
+     * Type "/load" at the first question to load an existing project from a 
+     * file.
      */
     public ParticleDesigner(){
         Rectangle[] rect = getBounding();
@@ -104,7 +106,8 @@ public class ParticleDesigner extends MainClass implements ActionListener{
         
         /**
          * /delete <particleName> 
-         *      Deletes a particle with the given name.
+         *      Deletes a particle with the given name. To delete the default
+         *      particle, type "/delete first".
          * /particle <name,color,width,height,maxSpeed,craziness>
          *      Creates a new particle.
          * /capacity
@@ -119,6 +122,8 @@ public class ParticleDesigner extends MainClass implements ActionListener{
          *      Sets the width and height of the start field.
          * /stop <width,height>
          *      Sets the width and height of the stop field.
+         * 
+         * @see ItemProfile.getColour()
          */
         
         public void activate(){
