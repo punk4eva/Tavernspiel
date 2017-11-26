@@ -45,7 +45,7 @@ public class ParticleDesigner extends MainClass implements ActionListener{
     /**
      * Creates an instance.
      * Type "/load" at the first question to load an existing project from a 
-     * file.
+     * file. Otherwise type info in the format "width,height,topLeftX,topLeftY".
      */
     public ParticleDesigner(){
         Rectangle[] rect = getBounding();
