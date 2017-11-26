@@ -5,8 +5,6 @@ import animation.GameObjectAnimator;
 import creatureLogic.Description;
 import java.awt.Graphics;
 import java.io.Serializable;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CyclicBarrier;
 import level.Area;
 
 /**

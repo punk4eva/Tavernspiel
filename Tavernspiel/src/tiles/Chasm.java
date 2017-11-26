@@ -1,10 +1,10 @@
 
 package tiles;
 
-import level.Location;
 import creatures.Creature;
 import creatures.Hero;
 import level.Area;
+import level.Location;
 import listeners.AreaEvent;
 import listeners.StepListener;
 import logic.Utils.Unfinished;

@@ -27,8 +27,10 @@ import java.io.PrintStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 import java.util.stream.Stream;
+import javax.swing.Timer;
 import level.Area;
 import logic.ConstantFields;
 import logic.SoundHandler;
@@ -141,6 +143,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
         
         public void click(int _x, int _y){
+            ((PlayerAI)player.attributes.ai).unfinished = true;
             x = _x;
             y = _y;
             try{
@@ -395,6 +398,22 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         if(searchSuccessful) soundSystem.playSFX("Misc/mystery.wav");
         throw new UnsupportedOperationException("Not supported yet.");
     }
+    
+    public void smoothMove(double dx, double dy){
+        CountDownLatch latch = new CountDownLatch(10);
+        double time = 200D;
+        int xStep = (int)(dx/(time/10D)), yStep = (int)(dy/(time/10D));
+        Timer timer = new Timer((int)(time/10D), a -> {
+            focusX+=xStep;
+            focusY+=yStep;
+            latch.countDown();
+        });
+        timer.start();
+        try{
+            latch.await();
+        }catch(InterruptedException ex){}
+        timer.stop();
+    }
 
     @Override
     public void mouseClicked(MouseEvent me){
@@ -409,10 +428,12 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
                 break;
             }
         }
-        if(viewables.screens.size()==1){
+        if(viewables.viewablesSize()==1){
             Integer[] p = translateMouseCoords(x, y);
             turnThread.click(p[0], p[1]);
-        }else if(notClicked) currentDialogue.clickedOff();
+        }else if(notClicked){
+            currentDialogue.clickedOff();
+        }
     }
     @Override
     public void mousePressed(MouseEvent me){/**Ignore*/}

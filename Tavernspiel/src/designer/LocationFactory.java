@@ -1,9 +1,9 @@
 
 package designer;
 
+import static java.lang.System.out;
 import java.util.Scanner;
 import level.Location;
-import static java.lang.System.out;
 import logic.Distribution;
 
 /**

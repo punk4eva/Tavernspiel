@@ -1,12 +1,11 @@
 
 package buffs;
 
-import listeners.BuffEvent;
 import creatureLogic.AttributeModifier;
 import creatures.Creature;
-import gui.MainClass;
 import java.io.Serializable;
 import java.util.function.Consumer;
+import listeners.BuffEvent;
 import logic.Distribution;
 
 /**

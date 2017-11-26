@@ -1,7 +1,6 @@
 
 package creatures;
 
-import creatureLogic.EnClass;
 import ai.PlayerAI;
 import animation.GameObjectAnimator;
 import buffs.Buff;
@@ -11,8 +10,9 @@ import creatureLogic.Attack;
 import creatureLogic.Attributes;
 import creatureLogic.DeathData;
 import creatureLogic.Description;
-import creatureLogic.Expertise;
+import creatureLogic.EnClass;
 import creatureLogic.EnClass.EnSubclass;
+import creatureLogic.Expertise;
 import gui.Game;
 import gui.MainClass;
 import gui.Screen;

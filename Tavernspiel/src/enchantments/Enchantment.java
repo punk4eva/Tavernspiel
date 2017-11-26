@@ -3,10 +3,6 @@ package enchantments;
 
 import animation.Animation;
 import creatureLogic.Description;
-import gui.MainClass;
-import static items.ItemProfile.shade;
-import java.awt.Color;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.io.Serializable;

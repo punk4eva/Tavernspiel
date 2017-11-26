@@ -3,7 +3,6 @@ package items;
 
 import creatureLogic.Description;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.util.Random;

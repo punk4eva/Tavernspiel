@@ -56,14 +56,13 @@ public class AIBaseActions implements Serializable{
     public synchronized void move(Creature c, Integer[] dir){
         if(c.area.map[c.y][c.x] instanceof Door) ((Door)c.area.map[c.y][c.x]).stepOff(c);
         if(!c.animator.currentName.equals("move")) c.changeAnimation("move");
-        c.setXY(c.x+dir[0], c.y+dir[1]);
+        c.smootheXY(c.x+dir[0], c.y+dir[1]);
         if(c.attributes.ai.destinationx==c.x&&c.attributes.ai.destinationy==c.y){
             c.changeAnimation("stand");
         }
         if(c.area.map[c.y][c.x] instanceof StepListener){
             ((StepListener)c.area.map[c.y][c.x]).steppedOn(c);
         }
-        c.FOV.update(c.x, c.y, c.area);
     }
     
     /**

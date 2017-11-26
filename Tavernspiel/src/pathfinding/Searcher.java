@@ -5,6 +5,8 @@ import level.Area;
 import logic.Utils.Optimisable;
 import logic.Utils.Unfinished;
 import pathfinding.Point.*;
+import pathfinding.Point.Direction;
+import pathfinding.Point.ExtendedDirection;
 import pathfinding.PriorityQueue.Compare;
 
 /**

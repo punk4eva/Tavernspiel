@@ -1,11 +1,11 @@
 
 package tiles;
 
+import blob.Blob;
 import buffs.Buff;
 import creatures.Creature;
 import level.Location;
 import listeners.StepListener;
-import blob.Blob;
 import logic.ImageHandler;
 
 /**

@@ -2,7 +2,6 @@
 package level;
 
 import creatureLogic.CreatureDistribution;
-import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.HashMap;

@@ -2,8 +2,6 @@
 package enchantments;
 
 import creatureLogic.Description;
-import gui.MainClass;
-import java.awt.Color;
 import logic.Distribution;
 
 /**

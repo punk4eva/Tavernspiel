@@ -5,19 +5,11 @@ import ai.PlayerAI;
 import animation.GameObjectAnimator;
 import creatureLogic.Attributes;
 import creatures.Hero;
-import dialogues.Dialogue;
-import guiUtils.*;
-import java.awt.Dimension;
-import java.util.concurrent.CyclicBarrier;
 import javax.swing.ImageIcon;
 import level.Area;
 import level.Dungeon;
 import logic.ImageUtils;
 import logic.Utils.Unfinished;
-import pathfinding.CorridorBuilder;
-import pathfinding.Path;
-import pathfinding.Point;
-import pathfinding.Searcher;
 
 /**
  *

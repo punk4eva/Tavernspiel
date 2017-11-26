@@ -31,6 +31,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
     public volatile Attributes attributes;
     public FieldOfView FOV;
     public volatile LinkedList<Buff> buffs = new LinkedList<>();
+    private volatile int[] moving;
     
     /**
      * Creates a new instance.
@@ -103,6 +104,10 @@ public class Creature extends GameObject implements Comparable<Creature>{
      */
     public synchronized void die(){
         animator.switchFadeKill(this);
+    }
+    
+    public void smootheXY(int nx, int ny){
+        moving = new int[]{x, y, (nx-x)*16, (ny-y)*16, 0, nx, ny};
     }
     
     /**
@@ -181,7 +186,18 @@ public class Creature extends GameObject implements Comparable<Creature>{
 
     @Override
     public void render(Graphics g, int focusX, int focusY){
-        animator.animate(g, x*16+focusX, y*16+focusY);
+        if(moving==null) animator.animate(g, x*16+focusX, y*16+focusY);
+        else{
+            moving[4]++;
+            if(moving[4]>7){
+                attributes.ai.BASEACTIONS.moveRaw(this, moving[5], moving[6]);
+                moving = null;
+                animator.animate(g, x*16+focusX, y*16+focusY);
+            }else{
+                animator.animate(g, (x*16)+focusX+(int)((double)moving[4]/8.0*moving[2]),
+                        (y*16)+focusY+(int)((double)moving[4]/8.0*moving[3]));
+            }
+        }
     }
     
     public synchronized void setXY(int nx, int ny){

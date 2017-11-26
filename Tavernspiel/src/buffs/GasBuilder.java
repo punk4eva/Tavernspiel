@@ -3,8 +3,8 @@ package buffs;
 
 import animation.AnimationBuilder;
 import animation.GameObjectAnimator;
-import creatureLogic.Description;
 import blob.Blob;
+import creatureLogic.Description;
 
 /**
  *

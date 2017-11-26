@@ -3,6 +3,7 @@ package tiles;
 
 import animation.Animation;
 import animation.GameObjectAnimator;
+import blob.Blob;
 import buffs.Buff;
 import containers.Chest;
 import containers.Floor;
@@ -14,7 +15,6 @@ import items.Item;
 import level.Area;
 import level.Location;
 import logic.Distribution;
-import blob.Blob;
 import logic.ImageHandler;
 import logic.Utils.Unfinished;
 

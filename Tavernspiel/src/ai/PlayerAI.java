@@ -44,7 +44,6 @@ public final class PlayerAI extends AITemplate implements KeyListener{
                 break;
         }
         if(BASEACTIONS.canMove(hero, m)){
-            unfinished = true;
             Window.main.turnThread.click(hero.x+m[0], hero.y+m[1]);
         }
     }
@@ -82,7 +81,7 @@ public final class PlayerAI extends AITemplate implements KeyListener{
             currentPath.next();
         }
         Point next = currentPath.next();
-        BASEACTIONS.moveRaw(c, next.x, next.y);
+        ((AIPlayerActions)BASEACTIONS).smootheRaw(hero, next.x, next.y);
         if(!currentPath.hasNext()){
             currentPath = null;
             unfinished = false;
