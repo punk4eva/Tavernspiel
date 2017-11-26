@@ -58,8 +58,8 @@ public class Location implements Serializable{
      */
     public Location(String n, String tiles, String water, String bmp, int a){
         name = n;
-        waterImage = new ImageIcon("graphics/"+water+".png");
-        tileset = new ImageIcon("graphics/"+tiles+".png");
+        waterImage = new ImageIcon("graphics/tilesets/"+water+".png");
+        tileset = new ImageIcon("graphics/tilesets/"+tiles+".png");
         backgroundMusicPath = bmp;
         weaponIndex = WeaponIndex.getIndex(a);
     }

@@ -38,7 +38,7 @@ public class VisibilityOverlay extends FieldOfView{
     }
     
     @Override
-    public synchronized void followGradient(int x_, int y_, Area area){
+    public void followGradient(int x_, int y_, Area area){
         List<Double[]> blockedRanges = new LinkedList<>();
         double increment = /*0.1*Math.PI/((double)range)*/Math.PI/60.0;
         double st = -1;
