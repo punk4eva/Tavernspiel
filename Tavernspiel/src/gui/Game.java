@@ -29,7 +29,7 @@ public class Game extends MainClass{
         GameObjectAnimator goa = new GameObjectAnimator(ImageUtils.addImageBuffer(new ImageIcon("graphics/spritesheets/tree.png")),
                 new String[]{"stand", "move", "attack", "die"}, new int[]{2, 4, 8, 5});
         dungeon = new Dungeon(this);
-        dungeon.descend(player);
+        messageQueue.add("You are now in " + dungeon.getDepthClassifier() + ".");
         player = new Hero(new Attributes(), goa);
         currentArea.addHero(player);
         window = new Window(WIDTH, HEIGHT, "Tavernspiel", this);
@@ -50,6 +50,8 @@ public class Game extends MainClass{
         new CCheckbox("Checkbox", 0, 0, null),
         new CSlider("Slider", 0, 0, 1, 7, 1)});
         dialogue.action(game);*/
+        MainClass.messageQueue.add("Test Message");
+        //game.dungeon.descend(game.player);
     }
 
     @Unfinished("The sfx for newDepth.")

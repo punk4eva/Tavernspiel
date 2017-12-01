@@ -68,4 +68,13 @@ public class RoomDistribution implements Serializable{
         return -1;
     }
     
+    public static RoomDistribution[] testItemless(Location loc, int n){
+        RoomDistribution ret[] = new RoomDistribution[n];
+        for(int j=0;j<n;j++) ret[j] = new RoomDistribution(loc, 
+                new MakeRoom[]{(loca, d) -> RoomBuilder.itemless(loca, d)}, 
+                new MakeRoom[]{(loca, d) -> RoomBuilder.lockedItemless(loca, d)}, 
+                new int[]{1}, new int[]{1});
+        return ret;
+    }
+    
 }

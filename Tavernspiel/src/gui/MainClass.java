@@ -316,6 +316,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         AffineTransform at = AffineTransform.getScaleInstance(zoom, zoom);
         //at.concatenate(AffineTransform.getTranslateInstance(zoom*-20, zoom*-20));
         bsg.drawRenderedImage(buffer, at);
+        messageQueue.paint(bsg);
         viewables.streamViewables().forEach(v -> {
             v.paint(bsg);
         });

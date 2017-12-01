@@ -286,7 +286,7 @@ public class Area implements Serializable{
     }
     
     @Unfinished("Remove bookmarks.")
-    public void renderObjects(Graphics g, int focusX, int focusY){
+    public synchronized void renderObjects(Graphics g, int focusX, int focusY){
         objects.stream().forEach(ob -> {
             ob.render(g, focusX, focusY);
         });

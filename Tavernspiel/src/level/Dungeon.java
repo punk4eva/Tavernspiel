@@ -29,12 +29,11 @@ public class Dungeon implements Serializable{
         game = g;
         stages = new Stage[5];
         Location loc = new Location("Shkoder", "shkoderTileset", "water", "Cyanoshrooms.wav", 2);
-        loc.roomDistrib = new RoomDistribution[]{new RoomDistribution(loc, 
-                new MakeRoom[]{(loca, d) -> RoomBuilder.itemless(loca, d)}, 
-                new MakeRoom[]{(loca, d) -> RoomBuilder.lockedItemless(loca, d)}, 
-                new int[]{1}, new int[]{1})};
-        stages[0] = new Stage(loc, 5, new String[]{"The upper level of the caves"}, null);
-        stages[0].areas[0] = stages[0].areaBuilder.load(stages[0].location.roomDistrib[0], 0); depth=0;stages[0].loadedLevel=3;
+        loc.roomDistrib = RoomDistribution.testItemless(loc, 25);
+        stages[0] = new Stage(loc, 5, new String[]{"The upper level of the caves", "The lower level of the caves"}, null);
+        stages[0].areas[0] = stages[0].areaBuilder.load(stages[0].location.roomDistrib[0], 0); depth=1;stages[0].loadedLevel=1;
+        g.currentArea = getArea2();
+        currentArea.startAllAnimations();
         //stages[0].areas[0] = Area.getPreloadedArea("filetesting/phallus.map");
     }
     

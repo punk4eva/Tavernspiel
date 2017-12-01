@@ -1,7 +1,10 @@
 
 package gui;
 
+import java.awt.Graphics;
 import java.util.ArrayDeque;
+import java.util.Iterator;
+import logic.ConstantFields;
 
 /**
  *
@@ -17,7 +20,7 @@ public class MessageQueue{
      * Creates a new instance.
      */
     public MessageQueue(){
-        for(int i : new int[4]) queue.add("");
+        for(int i=0;i<4;i++) queue.add("");
     }
     
     /**
@@ -41,6 +44,17 @@ public class MessageQueue{
             queue.add("<html><font color=\""+colour+"\">"+message+"</font>");
         }
         queue.pop();
+    }
+    
+    public void paint(Graphics g){
+        g.setColor(ConstantFields.textColor);
+        g.setFont(ConstantFields.smallTextFont);
+        int height = MainClass.HEIGHT*6/7;
+        Iterator<String> iter = queue.descendingIterator();
+        while(iter.hasNext()){
+            g.drawString(iter.next(), 48, height);
+            height -= 16;
+        }
     }
     
 }
