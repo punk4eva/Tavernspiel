@@ -223,6 +223,7 @@ public class RoomBuilder{
         room.addDoors();
         room.map[room.dimension.height/2][room.dimension.width/2] =
                         new DepthExit(loc);
+        room.endCoords = new Integer[]{room.dimension.width/2, room.dimension.height/2};
         room.randomlyPlop();
         return room;
     }

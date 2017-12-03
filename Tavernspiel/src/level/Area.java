@@ -38,7 +38,7 @@ public class Area implements Serializable{
     public final Tile[][] map;
     public final Dimension dimension;
     public final Location location;
-    public Integer[] startCoords;
+    public Integer[] startCoords, endCoords;
     private volatile LinkedList<GameObject> objects = new LinkedList<>();
     public volatile LinkedList<Receptacle> receptacles = new LinkedList<>();
     public Graph graph = null;
@@ -85,6 +85,7 @@ public class Area implements Serializable{
             return rec;
         }).collect(Collectors.toList()));
         if(area.startCoords!=null) startCoords = new Integer[]{area.startCoords[0]+x1, area.startCoords[1]+y1};
+        else if(area.endCoords!=null) endCoords = new Integer[]{area.endCoords[0]+x1, area.endCoords[1]+y1};
     }
     
     /**
@@ -115,6 +116,7 @@ public class Area implements Serializable{
             return rec;
         }).collect(Collectors.toList()));
         if(area.startCoords!=null) startCoords = new Integer[]{startCoords[0]+x1, startCoords[1]+y1};
+        else if(area.endCoords!=null) endCoords = new Integer[]{area.endCoords[0]+x1, area.endCoords[1]+y1};
     }
     
     /**
@@ -244,7 +246,7 @@ public class Area implements Serializable{
      * @param object The new GameObject.
      */
     public void addObject(GameObject object){
-        object.setArea(this);
+        object.setArea(this, true);
         objects.add(object);
     }
     
@@ -307,8 +309,8 @@ public class Area implements Serializable{
         }
     }
     
-    public synchronized void addHero(Hero h){
-        h.setArea(this);
+    public synchronized void addHero(Hero h, boolean start){
+        h.setArea(this, start);
         try{
             if(!(objects.get(0) instanceof Hero)){
                 objects.add(0, h);

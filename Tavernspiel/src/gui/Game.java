@@ -31,7 +31,7 @@ public class Game extends MainClass{
         dungeon = new Dungeon(this);
         messageQueue.add("You are now in " + dungeon.getDepthClassifier() + ".");
         player = new Hero(new Attributes(), goa);
-        currentArea.addHero(player);
+        currentArea.addHero(player, true);
         window = new Window(WIDTH, HEIGHT, "Tavernspiel", this);
         addKeyListener((PlayerAI) player.attributes.ai);
         hud = new HUD();
@@ -39,8 +39,8 @@ public class Game extends MainClass{
     
     //Progenitor Thread
     public static void main(String... args){
+        Thread.currentThread().setName("Progenitor Thread");
         Game game = new Game();
-        Window.main.currentArea.addHero(game.player);
         /*Window.main.currentArea = new Area(new Dimension(80, 80), Window.main.currentArea.location);
         CorridorBuilder builder = new CorridorBuilder(Window.main.currentArea);
         Path path = new Searcher(Window.main.currentArea.graph).findNullPath(new Point(5, 5), new Point(14, 13));
@@ -50,8 +50,6 @@ public class Game extends MainClass{
         new CCheckbox("Checkbox", 0, 0, null),
         new CSlider("Slider", 0, 0, 1, 7, 1)});
         dialogue.action(game);*/
-        MainClass.messageQueue.add("Test Message");
-        //game.dungeon.descend(game.player);
     }
 
     @Unfinished("The sfx for newDepth.")

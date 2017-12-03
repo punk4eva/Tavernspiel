@@ -4,7 +4,6 @@ package level;
 import creatures.Hero;
 import gui.Game;
 import java.io.Serializable;
-import level.RoomDistribution.MakeRoom;
 
 /**
  *
@@ -30,7 +29,7 @@ public class Dungeon implements Serializable{
         stages = new Stage[5];
         Location loc = new Location("Shkoder", "shkoderTileset", "water", "Cyanoshrooms.wav", 2);
         loc.roomDistrib = RoomDistribution.testItemless(loc, 25);
-        stages[0] = new Stage(loc, 5, new String[]{"The upper level of the caves", "The lower level of the caves"}, null);
+        stages[0] = new Stage(loc, 5, new String[]{"the upper level of the caves", "the lower level of the caves"}, null);
         stages[0].areas[0] = stages[0].areaBuilder.load(stages[0].location.roomDistrib[0], 0); depth=1;stages[0].loadedLevel=1;
         g.currentArea = getArea2();
         currentArea.startAllAnimations();
@@ -48,7 +47,7 @@ public class Dungeon implements Serializable{
             getStage().loadNext();
         }
         game.updateDepth(getArea2());
-        if(hero!=null) currentArea.addHero(hero);
+        if(hero!=null) currentArea.addHero(hero, true);
         currentArea.startAllAnimations();
     }
     
@@ -61,7 +60,7 @@ public class Dungeon implements Serializable{
             currentArea.stopAllAnimations();
             depth--;
             game.updateDepth(getArea2());
-            currentArea.addHero(hero);
+            currentArea.addHero(hero, false);
             currentArea.startAllAnimations();
         }
     }

@@ -57,8 +57,9 @@ public abstract class GameObject implements Serializable{
     /**
      * Sets the GameObject's Area.
      * @param ar
+     * @param start Whether to put them on the start or end coordinates.
      */
-    public void setArea(Area ar){
+    public void setArea(Area ar, boolean start){
         area = ar;
     }
     

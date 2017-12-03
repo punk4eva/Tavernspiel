@@ -132,11 +132,16 @@ public class Hero extends Creature implements Viewable{
     }
     
     @Override
-    public void setArea(Area a){
+    public void setArea(Area a, boolean start){
         area = a;
         FOV = area.overlay;
-        x = a.startCoords[0];
-        y = a.startCoords[1];
+        if(start){
+            x = a.startCoords[0];
+            y = a.startCoords[1];
+        }else{
+            x = a.endCoords[0];
+            y = a.endCoords[1];
+        }
         FOV.update(x, y, area);
     }
 

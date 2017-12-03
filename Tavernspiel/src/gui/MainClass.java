@@ -332,6 +332,8 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
      */
     public synchronized void start(){
         renderThread = new Thread(this, "Render Thread");
+        renderThread.setDaemon(true);
+        turnThread.setDaemon(true);
         renderThread.start();
         turnThread.start();
         running = true;

@@ -45,14 +45,10 @@ public class AIPlayerActions extends AIBaseActions{
     }
     
     public void smootheRaw(Hero h, int x, int y){
-        if(h.area.map[h.y][h.x] instanceof Door) ((Door)h.area.map[h.y][h.x]).stepOff(h);
         if(!h.animator.currentName.equals("move")) h.changeAnimation("move");
         h.smootheXY(x, y);
         if(h.attributes.ai.destinationx==h.x&&h.attributes.ai.destinationy==h.y){
             h.changeAnimation("stand");
-        }
-        if(h.area.map[h.y][h.x] instanceof StepListener){
-            ((StepListener)h.area.map[h.y][h.x]).steppedOn(h);
         }
     }
     

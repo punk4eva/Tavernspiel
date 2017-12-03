@@ -1,5 +1,0 @@
-FPS: 17
-FPS: 31
-FPS: 43
-FPS: 50
-FPS: 51
