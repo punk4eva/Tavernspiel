@@ -3,6 +3,7 @@ package blob.particles;
 
 import blob.ParticleEffect;
 import blob.ParticleEffect.Particle;
+import blob.TrailGenerator;
 import java.awt.Color;
 import java.awt.Rectangle;
 import logic.Distribution;
@@ -20,8 +21,23 @@ public class PowerParticle extends Particle{
         mult = f;
     }
     
+    private PowerParticle(ParticleEffect e, Color col, Rectangle s, double ms, double f, TrailGenerator g){
+        super(e, col, s, ms, g);
+        mult = f;
+    }
+    
     public PowerParticle(Color col, Rectangle s, double ms, double f){
         super(col, s, ms);
+        mult = f;
+    }
+    
+    public PowerParticle(Color col, Rectangle s, double ms, double f, TrailGenerator g){
+        super(col, s, ms, g);
+        mult = f;
+    }
+    
+    public PowerParticle(Color col, Rectangle s, double ms, double f, int i, int c, float fade){
+        super(col, s, ms, i, c, fade);
         mult = f;
     }
 
@@ -64,7 +80,7 @@ public class PowerParticle extends Particle{
 
     @Override
     protected PowerParticle clone(){
-        return new PowerParticle(effect, color, shape, maxSpeed, mult);
+        return new PowerParticle(effect, color, shape, maxSpeed, mult, generator);
     }
     
     public static ParticleEffect EFFECT = new ParticleEffect(1, 50, new Rectangle(128, 128, 48, 48), 

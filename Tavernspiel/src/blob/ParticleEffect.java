@@ -52,6 +52,7 @@ public class ParticleEffect implements Serializable{
         protected final Rectangle shape;
         private boolean expired = false;
         protected ParticleEffect effect;
+        protected TrailGenerator generator;
         
         protected Particle(ParticleEffect e, Color col, Rectangle s, double ms){
             color = col;
@@ -66,10 +67,52 @@ public class ParticleEffect implements Serializable{
             maxSpeed = ms;
         }
         
+        protected Particle(ParticleEffect e, Color col, Rectangle s, double ms, TrailGenerator g){
+            color = col;
+            shape = s;
+            generator = g.clone();
+            effect = e;
+            int[] c = getStartCoords();
+            x = c[0];
+            y = c[1];
+            c = getStopCoords();
+            destx = c[0];
+            desty = c[1];
+            maxSpeed = ms;
+        }
+        
+        protected Particle(ParticleEffect e, Color col, Rectangle s, double ms, int i, int cap, float fade){
+            color = col;
+            shape = s;
+            effect = e;
+            int[] c = getStartCoords();
+            x = c[0];
+            y = c[1];
+            c = getStopCoords();
+            destx = c[0];
+            desty = c[1];
+            maxSpeed = ms;
+            generator = new TrailGenerator(this, i, cap, fade);
+        }
+        
         protected Particle(Color col, Rectangle s, double ms){
             color = col;
             shape = s;
             maxSpeed = ms;
+        }
+        
+        protected Particle(Color col, Rectangle s, double ms, TrailGenerator g){
+            color = col;
+            shape = s;
+            maxSpeed = ms;
+            generator = g.clone();
+        }
+        
+        protected Particle(Color col, Rectangle s, double ms, int i, int c, float f){
+            color = col;
+            shape = s;
+            maxSpeed = ms;
+            generator = new TrailGenerator(this, i, c, f);
         }
         
         protected Particle(Particle p){
@@ -83,6 +126,7 @@ public class ParticleEffect implements Serializable{
             destx = c[0];
             desty = c[1];
             maxSpeed = p.maxSpeed;
+            generator = p.generator.clone();
         }
         
         private int[] getStartCoords(){
@@ -104,6 +148,7 @@ public class ParticleEffect implements Serializable{
             motor();
             shape.setLocation(x, y);
             g.fill(shape);
+            if(generator!=null) generator.paint(g, x, y);
             if(Math.abs(destx-x)<6&&Math.abs(desty-y)<6) expired = true;
         }
         

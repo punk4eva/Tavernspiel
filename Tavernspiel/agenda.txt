@@ -1,5 +1,5 @@
 Fix FOV
-Allow ascending and descending
+Fix zooming
 Fix sprite animation, i.e: moving
 Work on item graphics
 Work on new indoor tilesets

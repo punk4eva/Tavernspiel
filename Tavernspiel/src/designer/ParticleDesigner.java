@@ -38,7 +38,7 @@ public class ParticleDesigner extends MainClass implements ActionListener{
     private final Timer timer;
     private final HashMap<String, Particle> particles = new HashMap<>();
     {
-        particles.put("first", new PowerParticle(Color.red, new Rectangle(8, 8), 5, 0.5));
+        particles.put("first", new PowerParticle(Color.red, new Rectangle(8, 8), 5, 0.5, 3, 100, 5.5f));
         timer = new Timer(5, this);
     }
     
