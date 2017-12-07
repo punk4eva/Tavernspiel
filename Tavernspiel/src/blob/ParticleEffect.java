@@ -51,7 +51,7 @@ public class ParticleEffect implements Serializable{
         protected double velx=0, xchange=0, vely=0, ychange=0, maxSpeed;
         protected final Rectangle shape;
         private boolean expired = false;
-        protected ParticleEffect effect;
+        public ParticleEffect effect;
         protected TrailGenerator generator;
         
         protected Particle(ParticleEffect e, Color col, Rectangle s, double ms){
@@ -70,7 +70,7 @@ public class ParticleEffect implements Serializable{
         protected Particle(ParticleEffect e, Color col, Rectangle s, double ms, TrailGenerator g){
             color = col;
             shape = s;
-            generator = g.clone();
+            if(g!=null) generator = g.clone();
             effect = e;
             int[] c = getStartCoords();
             x = c[0];

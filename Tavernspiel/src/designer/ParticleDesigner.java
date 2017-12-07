@@ -45,7 +45,7 @@ public class ParticleDesigner extends MainClass implements ActionListener{
     /**
      * Creates an instance.
      * Type "/load" at the first question to load an existing project from a 
-     * file. Otherwise type info in the format "width,height,topLeftX,topLeftY".
+     * file. Otherwise type info in the format "width, height, topLeftX, topLeftY".
      */
     public ParticleDesigner(){
         Rectangle[] rect = getBounding();
@@ -161,7 +161,8 @@ public class ParticleDesigner extends MainClass implements ActionListener{
             Particle part = new PowerParticle(ItemProfile.getColour(p[1]), 
                 new Rectangle(Integer.parseInt(p[2]),
                 Integer.parseInt(p[3])),
-                Integer.parseInt(p[4]), Integer.parseInt(p[5]));
+                Double.parseDouble(p[4]), Double.parseDouble(p[5]));
+            part.effect = effect;
             particles.put(p[0], part);
             effect.particleSet = particles.values().toArray(new Particle[particles.size()]);
         }catch(ArrayIndexOutOfBoundsException e){
