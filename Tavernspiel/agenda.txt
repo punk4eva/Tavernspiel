@@ -1,3 +1,6 @@
+Fix the ConcurrentModificationException
+Build Quickslot
+Allow Item generation
 Fix FOV
 Fix zooming
 Fix sprite animation, i.e: moving
