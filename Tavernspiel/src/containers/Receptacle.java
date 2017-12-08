@@ -30,11 +30,6 @@ public abstract class Receptacle implements Serializable{
     public Description description;
     public int x, y; 
     
-    
-    public interface Sort{
-        public boolean select(Item i);
-    }
-    
     /**
      * Creates a new Receptacle.
      * @param desc The description.
