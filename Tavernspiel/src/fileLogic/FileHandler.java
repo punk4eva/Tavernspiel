@@ -52,7 +52,7 @@ public final class FileHandler{
             output.writeObject(object);
         }catch(IOException e){
             e.printStackTrace();
-            new ExceptionDialogue(e).next((Game)Window.main);
+            new ExceptionDialogue(e).next();
         }
     }
     
@@ -65,7 +65,7 @@ public final class FileHandler{
         try(ObjectInputStream in = new ObjectInputStream(new FileInputStream(filepath))) {
             return in.readObject();
         }catch(IOException | ClassNotFoundException e){
-            new ExceptionDialogue(e).next((Game)Window.main);
+            new ExceptionDialogue(e).next();
         }
         return "EXCEPTION";
     }

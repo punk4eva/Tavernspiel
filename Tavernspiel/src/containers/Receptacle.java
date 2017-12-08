@@ -6,10 +6,10 @@ import exceptions.ReceptacleIndexOutOfBoundsException;
 import exceptions.ReceptacleOverflowException;
 import items.Apparatus;
 import items.Item;
-import java.function.Predicate;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**

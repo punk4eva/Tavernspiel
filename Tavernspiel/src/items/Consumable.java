@@ -9,7 +9,7 @@ import javax.swing.ImageIcon;
  *
  * @author Adam Whittaker
  */
-public abstract class Consumable extends Item{
+public abstract class Consumable extends Item implements Usable{
     
     /**
      * Creates an instance.
@@ -71,5 +71,15 @@ public abstract class Consumable extends Item{
      * @param c
      */
     public abstract void use(Creature c);
+
+    @Override
+    public void defaultUse(Creature c, Object... data){
+        use(c);
+    }
+
+    @Override
+    public void use(Creature c, ItemAction act, Object... data){
+        use(c);
+    }
     
 }

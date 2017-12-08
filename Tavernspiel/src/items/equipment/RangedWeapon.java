@@ -1,6 +1,9 @@
 
 package items.equipment;
 
+import creatures.Creature;
+import items.ItemAction;
+import items.Usable;
 import javax.swing.ImageIcon;
 import logic.Distribution;
 import logic.Formula;
@@ -11,7 +14,7 @@ import logic.Formula;
  * 
  * This class represents a Ranged Weapon.
  */
-public class RangedWeapon extends HeldWeapon{
+public class RangedWeapon extends HeldWeapon implements Usable{
     
     public Distribution distanceDamage;
     public Formula[] distanceDamageFormulas[];
@@ -31,6 +34,16 @@ public class RangedWeapon extends HeldWeapon{
     public RangedWeapon(String s, String desc, ImageIcon ic, int dur, Distribution d, int st, double sp){
         super(s, desc, ic, dur, d, st);
         speed = sp;
+    }
+
+    @Override
+    public void defaultUse(Creature c, Object... data){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void use(Creature c, ItemAction act, Object... data){
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }
