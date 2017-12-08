@@ -18,7 +18,7 @@ public class QuickSlot implements Serializable, ScreenListener{
     
     @Override
     public void screenClicked(ScreenEvent sc){
-        return ((Usable)inventory.get(pointers[Integer.parseInt(sc.getName())])).defaultUse();
+        return ((Usable)inventory.get(pointers[Integer.parseInt(sc.getName())])).defaultUse(hero);
     }
     
 }
