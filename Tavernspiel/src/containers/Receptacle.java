@@ -6,6 +6,7 @@ import exceptions.ReceptacleIndexOutOfBoundsException;
 import exceptions.ReceptacleOverflowException;
 import items.Apparatus;
 import items.Item;
+import java.function.Predicate;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -206,9 +207,9 @@ public abstract class Receptacle implements Serializable{
      * @param sort The predicate to base on
      * @return True if items were lost, false if not.
      */
-    public boolean keep(Sort sort){
+    public boolean keep(Predicate<Item> sort){
         int s = items.size();
-        items = items.stream().filter(item -> sort.select(item)).collect(Collectors.toList());
+        items = items.stream().filter(sort).collect(Collectors.toList());
         return items.size()!=s;
     }
     
