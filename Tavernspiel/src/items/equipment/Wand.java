@@ -2,6 +2,7 @@
 package items.equipment;
 
 import animation.Animation;
+import animation.StaticAnimator;
 import creatures.Creature;
 import creatures.Hero;
 import gui.MainClass;
@@ -89,7 +90,7 @@ public class Wand extends RangedWeapon implements ScreenListener{
      * @param y The y destination.
      */
     public void fire(Creature c, int x, int y){
-        Window.main.drawWandArc(this, c.x, c.y, x, y);
+        StaticAnimator.drawWandArc(this, c.x, c.y, x, y);
         if(areaEvent!=null){
             areaEvent.setArea(c.area);
             areaEvent.setXY(x, y);

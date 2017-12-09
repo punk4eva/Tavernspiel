@@ -284,6 +284,20 @@ public class Area implements Serializable{
         return graph.tileFree(x, y);
     }
     
+    /**
+     * Removes and returns an Item from the given coordinates.
+     * @param x
+     * @param y
+     * @return The item at the top of the Receptacle.
+     * @throws NullPointerException if there is no Receptacle.
+     */
+    public Item pickUp(int x, int y){
+        Receptacle r = getReceptacle(x, y);
+        Item ret = r.pop();
+        if(r.isEmpty()) receptacles.remove(r);
+        return ret;
+    }
+    
     public static Area getPreloadedArea(String filepath){
         return AreaTemplate.deserialize(filepath).toArea();
     }
@@ -341,7 +355,6 @@ public class Area implements Serializable{
         }
     }
 
-    @Unfinished("Only for experimental purposes.")
     public void plop(Item i, int x, int y){
         receptacles.add(new Floor(i, x, y));
     }

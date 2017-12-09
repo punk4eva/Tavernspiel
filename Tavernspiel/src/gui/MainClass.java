@@ -3,11 +3,13 @@ package gui;
 
 import ai.PlayerAI;
 import animation.Animation;
+import animation.StaticAnimator;
 import containers.Floor;
 import containers.Receptacle;
 import creatureLogic.VisibilityOverlay;
 import creatures.Hero;
 import dialogues.Dialogue;
+import dialogues.StatisticsDialogue;
 import items.equipment.Wand;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -31,6 +33,7 @@ import java.util.Optional;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Stream;
 import level.Area;
+import listeners.AnimationListener;
 import logic.ConstantFields;
 import logic.SoundHandler;
 import logic.Utils;
@@ -44,11 +47,11 @@ import tiles.Tile;
  *
  * @author Adam Whittaker
  */
-public abstract class MainClass extends Canvas implements Runnable, MouseListener, MouseMotionListener, MouseWheelListener{
+public abstract class MainClass extends Canvas implements Runnable, MouseListener, MouseMotionListener, MouseWheelListener, AnimationListener{
     
     public static final int WIDTH = 780, HEIGHT = WIDTH / 12 * 9;
     public static MessageQueue messageQueue = new MessageQueue();
-    protected final SoundHandler soundSystem = new SoundHandler();
+    public final SoundHandler soundSystem = new SoundHandler();
     public transient static PrintStream exceptionStream, performanceStream;
 
     private volatile boolean running = false;
@@ -120,7 +123,6 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     
     public class TurnThread extends Thread{
         
-        private int x, y;
         public final LinkedBlockingQueue<Runnable> queuedEvents = new LinkedBlockingQueue<>();
         
         TurnThread(){
@@ -139,10 +141,17 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
             }
         }
         
-        public void click(int _x, int _y){
-            queuedEvents.add(() -> {
+        public void click(int x, int y){
+            if(player.x!=x||player.y!=y) queuedEvents.add(() -> {
                 ((PlayerAI)player.attributes.ai).unfinished = true;
-                player.attributes.ai.setDestination(_x, _y);
+                player.attributes.ai.setDestination(x, y);
+            });
+            else queuedEvents.add(() -> {
+                try{
+                    player.attributes.ai.BASEACTIONS.pickUp(player);
+                }catch(NullPointerException e){
+                    new StatisticsDialogue(player).next();
+                }
             });
         }
         
@@ -312,6 +321,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
         paintArea(currentArea, g);
         currentArea.renderObjects(g, focusX, focusY);
+        if(StaticAnimator.current!=null) StaticAnimator.current.animate(g, focusX, focusY);
         AffineTransform at = AffineTransform.getScaleInstance(zoom, zoom);
         //at.concatenate(AffineTransform.getTranslateInstance(zoom*-20, zoom*-20));
         bsg.drawRenderedImage(buffer, at);
@@ -377,30 +387,12 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
             }
         }
     }
+
+    @Override
+    public void done(){
+        StaticAnimator.complete();
+    }
     
-    /**
-     * Draws a wand arc from the given wand using the given coordinates.
-     * @param wand The wand to draw.
-     * @param x The starting x coordinate.
-     * @param y The starting y coordinate.
-     * @param destx The destination x coordinate.
-     * @param desty The destination y coordinate.
-     */
-    @Unfinished
-    public void drawWandArc(Wand wand, int x, int y, int destx, int desty){
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    /**
-     * Displays a searching animation.
-     * @param ary The list of points that was searched.
-     * @param searchSuccessful Whether the search was successful.
-     */
-    public void searchAnimation(List<Point> ary, boolean searchSuccessful){
-        if(searchSuccessful) soundSystem.playSFX("Misc/mystery.wav");
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
     @Override
     public void mouseClicked(MouseEvent me){
         boolean notClicked = true;

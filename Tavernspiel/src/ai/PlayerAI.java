@@ -42,6 +42,8 @@ public final class PlayerAI extends AITemplate implements KeyListener{
                 break;
             case 'd': m = new Integer[]{1, 0};
                 break;
+            case 'f': m = new Integer[]{0, 0};
+                break;
             default: return;
         }
         if(BASEACTIONS.canMove(hero, m)){
