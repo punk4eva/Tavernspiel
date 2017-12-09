@@ -17,7 +17,7 @@ public interface ConstantFields{
     public static final ImageIcon lockedChestIcon = new ImageIcon(""); //@unfinished
     public static final ImageIcon skeletalRemainsIcon = new ImageIcon(""); //@unfinished
     
-    public static final Color unidentifiedColour = new Color(129, 35, 160, 40);
+    public static final Color unidentifiedColour = new Color(129, 35, 160, 80);
     public static final Color cursedColour = new Color(210, 0, 0, 40);
     
     public static final Color textColor = Color.YELLOW;

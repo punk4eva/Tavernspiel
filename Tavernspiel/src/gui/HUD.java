@@ -54,14 +54,18 @@ public class HUD implements Viewable, ScreenListener{
     @Override
     public void screenClicked(ScreenEvent name){
         switch(name.getName()){
-            case "Inventory": if(!viewingInventory){
+            case "Inventory": 
                 viewingInventory = true;
                 Window.main.addViewable(Window.main.player);
-            }else Window.main.removeTopViewable();
                 break;
             case "Wait": Window.main.player.attributes.ai.paralyze(1.0);
                 break;
         }
+    }
+    
+    public void disableInventory(){
+        if(viewingInventory) Window.main.removeTopViewable();
+        viewingInventory = false;
     }
     
 }

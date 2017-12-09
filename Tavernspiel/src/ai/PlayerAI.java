@@ -52,7 +52,14 @@ public final class PlayerAI extends AITemplate implements KeyListener{
     }
 
     @Override
-    public void keyPressed(KeyEvent ke){}
+    public void keyPressed(KeyEvent ke){
+        switch(ke.getKeyCode()){
+            case KeyEvent.VK_ESCAPE: if(Window.main.viewablesSize()!=1){
+                Window.main.removeTopViewable();
+            }
+            break;
+        }
+    }
 
     @Override
     public void keyReleased(KeyEvent ke){}

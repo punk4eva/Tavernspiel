@@ -4,13 +4,10 @@ package gui;
 import ai.PlayerAI;
 import animation.Animation;
 import animation.StaticAnimator;
-import containers.Floor;
-import containers.Receptacle;
 import creatureLogic.VisibilityOverlay;
 import creatures.Hero;
 import dialogues.Dialogue;
 import dialogues.StatisticsDialogue;
-import items.equipment.Wand;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -27,6 +24,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -37,8 +35,6 @@ import listeners.AnimationListener;
 import logic.ConstantFields;
 import logic.SoundHandler;
 import logic.Utils;
-import logic.Utils.Unfinished;
-import pathfinding.Point;
 import tiles.AnimatedTile;
 import tiles.Tile;
 
@@ -82,6 +78,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         void removeTopViewable(){
             Viewable top = viewables.remove(viewables.size()-1);
             screens.removeAll(top.getScreens());
+            screens.addAll(viewables.get(viewables.size()-1).getScreens());
         }
         
         void addViewable(Viewable viewable){
@@ -119,6 +116,11 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
             return screens.size();
         }
         
+        void paint(Graphics g){
+            Iterator<Viewable> iter = viewables.iterator();
+            while(iter.hasNext()) iter.next().paint(g);
+        }
+        
     }
     
     public class TurnThread extends Thread{
@@ -142,6 +144,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
         
         public void click(int x, int y){
+            if(currentArea.overlay.isUnexplored(x, y)) return;
             if(player.x!=x||player.y!=y) queuedEvents.add(() -> {
                 ((PlayerAI)player.attributes.ai).unfinished = true;
                 player.attributes.ai.setDestination(x, y);
@@ -205,6 +208,10 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
      */
     public void removeTopViewable(){
         viewables.removeTopViewable();
+    }
+    
+    public int viewablesSize(){
+        return viewables.viewables.size();
     }
     
     /**
@@ -326,9 +333,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         //at.concatenate(AffineTransform.getTranslateInstance(zoom*-20, zoom*-20));
         bsg.drawRenderedImage(buffer, at);
         messageQueue.paint(bsg);
-        viewables.streamViewables().forEach(v -> {
-            v.paint(bsg);
-        });
+        viewables.paint(bsg);
         if(currentDialogue!=null) currentDialogue.paint(bsg);
         
         g.dispose();

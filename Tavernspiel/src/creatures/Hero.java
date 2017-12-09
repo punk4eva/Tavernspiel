@@ -54,8 +54,8 @@ public class Hero extends Creature implements Viewable{
         attributes.ai = new PlayerAI(this);
         try{data = new DeathData(this);}catch(Exception e){}
         scrollBuilder = new ScrollBuilder(this);
-        screens.addAll(inventory.screens);
         screens.addAll(equipment.screens);
+        screens.addAll(inventory.screens);
     }
     
     /**
@@ -77,8 +77,8 @@ public class Hero extends Creature implements Viewable{
         subclass = sub;
         data = da;
         scrollBuilder = new ScrollBuilder(this);
-        screens.addAll(inventory.screens);
         screens.addAll(equipment.screens);
+        screens.addAll(inventory.screens);
     }
 
     @Override
@@ -132,7 +132,7 @@ public class Hero extends Creature implements Viewable{
         ((Game)Window.main).endGame();
     }
     
-    private final static int padding = 8,
+    public final static int padding = 8,
         beginWidth = MainClass.WIDTH/9,
         beginHeight = MainClass.HEIGHT/9,
         sqwidth = (int)(((double)MainClass.WIDTH*(7.0/9.0)-7*padding)/6.0),
