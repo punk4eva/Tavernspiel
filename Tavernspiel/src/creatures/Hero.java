@@ -87,6 +87,24 @@ public class Hero extends Creature implements Viewable{
     }
     
     @Override
+    public void render(Graphics g, int focusX, int focusY){
+        if(moving==null) animator.animate(g, x*16+focusX, y*16+focusY);
+        else{
+            moving[4]++;
+            if(moving[4]>7){
+                attributes.ai.BASEACTIONS.moveRaw(this, moving[5], moving[6]);
+                moving = null;
+                animator.animate(g, x*16+focusX, y*16+focusY);
+            }else{
+                int nx = (x*16)+focusX+(int)((double)moving[4]/8.0*moving[2]),
+                        ny = (y*16)+focusY+(int)((double)moving[4]/8.0*moving[3]);
+                animator.animate(g, nx, ny);
+                //Window.main.setFocus(nx, ny);
+            }
+        }
+    }
+    
+    @Override
     public synchronized void setXY(int nx, int ny){
         x = nx;
         y = ny;

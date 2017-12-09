@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -29,63 +30,72 @@ public abstract class Receptacle implements Serializable{
     public int capacity = 1000;
     public Description description;
     public int x, y; 
+    public final ImageIcon icon;
     
     /**
      * Creates a new Receptacle.
+     * @param ic The icon.
      * @param desc The description.
      * @param xc The x coord.
      * @param yc The y coord.
      */
-    public Receptacle(String desc, int xc, int yc){
+    public Receptacle(ImageIcon ic, String desc, int xc, int yc){
         description = Description.parseDescription("receptacle", desc);
         x = xc;
         y = yc;
+        icon = ic;
     }
     
     /**
      * Creates a new Receptacle.
+     * @param ic The icon.
      * @param cap The capacity.
      * @param desc The description.
      * @param xc The x coord.
      * @param yc The y coord.
      */
-    public Receptacle(int cap, String desc, int xc, int yc){
+    public Receptacle(ImageIcon ic, int cap, String desc, int xc, int yc){
         description = Description.parseDescription("receptacle", desc);
         capacity = cap;
         x = xc;
         y = yc;
+        icon = ic;
     }
     
     /**
      * Creates a new Receptacle.
+     * @param ic The icon.
      * @param i The items within.
      * @param cap The capacity.
      * @param desc The description.
      * @param xc The x coord.
      * @param yc The y coord.
      */
-    public Receptacle(List<Item> i, int cap, String desc, int xc, int yc){
+    public Receptacle(ImageIcon ic, List<Item> i, int cap, String desc, int xc, int yc){
         description = Description.parseDescription("receptacle", desc);
         items = i;
         capacity = cap;
         x = xc;
         y = yc;
+        icon = ic;
     }
     
     /**
      * Creates a new Receptacle.
+     * @param ic The icon.
      * @param cap The capacity.
      * @param i The list of apparatus.
      * @param desc The description.
      * @param xc
      * @param yc
      */
-    public Receptacle(int cap, List<Apparatus> i, String desc, int xc, int yc){
+    public Receptacle(ImageIcon ic, int cap, List<Apparatus> i, String desc, int xc, int yc){
         description = Description.parseDescription("receptacle", desc);
         items.addAll(i);
         capacity = cap;
         x = xc;
         y = yc;
+        icon = ic;
     }
     
     /**

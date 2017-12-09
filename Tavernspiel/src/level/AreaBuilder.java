@@ -12,6 +12,7 @@ import level.RoomDistribution.MakeRoom;
 import logic.Distribution;
 import logic.Utils.Unfinished;
 import pathfinding.CorridorBuilder;
+import pathfinding.Graph;
 import pathfinding.Point;
 
 /**
@@ -96,6 +97,7 @@ public class AreaBuilder implements Serializable{
         rooms.stream().forEach(r -> selectAndBlit(area, r));
         
         new CorridorBuilder(area).build();
+        area.graph = new Graph(area);
         return area;
         //throw new UnsupportedOperationException("Not supported yet.");
     }

@@ -13,6 +13,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -26,11 +27,9 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.CyclicBarrier;
+import java.util.Optional;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Stream;
-import javax.swing.Timer;
 import level.Area;
 import logic.ConstantFields;
 import logic.SoundHandler;
@@ -54,7 +53,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
 
     private volatile boolean running = false;
     private Thread renderThread;
-    public TurnThread turnThread = new TurnThread("Turn Thread");
+    public TurnThread turnThread = new TurnThread();
     protected Window window;
     protected HUD hud;
 
@@ -122,20 +121,18 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     public class TurnThread extends Thread{
         
         private int x, y;
-        private final CyclicBarrier barrier = new CyclicBarrier(2);
+        public final LinkedBlockingQueue<Runnable> queuedEvents = new LinkedBlockingQueue<>();
         
-        TurnThread(String str){
-            super(str);
+        TurnThread(){
+            super("Turn Thread");
         }
         
         @Override
         public synchronized void run(){
             while(running){
                 try{
-                    barrier.await();
-                }catch(BrokenBarrierException | InterruptedException e){}
-                barrier.reset();
-                player.attributes.ai.setDestination(x, y);
+                    queuedEvents.take().run();
+                }catch(InterruptedException e){}
                 while(((PlayerAI)player.attributes.ai).unfinished){
                     turn(player.attributes.speed);
                 }
@@ -143,12 +140,10 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
         
         public void click(int _x, int _y){
-            ((PlayerAI)player.attributes.ai).unfinished = true;
-            x = _x;
-            y = _y;
-            try{
-                barrier.await();
-            }catch(BrokenBarrierException | InterruptedException e){}
+            queuedEvents.add(() -> {
+                ((PlayerAI)player.attributes.ai).unfinished = true;
+                player.attributes.ai.setDestination(_x, _y);
+            });
         }
         
         /**
@@ -174,6 +169,10 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }catch(FileNotFoundException e){
             System.err.println("PrintStream failed.");
         }
+    }
+    
+    public void addEvent(Runnable r){
+        turnThread.queuedEvents.add(r);
     }
     
     /**
@@ -363,17 +362,17 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         for(int y=focusY, maxY=focusY+area.dimension.height*16;y<maxY;y+=16){
             for(int x=focusX, maxX=focusX+area.dimension.width*16;x<maxX;x+=16){
                 int tx = (x-focusX)/16, ty = (y-focusY)/16;
+                Optional<Image> shade = null;
+                if(area.overlay.isExplored(tx, ty)) shade = Optional.of(VisibilityOverlay.exploredFog.getShadow(area.overlay.map, tx, ty, 1, false));
+                else if(area.overlay.isUnexplored(tx, ty)) shade = Optional.ofNullable(VisibilityOverlay.unexploredFog.getShadow(area.overlay.map, tx, ty, 0, true));
                 try{
-                    if(x<0||y<0||x*zoom>WIDTH||y*zoom>HEIGHT) continue;
+                    if((shade!=null&&!shade.isPresent())||x<0||y<0||x*zoom>WIDTH||y*zoom>HEIGHT) continue;
                     Tile tile = area.map[ty][tx];
                     if(tile==null){
                     }else if(tile instanceof AnimatedTile)
                         ((AnimatedTile) tile).animation.animate(g, x, y);
                     else g.drawImage(tile.image.getImage(), x, y, null);
-                    Receptacle temp = area.getReceptacle(x, y);
-                    if(temp instanceof Floor&&!temp.isEmpty()) temp.peek().animation.animate(g, x, y);
-                    if(area.overlay.isExplored(tx, ty)) g.drawImage(VisibilityOverlay.exploredFog.getShadow(area.overlay.map, tx, ty, 1), x, y, null);
-                    else if(area.overlay.isUnexplored(tx, ty)) g.drawImage(VisibilityOverlay.unexploredFog.getShadow(area.overlay.map, tx, ty, 0), x, y, null);
+                    if(shade!=null) g.drawImage(shade.get(), x, y, null);
                 }catch(ArrayIndexOutOfBoundsException e){/*skip frame*/}
             }
         }
@@ -401,22 +400,6 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         if(searchSuccessful) soundSystem.playSFX("Misc/mystery.wav");
         throw new UnsupportedOperationException("Not supported yet.");
     }
-    
-    public void smoothMove(double dx, double dy){
-        CountDownLatch latch = new CountDownLatch(10);
-        double time = 200D;
-        int xStep = (int)(dx/(time/10D)), yStep = (int)(dy/(time/10D));
-        Timer timer = new Timer((int)(time/10D), a -> {
-            focusX+=xStep;
-            focusY+=yStep;
-            latch.countDown();
-        });
-        timer.start();
-        try{
-            latch.await();
-        }catch(InterruptedException ex){}
-        timer.stop();
-    }
 
     @Override
     public void mouseClicked(MouseEvent me){
@@ -433,7 +416,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
         if(viewables.viewablesSize()==1){
             Integer[] p = translateMouseCoords(x, y);
-            turnThread.click(p[0], p[1]);
+            if(currentArea.tileFree(p[0], p[1])) turnThread.click(p[0], p[1]);
         }else if(notClicked){
             currentDialogue.clickedOff();
         }

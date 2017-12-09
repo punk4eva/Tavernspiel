@@ -103,6 +103,10 @@ public class Graph implements Serializable{
         used = false;
     }
     
+    public boolean tileFree(int x, int y){
+        return map[y][x].checked!=null;
+    }
+    
     public void paint(Graphics g, int focusX, int focusY){
         for(int y=focusY;y<focusY+map.length*16;y+=16){
             for(int x=focusX;x<focusX+map[0].length*16;x+=16){ 
@@ -113,6 +117,14 @@ public class Graph implements Serializable{
         for(Waypoint w : waypoints)
             for(Path p : w.pathsToWaypoints.values())
                 p.paint(g, focusX, focusY);
+    }
+
+    public void moveOff(int x, int y){
+        map[y][x].checked = false;
+    }
+
+    public void moveOn(int x, int y){
+        map[y][x].checked = null;
     }
     
 }

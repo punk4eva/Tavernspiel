@@ -31,8 +31,8 @@ public final class PlayerAI extends AITemplate implements KeyListener{
     }
     
     @Override
-    public synchronized void keyTyped(KeyEvent ke){
-        Integer[] m = null;
+    public void keyTyped(KeyEvent ke){
+        Integer[] m;
         switch(ke.getKeyChar()){
             case 'w': m = new Integer[]{0, -1};
                 break;
@@ -42,6 +42,7 @@ public final class PlayerAI extends AITemplate implements KeyListener{
                 break;
             case 'd': m = new Integer[]{1, 0};
                 break;
+            default: return;
         }
         if(BASEACTIONS.canMove(hero, m)){
             Window.main.turnThread.click(hero.x+m[0], hero.y+m[1]);
@@ -49,14 +50,10 @@ public final class PlayerAI extends AITemplate implements KeyListener{
     }
 
     @Override
-    public void keyPressed(KeyEvent ke){
-        
-    }
+    public void keyPressed(KeyEvent ke){}
 
     @Override
-    public void keyReleased(KeyEvent ke){
-        
-    }
+    public void keyReleased(KeyEvent ke){}
 
     @Override
     public synchronized void turn(Creature c, Area area){
@@ -81,7 +78,7 @@ public final class PlayerAI extends AITemplate implements KeyListener{
             currentPath.next();
         }
         Point next = currentPath.next();
-        ((AIPlayerActions)BASEACTIONS).smootheRaw(hero, next.x, next.y);
+        BASEACTIONS.smootheRaw(hero, next.x, next.y);
         if(!currentPath.hasNext()){
             currentPath = null;
             unfinished = false;

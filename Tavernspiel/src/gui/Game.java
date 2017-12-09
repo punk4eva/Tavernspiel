@@ -5,6 +5,7 @@ import ai.PlayerAI;
 import animation.GameObjectAnimator;
 import creatureLogic.Attributes;
 import creatures.Hero;
+import items.Apparatus;
 import javax.swing.ImageIcon;
 import level.Area;
 import level.Dungeon;
@@ -18,6 +19,10 @@ import logic.Utils.Unfinished;
  * Plays the Game.
  */
 public class Game extends MainClass{
+
+    private static Exception IllegalStateException(){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
     public final Dungeon dungeon;
     
@@ -50,6 +55,10 @@ public class Game extends MainClass{
         new CCheckbox("Checkbox", 0, 0, null),
         new CSlider("Slider", 0, 0, 1, 7, 1)});
         dialogue.action(game);*/
+        try{
+            Thread.sleep(1200);
+        }catch(InterruptedException e){}
+        game.currentArea.plop(Apparatus.getRandomMeleeWeapon(1, game.currentArea.location), game.player.x, game.player.y);
     }
 
     @Unfinished("The sfx for newDepth.")

@@ -213,7 +213,7 @@ public class Apparatus extends Item{
     }
     
     public static HeldWeapon getRandomMeleeWeapon(int depth, Location loc){
-        return new MeleeWeapon(loc.getWeaponEntry((int)new Distribution(loc.weaponIndex.rarities).next()));
+        return new MeleeWeapon(loc.getWeaponEntry());
     }
     
 }

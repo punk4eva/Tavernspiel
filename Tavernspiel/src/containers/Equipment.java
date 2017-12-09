@@ -36,7 +36,7 @@ public class Equipment extends Receptacle{
      * @param hero The owner.
      */
     public Equipment(Hero hero){
-        super(7, "ERROR: You shouldn't be reading this.", -1, -1);
+        super(null, 7, "ERROR: You shouldn't be reading this.", -1, -1);
         for(int n=0;n<7;n++) items.add(null);
         screens = getScreens(hero.inventory);
         heroOwner = hero;

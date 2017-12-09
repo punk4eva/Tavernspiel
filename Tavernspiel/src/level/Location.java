@@ -196,10 +196,10 @@ public class Location implements Serializable{
     public static class WeaponIndex{
         
         private final HashMap<Integer, WeaponEntry> map = new HashMap<>();
-        public final int[] rarities;
+        private final Distribution rarities;
         
         private WeaponIndex(int... r){
-            rarities = r;
+            rarities = new Distribution(r);
         }
         
         private final static WeaponIndex 
@@ -275,8 +275,8 @@ public class Location implements Serializable{
         }
     }
     
-    public WeaponEntry getWeaponEntry(Integer i){
-            return weaponIndex.map.get(i);
+    public WeaponEntry getWeaponEntry(){
+        return weaponIndex.map.get((int)weaponIndex.rarities.next());
     }
     
 }

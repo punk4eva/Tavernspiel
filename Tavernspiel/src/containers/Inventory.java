@@ -26,13 +26,13 @@ public class Inventory extends Receptacle{
     public final InventoryManager manager = new InventoryManager();
     
     public Inventory(){
-        super(18, "ERROR: You shouldn't be reading this.", -1, -1);
+        super(null, 18, "ERROR: You shouldn't be reading this.", -1, -1);
         screens = getScreens();
         heroOwner = null;
     }
     
     public Inventory(Hero hero){
-        super(18, "ERROR: You shouldn't be reading this.", -1, -1);
+        super(null, 18, "ERROR: You shouldn't be reading this.", -1, -1);
         screens = getScreens();
         heroOwner = hero;
     }

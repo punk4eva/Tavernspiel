@@ -21,7 +21,7 @@ public class Floor extends Receptacle{
      * @param y
      */
     public Floor(int x, int y){
-        super("There is nothing interesting here.", x, y);
+        super(null, "There is nothing interesting here.", x, y);
     }
     
     /**
@@ -31,7 +31,7 @@ public class Floor extends Receptacle{
      * @param y
      */
     public Floor(Item i, int x, int y){
-        super("You shouldn't be reading this.", x, y);
+        super(null, "You shouldn't be reading this.", x, y);
         push(i);
     }
     
@@ -42,7 +42,7 @@ public class Floor extends Receptacle{
      * @param y
      */
     public Floor(Receptacle r, int x, int y){
-        super("You shouldn't be reading this.", x, y);
+        super(null, "You shouldn't be reading this.", x, y);
         try{pushAll(r);}
         catch(ReceptacleOverflowException e){
             e.printStackTrace(MainClass.exceptionStream);
@@ -67,7 +67,7 @@ public class Floor extends Receptacle{
      * @param y
      */
     public Floor(ArrayList<Item> ary, int x, int y){
-        super("You shouldn't be reading this.", x, y);
+        super(null, "You shouldn't be reading this.", x, y);
         items.addAll(ary);
         description = items.isEmpty() ? new Description("tile", "There is nothing interesting here.") :
         items.get(items.size()-1).description;

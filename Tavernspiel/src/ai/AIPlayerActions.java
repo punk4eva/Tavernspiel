@@ -5,9 +5,7 @@ import creatureLogic.Attack;
 import creatureLogic.EnClass;
 import creatures.Creature;
 import creatures.Hero;
-import listeners.StepListener;
 import logic.Distribution;
-import tiles.Door;
 
 /**
  *
@@ -42,14 +40,6 @@ public class AIPlayerActions extends AIBaseActions{
         double attackedDexterity = dexterityCalculation.calc(attacked);
         return Distribution.randomDouble(0, attack.accuracy) >=
                 Distribution.randomDouble(0, attackedDexterity);
-    }
-    
-    public void smootheRaw(Hero h, int x, int y){
-        if(!h.animator.currentName.equals("move")) h.changeAnimation("move");
-        h.smootheXY(x, y);
-        if(h.attributes.ai.destinationx==h.x&&h.attributes.ai.destinationy==h.y){
-            h.changeAnimation("stand");
-        }
     }
     
 }
