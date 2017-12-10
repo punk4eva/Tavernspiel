@@ -134,8 +134,6 @@ public class Item implements Serializable{
                 }catch(NullPointerException e){
                     return ret + add;
                 }
-            default:
-                break;
         }
         return ret;
     }

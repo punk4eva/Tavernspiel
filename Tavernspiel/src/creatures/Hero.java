@@ -54,8 +54,8 @@ public class Hero extends Creature implements Viewable{
         attributes.ai = new PlayerAI(this);
         try{data = new DeathData(this);}catch(Exception e){}
         scrollBuilder = new ScrollBuilder(this);
-        screens.addAll(inventory.screens);
         screens.addAll(equipment.screens);
+        screens.addAll(inventory.screens);
     }
     
     /**
@@ -77,13 +77,31 @@ public class Hero extends Creature implements Viewable{
         subclass = sub;
         data = da;
         scrollBuilder = new ScrollBuilder(this);
-        screens.addAll(inventory.screens);
         screens.addAll(equipment.screens);
+        screens.addAll(inventory.screens);
     }
 
     @Override
     public synchronized void turn(double delta){
         super.turn(delta);
+    }
+    
+    @Override
+    public void render(Graphics g, int focusX, int focusY){
+        if(moving==null) animator.animate(g, x*16+focusX, y*16+focusY);
+        else{
+            moving[4]++;
+            if(moving[4]>7){
+                attributes.ai.BASEACTIONS.moveRaw(this, moving[5], moving[6]);
+                moving = null;
+                animator.animate(g, x*16+focusX, y*16+focusY);
+            }else{
+                int nx = (x*16)+focusX+(int)((double)moving[4]/8.0*moving[2]),
+                        ny = (y*16)+focusY+(int)((double)moving[4]/8.0*moving[3]);
+                animator.animate(g, nx, ny);
+                //Window.main.setFocus(nx, ny);
+            }
+        }
     }
     
     @Override
@@ -114,7 +132,7 @@ public class Hero extends Creature implements Viewable{
         ((Game)Window.main).endGame();
     }
     
-    private final static int padding = 8,
+    public final static int padding = 8,
         beginWidth = MainClass.WIDTH/9,
         beginHeight = MainClass.HEIGHT/9,
         sqwidth = (int)(((double)MainClass.WIDTH*(7.0/9.0)-7*padding)/6.0),

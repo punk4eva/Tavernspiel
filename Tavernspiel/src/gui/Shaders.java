@@ -39,7 +39,7 @@ public class Shaders{
     
     public Shaders(){}
     
-    public BufferedImage getShadow(int[][] map, int x, int y, int n){
+    public BufferedImage getShadow(int[][] map, int x, int y, int n, boolean black){
         boolean s0=true,s1=true,s2=true,s3=true;
         try{
             if(map[y-1][x]!=n) s0 = false;
@@ -57,7 +57,7 @@ public class Shaders{
             if(s1){
                 if(s2){
                     if(s3){
-                        return shadows.getSubimage(0, 0, 16, 16);
+                        return black ? null : shadows.getSubimage(0, 0, 16, 16);
                     }else{
                         return shadows.getSubimage(0, 32, 16, 16);
                     }
@@ -114,10 +114,6 @@ public class Shaders{
                 }
             }
         }
-    }
-    
-    private BufferedImage getImage(int x, int y){
-        return shadows.getSubimage(x*16, y*16, 16, 16);
     }
     
 }

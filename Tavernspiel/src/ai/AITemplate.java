@@ -42,7 +42,7 @@ public abstract class AITemplate implements Serializable{
             currentPath.next();
         }
         Point next = currentPath.next();
-        BASEACTIONS.moveRaw(c, next.x, next.y);
+        BASEACTIONS.smootheRaw(c, next.x, next.y);
         if(!currentPath.hasNext()){
             currentPath = null;
             c.changeAnimation("stand");

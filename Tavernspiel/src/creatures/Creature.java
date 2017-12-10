@@ -31,7 +31,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
     public volatile Attributes attributes;
     public FieldOfView FOV;
     public volatile LinkedList<Buff> buffs = new LinkedList<>();
-    private volatile int[] moving;
+    protected volatile int[] moving;
     
     /**
      * Creates a new instance.

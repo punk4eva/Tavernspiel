@@ -7,10 +7,11 @@ import exceptions.ReceptacleOverflowException;
 import items.Apparatus;
 import items.Item;
 import java.io.Serializable;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -25,72 +26,81 @@ public abstract class Receptacle implements Serializable{
     
     private final static long serialVersionUID = -1893808300;
     
-    public List<Item> items = new LinkedList<>();
+    public Stack<Item> items = new Stack<>();
     public int capacity = 1000;
     public Description description;
     public int x, y; 
+    public final ImageIcon icon;
     
     /**
      * Creates a new Receptacle.
+     * @param ic The icon.
      * @param desc The description.
      * @param xc The x coord.
      * @param yc The y coord.
      */
-    public Receptacle(String desc, int xc, int yc){
+    public Receptacle(ImageIcon ic, String desc, int xc, int yc){
         description = Description.parseDescription("receptacle", desc);
         x = xc;
         y = yc;
+        icon = ic;
     }
     
     /**
      * Creates a new Receptacle.
+     * @param ic The icon.
      * @param cap The capacity.
      * @param desc The description.
      * @param xc The x coord.
      * @param yc The y coord.
      */
-    public Receptacle(int cap, String desc, int xc, int yc){
+    public Receptacle(ImageIcon ic, int cap, String desc, int xc, int yc){
         description = Description.parseDescription("receptacle", desc);
         capacity = cap;
         x = xc;
         y = yc;
+        icon = ic;
     }
     
     /**
      * Creates a new Receptacle.
+     * @param ic The icon.
      * @param i The items within.
      * @param cap The capacity.
      * @param desc The description.
      * @param xc The x coord.
      * @param yc The y coord.
      */
-    public Receptacle(List<Item> i, int cap, String desc, int xc, int yc){
+    public Receptacle(ImageIcon ic, Stack<Item> i, int cap, String desc, int xc, int yc){
         description = Description.parseDescription("receptacle", desc);
         items = i;
         capacity = cap;
         x = xc;
         y = yc;
+        icon = ic;
     }
     
     /**
      * Creates a new Receptacle.
+     * @param ic The icon.
      * @param cap The capacity.
      * @param i The list of apparatus.
      * @param desc The description.
      * @param xc
      * @param yc
      */
-    public Receptacle(int cap, List<Apparatus> i, String desc, int xc, int yc){
+    public Receptacle(ImageIcon ic, int cap, List<Apparatus> i, String desc, int xc, int yc){
         description = Description.parseDescription("receptacle", desc);
         items.addAll(i);
         capacity = cap;
         x = xc;
         y = yc;
+        icon = ic;
     }
     
     /**
      * Retrieves an item from given slot.
-     * @param slot The index of th item to get.
+     * @param slot The index of the item to get.
      * @return The item.
      * @throws ReceptacleIndexOutOfBoundsException if out of given index.
      */
@@ -104,7 +114,7 @@ public abstract class Receptacle implements Serializable{
     
     /**
      * Retrieves an item from given slot.
-     * @param slot The index of th item to get.
+     * @param slot The index of the item to get.
      * @return The item, null if the slot is empty.
      */
     public Item getElse(int slot){
@@ -119,16 +129,14 @@ public abstract class Receptacle implements Serializable{
      * Clears this receptacle.
      */
     protected void clear(){
-        items = new LinkedList<>();
+        items = new Stack<>();
     }
     
     /**
      * Trims the receptacle to its capacity. 
      */
     public void trimToCapacity(){
-        LinkedList<Item> ret = new LinkedList<>();
-        for(int n=0;n<capacity;n++) ret.add(items.get(n));
-        items = ret;
+        items = (Stack<Item>) items.subList(0, capacity);
     }
     
     /**
@@ -137,7 +145,7 @@ public abstract class Receptacle implements Serializable{
      */
     public Item peek(){
         if(items.isEmpty()) return null;
-        return items.get(items.size()-1);
+        return items.peek();
     }
     
     /**
@@ -146,7 +154,7 @@ public abstract class Receptacle implements Serializable{
      */
     public Item pop(){
         if(items.isEmpty()) return null;
-        return items.remove(0);
+        return items.pop();
     }
     
     /**
@@ -155,9 +163,13 @@ public abstract class Receptacle implements Serializable{
      * @throws ReceptacleOverflowException If the receptacle is full.
      */
     public void push(Item item) throws ReceptacleOverflowException{
-        if(capacity==items.size()) throw new ReceptacleOverflowException("This"
+        if(item.stackable&&contains(item)){
+            items.stream().filter(i -> i.name.endsWith(item.name)).forEach(i -> {
+                i.quantity += item.quantity;
+            });
+        }else if(capacity==items.size()) throw new ReceptacleOverflowException("This"
                 + " Receptacle is full.");
-        items.add(item);
+        else items.add(item);
     }
     
     /**
@@ -185,7 +197,7 @@ public abstract class Receptacle implements Serializable{
      * @return true if the names match, false if not.
      */
     public boolean contains(Item i){
-        return items.stream().anyMatch(item -> (item.name.endsWith(i.name)));
+        return items.stream().anyMatch(item -> item.name.endsWith(i.name));
     }
     
     /**
@@ -204,7 +216,7 @@ public abstract class Receptacle implements Serializable{
      */
     public boolean keep(Predicate<Item> sort){
         int s = items.size();
-        items = items.stream().filter(sort).collect(Collectors.toList());
+        items = (Stack<Item>) items.stream().filter(sort).collect(Collectors.toList());
         return items.size()!=s;
     }
     

@@ -5,7 +5,9 @@ import creatures.Hero;
 import items.Item;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.io.File;
@@ -30,7 +32,11 @@ public class ImageUtils{
             g.setColor(ConstantFields.unidentifiedColour);
             g.fillRect(x+2, y+2, sqwidth-4, sqheight-4);
         }
-        i.animation.animate(g, x+(sqwidth-16)/2, y+(sqheight-16)/2);
+        //i.animation.animate(g, x+(sqwidth-16)/2, y+(sqheight-16)/2);
+        BufferedImage buffer = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+        Graphics bg = buffer.getGraphics();
+        i.animation.animate(bg, 0, 0);
+        g.drawImage(scale(buffer, 2, 2), x+(sqwidth-32)/2, y+(sqheight-32)/2, null);
         g.setColor(Color.white);
         if(i.quantity!=1) g.drawString(""+i.quantity, x+4, y+4);
     }
@@ -126,6 +132,15 @@ public class ImageUtils{
         g.drawImage(img, 0, 0, null);
         g.dispose();
         return bi;
+    }
+    
+    public static BufferedImage scale(BufferedImage b, double w, double h){
+        BufferedImage ret = new BufferedImage((int)(w*b.getWidth()), (int)(h*b.getHeight()), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = ret.createGraphics();
+        AffineTransform at = AffineTransform.getScaleInstance(2.0, 2.0);
+        g.drawRenderedImage(b, at);
+        g.dispose();
+        return ret;
     }
     
 }

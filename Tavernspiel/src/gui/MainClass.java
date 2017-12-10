@@ -3,16 +3,16 @@ package gui;
 
 import ai.PlayerAI;
 import animation.Animation;
-import containers.Floor;
-import containers.Receptacle;
+import animation.StaticAnimator;
 import creatureLogic.VisibilityOverlay;
 import creatures.Hero;
 import dialogues.Dialogue;
-import items.equipment.Wand;
+import dialogues.StatisticsDialogue;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -24,19 +24,17 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.CyclicBarrier;
+import java.util.Optional;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.stream.Stream;
-import javax.swing.Timer;
 import level.Area;
+import listeners.AnimationListener;
 import logic.ConstantFields;
 import logic.SoundHandler;
 import logic.Utils;
-import logic.Utils.Unfinished;
-import pathfinding.Point;
 import tiles.AnimatedTile;
 import tiles.Tile;
 
@@ -45,16 +43,16 @@ import tiles.Tile;
  *
  * @author Adam Whittaker
  */
-public abstract class MainClass extends Canvas implements Runnable, MouseListener, MouseMotionListener, MouseWheelListener{
+public abstract class MainClass extends Canvas implements Runnable, MouseListener, MouseMotionListener, MouseWheelListener, AnimationListener{
     
     public static final int WIDTH = 780, HEIGHT = WIDTH / 12 * 9;
     public static MessageQueue messageQueue = new MessageQueue();
-    protected final SoundHandler soundSystem = new SoundHandler();
+    public final SoundHandler soundSystem = new SoundHandler();
     public transient static PrintStream exceptionStream, performanceStream;
 
     private volatile boolean running = false;
     private Thread renderThread;
-    public TurnThread turnThread = new TurnThread("Turn Thread");
+    public TurnThread turnThread = new TurnThread();
     protected Window window;
     protected HUD hud;
 
@@ -80,6 +78,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         void removeTopViewable(){
             Viewable top = viewables.remove(viewables.size()-1);
             screens.removeAll(top.getScreens());
+            screens.addAll(viewables.get(viewables.size()-1).getScreens());
         }
         
         void addViewable(Viewable viewable){
@@ -117,38 +116,46 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
             return screens.size();
         }
         
+        void paint(Graphics g){
+            Iterator<Viewable> iter = viewables.iterator();
+            while(iter.hasNext()) iter.next().paint(g);
+        }
+        
     }
     
     public class TurnThread extends Thread{
         
-        private int x, y;
-        private final CyclicBarrier barrier = new CyclicBarrier(2);
+        public final LinkedBlockingQueue<Runnable> queuedEvents = new LinkedBlockingQueue<>();
         
-        TurnThread(String str){
-            super(str);
+        TurnThread(){
+            super("Turn Thread");
         }
         
         @Override
         public synchronized void run(){
             while(running){
                 try{
-                    barrier.await();
-                }catch(BrokenBarrierException | InterruptedException e){}
-                barrier.reset();
-                player.attributes.ai.setDestination(x, y);
+                    queuedEvents.take().run();
+                }catch(InterruptedException e){}
                 while(((PlayerAI)player.attributes.ai).unfinished){
                     turn(player.attributes.speed);
                 }
             }
         }
         
-        public void click(int _x, int _y){
-            ((PlayerAI)player.attributes.ai).unfinished = true;
-            x = _x;
-            y = _y;
-            try{
-                barrier.await();
-            }catch(BrokenBarrierException | InterruptedException e){}
+        public void click(int x, int y){
+            if(currentArea.overlay.isUnexplored(x, y)) return;
+            if(player.x!=x||player.y!=y) queuedEvents.add(() -> {
+                ((PlayerAI)player.attributes.ai).unfinished = true;
+                player.attributes.ai.setDestination(x, y);
+            });
+            else queuedEvents.add(() -> {
+                try{
+                    player.attributes.ai.BASEACTIONS.pickUp(player);
+                }catch(NullPointerException e){
+                    new StatisticsDialogue(player).next();
+                }
+            });
         }
         
         /**
@@ -176,6 +183,10 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
     }
     
+    public void addEvent(Runnable r){
+        turnThread.queuedEvents.add(r);
+    }
+    
     /**
      * Adds a Viewable to the display.
      * @param viewable
@@ -197,6 +208,10 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
      */
     public void removeTopViewable(){
         viewables.removeTopViewable();
+    }
+    
+    public int viewablesSize(){
+        return viewables.viewables.size();
     }
     
     /**
@@ -313,13 +328,12 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
         paintArea(currentArea, g);
         currentArea.renderObjects(g, focusX, focusY);
+        if(StaticAnimator.current!=null) StaticAnimator.current.animate(g, focusX, focusY);
         AffineTransform at = AffineTransform.getScaleInstance(zoom, zoom);
         //at.concatenate(AffineTransform.getTranslateInstance(zoom*-20, zoom*-20));
         bsg.drawRenderedImage(buffer, at);
         messageQueue.paint(bsg);
-        viewables.streamViewables().forEach(v -> {
-            v.paint(bsg);
-        });
+        viewables.paint(bsg);
         if(currentDialogue!=null) currentDialogue.paint(bsg);
         
         g.dispose();
@@ -363,61 +377,27 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         for(int y=focusY, maxY=focusY+area.dimension.height*16;y<maxY;y+=16){
             for(int x=focusX, maxX=focusX+area.dimension.width*16;x<maxX;x+=16){
                 int tx = (x-focusX)/16, ty = (y-focusY)/16;
+                Optional<Image> shade = null;
+                if(area.overlay.isExplored(tx, ty)) shade = Optional.of(VisibilityOverlay.exploredFog.getShadow(area.overlay.map, tx, ty, 1, false));
+                else if(area.overlay.isUnexplored(tx, ty)) shade = Optional.ofNullable(VisibilityOverlay.unexploredFog.getShadow(area.overlay.map, tx, ty, 0, true));
                 try{
-                    if(x<0||y<0||x*zoom>WIDTH||y*zoom>HEIGHT) continue;
+                    if((shade!=null&&!shade.isPresent())||x<0||y<0||x*zoom>WIDTH||y*zoom>HEIGHT) continue;
                     Tile tile = area.map[ty][tx];
                     if(tile==null){
                     }else if(tile instanceof AnimatedTile)
                         ((AnimatedTile) tile).animation.animate(g, x, y);
                     else g.drawImage(tile.image.getImage(), x, y, null);
-                    Receptacle temp = area.getReceptacle(x, y);
-                    if(temp instanceof Floor&&!temp.isEmpty()) temp.peek().animation.animate(g, x, y);
-                    if(area.overlay.isExplored(tx, ty)) g.drawImage(VisibilityOverlay.exploredFog.getShadow(area.overlay.map, tx, ty, 1), x, y, null);
-                    else if(area.overlay.isUnexplored(tx, ty)) g.drawImage(VisibilityOverlay.unexploredFog.getShadow(area.overlay.map, tx, ty, 0), x, y, null);
+                    if(shade!=null) g.drawImage(shade.get(), x, y, null);
                 }catch(ArrayIndexOutOfBoundsException e){/*skip frame*/}
             }
         }
     }
-    
-    /**
-     * Draws a wand arc from the given wand using the given coordinates.
-     * @param wand The wand to draw.
-     * @param x The starting x coordinate.
-     * @param y The starting y coordinate.
-     * @param destx The destination x coordinate.
-     * @param desty The destination y coordinate.
-     */
-    @Unfinished
-    public void drawWandArc(Wand wand, int x, int y, int destx, int desty){
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 
-    /**
-     * Displays a searching animation.
-     * @param ary The list of points that was searched.
-     * @param searchSuccessful Whether the search was successful.
-     */
-    public void searchAnimation(List<Point> ary, boolean searchSuccessful){
-        if(searchSuccessful) soundSystem.playSFX("Misc/mystery.wav");
-        throw new UnsupportedOperationException("Not supported yet.");
+    @Override
+    public void done(){
+        StaticAnimator.complete();
     }
     
-    public void smoothMove(double dx, double dy){
-        CountDownLatch latch = new CountDownLatch(10);
-        double time = 200D;
-        int xStep = (int)(dx/(time/10D)), yStep = (int)(dy/(time/10D));
-        Timer timer = new Timer((int)(time/10D), a -> {
-            focusX+=xStep;
-            focusY+=yStep;
-            latch.countDown();
-        });
-        timer.start();
-        try{
-            latch.await();
-        }catch(InterruptedException ex){}
-        timer.stop();
-    }
-
     @Override
     public void mouseClicked(MouseEvent me){
         boolean notClicked = true;
@@ -433,7 +413,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
         if(viewables.viewablesSize()==1){
             Integer[] p = translateMouseCoords(x, y);
-            turnThread.click(p[0], p[1]);
+            if(currentArea.tileFree(p[0], p[1])) turnThread.click(p[0], p[1]);
         }else if(notClicked){
             currentDialogue.clickedOff();
         }

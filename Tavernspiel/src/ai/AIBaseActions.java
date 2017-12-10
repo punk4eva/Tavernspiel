@@ -3,6 +3,7 @@ package ai;
 
 import ai.intelligence.IntelligentAI1;
 import ai.intelligence.IntelligentAI1.EnState;
+import animation.StaticAnimator;
 import containers.Floor;
 import containers.PurchasableHeap;
 import creatureLogic.Attack;
@@ -73,11 +74,21 @@ public class AIBaseActions implements Serializable{
      */
     public synchronized void moveRaw(Creature c, int x, int y){
         if(c.area.map[c.y][c.x] instanceof Door) ((Door)c.area.map[c.y][c.x]).stepOff(c);
+        c.area.graph.moveOff(c.x, c.y);
         c.setXY(x, y);
+        c.area.graph.moveOn(c.x, c.y);
         if(c.area.map[c.y][c.x] instanceof StepListener){
             ((StepListener)c.area.map[c.y][c.x]).steppedOn(c);
         }
         c.FOV.update(c.x, c.y, c.area);
+    }
+    
+    public void smootheRaw(Creature h, int x, int y){
+        if(!h.animator.currentName.equals("move")) h.changeAnimation("move");
+        h.smootheXY(x, y);
+        if(h.attributes.ai.destinationx==h.x&&h.attributes.ai.destinationy==h.y){
+            h.changeAnimation("stand");
+        }
     }
     
     /**
@@ -204,6 +215,28 @@ public class AIBaseActions implements Serializable{
         wand.fire(c, destx, desty);
     }
     
+    /**
+     * Picks up an Item from the floor.
+     * @param c The Creature.
+     * @throws NullPointerException if there is no Receptacle.
+     */
+    public void pickUp(Creature c){
+        Item i = c.area.pickUp(c.x, c.y);
+        try{
+            c.inventory.push(i);
+        }catch(ReceptacleOverflowException e){
+            c.area.plop(i, c.x, c.y);
+            MainClass.messageQueue.add("red", "Your pack is too full for the " +
+                    i.toString(3));
+        }
+    }
+    
+    public void throwItem(Creature c, Item i, int x, int y){
+        c.inventory.items.remove(i);
+        StaticAnimator.throwItem(c.x, c.y, i, x, y);
+        c.area.plop(i, x, y);
+    }
+    
     public void search(Creature c, Area area){
         ArrayList<Point> ary = new ArrayList<>();
         boolean searchSuccessful = false;
@@ -218,10 +251,11 @@ public class AIBaseActions implements Serializable{
                 }
             }
         }
-        Window.main.searchAnimation(ary, searchSuccessful);
+        StaticAnimator.searchAnimation(ary, searchSuccessful);
     }
     
     public synchronized boolean canMove(Creature c, Integer[] dir){
+        if(dir[0]==0&&dir[1]==0) return true;
         return c.area.tileFree(c.x+dir[0], c.y+dir[1]);
     }
     

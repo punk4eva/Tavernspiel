@@ -36,7 +36,7 @@ public class Equipment extends Receptacle{
      * @param hero The owner.
      */
     public Equipment(Hero hero){
-        super(7, "ERROR: You shouldn't be reading this.", -1, -1);
+        super(null, 7, "ERROR: You shouldn't be reading this.", -1, -1);
         for(int n=0;n<7;n++) items.add(null);
         screens = getScreens(hero.inventory);
         heroOwner = hero;
@@ -213,11 +213,11 @@ public class Equipment extends Receptacle{
     private List<Screen> getScreens(Inventory inv){
         if(screens!=null) return screens;
         List<Screen> ret = new LinkedList<>();
-        int padding = 4;
-        int beginWidth = MainClass.WIDTH/9;
-        int beginHeight = MainClass.HEIGHT/9;
-        int sqwidth = (MainClass.WIDTH*7/9-7*padding)/6;
-        int sqheight = (MainClass.WIDTH*7/9-6*padding)/5;
+        int padding = Hero.padding;
+        int beginWidth = Hero.beginWidth;
+        int beginHeight = Hero.beginHeight;
+        int sqwidth = Hero.sqwidth;
+        int sqheight = Hero.sqheight;
         ret.add(new Screen("Weapon", beginWidth+padding, beginHeight+padding, sqwidth, sqheight, inv.manager));
         ret.add(new Screen("Helmet", beginWidth+2*padding+sqwidth, beginHeight+padding, sqwidth, sqheight, inv.manager));
         ret.add(new Screen("Chestplate", beginWidth+3*padding+2*sqwidth, beginHeight+padding, sqwidth, sqheight, inv.manager));

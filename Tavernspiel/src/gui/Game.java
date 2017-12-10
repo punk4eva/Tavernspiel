@@ -5,6 +5,7 @@ import ai.PlayerAI;
 import animation.GameObjectAnimator;
 import creatureLogic.Attributes;
 import creatures.Hero;
+import items.Apparatus;
 import javax.swing.ImageIcon;
 import level.Area;
 import level.Dungeon;
@@ -41,15 +42,10 @@ public class Game extends MainClass{
     public static void main(String... args){
         Thread.currentThread().setName("Progenitor Thread");
         Game game = new Game();
-        /*Window.main.currentArea = new Area(new Dimension(80, 80), Window.main.currentArea.location);
-        CorridorBuilder builder = new CorridorBuilder(Window.main.currentArea);
-        Path path = new Searcher(Window.main.currentArea.graph).findNullPath(new Point(5, 5), new Point(14, 13));
-        builder.buildCorridor(path);*/
-        /*Dialogue dialogue = new Dialogue("Test", "offCase", true, new CComponent[]{
-        new CButton("Button", 0, 0, 8, null),
-        new CCheckbox("Checkbox", 0, 0, null),
-        new CSlider("Slider", 0, 0, 1, 7, 1)});
-        dialogue.action(game);*/
+        try{
+            Thread.sleep(1200);
+        }catch(InterruptedException e){}
+        game.currentArea.plop(Apparatus.getRandomMeleeWeapon(1, game.currentArea.location), game.player.x, game.player.y);
     }
 
     @Unfinished("The sfx for newDepth.")

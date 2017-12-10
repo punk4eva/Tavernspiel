@@ -9,11 +9,11 @@ import creatures.Hero;
 import designer.AreaTemplate;
 import exceptions.AreaCoordsOutOfBoundsException;
 import exceptions.ReceptacleOverflowException;
-import static gui.MainClass.HEIGHT;
-import static gui.MainClass.WIDTH;
+import items.Item;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -275,12 +275,27 @@ public class Area implements Serializable{
      * @return true if it is, false if not.
      */
     public boolean tileFree(int x, int y){
-        boolean stood = true;
+        /*boolean stood = true;
         for(GameObject ob : objects) if(!(ob instanceof Blob) && ob.x==x && ob.y==y){
-            stood = false;
-            break;
+        stood = false;
+        break;
         }
-        return stood&&map[y][x].treadable;
+        return stood&&map[y][x].treadable;*/
+        return graph.tileFree(x, y);
+    }
+    
+    /**
+     * Removes and returns an Item from the given coordinates.
+     * @param x
+     * @param y
+     * @return The item at the top of the Receptacle.
+     * @throws NullPointerException if there is no Receptacle.
+     */
+    public Item pickUp(int x, int y){
+        Receptacle r = getReceptacle(x, y);
+        Item ret = r.pop();
+        if(r.isEmpty()) receptacles.remove(r);
+        return ret;
     }
     
     public static Area getPreloadedArea(String filepath){
@@ -289,23 +304,26 @@ public class Area implements Serializable{
     
     @Unfinished("Remove bookmarks.")
     public synchronized void renderObjects(Graphics g, int focusX, int focusY){
+        receptacles.stream().forEach(r -> {
+            if(overlay.isVisible(r.x, r.y)){
+                if(r.icon!=null) g.drawImage(r.icon.getImage(), r.x*16+focusX, r.y*16+focusY, null);
+                else if(!r.isEmpty()) r.peek().animation.animate(g, r.x*16+focusX, r.y*16+focusY);
+            }
+        });
         objects.stream().forEach(ob -> {
-            ob.render(g, focusX, focusY);
+            if(overlay.isVisible(ob.x, ob.y)) ob.render(g, focusX, focusY);
         });
         //graph.paint(g, focusX, focusY);
     }
     
     public synchronized void turn(double turnNum){
         for(;turnNum>=1;turnNum--){
-            objects.stream().forEach(ob -> {
-                ob.turn(1.0);
-            });
+            Iterator<GameObject> iter = objects.iterator();
+            while(iter.hasNext()) iter.next().turn(1.0);
         }
         if(turnNum!=0.0){
-            double d = turnNum; //effective finalization.
-            objects.stream().forEach(ob -> {
-                ob.turn(d);
-            });
+            Iterator<GameObject> iter = objects.iterator();
+            while(iter.hasNext()) iter.next().turn(turnNum);
         }
     }
     
@@ -319,19 +337,6 @@ public class Area implements Serializable{
             objects.add(h);
         }
         hero = h;
-    }
-
-    public synchronized void shade(Graphics g, int focusX, int focusY, double zoom){
-        for(int y=focusY, maxY=focusY+dimension.height*16;y<maxY;y+=16){
-            for(int x=focusX, maxX=focusX+dimension.width*16;x<maxX;x+=16){
-                if(x<0||y<0||x*zoom>WIDTH||y*zoom>HEIGHT) continue;
-                try{
-                    int tx = (x-focusX)/16, ty = (y-focusY)/16;
-                    if(overlay.isExplored(tx, ty)) g.drawImage(VisibilityOverlay.exploredFog.getShadow(overlay.map, x, y, 1), x, y, null);
-                    else if(overlay.isUnexplored(tx, ty)) g.drawImage(VisibilityOverlay.unexploredFog.getShadow(overlay.map, x, y, 0), x, y, null);
-                }catch(ArrayIndexOutOfBoundsException e){/*skip frame*/}
-            }
-        }
     }
     
     public void startAllAnimations(){
@@ -348,6 +353,10 @@ public class Area implements Serializable{
                 if(map[y][x] instanceof AnimatedTile) ((AnimatedTile) map[y][x]).animation.stop();
             }
         }
+    }
+
+    public void plop(Item i, int x, int y){
+        receptacles.add(new Floor(i, x, y));
     }
     
 }
