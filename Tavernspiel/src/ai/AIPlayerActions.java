@@ -11,11 +11,11 @@ import gui.Screen;
 import gui.Window;
 import items.Item;
 import items.consumables.LocationSpecificScroll;
+import items.consumables.LocationSpecificScroll.LocationViewable;
 import java.util.List;
+import listeners.ScreenListener;
 import logic.Distribution;
 import logic.Utils.Unfinished;
-import items.consumables.LocationSpecificScroll.LocationViewable;
-import listeners.ScreenListener;
 
 /**
  *

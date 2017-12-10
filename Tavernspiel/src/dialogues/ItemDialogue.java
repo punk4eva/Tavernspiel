@@ -2,7 +2,6 @@
 package dialogues;
 
 import creatureLogic.Expertise;
-import gui.MainClass;
 import gui.Window;
 import items.Item;
 import items.ItemAction;

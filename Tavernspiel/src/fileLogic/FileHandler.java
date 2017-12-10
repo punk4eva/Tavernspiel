@@ -2,8 +2,6 @@
 package fileLogic;
 
 import dialogues.ExceptionDialogue;
-import gui.Game;
-import gui.Window;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
