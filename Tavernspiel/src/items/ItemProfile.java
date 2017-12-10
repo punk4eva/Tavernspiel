@@ -203,6 +203,7 @@ public abstract class ItemProfile{
             case     "firebrick": return Color.decode("#ff5400");
             case     "flame": return Color.decode("#f84400");
             case     "white wine": return Color.decode("#dae8a9");
+            case     "red" : return Color.decode("#ff0000");
             default: return new Color(255,255,255,255);
         }
     }
