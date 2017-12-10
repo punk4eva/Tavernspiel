@@ -46,6 +46,7 @@ public abstract class AITemplate implements Serializable{
         if(!currentPath.hasNext()){
             currentPath = null;
             c.changeAnimation("stand");
+            if(c.area.getReceptacle(c.x, c.y)!=null) BASEACTIONS.pickUp(c);
         }
     }
     

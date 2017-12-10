@@ -19,7 +19,12 @@ public class IntelligentAI1 extends AITemplate{
     @Override
     @Unfinished
     public void turn(Creature c, Area area){
-        if(c.x!=c.attributes.ai.destinationx||
+        if(skipping>0){
+            skipping-=c.attributes.speed;
+            if(skipping<0){
+                skipping = 0;
+            }
+        }else if(c.x!=c.attributes.ai.destinationx||
                 c.y!=c.attributes.ai.destinationy){
             decideAndMove(c);
             return;

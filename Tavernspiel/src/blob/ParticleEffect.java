@@ -54,6 +54,12 @@ public class ParticleEffect implements Serializable{
         return ret;
     }
     
+    public void setXY(int x, int y){
+        int dx=x-startField.x, dy=y-startField.y;
+        startField.setLocation(x, y);
+        stopField.setLocation(stopField.x+dx, stopField.y+dy);
+    }
+    
     public static abstract class Particle implements Cloneable, Serializable{
         
         protected final Color color;

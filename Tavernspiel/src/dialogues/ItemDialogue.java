@@ -3,6 +3,7 @@ package dialogues;
 
 import creatureLogic.Expertise;
 import gui.MainClass;
+import gui.Window;
 import items.Item;
 import items.ItemAction;
 
@@ -29,11 +30,10 @@ public class ItemDialogue extends Dialogue{
     
     /**
      * Decides what to do with the Item.
-     * @param main The MainClass to display this Dialogue on.
      * @return The ItemAction that was selected.
      */
-    public ItemAction next(MainClass main){
-        String ret = super.action(main).getName();
+    public ItemAction next(){
+        String ret = super.action(Window.main).getName();
         for(ItemAction act : actions){
             if(act.getName().equals(ret)) return act;
         }

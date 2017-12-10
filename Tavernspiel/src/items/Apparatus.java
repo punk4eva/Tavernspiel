@@ -163,6 +163,12 @@ public class Apparatus extends Item{
         else animation = enchantment.buildAnimation(imageWithoutEnchantment);
     }
     
+    public static ItemAction[] standardActions(int length, Item i){
+        ItemAction[] ret = ItemAction.getArray(length, i);
+        ret[2] = new ItemAction("EQUIP", i);
+        return ret;
+    }
+    
     @Override
     public String toString(int level){
         if(level==0) return getClass().toString().substring(

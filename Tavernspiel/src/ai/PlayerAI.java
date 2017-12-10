@@ -92,16 +92,19 @@ public final class PlayerAI extends AITemplate implements KeyListener{
             currentPath = null;
             unfinished = false;
             c.changeAnimation("stand");
+            if(c.area.getReceptacle(c.x, c.y)!=null) BASEACTIONS.pickUp(c);
         }
+    }
+    
+    public void expendTurns(double turns){
+        skipping += turns;
+        unfinished = true;
+        Window.main.addEvent(() -> {});
     }
     
     @Override
     public void paralyze(double turns){
-        skipping += turns;
-        unfinished = true;
-        new Thread(() -> {
-            Window.main.turnThread.click(hero.x, hero.y);
-        }).start();
+        expendTurns(turns);
     }
     
 }

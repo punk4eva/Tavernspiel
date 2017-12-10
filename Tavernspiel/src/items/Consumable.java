@@ -21,7 +21,7 @@ public abstract class Consumable extends Item implements Usable{
     public Consumable(String n, String desc, ImageIcon i, boolean idd){
         super(n, desc, i, true);
         identified = idd;
-        actions = ItemAction.getArray(3);
+        actions = ItemAction.getArray(3, this);
     }
     
     /**
@@ -35,7 +35,7 @@ public abstract class Consumable extends Item implements Usable{
     public Consumable(String n, String desc, ImageIcon i, boolean idd, int q){
         super(n, desc, i, q);
         identified = idd;
-        actions = ItemAction.getArray(3);
+        actions = ItemAction.getArray(3, this);
     }
     
     /**
@@ -50,7 +50,7 @@ public abstract class Consumable extends Item implements Usable{
     public Consumable(String n, String desc, ImageIcon i, boolean idd, int q, boolean flam){
         super(n, desc, i, q, flam);
         identified = idd;
-        actions = ItemAction.getArray(3);
+        actions = ItemAction.getArray(3, this);
     }
     
     /**
@@ -63,7 +63,7 @@ public abstract class Consumable extends Item implements Usable{
     public Consumable(String n, Description desc, ImageIcon im, boolean idd){
         super(n, desc, im, 1);
         identified = idd;
-        actions = ItemAction.getArray(3);
+        actions = ItemAction.getArray(3, this);
     }
     
     /**

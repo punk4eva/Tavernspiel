@@ -90,26 +90,31 @@ public final class Utils{
     
     public static int lineCount(String str){
         int count = 1;
-        for(int n=0;n<str.length()-1;n++){
-            if(str.substring(n,n+2).equals("\n")) count++;
-        }
+        for(char c : str.toCharArray()) if(c=='\n') count++;
         return count;
     }
     
-    public static String lineFormat(String str, int lineLength){
-        String[] words = str.split(" ");
-        int counter = 0;
+    public static String lineFormat(String string, int lineLength){
         String ret = "";
-        for(String word : words){
-            if(word.length()+counter>=lineLength){
-                counter = word.length();
-                ret += "\n"+ word;
-            }else{
-                counter += 1 + word.length();
-                ret += " " + word;
+        for(String str : string.split("\n")){
+            int counter = -1;
+            for(String word : str.split(" ")){
+                if(word.length()+counter>=lineLength){
+                    counter = word.length();
+                    ret += "\n"+ word;
+                }else{
+                    if(counter==-1){
+                        ret += word;
+                        counter += word.length();
+                    }else{
+                        ret += " " + word;
+                        counter += 1 + word.length();
+                    }
+                }
             }
+            ret += '\n';
         }
-        return ret.substring(1);
+        return ret;
     }
     
     public static long euclideanAlgorithm(long large, long small){
@@ -174,7 +179,7 @@ public final class Utils{
         for(double theta=0,max=2*Math.PI;theta<max;theta+=increment){
         System.out.println(theta + " -> " + testBlocked(theta, blocking));
         }*/
-        printHashCodes("english");
+        //printHashCodes("english");
     }
     
 }

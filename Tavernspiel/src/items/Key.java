@@ -12,7 +12,7 @@ public class Key extends Item{
     public Key(int d){
         super("Key", "This key opens a door", ItemBuilder.getIcon(16, 16));
         depth = d;
-        actions = ItemAction.getDefaultActions();
+        actions = ItemAction.getDefaultActions(this);
     }
     
 }

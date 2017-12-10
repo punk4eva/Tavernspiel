@@ -246,6 +246,10 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         viewables.screens.add(sc);
     }
     
+    public void addScreenFirst(Screen sc){
+        viewables.screens.add(0, sc);
+    }
+    
     /**
      * Removes the array of Screens from the active list.
      * @param scs The regex.
@@ -404,19 +408,20 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         int x = me.getX(), y = me.getY();
         for(Screen sc : viewables.screens){ //Used for-each instead of stream because of "break".
             if(sc.withinBounds(x, y)){
-                if(!sc.name.equals("blank click")){
+                if(sc.name.equals("blank click")) return;
+                if(!sc.name.equals("/exit")){
                     sc.wasClicked(me);
                     notClicked = false;
                 }
                 break;
             }
         }
-        if(viewables.viewablesSize()==1){
+        if(notClicked){if(viewables.viewablesSize()==1){
             Integer[] p = translateMouseCoords(x, y);
             if(currentArea.tileFree(p[0], p[1])) turnThread.click(p[0], p[1]);
-        }else if(notClicked){
+        }else{
             currentDialogue.clickedOff();
-        }
+        }}
     }
     @Override
     public void mousePressed(MouseEvent me){/**Ignore*/}
