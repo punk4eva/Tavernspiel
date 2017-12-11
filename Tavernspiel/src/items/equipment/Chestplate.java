@@ -3,6 +3,7 @@ package items.equipment;
 
 import items.Apparatus;
 import items.Item;
+import items.ItemBuilder;
 import javax.swing.ImageIcon;
 import logic.Distribution;
 
@@ -40,13 +41,58 @@ public class Chestplate extends Apparatus{
         description.type = "armour";
     }
     
+    public static class ClothChestplate extends Chestplate{
+    
+        public ClothChestplate(){
+            super("Cloth hat", "This crude make-shift hat offers basic protection.", 
+                    ItemBuilder.getIcon(0, 112), 30, new Distribution(0, 3), 10);
+        }
+
+    }
+    
+    public static class LeatherChestplate extends Chestplate{
+    
+        public LeatherChestplate(){
+            super("Cloth hat", "This crude make-shift hat offers basic protection.", 
+                    ItemBuilder.getIcon(16, 112), 30, new Distribution(0, 3), 10);
+        }
+
+    }
+    
+    public static class MailChestplate extends Chestplate{
+    
+        public MailChestplate(){
+            super("Cloth hat", "This crude make-shift hat offers basic protection.", 
+                    ItemBuilder.getIcon(32, 112), 30, new Distribution(0, 3), 10);
+        }
+
+    }
+    
+    public static class ScaleChestplate extends Chestplate{
+    
+        public ScaleChestplate(){
+            super("Cloth hat", "This crude make-shift hat offers basic protection.", 
+                    ItemBuilder.getIcon(48, 112), 30, new Distribution(0, 3), 10);
+        }
+
+    }
+    
+    public static class PlateChestplate extends Chestplate{
+    
+        public PlateChestplate(){
+            super("Cloth hat", "This crude make-shift hat offers basic protection.", 
+                    ItemBuilder.getIcon(64, 112), 30, new Distribution(0, 3), 10);
+        }
+
+    }
+    
     public static Chestplate getArmour(String type){
         switch(type){
-            case "cloth": return new ClothHelmet();
-            case "leather": return new LeatherHelmet();
-            case "mail": return new MailHelmet();
-            case "scale": return new ScaleHelmet();
-            default: return new PlateHelmet();
+            case "cloth": return new ClothChestplate();
+            case "leather": return new LeatherChestplate();
+            case "mail": return new MailChestplate();
+            case "scale": return new ScaleChestplate();
+            default: return new PlateChestplate();
         }
     }
     
