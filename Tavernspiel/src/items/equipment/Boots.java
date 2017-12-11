@@ -40,4 +40,14 @@ public class Boots extends Apparatus{
         description.type = "armour";
     }
     
+    public static Boots getArmour(String type){
+        switch(type){
+            case "cloth": return new ClothBoots();
+            case "leather": return new LeatherBoots();
+            case "mail": return new MailBoots();
+            case "scale": return new ScaleBoots();
+            default: return new PlateBoots();
+        }
+    }
+    
 }

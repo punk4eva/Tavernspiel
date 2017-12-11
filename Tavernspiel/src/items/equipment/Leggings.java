@@ -40,4 +40,14 @@ public class Leggings extends Apparatus{
         description.type = "armour";
     }
     
+    public static Leggings getArmour(String type){
+        switch(type){
+            case "cloth": return new ClothHelmet();
+            case "leather": return new LeatherHelmet();
+            case "mail": return new MailHelmet();
+            case "scale": return new ScaleHelmet();
+            default: return new PlateHelmet();
+        }
+    }
+    
 }

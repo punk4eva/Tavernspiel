@@ -31,6 +31,7 @@ public class Location implements Serializable{
     public final HashMap<String, ImageIcon> tilemap = new HashMap<>();
     public int difficulty;
     public final WeaponIndex weaponIndex;
+    private Distribution armourDistrib = new Distribution(new int[]{12,20,6,3,1});
     
     /**
      * Creates a new instance.
@@ -277,6 +278,16 @@ public class Location implements Serializable{
     
     public WeaponEntry getWeaponEntry(){
         return weaponIndex.map.get((int)weaponIndex.rarities.next());
+    }
+    
+    public String getArmourType(){
+        switch((int)armourDistrib.next()){
+            case 0: return "cloth";
+            case 1: return "leather";
+            case 2: return "mail";
+            case 3: return "scale";
+            default: return "plate";
+        }
     }
     
 }
