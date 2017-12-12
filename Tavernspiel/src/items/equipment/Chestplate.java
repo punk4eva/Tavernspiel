@@ -44,8 +44,8 @@ public class Chestplate extends Apparatus{
     public static class ClothChestplate extends Chestplate{
     
         public ClothChestplate(){
-            super("Cloth hat", "This crude make-shift hat offers basic protection.", 
-                    ItemBuilder.getIcon(0, 112), 30, new Distribution(0, 3), 10);
+            super("Cloth vest", "This simple garment offers poor damage reduction but it's better than nothing.", 
+                    ItemBuilder.getIcon(0, 112), 40, new Distribution(0, 3), 10);
         }
 
     }
@@ -53,8 +53,9 @@ public class Chestplate extends Apparatus{
     public static class LeatherChestplate extends Chestplate{
     
         public LeatherChestplate(){
-            super("Cloth hat", "This crude make-shift hat offers basic protection.", 
-                    ItemBuilder.getIcon(16, 112), 30, new Distribution(0, 3), 10);
+            super("Leather tunic", "A well crafted piece of armour made from the thick skin of a monster.|Its thickness results in "
+                  + "more defence but more weight and less durability.", 
+                    ItemBuilder.getIcon(16, 112), 52, new Distribution(2, 6), 13);
         }
 
     }
@@ -80,7 +81,7 @@ public class Chestplate extends Apparatus{
     public static class PlateChestplate extends Chestplate{
     
         public PlateChestplate(){
-            super("Cloth hat", "This crude make-shift hat offers basic protection.", 
+            super("Cloth hat", "Someone has clearly tried to eat off this, the ketchup stains give +5 style",
                     ItemBuilder.getIcon(64, 112), 30, new Distribution(0, 3), 10);
         }
 
