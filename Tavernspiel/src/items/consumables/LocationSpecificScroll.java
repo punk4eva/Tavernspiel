@@ -57,9 +57,9 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
             listener = sl;
             int bw = MainClass.WIDTH/2-72, bh = MainClass.HEIGHT-64;
             screens = new LinkedList<>();
-            screens.add(new Screen("backLocation", 0, 0, MainClass.WIDTH, MainClass.HEIGHT, listener));
+            screens.add(new Screen("locationPopupX", bw+108, bh+8, 24, 24, listener));
             screens.add(new Screen("locationPopup", bw, bh, 144, 48, listener));
-            screens.add(new Screen("locationPopupX", bw+108, bh+12, 24, 24, listener));
+            screens.add(new Screen("backLocation", 0, 0, MainClass.WIDTH, MainClass.HEIGHT, listener));
         }
         
         @Override
@@ -73,9 +73,9 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
             g.setColor(new Color(230, 20, 20, 164));
             g.fill3DRect(bw, bh, 144, 48, false);
             g.setColor(new Color(230, 25, 25));
-            g.fill3DRect(bw+108, bh+12, 24, 24, true);
+            g.fill3DRect(bw+108, bh+8, 24, 24, true);
             g.setColor(Color.yellow);
-            g.drawString("Select a location", bw+8, bh+8);
+            g.drawString("Select a location", bw+8, bh+20);
             g.drawString("X", bw+116, bh+20);
         }
         

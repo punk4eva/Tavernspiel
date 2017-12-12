@@ -97,6 +97,7 @@ public class AIPlayerActions extends AIBaseActions{
         }.new LocationViewable(new ScreenListener(){
             @Override
             public void screenClicked(Screen.ScreenEvent sc){
+                System.out.println(sc.getName());
                 switch(sc.getName()){
                     case "backLocation":
                         Integer c[] = MainClass.translateMouseCoords(sc.getMouseEvent().getX(), sc.getMouseEvent().getY());

@@ -3,6 +3,7 @@ package ai;
 
 import creatures.Creature;
 import creatures.Hero;
+import gui.Window;
 import items.ItemAction;
 
 /**
@@ -29,7 +30,8 @@ public class ItemActionInterpreter{
         switch(action.getName()){
             case "DROP": c.attributes.ai.BASEACTIONS.dropItem(c, action.getItem());
                 break;
-            case "THROW": ((AIPlayerActions)c.attributes.ai.BASEACTIONS).throwItem(c, action.getItem());
+            case "THROW": if(Window.main.viewablesSize()>1) Window.main.removeTopViewable();
+                ((AIPlayerActions)c.attributes.ai.BASEACTIONS).throwItem(c, action.getItem());
                 break;
             case "DRINK":
                 break;

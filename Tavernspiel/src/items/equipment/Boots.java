@@ -80,7 +80,7 @@ public class Boots extends Apparatus{
     public static class PlateBoots extends Boots{
     
         public PlateBoots(){
-            super("Plate boots", "Almost no sharp object can penetrate the plate of the legendary plate boots.", 
+            super("Plate boots", "Boots with solid steel plating. Nothing can penetrate this legendary footwear.", 
                     ItemBuilder.getIcon(64, 144), 90, new Distribution(4, 9), 17);
         }
 

@@ -332,7 +332,9 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         }
         paintArea(currentArea, g);
         currentArea.renderObjects(g, focusX, focusY);
-        if(StaticAnimator.current!=null) StaticAnimator.current.animate(g, focusX, focusY);
+        if(StaticAnimator.current!=null){
+            StaticAnimator.current.animate(g, focusX, focusY);
+        }
         AffineTransform at = AffineTransform.getScaleInstance(zoom, zoom);
         //at.concatenate(AffineTransform.getTranslateInstance(zoom*-20, zoom*-20));
         bsg.drawRenderedImage(buffer, at);

@@ -6,10 +6,12 @@ import creatures.Hero;
 import dialogues.ItemDialogue;
 import dialogues.MoneyDialogue;
 import exceptions.ReceptacleIndexOutOfBoundsException;
+import exceptions.ReceptacleOverflowException;
 import gui.MainClass;
 import gui.Screen;
 import gui.Screen.ScreenEvent;
 import gui.Window;
+import items.Gold;
 import items.Item;
 import java.awt.Graphics;
 import java.util.LinkedList;
@@ -72,6 +74,12 @@ public class Inventory extends Receptacle{
                         sqwidth, sqheight, true);
             }
         }
+    }
+    
+    @Override
+    public void push(Item i) throws ReceptacleOverflowException{
+        if(i instanceof Gold) amountOfMoney += i.quantity;
+        else super.push(i);
     }
     
     private List<Screen> getScreens(){
