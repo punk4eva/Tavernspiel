@@ -44,8 +44,8 @@ public class Leggings extends Apparatus{
     public static class ClothLeggings extends Leggings{
     
         public ClothLeggings(){
-            super("Cloth hat", "This crude make-shift hat offers basic protection.", 
-                    ItemBuilder.getIcon(0, 128), 30, new Distribution(0, 3), 10);
+            super("Cloth trousers", "These light leggings offer more warmth than protection.", 
+                    ItemBuilder.getIcon(0, 128), 24, new Distribution(0, 4), 10);
         }
 
     }
@@ -53,8 +53,8 @@ public class Leggings extends Apparatus{
     public static class LeatherLeggings extends Leggings{
     
         public LeatherLeggings(){
-            super("Cloth hat", "This crude make-shift hat offers basic protection.", 
-                    ItemBuilder.getIcon(16, 128), 30, new Distribution(0, 3), 10);
+            super("Leather trousers", "These leggings possess the strength of the animal from which they were made.", 
+                    ItemBuilder.getIcon(16, 128), 45, new Distribution(2, 6), 11);
         }
 
     }
@@ -62,8 +62,8 @@ public class Leggings extends Apparatus{
     public static class MailLeggings extends Leggings{
     
         public MailLeggings(){
-            super("Cloth hat", "This crude make-shift hat offers basic protection.", 
-                    ItemBuilder.getIcon(32, 128), 30, new Distribution(0, 3), 10);
+            super("Mail greaves", "The choice of most knights, these greaves offer unencumbered protection.", 
+                    ItemBuilder.getIcon(32, 128), 100, new Distribution(5, 13), 13);
         }
 
     }
@@ -71,8 +71,8 @@ public class Leggings extends Apparatus{
     public static class ScaleLeggings extends Leggings{
     
         public ScaleLeggings(){
-            super("Cloth hat", "This crude make-shift hat offers basic protection.", 
-                    ItemBuilder.getIcon(48, 128), 30, new Distribution(0, 3), 10);
+            super("Scale greaves", "Greaves constructed by dwarvern masters have insane durability.", 
+                    ItemBuilder.getIcon(48, 128), 210, new Distribution(3, 19), 17);
         }
 
     }
@@ -80,8 +80,8 @@ public class Leggings extends Apparatus{
     public static class PlateLeggings extends Leggings{
     
         public PlateLeggings(){
-            super("Cloth hat", "This crude make-shift hat offers basic protection.", 
-                    ItemBuilder.getIcon(64, 128), 30, new Distribution(0, 3), 10);
+            super("Plate legplates", "Lower body protection from these metal plates is unparalleled, however the metal rusts easily.", 
+                    ItemBuilder.getIcon(64, 128), 150, new Distribution(6, 21), 17);
         }
 
     }
