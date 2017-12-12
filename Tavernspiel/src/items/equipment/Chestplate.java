@@ -63,8 +63,8 @@ public class Chestplate extends Apparatus{
     public static class MailChestplate extends Chestplate{
     
         public MailChestplate(){
-            super("Cloth hat", "This crude make-shift hat offers basic protection.", 
-                    ItemBuilder.getIcon(32, 112), 30, new Distribution(0, 3), 10);
+            super("Mail chestplate", "An armour piece made of interlocking chains offering decent protection.", 
+                    ItemBuilder.getIcon(32, 112), 100, new Distribution(4, 9), 14);
         }
 
     }
@@ -72,8 +72,8 @@ public class Chestplate extends Apparatus{
     public static class ScaleChestplate extends Chestplate{
     
         public ScaleChestplate(){
-            super("Cloth hat", "This crude make-shift hat offers basic protection.", 
-                    ItemBuilder.getIcon(48, 112), 30, new Distribution(0, 3), 10);
+            super("Scale chestplate", "This exellently crafted chestplate is lightweight for those who favour mobility over defense.|It has great durability aswell.", 
+                    ItemBuilder.getIcon(48, 112), 180, new Distribution(4, 13), 15);
         }
 
     }
@@ -81,8 +81,8 @@ public class Chestplate extends Apparatus{
     public static class PlateChestplate extends Chestplate{
     
         public PlateChestplate(){
-            super("Cloth hat", "Someone has clearly tried to eat off this, the ketchup stains give +5 style",
-                    ItemBuilder.getIcon(64, 112), 30, new Distribution(0, 3), 10);
+            super("Plate chestplate", "More like a portable wall than a piece of armour, this towering piece offers immense protection to any strong enough to wear it.",
+                    ItemBuilder.getIcon(64, 112), 170, new Distribution(7, 24), 19);
         }
 
     }
