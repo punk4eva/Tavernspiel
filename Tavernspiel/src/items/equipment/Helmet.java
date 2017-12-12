@@ -53,8 +53,8 @@ public class Helmet extends Apparatus{
     public static class LeatherHelmet extends Helmet{
     
         public LeatherHelmet(){
-            super("Cloth hat", "This crude make-shift hat offers basic protection.", 
-                    ItemBuilder.getIcon(16, 96), 30, new Distribution(0, 3), 10);
+            super("Leather cap", "A lightweight headpiece made of some tanned hide used by scouts and travellers.", 
+                    ItemBuilder.getIcon(16, 96), 45, new Distribution(1, 5), 12);
         }
 
     }
@@ -62,8 +62,8 @@ public class Helmet extends Apparatus{
     public static class MailHelmet extends Helmet{
     
         public MailHelmet(){
-            super("Cloth hat", "This crude make-shift hat offers basic protection.", 
-                    ItemBuilder.getIcon(32, 96), 30, new Distribution(0, 3), 10);
+            super("Mail helmet", "The knight's choice of headwear. It can protect it's wearer from most melee attack.", 
+                    ItemBuilder.getIcon(32, 96), 60, new Distribution(3, 8), 14);
         }
 
     }
@@ -71,8 +71,9 @@ public class Helmet extends Apparatus{
     public static class ScaleHelmet extends Helmet{
     
         public ScaleHelmet(){
-            super("Cloth hat", "This crude make-shift hat offers basic protection.", 
-                    ItemBuilder.getIcon(48, 96), 30, new Distribution(0, 3), 10);
+            super("Scale helmet", "Interlinked scale technology allows for protection from the heaviest of blows.|This "
+                  + "armour's heavy weight comes from its reinforced scaling for increased durability.", 
+                    ItemBuilder.getIcon(48, 96), 130, new Distribution(4, 10), 17);
         }
 
     }
@@ -80,8 +81,8 @@ public class Helmet extends Apparatus{
     public static class PlateHelmet extends Helmet{
     
         public PlateHelmet(){
-            super("Cloth hat", "This crude make-shift hat offers basic protection.", 
-                    ItemBuilder.getIcon(64, 96), 30, new Distribution(0, 3), 10);
+            super("Plate helmet", "Despite its name you cannot eat off this helmet however its protection is unchallenged.", 
+                    ItemBuilder.getIcon(64, 96), 90, new Distribution(5, 14), 18);
         }
 
     }
