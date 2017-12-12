@@ -44,8 +44,8 @@ public class Boots extends Apparatus{
     public static class ClothBoots extends Boots{
     
         public ClothBoots(){
-            super("Cloth hat", "This crude make-shift hat offers basic protection.", 
-                    ItemBuilder.getIcon(0, 144), 30, new Distribution(0, 3), 10);
+            super("Cloth slippers", "More useful at bedtime, these slippers offer almost no protection. But they feel comfortable.", 
+                    ItemBuilder.getIcon(0, 144), 30, new Distribution(0, 2), 9);
         }
 
     }
@@ -53,8 +53,8 @@ public class Boots extends Apparatus{
     public static class LeatherBoots extends Boots{
     
         public LeatherBoots(){
-            super("Cloth hat", "This crude make-shift hat offers basic protection.", 
-                    ItemBuilder.getIcon(16, 144), 30, new Distribution(0, 3), 10);
+            super("Leather shoes", "The tough leather of these leggings offer some protection.", 
+                    ItemBuilder.getIcon(16, 144), 45, new Distribution(1, 4), 11);
         }
 
     }
@@ -62,8 +62,8 @@ public class Boots extends Apparatus{
     public static class MailBoots extends Boots{
     
         public MailBoots(){
-            super("Cloth hat", "This crude make-shift hat offers basic protection.", 
-                    ItemBuilder.getIcon(32, 144), 30, new Distribution(0, 3), 10);
+            super("Mail stockings", "The interlocking rings of metal provide safety against blunt attacks.", 
+                    ItemBuilder.getIcon(32, 144), 61, new Distribution(2, 5), 13);
         }
 
     }
@@ -71,8 +71,8 @@ public class Boots extends Apparatus{
     public static class ScaleBoots extends Boots{
     
         public ScaleBoots(){
-            super("Cloth hat", "This crude make-shift hat offers basic protection.", 
-                    ItemBuilder.getIcon(48, 144), 30, new Distribution(0, 3), 10);
+            super("Scale boots", "Guaranteed to let the user walk away from any fight, most of the time.", 
+                    ItemBuilder.getIcon(48, 144), 120, new Distribution(3, 7), 15);
         }
 
     }
@@ -80,8 +80,8 @@ public class Boots extends Apparatus{
     public static class PlateBoots extends Boots{
     
         public PlateBoots(){
-            super("Cloth hat", "This crude make-shift hat offers basic protection.", 
-                    ItemBuilder.getIcon(64, 144), 30, new Distribution(0, 3), 10);
+            super("Plate boots", "Almost no sharp object can penetrate the plate of the legendary plate boots.", 
+                    ItemBuilder.getIcon(64, 144), 90, new Distribution(4, 9), 17);
         }
 
     }
