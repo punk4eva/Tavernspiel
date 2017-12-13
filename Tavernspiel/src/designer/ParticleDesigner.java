@@ -31,12 +31,11 @@ import javax.swing.Timer;
  */
 public class ParticleDesigner extends MainClass implements ActionListener{
     
-    
     CommandLibrary command = new CommandLibrary();
     ParticleEffect effect;
     boolean capOverInt = false;
     private final Timer timer;
-    private final HashMap<String, Particle> particles = new HashMap<>();
+    private HashMap<String, Particle> particles = new HashMap<>();
     {
         particles.put("first", new PowerParticle(Color.red, new Rectangle(8, 8), 5, 0.5, 3, 100, 5.5f));
         timer = new Timer(5, this);
@@ -52,6 +51,7 @@ public class ParticleDesigner extends MainClass implements ActionListener{
         if(rect==null){
             System.out.println("Filepath...");
             effect = (ParticleEffect) FileHandler.deserialize(new Scanner(System.in).nextLine());
+            particles = effect.getParticleMap();
         }else{
             effect = new ParticleEffect(4, 10, rect[0], rect[1], particles.get("first"));
         }

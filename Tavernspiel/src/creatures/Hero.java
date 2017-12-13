@@ -38,7 +38,7 @@ public class Hero extends Creature implements Viewable{
     public final ScrollBuilder scrollBuilder;
     public int hunger = 100;
     public DeathData data;
-    public Expertise expertise;
+    public Expertise expertise = new Expertise();
     public EnClass job = EnClass.NoClass;
     public EnSubclass subclass = null; //Null if no subclass selected.
     
@@ -52,6 +52,7 @@ public class Hero extends Creature implements Viewable{
         super("Hero", new Description("hero","UNWRITTEN"), atb, an);
         equipment = new Equipment(this);
         attributes.ai = new PlayerAI(this);
+        inventory = new Inventory(this);
         try{data = new DeathData(this);}catch(Exception e){}
         scrollBuilder = new ScrollBuilder(this);
         screens.addAll(equipment.screens);

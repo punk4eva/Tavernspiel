@@ -33,7 +33,7 @@ public abstract class Potion extends Consumable{
     public Potion(String n, String un, String desc, ImageIcon i, boolean idd, Type t, String tm){
         super(n, desc, i, idd);
         unknownName = un;
-        actions[2] = new ItemAction("DRINK");
+        actions[2] = new ItemAction("DRINK", this);
         tasteMessage = tm;
         type = t;
         description.type = "potions";
@@ -56,7 +56,7 @@ public abstract class Potion extends Consumable{
         tasteMessage = tm;
         unknownName = un;
         description.type = "potions";
-        actions[2] = new ItemAction("DRINK");
+        actions[2] = new ItemAction("DRINK", this);
     }
     
     /**
@@ -67,7 +67,7 @@ public abstract class Potion extends Consumable{
     public Potion(PotionProfile pp, boolean idd){
         super(pp.getName(), pp.getDescription(), pp.getImageIcon(), idd);
         description.layers[0] += idd ? "\n\n" + PotionProfile.bareProfileMap.get(pp.getName()).getDescription().layers[0] : "\n\nWho knows what will happen when drunk or thrown?";
-        actions[2] = new ItemAction("DRINK");
+        actions[2] = new ItemAction("DRINK", this);
         unknownName = pp.unknownName;
         tasteMessage = pp.tasteMessage;
         type = pp.type;

@@ -1,11 +1,18 @@
 
 package containers;
 
+import ai.ItemActionInterpreter;
 import creatures.Hero;
+import dialogues.ItemDialogue;
+import dialogues.MoneyDialogue;
+import exceptions.ReceptacleIndexOutOfBoundsException;
+import exceptions.ReceptacleOverflowException;
 import gui.MainClass;
 import gui.Screen;
 import gui.Screen.ScreenEvent;
 import gui.Window;
+import items.Gold;
+import items.Item;
 import java.awt.Graphics;
 import java.util.LinkedList;
 import java.util.List;
@@ -69,6 +76,12 @@ public class Inventory extends Receptacle{
         }
     }
     
+    @Override
+    public void push(Item i) throws ReceptacleOverflowException{
+        if(i instanceof Gold) amountOfMoney += i.quantity;
+        else super.push(i);
+    }
+    
     private List<Screen> getScreens(){
         LinkedList<Screen> ret = new LinkedList<>();
         int padding = Hero.padding;
@@ -98,10 +111,30 @@ public class Inventory extends Receptacle{
         public void screenClicked(ScreenEvent sc){
             if(hijacker!=null) hijacker.screenClicked(sc);
             else{
-                System.out.println(sc.getName());
-                switch(sc.getName()){
+                String slot = sc.getName();
+                System.out.println(slot);
+                switch(slot){
                     case "background": Window.main.removeTopViewable();
-                        return;
+                    case "invspace": return;
+                }
+                if(slot.startsWith("Money"))
+                    new MoneyDialogue(amountOfMoney).next();
+                else if(slot.startsWith("e")){
+                    Item i = null;
+                    try{
+                        i = heroOwner.equipment.get(Integer.parseInt(slot.substring(1)));
+                    }catch(ReceptacleIndexOutOfBoundsException e){}
+                    if(i!=null){
+                        Item it = i; //effective finalization.
+                        Window.main.addEvent(() -> 
+                            ItemActionInterpreter.act(new ItemDialogue(it, heroOwner.expertise).next(), heroOwner));
+                    }
+                    
+                }else{
+                    int s = Integer.parseInt(slot);
+                    if(s<items.size())
+                        Window.main.addEvent(() -> 
+                                ItemActionInterpreter.act(new ItemDialogue(items.get(s), heroOwner.expertise).next(), heroOwner));
                 }
             }
         }

@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.LinkedList;
 import logic.Distribution;
 
@@ -14,6 +15,8 @@ import logic.Distribution;
  */
 public class ParticleEffect implements Serializable{
 
+    private static final long serialVersionUID = -8216452115110348899L;
+    
     public void paint(Graphics2D g){
         tick++;
         if(tick>=intensity){
@@ -42,6 +45,19 @@ public class ParticleEffect implements Serializable{
     
     private Particle createParticle(){
         return particleSet[Distribution.r.nextInt(particleSet.length)].clone();
+    }
+    
+    public HashMap<String, Particle> getParticleMap(){
+        HashMap<String, Particle> ret = new HashMap<>();
+        for(int n=0;n<particleSet.length;n++)
+            ret.put("particle"+n, particleSet[n]);
+        return ret;
+    }
+    
+    public void setXY(int x, int y){
+        int dx=x-startField.x, dy=y-startField.y;
+        startField.setLocation(x, y);
+        stopField.setLocation(stopField.x+dx, stopField.y+dy);
     }
     
     public static abstract class Particle implements Cloneable, Serializable{

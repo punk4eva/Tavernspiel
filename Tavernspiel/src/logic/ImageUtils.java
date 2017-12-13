@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
@@ -132,6 +133,16 @@ public class ImageUtils{
         g.drawImage(img, 0, 0, null);
         g.dispose();
         return bi;
+    }
+    
+    public static void drawString(Graphics g, String str, int x, int y){
+        y -= g.getFontMetrics().getHeight();
+        for(String line : str.split("\n"))
+            g.drawString(line, x, y += g.getFontMetrics().getHeight());
+    }
+    
+    public static int getStringHeight(){
+        return (int)Math.ceil(ConstantFields.textFont.getLineMetrics("Example", new FontRenderContext(new AffineTransform(), true, true)).getHeight());
     }
     
     public static BufferedImage scale(BufferedImage b, double w, double h){

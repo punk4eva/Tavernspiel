@@ -6,6 +6,7 @@ import items.Item;
 import items.equipment.Wand;
 import java.util.List;
 import java.util.concurrent.Semaphore;
+import javax.swing.ImageIcon;
 import logic.Utils.Unfinished;
 import pathfinding.Point;
 
@@ -15,12 +16,13 @@ import pathfinding.Point;
  */
 public class StaticAnimator{
     
-    public static Animation current;
+    public volatile static Animation current;
     private static Semaphore semaphore = new Semaphore(0);
     
     private StaticAnimator(){}
     
     public static void complete(){
+        current.stop();
         current = null;
         semaphore.release();
     }
@@ -34,6 +36,8 @@ public class StaticAnimator{
     @Unfinished
     public static void throwItem(int x, int y, Item i, int x0, int y0){
         //queue.add(new Animation(Window.main));
+        current = dummyAnimation();
+        current.start();
         pause();
     }
     
@@ -58,6 +62,11 @@ public class StaticAnimator{
     public static void searchAnimation(List<Point> ary, boolean searchSuccessful){
         if(searchSuccessful) Window.main.soundSystem.playSFX("Misc/mystery.wav");
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    @Unfinished("Only used for test purposes so remove later.")
+    private static Animation dummyAnimation(){
+        return new Animation(new ImageIcon[]{new ImageIcon()}, Window.main);
     }
     
 }

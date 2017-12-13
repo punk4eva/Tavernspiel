@@ -2,8 +2,6 @@
 package fileLogic;
 
 import dialogues.ExceptionDialogue;
-import gui.Game;
-import gui.Window;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -65,6 +63,7 @@ public final class FileHandler{
         try(ObjectInputStream in = new ObjectInputStream(new FileInputStream(filepath))) {
             return in.readObject();
         }catch(IOException | ClassNotFoundException e){
+            e.printStackTrace();
             new ExceptionDialogue(e).next();
         }
         return "EXCEPTION";

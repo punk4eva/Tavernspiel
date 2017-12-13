@@ -11,9 +11,9 @@ import creatures.Creature;
 import creatures.Hero;
 import exceptions.ReceptacleOverflowException;
 import gui.MainClass;
-import gui.Window;
 import items.Apparatus;
 import items.Item;
+import items.ItemAction;
 import items.equipment.MeleeWeapon;
 import items.equipment.Wand;
 import java.io.Serializable;
@@ -231,10 +231,19 @@ public class AIBaseActions implements Serializable{
         }
     }
     
+    public void interpretItemAction(Creature c, ItemAction a){
+        ItemActionInterpreter.act(a, c);
+    }
+    
     public void throwItem(Creature c, Item i, int x, int y){
         c.inventory.items.remove(i);
         StaticAnimator.throwItem(c.x, c.y, i, x, y);
         c.area.plop(i, x, y);
+    }
+    
+    public void dropItem(Creature c, Item i){
+        c.inventory.items.remove(i);
+        c.area.plop(i, c.x, c.y);
     }
     
     public void search(Creature c, Area area){

@@ -7,7 +7,11 @@ import creatureLogic.Description;
 import enchantments.Enchantment;
 import gui.MainClass;
 import items.equipment.Artifact;
+import items.equipment.Boots;
+import items.equipment.Chestplate;
 import items.equipment.HeldWeapon;
+import items.equipment.Helmet;
+import items.equipment.Leggings;
 import items.equipment.MeleeWeapon;
 import items.equipment.Ring;
 import javax.swing.ImageIcon;
@@ -163,6 +167,12 @@ public class Apparatus extends Item{
         else animation = enchantment.buildAnimation(imageWithoutEnchantment);
     }
     
+    public static ItemAction[] standardActions(int length, Item i){
+        ItemAction[] ret = ItemAction.getArray(length, i);
+        ret[2] = new ItemAction("EQUIP", i);
+        return ret;
+    }
+    
     @Override
     public String toString(int level){
         if(level==0) return getClass().toString().substring(
@@ -204,12 +214,11 @@ public class Apparatus extends Item{
     
     public static Apparatus getRandomArmour(int depth, Location loc){
         switch(Distribution.r.nextInt(4)){
-            case 0: //helmet
-            case 1: //chest
-            case 2: //legs
-            case 3: //boots
+            case 0: return Helmet.getArmour(loc.getArmourType());
+            case 1: return Chestplate.getArmour(loc.getArmourType());
+            case 2: return Leggings.getArmour(loc.getArmourType());
+            default: return Boots.getArmour(loc.getArmourType());
         }
-        throw new UnsupportedOperationException("Not Supported Yet!");
     }
     
     public static HeldWeapon getRandomMeleeWeapon(int depth, Location loc){

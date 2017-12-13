@@ -60,7 +60,7 @@ public class Wand extends RangedWeapon implements ScreenListener{
         firingAnimation = ItemBuilder.getWandAnimation(s);
         blockingLevel = ItemBuilder.getWandBlockingLevel(s);
         areaEvent = ItemBuilder.getWandAreaEvent(s);
-        locationSelect = new LocationSpecificScroll(null, null, null, false){
+        locationSelect = new LocationSpecificScroll(null, "", null, false){
             @Override
             public void use(Creature c, int x, int y){
                 throw new UnsupportedOperationException("Wand.locationSelect.use() should remain unused!");

@@ -19,11 +19,11 @@ public class Description implements Serializable{
     /**
      * Creates a new instance
      * @param t The type of the thing to be described.
-     * @param l The layers of description.
+     * @param la The layers of description.
      */
-    public Description(String t, String... l){
+    public Description(String t, String... la){
         type = t;
-        layers = l;
+        layers = la;
     }
     
     /**
@@ -57,7 +57,7 @@ public class Description implements Serializable{
      * @see Description.new()
      */
     public static Description parseDescription(String type, String str){
-        return new Description(type, str.split("|"));
+        return new Description(type, str.split("\\|"));
     }
     
 }
