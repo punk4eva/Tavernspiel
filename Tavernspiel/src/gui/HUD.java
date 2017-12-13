@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.List;
 import listeners.ScreenListener;
 import logic.ConstantFields;
+import logic.ImageUtils;
+import containers.Receptacle;
 
 /**
  *
@@ -20,11 +22,21 @@ public class HUD implements Viewable, ScreenListener{
         screens.add(new Screen("Wait",Game.WIDTH - 50, Game.HEIGHT - 73, 40, 40,this));
         screens.add(new Screen("Search",Game.WIDTH - 95, Game.HEIGHT - 73, 40, 40,this));
         screens.add(new Screen("Inventory",Game.WIDTH - 140, Game.HEIGHT - 73, 40, 40,this));
+        for(int i = 0; i < 5; i++) screens.add(new Screen("QuickSlot" + (i + 1),Game.WIDTH - (350 + i * 45), Game.HEIGHT - 73, 40, 40, this));
     }
     private boolean viewingInventory = false;
     
     public HUD(){
         Window.main.addViewable(this);
+    }
+    
+    private QuickSlot quickslot = new QuickSlot();
+    
+    public class QuickSlot extends Receptacle{
+        public QuickSlot(){
+            super(null,5,"Quickslots for Player", -1,-1);
+        }
+    
     }
 
     @Override
@@ -38,6 +50,13 @@ public class HUD implements Viewable, ScreenListener{
         g.fillRect(5, 5, 60, 60);
         g.drawImage(Window.main.player.animator.active.frames[0].getImage().getScaledInstance(60, 60, 0),5,2,null);
         g.fillRect(70,5,200,10);
+        
+        for(int i = 0; i < 5; i++){
+            g.fill3DRect(Game.WIDTH - (350 + i * 45), Game.HEIGHT - 73, 40, 40, true);
+            try{
+                ImageUtils.paintItemSquare(g, Game.WIDTH - (350 + i * 45), Game.HEIGHT - 73, 40, 40, quickslot.getElse(i), Window.main.player);
+            }catch(NullPointerException e){}
+        }
         
         g.fill3DRect(Game.WIDTH - 50, Game.HEIGHT - 73, 40, 40, true);
         g.drawImage(ConstantFields.eyeButtonImg, Game.WIDTH - 50, Game.HEIGHT - 70, null);
@@ -67,5 +86,6 @@ public class HUD implements Viewable, ScreenListener{
         if(viewingInventory) Window.main.removeTopViewable();
         viewingInventory = false;
     }
+    
     
 }
