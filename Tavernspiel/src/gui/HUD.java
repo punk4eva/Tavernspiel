@@ -29,7 +29,7 @@ public class HUD implements Viewable, ScreenListener{
     
     public HUD(QuickSlot q){
         quickslot = q;
-        for(int i = 0; i < 5; i++) screens.add(new Screen("QuickSlot" + (i + 1),Game.WIDTH - (350 + i * 45), Game.HEIGHT - 73, 40, 40, quickslot));
+        for(int i = 0; i < q.length(); i++) screens.add(new Screen("QuickSlot" + i,Game.WIDTH - (350 + i * 45), Game.HEIGHT - 73, 40, 40, quickslot));
         Window.main.addViewable(this);
     }
 
@@ -45,7 +45,7 @@ public class HUD implements Viewable, ScreenListener{
         g.drawImage(Window.main.player.animator.active.frames[0].getImage().getScaledInstance(60, 60, 0),5,2,null);
         g.fillRect(70,5,200,10);
         
-        for(int i = 0; i < 5; i++){
+        for(int i = 0; i < quickslot.length(); i++){
             g.fill3DRect(Game.WIDTH - (350 + i * 45), Game.HEIGHT - 73, 40, 40, true);
             try{
                 ImageUtils.paintItemSquare(g, Game.WIDTH - (350 + i * 45), Game.HEIGHT - 73, 40, 40, quickslot.getItem(i), Window.main.player);

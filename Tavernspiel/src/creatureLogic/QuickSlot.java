@@ -27,6 +27,10 @@ public class QuickSlot implements Serializable, ScreenListener{
         items[index] = null;
     }
     
+    public int length(){
+        return items.length;
+    }
+    
     public QuickSlot(Hero h, Inventory inv){
         inventory = inv;
         hero = h;
@@ -35,7 +39,7 @@ public class QuickSlot implements Serializable, ScreenListener{
     @Override
     public void screenClicked(ScreenEvent sc){
         try{
-            ((Usable)items[Integer.parseInt(sc.getName())]).defaultUse(hero);
+            ((Usable)items[Integer.parseInt(sc.getName().substring(sc.getName().length()-1))]).defaultUse(hero);
         }catch(NullPointerException e){}
     }
     
