@@ -29,15 +29,6 @@ public class HUD implements Viewable, ScreenListener{
     public HUD(){
         Window.main.addViewable(this);
     }
-    
-    private QuickSlot quickslot = new QuickSlot();
-    
-    public class QuickSlot extends Receptacle{
-        public QuickSlot(){
-            super(null,5,"Quickslots for Player", -1,-1);
-        }
-    
-    }
 
     @Override
     public List<Screen> getScreens(){
