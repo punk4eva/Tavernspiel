@@ -3,36 +3,40 @@ package creatureLogic;
 
 import containers.Inventory;
 import creatures.Hero;
-import dialogues.ExceptionDialogue;
-import exceptions.ReceptacleIndexOutOfBoundsException;
 import gui.Screen.ScreenEvent;
+import items.Item;
 import items.Usable;
-import java.awt.Graphics;
 import java.io.Serializable;
 import listeners.ScreenListener;
 
 public class QuickSlot implements Serializable, ScreenListener{
 
-    private int[] pointers;
+    private Item[] items = new Item[4];
     private final Inventory inventory;
     private final Hero hero;
     
-    public void paint(Graphics g){
-        
+    public Item getItem(int index){
+        return items[index];
     }
     
-    public QuickSlot(Hero h){
-        inventory = h.inventory;
+    public void setIndex(int index, int val){
+        items[index] = inventory.getElse(val);
+    }
+    
+    public void clearIndex(int index){
+        items[index] = null;
+    }
+    
+    public QuickSlot(Hero h, Inventory inv){
+        inventory = inv;
         hero = h;
     }
     
     @Override
     public void screenClicked(ScreenEvent sc){
         try{
-            ((Usable)inventory.get(pointers[Integer.parseInt(sc.getName())])).defaultUse(hero);
-        }catch(ReceptacleIndexOutOfBoundsException e){
-            new ExceptionDialogue(e).next();
-        }
+            ((Usable)items[Integer.parseInt(sc.getName())]).defaultUse(hero);
+        }catch(NullPointerException e){}
     }
     
 }

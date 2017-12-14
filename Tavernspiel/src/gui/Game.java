@@ -35,7 +35,7 @@ public class Game extends MainClass{
         currentArea.addHero(player, true);
         window = new Window(WIDTH, HEIGHT, "Tavernspiel", this);
         addKeyListener((PlayerAI) player.attributes.ai);
-        hud = new HUD();
+        hud = new HUD(player.inventory.quickslot);
     }
     
     //Progenitor Thread

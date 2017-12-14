@@ -13,6 +13,7 @@ import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
+import java.util.function.Predicate;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
@@ -22,7 +23,7 @@ import javax.swing.ImageIcon;
  */
 public class ImageUtils{
     
-    public static void paintItemSquare(Graphics g, int x, int y, int sqwidth, int sqheight, Item i, Hero h){
+    public static void paintItemSquare(Graphics g, int x, int y, int sqwidth, int sqheight, Item i, Hero h, Predicate<Item>... pred){
         g.fill3DRect(x, y, sqwidth, sqheight, true);
         boolean cursed = i.hasKnownCurse();
         boolean ided = i.isIdentified(h);
@@ -37,6 +38,7 @@ public class ImageUtils{
         BufferedImage buffer = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
         Graphics bg = buffer.getGraphics();
         i.animation.animate(bg, 0, 0);
+        if(pred.length!=0) if(!pred[0].test(i)) alpha(buffer);
         g.drawImage(scale(buffer, 2, 2), x+(sqwidth-32)/2, y+(sqheight-32)/2, null);
         g.setColor(Color.white);
         if(i.quantity!=1) g.drawString(""+i.quantity, x+4, y+4);
@@ -143,6 +145,17 @@ public class ImageUtils{
     
     public static int getStringHeight(){
         return (int)Math.ceil(ConstantFields.textFont.getLineMetrics("Example", new FontRenderContext(new AffineTransform(), true, true)).getHeight());
+    }
+    
+    public static void alpha(BufferedImage bi){
+        WritableRaster raster = bi.getRaster();
+        for(int y=0;y<bi.getHeight();y++){
+            for(int x=0;x<bi.getWidth();x++){
+                int[] pixel = raster.getPixel(x, y, (int[]) null);
+                if(pixel[3]>10) pixel[3]-=10;
+                raster.setPixel(x, y, pixel);
+            }
+        }
     }
     
     public static BufferedImage scale(BufferedImage b, double w, double h){

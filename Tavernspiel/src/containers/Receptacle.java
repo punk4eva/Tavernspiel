@@ -105,11 +105,12 @@ public abstract class Receptacle implements Serializable{
      * @throws ReceptacleIndexOutOfBoundsException if out of given index.
      */
     public Item get(int slot) throws ReceptacleIndexOutOfBoundsException{
-        if(slot<0||slot>=items.size()){
+        try{
+            return items.get(slot);
+        }catch(IndexOutOfBoundsException e){
             throw new ReceptacleIndexOutOfBoundsException("Slot " + slot + " is"
-                    + " out of bounds for a receptacle with size " + items.size());
+              + " out of bounds for a receptacle with size " + items.size()); 
         }
-        return items.get(slot);
     }
     
     /**
