@@ -13,10 +13,10 @@ import items.Item;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.io.Serializable;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 import listeners.AreaEvent;
 import listeners.DeathEvent;
@@ -40,12 +40,11 @@ public class Area implements Serializable{
     public final Dimension dimension;
     public final Location location;
     public Integer[] startCoords, endCoords;
-    private volatile LinkedList<GameObject> objects = new LinkedList<>();
-    public volatile LinkedList<Receptacle> receptacles = new LinkedList<>();
+    private final List<GameObject> objects = (List<GameObject>)(Object)Collections.synchronizedList(new LinkedList<GameObject>());
+    public final List<Receptacle> receptacles = (List<Receptacle>)(Object)Collections.synchronizedList(new LinkedList<Receptacle>());
     public Graph graph = null;
     private volatile Hero hero;
     public final VisibilityOverlay overlay;
-    private final ReentrantLock lock = new ReentrantLock();
     
     /**
      * Creates a new instance.
@@ -232,15 +231,8 @@ public class Area implements Serializable{
      * @param receptacle The new Receptacle.
      */
     public void replaceHeap(int x, int y, Receptacle receptacle){
-        List<Receptacle> tempList = (List<Receptacle>) receptacles.clone();
-        for(int n=0;n<tempList.size();n++){
-            Receptacle temp = tempList.get(n);
-            if(temp.x==x&&temp.y==y){
-                receptacles.remove(n);
-                receptacles.add(receptacle);
-                break;
-            }
-        }
+        receptacles.remove(getReceptacle(x, y));
+        receptacles.add(receptacle);
     }
     
     /**
@@ -306,32 +298,25 @@ public class Area implements Serializable{
     
     @Unfinished("Remove bookmarks.")
     public void renderObjects(Graphics g, int focusX, int focusY){
-        boolean l = false;
-        if(lock.isLocked()){
-            System.out.println("Render locked!" + this);
-            l = true;
-        }
-        lock.lock();
-        try{
-            if(l) System.out.println("RENDER BREACH!");
+        synchronized(receptacles){
             receptacles.stream().forEach(r -> {
                 if(overlay.isVisible(r.x, r.y)){
                     if(r.icon!=null) g.drawImage(r.icon.getImage(), r.x*16+focusX, r.y*16+focusY, null);
                     else if(!r.isEmpty()) r.peek().animation.animate(g, r.x*16+focusX, r.y*16+focusY);
                 }
             });
-            ((LinkedList<GameObject>) objects.clone()).stream().forEach(ob -> {
+        }
+        synchronized(objects){
+            for(final ListIterator<GameObject> iter=objects.listIterator();iter.hasNext();){
+                GameObject ob = iter.next();
                 if(overlay.isVisible(ob.x, ob.y)) ob.render(g, focusX, focusY);
-            });
+            }
             //graph.paint(g, focusX, focusY);
-        }finally{
-            lock.unlock();
         }
     }
     
     public void turn(double turnNum){
-        lock.lock();
-        try{
+        synchronized(objects){
             for(;turnNum>=1;turnNum--){
                 for(final ListIterator<GameObject> iter = objects.listIterator();iter.hasNext();) 
                     iter.next().turn(1.0);
@@ -340,8 +325,6 @@ public class Area implements Serializable{
                 for(final ListIterator<GameObject> iter = objects.listIterator();iter.hasNext();) 
                     iter.next().turn(turnNum);
             }
-        }finally{
-            lock.unlock();
         }
     }
     

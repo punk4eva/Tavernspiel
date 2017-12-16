@@ -429,7 +429,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
      * @return An int array representing the tile coordinates.
      */
     public static Integer[] translateMouseCoords(double mx, double my){
-        return new Integer[]{(int)Math.floor((mx-focusX)/16), (int)Math.floor((my-focusY)/16)};
+        return new Integer[]{(int)Math.floor((mx-focusX)/(16D*zoom)), (int)Math.floor((my-focusY)/(16D*zoom))};
     }
 
     @Override

@@ -3,7 +3,10 @@ package ai;
 
 import creatures.Creature;
 import creatures.Hero;
+import exceptions.ReceptacleOverflowException;
+import gui.MainClass;
 import gui.Window;
+import items.Item;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import level.Area;
@@ -92,7 +95,16 @@ public final class PlayerAI extends AITemplate implements KeyListener{
             currentPath = null;
             unfinished = false;
             c.changeAnimation("stand");
-            if(c.area.getReceptacle(c.x, c.y)!=null) BASEACTIONS.pickUp(c);
+            if(c.area.getReceptacle(next.x, next.y)!=null){
+                Item i = c.area.pickUp(next.x, next.y);
+                try{
+                    c.inventory.push(i);
+                }catch(ReceptacleOverflowException e){
+                    c.area.plop(i, next.x, next.y);
+                    MainClass.messageQueue.add("red", "Your pack is too full for the " +
+                            i.toString(3));
+                }
+            }
         }
     }
     
