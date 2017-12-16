@@ -33,7 +33,6 @@ public final class PlayerAI extends AITemplate implements KeyListener{
     @Override
     public void keyTyped(KeyEvent ke){
         Integer[] m;
-        System.out.println("AAAAAAAAAA");
         switch(ke.getKeyChar()){
             case 'w': m = new Integer[]{0, -1};
                 break;

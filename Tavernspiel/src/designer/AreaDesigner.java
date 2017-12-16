@@ -4,8 +4,6 @@ package designer;
 import gui.MainClass;
 import static gui.MainClass.HEIGHT;
 import static gui.MainClass.WIDTH;
-import static gui.MainClass.frameDivisor;
-import static gui.MainClass.frameNumber;
 import gui.Window;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -142,9 +140,6 @@ public class AreaDesigner extends MainClass{
         Graphics g = bs.getDrawGraphics();
         g.setColor(Color.black);
         g.fillRect(0, 0, WIDTH, HEIGHT);
-        if(frameInSec%16==0){
-            frameNumber = (frameNumber+1) % frameDivisor;
-        }
         paintAreaTemplate(area, g);
         if(currentDialogue!=null) currentDialogue.paint(g);
         g.dispose();

@@ -8,7 +8,6 @@ import java.util.List;
 import listeners.ScreenListener;
 import logic.ConstantFields;
 import logic.ImageUtils;
-import containers.Receptacle;
 import creatureLogic.QuickSlot;
 
 /**

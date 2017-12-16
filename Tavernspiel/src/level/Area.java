@@ -13,9 +13,10 @@ import items.Item;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.io.Serializable;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 import listeners.AreaEvent;
 import listeners.DeathEvent;
@@ -44,6 +45,7 @@ public class Area implements Serializable{
     public Graph graph = null;
     private volatile Hero hero;
     public final VisibilityOverlay overlay;
+    private final ReentrantLock lock = new ReentrantLock();
     
     /**
      * Creates a new instance.
@@ -303,27 +305,43 @@ public class Area implements Serializable{
     }
     
     @Unfinished("Remove bookmarks.")
-    public synchronized void renderObjects(Graphics g, int focusX, int focusY){
-        receptacles.stream().forEach(r -> {
-            if(overlay.isVisible(r.x, r.y)){
-                if(r.icon!=null) g.drawImage(r.icon.getImage(), r.x*16+focusX, r.y*16+focusY, null);
-                else if(!r.isEmpty()) r.peek().animation.animate(g, r.x*16+focusX, r.y*16+focusY);
-            }
-        });
-        objects.stream().forEach(ob -> {
-            if(overlay.isVisible(ob.x, ob.y)) ob.render(g, focusX, focusY);
-        });
-        //graph.paint(g, focusX, focusY);
+    public void renderObjects(Graphics g, int focusX, int focusY){
+        boolean l = false;
+        if(lock.isLocked()){
+            System.out.println("Render locked!" + this);
+            l = true;
+        }
+        lock.lock();
+        try{
+            if(l) System.out.println("RENDER BREACH!");
+            receptacles.stream().forEach(r -> {
+                if(overlay.isVisible(r.x, r.y)){
+                    if(r.icon!=null) g.drawImage(r.icon.getImage(), r.x*16+focusX, r.y*16+focusY, null);
+                    else if(!r.isEmpty()) r.peek().animation.animate(g, r.x*16+focusX, r.y*16+focusY);
+                }
+            });
+            ((LinkedList<GameObject>) objects.clone()).stream().forEach(ob -> {
+                if(overlay.isVisible(ob.x, ob.y)) ob.render(g, focusX, focusY);
+            });
+            //graph.paint(g, focusX, focusY);
+        }finally{
+            lock.unlock();
+        }
     }
     
-    public synchronized void turn(double turnNum){
-        for(;turnNum>=1;turnNum--){
-            Iterator<GameObject> iter = objects.iterator();
-            while(iter.hasNext()) iter.next().turn(1.0);
-        }
-        if(turnNum!=0.0){
-            Iterator<GameObject> iter = objects.iterator();
-            while(iter.hasNext()) iter.next().turn(turnNum);
+    public void turn(double turnNum){
+        lock.lock();
+        try{
+            for(;turnNum>=1;turnNum--){
+                for(final ListIterator<GameObject> iter = objects.listIterator();iter.hasNext();) 
+                    iter.next().turn(1.0);
+            }
+            if(turnNum!=0.0){
+                for(final ListIterator<GameObject> iter = objects.listIterator();iter.hasNext();) 
+                    iter.next().turn(turnNum);
+            }
+        }finally{
+            lock.unlock();
         }
     }
     

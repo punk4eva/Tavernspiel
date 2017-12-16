@@ -2,7 +2,6 @@
 package gui;
 
 import ai.PlayerAI;
-import animation.Animation;
 import animation.StaticAnimator;
 import creatureLogic.VisibilityOverlay;
 import creatures.Hero;
@@ -34,7 +33,6 @@ import level.Area;
 import listeners.AnimationListener;
 import logic.ConstantFields;
 import logic.SoundHandler;
-import logic.Utils;
 import tiles.AnimatedTile;
 import tiles.Tile;
 
@@ -64,8 +62,6 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     private int xOfDrag=-1, yOfDrag=-1;
     private static double zoom = 1.0;
     public static final double MAX_ZOOM = 8.0, MIN_ZOOM = 0.512;
-    public static long frameDivisor = 10000;
-    public static long frameNumber = 0;
     public static double gameTurns = 0;
     
     private class ViewableList{
@@ -261,31 +257,13 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
     }
     
     /**
-     * Registers an Animation.
-     * @param an The Animation to register.
-     */
-    public static void addAnimation(Animation an){
-        if(frameDivisor%an.frames.length!=0) 
-            frameDivisor = Utils.frameUpdate(frameDivisor, an.frames.length);
-    }
-    
-    /**
-     * Returns the focus.
-     * @return An array representing the x and y coordinates of focus.
-     */
-    public static int[] getFocus(){
-        return new int[]{focusX, focusY};
-    }
-    
-    /**
      * Sets the focus based on the tile coordinates.
      * @param tilex
      * @param tiley
      */
     public void setFocus(int tilex, int tiley){
-        int z = (int)(8*zoom);
-        focusX = WIDTH/2 - z - tilex * 16;
-        focusY = HEIGHT/2 - z - tiley * 16;
+        focusX = (int)(WIDTH/zoom)/2 - tilex * 16;
+        focusY = (int)(HEIGHT/zoom)/2 - tiley * 16;
     }
 
     /**
@@ -323,20 +301,16 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
             return;
         }
         Graphics2D bsg = (Graphics2D) bs.getDrawGraphics();
-        BufferedImage buffer = new BufferedImage(WIDTH, HEIGHT, BufferedImage.TYPE_INT_ARGB);
+        BufferedImage buffer = new BufferedImage((int)(((double)WIDTH)/zoom), (int)(((double)HEIGHT)/zoom), BufferedImage.TYPE_INT_ARGB);
         Graphics g = buffer.getGraphics();
-        bsg.setColor(Color.black);
-        bsg.fillRect(0, 0, WIDTH, HEIGHT);
-        if(frameInSec%16==0){
-            frameNumber = (frameNumber+1) % frameDivisor;
-        }
+        g.setColor(Color.black);
+        g.fillRect(0, 0, (int)(((double)WIDTH)/zoom), (int)(((double)HEIGHT)/zoom));
         paintArea(currentArea, g);
         currentArea.renderObjects(g, focusX, focusY);
         if(StaticAnimator.current!=null){
             StaticAnimator.current.animate(g, focusX, focusY);
         }
         AffineTransform at = AffineTransform.getScaleInstance(zoom, zoom);
-        //at.concatenate(AffineTransform.getTranslateInstance(zoom*-20, zoom*-20));
         bsg.drawRenderedImage(buffer, at);
         messageQueue.paint(bsg);
         viewables.paint(bsg);
@@ -383,10 +357,10 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         for(int y=focusY, maxY=focusY+area.dimension.height*16;y<maxY;y+=16){
             for(int x=focusX, maxX=focusX+area.dimension.width*16;x<maxX;x+=16){
                 int tx = (x-focusX)/16, ty = (y-focusY)/16;
-                Optional<Image> shade = null;
-                if(area.overlay.isExplored(tx, ty)) shade = Optional.of(VisibilityOverlay.exploredFog.getShadow(area.overlay.map, tx, ty, 1, false));
-                else if(area.overlay.isUnexplored(tx, ty)) shade = Optional.ofNullable(VisibilityOverlay.unexploredFog.getShadow(area.overlay.map, tx, ty, 0, true));
                 try{
+                    Optional<Image> shade = null;
+                    if(area.overlay.isExplored(tx, ty)) shade = Optional.of(VisibilityOverlay.exploredFog.getShadow(area.overlay.map, tx, ty, 1, false));
+                    else if(area.overlay.isUnexplored(tx, ty)) shade = Optional.ofNullable(VisibilityOverlay.unexploredFog.getShadow(area.overlay.map, tx, ty, 0, true));
                     if((shade!=null&&!shade.isPresent())||x<0||y<0||x*zoom>WIDTH||y*zoom>HEIGHT) continue;
                     Tile tile = area.map[ty][tx];
                     if(tile==null){
