@@ -42,6 +42,9 @@ public abstract class AITemplate implements Serializable{
             currentPath.next();
         }
         Point next = currentPath.next();
+        if(c.animatingMotion()) try{
+            c.motionLatch.await();
+        }catch(InterruptedException e){}
         BASEACTIONS.smootheRaw(c, next.x, next.y);
         if(!currentPath.hasNext()){
             currentPath = null;

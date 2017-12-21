@@ -68,7 +68,7 @@ public final class PlayerAI extends AITemplate implements KeyListener{
     public void keyReleased(KeyEvent ke){}
 
     @Override
-    public synchronized void turn(Creature c, Area area){
+    public void turn(Creature c, Area area){
         if(skipping>0){
             skipping-=hero.attributes.speed;
             if(skipping<=0){
@@ -82,7 +82,7 @@ public final class PlayerAI extends AITemplate implements KeyListener{
     }
     
     @Override
-    public synchronized void decideAndMove(Creature c){
+    public void decideAndMove(Creature c){
         if(currentPath==null){
             currentPath = c.area.graph.searcher.findExpressRoute(new Point(c.x, c.y), new Point(destinationx, destinationy)).iterator();
             c.changeAnimation("move");
@@ -90,6 +90,13 @@ public final class PlayerAI extends AITemplate implements KeyListener{
             currentPath.next();
         }
         Point next = currentPath.next();
+        if(c.animatingMotion()){
+            c.area.objectLock.unlock();
+            try{
+                c.motionLatch.await();
+            }catch(InterruptedException e){}
+            c.area.objectLock.lock();
+        }
         BASEACTIONS.smootheRaw(hero, next.x, next.y);
         if(!currentPath.hasNext()){
             currentPath = null;

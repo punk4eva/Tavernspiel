@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 import listeners.AreaEvent;
 import listeners.DeathEvent;
@@ -41,10 +42,11 @@ public class Area implements Serializable{
     public final Location location;
     public Integer[] startCoords, endCoords;
     private final List<GameObject> objects = (List<GameObject>)(Object)Collections.synchronizedList(new LinkedList<GameObject>());
-    public final List<Receptacle> receptacles = (List<Receptacle>)(Object)Collections.synchronizedList(new LinkedList<Receptacle>());
+    protected final List<Receptacle> receptacles = (List<Receptacle>)(Object)Collections.synchronizedList(new LinkedList<Receptacle>());
     public Graph graph = null;
     private volatile Hero hero;
     public final VisibilityOverlay overlay;
+    public final ReentrantLock objectLock = new ReentrantLock();
     
     /**
      * Creates a new instance.
@@ -240,8 +242,13 @@ public class Area implements Serializable{
      * @param object The new GameObject.
      */
     public void addObject(GameObject object){
-        object.setArea(this, true);
-        objects.add(object);
+        objectLock.lock();
+        try{
+            object.setArea(this, true);
+            objects.add(object);
+        }finally{
+            objectLock.unlock();
+        }
     }
     
     /**
@@ -249,7 +256,12 @@ public class Area implements Serializable{
      * @param object The new GameObject.
      */
     public void removeObject(GameObject object){
-        objects.remove(object);
+        objectLock.lock();
+        try{
+            objects.remove(object);
+        }finally{
+            objectLock.unlock();
+        }
     }
 
     /**
@@ -306,17 +318,21 @@ public class Area implements Serializable{
                 }
             });
         }
-        synchronized(objects){
+        objectLock.lock();
+        try{
             for(final ListIterator<GameObject> iter=objects.listIterator();iter.hasNext();){
                 GameObject ob = iter.next();
                 if(overlay.isVisible(ob.x, ob.y)) ob.render(g, focusX, focusY);
             }
             //graph.paint(g, focusX, focusY);
+        }finally{
+            objectLock.unlock();
         }
     }
     
     public void turn(double turnNum){
-        synchronized(objects){
+        objectLock.lock();
+        try{
             for(;turnNum>=1;turnNum--){
                 for(final ListIterator<GameObject> iter = objects.listIterator();iter.hasNext();) 
                     iter.next().turn(1.0);
@@ -325,17 +341,24 @@ public class Area implements Serializable{
                 for(final ListIterator<GameObject> iter = objects.listIterator();iter.hasNext();) 
                     iter.next().turn(turnNum);
             }
+        }finally{
+            objectLock.unlock();
         }
     }
     
-    public synchronized void addHero(Hero h, boolean start){
+    public void addHero(Hero h, boolean start){
         h.setArea(this, start);
+        objectLock.lock();
         try{
-            if(!(objects.get(0) instanceof Hero)){
-                objects.add(0, h);
+            try{
+                if(!(objects.get(0) instanceof Hero)){
+                    objects.add(0, h);
+                }
+            }catch(IndexOutOfBoundsException e){
+                objects.add(h);
             }
-        }catch(IndexOutOfBoundsException e){
-            objects.add(h);
+        }finally{
+                objectLock.unlock();
         }
         hero = h;
     }

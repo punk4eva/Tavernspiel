@@ -21,6 +21,7 @@ import gui.Window;
 import items.consumables.ScrollBuilder;
 import java.awt.Graphics;
 import java.util.LinkedList;
+import java.util.concurrent.CountDownLatch;
 import level.Area;
 import listeners.DeathEvent;
 import listeners.ScreenListener;
@@ -83,7 +84,7 @@ public class Hero extends Creature implements Viewable{
     }
 
     @Override
-    public synchronized void turn(double delta){
+    public void turn(double delta){
         super.turn(delta);
     }
     
@@ -91,22 +92,28 @@ public class Hero extends Creature implements Viewable{
     public void render(Graphics g, int focusX, int focusY){
         if(moving==null) animator.animate(g, x*16+focusX, y*16+focusY);
         else{
+            if(moving[4]==0){
+                moving[0] = focusX;
+                moving[1] = focusY;
+            }
             moving[4]++;
             if(moving[4]>7){
                 attributes.ai.BASEACTIONS.moveRaw(this, moving[5], moving[6]);
+                motionLatch.countDown();
+                motionLatch = new CountDownLatch(1);
+                animator.animate(g, x*16+moving[0], y*16+moving[1]);
                 moving = null;
-                animator.animate(g, x*16+focusX, y*16+focusY);
             }else{
-                int nx = (x*16)+focusX+(int)((double)moving[4]/8.0*moving[2]),
-                        ny = (y*16)+focusY+(int)((double)moving[4]/8.0*moving[3]);
-                animator.animate(g, nx, ny);
-                //Window.main.setFocus(nx, ny);
+                int nx = (x*16)+(int)((double)moving[4]/8.0*(double)moving[2]),
+                        ny = (y*16)+(int)((double)moving[4]/8.0*(double)moving[3]);
+                animator.animate(g, nx+moving[0], ny+moving[1]);
+                Window.main.setPixelFocus(nx, ny);
             }
         }
     }
     
     @Override
-    public synchronized void setXY(int nx, int ny){
+    public void setXY(int nx, int ny){
         x = nx;
         y = ny;
         Window.main.setFocus(x, y);

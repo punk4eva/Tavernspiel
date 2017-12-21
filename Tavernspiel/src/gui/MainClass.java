@@ -265,6 +265,16 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
         focusX = (int)(WIDTH/zoom)/2 - tilex * 16;
         focusY = (int)(HEIGHT/zoom)/2 - tiley * 16;
     }
+    
+    /**
+     * Sets the focus based on the pixel coordinates.
+     * @param x
+     * @param y
+     */
+    public void setPixelFocus(int x, int y){
+        focusX = (int)(WIDTH/zoom)/2 - x;
+        focusY = (int)(HEIGHT/zoom)/2 - y;
+    }
 
     /**
      * @thread render
@@ -368,7 +378,7 @@ public abstract class MainClass extends Canvas implements Runnable, MouseListene
                         ((AnimatedTile) tile).animation.animate(g, x, y);
                     else g.drawImage(tile.image.getImage(), x, y, null);
                     if(shade!=null) g.drawImage(shade.get(), x, y, null);
-                }catch(ArrayIndexOutOfBoundsException e){/*skip frame*/}
+                }catch(ArrayIndexOutOfBoundsException e){/*Skip frame*/}
             }
         }
     }

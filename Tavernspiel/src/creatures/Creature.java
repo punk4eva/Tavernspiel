@@ -13,6 +13,7 @@ import creatureLogic.FieldOfView;
 import items.equipment.HeldWeapon;
 import java.awt.Graphics;
 import java.util.LinkedList;
+import java.util.concurrent.CountDownLatch;
 import listeners.BuffEvent;
 import logic.Distribution;
 import logic.GameObject;
@@ -32,6 +33,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
     public FieldOfView FOV;
     public volatile LinkedList<Buff> buffs = new LinkedList<>();
     protected volatile int[] moving;
+    public CountDownLatch motionLatch = new CountDownLatch(1);
     
     /**
      * Creates a new instance.
@@ -102,12 +104,12 @@ public class Creature extends GameObject implements Comparable<Creature>{
     /**
      * Kills this Creature.
      */
-    public synchronized void die(){
+    public void die(){
         animator.switchFadeKill(this);
     }
     
     public void smootheXY(int nx, int ny){
-        moving = new int[]{x, y, (nx-x)*16, (ny-y)*16, 0, nx, ny};
+        moving = new int[]{-1, -1, (nx-x)*16, (ny-y)*16, 0, nx, ny};
     }
     
     /**
@@ -124,6 +126,10 @@ public class Creature extends GameObject implements Comparable<Creature>{
                 die();
             }
         }
+    }
+    
+    public boolean animatingMotion(){
+        return moving!=null;
     }
     
     /**
@@ -176,7 +182,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
     }
 
     @Override
-    public synchronized void turn(double delta){
+    public void turn(double delta){
         for(delta+=turndelta;delta>=attributes.speed;delta-=attributes.speed){
             attributes.ai.turn(this, area);
             decrementAndUpdateBuffs(1.0);
@@ -192,6 +198,8 @@ public class Creature extends GameObject implements Comparable<Creature>{
             if(moving[4]>7){
                 attributes.ai.BASEACTIONS.moveRaw(this, moving[5], moving[6]);
                 moving = null;
+                motionLatch.countDown();
+                motionLatch = new CountDownLatch(1);
                 animator.animate(g, x*16+focusX, y*16+focusY);
             }else{
                 animator.animate(g, (x*16)+focusX+(int)((double)moving[4]/8.0*moving[2]),
@@ -200,7 +208,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
         }
     }
     
-    public synchronized void setXY(int nx, int ny){
+    public void setXY(int nx, int ny){
         x = nx;
         y = ny;
     }
