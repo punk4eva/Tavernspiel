@@ -154,7 +154,7 @@ public class Searcher{
         int nx, ny;
         while(!frontier.isEmpty()){
             Point p = frontier.poll();
-            for(Direction dir : directions){
+            for(ExtendedDirection dir : extendedDirections){
                 nx = dir.x.update(p.x);
                 ny = dir.y.update(p.y);
                 try{ if(graph.map[ny][nx].checked!=null&&(!graph.map[ny][nx].checked||addCheck.check(p, graph.map[ny][nx]))){
