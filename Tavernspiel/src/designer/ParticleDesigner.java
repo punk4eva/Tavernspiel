@@ -145,7 +145,8 @@ public class ParticleDesigner extends MainClass implements ActionListener{
                         return;
                     case "/save ": save(command.substring(str.length()));
                         return;
-                    case "/exit": stop();
+                    case "/exit": timer.stop(); 
+                        stop();
                         System.exit(0);
                         return;
                 }
@@ -172,7 +173,10 @@ public class ParticleDesigner extends MainClass implements ActionListener{
     }
     
     private void save(String filepath){
+        timer.stop();
         FileHandler.serialize(effect, filepath);
+        stop();
+        System.exit(0);
     }
     
     private void start(String str){
