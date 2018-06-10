@@ -1,5 +1,4 @@
 Build Quickslot
 Allow Item generation
-Fix FOV
 Work on item graphics
 Work on new indoor tilesets
