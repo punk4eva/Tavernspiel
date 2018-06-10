@@ -5,10 +5,11 @@ import blob.ParticleEffect;
 import blob.ParticleEffect.Particle;
 import blob.particles.PowerParticle;
 import fileLogic.FileHandler;
-import gui.MainClass;
-import static gui.MainClass.HEIGHT;
-import static gui.MainClass.WIDTH;
+import gui.mainToolbox.Main;
+import static gui.mainToolbox.Main.HEIGHT;
+import static gui.mainToolbox.Main.WIDTH;
 import gui.Window;
+import gui.mainToolbox.MouseInterpreter;
 import items.ItemProfile;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -21,7 +22,6 @@ import java.awt.image.BufferStrategy;
 import java.util.HashMap;
 import java.util.Scanner;
 import javax.swing.SwingUtilities;
-import javax.swing.Timer;
 
 /**
  *
@@ -29,16 +29,14 @@ import javax.swing.Timer;
  * 
  * A class meant to design particle effects.
  */
-public class ParticleDesigner extends MainClass implements ActionListener{
+public class ParticleDesigner extends Main implements ActionListener{
     
     CommandLibrary command = new CommandLibrary();
     ParticleEffect effect;
     boolean capOverInt = false;
-    private final Timer timer;
     private HashMap<String, Particle> particles = new HashMap<>();
     {
         particles.put("first", new PowerParticle(Color.red, new Rectangle(8, 8), 5, 0.5, 3, 100, 5.5f));
-        timer = new Timer(5, this);
     }
     
     /**
@@ -55,7 +53,9 @@ public class ParticleDesigner extends MainClass implements ActionListener{
         }else{
             effect = new ParticleEffect(4, 10, rect[0], rect[1], particles.get("first"));
         }
+        pacemaker.setDelay(5);
         window = new Window(WIDTH, HEIGHT, "Particle Designer", this);
+        start();
     }
     
     private static Rectangle[] getBounding(){
@@ -145,8 +145,7 @@ public class ParticleDesigner extends MainClass implements ActionListener{
                         return;
                     case "/save ": save(command.substring(str.length()));
                         return;
-                    case "/exit": timer.stop(); 
-                        stop();
+                    case "/exit": stop();
                         System.exit(0);
                         return;
                 }
@@ -173,7 +172,7 @@ public class ParticleDesigner extends MainClass implements ActionListener{
     }
     
     private void save(String filepath){
-        timer.stop();
+        pacemaker.stop();
         FileHandler.serialize(effect, filepath);
         stop();
         System.exit(0);
@@ -190,78 +189,71 @@ public class ParticleDesigner extends MainClass implements ActionListener{
         effect.stopField.setSize(Integer.parseInt(p[0]), 
                 Integer.parseInt(p[1]));
     }
-    
-    @Override
-    public void run(){
-        addMouseListener(this);
-        addMouseMotionListener(this);
-        addMouseWheelListener(this);
-        this.requestFocus();
-        timer.start();
-    }
+
     
     public static void main(String... args){
         ParticleDesigner designer = new ParticleDesigner();
         while(true) designer.command.activate();
     }
     
-    /**
-     * Sets the location of the stop field (left-mouse) or the start field
-     * (right-mouse).
-     * @param me
-     */
-    @Override
-    public void mouseDragged(MouseEvent me){
-        if(System.currentTimeMillis()%25!=0) return;
-        if(SwingUtilities.isLeftMouseButton(me)){
-            effect.stopField.setLocation(me.getX(), me.getY());
-        }else if(SwingUtilities.isRightMouseButton(me)){
-            effect.startField.setLocation(me.getX(), me.getY());
-        }
-    }
+    private class MouseEmulator extends MouseInterpreter{
     
-    /**
-     * Sets the location of the stop field (left-mouse) or the start field
-     * (right-mouse).
-     * @param me
-     */
-    @Override
-    public void mouseClicked(MouseEvent me){
-        if(SwingUtilities.isLeftMouseButton(me)){
-            effect.stopField.setLocation(me.getX(), me.getY());
-        }else if(SwingUtilities.isRightMouseButton(me)){
-            effect.startField.setLocation(me.getX(), me.getY());
-        }
-    }
-    
-    @Override
-    public void mouseReleased(MouseEvent me){
-    
-    }
-    
-    /**
-     * Changes the intensity (inverse particle production rate) if on intensity 
-     * mode and the capacity (maximum number of particles) if on capacity mode.
-     * @param me
-     */
-    @Override
-    public void mouseWheelMoved(MouseWheelEvent me){
-        if(capOverInt){
-            switch(me.getWheelRotation()){
-                case -1: effect.capacity -= 1;
-                    break;
-                default: effect.capacity += 1;
+        /**
+         * Sets the location of the stop field (left-mouse) or the start field
+         * (right-mouse).
+         * @param me
+         */
+        @Override
+        public void mouseDragged(MouseEvent me){
+            if(System.currentTimeMillis()%25!=0) return;
+            if(SwingUtilities.isLeftMouseButton(me)){
+                effect.stopField.setLocation(me.getX(), me.getY());
+            }else if(SwingUtilities.isRightMouseButton(me)){
+                effect.startField.setLocation(me.getX(), me.getY());
             }
-            System.out.println("Capacity: " + effect.capacity);
-        }else{
-            switch(me.getWheelRotation()){
-                case -1: effect.intensity -= 1;
-                    break;
-                default: effect.intensity += 1;
-            }
-            System.out.println("Intensity: " + effect.intensity);
         }
-    }
+
+        /**
+         * Sets the location of the stop field (left-mouse) or the start field
+         * (right-mouse).
+         * @param me
+         */
+        @Override
+        public void mouseClicked(MouseEvent me){
+            if(SwingUtilities.isLeftMouseButton(me)){
+                effect.stopField.setLocation(me.getX(), me.getY());
+            }else if(SwingUtilities.isRightMouseButton(me)){
+                effect.startField.setLocation(me.getX(), me.getY());
+            }
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent me){}
+
+        /**
+         * Changes the intensity (inverse particle production rate) if on intensity 
+         * mode and the capacity (maximum number of particles) if on capacity mode.
+         * @param me
+         */
+        @Override
+        public void mouseWheelMoved(MouseWheelEvent me){
+            if(capOverInt){
+                switch(me.getWheelRotation()){
+                    case -1: effect.capacity -= 1;
+                        break;
+                    default: effect.capacity += 1;
+                }
+                System.out.println("Capacity: " + effect.capacity);
+            }else{
+                switch(me.getWheelRotation()){
+                    case -1: effect.intensity -= 1;
+                        break;
+                    default: effect.intensity += 1;
+                }
+                System.out.println("Intensity: " + effect.intensity);
+            }
+        }
     
+    }
     
 }

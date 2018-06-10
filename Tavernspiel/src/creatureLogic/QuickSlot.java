@@ -3,7 +3,7 @@ package creatureLogic;
 
 import containers.Inventory;
 import creatures.Hero;
-import gui.Screen.ScreenEvent;
+import gui.mainToolbox.Screen.ScreenEvent;
 import items.Item;
 import items.Usable;
 import java.io.Serializable;

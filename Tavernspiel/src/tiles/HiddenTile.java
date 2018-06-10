@@ -83,7 +83,7 @@ public class HiddenTile extends Tile{
     
     
     public void find(Creature c){
-        if(c instanceof Hero) Window.main.messageQueue.add("orange", "You notice something...");
+        if(c instanceof Hero) Window.main.addMessage("orange", "You notice something...");
         hidden = false;
         flammable = reallyFlammable;
         treadable = reallyTreadable;

@@ -2,7 +2,7 @@
 package level;
 
 import exceptions.AreaCoordsOutOfBoundsException;
-import gui.MainClass;
+import gui.mainToolbox.Main;
 import items.Item;
 import java.awt.Dimension;
 import java.io.Serializable;
@@ -123,7 +123,7 @@ public class AreaBuilder implements Serializable{
         try{
             area.blit(add, x, y);
         }catch(AreaCoordsOutOfBoundsException e){
-            e.printStackTrace(MainClass.exceptionStream);
+            e.printStackTrace(Main.exceptionStream);
         }
     }
     

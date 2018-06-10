@@ -4,8 +4,8 @@ package containers;
 import creatures.Hero;
 import dialogues.UnequipAmuletDialogue;
 import enchantments.WeaponEnchantment;
-import gui.MainClass;
-import gui.Screen;
+import gui.mainToolbox.Main;
+import gui.mainToolbox.Screen;
 import items.Apparatus;
 import items.equipment.Boots;
 import items.equipment.Chestplate;
@@ -146,7 +146,7 @@ public class Equipment extends Receptacle{
      * @param choiceOfAmulet The choice of amulet to remove should it come to it.
      * @return The apparatus that was displaced, null if nothing.
      */
-    public Apparatus equip(MainClass main, Apparatus app, int... choiceOfAmulet){
+    public Apparatus equip(Main main, Apparatus app, int... choiceOfAmulet){
         if(app instanceof HeldWeapon){
             HeldWeapon ret = (HeldWeapon) items.remove(0);
             items.add(0, app);

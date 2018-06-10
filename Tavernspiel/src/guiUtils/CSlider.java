@@ -1,8 +1,8 @@
 
 package guiUtils;
 
-import gui.MainClass;
-import gui.Screen;
+import gui.mainToolbox.Main;
+import gui.mainToolbox.Screen;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
@@ -33,7 +33,7 @@ public class CSlider implements CComponent, ScreenListener{
         name = n;
         TLX = tlx;
         TLY = tly;
-        BRX = TLX+MainClass.WIDTH/3-16;
+        BRX = TLX+Main.WIDTH/3-16;
         BRY = TLY+36;
         min = min_;
         max = max_;
@@ -49,7 +49,7 @@ public class CSlider implements CComponent, ScreenListener{
         name = n;
         TLX = tlx;
         TLY = tly;
-        BRX = TLX+MainClass.WIDTH/3-16;
+        BRX = TLX+Main.WIDTH/3-16;
         BRY = TLY+36;
         min = min_;
         max = max_;

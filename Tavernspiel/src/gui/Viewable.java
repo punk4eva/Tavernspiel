@@ -1,6 +1,7 @@
 
 package gui;
 
+import gui.mainToolbox.Screen;
 import java.awt.Graphics;
 import java.util.List;
 

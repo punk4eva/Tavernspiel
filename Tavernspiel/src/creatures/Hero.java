@@ -14,8 +14,8 @@ import creatureLogic.EnClass;
 import creatureLogic.EnClass.EnSubclass;
 import creatureLogic.Expertise;
 import gui.Game;
-import gui.MainClass;
-import gui.Screen;
+import gui.mainToolbox.Main;
+import gui.mainToolbox.Screen;
 import gui.Viewable;
 import gui.Window;
 import items.consumables.ScrollBuilder;
@@ -26,6 +26,7 @@ import level.Area;
 import listeners.DeathEvent;
 import listeners.ScreenListener;
 import logic.Utils.Catch;
+import testUtilities.TestUtil;
 
 /**
  *
@@ -136,15 +137,15 @@ public class Hero extends Creature implements Viewable{
     public void die(Creature killer){
         animator.switchTo("die");
         new DeathEvent(this, x, y, area).notifyEvent();
-        MainClass.messageQueue.add("red", killer.name + " killed you...");
+        Main.addMessage("red", killer.name + " killed you...");
         ((Game)Window.main).endGame();
     }
     
     public final static int padding = 8,
-        beginWidth = MainClass.WIDTH/9,
-        beginHeight = MainClass.HEIGHT/9,
-        sqwidth = (int)(((double)MainClass.WIDTH*(7.0/9.0)-7*padding)/6.0),
-        sqheight = (int)(((double)MainClass.HEIGHT*(7.0/9.0)-6*padding)/5.0);
+        beginWidth = Main.WIDTH/9,
+        beginHeight = Main.HEIGHT/9,
+        sqwidth = (int)(((double)Main.WIDTH*(7.0/9.0)-7*padding)/6.0),
+        sqheight = (int)(((double)Main.HEIGHT*(7.0/9.0)-6*padding)/5.0);
     
     @Override
     public void paint(Graphics g){

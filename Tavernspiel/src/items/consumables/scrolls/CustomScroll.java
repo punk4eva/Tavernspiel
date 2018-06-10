@@ -3,7 +3,7 @@ package items.consumables.scrolls;
 
 import animation.StillAnimation;
 import creatures.Creature;
-import gui.MainClass;
+import gui.mainToolbox.Main;
 import items.consumables.LocationSpecificScroll;
 import items.equipment.Wand;
 import java.awt.Image;
@@ -22,15 +22,18 @@ public class CustomScroll extends LocationSpecificScroll{
     }
 
     @Override
-    public void use(Creature c, int x, int y){
-        if(mimic==null) MainClass.messageQueue.add("gold", "The Scroll has not absorbed any magic yet.");
-        else mimic.fire(c, x, y);
+    public boolean use(Creature c, int x, int y){
+        if(mimic==null){
+            Main.addMessage("gold", "The Scroll has not absorbed any magic yet.");
+            return true;
+        }else mimic.fire(c, x, y);
+        return true;
     }
     
     public void absorb(Wand wand){
         mimic = wand;
         animation = new StillAnimation(hero.scrollBuilder.getRandomSmudge());
-        MainClass.messageQueue.add("gold", "Your scroll has absorbed some magic.");
+        Main.addMessage("gold", "Your scroll has absorbed some magic.");
     }
     
 }

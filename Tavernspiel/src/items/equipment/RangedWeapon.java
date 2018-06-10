@@ -37,12 +37,12 @@ public class RangedWeapon extends HeldWeapon implements Usable{
     }
 
     @Override
-    public void defaultUse(Creature c, Object... data){
+    public boolean defaultUse(Creature c, Object... data){
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public void use(Creature c, ItemAction act, Object... data){
+    public boolean use(Creature c, ItemAction act, Object... data){
         throw new UnsupportedOperationException("Not supported yet.");
     }
     

@@ -18,7 +18,7 @@ public class CountercurseScroll extends ItemSpecificScroll{
     }
 
     @Override
-    public void use(Creature c, Item i){
+    public boolean use(Creature c, Item i){
         throw new UnsupportedOperationException("Not supported yet.");
     }
     

@@ -4,7 +4,7 @@ package ai;
 import creatures.Creature;
 import creatures.Hero;
 import exceptions.ReceptacleOverflowException;
-import gui.MainClass;
+import gui.mainToolbox.Main;
 import gui.Window;
 import items.Item;
 import java.awt.event.KeyEvent;
@@ -108,7 +108,7 @@ public final class PlayerAI extends AITemplate implements KeyListener{
                     c.inventory.push(i);
                 }catch(ReceptacleOverflowException e){
                     c.area.plop(i, next.x, next.y);
-                    MainClass.messageQueue.add("red", "Your pack is too full for the " +
+                    Main.addMessage("red", "Your pack is too full for the " +
                             i.toString(3));
                 }
             }

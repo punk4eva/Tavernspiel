@@ -1,9 +1,9 @@
 
 package dialogues;
 
-import gui.MainClass;
-import gui.Screen;
-import gui.Screen.ScreenEvent;
+import gui.mainToolbox.Main;
+import gui.mainToolbox.Screen;
+import gui.mainToolbox.Screen.ScreenEvent;
 import guiUtils.CButton;
 import guiUtils.CComponent;
 import guiUtils.CSlider;
@@ -111,8 +111,8 @@ public class Dialogue implements ScreenListener, KeyListener{
      * @param g The Graphics.
      */
     public void paint(Graphics g){
-        int beginHeight = (MainClass.HEIGHT-height)/2;
-        int beginWidth = MainClass.WIDTH/3;
+        int beginHeight = (Main.HEIGHT-height)/2;
+        int beginWidth = Main.WIDTH/3;
         g.setFont(ConstantFields.textFont);
         g.setColor(ConstantFields.backColor);
         g.fill3DRect(beginWidth, beginHeight, beginWidth, height, false);
@@ -122,15 +122,15 @@ public class Dialogue implements ScreenListener, KeyListener{
         ImageUtils.drawString(g, question, 2*padding+beginWidth, beginHeight+2*padding);
     }
     
-    private void activate(MainClass main){
+    private void activate(Main main){
         if(customComponents) main.addKeyListener(this);
-        main.changeCurrentDialogue(this);
+        main.changeDialogue(this);
         for(Screen sc : screenArray) if(sc instanceof CSlider.CSliderHandle) main.addDraggable(sc);
         else main.addScreenFirst(sc);
     }
     
-    private void deactivate(MainClass main){
-        main.changeCurrentDialogue(null);
+    private void deactivate(Main main){
+        main.changeDialogue(null);
         main.removeScreens(screenArray);
     }
     
@@ -139,13 +139,13 @@ public class Dialogue implements ScreenListener, KeyListener{
      * @param main The MainClass to draw on.
      * @return The ScreenEvent that happened.
      */
-    public synchronized ScreenEvent action(MainClass main){
+    public synchronized ScreenEvent action(Main main){
         activate(main);
         //main.addEvent(() -> {
             try{
                 semaphore.acquire();
             }catch(InterruptedException ex){
-                ex.printStackTrace(MainClass.exceptionStream);
+                ex.printStackTrace(Main.exceptionStream);
             }
             deactivate(main);
         //});
@@ -168,8 +168,8 @@ public class Dialogue implements ScreenListener, KeyListener{
 
     private CButton[] getButtons(String[] strs){
         CButton[] ary = new CButton[strs.length];
-        int beginWidth = MainClass.WIDTH/3;
-        int beginHeight = (MainClass.HEIGHT-height)/2;
+        int beginWidth = Main.WIDTH/3;
+        int beginHeight = (Main.HEIGHT-height)/2;
         for(int n=0;n<ary.length;n++){
             ary[n] = new CButton(strs[n], 
                     padding+beginWidth, 
@@ -189,15 +189,15 @@ public class Dialogue implements ScreenListener, KeyListener{
     
     private Screen[] convertCComponents(CComponent[] ary){
         LinkedList<Screen> lst = new LinkedList<>();
-        lst.add(new Screen("/exit", 0, 0, MainClass.WIDTH, MainClass.HEIGHT, this));
-        lst.add(new Screen("blank click", MainClass.WIDTH/3, (MainClass.HEIGHT-height)/2, MainClass.WIDTH/3, height, this));
+        lst.add(new Screen("/exit", 0, 0, Main.WIDTH, Main.HEIGHT, this));
+        lst.add(new Screen("blank click", Main.WIDTH/3, (Main.HEIGHT-height)/2, Main.WIDTH/3, height, this));
         for(CComponent cc : ary) lst.add((CButton)cc);
         return lst.toArray(new Screen[lst.size()]);
     }
     
     private void dressCComponents(){
-        int beginWidth = MainClass.WIDTH/3;
-        int beginHeight = (MainClass.HEIGHT-height)/2;
+        int beginWidth = Main.WIDTH/3;
+        int beginHeight = (Main.HEIGHT-height)/2;
         for(int n=0;n<options.length;n++){
             options[n].setTopLeft(padding+beginWidth, 
                     2*padding+heightOfQuestion+(36+padding)*n+beginHeight);

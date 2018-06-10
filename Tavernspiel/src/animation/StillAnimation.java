@@ -33,22 +33,6 @@ public class StillAnimation extends Animation{
                 + "still Animation.");
     }
     
-    /**
-     * @deprecated
-     */
-    @Override
-    public void stop(){
-        throw new IllegalStateException("Trying to stop still Animation.");
-    }
-    
-    /**
-     * @deprecated
-     */
-    @Override
-    public void start(){
-        throw new IllegalStateException("Trying to start still Animation.");
-    }
-    
     @Override
     public void animate(Graphics g, int x, int y){
         g.drawImage(frames[0].getImage(), x, y, null);

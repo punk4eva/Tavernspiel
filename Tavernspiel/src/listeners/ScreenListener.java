@@ -1,7 +1,7 @@
 
 package listeners;
 
-import gui.Screen.ScreenEvent;
+import gui.mainToolbox.Screen.ScreenEvent;
 
 /**
  *

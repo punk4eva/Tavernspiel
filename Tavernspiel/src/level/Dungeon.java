@@ -32,7 +32,6 @@ public class Dungeon implements Serializable{
         stages[0] = new Stage(loc, 5, new String[]{"the upper level of the caves", "the lower level of the caves"}, null);
         stages[0].areas[0] = stages[0].areaBuilder.load(stages[0].location.roomDistrib[0], 0); depth=1;stages[0].loadedLevel=1;
         g.currentArea = getArea2();
-        currentArea.startAllAnimations();
         //stages[0].areas[0] = Area.getPreloadedArea("filetesting/phallus.map");
     }
     
@@ -41,14 +40,12 @@ public class Dungeon implements Serializable{
      * @param hero
      */
     public void descend(Hero hero){
-        if(currentArea!=null) currentArea.stopAllAnimations();
         depth++;
         if(!getStage().isLoaded(depth)){
             getStage().loadNext();
         }
         game.updateDepth(getArea2());
         if(hero!=null) currentArea.addHero(hero, true);
-        currentArea.startAllAnimations();
     }
     
     /**
@@ -57,11 +54,9 @@ public class Dungeon implements Serializable{
      */
     public void ascend(Hero hero){
         if(depth!=1){
-            currentArea.stopAllAnimations();
             depth--;
             game.updateDepth(getArea2());
             currentArea.addHero(hero, false);
-            currentArea.startAllAnimations();
         }
     }
     

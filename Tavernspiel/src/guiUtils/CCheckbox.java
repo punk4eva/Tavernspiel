@@ -1,7 +1,7 @@
 
 package guiUtils;
 
-import gui.Screen;
+import gui.mainToolbox.Screen;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import listeners.ScreenListener;

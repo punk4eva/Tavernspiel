@@ -2,7 +2,7 @@
 package dialogues;
 
 import gui.Game;
-import gui.MainClass;
+import gui.mainToolbox.Main;
 import gui.Window;
 
 /**
@@ -24,7 +24,7 @@ public class ExceptionDialogue extends Dialogue{
      * Decides how to proceed at the given exception.
      */
     public synchronized void next(){
-        exception.printStackTrace(MainClass.exceptionStream);
+        exception.printStackTrace(Main.exceptionStream);
         Game game = (Game) Window.main;
         switch(super.action(game).getName()){
             case "abort":

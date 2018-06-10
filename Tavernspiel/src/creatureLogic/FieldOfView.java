@@ -35,40 +35,54 @@ public class FieldOfView{
     }    
     
     public void followGradient(int x_, int y_, Area area){
-        List<Double[]> blockedRanges = new LinkedList<>();
-        double increment = 0.5/range;
-        double st = -1;
-        for(int r=1;r<=range;r++){
-            for(double theta=0, max=2*Math.PI;theta<max;theta+=increment){
-                if(st!=-1){
-                    try{
-                        Integer c[] = polarToCartesian(r, theta, x_, y_);
-                        if(area.map[c[1]][c[0]].transparent){
-                            visible.add(c);
-                            blockedRanges.add(new Double[]{st, theta});
-                            st = -1;
-                        }                    
-                    }catch(ArrayIndexOutOfBoundsException | NullPointerException e){}
-                    continue;
-                }
-                if(blocked(theta, blockedRanges)) continue;
-                try{
-                    Integer c[] = polarToCartesian(r, theta, x_, y_);
-                    visible.add(c);
-                    if(!area.map[c[1]][c[0]].transparent){
-                        st = theta;
-                    }
-                }catch(ArrayIndexOutOfBoundsException | NullPointerException e){}
-            }
+        visible.add(new Integer[]{x_, y_});
+        double inc = Math.atan(0.08D);
+        List<ViewRunner> runners = new LinkedList<>();
+        for(double theta=0;theta<2d*Math.PI;theta+=inc) runners.add(new ViewRunner(x_, y_, range, theta));
+        while(!runners.isEmpty()){
+            runners.removeIf(r -> r.fuel==0);
+            runners.stream().forEach(r -> {
+                Integer[] c = r.run(area);
+                visible.add(c);
+            });
         }
     }
     
-    protected Integer[] polarToCartesian(int r, double theta, int x_, int y_){
-        return new Integer[]{x_+(int)Math.round(r*Math.cos(theta)), y_+(int)Math.round(r*Math.sin(theta))};    
-    }
-    
-    protected boolean blocked(double theta, List<Double[]> block){
-        return block.stream().anyMatch(c -> theta>=c[0]&&theta<=c[1]);
+    public static class ViewRunner{
+        
+        public int fuel, x, y;
+        private double dx, dy, ix, iy;
+        
+        public ViewRunner(int _x, int _y, int r, double theta){
+            x = _x;
+            y = _y;
+            fuel = r;
+            ix = Math.cos(theta);
+            iy = Math.sin(theta);
+        }
+        
+        public Integer[] run(Area area){
+            fuel--;
+            dx+=ix;
+            dy+=iy;
+            if(dx>=1){
+                dx--;
+                x++;
+            }else if(dx<=-1){
+                x--;
+                dx++;
+            }
+            if(dy>=1){
+                dy--;
+                y++;
+            }else if(dy<=-1){
+                y--;
+                dy++;
+            }
+            if(!area.map[y][x].transparent) fuel = 0;
+            return new Integer[]{x, y};
+        }
+        
     }
             
 }

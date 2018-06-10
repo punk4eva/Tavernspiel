@@ -1,6 +1,5 @@
 Build Quickslot
 Allow Item generation
 Fix FOV
-Fix sprite animation, i.e: moving
 Work on item graphics
 Work on new indoor tilesets

@@ -2,11 +2,11 @@
 package items.equipment;
 
 import animation.Animation;
-import animation.StaticAnimator;
+import animation.MiscAnimator;
 import creatures.Creature;
 import creatures.Hero;
-import gui.MainClass;
-import gui.Screen;
+import gui.mainToolbox.Main;
+import gui.mainToolbox.Screen;
 import gui.Window;
 import items.ItemBuilder;
 import items.consumables.LocationSpecificScroll;
@@ -62,7 +62,7 @@ public class Wand extends RangedWeapon implements ScreenListener{
         areaEvent = ItemBuilder.getWandAreaEvent(s);
         locationSelect = new LocationSpecificScroll(null, "", null, false){
             @Override
-            public void use(Creature c, int x, int y){
+            public boolean use(Creature c, int x, int y){
                 throw new UnsupportedOperationException("Wand.locationSelect.use() should remain unused!");
             }
         }.new LocationViewable(this){
@@ -90,7 +90,7 @@ public class Wand extends RangedWeapon implements ScreenListener{
      * @param y The y destination.
      */
     public void fire(Creature c, int x, int y){
-        StaticAnimator.drawWandArc(this, c.x, c.y, x, y);
+        Main.animator.drawWandArc(this, c.x, c.y, x, y);
         if(areaEvent!=null){
             areaEvent.setArea(c.area);
             areaEvent.setXY(x, y);
@@ -102,9 +102,8 @@ public class Wand extends RangedWeapon implements ScreenListener{
     public void screenClicked(Screen.ScreenEvent sc){
         switch(sc.getName()){
             case "backLocation":
-                Integer c[] = MainClass.translateMouseCoords(sc.getMouseEvent().getX(), sc.getMouseEvent().getY());
-                if(hero==null||area==null) new RuntimeException("hero/area uninitialized in LocationSpecificScroll.screenClicked()!").printStackTrace(MainClass.exceptionStream);
-                fire(hero, c[0], c[1]);
+                if(hero==null||area==null) new RuntimeException("hero/area uninitialized in LocationSpecificScroll.screenClicked()!").printStackTrace(Main.exceptionStream);
+                fire(hero, sc.x, sc.y);
             case "locationPopupX":
                 Window.main.removeTopViewable();
                 break;

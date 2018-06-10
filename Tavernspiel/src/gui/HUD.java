@@ -1,6 +1,7 @@
 package gui;
 
-import gui.Screen.ScreenEvent;
+import gui.mainToolbox.Screen;
+import gui.mainToolbox.Screen.ScreenEvent;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.LinkedList;
@@ -41,7 +42,7 @@ public class HUD implements Viewable, ScreenListener{
     public void paint(Graphics g){
         g.setColor(ConstantFields.backColor);
         g.fillRect(5, 5, 60, 60);
-        g.drawImage(Window.main.player.animator.active.frames[0].getImage().getScaledInstance(60, 60, 0),5,2,null);
+        g.drawImage(Window.main.player.animator.active.getCurrentIcon().getImage().getScaledInstance(60, 60, 0),5,2,null);
         g.fillRect(70,5,200,10);
         
         for(int i = 0; i < quickslot.length(); i++){

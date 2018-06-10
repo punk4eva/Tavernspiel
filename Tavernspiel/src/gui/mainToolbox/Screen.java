@@ -1,5 +1,5 @@
 
-package gui;
+package gui.mainToolbox;
 
 import guiUtils.CComponent;
 import java.awt.event.MouseEvent;
@@ -54,16 +54,22 @@ public class Screen implements Serializable{
         
         private final String name;
         private final MouseEvent me;
+        public final int x, y;
         private Object[] data;
         
         public ScreenEvent(Screen sc, MouseEvent m){
             name = sc.name;
             me = m;
+            Integer[] c = MouseInterpreter.pixelToTile(m.getX(), m.getY());
+            x = c[0];
+            y = c[1];
         }
         
         public ScreenEvent(String n){
             name = n;
             me = null;
+            x = -1;
+            y = -1;
         }
         
         public ScreenEvent(CComponent[] comps){
@@ -73,6 +79,8 @@ public class Screen implements Serializable{
             }
             name = "Components";
             me = null;
+            x = -1;
+            y = -1;
         }
         
         public String getName(){

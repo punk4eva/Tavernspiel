@@ -17,7 +17,7 @@ public class JuxtapositionScroll extends Scroll{
     }
 
     @Override
-    public void use(Creature c){
+    public boolean use(Creature c){
         throw new UnsupportedOperationException("Not supported yet.");
     }
     

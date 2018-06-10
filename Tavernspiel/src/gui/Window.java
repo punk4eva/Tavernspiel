@@ -1,5 +1,6 @@
 package gui;
 
+import gui.mainToolbox.Main;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import javax.swing.JFrame;
@@ -10,7 +11,7 @@ import javax.swing.JFrame;
  */
 public class Window extends Canvas{
     
-    public static MainClass main;
+    public static Main main;
     protected JFrame frame;
     public static float SFXVolume = 0, musicVolume = 0;
     
@@ -21,7 +22,7 @@ public class Window extends Canvas{
      * @param title The title of the frame.
      * @param m The MainClass peer.
      */
-    public Window(int width, int height, String title, MainClass m){
+    public Window(int width, int height, String title, Main m){
         frame = new JFrame(title);
 
         frame.setPreferredSize(new Dimension(width, height));
@@ -33,7 +34,6 @@ public class Window extends Canvas{
         frame.add(m);
         frame.setVisible(true);
         main = m;
-        main.start();
     }
     
 }

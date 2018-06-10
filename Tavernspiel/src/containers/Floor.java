@@ -3,7 +3,7 @@ package containers;
 
 import creatureLogic.Description;
 import exceptions.ReceptacleOverflowException;
-import gui.MainClass;
+import gui.mainToolbox.Main;
 import items.Item;
 import java.util.ArrayList;
 
@@ -45,7 +45,7 @@ public class Floor extends Receptacle{
         super(null, "You shouldn't be reading this.", x, y);
         try{pushAll(r);}
         catch(ReceptacleOverflowException e){
-            e.printStackTrace(MainClass.exceptionStream);
+            e.printStackTrace(Main.exceptionStream);
         }
         description = items.isEmpty() ? new Description("tile", "There is nothing interesting here.") : 
                 items.get(items.size()-1).description;

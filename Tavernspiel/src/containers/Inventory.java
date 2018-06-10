@@ -8,9 +8,9 @@ import dialogues.ItemDialogue;
 import dialogues.MoneyDialogue;
 import exceptions.ReceptacleIndexOutOfBoundsException;
 import exceptions.ReceptacleOverflowException;
-import gui.MainClass;
-import gui.Screen;
-import gui.Screen.ScreenEvent;
+import gui.mainToolbox.Main;
+import gui.mainToolbox.Screen;
+import gui.mainToolbox.Screen.ScreenEvent;
 import gui.Window;
 import items.Gold;
 import items.Item;
@@ -56,7 +56,7 @@ public class Inventory extends Receptacle{
 
     public void paint(Graphics g, int beginWidth, int beginHeight, int sqwidth, int sqheight, int padding, Predicate<Item>... pred){
         g.setColor(ConstantFields.backColor);
-        g.fill3DRect(beginWidth, beginHeight, MainClass.WIDTH*7/9, MainClass.HEIGHT*7/9, false);
+        g.fill3DRect(beginWidth, beginHeight, Main.WIDTH*7/9, Main.HEIGHT*7/9, false);
         ImageUtils.paintGold(g, beginWidth+3*padding+2*sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight, amountOfMoney);
         beginWidth += padding;
         beginHeight += 3*padding + 2*sqheight;
@@ -103,8 +103,8 @@ public class Inventory extends Receptacle{
             }
         }
         ret.add(new Screen("Money", beginWidth+2*padding+2*sqwidth, beginHeight-padding-sqheight, sqwidth, sqheight, manager));
-        ret.add(new Screen("invspace", MainClass.WIDTH/9, MainClass.WIDTH/9, MainClass.WIDTH*7/9, MainClass.HEIGHT*7/9, manager));
-        ret.add(new Screen("background", 0, 0, MainClass.WIDTH, MainClass.HEIGHT, manager));
+        ret.add(new Screen("invspace", Main.WIDTH/9, Main.WIDTH/9, Main.WIDTH*7/9, Main.HEIGHT*7/9, manager));
+        ret.add(new Screen("background", 0, 0, Main.WIDTH, Main.HEIGHT, manager));
         return ret;
     }
     

@@ -5,7 +5,7 @@ import animation.Animation;
 import animation.StillAnimation;
 import creatureLogic.Description;
 import enchantments.Enchantment;
-import gui.MainClass;
+import gui.mainToolbox.Main;
 import items.equipment.Artifact;
 import items.equipment.Boots;
 import items.equipment.Chestplate;
@@ -112,6 +112,7 @@ public class Apparatus extends Item{
      * @param i The Animation of the Item.
      * @param dur The durability of the Apparatus.
      * @param a The Distribution associated with this Apparatus.
+     * @param st The strength requirement.
      */
     public Apparatus(String n, Description desc, Animation i, int dur, Distribution a, int st){
         super(n, desc, i, false);
@@ -140,7 +141,7 @@ public class Apparatus extends Item{
         durability = maxDurability;
         if(enchantment!=null && !(this instanceof Ring || this instanceof Artifact) && (level>11 || Distribution.chance(1, 12-level))){
             enchantment = null;
-            MainClass.messageQueue.add("<html color=\"orange\">Interaction of different types of magic has erased the " + 
+            Main.addMessage("<html color=\"orange\">Interaction of different types of magic has erased the " + 
                     (this instanceof HeldWeapon ? "enchantment on your weapon!" : "glyph on your armour!"));
         }
     }

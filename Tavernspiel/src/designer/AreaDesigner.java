@@ -1,13 +1,17 @@
 
 package designer;
 
-import gui.MainClass;
-import static gui.MainClass.HEIGHT;
-import static gui.MainClass.WIDTH;
+import gui.mainToolbox.Main;
+import static gui.mainToolbox.Main.HEIGHT;
+import static gui.mainToolbox.Main.WIDTH;
 import gui.Window;
+import gui.mainToolbox.MouseInterpreter;
+import static gui.mainToolbox.MouseInterpreter.focusX;
+import static gui.mainToolbox.MouseInterpreter.focusY;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferStrategy;
@@ -19,7 +23,7 @@ import pathfinding.Point;
  *
  * @author Adam Whittaker
  */
-public class AreaDesigner extends MainClass{
+public class AreaDesigner extends Main{
     
     AreaTemplate area = new AreaTemplate(new Dimension(1, 1), null);
     CommandLibrary command = new CommandLibrary();
@@ -28,6 +32,7 @@ public class AreaDesigner extends MainClass{
     
     
     public AreaDesigner(){
+        mouse = new MouseEmulator();
         window = new Window(WIDTH, HEIGHT, "Area Designer", this);
         Dimension dim = getDimension();
         if(dim==null){
@@ -35,6 +40,7 @@ public class AreaDesigner extends MainClass{
             area = AreaTemplate.deserialize(new Scanner(System.in).nextLine());
         }else area = new AreaTemplate(
             dim, new LocationFactory().produce());
+        start();
     }
     
     static Dimension getDimension(){
@@ -127,11 +133,11 @@ public class AreaDesigner extends MainClass{
     }
     
     /**
-     * Renders the game with the given framerate.
-     * @param frameInSec The framerate.
+     * Renders the designer.
+     * @param ae.
      */
     @Override
-    public void render(int frameInSec){
+    public void actionPerformed(ActionEvent ae){
         BufferStrategy bs = this.getBufferStrategy();
         if(bs == null){
             this.createBufferStrategy(4);
@@ -141,7 +147,7 @@ public class AreaDesigner extends MainClass{
         g.setColor(Color.black);
         g.fillRect(0, 0, WIDTH, HEIGHT);
         paintAreaTemplate(area, g);
-        if(currentDialogue!=null) currentDialogue.paint(g);
+        if(gui.dialogue!=null) gui.dialogue.paint(g);
         g.dispose();
         bs.show();
     }
@@ -165,35 +171,35 @@ public class AreaDesigner extends MainClass{
         while(true) designer.command.activate();
     }
     
-    @Override
-    public void mouseDragged(MouseEvent me){
-        if(System.currentTimeMillis()%25!=0) return;
-        Integer[] p = translateMouseCoords(me.getX(), me.getY());
-        try{
-            if(boundary) area.map[p[1]][p[0]].boundary = !area.map[p[1]][p[0]].boundary;
-            else if(brush==null) area.map[p[1]][p[0]] = null;
-            else area.map[p[1]][p[0]] = brush.clone();
-        }catch(Exception e){}
-    }
-    
-    @Override
-    public void mouseClicked(MouseEvent me){
-        Integer[] p = translateMouseCoords(me.getX(), me.getY());
-        try{
-            if(fillMode) fill(p[0], p[1]);
-            else if(boundary) area.map[p[1]][p[0]].boundary = !area.map[p[1]][p[0]].boundary;
-            else if(brush==null) area.map[p[1]][p[0]] = null;
-            else area.map[p[1]][p[0]] = brush.clone();
-        }catch(Exception e){}
-    }
-    
-    @Override
-    public void mouseReleased(MouseEvent me){
-    
-    }
-    
-    @Override
-    public void mouseWheelMoved(MouseWheelEvent me){
+    private class MouseEmulator extends MouseInterpreter{
+
+        @Override
+        public void mouseDragged(MouseEvent me){
+            if(System.currentTimeMillis()%25!=0) return;
+            Integer[] p = pixelToTile(me.getX(), me.getY());
+            try{
+                if(boundary) area.map[p[1]][p[0]].boundary = !area.map[p[1]][p[0]].boundary;
+                else if(brush==null) area.map[p[1]][p[0]] = null;
+                else area.map[p[1]][p[0]] = brush.clone();
+            }catch(Exception e){}
+        }
+
+        @Override
+        public void mouseClicked(MouseEvent me){
+            Integer[] p = pixelToTile(me.getX(), me.getY());
+            try{
+                if(fillMode) fill(p[0], p[1]);
+                else if(boundary) area.map[p[1]][p[0]].boundary = !area.map[p[1]][p[0]].boundary;
+                else if(brush==null) area.map[p[1]][p[0]] = null;
+                else area.map[p[1]][p[0]] = brush.clone();
+            }catch(Exception e){}
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent me){}
+
+        @Override
+        public void mouseWheelMoved(MouseWheelEvent me){}
 
     }
     

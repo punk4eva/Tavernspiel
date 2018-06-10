@@ -69,17 +69,18 @@ public abstract class Consumable extends Item implements Usable{
     /**
      * Uses this Consumable.
      * @param c
+     * @return Whether the item has been consumed during use.
      */
-    public abstract void use(Creature c);
+    public abstract boolean use(Creature c);
 
     @Override
-    public void defaultUse(Creature c, Object... data){
-        use(c);
+    public boolean defaultUse(Creature c, Object... data){
+        return use(c);
     }
 
     @Override
-    public void use(Creature c, ItemAction act, Object... data){
-        use(c);
+    public boolean use(Creature c, ItemAction act, Object... data){
+        return use(c);
     }
     
 }

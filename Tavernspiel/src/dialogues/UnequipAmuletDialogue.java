@@ -1,7 +1,7 @@
 
 package dialogues;
 
-import gui.MainClass;
+import gui.mainToolbox.Main;
 import items.Apparatus;
 import items.Item;
 
@@ -33,7 +33,7 @@ public class UnequipAmuletDialogue extends Dialogue{
      * @param game The MainClass to act upon.
      * @return The index of the unequipped Item.
      */
-    public int next(MainClass game){
+    public int next(Main game){
         String ret = super.action(game).getName();
         if(ret==null) return -1;
         if(ret.equals(opA)) return 0;

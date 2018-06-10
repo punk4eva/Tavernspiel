@@ -1,7 +1,7 @@
 
 package logic;
 
-import gui.Screen;
+import gui.mainToolbox.Screen;
 import guiUtils.CComponent;
 import java.io.IOException;
 import java.lang.annotation.Inherited;

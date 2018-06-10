@@ -6,8 +6,8 @@ import creatureLogic.EnClass;
 import creatures.Creature;
 import creatures.Hero;
 import exceptions.ReceptacleOverflowException;
-import gui.MainClass;
-import gui.Screen;
+import gui.mainToolbox.Main;
+import gui.mainToolbox.Screen;
 import gui.Window;
 import items.Item;
 import items.consumables.LocationSpecificScroll;
@@ -71,7 +71,7 @@ public class AIPlayerActions extends AIBaseActions{
             Window.main.soundSystem.playSFX("pickUp.wav");
         }catch(ReceptacleOverflowException e){
             c.area.plop(i, c.x, c.y);
-            MainClass.messageQueue.add("red", "Your pack is too full for the " +
+            Main.addMessage("red", "Your pack is too full for the " +
                     i.toString(3));
         }
     }
@@ -91,23 +91,24 @@ public class AIPlayerActions extends AIBaseActions{
     public void throwItem(Hero h, Item item){
         Window.main.addViewable(new LocationSpecificScroll(null, "", null, false){
             @Override
-            public void use(Creature c, int x, int y){
+            public boolean use(Creature c, int x, int y){
                 throw new UnsupportedOperationException("AIPlayerActions.locationSelect.use() should remain unused!");
             }
-        }.new LocationViewable(new ScreenListener(){
+        }.new LocationViewable(
+                new ScreenListener(){
             @Override
             public void screenClicked(Screen.ScreenEvent sc){
                 System.out.println(sc.getName());
                 switch(sc.getName()){
                     case "backLocation":
-                        Integer c[] = MainClass.translateMouseCoords(sc.getMouseEvent().getX(), sc.getMouseEvent().getY());
-                        throwItem(h, item, c[0], c[1]);
+                        throwItem(h, item, sc.x, sc.y);
                     case "locationPopupX":
                         Window.main.removeTopViewable();
                         break;
                 }
             }
-        }){
+        }
+        ){
             @Override
             public List<Screen> getScreens(){
                 return screens;

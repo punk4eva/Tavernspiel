@@ -1,12 +1,10 @@
 
 package animation;
 
+import gui.Window;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
-import javax.swing.Timer;
 import level.Location;
 import listeners.AnimationListener;
 import logic.ImageHandler;
@@ -17,14 +15,16 @@ import logic.ImageHandler;
  * 
  * Handles animation.
  */
-public class Animation implements Serializable, ActionListener{
+public class Animation implements Serializable{
     
     private final static long serialVersionUID = -1172489372;
     
     public final ImageIcon[] frames;
     protected int currentFrame = 0;
-    private AnimationListener listener;
-    protected Timer timer;
+    protected AnimationListener listener;
+    protected double currentTicks;
+    protected final double maxTicks, ticksPerFrame;
+    public boolean done = false;
     
     /**
      * Creates an Animation from the given frames.
@@ -32,7 +32,8 @@ public class Animation implements Serializable, ActionListener{
      */
     public Animation(ImageIcon[] f){
         frames = f;
-        timer = new Timer(5, this);
+        ticksPerFrame = Window.main.pacemaker.getDelay();
+        maxTicks = 5;
     }
     
     /**
@@ -42,7 +43,8 @@ public class Animation implements Serializable, ActionListener{
      */
     public Animation(ImageIcon[] f, int delay){
         frames = f;
-        timer = new Timer(delay, this);
+        ticksPerFrame = Window.main.pacemaker.getDelay();
+        maxTicks = delay;
     }
     
     /**
@@ -54,7 +56,8 @@ public class Animation implements Serializable, ActionListener{
     public Animation(ImageIcon[] f, AnimationListener al){
         frames = f;
         listener = al;
-        timer = new Timer(5, this);
+        ticksPerFrame = Window.main.pacemaker.getDelay();
+        maxTicks = 5;
     }
     
     /**
@@ -66,8 +69,9 @@ public class Animation implements Serializable, ActionListener{
      */
     public Animation(ImageIcon[] f, int d, AnimationListener al){
         frames = f;
-        timer = new Timer(d, this);
+        ticksPerFrame = Window.main.pacemaker.getDelay();
         listener = al;
+        maxTicks = d;
     }
     
     /**
@@ -78,6 +82,8 @@ public class Animation implements Serializable, ActionListener{
      */
     protected Animation(ImageIcon icon){
         frames = new ImageIcon[]{icon};
+        ticksPerFrame = 0;
+        maxTicks = 5;
     }
     
     /**
@@ -95,6 +101,7 @@ public class Animation implements Serializable, ActionListener{
      * @param y The top left y.
      */
     public void animate(Graphics g, int x, int y){
+        recalc();
         g.drawImage(frames[currentFrame].getImage(), x, y, null);
     }
     
@@ -118,21 +125,23 @@ public class Animation implements Serializable, ActionListener{
         }
     }
 
-    @Override
-    public void actionPerformed(ActionEvent ae){
-        currentFrame++;
-        if(currentFrame>=frames.length){
-            currentFrame = 0;
-            if(listener!=null) listener.done();
+    protected void recalc(){
+        currentTicks += ticksPerFrame;
+        while(currentTicks>maxTicks){
+            currentTicks -= maxTicks;
+            currentFrame++;
+            if(currentFrame>=frames.length){
+                currentFrame = 0;
+                if(listener!=null){
+                    done = true;
+                    listener.done(this);
+                }
+            }
         }
     }
     
-    public void start(){
-        timer.start();
-    }
-
-    public void stop(){
-        timer.stop();
+    public ImageIcon getCurrentIcon(){
+        return frames[currentFrame];
     }
     
 }

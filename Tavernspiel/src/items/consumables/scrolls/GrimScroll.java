@@ -17,7 +17,7 @@ public class GrimScroll extends LocationSpecificScroll{
     }
 
     @Override
-    public void use(Creature c, int x, int y){
+    public boolean use(Creature c, int x, int y){
         throw new UnsupportedOperationException("Not supported yet.");
     }
     

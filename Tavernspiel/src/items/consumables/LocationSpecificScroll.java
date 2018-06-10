@@ -2,15 +2,17 @@ package items.consumables;
 
 import creatures.Creature;
 import creatures.Hero;
-import gui.MainClass;
-import gui.Screen;
-import gui.Screen.ScreenEvent;
+import gui.mainToolbox.Main;
+import gui.mainToolbox.Screen;
+import gui.mainToolbox.Screen.ScreenEvent;
 import gui.Viewable;
 import gui.Window;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 import javax.swing.ImageIcon;
 import level.Area;
 import listeners.ScreenListener;
@@ -26,6 +28,8 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
     
     protected Hero hero;
     private Area area;
+    private boolean used = false;
+    private CyclicBarrier barrier = new CyclicBarrier(2);
 
     /**
      * Creates a new instance.
@@ -55,11 +59,11 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
          */
         public LocationViewable(ScreenListener sl){
             listener = sl;
-            int bw = MainClass.WIDTH/2-72, bh = MainClass.HEIGHT-64;
+            int bw = Main.WIDTH/2-72, bh = Main.HEIGHT-64;
             screens = new LinkedList<>();
             screens.add(new Screen("locationPopupX", bw+108, bh+8, 24, 24, listener));
             screens.add(new Screen("locationPopup", bw, bh, 144, 48, listener));
-            screens.add(new Screen("backLocation", 0, 0, MainClass.WIDTH, MainClass.HEIGHT, listener));
+            screens.add(new Screen("backLocation", 0, 0, Main.WIDTH, Main.HEIGHT, listener));
         }
         
         @Override
@@ -69,7 +73,7 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
 
         @Override
         public void paint(Graphics g){
-            int bw = MainClass.WIDTH/2-72, bh = MainClass.HEIGHT-64;
+            int bw = Main.WIDTH/2-72, bh = Main.HEIGHT-64;
             g.setColor(new Color(230, 20, 20, 164));
             g.fill3DRect(bw, bh, 144, 48, false);
             g.setColor(new Color(230, 25, 25));
@@ -83,32 +87,42 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
 
     @Override
     @Catch("Exception should never be thrown if done right.")
-    public void use(Creature c){
+    public boolean use(Creature c){
         if(c instanceof Hero){
             hero = (Hero) c;
             area = c.area;
             Window.main.addViewable(locationSelect);
-        }else new RuntimeException("Creature is using LocationSpecificScroll.use()").printStackTrace(MainClass.exceptionStream);
+            try{
+                barrier.await();
+            }catch(InterruptedException | BrokenBarrierException ex){}
+        }else new RuntimeException("Creature is using LocationSpecificScroll.use()").printStackTrace(Main.exceptionStream);
+        barrier.reset();
+        boolean u = used;
+        used = false;
+        return u;
     }
     
     /**
-     * A use() method specifically for an Item. 
+     * A use() method specifically for a tile coordinate. 
      * @param c The reader.
      * @param x The x coordinate.
      * @param y The y coordinate.
+     * @return Whether the scroll has been consumed during use.
      */
-    public abstract void use(Creature c, int x, int y);
+    public abstract boolean use(Creature c, int x, int y);
     
     @Override
     @Catch("Exception should never be thrown if done right.")
     public void screenClicked(ScreenEvent sc){
         switch(sc.getName()){
             case "backLocation":
-                Integer c[] = MainClass.translateMouseCoords(sc.getMouseEvent().getX(), sc.getMouseEvent().getY());
-                if(hero==null||area==null) new RuntimeException("hero/area uninitialized in LocationSpecificScroll.screenClicked()!").printStackTrace(MainClass.exceptionStream);
-                use(hero, c[0], c[1]);
+                if(hero==null||area==null) new RuntimeException("hero/area uninitialized in LocationSpecificScroll.screenClicked()!").printStackTrace(Main.exceptionStream);
+                used = use(hero, sc.x, sc.y);
             case "locationPopupX":
                 Window.main.removeTopViewable();
+                try{
+                    barrier.await();
+                }catch(InterruptedException | BrokenBarrierException ex){}
                 break;
         }
     }

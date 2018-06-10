@@ -1,6 +1,7 @@
 
 package gui;
 
+import gui.mainToolbox.Main;
 import ai.PlayerAI;
 import animation.GameObjectAnimator;
 import creatureLogic.Attributes;
@@ -18,7 +19,7 @@ import logic.Utils.Unfinished;
  * 
  * Plays the Game.
  */
-public class Game extends MainClass{
+public class Game extends Main{
     
     public final Dungeon dungeon;
     
@@ -27,15 +28,16 @@ public class Game extends MainClass{
      * Starts the game.
      */
     public Game(){
+        window = new Window(WIDTH, HEIGHT, "Tavernspiel", this);
+        dungeon = new Dungeon(this);
+        gui.addMessage("You are now in " + dungeon.getDepthClassifier() + ".");
         GameObjectAnimator goa = new GameObjectAnimator(ImageUtils.addImageBuffer(new ImageIcon("graphics/spritesheets/tree.png")),
                 new String[]{"stand", "move", "attack", "die"}, new int[]{2, 4, 8, 5});
-        dungeon = new Dungeon(this);
-        messageQueue.add("You are now in " + dungeon.getDepthClassifier() + ".");
         player = new Hero(new Attributes(), goa);
         currentArea.addHero(player, true);
-        window = new Window(WIDTH, HEIGHT, "Tavernspiel", this);
         addKeyListener((PlayerAI) player.attributes.ai);
         hud = new HUD(player.inventory.quickslot);
+        start();
     }
     
     //Progenitor Thread
@@ -51,7 +53,7 @@ public class Game extends MainClass{
     @Unfinished("The sfx for newDepth.")
     public void updateDepth(Area area){
         currentArea = area;
-        messageQueue.add("You are now in " + dungeon.getDepthClassifier() + ".");
+        gui.addMessage("You are now in " + dungeon.getDepthClassifier() + ".");
         soundSystem.playSFX("Misc/newDepth.wav"); //@unfinished
         soundSystem.playAbruptLoop(currentArea.location.backgroundMusicPath);
     }

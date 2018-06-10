@@ -1,8 +1,8 @@
 
 package guiUtils;
 
-import gui.MainClass;
-import gui.Screen;
+import gui.mainToolbox.Main;
+import gui.mainToolbox.Screen;
 import java.awt.Graphics;
 import listeners.ScreenListener;
 import logic.ConstantFields;
@@ -17,7 +17,7 @@ public class CButton extends Screen implements CComponent{
     private final int width, height;
     
     public CButton(String n, int TLX, int TLY, int pad, ScreenListener li){
-        super(n, TLX, TLY, MainClass.WIDTH/3-2*pad, 36, li);
+        super(n, TLX, TLY, Main.WIDTH/3-2*pad, 36, li);
         padding = pad;
         width = brx-tlx;
         height = bry-tly;

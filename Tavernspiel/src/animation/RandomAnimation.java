@@ -20,16 +20,20 @@ public class RandomAnimation extends Animation{
     }
     
     public RandomAnimation(Animation a, Distribution s){
-        super(a.frames, a.timer.getDelay());
+        super(a.frames, (int)a.maxTicks);
         skipChance = s;
     }
     
     @Override
-    public void actionPerformed(ActionEvent ae){
-        if(skipChance.chance()) return;
-        currentFrame++;
-        if(currentFrame>=frames.length){
-            currentFrame = 0;
+    protected void recalc(){
+        currentTicks += ticksPerFrame;
+        while(currentTicks>maxTicks){
+            currentTicks -= maxTicks;
+            if(!skipChance.chance()) currentFrame++;
+            if(currentFrame>=frames.length){
+                currentFrame = 0;
+                if(listener!=null) listener.done(this);
+            }
         }
     }
     

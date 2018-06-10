@@ -41,10 +41,10 @@ public class Area implements Serializable{
     public final Dimension dimension;
     public final Location location;
     public Integer[] startCoords, endCoords;
-    private final List<GameObject> objects = (List<GameObject>)(Object)Collections.synchronizedList(new LinkedList<GameObject>());
-    protected final List<Receptacle> receptacles = (List<Receptacle>)(Object)Collections.synchronizedList(new LinkedList<Receptacle>());
+    private final List<GameObject> objects = (List<GameObject>)(Object)Collections.synchronizedList(new LinkedList<>());
+    protected final List<Receptacle> receptacles = (List<Receptacle>)(Object)Collections.synchronizedList(new LinkedList<>());
     public Graph graph = null;
-    private volatile Hero hero;
+    protected volatile Hero hero;
     public final VisibilityOverlay overlay;
     public final ReentrantLock objectLock = new ReentrantLock();
     
@@ -308,7 +308,6 @@ public class Area implements Serializable{
         return AreaTemplate.deserialize(filepath).toArea();
     }
     
-    @Unfinished("Remove bookmarks.")
     public void renderObjects(Graphics g, int focusX, int focusY){
         synchronized(receptacles){
             receptacles.stream().forEach(r -> {
@@ -324,7 +323,7 @@ public class Area implements Serializable{
                 GameObject ob = iter.next();
                 if(overlay.isVisible(ob.x, ob.y)) ob.render(g, focusX, focusY);
             }
-            //graph.paint(g, focusX, focusY);
+            //graph.paint(g, focusX, focusY, this);
         }finally{
             objectLock.unlock();
         }
@@ -347,6 +346,7 @@ public class Area implements Serializable{
     }
     
     public void addHero(Hero h, boolean start){
+        hero = h;
         h.setArea(this, start);
         objectLock.lock();
         try{
@@ -359,23 +359,6 @@ public class Area implements Serializable{
             }
         }finally{
                 objectLock.unlock();
-        }
-        hero = h;
-    }
-    
-    public void startAllAnimations(){
-        for(int y=0;y<dimension.height;y++){
-            for(int x=0;x<dimension.width;x++){
-                if(map[y][x] instanceof AnimatedTile) ((AnimatedTile) map[y][x]).animation.start();
-            }
-        }
-    }
-    
-    public void stopAllAnimations(){
-        for(int y=0;y<dimension.height;y++){
-            for(int x=0;x<dimension.width;x++){
-                if(map[y][x] instanceof AnimatedTile) ((AnimatedTile) map[y][x]).animation.stop();
-            }
         }
     }
 

@@ -3,10 +3,12 @@ package items.consumables;
 
 import creatures.Creature;
 import creatures.Hero;
-import gui.MainClass;
-import gui.Screen;
+import gui.mainToolbox.Main;
+import gui.mainToolbox.Screen;
 import gui.Window;
 import items.Item;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 import javax.swing.ImageIcon;
 import listeners.ScreenListener;
 import logic.Utils.Catch;
@@ -20,6 +22,8 @@ import logic.Utils.Catch;
 public abstract class ItemSpecificScroll extends Scroll implements ScreenListener{
     
     private Hero hero;
+    private boolean used = false;
+    private CyclicBarrier barrier = new CyclicBarrier(2);
 
     /**
      * Creates a new instance.
@@ -34,56 +38,66 @@ public abstract class ItemSpecificScroll extends Scroll implements ScreenListene
 
     @Override
     @Catch("Exception should never be thrown if done right.")
-    public void use(Creature c){
+    public boolean use(Creature c){
         if(c instanceof Hero){
             hero = (Hero) c;
             hero.hijackInventoryManager(this);
             Window.main.addViewable(hero);
-        }else new RuntimeException("Creature is using ItemSpecificScroll.use()").printStackTrace(MainClass.exceptionStream);
+            try{
+                barrier.await();
+            }catch(InterruptedException | BrokenBarrierException ex){}
+        }else new RuntimeException("Creature is using ItemSpecificScroll.use()").printStackTrace(Main.exceptionStream);
+        return used;
     }
     
     /**
      * A use() method specifically for an Item. 
      * @param c The reader.
      * @param i The item.
+     * @return Whether the scroll has been consumed during use.
      */
-    public abstract void use(Creature c, Item i);
+    public abstract boolean use(Creature c, Item i);
     
     @Override
     @Catch("Exception should never be thrown if done right.")
     public void screenClicked(Screen.ScreenEvent sc){
         switch(sc.getName()){
+            case "invspace": return;
             case "background":
                 Window.main.removeTopViewable();
+                used = false;
                 break;
             case "Weapon": if(hero.equipment.getWeapon()!=null){
-                use(hero, hero.equipment.getWeapon());
+                used = use(hero, hero.equipment.getWeapon());
             } break;
             case "Helmet": if(hero.equipment.getHelmet()!=null){
-                use(hero, hero.equipment.getHelmet());
+                used = use(hero, hero.equipment.getHelmet());
             } break;
             case "Chestplate": if(hero.equipment.getChestplate()!=null){
-                use(hero, hero.equipment.getChestplate());
+                used = use(hero, hero.equipment.getChestplate());
             } break;
             case "Leggings": if(hero.equipment.getLeggings()!=null){
-                use(hero, hero.equipment.getLeggings());
+                used = use(hero, hero.equipment.getLeggings());
             } break;
             case "Boots": if(hero.equipment.getBoots()!=null){
-                use(hero, hero.equipment.getBoots());
+                used = use(hero, hero.equipment.getBoots());
             } break;
             case "Amulet1": if(hero.equipment.getAmulet1()!=null){
-                use(hero, hero.equipment.getAmulet1());
+                used = use(hero, hero.equipment.getAmulet1());
             } break;
             case "Amulet2": if(hero.equipment.getAmulet2()!=null){
-                use(hero, hero.equipment.getAmulet2());
+                used = use(hero, hero.equipment.getAmulet2());
             } break;
             default: try{
                 int n = Integer.parseInt(sc.getName());
                 Item item = hero.inventory.getElse(n);
-                if(item!=null) use(hero, item);
-            }catch(Exception e){}
+                if(item!=null) used = use(hero, item);
+            }catch(NumberFormatException e){}
         }
         hero.stopInventoryHijack();
+        try{
+            barrier.await();
+        }catch(InterruptedException | BrokenBarrierException ex){}
     }
     
 }

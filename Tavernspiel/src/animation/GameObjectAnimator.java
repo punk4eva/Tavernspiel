@@ -2,13 +2,15 @@
 package animation;
 
 import creatures.Creature;
-import gui.MainClass;
+import gui.mainToolbox.Main;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 import javax.swing.ImageIcon;
 import listeners.AnimationListener;
 import listeners.DeathEvent;
@@ -29,6 +31,7 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
     public Animation active;
     public String currentName = "DEFAULT";
     private boolean waitingForDone = false;
+    private CyclicBarrier barrier = new CyclicBarrier(2);
     
     /**
      * Creates a new instance of this class.
@@ -42,7 +45,6 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
             map.put(na[n], ani[n]);
         }
         active = ani[0];
-        active.start();
     }
     
     /**
@@ -53,7 +55,6 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
         gasAnimation.changeListener(this);
         map.put("gas", gasAnimation);
         active = gasAnimation;
-        active.start();
     }
     
     /**
@@ -93,10 +94,8 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
      * @param name The name of the new animation.
      */
     public void switchTo(String name){
-        active.stop();
         active = map.get(name);
         currentName = name;
-        active.start();
     }
     
     /**
@@ -105,19 +104,15 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
      */
     public synchronized void switchAndBack(String name){
         Animation current = active;
-        active.stop();
         active = map.get(name);
-        active.start();
         waitingForDone = true;
         try{
-            wait();
-        }catch(InterruptedException e){
-            e.printStackTrace(MainClass.exceptionStream);
+            barrier.await();
+        }catch(InterruptedException | BrokenBarrierException e){
+            e.printStackTrace(Main.exceptionStream);
         }
-        active.stop();
         waitingForDone = false;
         active = current;
-        active.start();
     }
     
     /**
@@ -125,19 +120,16 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
      * @param name The new animation.
      */
     public synchronized void switchFade(String name){
-        active.stop();
         active = map.get(name);
-        active.start();
         Animation fade = getFadeAnimation(active.frames[active.frames.length-1]);
         waitingForDone = true;
         try{
-            wait();
-        }catch(InterruptedException e){
-            e.printStackTrace(MainClass.exceptionStream);
+            barrier.await();
+        }catch(InterruptedException | BrokenBarrierException e){
+            e.printStackTrace(Main.exceptionStream);
         }
-        active.stop();
+        barrier.reset();
         active = fade;
-        active.start();
     }
     
     /**
@@ -148,16 +140,23 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
         switchFade("die");
         waitingForDone = true;
         try{
-            wait();
-        }catch(InterruptedException e){
-            e.printStackTrace(MainClass.exceptionStream);
+            barrier.await();
+        }catch(InterruptedException | BrokenBarrierException e){
+            e.printStackTrace(Main.exceptionStream);
         }
         new DeathEvent(c, c.x, c.y, c.area).notifyEvent();
     }
 
     @Override
-    public synchronized void done(){
-        if(waitingForDone) notify();
+    public synchronized void done(Animation a){
+        if(waitingForDone){
+            try{
+                barrier.await();
+            }catch(InterruptedException | BrokenBarrierException e){
+                e.printStackTrace(Main.exceptionStream);
+            }
+            barrier.reset();
+        }
     }
     
     /**

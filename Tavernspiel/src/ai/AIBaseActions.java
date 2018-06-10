@@ -3,14 +3,15 @@ package ai;
 
 import ai.intelligence.IntelligentAI1;
 import ai.intelligence.IntelligentAI1.EnState;
-import animation.StaticAnimator;
+import animation.MiscAnimator;
 import containers.Floor;
 import containers.PurchasableHeap;
 import creatureLogic.Attack;
 import creatures.Creature;
 import creatures.Hero;
 import exceptions.ReceptacleOverflowException;
-import gui.MainClass;
+import gui.Window;
+import gui.mainToolbox.Main;
 import items.Apparatus;
 import items.Item;
 import items.ItemAction;
@@ -200,7 +201,7 @@ public class AIBaseActions implements Serializable{
      * @return The equipment that was removed in order to make space for the new
      * equipment.
      */
-    public Apparatus equip(MainClass main, Creature c, Apparatus eq, int... choiceOfAmulet){
+    public Apparatus equip(Main main, Creature c, Apparatus eq, int... choiceOfAmulet){
         return c.equipment.equip(main, eq, choiceOfAmulet);
     }
       
@@ -226,7 +227,7 @@ public class AIBaseActions implements Serializable{
             c.inventory.push(i);
         }catch(ReceptacleOverflowException e){
             c.area.plop(i, c.x, c.y);
-            MainClass.messageQueue.add("red", "Your pack is too full for the " +
+            Main.addMessage("red", "Your pack is too full for the " +
                     i.toString(3));
         }
     }
@@ -237,7 +238,7 @@ public class AIBaseActions implements Serializable{
     
     public void throwItem(Creature c, Item i, int x, int y){
         c.inventory.items.remove(i);
-        StaticAnimator.throwItem(c.x, c.y, i, x, y);
+        Main.animator.throwItem(c.x, c.y, i, x, y);
         c.area.plop(i, x, y);
     }
     
@@ -260,7 +261,7 @@ public class AIBaseActions implements Serializable{
                 }
             }
         }
-        StaticAnimator.searchAnimation(ary, searchSuccessful);
+        Main.animator.searchAnimation(ary, searchSuccessful);
     }
     
     public boolean canMove(Creature c, Integer[] dir){
