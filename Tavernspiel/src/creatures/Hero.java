@@ -18,6 +18,10 @@ import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
 import gui.Viewable;
 import gui.Window;
+import static gui.mainToolbox.Main.HEIGHT;
+import static gui.mainToolbox.Main.WIDTH;
+import static gui.mainToolbox.MouseInterpreter.MOVE_RESOLUTION;
+import static gui.mainToolbox.MouseInterpreter.getCentre;
 import items.consumables.ScrollBuilder;
 import java.awt.Graphics;
 import java.util.LinkedList;
@@ -91,24 +95,21 @@ public class Hero extends Creature implements Viewable{
     
     @Override
     public void render(Graphics g, int focusX, int focusY){
+        int[] c = getCentre();
         if(moving==null) animator.animate(g, x*16+focusX, y*16+focusY);
         else{
-            if(moving[4]==0){
-                moving[0] = focusX;
-                moving[1] = focusY;
-            }
-            moving[4]++;
-            if(moving[4]>7){
-                attributes.ai.BASEACTIONS.moveRaw(this, moving[5], moving[6]);
+            moving[0]++;
+            if(moving[0]>=MOVE_RESOLUTION){
+                attributes.ai.BASEACTIONS.moveRaw(this, (int)moving[7], (int)moving[8]);
                 motionLatch.countDown();
                 motionLatch = new CountDownLatch(1);
-                animator.animate(g, x*16+moving[0], y*16+moving[1]);
+                animator.animate(g, c[0], c[1]);
                 moving = null;
             }else{
-                int nx = (x*16)+(int)((double)moving[4]/8.0*(double)moving[2]),
-                        ny = (y*16)+(int)((double)moving[4]/8.0*(double)moving[3]);
-                animator.animate(g, nx+moving[0], ny+moving[1]);
-                Window.main.setPixelFocus(nx, ny);
+                moving[1] += moving[5];
+                moving[2] += moving[6];
+                Window.main.setDirectFocus(focusX-(int)moving[5], focusY-(int)moving[6]);
+                animator.animate(g, c[0], c[1]);
             }
         }
     }
@@ -117,7 +118,7 @@ public class Hero extends Creature implements Viewable{
     public void setXY(int nx, int ny){
         x = nx;
         y = ny;
-        Window.main.setFocus(x, y);
+        Window.main.setTileFocus(x, y);
     }
     
     @Override

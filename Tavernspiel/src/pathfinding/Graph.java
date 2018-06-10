@@ -104,7 +104,9 @@ public class Graph implements Serializable{
     }
     
     public boolean tileFree(int x, int y){
-        return map[y][x].checked!=null;
+        try{
+            return map[y][x].checked!=null;
+        }catch(ArrayIndexOutOfBoundsException e){return false;}
     }
     
     public void paint(Graphics g, int focusX, int focusY, Area area){

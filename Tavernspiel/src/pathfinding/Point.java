@@ -53,14 +53,14 @@ public class Point implements Serializable{
         }
     }
     public static enum ExtendedDirection{
-        NORTHWEST(1, x->x-1, y->y-1),
         NORTH(2, x->x, y->y-1),
-        NORTHEAST(3, x->x+1, y->y-1),
         EAST(5, x->x-1, y->y),
-        SOUTHEAST(8, x->x+1, y->y+1),
         SOUTH(7, x->x, y->y+1), 
-        SOUTHWEST(6, x->x+1, y->y+1),
-        WEST(4, x->x+1, y->y);
+        WEST(4, x->x+1, y->y),
+        NORTHWEST(1, x->x-1, y->y-1),
+        NORTHEAST(3, x->x+1, y->y-1),
+        SOUTHEAST(8, x->x+1, y->y+1),
+        SOUTHWEST(6, x->x+1, y->y+1);
         
         int code;
         public final xDir x;

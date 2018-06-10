@@ -20,6 +20,7 @@ public class MouseInterpreter extends MouseAdapter{
     private int xOfDrag=-1, yOfDrag=-1;
     protected static double zoom = 1.0;
     public static final double MAX_ZOOM = 8.0, MIN_ZOOM = 0.512;
+    public static final int MOVE_RESOLUTION = 4;
     
     @Override
     public void mouseClicked(MouseEvent me){
@@ -65,8 +66,8 @@ public class MouseInterpreter extends MouseAdapter{
      * @param my The y coordinate of the click.
      * @return An int array representing the tile coordinates.
      */
-    public static Integer[] pixelToTile(double mx, double my){
-        return new Integer[]{(int)Math.floor((mx-focusX)/(16D*zoom)), (int)Math.floor((my-focusY)/(16D*zoom))};
+    public static Integer[] pixelToTile(int mx, int my){
+        return new Integer[]{Math.floorDiv(mx-focusX, (int)(16*zoom)), Math.floorDiv(my-focusY, (int)(16*zoom))};
     }
     
     /**
@@ -84,7 +85,7 @@ public class MouseInterpreter extends MouseAdapter{
      * @param tilex
      * @param tiley
      */
-    public void setFocus(int tilex, int tiley){
+    public void setTileFocus(int tilex, int tiley){
         focusX = (int)(WIDTH/zoom)/2 - tilex * 16;
         focusY = (int)(HEIGHT/zoom)/2 - tiley * 16;
     }
@@ -95,8 +96,22 @@ public class MouseInterpreter extends MouseAdapter{
      * @param y
      */
     public void setPixelFocus(int x, int y){
-        focusX = (int)(WIDTH/zoom)/2 - x;
-        focusY = (int)(HEIGHT/zoom)/2 - y;
+        focusX = (int)((double)WIDTH/zoom/2d) - x;
+        focusY = (int)((double)HEIGHT/zoom/2d) - y;
+    }
+    
+    /**
+     * Sets the focus directly (top-left rather than center).
+     * @param x The x pixel
+     * @param y The y pixel
+     */
+    public void setDirectFocus(int x, int y){
+        focusX = x;
+        focusY = y;
+    }
+    
+    public static int[] getCentre(){
+        return new int[]{(int)((double)WIDTH/zoom/2d), (int)((double)HEIGHT/zoom/2d)};
     }
 
     @Override

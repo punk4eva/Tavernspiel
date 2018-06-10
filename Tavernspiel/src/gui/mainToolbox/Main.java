@@ -150,8 +150,8 @@ public abstract class Main extends Canvas implements Runnable, ActionListener{
      * @param tilex
      * @param tiley
      */
-    public void setFocus(int tilex, int tiley){
-        mouse.setFocus(tilex, tiley);
+    public void setTileFocus(int tilex, int tiley){
+        mouse.setTileFocus(tilex, tiley);
     }
     
     /**
@@ -161,6 +161,15 @@ public abstract class Main extends Canvas implements Runnable, ActionListener{
      */
     public void setPixelFocus(int x, int y){
         mouse.setPixelFocus(x, y);
+    }
+    
+    /**
+     * Sets the focus directly (top-left rather than center).
+     * @param x The x pixel
+     * @param y The y pixel
+     */
+    public void setDirectFocus(int x, int y){
+        mouse.setDirectFocus(x, y);
     }
     
     public static void addMessage(String col, String str){

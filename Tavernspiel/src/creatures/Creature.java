@@ -10,6 +10,8 @@ import creatureLogic.Attack;
 import creatureLogic.Attributes;
 import creatureLogic.Description;
 import creatureLogic.FieldOfView;
+import gui.mainToolbox.MouseInterpreter;
+import static gui.mainToolbox.MouseInterpreter.MOVE_RESOLUTION;
 import items.equipment.HeldWeapon;
 import java.awt.Graphics;
 import java.util.LinkedList;
@@ -32,7 +34,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
     public volatile Attributes attributes;
     public FieldOfView FOV;
     public volatile LinkedList<Buff> buffs = new LinkedList<>();
-    protected volatile int[] moving;
+    protected volatile double[] moving;
     public CountDownLatch motionLatch = new CountDownLatch(1);
     
     /**
@@ -109,7 +111,12 @@ public class Creature extends GameObject implements Comparable<Creature>{
     }
     
     public void smootheXY(int nx, int ny){
-        moving = new int[]{-1, -1, (nx-x)*16, (ny-y)*16, 0, nx, ny};
+        //moving = new int[]{-1, -1, (nx-x)*16, (ny-y)*16, 0, nx, ny};
+        Integer[] c = MouseInterpreter.tileToPixel(x, y), c2 = 
+                MouseInterpreter.tileToPixel(nx, ny);
+        double dx = ((double)c2[0]-(double)c[0])/(double)MOVE_RESOLUTION,
+                dy = ((double)c2[1]-(double)c[1])/(double)MOVE_RESOLUTION;
+        moving = new double[]{0, c[0], c[1], c2[0], c2[1], dx, dy, nx, ny};
     }
     
     /**
@@ -196,7 +203,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
         else{
             moving[4]++;
             if(moving[4]>7){
-                attributes.ai.BASEACTIONS.moveRaw(this, moving[5], moving[6]);
+                attributes.ai.BASEACTIONS.moveRaw(this, (int)moving[5], (int)moving[6]);
                 moving = null;
                 motionLatch.countDown();
                 motionLatch = new CountDownLatch(1);
