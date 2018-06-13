@@ -14,6 +14,12 @@ import logic.Utils.Unfinished;
 @Unfinished("Need to override turn() and create burn method.")
 public class Fire extends Blob{
     
+    /**
+     * Creates an instance.
+     * @param a The animator
+     * @param x The x
+     * @param y The y
+     */
     public Fire(GameObjectAnimator a, int x, int y){
         super("fire", new Description("naturals", "A fire is raging here"), BuffBuilder.fire(), a, Distribution.getRandomInt(2, 5),x,y);
     }

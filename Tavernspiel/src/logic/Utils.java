@@ -3,12 +3,14 @@ package logic;
 
 import gui.mainToolbox.Screen;
 import gui.utils.CComponent;
-import java.io.IOException;
 import java.lang.annotation.Inherited;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import level.Location;
 import static logic.Distribution.r;
+import tiles.AnimatedTile;
+import tiles.Tile;
 
 /**
  *
@@ -140,46 +142,18 @@ public final class Utils{
         String value() default ""; //notes
     }
     
-    public static void printHashCodes(String... strs){
-        for(String str : strs) System.out.println(str.hashCode());
+    public @interface Costly{
+        String value() default ""; //notes
     }
     
-    public static Integer[] testPolarConversion(int r, double theta){
-        return new Integer[]{(int)Math.round(r*Math.cos(theta)), (int)Math.round(r*Math.sin(theta))};
-    }
-    
-    protected static boolean testBlocked(double theta, List<Double[]> block){
-        return block.stream().anyMatch(c -> theta>=c[0]&&theta<=c[1]);
-    }
-    
-    public static void main(String... args) throws IOException{
+    /**
+     * @unfinished Remove later.
+     * @param args
+     */
+    public static void main(String... args){
         //debugging
-        //printHashCodes("TileSelection");
-        /*double increment = Math.PI/60;
-        for(double theta=0,max=2*Math.PI;theta<max;theta+=increment){
-        Integer[] c1 = testPolarConversion(1, theta),
-        c2 = testPolarConversion(2, theta),
-        c3 = testPolarConversion(3, theta),
-        c4 = testPolarConversion(4, theta),
-        c5 = testPolarConversion(5, theta),
-        c6 = testPolarConversion(6, theta);
-        System.out.println("1, "+theta+" -> "+c1[0]+", "+c1[1]+"\t  "+
-        "2, "+theta+" -> "+c2[0]+", "+c2[1]+"\t  "+
-        "3, "+theta+" -> "+c3[0]+", "+c3[1]+"\t  "+
-        "4, "+theta+" -> "+c4[0]+", "+c4[1]+"\t  "+
-        "5, "+theta+" -> "+c5[0]+", "+c5[1]+"\t  "+
-        "6, "+theta+" -> "+c6[0]+", "+c6[1]);
-        }*/
-        /*List<Double[]> blocking = new LinkedList<>();
-        //blocking.add(new Double[]{0D, 1D});
-        blocking.add(new Double[]{-Math.PI/4, Math.PI/4});
-        //blocking.add(new Double[]{0D, 3D});
-        //blocking.add(new Double[]{0D, 3D});
-        double increment = Math.PI/60;
-        for(double theta=0,max=2*Math.PI;theta<max;theta+=increment){
-        System.out.println(theta + " -> " + testBlocked(theta, blocking));
-        }*/
-        //printHashCodes("english");
+        Location loc = new Location();
+        System.out.println(Tile.floor(loc).getClass().equals(AnimatedTile.class));
     }
     
 }
