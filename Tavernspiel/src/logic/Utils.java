@@ -2,7 +2,7 @@
 package logic;
 
 import gui.mainToolbox.Screen;
-import guiUtils.CComponent;
+import gui.utils.CComponent;
 import java.io.IOException;
 import java.lang.annotation.Inherited;
 import java.util.Arrays;

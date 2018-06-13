@@ -1,7 +1,7 @@
 
 package gui.mainToolbox;
 
-import guiUtils.CComponent;
+import gui.utils.CComponent;
 import java.awt.event.MouseEvent;
 import java.io.Serializable;
 import listeners.ScreenListener;

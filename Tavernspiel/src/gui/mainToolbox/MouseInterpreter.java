@@ -66,8 +66,8 @@ public class MouseInterpreter extends MouseAdapter{
      * @param my The y coordinate of the click.
      * @return An int array representing the tile coordinates.
      */
-    public static Integer[] pixelToTile(int mx, int my){
-        return new Integer[]{Math.floorDiv(mx-focusX, (int)(16*zoom)), Math.floorDiv(my-focusY, (int)(16*zoom))};
+    public static Integer[] pixelToTile(double mx, double my){
+        return new Integer[]{Math.floorDiv((int)(mx/zoom)-focusX, 16), Math.floorDiv((int)(my/zoom)-focusY, 16)};
     }
     
     /**
@@ -77,7 +77,7 @@ public class MouseInterpreter extends MouseAdapter{
      * @return An int array representing the on-screen coordinates.
      */
     public static Integer[] tileToPixel(double tx, double ty){
-        return new Integer[]{(int)((16D*tx+8D)*zoom + focusX), (int)((16D*ty+8D)*zoom + focusY)};
+        return new Integer[]{(int)((16D*tx+8D+focusX)*zoom), (int)((16D*ty+8D+focusY)*zoom)};
     }
     
     /**

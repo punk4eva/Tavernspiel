@@ -1,5 +1,5 @@
 
-package guiUtils;
+package gui.utils;
 
 import gui.mainToolbox.Screen;
 import java.awt.Graphics;

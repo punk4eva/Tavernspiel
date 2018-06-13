@@ -27,6 +27,8 @@ import logic.SoundHandler;
 import tiles.AnimatedTile;
 import tiles.Tile;
 import static gui.mainToolbox.MouseInterpreter.*;
+import gui.pages.LoadingPage;
+import gui.pages.Page;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import testUtilities.TestUtil;
@@ -36,7 +38,7 @@ import testUtilities.TestUtil;
  *
  * @author Adam Whittaker
  */
-public abstract class Main extends Canvas implements Runnable, ActionListener{
+public abstract class Main extends Canvas implements Runnable, ActionListener, Page{
     
     public static final int WIDTH = 780, HEIGHT = WIDTH / 12 * 9;
     public transient static PrintStream exceptionStream, performanceStream;
@@ -46,6 +48,8 @@ public abstract class Main extends Canvas implements Runnable, ActionListener{
     public TurnThread turnThread = new TurnThread();
     protected Window window;
     protected HUD hud;
+    protected Page page;
+    public final PageFlipper pageFlipper;
 
     public final SoundHandler soundSystem = new SoundHandler();
     public final Pacemaker pacemaker;
@@ -61,6 +65,8 @@ public abstract class Main extends Canvas implements Runnable, ActionListener{
      * @thread progenitor
      */
     public Main(){
+        pageFlipper = new PageFlipper(this);
+        pageFlipper.setPage("main");
         pacemaker = new Pacemaker(this);
         try{
             exceptionStream = new PrintStream(new File("log/exceptions.txt"));
@@ -206,6 +212,13 @@ public abstract class Main extends Canvas implements Runnable, ActionListener{
             return;
         }
         Graphics2D bsg = (Graphics2D) bs.getDrawGraphics();
+        page.paint(bsg);
+        bsg.dispose();
+        bs.show();
+    }
+    
+    @Override
+    public void paint(Graphics2D bsg){
         BufferedImage buffer = new BufferedImage((int)(((double)WIDTH)/zoom), (int)(((double)HEIGHT)/zoom), BufferedImage.TYPE_INT_ARGB);
         Graphics g = buffer.getGraphics();
         //@Unfinished
@@ -221,8 +234,6 @@ public abstract class Main extends Canvas implements Runnable, ActionListener{
         gui.paint(bsg);
         
         g.dispose();
-        bsg.dispose();
-        bs.show();
     }
     
     /**
