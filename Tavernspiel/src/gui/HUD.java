@@ -18,12 +18,6 @@ import creatureLogic.QuickSlot;
 public class HUD implements Viewable, ScreenListener{
     
     private final List<Screen> screens = new LinkedList<>();
-    {
-        screens.add(new Screen("Player",5,5,60,60,this));
-        screens.add(new Screen("Wait",Game.WIDTH - 50, Game.HEIGHT - 73, 40, 40,this));
-        screens.add(new Screen("Search",Game.WIDTH - 95, Game.HEIGHT - 73, 40, 40,this));
-        screens.add(new Screen("Inventory",Game.WIDTH - 140, Game.HEIGHT - 73, 40, 40,this));
-    }
     private boolean viewingInventory = false;
     private final QuickSlot quickslot;
     
@@ -31,6 +25,15 @@ public class HUD implements Viewable, ScreenListener{
         quickslot = q;
         for(int i = 0; i < q.length(); i++) screens.add(new Screen("QuickSlot" + i,Game.WIDTH - (350 + i * 45), Game.HEIGHT - 73, 40, 40, quickslot));
         Window.main.addViewable(this);
+        
+        screens.add(new Screen("Player",5,5,60,60,this));
+        screens.add(new Screen("Wait",Game.WIDTH - 50, Game.HEIGHT - 73, 40, 40,this));
+        screens.add(new Screen("Search",Game.WIDTH - 95, Game.HEIGHT - 73, 40, 40,this));
+        screens.add(new Screen("Inventory",Game.WIDTH - 140, Game.HEIGHT - 73, 40, 40,this));
+        screens.add(new Screen("QuickAttack",Game.WIDTH - 70, Game.HEIGHT - 250, 70, 40,this));
+        screens.add(new Screen("QuickPickup",Game.WIDTH - 70, Game.HEIGHT - 300, 70, 40,this));
+        
+        for(int i = 0; i < quickslot.length(); i++) screens.add(new Screen("QuickSlot:" + i,Game.WIDTH - (350 + i * 45), Game.HEIGHT - 73, 40, 40,this));
     }
 
     @Override
@@ -57,6 +60,10 @@ public class HUD implements Viewable, ScreenListener{
         g.fill3DRect(Game.WIDTH - 95, Game.HEIGHT - 73, 40, 40, true);
         g.drawImage(ConstantFields.waitButtonImg,Game.WIDTH - 95, Game.HEIGHT - 74,null);
         g.fill3DRect(Game.WIDTH - 140, Game.HEIGHT - 73, 40, 40, true);
+        
+        g.setColor(ConstantFields.frontColor);
+        g.fill3DRect(Game.WIDTH - 70, Game.HEIGHT - 250, 70, 40, true);
+        g.fill3DRect(Game.WIDTH - 70, Game.HEIGHT - 300, 70, 40, true);
         
         g.setColor(Color.red);
         g.fill3DRect(70, 5, (int) ((double)Window.main.player.attributes.hp/(double)(Window.main.player.attributes.maxhp) * 200), 10, true);
