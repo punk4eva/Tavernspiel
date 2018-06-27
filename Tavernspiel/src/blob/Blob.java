@@ -11,24 +11,14 @@ import logic.GameObject;
 /**
  *
  * @author Adam Whittaker
- *
- * This class represents a GameObject with an expanding cloud behavior.
+ 
+ This class represents PotpourriPotpourri.
  */
 public class Blob extends GameObject{
     
     public LinkedList<Buff> buffs = new LinkedList<>();
     public int spreadNumber;
     
-    /**
-     * Creates a blob.
-     * @param n The name.
-     * @param desc The description.
-     * @param b The buff that it gives.
-     * @param a The animator.
-     * @param spread The spread number.
-     * @param nx The x.
-     * @param ny The y.
-     */
     public Blob(String n, Description desc, Buff b, GameObjectAnimator a, int spread, int nx, int ny){
         super(n, desc, a);
         buffs.add(b);
@@ -37,12 +27,6 @@ public class Blob extends GameObject{
         y = ny;
     }
     
-    /**
-     * Creates a blob from a preexisting blob.
-     * @param gas The parent blob.
-     * @param nx The new x coordinate.
-     * @param ny The new y coordinate.
-     */
     public Blob(Blob gas, int nx, int ny){
         super(gas.name, gas.description, gas.animator);
         buffs = gas.buffs;
@@ -51,9 +35,6 @@ public class Blob extends GameObject{
         spreadNumber = gas.spreadNumber-1;
     }
     
-    /**
-     * Spreads the blob to adjacent tiles and decrements spread number.
-     */
     protected void spread(){
         if(spreadNumber==0){
             area.removeObject(this);

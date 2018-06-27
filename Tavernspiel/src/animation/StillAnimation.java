@@ -18,15 +18,13 @@ public class StillAnimation extends Animation{
     
     /**
      * Creates a still image Animation.
-     * @param icon The still image.
+     * @param icon
      */
     public StillAnimation(ImageIcon icon){
-        super(new ImageIcon[]{icon});
+        super(icon);
     }
     
     /**
-     * A StillAnimation should not need a listener.
-     * @unfinished Remove later.
      * @deprecated
      */
     @Override

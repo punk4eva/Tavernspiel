@@ -75,6 +75,18 @@ public class Animation implements Serializable{
     }
     
     /**
+     * Creates a still image Animation.
+     * @param icon The Icon.
+     * @deprecated
+     * Only for use with StillAnimation
+     */
+    protected Animation(ImageIcon icon){
+        frames = new ImageIcon[]{icon};
+        ticksPerFrame = 0;
+        maxTicks = 5;
+    }
+    
+    /**
      * Changes the listener of this animation.
      * @param l The new listener.
      */
@@ -113,10 +125,6 @@ public class Animation implements Serializable{
         }
     }
 
-    /**
-     * Recalculates the current frame.
-     * Should be called in implementations of the animate method.
-     */
     protected void recalc(){
         currentTicks += ticksPerFrame;
         while(currentTicks>maxTicks){
@@ -132,12 +140,6 @@ public class Animation implements Serializable{
         }
     }
     
-    /**
-     * Gives the ImageIcon of the current frame.
-     * Should only be used when scaling animations.
-     * @return The current frame.
-     * @see animate
-     */
     public ImageIcon getCurrentIcon(){
         return frames[currentFrame];
     }

@@ -193,14 +193,6 @@ public class Location implements Serializable{
         weaponIndex = WeaponIndex.getIndex(a);
     }
     
-    /**
-     * Default Location for testing.
-     * @unfinished Remove later.
-     */
-    public Location(){
-        this("Shkoder", "shkoderTileset", "water", "Cyanoshrooms.wav", 2);
-    }
-    
     @Unfinished("Fill in weapon stats.")
     public static class WeaponIndex{
         

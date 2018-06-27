@@ -3,6 +3,7 @@ package level;
 
 import creatures.Hero;
 import gui.Game;
+import gui.Window;
 import java.io.Serializable;
 
 /**

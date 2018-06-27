@@ -7,9 +7,6 @@ import listeners.AnimationListener;
 /**
  *
  * @author Adam Whittaker
- * 
- * This class represents an animation that is drawn using Java2D rather than
- * with ImageIcons.
  */
 public abstract class TimeoutDrawnAnimation extends Animation{
     

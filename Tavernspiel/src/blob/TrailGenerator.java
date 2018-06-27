@@ -23,12 +23,6 @@ public class TrailGenerator implements Serializable{
 
     private ArrayList<Trail> trail = new ArrayList<>();
 
-    /**
-     * Paints a trail.
-     * @param g The Graphics.
-     * @param x The x.
-     * @param y The y.
-     */
     public void paint(Graphics2D g, int x, int y){
         tick++;
         if(tick >= intensity){
@@ -41,15 +35,6 @@ public class TrailGenerator implements Serializable{
         trail.stream().forEach(p -> p.paint(g));
     }
 
-    /**
-     * Creates an instance.
-     * @param f The fade speed.
-     * @param v 0: intensity
-     *          1: capacity
-     *          2: width
-     *          3: height
-     *          4-6: RGB
-     */
     public TrailGenerator(float f, int... v){
         intensity = v[0];
         capacity = v[1];
@@ -61,13 +46,6 @@ public class TrailGenerator implements Serializable{
         fadespeed = f;
     }
     
-    /**
-     * Creates a trail from a Particle.
-     * @param p The Particle.
-     * @param i The intensity.
-     * @param c The capacity.
-     * @param f The fade speed.
-     */
     public TrailGenerator(Particle p, int i, int c, float f){
         width = p.shape.width;
         height = p.shape.height;
@@ -90,10 +68,6 @@ public class TrailGenerator implements Serializable{
         fadespeed = g.fadespeed;
     }
     
-    /**
-     * Creates a clone of this instance.
-     * @return The clone.
-     */
     @Override
     public TrailGenerator clone(){
         return new TrailGenerator(this);

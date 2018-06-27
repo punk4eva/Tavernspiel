@@ -5,7 +5,7 @@ package animation;
  *
  * @author Adam Whittaker
  * 
- * This factory class creates animations.
+ * This class creates animations.
  */
 public class AnimationBuilder{
     

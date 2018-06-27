@@ -135,8 +135,6 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
     /**
      * Kills the owner of this animation.
      * @param c The owner.
-     * @unfinished Awaiting deletion.
-     * @deprecated Because it seems pointless.
      */
     public synchronized void switchFadeKill(Creature c){
         switchFade("die");
@@ -149,10 +147,6 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
         new DeathEvent(c, c.x, c.y, c.area).notifyEvent();
     }
 
-    /**
-     * Registers that an animation is done.
-     * @param a The animation that is done.
-     */
     @Override
     public synchronized void done(Animation a){
         if(waitingForDone){
@@ -179,12 +173,6 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
         return new Animation(ret, this); 
     }
     
-    /**
-     * Draws the current frame onto the given graphics.
-     * @param g The graphics to draw on.
-     * @param x The top left x.
-     * @param y The top left y.
-     */
     public void animate(Graphics g, int x, int y){
         active.animate(g, x, y);
     }
