@@ -66,14 +66,11 @@ public class AIPlayerActions extends AIBaseActions{
     public void pickUp(Creature c){
         Item i = c.area.pickUp(c.x, c.y);
         expendTurns(c, 1);
-        try{
-            c.inventory.push(i);
-            Window.main.soundSystem.playSFX("pickUp.wav");
-        }catch(ReceptacleOverflowException e){
+        if(!c.inventory.add(i)){
             c.area.plop(i, c.x, c.y);
             Main.addMessage("red", "Your pack is too full for the " +
                     i.toString(3));
-        }
+        }else Window.main.soundSystem.playSFX("pickUp.wav");
     }
     
     @Override

@@ -366,12 +366,10 @@ public class Room extends Area{
                 x = Distribution.getRandomInt(1, dimension.width-2);
                 y = Distribution.getRandomInt(1, dimension.height-2);
             }while(!isTreadable(x, y));
-            try{
-                if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
-                else{
-                    receptacles.add(TrapBuilder.getRandomReceptacle(item, x, y));
-                }
-            }catch(ReceptacleOverflowException ignore){}
+            if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
+            else{
+                receptacles.add(TrapBuilder.getRandomReceptacle(item, x, y));
+            }
         });
     }
     
@@ -385,12 +383,10 @@ public class Room extends Area{
                 x = Distribution.getRandomInt(1, dimension.width-2);
                 y = Distribution.getRandomInt(1, dimension.height-2);
             }while(!isTreadable(x, y));
-            try{
-                if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
-                else{
-                    receptacles.add(TrapBuilder.getRandomReceptacle(item, x, y));
-                }
-            }catch(ReceptacleOverflowException ignore){}
+            if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
+            else{
+                receptacles.add(TrapBuilder.getRandomReceptacle(item, x, y));
+            }
         });
     }
     
@@ -404,12 +400,10 @@ public class Room extends Area{
             x = Distribution.getRandomInt(1, dimension.width-2);
             y = Distribution.getRandomInt(1, dimension.height-2);
         }while(!isTreadable(x, y));
-        try{
-            if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
-            else{
-                receptacles.add(TrapBuilder.getRandomReceptacle(item, x, y));
-            }
-        }catch(ReceptacleOverflowException ignore){}
+        if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
+        else{
+            receptacles.add(TrapBuilder.getRandomReceptacle(item, x, y));
+        }
     }
     
     /**

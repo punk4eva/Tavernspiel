@@ -135,4 +135,18 @@ public class Screen implements Serializable{
         return y>=tly&&y<=bry&&x>=tlx&&x<=brx;
     }
     
+    /**
+     * Resets the size and coordinates of this Screen.
+     * @param tx the top left x
+     * @param ty the top left y
+     * @param bx the bottom right x
+     * @param by the bottom right y
+     */
+    public void reposition(int tx, int ty, int bx, int by){
+        tlx = tx;
+        tly = ty;
+        brx = bx;
+        bry = by;
+    }
+    
 }

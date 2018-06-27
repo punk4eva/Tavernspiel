@@ -10,6 +10,7 @@ import creatureLogic.Attack;
 import creatureLogic.Attributes;
 import creatureLogic.Description;
 import creatureLogic.FieldOfView;
+import enchantments.WeaponEnchantment;
 import gui.mainToolbox.MouseInterpreter;
 import static gui.mainToolbox.MouseInterpreter.MOVE_RESOLUTION;
 import items.equipment.HeldWeapon;
@@ -226,12 +227,12 @@ public class Creature extends GameObject implements Comparable<Creature>{
      */
     public int nextHit(){
         try{
-            HeldWeapon weap = equipment.getWeapon();
+            HeldWeapon weap = equipment.weapon;
             return weap.nextIntAction() + new Distribution(0, attributes.strength - weap.strength).nextInt();
         }catch(NullPointerException e){
             return new Distribution(0, attributes.strength-7).nextInt();
         }catch(IllegalArgumentException e){
-            return equipment.getWeapon().nextIntAction();
+            return equipment.weapon.nextIntAction();
         }
     }
 
@@ -253,11 +254,11 @@ public class Creature extends GameObject implements Comparable<Creature>{
         if(stDif<0) return new Attack(this, 
                 (int)(equipment.nextHit(attributes.strength)/Math.pow(1.5, 0-stDif)), 
                 attributes.accuracy*equipment.getWeaponAccuracy()/Math.pow(1.5, 0-stDif), 
-                equipment.getWeaponEnchantment());
+                ((WeaponEnchantment)equipment.weapon.enchantment));
         return new Attack(this, 
                 equipment.nextHit(attributes.strength), 
                 attributes.accuracy*equipment.getWeaponAccuracy(), 
-                equipment.getWeaponEnchantment());
+                 ((WeaponEnchantment)equipment.weapon.enchantment));
     }
     
 }

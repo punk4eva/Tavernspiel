@@ -20,7 +20,7 @@ public class Chest extends Receptacle{
      */
     public Chest(Item item, int x, int y){
         super(ConstantFields.chestIcon, 1, "You won't know what's inside until you open it!", x, y);
-        items.add(item);
+        add(item);
     }
     
     /**
@@ -32,7 +32,7 @@ public class Chest extends Receptacle{
      */
     public Chest(ImageIcon ic, Item item, int x, int y){
         super(ic, 1, "You won't know what's inside until you open it!", x, y);
-        items.add(item);
+        add(item);
     }
     
     /**

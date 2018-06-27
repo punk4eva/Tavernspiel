@@ -1,5 +1,9 @@
 
-package items;
+package items.misc;
+
+import items.Item;
+import items.ItemAction;
+import items.ItemBuilder;
 
 /**
  *

@@ -67,26 +67,26 @@ public abstract class ItemSpecificScroll extends Scroll implements ScreenListene
                 Window.main.removeTopViewable();
                 used = false;
                 break;
-            case "Weapon": if(hero.equipment.getWeapon()!=null){
-                used = use(hero, hero.equipment.getWeapon());
+            case "Weapon": if(hero.equipment.weapon!=null){
+                used = use(hero, hero.equipment.weapon);
             } break;
-            case "Helmet": if(hero.equipment.getHelmet()!=null){
-                used = use(hero, hero.equipment.getHelmet());
+            case "Helmet": if(hero.equipment.helmet!=null){
+                used = use(hero, hero.equipment.helmet);
             } break;
-            case "Chestplate": if(hero.equipment.getChestplate()!=null){
-                used = use(hero, hero.equipment.getChestplate());
+            case "Chestplate": if(hero.equipment.chestplate!=null){
+                used = use(hero, hero.equipment.chestplate);
             } break;
-            case "Leggings": if(hero.equipment.getLeggings()!=null){
-                used = use(hero, hero.equipment.getLeggings());
+            case "Leggings": if(hero.equipment.leggings!=null){
+                used = use(hero, hero.equipment.leggings);
             } break;
-            case "Boots": if(hero.equipment.getBoots()!=null){
-                used = use(hero, hero.equipment.getBoots());
+            case "Boots": if(hero.equipment.boots!=null){
+                used = use(hero, hero.equipment.boots);
             } break;
-            case "Amulet1": if(hero.equipment.getAmulet1()!=null){
-                used = use(hero, hero.equipment.getAmulet1());
+            case "Amulet1": if(hero.equipment.amulet1!=null){
+                used = use(hero, hero.equipment.amulet1);
             } break;
-            case "Amulet2": if(hero.equipment.getAmulet2()!=null){
-                used = use(hero, hero.equipment.getAmulet2());
+            case "Amulet2": if(hero.equipment.amulet2!=null){
+                used = use(hero, hero.equipment.amulet2);
             } break;
             default: try{
                 int n = Integer.parseInt(sc.getName());
@@ -94,7 +94,7 @@ public abstract class ItemSpecificScroll extends Scroll implements ScreenListene
                 if(item!=null) used = use(hero, item);
             }catch(NumberFormatException e){}
         }
-        hero.stopInventoryHijack();
+        if(used) hero.stopInventoryHijack();
         try{
             barrier.await();
         }catch(InterruptedException | BrokenBarrierException ex){}

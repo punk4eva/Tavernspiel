@@ -6,13 +6,11 @@ import creatureLogic.QuickSlot;
 import creatures.Hero;
 import dialogues.ItemDialogue;
 import dialogues.MoneyDialogue;
-import exceptions.ReceptacleIndexOutOfBoundsException;
-import exceptions.ReceptacleOverflowException;
 import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
 import gui.mainToolbox.Screen.ScreenEvent;
 import gui.Window;
-import items.Gold;
+import items.misc.Gold;
 import items.Item;
 import java.awt.Graphics;
 import java.util.LinkedList;
@@ -61,11 +59,11 @@ public class Inventory extends Receptacle{
         beginWidth += padding;
         beginHeight += 3*padding + 2*sqheight;
         int n=0, y=0, x;
-        for(;y<3&&n<items.size();y++){
-            for(x=0;x<6&&n<items.size();x++){
+        for(;y<3&&n<size();y++){
+            for(x=0;x<6&&n<size();x++){
                 ImageUtils.paintItemSquare(g, beginWidth+x*(padding+sqwidth), 
                         beginHeight+y*(padding+sqheight),
-                        sqwidth, sqheight, items.get(n), heroOwner, pred);
+                        sqwidth, sqheight, get(n), heroOwner, pred);
                 n++;
             }
         }
@@ -73,7 +71,7 @@ public class Inventory extends Receptacle{
         x = n;
         g.setColor(ConstantFields.backColor);
         for(;y<3;y++){
-            for(x=(x==6?x=0:x);x<6;x++){
+            for(x=(x==6?0:x);x<6;x++){
                 g.fill3DRect(beginWidth+x*(padding+sqwidth), 
                         beginHeight+y*(padding+sqheight),
                         sqwidth, sqheight, true);
@@ -82,9 +80,10 @@ public class Inventory extends Receptacle{
     }
     
     @Override
-    public void push(Item i) throws ReceptacleOverflowException{
+    public boolean add(Item i){
         if(i instanceof Gold) amountOfMoney += i.quantity;
-        else super.push(i);
+        else super.add(i);
+        return true;
     }
     
     private List<Screen> getScreens(){
@@ -126,20 +125,26 @@ public class Inventory extends Receptacle{
                     new MoneyDialogue(amountOfMoney).next();
                 else if(slot.startsWith("e")){
                     Item i = null;
-                    try{
-                        i = heroOwner.equipment.get(Integer.parseInt(slot.substring(1)));
-                    }catch(ReceptacleIndexOutOfBoundsException e){}
+                    switch(slot){
+                        case "e0": i = heroOwner.equipment.weapon; break;
+                        case "e1": i = heroOwner.equipment.amulet1; break;
+                        case "e2": i = heroOwner.equipment.amulet2; break;
+                        case "e3": i = heroOwner.equipment.helmet; break;
+                        case "e4": i = heroOwner.equipment.chestplate; break;
+                        case "e5": i = heroOwner.equipment.leggings; break;
+                        case "e6": i = heroOwner.equipment.boots; break;
+                    }
                     if(i!=null){
                         Item it = i; //effective finalization.
                         Window.main.addEvent(() -> 
-                            ItemActionInterpreter.act(new ItemDialogue(it, heroOwner.expertise).next(), heroOwner));
+                            ItemActionInterpreter.act(new ItemDialogue(it, heroOwner.expertise).next(), heroOwner, -1));
                     }
                     
                 }else{
                     int s = Integer.parseInt(slot);
-                    if(s<items.size())
+                    if(s<size())
                         Window.main.addEvent(() -> 
-                                ItemActionInterpreter.act(new ItemDialogue(items.get(s), heroOwner.expertise).next(), heroOwner));
+                                ItemActionInterpreter.act(new ItemDialogue(get(s), heroOwner.expertise).next(), heroOwner, s));
                 }
             }
         }

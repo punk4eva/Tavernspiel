@@ -3,14 +3,11 @@ package ai;
 
 import ai.intelligence.IntelligentAI1;
 import ai.intelligence.IntelligentAI1.EnState;
-import animation.MiscAnimator;
 import containers.Floor;
 import containers.PurchasableHeap;
 import creatureLogic.Attack;
 import creatures.Creature;
 import creatures.Hero;
-import exceptions.ReceptacleOverflowException;
-import gui.Window;
 import gui.mainToolbox.Main;
 import items.Apparatus;
 import items.Item;
@@ -40,8 +37,8 @@ public class AIBaseActions implements Serializable{
     public interface calcAccuracy{
         double calc(Creature c);
     }
-    public static calcAccuracy accuracyCalculation = c -> c.attributes.accuracy * (c.equipment.getWeapon() instanceof MeleeWeapon ? 1 : ((MeleeWeapon)c.equipment.getWeapon()).accuracy);
-    public void resetAccuracyCalculation(){accuracyCalculation = c -> c.attributes.accuracy * (c.equipment.getWeapon() instanceof MeleeWeapon ? 1 : ((MeleeWeapon)c.equipment.getWeapon()).accuracy);}
+    public static calcAccuracy accuracyCalculation = c -> c.attributes.accuracy * (c.equipment.weapon instanceof MeleeWeapon ? 1 : ((MeleeWeapon)c.equipment.weapon).accuracy);
+    public void resetAccuracyCalculation(){accuracyCalculation = c -> c.attributes.accuracy * (c.equipment.weapon instanceof MeleeWeapon ? 1 : ((MeleeWeapon)c.equipment.weapon).accuracy);}
     public interface calcDexterity{
         double calc(Creature c);
     }
@@ -108,12 +105,9 @@ public class AIBaseActions implements Serializable{
      */
     public void buy(Creature c, PurchasableHeap heap, Area area){
         if(c.inventory.amountOfMoney>=heap.price){
-            try{
-                c.inventory.push(heap.pop());
-                area.replaceHeap(heap.x, heap.y, new Floor(heap.x, heap.y));
-            }catch(ReceptacleOverflowException e){
-                area.replaceHeap(heap.x, heap.y, new Floor(heap.items.get(0), heap.x, heap.y));
-            }
+            c.inventory.push(heap.pop());
+            area.replaceHeap(heap.x, heap.y, new Floor(heap.x, heap.y));
+                area.replaceHeap(heap.x, heap.y, new Floor(heap.get(0), heap.x, heap.y));
             c.inventory.setMoneyAmount(c.inventory.amountOfMoney-heap.price);
         }
     }
@@ -126,7 +120,7 @@ public class AIBaseActions implements Serializable{
      */
     public void sell(Creature c, Item item, int price){
         c.inventory.setMoneyAmount(c.inventory.amountOfMoney+price);
-        c.inventory.items.remove(item);
+        c.inventory.remove(item);
     }
     
     /**
@@ -194,15 +188,15 @@ public class AIBaseActions implements Serializable{
     
     /**
      * Equips an item.
-     * @param main The MainClass
      * @param c The equipment wearer.
      * @param eq The equipment.
+     * @param slot The inventory slot which used to hold the apparatus.
      * @param choiceOfAmulet The choice of amulet to replace.
-     * @return The equipment that was removed in order to make space for the new
-     * equipment.
      */
-    public Apparatus equip(Main main, Creature c, Apparatus eq, int... choiceOfAmulet){
-        return c.equipment.equip(main, eq, choiceOfAmulet);
+    public void equip(Creature c, Apparatus eq, int slot, int... choiceOfAmulet){
+        Apparatus reject = c.equipment.equip(eq, choiceOfAmulet);
+        c.inventory.remove(slot);
+        if(reject!=null) c.inventory.add(slot, reject);
     }
       
     /**
@@ -223,27 +217,25 @@ public class AIBaseActions implements Serializable{
      */
     public void pickUp(Creature c){
         Item i = c.area.pickUp(c.x, c.y);
-        try{
-            c.inventory.push(i);
-        }catch(ReceptacleOverflowException e){
+        if(!c.inventory.add(i)){
             c.area.plop(i, c.x, c.y);
             Main.addMessage("red", "Your pack is too full for the " +
                     i.toString(3));
         }
     }
     
-    public void interpretItemAction(Creature c, ItemAction a){
-        ItemActionInterpreter.act(a, c);
+    public void interpretItemAction(Creature c, ItemAction a, int slot){
+        ItemActionInterpreter.act(a, c, slot);
     }
     
     public void throwItem(Creature c, Item i, int x, int y){
-        c.inventory.items.remove(i);
+        c.inventory.remove(i);
         Main.animator.throwItem(c.x, c.y, i, x, y);
         c.area.plop(i, x, y);
     }
     
     public void dropItem(Creature c, Item i){
-        c.inventory.items.remove(i);
+        c.inventory.remove(i);
         c.area.plop(i, c.x, c.y);
     }
     

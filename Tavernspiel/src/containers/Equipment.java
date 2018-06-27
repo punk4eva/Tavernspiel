@@ -3,8 +3,7 @@ package containers;
 
 import creatures.Hero;
 import dialogues.UnequipAmuletDialogue;
-import enchantments.WeaponEnchantment;
-import gui.mainToolbox.Main;
+import gui.Window;
 import gui.mainToolbox.Screen;
 import items.Apparatus;
 import items.equipment.Boots;
@@ -14,6 +13,7 @@ import items.equipment.Helmet;
 import items.equipment.Leggings;
 import items.equipment.MeleeWeapon;
 import java.awt.Graphics;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import logic.ConstantFields;
@@ -26,103 +26,37 @@ import logic.ImageUtils;
  * 
  * This class represents the collection of equipment that a creature has.
  */
-public class Equipment extends Receptacle{
+public class Equipment implements Serializable{
     
     public final List<Screen> screens;
     private final Hero heroOwner;
+    public HeldWeapon weapon;
+    public Apparatus amulet1, amulet2;
+    public Helmet helmet;
+    public Chestplate chestplate;
+    public Leggings leggings;
+    public Boots boots;
+    
     
     /**
      * Creates a new instance
      * @param hero The owner.
      */
     public Equipment(Hero hero){
-        super(null, 7, "ERROR: You shouldn't be reading this.", -1, -1);
-        for(int n=0;n<7;n++) items.add(null);
         screens = getScreens(hero.inventory);
         heroOwner = hero;
     }
     
-    /**
-     * Returns the weapon if it exists, null otherwise.
-     * @return
-     */
-    public HeldWeapon getWeapon(){
-        return (HeldWeapon) items.get(0);
-    }
-    
-    /**
-     * Returns the first amulet if it exists, null otherwise.
-     * @return
-     */
-    public Apparatus getAmulet1(){
-        return (Apparatus) items.get(1);
-    }
-    
-    /**
-     * Returns the second amulet if it exists, null otherwise.
-     * @return
-     */
-    public Apparatus getAmulet2(){
-        return (Apparatus) items.get(2);
-    }
-    
-    /**
-     * Returns the helmet if it exists, null otherwise.
-     * @return
-     */
-    public Helmet getHelmet(){
-        return (Helmet) items.get(3);
-    }
-    
-    /**
-     * Returns the chestplate if it exists, null otherwise.
-     * @return
-     */
-    public Chestplate getChestplate(){
-        return (Chestplate) items.get(4);
-    }
-    
-    /**
-     * Returns the leggings if it exists, null otherwise.
-     * @return
-     */
-    public Leggings getLeggings(){
-        return (Leggings) items.get(5);
-    }
-    
-    /**
-     * Returns the boots if it exists, null otherwise.
-     * @return
-     */
-    public Boots getBoots(){
-        return (Boots) items.get(6);
-    }
-    
-    public WeaponEnchantment getWeaponEnchantment(){
-        return (WeaponEnchantment) ((HeldWeapon) items.get(0)).enchantment;
-    }
-    
     public int nextHit(int strength){
         try{
-            return ((HeldWeapon) items.get(0)).action.nextInt();
+            return weapon.action.nextInt();
         }catch(Exception e){
             return Distribution.r.nextInt(strength);
         }
     }
     
     public double getWeaponAccuracy(){
-        return ((MeleeWeapon) items.get(0)).accuracy;
-    }
-    
-    /**
-     * Returns the Apparatus of the given type if it exists, null otherwise.
-     * @param <T> The type of Apparatus to return.
-     * @param ignore Conveys nothing except the type to return.
-     * @param index The index that it is found.
-     * @return
-     */
-    public <T extends Apparatus> T get(T ignore, int index){
-        return (T) items.get(index);
+        return ((MeleeWeapon) weapon).accuracy;
     }
     
     /**
@@ -132,54 +66,60 @@ public class Equipment extends Receptacle{
      */
     public int strengthDifference(int strength){
         int ret = 0;
-        for(int n=3;n<7;n++){
-            if(items.get(n)!=null) ret += (strength - ((Apparatus) items.get(n)).strength);
-        }
+        if(weapon!=null) ret += strength - weapon.strength;
+        if(helmet!=null) ret += strength - helmet.strength;
+        if(chestplate!=null) ret += strength - chestplate.strength;
+        if(leggings!=null) ret += strength - leggings.strength;
+        if(boots!=null) ret += strength - boots.strength;
         return ret;
     }
     
     /**
      * Equips a piece of equipment and returns what was displaced.
-     * @param main The MainClass to use to display a dialogue in the case of the
-     * hero wanting possessing two misc items.
      * @param app The apparatus to equip.
      * @param choiceOfAmulet The choice of amulet to remove should it come to it.
      * @return The apparatus that was displaced, null if nothing.
      */
-    public Apparatus equip(Main main, Apparatus app, int... choiceOfAmulet){
+    public Apparatus equip(Apparatus app, int... choiceOfAmulet){
         if(app instanceof HeldWeapon){
-            HeldWeapon ret = (HeldWeapon) items.remove(0);
-            items.add(0, app);
+            HeldWeapon ret = weapon;
+            weapon = (HeldWeapon) app;
             return ret;
         }else if(app instanceof Helmet){
-            Helmet ret = (Helmet) items.remove(3);
-            items.add(3, app);
+            Helmet ret = helmet;
+            helmet = (Helmet) app;
             return ret;
         }else if(app instanceof Chestplate){
-            Chestplate ret = (Chestplate) items.remove(4);
-            items.add(4, app);
+            Chestplate ret = chestplate;
+            chestplate = (Chestplate) app;
             return ret;
         }else if(app instanceof Leggings){
-            Leggings ret = (Leggings) items.remove(5);
-            items.add(5, app);
+            Leggings ret = leggings;
+            leggings = (Leggings) app;
             return ret;
         }else if(app instanceof Boots){
-            Boots ret = (Boots) items.remove(6);
-            items.add(6, app);
+            Boots ret = boots;
+            boots = (Boots) app;
             return ret;
-        }else if(items.get(1)==null){
-            items.add(1, app);
+        }else if(amulet1==null){
+            amulet1 = app;
             return null;
-        }else if(items.get(2)==null){
-            items.add(2, app);
+        }else if(amulet2==null){
+            amulet2 = app;
             return null;
         }
         int choice;
         if(choiceOfAmulet.length==0)
-            choice = 1 + new UnequipAmuletDialogue(items.get(1), items.get(2)).next(main);
+            choice = new UnequipAmuletDialogue(amulet1, amulet2).next(Window.main);
         else choice = choiceOfAmulet[0];
-        Apparatus ret = (Apparatus) items.remove(choice);
-        items.add(choice, app);
+        Apparatus ret;
+        if(choice==0){
+            ret = amulet1;
+            amulet1 = app;
+        }else{
+            ret = amulet2;
+            amulet2 = app;
+        }
         return ret;
     }
 
@@ -193,20 +133,20 @@ public class Equipment extends Receptacle{
      * @param padding The length of padding.
      */
     public void paint(Graphics g, int beginWidth, int beginHeight, int sqwidth, int sqheight, int padding){
-        if(items.get(0)!=null) ImageUtils.paintItemSquare(g, beginWidth+padding, beginHeight+padding, sqwidth, sqheight, items.get(0), heroOwner);
+        if(weapon!=null) ImageUtils.paintItemSquare(g, beginWidth+padding, beginHeight+padding, sqwidth, sqheight, weapon, heroOwner);
         else ImageUtils.paintOutline(g, beginWidth+padding, beginHeight+padding, sqwidth, sqheight, ConstantFields.weaponOutline);
-        if(items.get(3)!=null) ImageUtils.paintItemSquare(g, beginWidth+2*padding+sqwidth, beginHeight+padding, sqwidth, sqheight, items.get(3), heroOwner);
+        if(helmet!=null) ImageUtils.paintItemSquare(g, beginWidth+2*padding+sqwidth, beginHeight+padding, sqwidth, sqheight, helmet, heroOwner);
         else ImageUtils.paintOutline(g, beginWidth+2*padding+sqwidth, beginHeight+padding, sqwidth, sqheight, ConstantFields.helmetOutline);
-        if(items.get(4)!=null) ImageUtils.paintItemSquare(g, beginWidth+3*padding+2*sqwidth, beginHeight+padding, sqwidth, sqheight, items.get(4), heroOwner);
+        if(chestplate!=null) ImageUtils.paintItemSquare(g, beginWidth+3*padding+2*sqwidth, beginHeight+padding, sqwidth, sqheight, chestplate, heroOwner);
         else ImageUtils.paintOutline(g, beginWidth+3*padding+2*sqwidth, beginHeight+padding, sqwidth, sqheight, ConstantFields.chestplateOutline);
-        if(items.get(5)!=null) ImageUtils.paintItemSquare(g, beginWidth+4*padding+3*sqwidth, beginHeight+padding, sqwidth, sqheight, items.get(5), heroOwner);
+        if(leggings!=null) ImageUtils.paintItemSquare(g, beginWidth+4*padding+3*sqwidth, beginHeight+padding, sqwidth, sqheight, leggings, heroOwner);
         else ImageUtils.paintOutline(g, beginWidth+4*padding+3*sqwidth, beginHeight+padding, sqwidth, sqheight, ConstantFields.leggingsOutline);
-        if(items.get(6)!=null) ImageUtils.paintItemSquare(g, beginWidth+5*padding+4*sqwidth, beginHeight+padding, sqwidth, sqheight, items.get(6), heroOwner);
+        if(boots!=null) ImageUtils.paintItemSquare(g, beginWidth+5*padding+4*sqwidth, beginHeight+padding, sqwidth, sqheight, boots, heroOwner);
         else ImageUtils.paintOutline(g, beginWidth+5*padding+4*sqwidth, beginHeight+padding, sqwidth, sqheight, ConstantFields.bootsOutline);
         
-        if(items.get(1)!=null) ImageUtils.paintItemSquare(g, beginWidth+padding, beginHeight+2*padding+sqheight, sqwidth, sqheight, items.get(1), heroOwner);
+        if(amulet1!=null) ImageUtils.paintItemSquare(g, beginWidth+padding, beginHeight+2*padding+sqheight, sqwidth, sqheight, amulet1, heroOwner);
         else ImageUtils.paintOutline(g, beginWidth+padding, beginHeight+2*padding+sqheight, sqwidth, sqheight, ConstantFields.amuletOutline);
-        if(items.get(2)!=null) ImageUtils.paintItemSquare(g, beginWidth+2*padding+sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight, items.get(2), heroOwner);
+        if(amulet2!=null) ImageUtils.paintItemSquare(g, beginWidth+2*padding+sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight, amulet2, heroOwner);
         else ImageUtils.paintOutline(g, beginWidth+2*padding+sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight, ConstantFields.amuletOutline);
     }
     

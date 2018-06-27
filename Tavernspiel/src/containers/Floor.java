@@ -2,8 +2,6 @@
 package containers;
 
 import creatureLogic.Description;
-import exceptions.ReceptacleOverflowException;
-import gui.mainToolbox.Main;
 import items.Item;
 import java.util.ArrayList;
 
@@ -43,12 +41,9 @@ public class Floor extends Receptacle{
      */
     public Floor(Receptacle r, int x, int y){
         super(null, "You shouldn't be reading this.", x, y);
-        try{pushAll(r);}
-        catch(ReceptacleOverflowException e){
-            e.printStackTrace(Main.exceptionStream);
-        }
-        description = items.isEmpty() ? new Description("tile", "There is nothing interesting here.") : 
-                items.get(items.size()-1).description;
+        addAll(r);
+        description = isEmpty() ? new Description("tile", "There is nothing interesting here.") : 
+                get(size()-1).description;
     }
     
     /*public Floor(ArrayList<Item> ary, int x, int y, int id){
@@ -68,21 +63,22 @@ public class Floor extends Receptacle{
      */
     public Floor(ArrayList<Item> ary, int x, int y){
         super(null, "You shouldn't be reading this.", x, y);
-        items.addAll(ary);
-        description = items.isEmpty() ? new Description("tile", "There is nothing interesting here.") :
-        items.get(items.size()-1).description;
+        addAll(ary);
+        description = isEmpty() ? new Description("tile", "There is nothing interesting here.") :
+        get(size()-1).description;
     }
     
     @Override
-    public final void push(Item i){
-        try{super.push(i);}catch(ReceptacleOverflowException ignore){}
+    public final boolean add(Item i){
+        super.add(i);
         description = i.description;
+        return true;
     }
     
     @Override
     public final Item pop(){
-        description = items.size()==1 ? new Description("tile", "There is nothing interesting here.") : 
-                items.get(items.size()-2).description;
+        description = size()==1 ? new Description("tile", "There is nothing interesting here.") : 
+                get(size()-2).description;
         return super.pop();
     }
     

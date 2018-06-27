@@ -34,7 +34,7 @@ public class ItemDialogue extends Dialogue{
     public ItemAction next(){
         String ret = super.action(Window.main).getName();
         for(ItemAction act : actions){
-            if(act.getName().equals(ret)) return act;
+            if(act.action.equals(ret)) return act;
         }
         return null;
     }

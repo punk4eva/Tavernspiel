@@ -7,7 +7,7 @@ import containers.Floor;
 import items.Item;
 import items.ItemBuilder;
 import items.ItemMap;
-import items.Key;
+import items.misc.Key;
 import java.awt.Dimension;
 import logic.Distribution;
 import logic.Utils.Unfinished;

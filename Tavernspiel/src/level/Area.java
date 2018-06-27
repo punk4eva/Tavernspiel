@@ -8,7 +8,6 @@ import creatureLogic.VisibilityOverlay;
 import creatures.Hero;
 import designer.AreaTemplate;
 import exceptions.AreaCoordsOutOfBoundsException;
-import exceptions.ReceptacleOverflowException;
 import items.Item;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -22,9 +21,7 @@ import java.util.stream.Collectors;
 import listeners.AreaEvent;
 import listeners.DeathEvent;
 import logic.GameObject;
-import logic.Utils.Unfinished;
 import pathfinding.Graph;
-import tiles.AnimatedTile;
 import tiles.Tile;
 
 /**
@@ -153,7 +150,7 @@ public class Area implements Serializable{
     public void burn(int x, int y){
         map[y][x] = new Tile("embers", location, true, false, true);
         Receptacle r = getReceptacle(x, y);
-        if(r != null) r.keep(item -> !item.flammable);
+        if(r != null) r.removeIf(item -> item.flammable);
     }
     
     /**
@@ -188,15 +185,12 @@ public class Area implements Serializable{
     public void lifeTaken(DeathEvent de){
         //@unfinished
         try{
-            getReceptacle(de.getX(), de.getY()).pushAll(de.getCreature().inventory);
-            getReceptacle(de.getX(), de.getY()).pushAll(de.getCreature().equipment);
-        }catch(ReceptacleOverflowException ignore){
+            getReceptacle(de.getX(), de.getY()).addAll(de.getCreature().inventory);
+            getReceptacle(de.getX(), de.getY()).addAll(de.getCreature().equipment);
         }catch(NullPointerException e){
             Floor floor = new Floor(de.getX(), de.getY());
-            try{
-                floor.pushAll(de.getCreature().inventory);
-                floor.pushAll(de.getCreature().equipment);
-            }catch(ReceptacleOverflowException ignore){}
+            floor.addAll(de.getCreature().inventory);
+            floor.addAll(de.getCreature().equipment);
             receptacles.add(floor);
         }
         objects.remove(de.getCreature());

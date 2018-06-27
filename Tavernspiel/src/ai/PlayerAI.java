@@ -104,9 +104,7 @@ public final class PlayerAI extends AITemplate implements KeyListener{
             c.changeAnimation("stand");
             if(c.area.getReceptacle(next.x, next.y)!=null){
                 Item i = c.area.pickUp(next.x, next.y);
-                try{
-                    c.inventory.push(i);
-                }catch(ReceptacleOverflowException e){
+                if(!c.inventory.add(i)){
                     c.area.plop(i, next.x, next.y);
                     Main.addMessage("red", "Your pack is too full for the " +
                             i.toString(3));

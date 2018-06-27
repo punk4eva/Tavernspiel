@@ -1,6 +1,7 @@
 
 package items;
 
+import items.misc.Gold;
 import animation.Animation;
 import items.consumables.Potion;
 import items.consumables.Scroll;

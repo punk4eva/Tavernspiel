@@ -18,8 +18,6 @@ import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
 import gui.Viewable;
 import gui.Window;
-import static gui.mainToolbox.Main.HEIGHT;
-import static gui.mainToolbox.Main.WIDTH;
 import static gui.mainToolbox.MouseInterpreter.MOVE_RESOLUTION;
 import static gui.mainToolbox.MouseInterpreter.getCentre;
 import items.consumables.ScrollBuilder;
@@ -30,7 +28,6 @@ import level.Area;
 import listeners.DeathEvent;
 import listeners.ScreenListener;
 import logic.Utils.Catch;
-import testUtilities.TestUtil;
 
 /**
  *

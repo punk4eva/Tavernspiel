@@ -168,7 +168,13 @@ public class Apparatus extends Item{
         else animation = enchantment.buildAnimation(imageWithoutEnchantment);
     }
     
-    public static ItemAction[] standardActions(int length, Item i){
+    /**
+     * Creates an ItemAction array for Apparatus with the given length.
+     * @param length
+     * @param i The Item.
+     * @return The ItemAction array.
+     */
+    public static ItemAction[] standardActions(int length, Apparatus i){
         ItemAction[] ret = ItemAction.getArray(length, i);
         ret[2] = new ItemAction("EQUIP", i);
         return ret;

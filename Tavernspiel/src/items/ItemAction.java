@@ -14,9 +14,9 @@ public class ItemAction implements Serializable{
     
     private final static long serialVersionUID = -832184255;
     
-    private final String action;
-    private final Item item;
-    private String data[];
+    public final String action;
+    public final Item item;
+    public String data[];
     
     /**
      * Creates a new instance.
@@ -41,35 +41,11 @@ public class ItemAction implements Serializable{
     }
     
     /**
-     * Gets the name of this Object.
-     * @return The name.
-     */
-    public String getName(){
-        return action;
-    }
-    
-    /**
-     * Gets the data associated with this Object.
-     * @return The name.
-     */
-    public String[] getData(){
-        return data;
-    }
-    
-    /**
-     * Gets the Item associated with this Object.
-     * @return The Item.
-     */
-    public Item getItem(){
-        return item;
-    }
-    
-    /**
      * Returns the array of default ItemActions.
      * @param i The Item.
      * @return The array.
      */
-    protected static ItemAction[] getDefaultActions(Item i){
+    public static ItemAction[] getDefaultActions(Item i){
         return new ItemAction[]{new ItemAction("THROW", i), new ItemAction("DROP", i)};
     }
     
@@ -80,7 +56,7 @@ public class ItemAction implements Serializable{
      * @param i The Item.
      * @return an ItemAction array.
      */
-    protected static ItemAction[] getArray(int length, Item i){
+    public static ItemAction[] getArray(int length, Item i){
         ItemAction[] ret = new ItemAction[length];
         ret[0] = new ItemAction("THROW", i);
         ret[1] = new ItemAction("DROP", i);

@@ -1,7 +1,10 @@
 
-package items;
+package items.misc;
 
 import creatureLogic.Description;
+import items.Item;
+import items.ItemAction;
+import items.ItemBuilder;
 
 /**
  *
