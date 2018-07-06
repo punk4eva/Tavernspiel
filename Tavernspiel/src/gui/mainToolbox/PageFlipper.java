@@ -9,7 +9,6 @@ import gui.pages.LoadingPage;
  */
 public class PageFlipper{
     
-    private final LoadingPage LOADING_PAGE = new LoadingPage();
     private final Main main;
     
     public PageFlipper(Main m){
@@ -18,7 +17,7 @@ public class PageFlipper{
     
     public void setPage(String name){
         switch(name){
-            case "loading": main.page = LOADING_PAGE;
+            case "loading": main.page = new LoadingPage();
                 break;
             case "main": main.page = main;
                 break;

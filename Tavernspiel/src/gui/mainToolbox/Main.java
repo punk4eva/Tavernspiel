@@ -62,7 +62,7 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
      */
     public Main(){
         pageFlipper = new PageFlipper(this);
-        pageFlipper.setPage("main");
+        pageFlipper.setPage("loading");
         pacemaker = new Pacemaker(this);
         try{
             exceptionStream = new PrintStream(new File("log/exceptions.txt"));
