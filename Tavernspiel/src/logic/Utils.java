@@ -28,10 +28,10 @@ public final class Utils{
         return ary;
     }
 
-    public static Screen[] getScreens(CComponent[] comp){
+    public static List<Screen> getScreens(CComponent[] comp){
         List<Screen> screens = new LinkedList<>();
         for(CComponent cc : comp) screens.addAll(Arrays.asList(cc.getScreens()));
-        return screens.toArray(new Screen[screens.size()]);
+        return screens;
     }
     
     public static int roundToClosest(float d, int increment, double intersection){

@@ -7,6 +7,7 @@ import animation.GameObjectAnimator;
 import creatureLogic.Attributes;
 import creatures.Hero;
 import items.Apparatus;
+import items.misc.Gold;
 import javax.swing.ImageIcon;
 import level.Area;
 import level.Dungeon;
@@ -34,9 +35,11 @@ public class Game extends Main{
         GameObjectAnimator goa = new GameObjectAnimator(ImageUtils.addImageBuffer(new ImageIcon("graphics/spritesheets/tree.png")),
                 new String[]{"stand", "move", "attack", "die"}, new int[]{2, 4, 8, 5});
         player = new Hero(new Attributes(), goa);
+        gui.hero = player;
         currentArea.addHero(player, true);
         addKeyListener((PlayerAI) player.attributes.ai);
-        hud = new HUD(player.inventory.quickslot);
+        gui.hud = new HUD(player.inventory.quickslot);
+        resetGUIScreens();
         start();
     }
     
@@ -48,6 +51,7 @@ public class Game extends Main{
             Thread.sleep(1200);
         }catch(InterruptedException e){}
         game.currentArea.plop(Apparatus.getRandomMeleeWeapon(1, game.currentArea.location), game.player.x, game.player.y);
+        game.currentArea.plop(new Gold(100), game.player.x+1, game.player.y);
     }
 
     @Unfinished("The sfx for newDepth.")

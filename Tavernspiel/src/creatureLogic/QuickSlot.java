@@ -3,6 +3,7 @@ package creatureLogic;
 
 import containers.Inventory;
 import creatures.Hero;
+import gui.Window;
 import gui.mainToolbox.Screen.ScreenEvent;
 import items.Item;
 import items.Usable;
@@ -11,7 +12,7 @@ import listeners.ScreenListener;
 
 public class QuickSlot implements Serializable, ScreenListener{
 
-    private Item[] items = new Item[4];
+    private final Item[] items = new Item[4];
     private final Inventory inventory;
     private final Hero hero;
     
@@ -39,7 +40,11 @@ public class QuickSlot implements Serializable, ScreenListener{
     @Override
     public void screenClicked(ScreenEvent sc){
         try{
-            ((Usable)items[Integer.parseInt(sc.getName().substring(sc.getName().length()-1))]).defaultUse(hero);
+            int slot = Integer.parseInt(sc.getName().substring(sc.getName().length()-1));
+            if(items[slot]==null){
+                hero.hijackInventoryManager(this, true);
+                Window.main.setInventoryActive(true);
+            }else ((Usable)items[slot]).defaultUse(hero);
         }catch(NullPointerException e){}
     }
     

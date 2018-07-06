@@ -5,7 +5,6 @@ import animation.MiscAnimator;
 import creatureLogic.VisibilityOverlay;
 import creatures.Hero;
 import dialogues.Dialogue;
-import gui.HUD;
 import gui.Viewable;
 import gui.Window;
 import java.awt.Canvas;
@@ -21,13 +20,11 @@ import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.util.Optional;
 import level.Area;
-import listeners.AnimationListener;
 import logic.ConstantFields;
 import logic.SoundHandler;
 import tiles.AnimatedTile;
 import tiles.Tile;
 import static gui.mainToolbox.MouseInterpreter.*;
-import gui.pages.LoadingPage;
 import gui.pages.Page;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -47,7 +44,6 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
     private Thread runThread;
     public TurnThread turnThread = new TurnThread();
     protected Window window;
-    protected HUD hud;
     protected Page page;
     public final PageFlipper pageFlipper;
 
@@ -84,8 +80,8 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
      * Adds a Viewable to the display.
      * @param viewable
      */
-    public void addViewable(Viewable viewable){
-        gui.addViewable(viewable);
+    public void setViewable(Viewable viewable){
+        gui.setViewable(viewable);
     }
     
     /**
@@ -96,15 +92,8 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
         gui.addDraggable(scs);
     }
     
-    /**
-     * Removes the top Viewable.
-     */
-    public void removeTopViewable(){
-        gui.removeTopViewable();
-    }
-    
-    public int viewablesSize(){
-        return gui.viewablesSize();
+    public void removeViewable(){
+        gui.removeViewable();
     }
     
     /**
@@ -127,28 +116,8 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
      * Changes the current Dialogue.
      * @param dialogue The new Dialogue.
      */
-    public void changeDialogue(Dialogue dialogue){
-        gui.changeDialogue(dialogue);
-    }
-    
-    /**
-     * Adds a screen to the top of the Viewable.
-     * @param sc
-     */
-    public void addScreen(Screen sc){
-        gui.addScreen(sc);
-    }
-    
-    public void addScreenFirst(Screen sc){
-        gui.addScreenFirst(sc);
-    }
-    
-    /**
-     * Removes the array of Screens from the active list.
-     * @param scs The regex.
-     */
-    public void removeScreens(Screen[] scs){
-        gui.removeScreens(scs);
+    public void setDialogue(Dialogue dialogue){
+        gui.setDialogue(dialogue);
     }
     
     /**
@@ -232,6 +201,8 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
         AffineTransform at = AffineTransform.getScaleInstance(zoom, zoom);
         bsg.drawRenderedImage(buffer, at);
         gui.paint(bsg);
+        //@Unfinished
+        //gui.paintScreens(bsg);
         
         g.dispose();
     }
@@ -287,6 +258,18 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
                 }catch(ArrayIndexOutOfBoundsException e){/*Skip frame*/}
             }
         }
+    }
+    
+    public void toggleInventory(){
+        gui.toggleInventory();
+    }
+    
+    public void setInventoryActive(boolean i){
+        gui.setInventoryActive(i);
+    }
+    
+    protected final void resetGUIScreens(){
+        gui.resetScreens();
     }
     
 }

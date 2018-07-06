@@ -39,9 +39,9 @@ public class ImageUtils{
         Graphics bg = buffer.getGraphics();
         i.animation.animate(bg, 0, 0);
         if(pred.length!=0) if(!pred[0].test(i)) alpha(buffer);
-        g.drawImage(scale(buffer, 2, 2), x+(sqwidth-32)/2, y+(sqheight-32)/2, null);
+        g.drawImage(scale(buffer, 4), x+(sqwidth-64)/8, y+(sqheight-128)/8, null);
         g.setColor(Color.white);
-        if(i.quantity!=1) g.drawString(""+i.quantity, x+4, y+4);
+        if(i.quantity!=1) g.drawString(""+i.quantity, x+4, y+10);
     }
     
     public static void addImageOverlay(String filepath) throws IOException{
@@ -103,15 +103,17 @@ public class ImageUtils{
             g.drawImage(ConstantFields.goldOutline, x+(sqwidth-16)/2,
                     y+(sqheight-16)/2, null);
         }else{
-            g.drawImage(ConstantFields.gold, x+(sqwidth-16)/2,
-                    y+(sqheight-16)/2, null);
+            g.drawImage(scale((BufferedImage)ConstantFields.gold, 4), 
+                    x+(sqwidth-64)/8, y+(sqheight-64)/8, null);
+            g.setColor(Color.white);
+            g.drawString(""+amountOfMoney, x+4, y+10);
         }
     }
     
     public static void paintOutline(Graphics g, int x, int y, int sqwidth, int sqheight, Image img){
         g.fill3DRect(x, y, sqwidth, sqheight, true);
-        g.drawImage(img, x+(sqwidth-16)/2,
-                y+(sqheight-16)/2, null);
+        g.drawImage(img, x+(sqwidth-64)/4,
+                y+(sqheight-64)/4, null);
     }
 
     public static Image fade(BufferedImage img, int newAlpha){
@@ -158,10 +160,10 @@ public class ImageUtils{
         }
     }
     
-    public static BufferedImage scale(BufferedImage b, double w, double h){
-        BufferedImage ret = new BufferedImage((int)(w*b.getWidth()), (int)(h*b.getHeight()), BufferedImage.TYPE_INT_ARGB);
+    public static BufferedImage scale(BufferedImage b, double factor){
+        BufferedImage ret = new BufferedImage((int)(factor*b.getWidth()), (int)(factor*b.getHeight()), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = ret.createGraphics();
-        AffineTransform at = AffineTransform.getScaleInstance(2.0, 2.0);
+        AffineTransform at = AffineTransform.getScaleInstance(factor, factor);
         g.drawRenderedImage(b, at);
         g.dispose();
         return ret;

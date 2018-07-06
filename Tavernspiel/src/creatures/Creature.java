@@ -11,6 +11,7 @@ import creatureLogic.Attributes;
 import creatureLogic.Description;
 import creatureLogic.FieldOfView;
 import enchantments.WeaponEnchantment;
+import gui.Window;
 import gui.mainToolbox.MouseInterpreter;
 import static gui.mainToolbox.MouseInterpreter.MOVE_RESOLUTION;
 import items.equipment.HeldWeapon;
@@ -31,7 +32,7 @@ import logic.GameObject;
 public class Creature extends GameObject implements Comparable<Creature>{
     
     public Equipment equipment;
-    public Inventory inventory = new Inventory();
+    public Inventory inventory;
     public volatile Attributes attributes;
     public FieldOfView FOV;
     public volatile LinkedList<Buff> buffs = new LinkedList<>();
@@ -85,6 +86,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
     public Creature(String n, Description desc, Attributes atb, GameObjectAnimator an){
         super(n, desc, an);
         attributes = atb;
+        inventory = new Inventory();
         FOV = new FieldOfView(x, y, 5);
     }
     
@@ -187,6 +189,10 @@ public class Creature extends GameObject implements Comparable<Creature>{
                 buff.end(this);
             }
         });
+    }
+    
+    public void focus(){
+        Window.main.setTileFocus(x, y);
     }
 
     @Override

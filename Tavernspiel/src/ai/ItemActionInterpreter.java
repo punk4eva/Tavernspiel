@@ -33,7 +33,7 @@ public class ItemActionInterpreter{
         switch(action.action){
             case "DROP": c.attributes.ai.BASEACTIONS.dropItem(c, action.item);
                 break;
-            case "THROW": if(Window.main.viewablesSize()>1) Window.main.removeTopViewable();
+            case "THROW": Window.main.removeViewable();
                 ((AIPlayerActions)c.attributes.ai.BASEACTIONS).throwItem(c, action.item);
                 break;
             case "DRINK":
@@ -43,6 +43,8 @@ public class ItemActionInterpreter{
             case "EQUIP": 
                 if(action.data==null) c.attributes.ai.BASEACTIONS.equip(c, (Apparatus)action.item, slot);
                 else c.attributes.ai.BASEACTIONS.equip(c, (Apparatus)action.item, slot, Integer.parseInt(action.data[0]));
+                break;
+            case "UNEQUIP": c.attributes.ai.BASEACTIONS.unequip(c, action.item);
                 break;
         }
     }

@@ -2,7 +2,6 @@
 package items.equipment;
 
 import animation.Animation;
-import animation.MiscAnimator;
 import creatures.Creature;
 import creatures.Hero;
 import gui.mainToolbox.Main;
@@ -80,7 +79,7 @@ public class Wand extends RangedWeapon implements ScreenListener{
     public void fire(Hero h){
         hero = h;
         area = h.area;
-        Window.main.addViewable(locationSelect);
+        Window.main.setViewable(locationSelect);
     }
     
     /**
@@ -105,7 +104,7 @@ public class Wand extends RangedWeapon implements ScreenListener{
                 if(hero==null||area==null) new RuntimeException("hero/area uninitialized in LocationSpecificScroll.screenClicked()!").printStackTrace(Main.exceptionStream);
                 fire(hero, sc.x, sc.y);
             case "locationPopupX":
-                Window.main.removeTopViewable();
+                Window.main.removeViewable();
                 break;
         }
     }

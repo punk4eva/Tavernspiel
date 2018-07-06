@@ -17,6 +17,11 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import logic.ConstantFields;
+import static logic.ConstantFields.beginHeight;
+import static logic.ConstantFields.beginWidth;
+import static logic.ConstantFields.padding;
+import static logic.ConstantFields.sqheight;
+import static logic.ConstantFields.sqwidth;
 import logic.Distribution;
 import logic.ImageUtils;
 
@@ -81,24 +86,31 @@ public class Equipment implements Serializable{
      * @return The apparatus that was displaced, null if nothing.
      */
     public Apparatus equip(Apparatus app, int... choiceOfAmulet){
+        Apparatus ret;
+        app.equip();
         if(app instanceof HeldWeapon){
-            HeldWeapon ret = weapon;
+            ret = weapon;
+            if(ret!=null) ret.unequip();
             weapon = (HeldWeapon) app;
             return ret;
         }else if(app instanceof Helmet){
-            Helmet ret = helmet;
+            ret = helmet;
+            if(ret!=null) ret.unequip();
             helmet = (Helmet) app;
             return ret;
         }else if(app instanceof Chestplate){
-            Chestplate ret = chestplate;
+            ret = chestplate;
+            if(ret!=null) ret.unequip();
             chestplate = (Chestplate) app;
             return ret;
         }else if(app instanceof Leggings){
-            Leggings ret = leggings;
+            ret = leggings;
+            if(ret!=null) ret.unequip();
             leggings = (Leggings) app;
             return ret;
         }else if(app instanceof Boots){
-            Boots ret = boots;
+            ret = boots;
+            if(ret!=null) ret.unequip();
             boots = (Boots) app;
             return ret;
         }else if(amulet1==null){
@@ -112,7 +124,6 @@ public class Equipment implements Serializable{
         if(choiceOfAmulet.length==0)
             choice = new UnequipAmuletDialogue(amulet1, amulet2).next(Window.main);
         else choice = choiceOfAmulet[0];
-        Apparatus ret;
         if(choice==0){
             ret = amulet1;
             amulet1 = app;
@@ -121,6 +132,19 @@ public class Equipment implements Serializable{
             amulet2 = app;
         }
         return ret;
+    }
+    
+    public Apparatus unequip(Apparatus app){
+        Apparatus i;
+        if(app.equals(weapon)){ i = weapon; weapon = null;}
+        else if(app.equals(amulet1)){ i = amulet1; amulet1 = null;}
+        else if(app.equals(amulet2)){ i = amulet2; amulet2 = null;}
+        else if(app.equals(helmet)){ i = helmet; helmet = null;}
+        else if(app.equals(chestplate)){ i = chestplate; chestplate = null;}
+        else if(app.equals(leggings)){ i = leggings; leggings = null;}
+        else{ i = boots; boots = null;}
+        i.unequip();
+        return i;
     }
 
     /**
@@ -153,11 +177,6 @@ public class Equipment implements Serializable{
     private List<Screen> getScreens(Inventory inv){
         if(screens!=null) return screens;
         List<Screen> ret = new LinkedList<>();
-        int padding = Hero.padding;
-        int beginWidth = Hero.beginWidth;
-        int beginHeight = Hero.beginHeight;
-        int sqwidth = Hero.sqwidth;
-        int sqheight = Hero.sqheight;
         ret.add(new Screen("e0", beginWidth+padding, beginHeight+padding, sqwidth, sqheight, inv.manager));
         ret.add(new Screen("e3", beginWidth+2*padding+sqwidth, beginHeight+padding, sqwidth, sqheight, inv.manager));
         ret.add(new Screen("e4", beginWidth+3*padding+2*sqwidth, beginHeight+padding, sqwidth, sqheight, inv.manager));

@@ -3,13 +3,13 @@ package ai;
 
 import creatures.Creature;
 import creatures.Hero;
-import exceptions.ReceptacleOverflowException;
 import gui.mainToolbox.Main;
 import gui.Window;
 import items.Item;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import level.Area;
+import logic.Utils.Unfinished;
 import pathfinding.Point;
 
 /**
@@ -47,6 +47,8 @@ public final class PlayerAI extends AITemplate implements KeyListener{
                 break;
             case 'f': m = new Integer[]{0, 0};
                 break;
+            case 'e': Window.main.toggleInventory();
+                return;
             default: return;
         }
         if(BASEACTIONS.canMove(hero, m)){
@@ -55,12 +57,11 @@ public final class PlayerAI extends AITemplate implements KeyListener{
     }
 
     @Override
+    @Unfinished("Escape key needs rewriting")
     public void keyPressed(KeyEvent ke){
         switch(ke.getKeyCode()){
-            case KeyEvent.VK_ESCAPE: if(Window.main.viewablesSize()!=1){
-                Window.main.removeTopViewable();
-            }
-            break;
+            case KeyEvent.VK_ESCAPE: Window.main.removeViewable();
+                break;
         }
     }
 

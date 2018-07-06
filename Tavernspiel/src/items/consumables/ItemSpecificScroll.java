@@ -23,7 +23,7 @@ public abstract class ItemSpecificScroll extends Scroll implements ScreenListene
     
     private Hero hero;
     private boolean used = false;
-    private CyclicBarrier barrier = new CyclicBarrier(2);
+    private final CyclicBarrier barrier = new CyclicBarrier(2);
 
     /**
      * Creates a new instance.
@@ -41,8 +41,8 @@ public abstract class ItemSpecificScroll extends Scroll implements ScreenListene
     public boolean use(Creature c){
         if(c instanceof Hero){
             hero = (Hero) c;
-            hero.hijackInventoryManager(this);
-            Window.main.addViewable(hero);
+            hero.hijackInventoryManager(this, false);
+            Window.main.setInventoryActive(true);
             try{
                 barrier.await();
             }catch(InterruptedException | BrokenBarrierException ex){}
@@ -64,7 +64,7 @@ public abstract class ItemSpecificScroll extends Scroll implements ScreenListene
         switch(sc.getName()){
             case "invspace": return;
             case "background":
-                Window.main.removeTopViewable();
+                Window.main.removeViewable();
                 used = false;
                 break;
             case "Weapon": if(hero.equipment.weapon!=null){

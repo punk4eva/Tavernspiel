@@ -1,6 +1,8 @@
 
 package logic;
 
+import gui.mainToolbox.Main;
+import items.ItemBuilder;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -35,9 +37,15 @@ public interface ConstantFields{
     public static final Image weaponOutline = new ImageIcon("").getImage(); //@unfinished
     public static final Image goldOutline = new ImageIcon("").getImage(); //@unfinished
     public static final Image amuletOutline = new ImageIcon("").getImage(); //@unfinished
-    public static final Image gold = new ImageIcon("").getImage(); //@unfinished
+    public static final Image gold = ItemBuilder.getIcon(96, 16).getImage();
     
     public static final Image eyeButtonImg = new ImageIcon("graphics/gui/eye1.png").getImage();
     public static final Image waitButtonImg = new ImageIcon("graphics/gui/WaitButton1.png").getImage();
+    
+    public final static int padding = 8,
+        beginWidth = Main.WIDTH/9,
+        beginHeight = Main.HEIGHT/9,
+        sqwidth = (int)(((double)Main.WIDTH*(7.0/9.0)-7*padding)/6.0),
+        sqheight = (int)(((double)Main.HEIGHT*(7.0/9.0)-6*padding)/5.0);
     
 }

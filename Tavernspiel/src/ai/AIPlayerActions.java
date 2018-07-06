@@ -5,7 +5,6 @@ import creatureLogic.Attack;
 import creatureLogic.EnClass;
 import creatures.Creature;
 import creatures.Hero;
-import exceptions.ReceptacleOverflowException;
 import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
 import gui.Window;
@@ -86,7 +85,7 @@ public class AIPlayerActions extends AIBaseActions{
     }    
 
     public void throwItem(Hero h, Item item){
-        Window.main.addViewable(new LocationSpecificScroll(null, "", null, false){
+        Window.main.setViewable(new LocationSpecificScroll(null, "", null, false){
             @Override
             public boolean use(Creature c, int x, int y){
                 throw new UnsupportedOperationException("AIPlayerActions.locationSelect.use() should remain unused!");
@@ -100,7 +99,7 @@ public class AIPlayerActions extends AIBaseActions{
                     case "backLocation":
                         throwItem(h, item, sc.x, sc.y);
                     case "locationPopupX":
-                        Window.main.removeTopViewable();
+                        Window.main.removeViewable();
                         break;
                 }
             }

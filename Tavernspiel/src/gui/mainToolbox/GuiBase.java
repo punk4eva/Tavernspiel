@@ -1,15 +1,18 @@
 
 package gui.mainToolbox;
 
+import creatures.Hero;
 import dialogues.Dialogue;
+import gui.HUD;
 import gui.Viewable;
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayDeque;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Stream;
 import logic.ConstantFields;
+import logic.Utils.Unfinished;
 
 /**
  *
@@ -17,27 +20,52 @@ import logic.ConstantFields;
  */
 public class GuiBase{
 
-    protected final List<Viewable> viewables = new LinkedList<>();
-    protected final List<Screen> screens = new LinkedList<>();
+    private boolean viewingInventory = false;
+    protected List<Screen> screens = new LinkedList<>();
     protected final List<Screen> draggables = new LinkedList<>();
     protected Screen lastDragged;
+    public HUD hud;
+    public Hero hero;
     public volatile Dialogue dialogue = null;
+    public volatile Viewable viewable;
     protected ArrayDeque<String> queue = new ArrayDeque<>();
     
     public GuiBase(){
         for(int i=0;i<4;i++) queue.add("");
     }
-
-    public void removeTopViewable(){
-        Viewable top = viewables.remove(viewables.size()-1);
-        screens.removeAll(top.getScreens());
-        screens.addAll(viewables.get(viewables.size()-1).getScreens());
+    
+    @Unfinished("Remove debug")
+    public void paintScreens(Graphics g){
+        g.setColor(Color.RED);
+        screens.forEach((sc) -> {
+            g.fill3DRect(sc.tlx, sc.tly, sc.brx-sc.tlx, sc.bry-sc.tly, true);
+        });
+    }
+    
+    public void removeViewable(){
+        viewable = null;
+        resetScreens();
+    }
+    
+    protected void resetScreens(){
+        if(viewable!=null) screens = viewable.getScreens();
+        else if(dialogue!=null) screens = dialogue.getScreens();
+        else if(viewingInventory) screens = hero.getInventoryScreens();
+        else screens = hud.getScreens();
+    }
+    
+    public void changeHUDLookAndFeel(HUDStrategy st){
+        hud.setStrategy(st);
+        resetScreens();
+    }
+    
+    public boolean hudClear(){
+        return viewable==null&&dialogue==null&&!viewingInventory;
     }
 
-    public void addViewable(Viewable viewable){
-        if(!viewables.isEmpty())screens.removeAll(viewables.get(viewables.size()-1).getScreens());
-        viewables.add(viewable);
-        screens.addAll(viewable.getScreens());
+    public void setViewable(Viewable v){
+        viewable = v;
+        screens = viewable.getScreens();
     }
 
     public void addDraggable(Screen lst){
@@ -45,28 +73,8 @@ public class GuiBase{
         draggables.add(lst);
     }
 
-    public boolean viewablesEmpty(){
-        return viewables.isEmpty();
-    }
-
-    public boolean screensEmpty(){
-        return screens.isEmpty();
-    }
-
-    public Stream<Viewable> streamViewables(){
-        return viewables.stream();
-    }
-
-    public Stream<Screen> streamScreens(){
-        return screens.stream();
-    }
-
-    public int viewablesSize(){
-        return viewables.size();
-    }
-
-    public int screensSize(){
-        return screens.size();
+    public boolean viewableActive(){
+        return viewable!=null;
     }
 
     public void paint(Graphics g){
@@ -78,36 +86,15 @@ public class GuiBase{
             g.drawString(iter.next(), 48, height);
             height -= 16;
         }
-        
-        Iterator<Viewable> v = viewables.iterator();
-        while(v.hasNext()) v.next().paint(g);
+        hud.paint(g);
+        if(viewingInventory) hero.paintInventory(g);
         if(dialogue!=null) dialogue.paint(g);
-    }
-    
-    /**
-     * Adds a screen to the top of the Viewable.
-     * @param sc
-     */
-    public void addScreen(Screen sc){
-        screens.add(sc);
-    }
-    
-    public void addScreenFirst(Screen sc){
-        screens.add(0, sc);
-    }
-    
-    /**
-     * Removes the array of Screens from the active list.
-     * @param scs The regex.
-     */
-    public void removeScreens(Screen[] scs){
-        for(Screen sc : scs){
-            screens.remove(sc);
-        }
+        if(viewable!=null) viewable.paint(g);
     }
 
-    public void changeDialogue(Dialogue d){
+    public void setDialogue(Dialogue d){
         dialogue = d;
+        resetScreens();
     }
     
     /**
@@ -131,6 +118,16 @@ public class GuiBase{
             queue.add("<html><font color=\""+colour+"\">"+message+"</font>");
         }
         queue.pop();
+    }
+    
+    public void setInventoryActive(boolean inv){
+        viewingInventory = inv;
+        resetScreens();
+    }
+    
+    public void toggleInventory(){
+        viewingInventory = !viewingInventory;
+        resetScreens();
     }
 
 }

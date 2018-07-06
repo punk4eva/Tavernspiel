@@ -11,6 +11,7 @@ import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 import listeners.ScreenListener;
 import logic.ConstantFields;
@@ -28,7 +29,7 @@ public class Dialogue implements ScreenListener, KeyListener{
     final String question;
     final CComponent[] options;
     private ScreenEvent clickedScreen;
-    private final Screen[] screenArray;
+    private final List<Screen> screens;
     private final ScreenEvent offCase;
     private int height = -1;
     private final int padding = 8;
@@ -50,7 +51,7 @@ public class Dialogue implements ScreenListener, KeyListener{
         height = 2*padding + heightOfQuestion + (36+padding)*opt.length;
         options = getButtons(opt);
         offCase = off;
-        screenArray = convertCComponents(options);
+        screens = convertCComponents(options);
     }
     
     /**
@@ -65,7 +66,7 @@ public class Dialogue implements ScreenListener, KeyListener{
         height = 2*padding + heightOfQuestion + (36+padding)*opt.length;
         options = getButtons(opt);
         offCase = new ScreenEvent(off);
-        screenArray = convertCComponents(options);
+        screens = convertCComponents(options);
     }
     
     /**
@@ -82,7 +83,7 @@ public class Dialogue implements ScreenListener, KeyListener{
         height = 2*padding + heightOfQuestion + (36+padding)*opt.length;
         clickOffable = click;
         offCase = new ScreenEvent(off);
-        screenArray = convertCComponents(options);
+        screens = convertCComponents(options);
     }
     
     /**
@@ -101,7 +102,7 @@ public class Dialogue implements ScreenListener, KeyListener{
         dressCComponents();
         clickOffable = click;
         offCase = new ScreenEvent(off);
-        screenArray = Utils.getScreens(opt);
+        screens = Utils.getScreens(opt);
         cnames = n;
         customComponents = true;
     }
@@ -124,14 +125,14 @@ public class Dialogue implements ScreenListener, KeyListener{
     
     private void activate(Main main){
         if(customComponents) main.addKeyListener(this);
-        main.changeDialogue(this);
-        for(Screen sc : screenArray) if(sc instanceof CSlider.CSliderHandle) main.addDraggable(sc);
-        else main.addScreenFirst(sc);
+        main.setDialogue(this);
+        screens.forEach((sc) -> {
+            if(sc instanceof CSlider.CSliderHandle) main.addDraggable(sc);
+        });
     }
     
     private void deactivate(Main main){
-        main.changeDialogue(null);
-        main.removeScreens(screenArray);
+        main.setDialogue(null);
     }
     
     /**
@@ -183,16 +184,16 @@ public class Dialogue implements ScreenListener, KeyListener{
      * Gets the screens associated with this Dialogue.
      * @return The Screens.
      */
-    public final Screen[] getScreenArray(){
-        return screenArray;
+    public final List<Screen> getScreens(){
+        return screens;
     }
     
-    private Screen[] convertCComponents(CComponent[] ary){
+    private List<Screen> convertCComponents(CComponent[] ary){
         LinkedList<Screen> lst = new LinkedList<>();
-        lst.add(new Screen("/exit", 0, 0, Main.WIDTH, Main.HEIGHT, this));
-        lst.add(new Screen("blank click", Main.WIDTH/3, (Main.HEIGHT-height)/2, Main.WIDTH/3, height, this));
         for(CComponent cc : ary) lst.add((CButton)cc);
-        return lst.toArray(new Screen[lst.size()]);
+        lst.add(new Screen("blank click", Main.WIDTH/3, (Main.HEIGHT-height)/2, Main.WIDTH/3, height, this));
+        lst.add(new Screen("/exit", 0, 0, Main.WIDTH, Main.HEIGHT, this));
+        return lst;
     }
     
     private void dressCComponents(){

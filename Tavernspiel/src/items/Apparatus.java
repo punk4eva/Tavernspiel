@@ -168,6 +168,14 @@ public class Apparatus extends Item{
         else animation = enchantment.buildAnimation(imageWithoutEnchantment);
     }
     
+    public void unequip(){
+        actions[2] = new ItemAction("EQUIP", this);
+    }
+    
+    public void equip(){
+        actions[2] = new ItemAction("UNEQUIP", this);
+    }
+    
     /**
      * Creates an ItemAction array for Apparatus with the given length.
      * @param length

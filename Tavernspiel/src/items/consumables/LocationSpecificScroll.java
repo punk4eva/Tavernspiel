@@ -91,7 +91,7 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
         if(c instanceof Hero){
             hero = (Hero) c;
             area = c.area;
-            Window.main.addViewable(locationSelect);
+            Window.main.setViewable(locationSelect);
             try{
                 barrier.await();
             }catch(InterruptedException | BrokenBarrierException ex){}
@@ -119,7 +119,7 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
                 if(hero==null||area==null) new RuntimeException("hero/area uninitialized in LocationSpecificScroll.screenClicked()!").printStackTrace(Main.exceptionStream);
                 used = use(hero, sc.x, sc.y);
             case "locationPopupX":
-                Window.main.removeTopViewable();
+                Window.main.removeViewable();
                 try{
                     barrier.await();
                 }catch(InterruptedException | BrokenBarrierException ex){}

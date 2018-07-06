@@ -16,7 +16,6 @@ import creatureLogic.Expertise;
 import gui.Game;
 import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
-import gui.Viewable;
 import gui.Window;
 import static gui.mainToolbox.MouseInterpreter.MOVE_RESOLUTION;
 import static gui.mainToolbox.MouseInterpreter.getCentre;
@@ -27,6 +26,11 @@ import java.util.concurrent.CountDownLatch;
 import level.Area;
 import listeners.DeathEvent;
 import listeners.ScreenListener;
+import static logic.ConstantFields.beginHeight;
+import static logic.ConstantFields.beginWidth;
+import static logic.ConstantFields.padding;
+import static logic.ConstantFields.sqheight;
+import static logic.ConstantFields.sqwidth;
 import logic.Utils.Catch;
 
 /**
@@ -35,7 +39,7 @@ import logic.Utils.Catch;
  * 
  * This class represents the Hero.
  */
-public class Hero extends Creature implements Viewable{
+public class Hero extends Creature{
     
     public final LinkedList<Screen> screens = new LinkedList<>();
     public final ScrollBuilder scrollBuilder;
@@ -115,7 +119,7 @@ public class Hero extends Creature implements Viewable{
     public void setXY(int nx, int ny){
         x = nx;
         y = ny;
-        Window.main.setTileFocus(x, y);
+        focus();
     }
     
     @Override
@@ -139,20 +143,12 @@ public class Hero extends Creature implements Viewable{
         ((Game)Window.main).endGame();
     }
     
-    public final static int padding = 8,
-        beginWidth = Main.WIDTH/9,
-        beginHeight = Main.HEIGHT/9,
-        sqwidth = (int)(((double)Main.WIDTH*(7.0/9.0)-7*padding)/6.0),
-        sqheight = (int)(((double)Main.HEIGHT*(7.0/9.0)-6*padding)/5.0);
-    
-    @Override
-    public void paint(Graphics g){
+    public void paintInventory(Graphics g){
         inventory.paint(g, beginWidth, beginHeight, sqwidth, sqheight, padding);
         equipment.paint(g, beginWidth, beginHeight, sqwidth, sqheight, padding);
     }
 
-    @Override
-    public final LinkedList<Screen> getScreens(){
+    public final LinkedList<Screen> getInventoryScreens(){
         return screens;
     }
     
@@ -168,10 +164,12 @@ public class Hero extends Creature implements Viewable{
             y = a.endCoords[1];
         }
         FOV.update(x, y, area);
+        focus();
     }
 
-    public void hijackInventoryManager(ScreenListener hijacker){
+    public void hijackInventoryManager(ScreenListener hijacker, boolean exitable){
         inventory.manager.hijacker = hijacker;
+        inventory.manager.exitable = exitable;
     }
 
     public void stopInventoryHijack(){

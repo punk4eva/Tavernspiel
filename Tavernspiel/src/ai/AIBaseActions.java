@@ -198,6 +198,15 @@ public class AIBaseActions implements Serializable{
         c.inventory.remove(slot);
         if(reject!=null) c.inventory.add(slot, reject);
     }
+    
+    public void unequip(Creature c, Item item){
+        Apparatus reject = c.equipment.unequip((Apparatus)item);
+        if(!c.inventory.add(reject)){
+            c.area.plop(reject, c.x, c.y);
+            Main.addMessage("red", "Your pack is too full for the " +
+                    reject.toString(3));
+        }
+    }
       
     /**
      * Draws a wand arc on the screen and broadcasts the event.

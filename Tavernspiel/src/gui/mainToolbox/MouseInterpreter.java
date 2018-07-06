@@ -9,6 +9,7 @@ import java.awt.event.MouseWheelEvent;
 import static gui.mainToolbox.Main.HEIGHT;
 import static gui.mainToolbox.Main.WIDTH;
 import static gui.mainToolbox.Main.gui;
+import logic.Utils.Unfinished;
 
 /**
  *
@@ -23,20 +24,25 @@ public class MouseInterpreter extends MouseAdapter{
     public static final int MOVE_RESOLUTION = 4;
     
     @Override
+    @Unfinished("Remove debug prints")
     public void mouseClicked(MouseEvent me){
         boolean notClicked = true;
         int x = me.getX(), y = me.getY();
         for(Screen sc : gui.screens){ //Used for-each instead of stream because of "break".
             if(sc.withinBounds(x, y)){
-                if(sc.name.equals("blank click")) return;
+                if(sc.name.equals("blank click")){
+                    System.err.println("blank click");
+                    return;
+                }
                 if(!sc.name.equals("/exit")){
+                    System.err.println(sc.name);
                     sc.wasClicked(me);
                     notClicked = false;
                 }
                 break;
             }
         }
-        if(notClicked){if(gui.viewablesSize()==1){
+        if(notClicked){if(gui.hudClear()){
             Integer[] p = pixelToTile(x, y);
             if(Window.main.currentArea.tileFree(p[0], p[1])) Window.main.turnThread.click(p[0], p[1]);
         }else{
@@ -126,7 +132,7 @@ public class MouseInterpreter extends MouseAdapter{
                     break;
                 }
             }
-        }else if(gui.dialogue == null && gui.viewables.size() <= 1){
+        }else if(gui.hudClear()){
             if(xOfDrag == -1){
                 xOfDrag = me.getX() - focusX;
                 yOfDrag = me.getY() - focusY;        

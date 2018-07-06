@@ -18,6 +18,11 @@ import java.util.List;
 import java.util.function.Predicate;
 import listeners.ScreenListener;
 import logic.ConstantFields;
+import static logic.ConstantFields.beginHeight;
+import static logic.ConstantFields.beginWidth;
+import static logic.ConstantFields.padding;
+import static logic.ConstantFields.sqheight;
+import static logic.ConstantFields.sqwidth;
 import logic.ImageUtils;
 
 /**
@@ -82,26 +87,23 @@ public class Inventory extends Receptacle{
     @Override
     public boolean add(Item i){
         if(i instanceof Gold) amountOfMoney += i.quantity;
-        else super.add(i);
+        else return super.add(i);
         return true;
     }
     
     private List<Screen> getScreens(){
         LinkedList<Screen> ret = new LinkedList<>();
-        int padding = Hero.padding;
-        int beginWidth = padding+Hero.beginWidth;
-        int sqwidth = Hero.sqwidth;
-        int sqheight = Hero.sqheight;
-        int beginHeight = 3*padding + 2*sqheight + Hero.beginHeight;
+        int sqBeginWidth = padding+beginWidth;
+        int sqBeginHeight = 3*padding + 2*sqheight + beginHeight;
         for(int y=0,n=0;y<3;y++){
             for(int x=0;x<6;x++){
-                ret.add(new Screen(""+n, beginWidth+x*(padding+sqwidth), 
-                        beginHeight+y*(padding+sqheight),
+                ret.add(new Screen(""+n, sqBeginWidth+x*(padding+sqwidth), 
+                        sqBeginHeight+y*(padding+sqheight),
                         sqwidth, sqheight, manager));
                 n++;
             }
         }
-        ret.add(new Screen("Money", beginWidth+2*padding+2*sqwidth, beginHeight-padding-sqheight, sqwidth, sqheight, manager));
+        ret.add(new Screen("Money", sqBeginWidth+2*padding+2*sqwidth, sqBeginHeight-padding-sqheight, sqwidth, sqheight, manager));
         ret.add(new Screen("invspace", Main.WIDTH/9, Main.WIDTH/9, Main.WIDTH*7/9, Main.HEIGHT*7/9, manager));
         ret.add(new Screen("background", 0, 0, Main.WIDTH, Main.HEIGHT, manager));
         return ret;
@@ -110,6 +112,7 @@ public class Inventory extends Receptacle{
     public class InventoryManager implements ScreenListener{
 
         public ScreenListener hijacker;
+        public boolean exitable = true;
         
         @Override
         public void screenClicked(ScreenEvent sc){
@@ -118,7 +121,7 @@ public class Inventory extends Receptacle{
                 String slot = sc.getName();
                 System.out.println(slot);
                 switch(slot){
-                    case "background": Window.main.removeTopViewable();
+                    case "background": if(exitable) Window.main.setInventoryActive(false);
                     case "invspace": return;
                 }
                 if(slot.startsWith("Money"))
