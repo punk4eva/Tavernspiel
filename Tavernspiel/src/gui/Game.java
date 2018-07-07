@@ -4,6 +4,7 @@ package gui;
 import gui.mainToolbox.Main;
 import ai.PlayerAI;
 import animation.GameObjectAnimator;
+import containers.HeroInventory;
 import creatureLogic.Attributes;
 import creatures.Hero;
 import items.Apparatus;
@@ -38,7 +39,7 @@ public class Game extends Main{
         gui.hero = player;
         currentArea.addHero(player, true);
         addKeyListener((PlayerAI) player.attributes.ai);
-        gui.hud = new HUD(player.inventory.quickslot);
+        gui.hud = new HUD(((HeroInventory)player.inventory).quickslot);
         resetGUIScreens();
         start();
     }

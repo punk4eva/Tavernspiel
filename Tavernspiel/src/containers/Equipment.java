@@ -22,6 +22,7 @@ import static logic.ConstantFields.beginWidth;
 import static logic.ConstantFields.padding;
 import static logic.ConstantFields.sqheight;
 import static logic.ConstantFields.sqwidth;
+import static logic.ConstantFields.truthPredicate;
 import logic.Distribution;
 import logic.ImageUtils;
 
@@ -48,10 +49,16 @@ public class Equipment implements Serializable{
      * @param hero The owner.
      */
     public Equipment(Hero hero){
-        screens = getScreens(hero.inventory);
+        screens = getScreens((HeroInventory)hero.inventory);
         heroOwner = hero;
     }
     
+    /**
+     * Returns the raw damage number of the current Weapon or a strength
+     * substitute if no Weapon is equipped.
+     * @param strength The strength of the Hero. 
+     * @return
+     */
     public int nextHit(int strength){
         try{
             return weapon.action.nextInt();
@@ -60,8 +67,17 @@ public class Equipment implements Serializable{
         }
     }
     
+    /**
+     * Returns the accuracy of the current Weapon or 1.0 if no Weapon is
+     * equipped.
+     * @return
+     */
     public double getWeaponAccuracy(){
-        return ((MeleeWeapon) weapon).accuracy;
+        try{
+            return ((MeleeWeapon) weapon).accuracy;
+        }catch(NullPointerException e){
+            return 1.0;
+        }
     }
     
     /**
@@ -134,6 +150,11 @@ public class Equipment implements Serializable{
         return ret;
     }
     
+    /**
+     * Unequips the given Item.
+     * @param app The Apparatus to unequip.
+     * @return
+     */
     public Apparatus unequip(Apparatus app){
         Apparatus i;
         if(app.equals(weapon)){ i = weapon; weapon = null;}
@@ -157,24 +178,24 @@ public class Equipment implements Serializable{
      * @param padding The length of padding.
      */
     public void paint(Graphics g, int beginWidth, int beginHeight, int sqwidth, int sqheight, int padding){
-        if(weapon!=null) ImageUtils.paintItemSquare(g, beginWidth+padding, beginHeight+padding, sqwidth, sqheight, weapon, heroOwner);
+        if(weapon!=null) ImageUtils.paintItemSquare(g, beginWidth+padding, beginHeight+padding, sqwidth, sqheight, weapon, heroOwner, truthPredicate);
         else ImageUtils.paintOutline(g, beginWidth+padding, beginHeight+padding, sqwidth, sqheight, ConstantFields.weaponOutline);
-        if(helmet!=null) ImageUtils.paintItemSquare(g, beginWidth+2*padding+sqwidth, beginHeight+padding, sqwidth, sqheight, helmet, heroOwner);
+        if(helmet!=null) ImageUtils.paintItemSquare(g, beginWidth+2*padding+sqwidth, beginHeight+padding, sqwidth, sqheight, helmet, heroOwner, truthPredicate);
         else ImageUtils.paintOutline(g, beginWidth+2*padding+sqwidth, beginHeight+padding, sqwidth, sqheight, ImageUtils.scaledHelmetOutline);
-        if(chestplate!=null) ImageUtils.paintItemSquare(g, beginWidth+3*padding+2*sqwidth, beginHeight+padding, sqwidth, sqheight, chestplate, heroOwner);
+        if(chestplate!=null) ImageUtils.paintItemSquare(g, beginWidth+3*padding+2*sqwidth, beginHeight+padding, sqwidth, sqheight, chestplate, heroOwner, truthPredicate);
         else ImageUtils.paintOutline(g, beginWidth+3*padding+2*sqwidth, beginHeight+padding, sqwidth, sqheight, ImageUtils.scaledChestplateOutline);
-        if(leggings!=null) ImageUtils.paintItemSquare(g, beginWidth+4*padding+3*sqwidth, beginHeight+padding, sqwidth, sqheight, leggings, heroOwner);
+        if(leggings!=null) ImageUtils.paintItemSquare(g, beginWidth+4*padding+3*sqwidth, beginHeight+padding, sqwidth, sqheight, leggings, heroOwner, truthPredicate);
         else ImageUtils.paintOutline(g, beginWidth+4*padding+3*sqwidth, beginHeight+padding, sqwidth, sqheight, ImageUtils.scaledLeggingsOutline);
-        if(boots!=null) ImageUtils.paintItemSquare(g, beginWidth+5*padding+4*sqwidth, beginHeight+padding, sqwidth, sqheight, boots, heroOwner);
+        if(boots!=null) ImageUtils.paintItemSquare(g, beginWidth+5*padding+4*sqwidth, beginHeight+padding, sqwidth, sqheight, boots, heroOwner, truthPredicate);
         else ImageUtils.paintOutline(g, beginWidth+5*padding+4*sqwidth, beginHeight+padding, sqwidth, sqheight, ImageUtils.scaledBootsOutline);
         
-        if(amulet1!=null) ImageUtils.paintItemSquare(g, beginWidth+padding, beginHeight+2*padding+sqheight, sqwidth, sqheight, amulet1, heroOwner);
+        if(amulet1!=null) ImageUtils.paintItemSquare(g, beginWidth+padding, beginHeight+2*padding+sqheight, sqwidth, sqheight, amulet1, heroOwner, truthPredicate);
         else ImageUtils.paintOutline(g, beginWidth+padding, beginHeight+2*padding+sqheight, sqwidth, sqheight, ConstantFields.amuletOutline);
-        if(amulet2!=null) ImageUtils.paintItemSquare(g, beginWidth+2*padding+sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight, amulet2, heroOwner);
+        if(amulet2!=null) ImageUtils.paintItemSquare(g, beginWidth+2*padding+sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight, amulet2, heroOwner, truthPredicate);
         else ImageUtils.paintOutline(g, beginWidth+2*padding+sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight, ConstantFields.amuletOutline);
     }
     
-    private List<Screen> getScreens(Inventory inv){
+    private List<Screen> getScreens(HeroInventory inv){
         if(screens!=null) return screens;
         List<Screen> ret = new LinkedList<>();
         ret.add(new Screen("e0", beginWidth+padding, beginHeight+padding, sqwidth, sqheight, inv.manager));

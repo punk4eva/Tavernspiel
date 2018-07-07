@@ -9,6 +9,7 @@ import items.equipment.Ring;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+
 /**
  *
  * @author Adam Whittaker

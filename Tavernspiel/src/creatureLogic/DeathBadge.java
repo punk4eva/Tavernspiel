@@ -3,6 +3,7 @@ package creatureLogic;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import logic.Utils.Unfinished;
 
@@ -18,10 +19,7 @@ public class DeathBadge extends Badge{
     
     }
     public int[] overridesLivingBadges;
-    private Obtained obtainCheck;
-    private interface Obtained{
-        boolean check(PlayData data);
-    }
+    private Predicate<PlayData> obtainCheck;
     
     /**
      * Creates an instance.
@@ -69,7 +67,7 @@ public class DeathBadge extends Badge{
      * @param l The level.
      * @param ob A check to see whether the badge has been obtained.
      */
-    public DeathBadge(String n, String req, int i, int l, Obtained ob){
+    public DeathBadge(String n, String req, int i, int l, Predicate<PlayData> ob){
         super(n, req, i, l);
         obtainCheck = ob;
     }
@@ -83,7 +81,7 @@ public class DeathBadge extends Badge{
      * @param ob A check to see whether the badge has been obtained.
      * @param overrides The id of living badges that it overrides.
      */
-    public DeathBadge(String n, String req, int i, int l, Obtained ob, int... overrides){
+    public DeathBadge(String n, String req, int i, int l, Predicate<PlayData> ob, int... overrides){
         super(n, req, i, l);
         overridesLivingBadges = overrides;
         obtainCheck = ob;
@@ -95,7 +93,7 @@ public class DeathBadge extends Badge{
      * @return true if it has, 
      */
     public boolean check(PlayData data){
-        return obtainCheck.check(data);
+        return obtainCheck.test(data);
     }
     
     /**

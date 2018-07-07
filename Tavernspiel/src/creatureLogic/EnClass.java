@@ -1,11 +1,14 @@
 
 package creatureLogic;
 
+import logic.Utils.Unfinished;
+
 
 /**
  *
  * @author Adam Whittaker
  */
+@Unfinished
 public enum EnClass{
     
     //AITemplate ait, double sp, double atksp, double dex, double acc, double reg, int mhp, int stg, int xp, Resistance... rst

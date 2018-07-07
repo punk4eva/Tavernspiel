@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Predicate;
 import logic.Utils;
 
 /**
@@ -54,12 +55,8 @@ public class Badge implements Serializable{
     public final String requirements;
     public final int id;
     public int level = 1;
-    public Obtained obtainCheck;
+    public Predicate<DeathData> obtainCheck;
     public boolean superBadge = false;
-    
-    private interface Obtained{
-        boolean check(DeathData data);
-    }
     
     /**
      * Creates a new instance.
@@ -99,7 +96,7 @@ public class Badge implements Serializable{
      * @param l The level
      * @param obcheck The check to figure out if the badge has been obtained.
      */
-    public Badge(String n, String req, int i, int l, Obtained obcheck){
+    public Badge(String n, String req, int i, int l, Predicate<DeathData> obcheck){
         name = n;
         requirements = req;
         id = i;
@@ -116,7 +113,7 @@ public class Badge implements Serializable{
      * @param obcheck The check to figure out if the badge has been obtained.
      * @param superB Whether the badge is a super badge.
      */
-    public Badge(String n, String req, int i, int l, Obtained obcheck, boolean superB){
+    public Badge(String n, String req, int i, int l, Predicate<DeathData> obcheck, boolean superB){
         name = n;
         requirements = req;
         id = i;
@@ -143,7 +140,7 @@ public class Badge implements Serializable{
      * @return true if it has, 
      */
     public boolean check(DeathData data){
-        return obtainCheck.check(data);
+        return obtainCheck.test(data);
     }
     
     /**

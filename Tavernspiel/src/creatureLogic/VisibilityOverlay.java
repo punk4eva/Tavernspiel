@@ -25,6 +25,13 @@ public class VisibilityOverlay extends FieldOfView{
     public static final Shaders exploredFog = new Shaders(ConstantFields.exploredColor, 
             255.0/(double)ConstantFields.exploredColor.getAlpha());
 
+    /**
+     * Creates a new instance.
+     * @param x The x of the viewer
+     * @param y The x of the viewer
+     * @param range The view distance of the viewer
+     * @param area The Area the viewer is in.
+     */
     public VisibilityOverlay(int x, int y, int range, Area area){
         super(x, y, range);
         map = new int[area.dimension.height][area.dimension.width];
@@ -42,8 +49,8 @@ public class VisibilityOverlay extends FieldOfView{
     public void followGradient(int x_, int y_, Area area){
         map[y_][x_] = 2;
         double inc = Math.atan(0.08D);
-        List<ViewRunner> runners = new LinkedList<>();
-        for(double theta=0;theta<2d*Math.PI;theta+=inc) runners.add(new ViewRunner(x_, y_, range, theta));
+        List<LightRay> runners = new LinkedList<>();
+        for(double theta=0;theta<2d*Math.PI;theta+=inc) runners.add(new LightRay(x_, y_, range, theta));
         while(!runners.isEmpty()){
             runners.removeIf(r -> r.fuel==0);
             runners.stream().forEach(r -> {
@@ -64,10 +71,22 @@ public class VisibilityOverlay extends FieldOfView{
         return map[y_][x_]==2;
     }
     
+    /**
+     * Checks if the given tile is unexplored.
+     * @param x_
+     * @param y_
+     * @return
+     */
     public boolean isUnexplored(int x_, int y_){
         return map[y_][x_]==0;
     }
     
+    /**
+     * Checks if the given tile is explored but not currently visible.
+     * @param x_
+     * @param y_
+     * @return
+     */
     public boolean isExplored(int x_, int y_){
         return map[y_][x_]==1;
     }

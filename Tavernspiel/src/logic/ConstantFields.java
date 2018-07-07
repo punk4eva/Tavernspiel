@@ -2,10 +2,12 @@
 package logic;
 
 import gui.mainToolbox.Main;
+import items.Item;
 import items.ItemBuilder;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.util.function.Predicate;
 import javax.swing.ImageIcon;
 
 /**
@@ -47,5 +49,12 @@ public interface ConstantFields{
         beginHeight = Main.HEIGHT/9,
         sqwidth = (int)(((double)Main.WIDTH*(7.0/9.0)-7*padding)/6.0),
         sqheight = (int)(((double)Main.HEIGHT*(7.0/9.0)-6*padding)/5.0);
+    
+    public static final Predicate<Item> truthPredicate = new Predicate<Item>(){
+        @Override
+        public boolean test(Item t){
+            return true;
+        }
+    };
     
 }

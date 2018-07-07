@@ -108,6 +108,10 @@ public abstract class Receptacle extends LinkedList<Item>{
         return true;
     }
     
+    /**
+     * Adds all the items from an Equipment object.
+     * @param e The Equipment.
+     */
     public void addAll(Equipment e){
         if(e.weapon     !=null) add(e.weapon    );
         if(e.helmet     !=null) add(e.helmet    );

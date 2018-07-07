@@ -32,7 +32,7 @@ public class ImageUtils{
             scaledBootsOutline = scale(addImageBuffer(new ImageIcon("graphics/outlines/bootsOutline.png")), 3);
     
     
-    public static void paintItemSquare(Graphics g, int x, int y, int sqwidth, int sqheight, Item i, Hero h, Predicate<Item>... pred){
+    public static void paintItemSquare(Graphics g, int x, int y, int sqwidth, int sqheight, Item i, Hero h, Predicate<Item> pred){
         g.setColor(ConstantFields.backColor);
         g.fill3DRect(x, y, sqwidth, sqheight, true);
         boolean cursed = i.hasKnownCurse();
@@ -44,11 +44,11 @@ public class ImageUtils{
             g.setColor(ConstantFields.unidentifiedColour);
             g.fillRect(x+2, y+2, sqwidth-4, sqheight-4);
         }
-        //i.animation.animate(g, x+(sqwidth-16)/2, y+(sqheight-16)/2);
+        //if(i==null) return;
         BufferedImage buffer = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
         Graphics bg = buffer.getGraphics();
         i.animation.animate(bg, 0, 0);
-        if(pred.length!=0) if(!pred[0].test(i)) alpha(buffer);
+        if(!pred.test(i)) alpha(buffer);
         g.drawImage(scale(buffer, 3), x+(sqwidth-48)/2, y+(sqheight-48)/2, null);
         g.setColor(Color.white);
         if(i.quantity!=1) g.drawString(""+i.quantity, x+4, y+10);

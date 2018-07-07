@@ -1,16 +1,19 @@
 
 package gui.mainToolbox;
 
+import containers.HeroInventory;
 import creatures.Hero;
 import dialogues.Dialogue;
 import gui.HUD;
 import gui.Viewable;
+import items.Item;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayDeque;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Predicate;
 import logic.ConstantFields;
 import logic.Utils.Unfinished;
 
@@ -163,6 +166,19 @@ public class GuiBase{
      * @param inv True if the inventory should be painted.
      */
     public void setInventoryActive(boolean inv){
+        ((HeroInventory)hero.inventory).manager.predicate = 
+                ConstantFields.truthPredicate;
+        viewingInventory = inv;
+        resetScreens();
+    }
+    
+    /**
+     * Sets the state of the inventory.
+     * @param inv True if the inventory should be painted.
+     * @param pred Whether the Item should be selectable.
+     */
+    public void setInventoryActive(boolean inv, Predicate<Item> pred){
+        ((HeroInventory)hero.inventory).manager.predicate = pred;
         viewingInventory = inv;
         resetScreens();
     }

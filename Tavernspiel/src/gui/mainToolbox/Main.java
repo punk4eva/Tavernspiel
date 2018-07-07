@@ -26,8 +26,10 @@ import tiles.AnimatedTile;
 import tiles.Tile;
 import static gui.mainToolbox.MouseInterpreter.*;
 import gui.pages.Page;
+import items.Item;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.function.Predicate;
 import testUtilities.TestUtil;
 
 
@@ -62,7 +64,7 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
      */
     public Main(){
         pageFlipper = new PageFlipper(this);
-        pageFlipper.setPage("loading");
+        pageFlipper.setPage("main");
         pacemaker = new Pacemaker(this);
         try{
             exceptionStream = new PrintStream(new File("log/exceptions.txt"));
@@ -270,6 +272,10 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
     
     public void setInventoryActive(boolean i){
         gui.setInventoryActive(i);
+    }
+    
+    public void setInventoryActive(boolean i, Predicate<Item> pred){
+        gui.setInventoryActive(i, pred);
     }
     
     protected final void resetGUIScreens(){

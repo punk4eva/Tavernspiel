@@ -5,23 +5,23 @@ import gui.mainToolbox.Main;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
-import java.util.Random;
 import logic.ConstantFields;
+import logic.Distribution;
 
 /**
  *
- * @author Adam Whittaker
+ * @author Adam Whittaker and Charlie Hands
  */
 public class LoadingPage implements Page{
-    private int i;
-    private final String[] tips;
+    
+    private int i = 0;
     private final int rand;
+    private static final String[] TIPS = new String[]{"Do you even read these?", "Another random tip"};
 
     public LoadingPage(){
-        this.i = 0;
-        this.tips = new String[]{"Random tip","Another random tip"};
-        this.rand = new Random().nextInt(tips.length);
+        rand = Distribution.r.nextInt(TIPS.length);
     }
+    
     @Override
     public void paint(Graphics2D g){
         i+=5;
@@ -41,7 +41,7 @@ public class LoadingPage implements Page{
         
         g.setColor(Color.BLACK);
         g.setFont(ConstantFields.textFont);
-        g.drawString("Tip: " + tips[rand], 7, Main.HEIGHT - 80);
+        g.drawString(TIPS[rand], 7, Main.HEIGHT - 80);
     }
     
 }

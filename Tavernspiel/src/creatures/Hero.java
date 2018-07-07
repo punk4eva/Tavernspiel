@@ -5,7 +5,7 @@ import ai.PlayerAI;
 import animation.GameObjectAnimator;
 import buffs.Buff;
 import containers.Equipment;
-import containers.Inventory;
+import containers.HeroInventory;
 import creatureLogic.Attack;
 import creatureLogic.Attributes;
 import creatureLogic.DeathData;
@@ -32,6 +32,7 @@ import static logic.ConstantFields.sqheight;
 import static logic.ConstantFields.sqwidth;
 import logic.Utils.Catch;
 import static gui.mainToolbox.MouseInterpreter.getCenter;
+import logic.Utils.Unfinished;
 
 /**
  *
@@ -57,13 +58,13 @@ public class Hero extends Creature{
     @Catch("Unnessesary catch")
     public Hero(Attributes atb, GameObjectAnimator an){
         super("Hero", new Description("hero","UNWRITTEN"), atb, an);
+        inventory = new HeroInventory(this);
         equipment = new Equipment(this);
         attributes.ai = new PlayerAI(this);
-        inventory = new Inventory(this);
         try{data = new DeathData(this);}catch(Exception e){}
         scrollBuilder = new ScrollBuilder(this);
         screens.addAll(equipment.screens);
-        screens.addAll(inventory.screens);
+        screens.addAll(((HeroInventory)inventory).screens);
     }
     
     /**
@@ -77,7 +78,8 @@ public class Hero extends Creature{
      * @param atb The Attributes.
      * @param bs The Buffs.
      */
-    public Hero(Equipment eq, Inventory inv, int hung, DeathData da, EnClass j, EnSubclass sub, Attributes atb, LinkedList<Buff> bs){
+    @Unfinished("May be redundant")
+    public Hero(Equipment eq, HeroInventory inv, int hung, DeathData da, EnClass j, EnSubclass sub, Attributes atb, LinkedList<Buff> bs){
         super("Hero", new Description("hero","UNWRITTEN"), eq, inv, atb, bs);
         hunger = hung;
         attributes.ai = new PlayerAI(this);
@@ -86,7 +88,7 @@ public class Hero extends Creature{
         data = da;
         scrollBuilder = new ScrollBuilder(this);
         screens.addAll(equipment.screens);
-        screens.addAll(inventory.screens);
+        screens.addAll(((HeroInventory)inventory).screens);
     }
 
     @Override
@@ -144,7 +146,7 @@ public class Hero extends Creature{
     }
     
     public void paintInventory(Graphics g){
-        inventory.paint(g, beginWidth, beginHeight, sqwidth, sqheight, padding);
+        ((HeroInventory)inventory).paint(g, beginWidth, beginHeight, sqwidth, sqheight, padding, ((HeroInventory)inventory).manager.predicate);
         equipment.paint(g, beginWidth, beginHeight, sqwidth, sqheight, padding);
     }
 
@@ -168,12 +170,12 @@ public class Hero extends Creature{
     }
 
     public void hijackInventoryManager(ScreenListener hijacker, boolean exitable){
-        inventory.manager.hijacker = hijacker;
-        inventory.manager.exitable = exitable;
+        ((HeroInventory)inventory).manager.hijacker = hijacker;
+        ((HeroInventory)inventory).manager.exitable = exitable;
     }
 
     public void stopInventoryHijack(){
-        inventory.manager.hijacker = null;
+        ((HeroInventory)inventory).manager.hijacker = null;
     }
     
 }
