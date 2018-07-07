@@ -1,7 +1,6 @@
 
 package items.equipment;
 
-import items.Apparatus;
 import javax.swing.ImageIcon;
 import level.Location.WeaponEntry;
 import logic.Distribution;
@@ -38,7 +37,7 @@ public class MeleeWeapon extends HeldWeapon{
         speed = sp;
         reach = re;
         damageBlock = db;
-        actions = Apparatus.standardActions(3, this);
+        actions = standardActions(3, this);
     }
     
     public MeleeWeapon(WeaponEntry entry){
@@ -47,7 +46,7 @@ public class MeleeWeapon extends HeldWeapon{
         speed = entry.sp;
         reach = entry.re;
         damageBlock = entry.bl;
-        actions = Apparatus.standardActions(3, this);
+        actions = standardActions(3, this);
     }
     
 }

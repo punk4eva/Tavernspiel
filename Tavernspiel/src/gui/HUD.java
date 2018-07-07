@@ -2,13 +2,9 @@ package gui;
 
 import gui.mainToolbox.Screen;
 import gui.mainToolbox.Screen.ScreenEvent;
-import java.awt.Color;
 import java.awt.Graphics;
-import java.util.LinkedList;
 import java.util.List;
 import listeners.ScreenListener;
-import logic.ConstantFields;
-import logic.ImageUtils;
 import creatureLogic.QuickSlot;
 import gui.mainToolbox.HUDStrategy;
 import gui.mainToolbox.hudLayout.DefaultHUDLookAndFeel;
@@ -22,11 +18,19 @@ public class HUD implements Viewable, ScreenListener{
     public final QuickSlot quickslot;
     private HUDStrategy strategy;
     
+    /**
+     * Creates a new instance.
+     * @param q The QuickSlot
+     */
     public HUD(QuickSlot q){
         quickslot = q;
         strategy = new DefaultHUDLookAndFeel(this);
     }
     
+    /**
+     * Resets the HUD layout strategy.
+     * @param st The new strategy
+     */
     public void setStrategy(HUDStrategy st){
         strategy = st;
     }

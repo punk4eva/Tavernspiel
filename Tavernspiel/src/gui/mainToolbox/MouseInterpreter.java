@@ -116,7 +116,11 @@ public class MouseInterpreter extends MouseAdapter{
         focusY = y;
     }
     
-    public static int[] getCentre(){
+    /**
+     * Returns the center coordinates of the screen.
+     * @return
+     */
+    public static int[] getCenter(){
         return new int[]{(int)((double)WIDTH/zoom/2d), (int)((double)HEIGHT/zoom/2d)};
     }
 

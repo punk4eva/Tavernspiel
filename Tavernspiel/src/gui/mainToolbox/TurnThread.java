@@ -9,6 +9,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This Thread handles turns and queued events.
  */
 public class TurnThread extends Thread{
         

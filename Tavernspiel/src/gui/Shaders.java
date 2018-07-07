@@ -22,6 +22,11 @@ public class Shaders{
         g.dispose();
     }
     
+    /**
+     * Creates a new instance.
+     * @param col The color to shade with.
+     * @param alphaDivisor The shade coefficient.
+     */
     public Shaders(Color col, double alphaDivisor){
         WritableRaster raster = shadows.getRaster();
         int R= col.getRed(), G=col.getGreen(), B=col.getBlue();
@@ -37,8 +42,20 @@ public class Shaders{
         }
     }
     
+    /**
+     * Creates a new instance of a black shader.
+     */
     public Shaders(){}
     
+    /**
+     * Gets the shadow for the given tile with the given visibility map.
+     * @param map An int array representing the visibility of each tile in the Area.
+     * @param x
+     * @param y
+     * @param n The int representing the value of a shaded tile.
+     * @param black Whether the tile is being skipped from rendering.
+     * @return
+     */
     public BufferedImage getShadow(int[][] map, int x, int y, int n, boolean black){
         boolean s0=true,s1=true,s2=true,s3=true;
         try{

@@ -27,6 +27,7 @@ public class Chestplate extends Apparatus{
     public Chestplate(String s, String desc, ImageIcon ic, int dur, Distribution d, int st){
         super(s, desc, ic, dur, d, st);
         description.type = "armour";
+        actions = standardActions(3, this);
     }
     
     /**
@@ -39,6 +40,7 @@ public class Chestplate extends Apparatus{
     public Chestplate(Item i, int dur, Distribution d, int st){
         super(i.name, i.description, i.animation, dur, d, st);
         description.type = "armour";
+        actions = standardActions(3, this);
     }
     
     public static class ClothChestplate extends Chestplate{

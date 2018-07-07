@@ -30,6 +30,10 @@ public class GuiBase{
     public volatile Viewable viewable;
     protected ArrayDeque<String> queue = new ArrayDeque<>();
     
+    /**
+     * Creates a new instance.
+     * The HUD and Hero need to be injected manually.
+     */
     public GuiBase(){
         for(int i=0;i<4;i++) queue.add("");
     }
@@ -42,11 +46,17 @@ public class GuiBase{
         });
     }
     
+    /**
+     * Removes the current Viewable.
+     */
     public void removeViewable(){
         viewable = null;
         resetScreens();
     }
     
+    /**
+     * Updates the list of active screens.
+     */
     protected void resetScreens(){
         if(viewable!=null) screens = viewable.getScreens();
         else if(dialogue!=null) screens = dialogue.getScreens();
@@ -54,29 +64,53 @@ public class GuiBase{
         else screens = hud.getScreens();
     }
     
+    /**
+     * Changes the look and feel of the HUD.
+     * @param st The new layout strategy.
+     */
     public void changeHUDLookAndFeel(HUDStrategy st){
         hud.setStrategy(st);
         resetScreens();
     }
     
+    /**
+     * Checks whether or not the HUD buttons are clear to be clicked on.
+     * @return
+     */
     public boolean hudClear(){
         return viewable==null&&dialogue==null&&!viewingInventory;
     }
 
+    /**
+     * Sets the current Viewable
+     * @param v
+     */
     public void setViewable(Viewable v){
         viewable = v;
         screens = viewable.getScreens();
     }
 
-    public void addDraggable(Screen lst){
-        if(draggables.isEmpty()) lastDragged = lst;
-        draggables.add(lst);
+    /**
+     * Adds a Draggable screen to this GUI.
+     * @param sc
+     */
+    public void addDraggable(Screen sc){
+        if(draggables.isEmpty()) lastDragged = sc;
+        draggables.add(sc);
     }
 
+    /**
+     * Checks whether the GUI has an active Viewable.
+     * @return
+     */
     public boolean viewableActive(){
         return viewable!=null;
     }
 
+    /**
+     * Paints the GUI.
+     * @param g The Graphics to paint on.
+     */
     public void paint(Graphics g){
         g.setColor(ConstantFields.textColor);
         g.setFont(ConstantFields.smallTextFont);
@@ -92,6 +126,10 @@ public class GuiBase{
         if(viewable!=null) viewable.paint(g);
     }
 
+    /**
+     * Sets the Dialogue.
+     * @param d
+     */
     public void setDialogue(Dialogue d){
         dialogue = d;
         resetScreens();
@@ -120,11 +158,19 @@ public class GuiBase{
         queue.pop();
     }
     
+    /**
+     * Sets the state of the inventory.
+     * @param inv True if the inventory should be painted.
+     */
     public void setInventoryActive(boolean inv){
         viewingInventory = inv;
         resetScreens();
     }
     
+    /**
+     * Toggles the whether or not to display the inventory.
+     */
+    @Unfinished("Could be redundant")
     public void toggleInventory(){
         viewingInventory = !viewingInventory;
         resetScreens();

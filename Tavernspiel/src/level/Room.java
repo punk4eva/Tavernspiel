@@ -92,7 +92,6 @@ public class Room extends Area{
             room.grass();
             room.water();
         }
-        room.addShaders();
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
                 if(room.map[y][x].equals("floor")&&Distribution.chance(1, 30))
@@ -119,7 +118,6 @@ public class Room extends Area{
             room.grass();
             room.water();
         }
-        room.addShaders();
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
                 if(room.map[y][x].equals("floor")&&Distribution.chance(1, 30))
@@ -141,7 +139,6 @@ public class Room extends Area{
             grass();
             water();
         }
-        addShaders();
         for(int y=1;y<dimension.height-1;y++){
             for(int x=1;x<dimension.width-1;x++){
                 if(map[y][x].equals("floor")&&Distribution.chance(1, 30))

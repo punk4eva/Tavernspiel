@@ -27,6 +27,7 @@ public class Boots extends Apparatus{
     public Boots(String s, String desc, ImageIcon i, int dur, Distribution d, int st){
         super(s, desc, i, dur, d, st);
         description.type = "armour";
+        actions = standardActions(3, this);
     }
     
     /**
@@ -39,12 +40,13 @@ public class Boots extends Apparatus{
     public Boots(Item i, int dur, Distribution d, int st){
         super(i.name, i.description, i.animation, dur, d, st);
         description.type = "armour";
+        actions = standardActions(3, this);
     }
     
     public static class ClothBoots extends Boots{
     
         public ClothBoots(){
-            super("Cloth slippers", "More useful at bedtime, these slippers offer almost no protection. But they feel comfortable.", 
+            super("Cloth slippers", "More useful at bedtime, these slippers offer almost no protection. Atleast they feel comfortable.", 
                     ItemBuilder.getIcon(0, 144), 30, new Distribution(0, 2), 9);
         }
 
@@ -53,7 +55,7 @@ public class Boots extends Apparatus{
     public static class LeatherBoots extends Boots{
     
         public LeatherBoots(){
-            super("Leather shoes", "The tough leather of these leggings offer some protection.", 
+            super("Leather shoes", "The tough leather of these shoes offers some protection.", 
                     ItemBuilder.getIcon(16, 144), 45, new Distribution(1, 4), 11);
         }
 

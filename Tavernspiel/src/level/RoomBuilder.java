@@ -30,18 +30,21 @@ public class RoomBuilder{
         Room ret = Room.genStandard(loc, depth);
         ret.addDoors();
         ret.randomlyPlop();
+        ret.addShaders();
         return ret;
     }
     
     public static Room itemless(Location loc, int depth){
         Room ret = Room.genStandard(loc, depth);
         ret.addDoors();
+        ret.addShaders();
         return ret;
     }
     
     public static Room lockedItemless(Location loc, int depth){
         Room ret = Room.genStandard(loc, new Key(depth), new ItemMap());
         ret.addDoors();
+        ret.addShaders();
         return ret;
     }
     
@@ -100,6 +103,7 @@ public class RoomBuilder{
                         new Door(loc);
                 break;
         }
+        room.addShaders();
         return room;
     }
     
@@ -165,6 +169,7 @@ public class RoomBuilder{
                 room.map[room.dimension.height/2][room.dimension.width-1] = new Door(loc);
                 break;
         }
+        room.addShaders();
         return room;
     }
     
@@ -179,6 +184,7 @@ public class RoomBuilder{
         }
         room.barricade();
         room.randomlyPlop();
+        room.addShaders();
         return room;
     }
     
@@ -201,6 +207,7 @@ public class RoomBuilder{
                         new Well("knowledge", loc);
                 break;
         }
+        room.addShaders();
         return room;
     }
     
@@ -213,6 +220,7 @@ public class RoomBuilder{
                         new DepthEntrance(loc);
         room.startCoords = new Integer[]{room.dimension.width/2, room.dimension.height/2};
         room.randomlyPlop();
+        room.addShaders();
         return room;
     }
     
@@ -225,9 +233,11 @@ public class RoomBuilder{
                         new DepthExit(loc);
         room.endCoords = new Integer[]{room.dimension.width/2, room.dimension.height/2};
         room.randomlyPlop();
+        room.addShaders();
         return room;
     }
     
+    @Unfinished("Way too close to Pixel Dungeon")
     public static Room garden(Location location, int depth){
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
                 Distribution.getRandomInt(5, 16)), location, depth);
@@ -244,6 +254,7 @@ public class RoomBuilder{
             }
         }
         room.randomlyPlop();
+        room.addShaders();
         return room;
     } 
     
@@ -297,7 +308,9 @@ public class RoomBuilder{
                 room.map[room.dimension.height/2][room.dimension.width-1] = new Door(loc);
                 break;
         }
+        //@unfinished
         //room.spawnUncounted(CreatureBuilder.piranha(loc));
+        room.addShaders();
         return room;
     }
     
@@ -308,12 +321,14 @@ public class RoomBuilder{
             for(int x=1;x<room.dimension.width-1;x++)
                 if(Distribution.chance(1, 7)) room.map[y][x] = Tile.wall(location);
         room.randomlyPlop();
+        room.addShaders();
         return room;
     }
     
     public static Room maze(Location loc, int width, int height){
         Room room = new Room(new Dimension(width, height), loc, -1);
         new MazeBuilder(room, 0, 0, width, height);
+        room.addShaders();
         return room;
     }
                     

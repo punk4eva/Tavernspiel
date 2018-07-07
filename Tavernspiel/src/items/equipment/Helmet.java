@@ -27,6 +27,7 @@ public class Helmet extends Apparatus{
     public Helmet(String s, String desc, ImageIcon ic, int dur, Distribution d, int st){
         super(s, desc, ic, dur, d, st);
         description.type = "armour";
+        actions = standardActions(3, this);
     }
     
     /**
@@ -39,6 +40,7 @@ public class Helmet extends Apparatus{
     public Helmet(Item i, int dur, Distribution d, int st){
         super(i.name, i.description, i.animation, dur, d, st);
         description.type = "armour";
+        actions = standardActions(3, this);
     }
     
     public static class ClothHelmet extends Helmet{

@@ -3,6 +3,7 @@ package logic;
 
 import creatures.Hero;
 import items.Item;
+import items.ItemBuilder;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -23,7 +24,16 @@ import javax.swing.ImageIcon;
  */
 public class ImageUtils{
     
+    private static final BufferedImage scaledGold = scale(addImageBuffer(ItemBuilder.getIcon(96, 16)), 3),
+            scaledGoldOutline = scale(addImageBuffer(new ImageIcon("graphics/outlines/goldOutline.png")), 3);
+    public static final BufferedImage scaledHelmetOutline = scale(addImageBuffer(new ImageIcon("graphics/outlines/helmetOutline.png")), 3),
+            scaledChestplateOutline = scale(addImageBuffer(new ImageIcon("graphics/outlines/chestplateOutline.png")), 3),
+            scaledLeggingsOutline = scale(addImageBuffer(new ImageIcon("graphics/outlines/leggingsOutline.png")), 3),
+            scaledBootsOutline = scale(addImageBuffer(new ImageIcon("graphics/outlines/bootsOutline.png")), 3);
+    
+    
     public static void paintItemSquare(Graphics g, int x, int y, int sqwidth, int sqheight, Item i, Hero h, Predicate<Item>... pred){
+        g.setColor(ConstantFields.backColor);
         g.fill3DRect(x, y, sqwidth, sqheight, true);
         boolean cursed = i.hasKnownCurse();
         boolean ided = i.isIdentified(h);
@@ -39,7 +49,7 @@ public class ImageUtils{
         Graphics bg = buffer.getGraphics();
         i.animation.animate(bg, 0, 0);
         if(pred.length!=0) if(!pred[0].test(i)) alpha(buffer);
-        g.drawImage(scale(buffer, 4), x+(sqwidth-64)/8, y+(sqheight-128)/8, null);
+        g.drawImage(scale(buffer, 3), x+(sqwidth-48)/2, y+(sqheight-48)/2, null);
         g.setColor(Color.white);
         if(i.quantity!=1) g.drawString(""+i.quantity, x+4, y+10);
     }
@@ -63,6 +73,21 @@ public class ImageUtils{
         }
         
         ImageIO.write(ret, "png", new File("graphics/image.png"));
+    }
+    
+    public static void createImageOutline(BufferedImage img, String filepath) throws IOException{
+        BufferedImage ret = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+        
+        WritableRaster raster = ret.getRaster(), imgRaster = img.getRaster();
+        for(int y=0;y<16;y++){
+            for(int x=0;x<16;x++){
+                int alpha = imgRaster.getPixel(x, y, (int[])null)[3];
+                if(alpha<255&&alpha>0)
+                    raster.setPixel(x, y, new int[]{0,0,0,160});
+            }
+        }
+        
+        ImageIO.write(ret, "png", new File(filepath));
     }
     
     public static BufferedImage buildOverlay(BufferedImage img){
@@ -98,22 +123,24 @@ public class ImageUtils{
     }
 
     public static void paintGold(Graphics g, int x, int y, int sqwidth, int sqheight, int amountOfMoney){
+        g.setColor(ConstantFields.backColor);
         g.fill3DRect(x, y, sqwidth, sqheight, true);
         if(amountOfMoney==0){
-            g.drawImage(ConstantFields.goldOutline, x+(sqwidth-16)/2,
-                    y+(sqheight-16)/2, null);
+            g.drawImage(scaledGoldOutline, x+(sqwidth-48)/2,
+                    y+(sqheight-48)/2, null);
         }else{
-            g.drawImage(scale((BufferedImage)ConstantFields.gold, 4), 
-                    x+(sqwidth-64)/8, y+(sqheight-64)/8, null);
+            g.drawImage(scaledGold, 
+                    x+(sqwidth-48)/2, y+(sqheight-48)/2, null);
             g.setColor(Color.white);
             g.drawString(""+amountOfMoney, x+4, y+10);
         }
     }
     
     public static void paintOutline(Graphics g, int x, int y, int sqwidth, int sqheight, Image img){
+        g.setColor(ConstantFields.backColor);
         g.fill3DRect(x, y, sqwidth, sqheight, true);
-        g.drawImage(img, x+(sqwidth-64)/4,
-                y+(sqheight-64)/4, null);
+        g.drawImage(img, x+(sqwidth-48)/2,
+                y+(sqheight-48)/2, null);
     }
 
     public static Image fade(BufferedImage img, int newAlpha){

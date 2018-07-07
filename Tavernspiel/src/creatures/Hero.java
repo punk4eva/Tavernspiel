@@ -18,7 +18,6 @@ import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
 import gui.Window;
 import static gui.mainToolbox.MouseInterpreter.MOVE_RESOLUTION;
-import static gui.mainToolbox.MouseInterpreter.getCentre;
 import items.consumables.ScrollBuilder;
 import java.awt.Graphics;
 import java.util.LinkedList;
@@ -32,6 +31,7 @@ import static logic.ConstantFields.padding;
 import static logic.ConstantFields.sqheight;
 import static logic.ConstantFields.sqwidth;
 import logic.Utils.Catch;
+import static gui.mainToolbox.MouseInterpreter.getCenter;
 
 /**
  *
@@ -96,7 +96,7 @@ public class Hero extends Creature{
     
     @Override
     public void render(Graphics g, int focusX, int focusY){
-        int[] c = getCentre();
+        int[] c = getCenter();
         if(moving==null) animator.animate(g, x*16+focusX, y*16+focusY);
         else{
             moving[0]++;

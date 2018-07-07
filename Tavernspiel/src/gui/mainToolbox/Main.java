@@ -72,6 +72,10 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
         }
     }
     
+    /**
+     * Adds an event to the event queue.
+     * @param r
+     */
     public void addEvent(Runnable r){
         turnThread.queuedEvents.add(r);
     }

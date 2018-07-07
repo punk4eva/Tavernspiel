@@ -6,6 +6,8 @@ import javax.swing.Timer;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class wraps a timer in order to control frame rate internally.
  */
 public class Pacemaker{
     

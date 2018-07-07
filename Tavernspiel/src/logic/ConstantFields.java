@@ -30,12 +30,12 @@ public interface ConstantFields{
     public static final Font textFont = new Font(Font.SERIF, Font.PLAIN, 18);
     public static final Font smallTextFont = new Font(Font.SERIF, Font.PLAIN, 15);
     
-    public static final Image helmetOutline = new ImageIcon("").getImage(); //@unfinished
-    public static final Image chestplateOutline = new ImageIcon("").getImage(); //@unfinished
-    public static final Image leggingsOutline = new ImageIcon("").getImage(); //@unfinished
-    public static final Image bootsOutline = new ImageIcon("").getImage(); //@unfinished
+    public static final Image helmetOutline = new ImageIcon("graphics/outlines/helmetOutline.png").getImage();
+    public static final Image chestplateOutline = new ImageIcon("graphics/outlines/chestplateOutline.png").getImage();
+    public static final Image leggingsOutline = new ImageIcon("graphics/outlines/leggingsOutline.png").getImage();
+    public static final Image bootsOutline = new ImageIcon("graphics/outlines/bootsOutline.png").getImage();
     public static final Image weaponOutline = new ImageIcon("").getImage(); //@unfinished
-    public static final Image goldOutline = new ImageIcon("").getImage(); //@unfinished
+    public static final Image goldOutline = new ImageIcon("graphics/outlines/goldOutline.png").getImage();
     public static final Image amuletOutline = new ImageIcon("").getImage(); //@unfinished
     public static final Image gold = ItemBuilder.getIcon(96, 16).getImage();
     
