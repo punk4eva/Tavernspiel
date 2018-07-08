@@ -31,12 +31,25 @@ public class Item implements Serializable{
     public ItemAction actions[];
     protected Boolean cursed, identified;
     
+    /**
+     * Creates an Instance.
+     * @param n The name
+     * @param desc The description
+     * @param i The ImageIcon
+     */
     public Item(String n, String desc, ImageIcon i){
         name = n;
         description = Description.parseDescription(null, desc);
         animation = new StillAnimation(i);
     }
     
+    /**
+     * Creates an Instance.
+     * @param n The name
+     * @param desc The description
+     * @param i The ImageIcon
+     * @param q The quantity
+     */
     public Item(String n, String desc, ImageIcon i, int q){
         name = n;
         description = Description.parseDescription(null, desc);
@@ -44,6 +57,14 @@ public class Item implements Serializable{
         quantity = q;
     }
     
+    /**
+     * Creates an Instance.
+     * @param n The name
+     * @param desc The description
+     * @param i The ImageIcon
+     * @param q The quantity
+     * @param flam Whether the Item is flammable.
+     */
     public Item(String n, String desc, ImageIcon i, int q, boolean flam){
         name = n;
         description = Description.parseDescription(null, desc);
@@ -52,6 +73,13 @@ public class Item implements Serializable{
         flammable = flam;
     }
     
+    /**
+     * Creates an Instance.
+     * @param n The name
+     * @param desc The description
+     * @param i The ImageIcon
+     * @param st Whether the Item is stackable.
+     */
     public Item(String n, String desc, ImageIcon i, boolean st){
         name = n;
         description = Description.parseDescription(null, desc);
@@ -59,6 +87,13 @@ public class Item implements Serializable{
         stackable = st;
     }
     
+    /**
+     * Creates an Instance.
+     * @param n The name
+     * @param desc The description
+     * @param i The ImageIcon
+     * @param s Whether the Item is stackable.
+     */
     public Item(String n, Description desc, ImageIcon i, boolean s){
         name = n;
         description = desc;
@@ -66,6 +101,13 @@ public class Item implements Serializable{
         stackable = s;
     }
     
+    /**
+     * Creates an Instance.
+     * @param n The name
+     * @param desc The description
+     * @param i The ImageIcon
+     * @param s Whether the Item is stackable.
+     */
     public Item(String n, Description desc, Animation i, boolean s){
         name = n;
         description = desc;
@@ -73,6 +115,13 @@ public class Item implements Serializable{
         stackable = s;
     }
     
+    /**
+     * Creates an Instance.
+     * @param n The name
+     * @param desc The description
+     * @param i The ImageIcon
+     * @param q The quantity
+     */
     public Item(String n, Description desc, ImageIcon i, int q){
         name = n;
         description = desc;

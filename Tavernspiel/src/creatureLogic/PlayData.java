@@ -1,7 +1,7 @@
 
 package creatureLogic;
 
-import fileLogic.FileHandler;
+import logic.FileHandler;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;

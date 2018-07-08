@@ -84,6 +84,11 @@ public class AIPlayerActions extends AIBaseActions{
         expendTurns(c, 1);
     }    
 
+    /**
+     * Handles throwing Items.
+     * @param h The Hero
+     * @param item The Item
+     */
     public void throwItem(Hero h, Item item){
         Window.main.setViewable(new LocationSpecificScroll(null, "", null, false){
             @Override

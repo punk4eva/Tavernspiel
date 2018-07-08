@@ -103,30 +103,30 @@ public class Equipment implements Serializable{
      */
     public Apparatus equip(Apparatus app, int... choiceOfAmulet){
         Apparatus ret;
-        app.equip();
+        app.setToEquipped();
         if(app instanceof HeldWeapon){
             ret = weapon;
-            if(ret!=null) ret.unequip();
+            if(ret!=null) ret.setToUnequipped();
             weapon = (HeldWeapon) app;
             return ret;
         }else if(app instanceof Helmet){
             ret = helmet;
-            if(ret!=null) ret.unequip();
+            if(ret!=null) ret.setToUnequipped();
             helmet = (Helmet) app;
             return ret;
         }else if(app instanceof Chestplate){
             ret = chestplate;
-            if(ret!=null) ret.unequip();
+            if(ret!=null) ret.setToUnequipped();
             chestplate = (Chestplate) app;
             return ret;
         }else if(app instanceof Leggings){
             ret = leggings;
-            if(ret!=null) ret.unequip();
+            if(ret!=null) ret.setToUnequipped();
             leggings = (Leggings) app;
             return ret;
         }else if(app instanceof Boots){
             ret = boots;
-            if(ret!=null) ret.unequip();
+            if(ret!=null) ret.setToUnequipped();
             boots = (Boots) app;
             return ret;
         }else if(amulet1==null){
@@ -164,7 +164,7 @@ public class Equipment implements Serializable{
         else if(app.equals(chestplate)){ i = chestplate; chestplate = null;}
         else if(app.equals(leggings)){ i = leggings; leggings = null;}
         else{ i = boots; boots = null;}
-        i.unequip();
+        i.setToUnequipped();
         return i;
     }
 

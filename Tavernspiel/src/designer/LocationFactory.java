@@ -9,6 +9,8 @@ import logic.Distribution;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class produces a Location from user-input.
  */
 public class LocationFactory{
     
@@ -16,6 +18,10 @@ public class LocationFactory{
     Location defaultLocation = new Location("Default", "shkoderTileset",
             "water", "sound/songs/Cyanoshrooms.wav", 2);
     
+    /**
+     * The factory method for Locations.
+     * @return
+     */
     public Location produce(){
         out.println("What is the name?");
         String name = scan.nextLine();

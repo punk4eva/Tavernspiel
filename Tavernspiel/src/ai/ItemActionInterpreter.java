@@ -10,6 +10,8 @@ import items.ItemAction;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This static class decodes and executes ItemActions.
  */
 public class ItemActionInterpreter{
     

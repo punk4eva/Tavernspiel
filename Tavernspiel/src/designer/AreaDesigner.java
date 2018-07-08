@@ -30,7 +30,9 @@ public class AreaDesigner extends Main{
     boolean boundary = false, fillMode = false;
     TileSelection brush = TileSelection.floor;
     
-    
+    /**
+     * Creates a new instance.
+     */
     public AreaDesigner(){
         mouse = new MouseEmulator();
         window = new Window(WIDTH, HEIGHT, "Area Designer", this);

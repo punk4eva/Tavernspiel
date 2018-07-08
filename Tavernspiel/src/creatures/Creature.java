@@ -113,8 +113,12 @@ public class Creature extends GameObject implements Comparable<Creature>{
         animator.switchFadeKill(this);
     }
     
+    /**
+     * Smoothly moves the Creature to the new coordinates.
+     * @param nx
+     * @param ny
+     */
     public void smootheXY(int nx, int ny){
-        //moving = new int[]{-1, -1, (nx-x)*16, (ny-y)*16, 0, nx, ny};
         Integer[] c = MouseInterpreter.tileToPixel(x, y), c2 = 
                 MouseInterpreter.tileToPixel(nx, ny);
         double dx = ((double)c2[0]-(double)c[0])/(double)MOVE_RESOLUTION,
@@ -138,6 +142,10 @@ public class Creature extends GameObject implements Comparable<Creature>{
         }
     }
     
+    /**
+     * Checks whether this Creature is currently in a smooth-move animation.
+     * @return
+     */
     public boolean animatingMotion(){
         return moving!=null;
     }
@@ -170,6 +178,10 @@ public class Creature extends GameObject implements Comparable<Creature>{
         buffs.add(buff);
     }
 
+    /**
+     * Parses a BuffEvent.
+     * @param be
+     */
     public void buffTriggered(BuffEvent be){
         switch(be.getName()){
             //@unfinished
@@ -191,6 +203,9 @@ public class Creature extends GameObject implements Comparable<Creature>{
         });
     }
     
+    /**
+     * Focuses in on this Creature.
+     */
     public void focus(){
         Window.main.setTileFocus(x, y);
     }
@@ -222,6 +237,11 @@ public class Creature extends GameObject implements Comparable<Creature>{
         }
     }
     
+    /**
+     * Sets the coordinates of this Creature.
+     * @param nx
+     * @param ny
+     */
     public void setXY(int nx, int ny){
         x = nx;
         y = ny;
@@ -255,6 +275,10 @@ public class Creature extends GameObject implements Comparable<Creature>{
         animator.switchTo(str);
     }
     
+    /**
+     * Generates the next Attack object of this Creature.
+     * @return
+     */
     public Attack nextAttack(){
         int stDif = equipment.strengthDifference(attributes.strength);
         if(stDif<0) return new Attack(this, 

@@ -18,6 +18,7 @@ import javax.swing.ImageIcon;
 import level.Location;
 import logic.Distribution;
 import logic.Formula;
+import logic.Utils.Unfinished;
 
 /**
  *
@@ -162,17 +163,27 @@ public class Apparatus extends Item{
         return action.nextInt();
     }
     
+    /**
+     * Changes the Enchantment of this Apparatus.
+     * @param ench
+     */
     public void changeEnchantment(Enchantment ench){
         enchantment = ench;
         if(ench==null) animation = new StillAnimation(imageWithoutEnchantment);
         else animation = enchantment.buildAnimation(imageWithoutEnchantment);
     }
     
-    public void unequip(){
+    /**
+     *  Sets the ItemActions to unequipped status.
+     */
+    public void setToUnequipped(){
         actions[2] = new ItemAction("EQUIP", this);
     }
     
-    public void equip(){
+    /**
+     * Sets the ItemActions to equipped status.
+     */
+    public void setToEquipped(){
         actions[2] = new ItemAction("UNEQUIP", this);
     }
     
@@ -227,6 +238,13 @@ public class Apparatus extends Item{
         return ret;
     }
     
+    /**
+     * Generates a random armor Object.
+     * @param depth The depth
+     * @param loc The Location
+     * @return
+     */
+    @Unfinished("Flesh out generation algorithm using depth and hero")
     public static Apparatus getRandomArmour(int depth, Location loc){
         switch(Distribution.r.nextInt(4)){
             case 0: return Helmet.getArmour(loc.getArmourType());
@@ -236,6 +254,13 @@ public class Apparatus extends Item{
         }
     }
     
+    /**
+     * Generates a random melee weapon Object.
+     * @param depth The depth
+     * @param loc The Location
+     * @return
+     */
+    @Unfinished("Flesh out generation algorithm using depth and hero")
     public static HeldWeapon getRandomMeleeWeapon(int depth, Location loc){
         return new MeleeWeapon(loc.getWeaponEntry());
     }

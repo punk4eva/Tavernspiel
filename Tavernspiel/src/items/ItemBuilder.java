@@ -33,6 +33,12 @@ public final class ItemBuilder{
         g.dispose();
     }
 
+    /**
+     * Returns the standard ItemMap.
+     * @param depth The depth
+     * @param loc The Location
+     * @return
+     */
     @Unfinished
     public static ItemMap getStandardItemMap(int depth, Location loc){
         return new ItemMap(null, null, -1, -1){
@@ -68,6 +74,10 @@ public final class ItemBuilder{
         };
     }
     
+    /**
+     * Returns the ItemMap for a garden.
+     * @return
+     */
     @Unfinished
     public static ItemMap getGardenItemMap(){
         //return new ItemMap();

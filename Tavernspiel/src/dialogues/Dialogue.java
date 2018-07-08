@@ -36,7 +36,6 @@ public class Dialogue implements ScreenListener, KeyListener{
     private final int heightOfQuestion;
     private boolean clickOffable = true;
     private boolean customComponents = false;
-    private String[] cnames;
     private final Semaphore semaphore = new Semaphore(0);
     
     /**
@@ -94,7 +93,7 @@ public class Dialogue implements ScreenListener, KeyListener{
      * @param opt The interactables.
      * @param n The names of the options.
      */
-    public Dialogue(String quest, String off, boolean click, CComponent[] opt, String... n){
+    public Dialogue(String quest, String off, boolean click, CComponent[] opt){
         question = Utils.lineFormat(quest, 31);
         heightOfQuestion = ImageUtils.getStringHeight()*Utils.lineCount(question);
         height = 2*padding + heightOfQuestion + (36+padding)*opt.length;
@@ -103,7 +102,6 @@ public class Dialogue implements ScreenListener, KeyListener{
         clickOffable = click;
         offCase = new ScreenEvent(off);
         screens = Utils.getScreens(opt);
-        cnames = n;
         customComponents = true;
     }
     

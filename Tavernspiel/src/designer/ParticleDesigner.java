@@ -4,7 +4,7 @@ package designer;
 import blob.ParticleEffect;
 import blob.ParticleEffect.Particle;
 import blob.particles.PowerParticle;
-import fileLogic.FileHandler;
+import logic.FileHandler;
 import gui.mainToolbox.Main;
 import static gui.mainToolbox.Main.HEIGHT;
 import static gui.mainToolbox.Main.WIDTH;

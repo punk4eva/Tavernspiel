@@ -23,11 +23,19 @@ public final class PlayerAI extends AITemplate implements KeyListener{
     private final Hero hero;
     public volatile boolean unfinished = false;
     
+    /**
+     * Creates a new instance.
+     * @param h The Hero owner.
+     */
     public PlayerAI(Hero h){
         hero = h;
         BASEACTIONS = new AIPlayerActions();
     }
     
+    /**
+     * Updates the destination to the given coordinates.
+     * @param ary
+     */
     public final void updateDestination(Integer... ary){
         hero.attributes.ai.destinationx = hero.x + ary[0];
         hero.attributes.ai.destinationy = hero.y + ary[1];
@@ -114,6 +122,10 @@ public final class PlayerAI extends AITemplate implements KeyListener{
         }
     }
     
+    /**
+     * Waits the given amount of turns.
+     * @param turns
+     */
     public void expendTurns(double turns){
         skipping += turns;
         unfinished = true;

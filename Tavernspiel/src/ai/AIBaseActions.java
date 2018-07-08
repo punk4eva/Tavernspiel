@@ -81,11 +81,18 @@ public class AIBaseActions implements Serializable{
         c.FOV.update(c.x, c.y, c.area);
     }
     
-    public void smootheRaw(Creature h, int x, int y){
-        if(!h.animator.currentName.equals("move")) h.changeAnimation("move");
-        h.smootheXY(x, y);
-        if(h.attributes.ai.destinationx==h.x&&h.attributes.ai.destinationy==h.y){
-            h.changeAnimation("stand");
+    /**
+     * Moves a Creature to the given coordinates and orders a smooth moving
+     * animation.
+     * @param c
+     * @param x
+     * @param y
+     */
+    public void smootheRaw(Creature c, int x, int y){
+        if(!c.animator.currentName.equals("move")) c.changeAnimation("move");
+        c.smootheXY(x, y);
+        if(c.attributes.ai.destinationx==c.x&&c.attributes.ai.destinationy==c.y){
+            c.changeAnimation("stand");
         }
     }
     
@@ -199,6 +206,11 @@ public class AIBaseActions implements Serializable{
         if(reject!=null) c.inventory.add(slot, reject);
     }
     
+    /**
+     * Unequips an Item.
+     * @param c
+     * @param item
+     */
     public void unequip(Creature c, Item item){
         Apparatus reject = c.equipment.unequip((Apparatus)item);
         if(!c.inventory.add(reject)){
@@ -233,21 +245,44 @@ public class AIBaseActions implements Serializable{
         }
     }
     
+    /**
+     * Forwards an ItemAction.
+     * @param c The Creature
+     * @param a The ItemAction
+     * @param slot The slot number of the Item
+     */
     public void interpretItemAction(Creature c, ItemAction a, int slot){
         ItemActionInterpreter.act(a, c, slot);
     }
     
+    /**
+     * Throws an Item.
+     * @param c
+     * @param i
+     * @param x
+     * @param y
+     */
     public void throwItem(Creature c, Item i, int x, int y){
         c.inventory.remove(i);
         Main.animator.throwItem(c.x, c.y, i, x, y);
         c.area.plop(i, x, y);
     }
     
+    /**
+     * Drops an Item.
+     * @param c
+     * @param i
+     */
     public void dropItem(Creature c, Item i){
         c.inventory.remove(i);
         c.area.plop(i, c.x, c.y);
     }
     
+    /**
+     * Searches a given Area.
+     * @param c
+     * @param area
+     */
     public void search(Creature c, Area area){
         ArrayList<Point> ary = new ArrayList<>();
         boolean searchSuccessful = false;
@@ -265,6 +300,12 @@ public class AIBaseActions implements Serializable{
         Main.animator.searchAnimation(ary, searchSuccessful);
     }
     
+    /**
+     * Checks whether the Creature can move in the given direction.
+     * @param c
+     * @param dir THe int vector representing the movement.
+     * @return Whether the final tile of movement is free.
+     */
     public boolean canMove(Creature c, Integer[] dir){
         if(dir[0]==0&&dir[1]==0) return true;
         return c.area.tileFree(c.x+dir[0], c.y+dir[1]);

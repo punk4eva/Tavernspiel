@@ -67,6 +67,10 @@ public abstract class AITemplate implements Serializable{
      */
     public abstract void turn(Creature c, Area area);
     
+    /**
+     * Paralyzes the Creature for the given duration of turns.
+     * @param duration
+     */
     public void paralyze(double duration){
         skipping += duration;
     }

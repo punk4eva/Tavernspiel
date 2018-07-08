@@ -145,11 +145,19 @@ public class Hero extends Creature{
         ((Game)Window.main).endGame();
     }
     
+    /**
+     * Paints this Hero's Inventory and Equipment onto the given Graphics.
+     * @param g
+     */
     public void paintInventory(Graphics g){
         ((HeroInventory)inventory).paint(g, beginWidth, beginHeight, sqwidth, sqheight, padding, ((HeroInventory)inventory).manager.predicate);
         equipment.paint(g, beginWidth, beginHeight, sqwidth, sqheight, padding);
     }
 
+    /**
+     * Returns all the Screens of the Inventory.
+     * @return
+     */
     public final LinkedList<Screen> getInventoryScreens(){
         return screens;
     }
@@ -169,11 +177,20 @@ public class Hero extends Creature{
         focus();
     }
 
+    /**
+     * Hijacks the InventoryManager. This reroutes all ScreenEvents to the
+     * hijacker.
+     * @param hijacker
+     * @param exitable Whether it is possible to exit the inventory window.
+     */
     public void hijackInventoryManager(ScreenListener hijacker, boolean exitable){
         ((HeroInventory)inventory).manager.hijacker = hijacker;
         ((HeroInventory)inventory).manager.exitable = exitable;
     }
 
+    /**
+     * Stops the Inventory hijack.
+     */
     public void stopInventoryHijack(){
         ((HeroInventory)inventory).manager.hijacker = null;
     }

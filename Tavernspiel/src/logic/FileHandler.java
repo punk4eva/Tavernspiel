@@ -1,5 +1,5 @@
 
-package fileLogic;
+package logic;
 
 import dialogues.ExceptionDialogue;
 import java.io.File;

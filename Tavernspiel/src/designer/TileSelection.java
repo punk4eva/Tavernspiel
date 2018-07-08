@@ -13,6 +13,9 @@ import tiles.Tile;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class represents the selection of different Tiles that could be in a
+ * space on the map of the AreaTemplate.
  */
 public class TileSelection implements Serializable, Cloneable{
     
@@ -26,6 +29,12 @@ public class TileSelection implements Serializable, Cloneable{
     boolean boundary = false;
     final Color color;
     
+    /**
+     * Creates an instance.
+     * @param chances The chances of each tile being selected.
+     * @param t The names of the tiles.
+     * @param col The color to represent them with.
+     */
     public TileSelection(int[] chances, String[] t, Color col){
         distrib = new Distribution(chances);
         tiles = t;
@@ -36,6 +45,11 @@ public class TileSelection implements Serializable, Cloneable{
         initialize();
     }
     
+    /**
+     * Creates an instance of a single tile.
+     * @param tile The name of the tile.
+     * @param col The color to represent them with.
+     */
     public TileSelection(String tile, String col){
         distrib = new Distribution(new int[]{1});
         tiles = new String[]{tile};
@@ -46,6 +60,13 @@ public class TileSelection implements Serializable, Cloneable{
         initialize();
     }
     
+    /**
+     * Creates an instance.
+     * @param dist The chances of each tile being selected.
+     * @param t The names of the tiles
+     * @param col The color to represent them with.
+     * @param b Whether this TileSelection is a boundary.
+     */
     public TileSelection(Distribution dist, String[] t, Color col, boolean b){
         distrib = dist;
         tiles = t;
@@ -57,11 +78,22 @@ public class TileSelection implements Serializable, Cloneable{
         initialize();
     }
     
+    /**
+     * Converts this TileSelection into a randomly generated Tile.
+     * @param loc The Location
+     * @return
+     */
     public Tile getTile(Location loc){
         int n = (int)distrib.next();
         return new Tile(tiles[n], loc, treadible[n], flammable[n], transparent[n]);
     }
     
+    /**
+     * Paints the TileSelection onto the given Graphics.
+     * @param g
+     * @param x The pixel x
+     * @param y The pixel y
+     */
     public void paint(Graphics g, int x, int y){
         g.setColor(color);
         g.fillRect(x, y, 16, 16);
