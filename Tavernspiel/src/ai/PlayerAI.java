@@ -1,6 +1,7 @@
 
 package ai;
 
+import creatureLogic.VisibilityOverlay;
 import creatures.Creature;
 import creatures.Hero;
 import gui.mainToolbox.Main;
@@ -93,7 +94,7 @@ public final class PlayerAI extends AITemplate implements KeyListener{
     @Override
     public void decideAndMove(Creature c){
         if(currentPath==null){
-            currentPath = c.area.graph.searcher.findExpressRoute(new Point(c.x, c.y), new Point(destinationx, destinationy)).iterator();
+            currentPath = c.area.graph.searcher.findPlayerRoute(new Point(c.x, c.y), new Point(destinationx, destinationy), (VisibilityOverlay)hero.FOV).iterator();
             c.changeAnimation("move");
             unfinished = true;
             currentPath.next();

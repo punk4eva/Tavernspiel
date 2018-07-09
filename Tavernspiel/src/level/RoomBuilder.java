@@ -5,8 +5,8 @@ import buffs.GasBuilder;
 import containers.Chest;
 import containers.Floor;
 import items.Item;
-import items.ItemBuilder;
 import items.ItemMap;
+import items.consumables.PotionBuilder;
 import items.misc.Key;
 import java.awt.Dimension;
 import logic.Distribution;
@@ -28,6 +28,14 @@ public class RoomBuilder{
     
     public static Room standard(Location loc, int depth){
         Room ret = Room.genStandard(loc, depth);
+        ret.addDoors();
+        ret.randomlyPlop();
+        ret.addShaders();
+        return ret;
+    }
+    
+    public static Room standardLocked(Location loc, int depth){
+        Room ret = Room.genStandard(loc, new Key(depth), ItemMap.getStandardItemMap(depth, loc));
         ret.addDoors();
         ret.randomlyPlop();
         ret.addShaders();
@@ -175,7 +183,7 @@ public class RoomBuilder{
     
     public static Room storage(Location loc, int depth){
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
-                Distribution.getRandomInt(5, 16)), loc, depth);
+                Distribution.getRandomInt(5, 16)), loc, PotionBuilder.flamePotion(), ItemMap.getStorageItemMap(depth, loc));
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
                 if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) room.map[y][x] = Tile.wall(loc);
@@ -241,7 +249,7 @@ public class RoomBuilder{
     public static Room garden(Location location, int depth){
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
                 Distribution.getRandomInt(5, 16)), location, depth);
-        room.itemMap = ItemBuilder.getGardenItemMap();
+        room.itemMap = ItemMap.getGardenItemMap(depth, location);
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
                 if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) room.map[y][x] = Tile.wall(location);
@@ -325,10 +333,12 @@ public class RoomBuilder{
         return room;
     }
     
-    public static Room maze(Location loc, int width, int height){
-        Room room = new Room(new Dimension(width, height), loc, -1);
-        new MazeBuilder(room, 0, 0, width, height);
+    public static Room maze(Location loc, int depth){
+        Room room = new Room(new Dimension(Distribution.getRandomInt(10, 32),
+                Distribution.getRandomInt(10, 32)), loc, depth);
+        new MazeBuilder(room, 0, 0, room.dimension.width, room.dimension.height);
         room.addShaders();
+        room.randomlyPlop();
         return room;
     }
                     
@@ -346,12 +356,6 @@ public class RoomBuilder{
         }else{
             return new Chasm(area, x, y);
         }
-    }
-
-    @Unfinished
-    public static RoomDistribution getNormalRoomDistribution(){
-        return null;
-        //throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

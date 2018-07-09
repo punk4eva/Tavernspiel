@@ -1,7 +1,6 @@
 
 package creatures;
 
-import animation.AnimationBuilder;
 import animation.GameObjectAnimator;
 import buffs.Buff;
 import containers.Equipment;
@@ -55,25 +54,6 @@ public class Creature extends GameObject implements Comparable<Creature>{
         inventory = inv;
         attributes = atb;
         FOV = new FieldOfView(x, y, 5);
-    }
-    
-    /**
-     * Creates a new instance.
-     * @param n The name.
-     * @param desc The description.
-     * @param eq The equipment.
-     * @param inv The inventory.
-     * @param atb The attributes.
-     * @param bs The list of buffs.
-     */
-    public Creature(String n, Description desc, Equipment eq, Inventory inv, 
-            Attributes atb, LinkedList<Buff> bs){
-        super(n, desc, AnimationBuilder.getCreatureAnimation(n));
-        equipment = eq;
-        buffs = bs;
-        inventory = inv;
-        FOV = new FieldOfView(x, y, 5);
-        attributes = atb;
     }
     
     /**

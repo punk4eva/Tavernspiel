@@ -3,7 +3,6 @@ package creatures;
 
 import ai.PlayerAI;
 import animation.GameObjectAnimator;
-import buffs.Buff;
 import containers.Equipment;
 import containers.HeroInventory;
 import creatureLogic.Attack;
@@ -32,7 +31,6 @@ import static logic.ConstantFields.sqheight;
 import static logic.ConstantFields.sqwidth;
 import logic.Utils.Catch;
 import static gui.mainToolbox.MouseInterpreter.getCenter;
-import logic.Utils.Unfinished;
 
 /**
  *
@@ -62,30 +60,6 @@ public class Hero extends Creature{
         equipment = new Equipment(this);
         attributes.ai = new PlayerAI(this);
         try{data = new DeathData(this);}catch(Exception e){}
-        scrollBuilder = new ScrollBuilder(this);
-        screens.addAll(equipment.screens);
-        screens.addAll(((HeroInventory)inventory).screens);
-    }
-    
-    /**
-     * Creates a new Hero.
-     * @param eq The worn Equipment.
-     * @param inv The Inventory.
-     * @param hung The hunger.
-     * @param da The DeathData.
-     * @param j The Class.
-     * @param sub The SubClass.
-     * @param atb The Attributes.
-     * @param bs The Buffs.
-     */
-    @Unfinished("May be redundant")
-    public Hero(Equipment eq, HeroInventory inv, int hung, DeathData da, EnClass j, EnSubclass sub, Attributes atb, LinkedList<Buff> bs){
-        super("Hero", new Description("hero","UNWRITTEN"), eq, inv, atb, bs);
-        hunger = hung;
-        attributes.ai = new PlayerAI(this);
-        job = j;
-        subclass = sub;
-        data = da;
         scrollBuilder = new ScrollBuilder(this);
         screens.addAll(equipment.screens);
         screens.addAll(((HeroInventory)inventory).screens);

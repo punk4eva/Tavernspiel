@@ -8,9 +8,9 @@ import listeners.AnimationListener;
  *
  * @author Adam Whittaker
  */
-public abstract class TimeoutDrawnAnimation extends Animation{
+public abstract class DrawnAnimation extends Animation{
     
-    public TimeoutDrawnAnimation(int time, AnimationListener al){
+    public DrawnAnimation(int time, AnimationListener al){
         super(null, time, al);
     }
     

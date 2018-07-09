@@ -3,7 +3,6 @@ package level;
 
 import containers.Receptacle;
 import items.Item;
-import items.ItemBuilder;
 import items.ItemMap;
 import java.awt.Dimension;
 import java.util.List;
@@ -35,11 +34,11 @@ public class Room extends Area{
     public Room(Dimension dim, Location loc, int depth){
         super(dim, loc);
         locked = false;
-        itemMap = ItemBuilder.getStandardItemMap(depth, loc);
+        itemMap = ItemMap.getStandardItemMap(depth, loc);
     }
     
     /**
-     * Creates a new instance.
+     * Creates a new instance of a locked room.
      * @param dim The dimension of the Room.
      * @param loc The Location.
      * @param k The key required to open this room.

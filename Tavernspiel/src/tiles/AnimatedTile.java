@@ -2,7 +2,6 @@
 package tiles;
 
 import animation.Animation;
-import animation.AnimationBuilder;
 import javax.swing.ImageIcon;
 import level.Location;
 import logic.ImageHandler;
@@ -22,9 +21,11 @@ public class AnimatedTile extends Tile{
     
     public AnimatedTile(String tile){
         super(tile, (ImageIcon) null);
-        if(tile.startsWith("water")){
-            animation = new Animation(ImageHandler.getWaterFrames(tile, 0), 110);
-        }else animation = AnimationBuilder.getAnimation(tile);
+        /*super(tile, (ImageIcon) null);
+        if(tile.startsWith("water")||tile.startsWith("well")){
+        animation = new Animation(ImageHandler.getWaterFrames(tile, 0), 110);
+        }else animation = AnimationBuilder.getAnimation(tile);*/
+        throw new UnsupportedOperationException();
     }
     
     /**

@@ -58,48 +58,12 @@ public class AreaBuilder implements Serializable{
     @Unfinished("Generate forced rooms.")
     protected Area load(RoomDistribution roomDist, int depth){
         Area area = new Area(new Dimension(80, 80), location);
-        
-        List<Room> rooms = new LinkedList<>(), lockedRooms = new LinkedList<>();
-        //Adds the unlocked natural rooms.
-        for(int n=0, roomNum = Distribution.r.nextInt(7)+3;n<roomNum;n++){
-            rooms.add(roomDist.next(depth));
-        }
-        //Adds the locked Rooms to a separate list and generates their keys.
-        List<Item> keys = new LinkedList<>();
-        for(int n=0, roomNum = Distribution.r.nextInt(3)+1;n<roomNum;n++){
-            Room room = roomDist.nextLocked(depth);
-            lockedRooms.add(room);
-            keys.add(room.key);
-        }
-        //Adds forcedKeys to forcedItems.
-        forcedItems.addAll(forcedKeys);
-        System.out.println(keys);
-        rooms.get(Distribution.r.nextInt(rooms.size())).randomlyPlop(keys.remove(0));
-        //Does something
-        for(int n=0;n<lockedRooms.size()-1;n++){
-            Room room = lockedRooms.get(n);
-            if(room.itemMap==null){
-                forcedItems.add(room.getReceptacle().swapItem(keys.remove(0)));
-            }else{
-                room.randomlyPlop(keys.remove(0));
-            }
-        }
-        //Adds the forced Items and keys to the normally generating rooms.
-        while(!forcedItems.isEmpty()){
-            rooms.get(Distribution.r.nextInt(rooms.size())).randomlyPlop(forcedItems.remove(0));
-        }
-        //Adds the forced Rooms.
-        forcedRooms.stream().forEach((mr) -> {
-            rooms.add(mr.make(location, depth));
-        });
-        //Blits the Rooms to the Area.
-        rooms.addAll(lockedRooms);
+        List<Room> rooms = roomDist.generate(forcedItems, forcedRooms, depth);
         rooms.stream().forEach(r -> selectAndBlit(area, r));
-        
         new CorridorBuilder(area).build();
         area.graph = new Graph(area);
+        
         return area;
-        //throw new UnsupportedOperationException("Not supported yet.");
     }
     
     private void selectAndBlit(Area area, Area add){

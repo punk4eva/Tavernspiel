@@ -1,6 +1,7 @@
 
 package pathfinding;
 
+import creatureLogic.VisibilityOverlay;
 import level.Area;
 import logic.Utils.Optimisable;
 import logic.Utils.Unfinished;
@@ -226,6 +227,29 @@ public class Searcher{
             return findPath(start, end);
         }
         return findPath(start, startStation).concatenate(startStation.pathsToWaypoints.get(endStation)).concatenate(findPath(endStation, end));
-    }  
+    }
+    
+    public Path findPlayerRoute(Point start, Point end, VisibilityOverlay fov){
+        graph.use();
+        frontier.clear();
+        start.currentCost = 0;
+        frontier.add(start);
+        int nx, ny;
+        while(!frontier.isEmpty()){
+            Point p = frontier.poll();
+            for(ExtendedDirection dir : extendedDirections){
+                nx = dir.x.update(p.x);
+                ny = dir.y.update(p.y);
+                try{ if(fov.map[ny][nx]!=0&&graph.map[ny][nx].checked!=null&&(!graph.map[ny][nx].checked||addCheck.check(p, graph.map[ny][nx]))){
+                    graph.map[ny][nx].checked = true;
+                    graph.map[ny][nx].cameFrom = p;
+                    graph.map[ny][nx].currentCost = p.currentCost + graph.map[ny][nx].movementCost;
+                    if(graph.map[ny][nx].equals(end)) break;
+                    frontier.add(graph.map[ny][nx]);
+                }}catch(ArrayIndexOutOfBoundsException e){}
+            }
+        }
+        return graph.followTrail(end.x, end.y);
+    }
     
 }

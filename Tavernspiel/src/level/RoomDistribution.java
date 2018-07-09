@@ -1,19 +1,22 @@
 
 package level;
 
-import java.io.Serializable;
+import items.Item;
+import java.util.LinkedList;
+import java.util.List;
 import logic.Distribution;
-import static logic.Distribution.r;
-import logic.Utils.Unfinished;
+import level.RoomBuilder;
 
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class decides which rooms to generate.
  */
-public class RoomDistribution implements Serializable{
+public class RoomDistribution{
     
-    private final static long serialVersionUID = 1600386847;
-    
+    private final Location location;
+    private final int lower, upper;
     /**
      * This interface specifies the creation algorithm for a single Room given
      * the Location and depth.
@@ -21,74 +24,76 @@ public class RoomDistribution implements Serializable{
     public interface MakeRoom{
         Room make(Location loc, int depth);
     };
-    private final MakeRoom[] roomMethods, lockedRoomMethods;
-    protected final int[] chances, lockedChances;
-    private final Location location;
-    
     /**
-     * Creates a new instance.
-     * @param loc The Location.
-     * @param rMethods The generation algorithms for unlocked rooms.
-     * @param lMethods The generation algorithms for locked rooms.
-     * @param cha The relative rarities of each unlocked room.
-     * @param lCha The relative rarities of each locked room.
+     * This interface specifies the creation algorithm for a single Room given
+     * the Location, depth and a single Item.
      */
-    public RoomDistribution(Location loc, MakeRoom[] rMethods, MakeRoom[] lMethods, int[] cha, int[] lCha){
-        chances = Distribution.convert(cha);
-        lockedRoomMethods = lMethods;
+    public interface MakeItemRoom{
+        Room make(Location loc, int depth, Item i);
+    };
+    
+    public RoomDistribution(Location loc, int l, int u){
         location = loc;
-        lockedChances = Distribution.convert(lCha);
-        roomMethods = rMethods;
+        lower = l;
+        upper = u;
     }
     
-    /**
-     * Generates a random output from this Distribution's output array based on its
-     * chances.
-     * @param depth
-     * @return A randomly generated Room.
-     */
-    public Room next(int depth){
-        return roomMethods[chanceToInt(r.nextInt(chances[chances.length-1])+1)].make(location, depth);
+    public List<Room> generate(List<Item> forcedItems, List<MakeRoom> forcedRooms, int depth){
+        int roomNum = Distribution.r.nextInt(upper-lower)+lower;
+        List<Room> rooms = new LinkedList<>();
+        List<Item> leftovers = new LinkedList<>();
+        forcedRooms.stream().map((m) -> m.make(location, depth)).forEach((r) -> {
+            forcedItems.removeAll(r.items());
+            rooms.add(r);
+            if(r.locked) leftovers.add(r.key);
+        });
+        forcedItems.addAll(leftovers);
+        leftovers.clear();
+        forcedItems.stream().map((i) -> populateForcedItems(i, depth, itemRoomAlgs, itemRoomDist)).forEach((r) -> {
+            if(r.locked) leftovers.add(r.key);
+            rooms.add(r);
+        });
+        int freeRooms = 0;
+        for(roomNum -= rooms.size();roomNum>0;roomNum--){
+            Room r = roomAlgs.get((int)roomDist.next()).make(location, depth);
+            if(r.locked) leftovers.add(r.key);
+            rooms.add(0, r);
+            freeRooms++;
+        }
+        if(freeRooms!=0){
+            for(Item i : leftovers)
+                rooms.get(Distribution.r.nextInt(freeRooms)).randomlyPlop(i);
+        }else if(!leftovers.isEmpty()){
+            Room r;
+            do{
+                r = roomAlgs.get((int)roomDist.next()).make(location, depth);
+            }while(r.locked);
+            r.randomlyPlop(leftovers);
+            rooms.add(r);
+        }
+        return rooms;
     }
     
-    /**
-     * Generates a random output from this Distribution's output array based on its
-     * chances.
-     * @param depth The depth of the Room.
-     * @return A randomly generated locked Room.
-     */
-    public Room nextLocked(int depth){
-        return lockedRoomMethods[lockedChanceToInt(r.nextInt(lockedChances[lockedChances.length-1])+1)].make(location, depth);
+    private Room populateForcedItems(Item f, int depth, List<MakeItemRoom> algorithms, Distribution dist){
+        return algorithms.get((int)dist.next()).make(location, depth, f);
     }
     
-    /**
-     * Gets the index of output which the given chance value obtains.
-     * @param i The chance value.
-     * @return The index of the output.
-     */
-    private int chanceToInt(int i){
-        for(int n=0;n<chances.length;n++) if(i<=chances[n]) return n;
-        return -1;
-    }
-    
-    /**
-     * Gets the index of output which the given chance value obtains.
-     * @param i The chance value.
-     * @return The index of the output.
-     */
-    private int lockedChanceToInt(int i){
-        for(int n=0;n<lockedChances.length;n++) if(i<=lockedChances[n]) return n;
-        return -1;
-    }
-    
-    @Unfinished("Remove test")
-    public static RoomDistribution[] testItemless(Location loc, int n){
-        RoomDistribution ret[] = new RoomDistribution[n];
-        for(int j=0;j<n;j++) ret[j] = new RoomDistribution(loc, 
-                new MakeRoom[]{(loca, d) -> RoomBuilder.itemless(loca, d)}, 
-                new MakeRoom[]{(loca, d) -> RoomBuilder.lockedItemless(loca, d)}, 
-                new int[]{1}, new int[]{1});
-        return ret;
+    protected final static List<MakeRoom> roomAlgs = new LinkedList<>();
+    protected final static List<MakeItemRoom> itemRoomAlgs = new LinkedList<>();
+    protected final static Distribution roomDist = new Distribution(new int[]{10,6,6,2,1,3,3});
+    protected final static Distribution itemRoomDist = new Distribution(new int[]{1,4,6});
+    static{
+        roomAlgs.add((loc, d) -> RoomBuilder.standard(loc, d));
+        roomAlgs.add((loc, d) -> RoomBuilder.standardLocked(loc, d));
+        roomAlgs.add((loc, d) -> RoomBuilder.stalagnate(loc, d));
+        roomAlgs.add((loc, d) -> RoomBuilder.garden(loc, d));
+        roomAlgs.add((loc, d) -> RoomBuilder.magicWellRoom(loc, d));
+        roomAlgs.add((loc, d) -> RoomBuilder.maze(loc, d));
+        roomAlgs.add((loc, d) -> RoomBuilder.storage(loc, d));
+        
+        itemRoomAlgs.add((loc, d, i) -> RoomBuilder.floodedVault(loc, i));
+        itemRoomAlgs.add((loc, d, i) -> RoomBuilder.chasmVault(loc, i, d));
+        itemRoomAlgs.add((loc, d, i) -> RoomBuilder.roomOfTraps(loc, i, d));
     }
     
 }

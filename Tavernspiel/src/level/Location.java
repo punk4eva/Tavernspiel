@@ -24,7 +24,7 @@ public class Location implements Serializable{
     public final ImageIcon waterImage;
     protected Distribution waterGenChance = new Distribution(1, 20);
     protected Distribution grassGenChance = new Distribution(1, 20);
-    protected RoomDistribution[] roomDistrib = null; //null if boss room.
+    protected RoomDistribution roomDistrib = null; //null if boss room.
     protected CreatureDistribution[] spawnDistribution;
     protected boolean waterBeforeGrass = true;
     public final String backgroundMusicPath;

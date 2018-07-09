@@ -388,4 +388,14 @@ public class Area implements Serializable{
         else r.add(i);
     }
     
+    /**
+     * Returns a list of all Items in this Area.
+     * @return
+     */
+    public List<Item> items(){
+        return receptacles.stream().collect(LinkedList<Item>::new, 
+                (lst, receptacle) -> lst.addAll(receptacle),
+                (lst, lst2) -> lst.addAll(lst2));
+    }
+    
 }

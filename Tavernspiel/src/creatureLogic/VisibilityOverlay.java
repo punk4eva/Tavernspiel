@@ -2,14 +2,10 @@
 package creatureLogic;
 
 import gui.Shaders;
-import java.awt.Color;
-import java.awt.geom.Line2D;
-import java.awt.geom.Rectangle2D;
 import java.util.LinkedList;
 import java.util.List;
 import level.Area;
 import logic.ConstantFields;
-import testUtilities.TestUtil;
 
 /**
  *

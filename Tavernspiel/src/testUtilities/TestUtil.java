@@ -1,7 +1,7 @@
 
 package testUtilities;
 
-import animation.TimeoutDrawnAnimation;
+import animation.DrawnAnimation;
 import gui.Window;
 import gui.mainToolbox.Main;
 import gui.mainToolbox.MouseInterpreter;
@@ -51,7 +51,7 @@ public class TestUtil{
     }
     
     public static void animateTileLine(int mil, int x1, int y1, int x2, int y2, Color c){
-        Main.animator.addAnimation(new TimeoutDrawnAnimation(mil, Main.animator){
+        Main.animator.addAnimation(new DrawnAnimation(mil, Main.animator){
             @Override
             public void animate(Graphics g, int x, int y){
                 recalc();
@@ -61,7 +61,7 @@ public class TestUtil{
     }
     
     public static void animatePoint(int mil, int x1, int y1, Color c){
-        Main.animator.addAnimation(new TimeoutDrawnAnimation(mil, Main.animator){
+        Main.animator.addAnimation(new DrawnAnimation(mil, Main.animator){
             @Override
             public void animate(Graphics g, int x, int y){
                 recalc();
