@@ -27,7 +27,7 @@ import logic.Formula;
 public class Wand extends RangedWeapon implements ScreenListener{
     
     public double rechargeSpeed = 1;
-    public Formula rechargeFormula = new Formula(1,0,1,0);
+    public Formula rechargeFormula = new Formula(1,0);
     public final Animation firingAnimation;
     public int range = -1; //-1 if N/A.
     public Formula rangeFormula = null; //Null if no formula.

@@ -4,6 +4,7 @@ package level;
 import java.io.Serializable;
 import logic.Distribution;
 import static logic.Distribution.r;
+import logic.Utils.Unfinished;
 
 /**
  *
@@ -13,6 +14,10 @@ public class RoomDistribution implements Serializable{
     
     private final static long serialVersionUID = 1600386847;
     
+    /**
+     * This interface specifies the creation algorithm for a single Room given
+     * the Location and depth.
+     */
     public interface MakeRoom{
         Room make(Location loc, int depth);
     };
@@ -20,6 +25,14 @@ public class RoomDistribution implements Serializable{
     protected final int[] chances, lockedChances;
     private final Location location;
     
+    /**
+     * Creates a new instance.
+     * @param loc The Location.
+     * @param rMethods The generation algorithms for unlocked rooms.
+     * @param lMethods The generation algorithms for locked rooms.
+     * @param cha The relative rarities of each unlocked room.
+     * @param lCha The relative rarities of each locked room.
+     */
     public RoomDistribution(Location loc, MakeRoom[] rMethods, MakeRoom[] lMethods, int[] cha, int[] lCha){
         chances = Distribution.convert(cha);
         lockedRoomMethods = lMethods;
@@ -68,6 +81,7 @@ public class RoomDistribution implements Serializable{
         return -1;
     }
     
+    @Unfinished("Remove test")
     public static RoomDistribution[] testItemless(Location loc, int n){
         RoomDistribution ret[] = new RoomDistribution[n];
         for(int j=0;j<n;j++) ret[j] = new RoomDistribution(loc, 

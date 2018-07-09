@@ -20,6 +20,9 @@ public class Point implements Serializable{
     Point cameFrom = null; //null if starting point. 
     int currentCost = Integer.MAX_VALUE;
     boolean isCorridor = false;
+    /**
+     * This Enum represents all the cardinal directions.
+     */
     public static enum Direction{
         NORTH(2, x->x, y->y-1),
         EAST(5, x->x-1, y->y),
@@ -52,6 +55,9 @@ public class Point implements Serializable{
             }
         }
     }
+    /**
+     * This Enum represents all the ordino-cardinal directions.
+     */
     public static enum ExtendedDirection{
         NORTH(2, x->x, y->y-1),
         EAST(5, x->x-1, y->y),
@@ -93,17 +99,35 @@ public class Point implements Serializable{
         }
     }
     
+    /**
+     * Creates an instance.
+     * @param x1
+     * @param y1
+     */
     public Point(int x1, int y1){
         x = x1;
         y = y1;
     }
     
+    /**
+     * Creates an instance.
+     * @param x1
+     * @param y1
+     * @param c Whether the Point has been checked by a Pathfinding algorithm.
+     */
     public Point(int x1, int y1, Boolean c){
         x = x1;
         y = y1;
         checked = c;
     }
     
+    /**
+     * Creates an instance.
+     * @param x1
+     * @param y1
+     * @param c Whether the Point has been checked by a Pathfinding algorithm.
+     * @param corr Whether this Point is part of a corridor.
+     */
     public Point(int x1, int y1, Boolean c, boolean corr){
         x = x1;
         y = y1;

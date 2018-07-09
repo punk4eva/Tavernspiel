@@ -50,6 +50,12 @@ public abstract class GameObject implements Serializable{
      */
     public abstract void render(Graphics g, int focusX, int focusY);
     
+    /**
+     * Animates the currently active animation.
+     * @param g The Graphics
+     * @param focusX
+     * @param focusY
+     */
     public void standardAnimation(Graphics g, int focusX, int focusY){
         animator.active.animate(g, x*16+focusX, y*16+focusY);
     }

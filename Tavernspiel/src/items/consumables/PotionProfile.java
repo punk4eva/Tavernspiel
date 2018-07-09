@@ -11,6 +11,7 @@ import java.awt.image.WritableRaster;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
 import logic.Utils;
+import logic.Utils.Unfinished;
 
 /**
  *
@@ -144,6 +145,14 @@ public class PotionProfile extends ItemProfile{
         
     }
     
+    /**
+     * Creates a random PotionProfile.
+     * @param name The name of the Potion
+     * @param unknownName The unknown name of the potion
+     * @param idd Whether the potion is identified
+     * @return
+     */
+    @Unfinished("Review")
     public static PotionProfile getRandomProfile(String name, String unknownName, boolean idd){
         PotionProfile bp = bareProfileMap.get(name);
         return pdb.getProfile(name, unknownName, idd);

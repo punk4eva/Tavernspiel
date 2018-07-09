@@ -75,6 +75,12 @@ public class ImageHandler{
         map.put("shader", new Dimension(240, 48));
     }
     
+    /**
+     * Retrieves the Image for a given Tile name and Location.
+     * @param str The name of the Tile
+     * @param loc The Location
+     * @return
+     */
     public static ImageIcon getImage(String str, Location loc){
         str = str.toLowerCase();
         ImageIcon img = loc.tilemap.get(str);
@@ -86,6 +92,12 @@ public class ImageHandler{
         return img;
     }
     
+    /**
+     * Retrieves the Image from the given coordinates in the tileset.
+     * @param dim The Dimension representing the coordinates.
+     * @param loc The Location
+     * @return
+     */
     public static ImageIcon getImage(Dimension dim, Location loc){
         BufferedImage bi = new BufferedImage(
                 loc.tileset.getIconWidth(),
@@ -97,6 +109,12 @@ public class ImageHandler{
         return new ImageIcon(bi.getSubimage(dim.width, dim.height, 16, 16));
     }
     
+    /**
+     * Gets the frames for the water animation.
+     * @param str The filepath
+     * @param x The starting x coordinate.
+     * @return
+     */
     public static ImageIcon[] getWaterFrames(String str, int x){
         Image img = new ImageIcon("graphics/" + str + ".png").getImage();
         BufferedImage bi = new BufferedImage(
@@ -114,6 +132,12 @@ public class ImageHandler{
         return ret;
     }
     
+    /**
+     * Gets the frames for the water animation.
+     * @param loc The Location
+     * @param x The starting x coordinate.
+     * @return
+     */
     public static ImageIcon[] getWaterFrames(Location loc, int x){
         BufferedImage bi = new BufferedImage(
                 loc.waterImage.getIconWidth(),
@@ -130,6 +154,12 @@ public class ImageHandler{
         return ret;
     }
     
+    /**
+     * Combines two ImageIcons together.
+     * @param ic1
+     * @param ic2
+     * @return
+     */
     public static ImageIcon combineIcons(ImageIcon ic1, ImageIcon ic2){
         BufferedImage bi1 = new BufferedImage(
                 ic1.getIconWidth(),
@@ -142,6 +172,12 @@ public class ImageHandler{
         return new ImageIcon(bi1);
     }
     
+    /**
+     * Combines two Images together.
+     * @param i1
+     * @param i2
+     * @return
+     */
     public static Image combineIcons(Image i1, Image i2){
         BufferedImage bi1 = new BufferedImage(
                 i1.getWidth(null),

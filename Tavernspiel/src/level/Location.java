@@ -193,6 +193,10 @@ public class Location implements Serializable{
         weaponIndex = WeaponIndex.getIndex(a);
     }
     
+    /**
+     * This class represents the rarities and Image locations of Weapons in
+     * different Areas.
+     */
     @Unfinished("Fill in weapon stats.")
     public static class WeaponIndex{
         
@@ -255,6 +259,9 @@ public class Location implements Serializable{
         
     }
     
+    /**
+     * This class represents the statistics of a Weapon.
+     */
     public static class WeaponEntry{
         public final int x, y, re, durability, strength;
         public final String name, description;
@@ -276,10 +283,18 @@ public class Location implements Serializable{
         }
     }
     
+    /**
+     * Retrieves a random WeaponEntry based on their respective rarities.
+     * @return
+     */
     public WeaponEntry getWeaponEntry(){
         return weaponIndex.map.get((int)weaponIndex.rarities.next());
     }
     
+    /**
+     * Returns a random type of armour based on their respective rarities.
+     * @return
+     */
     public String getArmourType(){
         switch((int)armourDistrib.next()){
             case 0: return "cloth";

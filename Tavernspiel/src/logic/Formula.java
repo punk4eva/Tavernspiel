@@ -2,6 +2,7 @@
 package logic;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 
 /**
  *
@@ -15,56 +16,39 @@ public class Formula implements Serializable{
     
     public double multiply = 1;
     public double add = 0;
-    public int intMultiply = 1;
-    public int intAdd = 0;
-    private final boolean divideMode;
+    private LinkedList<Formula> nested = new LinkedList<>();
     
+    /**
+    * Creates a new instance for doubles.
+    * @param mult The coefficient
+    * @param a The additive
+    */
     public Formula(double mult, double a){
         multiply = mult;
         add = a;
-        divideMode = false;
     }
     
-    public Formula(int multi, int ad){
-        intMultiply = multi;
-        intAdd = ad;
-        divideMode = false;
-    }
-    
-    public Formula(double mult, double a, boolean div){
+    /**
+    * Creates a new wrapper around an existing Formula.
+    * @param mult The coefficient
+    * @param a The additive
+    * @param f The formula
+    */
+    public Formula(double mult, double a, Formula f){
         multiply = mult;
         add = a;
-        divideMode = div;
+        nested = f.nested;
+        nested.add(this);
     }
     
-    public Formula(int multi, int ad, boolean div){
-        intMultiply = multi;
-        divideMode = div;
-        intAdd = ad;
-    }
-    
-    public Formula(double mult, double a, int multi, int ad){
-        multiply = mult;
-        intMultiply = multi;
-        add = a;
-        intAdd = ad;
-        divideMode = false;
-    }
-    
-    public Formula(double mult, double a, int multi, int ad, boolean div){
-        multiply = mult;
-        intMultiply = multi;
-        add = a;
-        divideMode = div;
-        intAdd = ad;
-    }
-    
-    public double getDouble(double x){
-        return divideMode ? (multiply / x) + add : (multiply * x) + add;
-    }
-    
-    public int getInt(int x){
-        return divideMode ? (intMultiply / x) + intAdd : (intMultiply * x) + intAdd;
+    /**
+     * Evaluates the result of this Formula.
+     * @param x The input
+     * @return The output
+     */
+    public double get(double x){
+        for(Formula f : nested) x = x*f.multiply + f.add;
+        return x;
     }
     
 }

@@ -238,6 +238,10 @@ public class ScrollBuilder{
         return new CustomScroll(getImage("Custom Scroll"), isCustomIdd());
     }
     
+    /**
+     * Returns a random ImageIcon of a smudge.
+     * @return
+     */
     public ImageIcon getRandomSmudge(){
         if(Distribution.chance(1, 2)) return new ImageIcon(getImage("SMUDGE1"));
         else return new ImageIcon(getImage("SMUDGE2"));

@@ -128,8 +128,8 @@ public class Apparatus extends Item{
      * Updates fields.
      */
     public void updateFields(){
-        maxDurability = durabilityFormula.getInt(level);
-        if(strengthFormula!=null) strength = strengthFormula.getInt(level);
+        maxDurability = (int)durabilityFormula.get(level);
+        if(strengthFormula!=null) strength = (int)strengthFormula.get(level);
         action.updateFromFormula(level, actionFormulas);
     }
     

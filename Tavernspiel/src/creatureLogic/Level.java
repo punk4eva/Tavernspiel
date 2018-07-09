@@ -28,14 +28,14 @@ public class Level implements Serializable{
     private void levelUp(Attributes atb){
         level++;
         int prevHp = atb.maxhp;
-        xpReq = xpFormula.getInt(level);
+        xpReq = (int)xpFormula.get(level);
         atb.update(
-            attackSpeedFormula.getDouble(level),
-            dexterityFormula.getDouble(level),
-            regenSpeedFormula.getDouble(level),
-            hpFormula.getInt(level),
-            strengthFormula.getInt(level),
-            speedFormula.getDouble(level));
+            attackSpeedFormula.get(level),
+            dexterityFormula.get(level),
+            regenSpeedFormula.get(level),
+            (int)hpFormula.get(level),
+            (int)strengthFormula.get(level),
+            speedFormula.get(level));
         atb.setHp(atb.maxhp - prevHp);
     }
 

@@ -11,12 +11,23 @@ import tiles.Tile;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class builds a Maze in the given Area.
  */
 public class MazeBuilder{
     
     private final Area area;
     private final int TLX, TLY, width, height;
     
+    /**
+     * Builds a maze in the given Area at the given coordinates with the given
+     * width and height.
+     * @param a
+     * @param x
+     * @param y
+     * @param w
+     * @param h
+     */
     public MazeBuilder(Area a, int x, int y, int w, int h){
         area = a;
         TLX = x;

@@ -69,32 +69,49 @@ public class PriorityQueue<T extends Object> extends ArrayList<T> implements Com
         return get(0);
     }
     
+    /**
+     * A lambda interface for enumerating the elements of this queue.
+     * @param <T> The element type
+     */
     protected interface Compare<T>{
         long enumerate(T element);
     }
     protected final Compare<T> compare;
     
+    /**
+     * Creates a new instance.
+     * @param comp The priority function.
+     */
     public PriorityQueue(Compare<T> comp){
         super();
         compare = comp;
     }
     
+    /**
+     * Creates an instance.
+     * @param clctn The collection to wrap.
+     * @param comp The priority function.
+     */
     public PriorityQueue(Collection<? extends T> clctn, Compare<T> comp){
         super(clctn);
         compare = comp;
         sort();
     }
     
+    /**
+     * Creates an instance.
+     * @param ary The array to wrap.
+     * @param comp The priority function.
+     */
     public PriorityQueue(T[] ary, Compare<T> comp){
         super(Arrays.asList(ary));
         compare = comp;
         sort();
     }
-    
-    public int length(){
-        return size();
-    }
 
+    /**
+     * Sorts this queue.
+     */
     public final void sort(){
         super.sort(this);
     }
@@ -125,11 +142,6 @@ public class PriorityQueue<T extends Object> extends ArrayList<T> implements Com
         }
         super.add(element);
         return true;
-    }
-    
-    public void flushFromQueue(PriorityQueue<T> queue){
-        addAll(queue);
-        queue.clear();
     }
     
 }

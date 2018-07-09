@@ -18,7 +18,7 @@ public final class EnchantmentOfExcess extends WeaponEnchantment{
         super("Excess", new Description("enchantments", "The powerful enchantment on this weapon increases its damage against weaker enemies, and higher "
                 + "levels of this enchantment can even kill multiple enemies in one hit."),
                 null, level);
-        damageExtra = new Formula(360.0, 0.0, true);
+        damageExtra = new Formula(1.0/360.0, 0.0);
         limitHp = (int)Math.ceil(72*level);
         hueR1=76;
         hueG1=76;
@@ -29,7 +29,7 @@ public final class EnchantmentOfExcess extends WeaponEnchantment{
     }
     
     public int getExtraDamage(int hp){
-        return new Distribution(0, 1+damageExtra.getInt(hp)*level).nextInt();
+        return new Distribution(0, 1+damageExtra.get(hp)*level).nextInt();
     }
     
     public int getLimitHp(){
@@ -39,7 +39,7 @@ public final class EnchantmentOfExcess extends WeaponEnchantment{
     @Override
     public void update(int lev){
         level = lev;
-        damageExtra = new Formula(360.0, 0.0, true);
+        damageExtra = new Formula(1.0/360.0, 0.0);
         limitHp = (int)Math.ceil(72*level);
     }
     

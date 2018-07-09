@@ -11,6 +11,8 @@ import pathfinding.PriorityQueue.Compare;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class stores pathfinding algorithms and implements them on a Graph.
  */
 public class Searcher{
     
@@ -79,7 +81,11 @@ public class Searcher{
         frontier = new PriorityQueue<>(comp);
     }
     
-    
+    /**
+     * Creates a new instance.
+     * @param g The Graph
+     * @param a The Area
+     */
     public Searcher(Graph g, Area a){
         graph = g;
         area = a;
@@ -169,20 +175,26 @@ public class Searcher{
         return graph.followTrail(end.x, end.y);
     }
     
+    /**
+     * Finds the shortest path between two points going through unused space.
+     * @param start
+     * @param end
+     * @return
+     */
     public Path findNullPath(Point start, Point end){
         graph.use();
         frontier.clear();
         start.currentCost = 0;
         frontier.add(start);
         int nx, ny;
-        search: while(!frontier.isEmpty()){
+        while(!frontier.isEmpty()){
             Point p = frontier.poll();
             for(Direction dir : directions){
                 nx = dir.x.update(p.x);
                 ny = dir.y.update(p.y);
                 try{ if(graph.map[ny][nx].equals(end)){
                     graph.map[ny][nx].cameFrom = p;
-                    break search;
+                    return graph.followTrail(end.x, end.y);
                 }else if((graph.map[ny][nx].checked==null||graph.map[ny][nx].isCorridor)&&addCheck.check(p, graph.map[ny][nx])){
                     graph.map[ny][nx].checked = true;
                     graph.map[ny][nx].cameFrom = p;

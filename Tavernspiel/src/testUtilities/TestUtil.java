@@ -2,22 +2,18 @@
 package testUtilities;
 
 import animation.TimeoutDrawnAnimation;
-import creatureLogic.FieldOfView;
 import gui.Window;
 import gui.mainToolbox.Main;
 import gui.mainToolbox.MouseInterpreter;
 import java.awt.Color;
 import java.awt.Graphics;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map.Entry;
-import level.Area;
+import logic.Utils.Unfinished;
 
 /**
  *
  * @author Adam Whittaker
  */
+@Unfinished("Remove later")
 public class TestUtil{
     
     private static Graphics g;

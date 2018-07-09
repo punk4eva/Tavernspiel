@@ -298,10 +298,21 @@ public class Area implements Serializable{
         return ret;
     }
     
+    /**
+     * Deserializes an AreaTemplate and generates an Area from it.
+     * @param filepath The filepath of the AreaTemplate.
+     * @return
+     */
     public static Area getPreloadedArea(String filepath){
         return AreaTemplate.deserialize(filepath).toArea();
     }
     
+    /**
+     * Renders all GameObjects in this Area.
+     * @param g The Graphics
+     * @param focusX
+     * @param focusY
+     */
     public void renderObjects(Graphics g, int focusX, int focusY){
         synchronized(receptacles){
             receptacles.stream().forEach(r -> {
@@ -323,6 +334,10 @@ public class Area implements Serializable{
         }
     }
     
+    /**
+     * Tells every Creature that an amount of turns has passed.
+     * @param turnNum The amount of turns passed.
+     */
     public void turn(double turnNum){
         objectLock.lock();
         try{
@@ -339,6 +354,11 @@ public class Area implements Serializable{
         }
     }
     
+    /**
+     * Adds a Hero to this Area.
+     * @param h The Hero
+     * @param start Whether to place the Hero at the start or end coordinates.
+     */
     public void addHero(Hero h, boolean start){
         hero = h;
         h.setArea(this, start);
@@ -356,8 +376,16 @@ public class Area implements Serializable{
         }
     }
 
+    /**
+     * Adds an Item to the Area on the given coordinates.
+     * @param i The Item
+     * @param x
+     * @param y
+     */
     public void plop(Item i, int x, int y){
-        receptacles.add(new Floor(i, x, y));
+        Receptacle r = getReceptacle(x, y);
+        if(r==null) receptacles.add(new Floor(i, x, y));
+        else r.add(i);
     }
     
 }

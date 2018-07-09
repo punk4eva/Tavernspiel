@@ -81,6 +81,10 @@ public class CorridorBuilder{
         
     }
     
+    /**
+     * Creates a new instance.
+     * @param a The Area.
+     */
     public CorridorBuilder(Area a){
         area = a;
         if(area.graph==null) area.graph = new Graph(area);
@@ -113,6 +117,9 @@ public class CorridorBuilder{
         }
     }
     
+    /**
+     * Generates and builds all corridors in the Area.
+     */
     public void build(){
         List<Path> paths = new WanderingCorridorAlgorithm().generatePaths(
                 Arrays.asList(area.graph.waypoints).stream().filter(p -> !waypointReached(p)).collect(Collectors.toList()),
@@ -123,6 +130,10 @@ public class CorridorBuilder{
         area.graph.initializeWaypoints();
     }
     
+    /**
+     * Builds a corridor out of a singular Path.
+     * @param path
+     */
     public void buildCorridor(Path path){
         boolean horizontal = Path.isHorizontal(path.points[0], path.points[1]), nowHorizontal;
         extend(path.points[1], horizontal);
@@ -135,6 +146,11 @@ public class CorridorBuilder{
         extend(path.points[path.points.length-1], horizontal);
     }
     
+    /**
+     * Checks whether the given WayPoint has been reached by a corridor.
+     * @param wp
+     * @return
+     */
     protected boolean waypointReached(Waypoint wp){
         return area.map[wp.y-1][wp.x]!=null&&area.map[wp.y-1][wp.x].treadable&&area.map[wp.y+1][wp.x]!=null&&area.map[wp.y+1][wp.x].treadable||
                 area.map[wp.y][wp.x-1]!=null&&area.map[wp.y][wp.x-1].treadable&&area.map[wp.y][wp.x+1]!=null&&area.map[wp.y][wp.x+1].treadable;

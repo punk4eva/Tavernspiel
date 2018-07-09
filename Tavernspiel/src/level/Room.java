@@ -2,7 +2,6 @@
 package level;
 
 import containers.Receptacle;
-import exceptions.ReceptacleOverflowException;
 import items.Item;
 import items.ItemBuilder;
 import items.ItemMap;

@@ -2,6 +2,7 @@
 package logic;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.Random;
 
 /**
@@ -18,15 +19,29 @@ public class Distribution implements Serializable{
     protected int[] chances;
     public transient static final Random r = new Random();
     
+    /**
+     * Creates a new instance.
+     * @param out The possible outputs.
+     * @param cha The relative chances of those outputs.
+     */
     public Distribution(double[] out, int[] cha){
         outputs = out;
         chances = convert(cha);
     }
     
+    /**
+     * Creates a new instance meant for generating random booleans.
+     * @param l The numerator of the chance to return true.
+     * @param u The denominator of the chance to return true.
+     */
     public Distribution(double l, double u){
         outputs = new double[]{l, u};
     }
     
+    /**
+     * Creates a new instance with equally likely outputs.
+     * @param out The outputs.
+     */
     public Distribution(double[] out){
         outputs = out;
         chances = new int[out.length];
@@ -35,6 +50,11 @@ public class Distribution implements Serializable{
         }
     }
     
+    /**
+     * Creates a new instance returning any value from 0 to n-1 (inclusive)
+     * where n is the length of the chances array.
+     * @param cha The relative chances of each value being returned.
+     */
     public Distribution(int[] cha){
         chances = convert(cha);
         outputs = new double[cha.length];
@@ -118,6 +138,11 @@ public class Distribution implements Serializable{
         return new Distribution(output, chances);
     }
     
+    /**
+     *
+     * @param ary
+     * @return
+     */
     public static Distribution getUniformDistribution(int[] ary){
         int length = ary.length;
         double[] output = new double[length]; 
@@ -149,38 +174,46 @@ public class Distribution implements Serializable{
         return r.nextDouble()*outputs[1]<outputs[0];
     }
     
+    /**
+     *
+     * @param x
+     * @param formulas
+     */
     public void updateFromFormula(int x, Formula... formulas){
         for(int n=0;n<outputs.length;n++){
-            outputs[n] = formulas[n].getInt(x);
+            outputs[n] = formulas[n].get(x);
         }
     }
     
+    /**
+     *
+     * @param low
+     * @param up
+     * @return
+     */
     public static double randomDouble(double low, double up){
         return r.nextDouble() * (up-low) + low;
     }
     
+    /**
+     * Generates a random int whose value cannot be one of those specified.
+     * @param from The lower bound. (inclusive)
+     * @param to The upper bound. (non-inclusive)
+     * @param not The range of values not possible to generate.
+     * @return A random int.
+     */
     public static int getRandomInt(int from, int to, int... not){
-        try{
-            return getRandomIntHelper(from, to, 0, not);
-        }catch(StackOverflowError e){
-            int ary[] = Utils.shuffle(Utils.rangeArray(from, to));
-            for(int i : ary){
-                boolean notPresent = true;
-                for(int j : not) if(j==i){
-                    notPresent = false;
-                    break;
-                }
-                if(notPresent) return i;
+        LinkedList<Integer> lst = new LinkedList<>();
+        for(int n=from;n<to;n++){
+            boolean notpresent = true;
+            for(int i : not) if(i==n){
+                notpresent = false;
+                break;
             }
+            if(notpresent) lst.add(n);
         }
-        return Integer.MIN_VALUE;
-    }
-    
-    private static int getRandomIntHelper(int from, int to, int count, int... not){
-        if(count>=80) throw new StackOverflowError();
-        int n = r.nextInt(to-from) + from;
-        for(int i : not) if(i==n) return getRandomIntHelper(from, to, count+1, not);
-        return n;
+        if(lst.isEmpty()) return Integer.MIN_VALUE;
+        return lst.get(r.nextInt(lst.size()));
     }
     
 }

@@ -54,6 +54,11 @@ public class Tile implements Serializable, Comparable<Tile>{
         transparent = tr;
     }
     
+    /**
+     * Checks whether the Tile is the same type as another with the given name.
+     * @param str The name of the comparing Tile.
+     * @return
+     */
     public boolean equals(String str){
         return str.compareToIgnoreCase(name)==0;
     }
