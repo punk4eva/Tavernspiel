@@ -42,7 +42,7 @@ public abstract class ItemSpecificScroll extends Scroll implements ScreenListene
         if(c instanceof Hero){
             hero = (Hero) c;
             hero.hijackInventoryManager(this, false);
-            Window.main.setInventoryActive(true);
+            Window.main.setInventoryActive(true, true);
             try{
                 barrier.await();
             }catch(InterruptedException | BrokenBarrierException ex){}

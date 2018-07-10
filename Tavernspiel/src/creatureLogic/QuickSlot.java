@@ -76,7 +76,7 @@ public class QuickSlot implements Serializable, ScreenListener{
         if(slot!=-1){
             String s = sc.getName();
             switch(s){
-                case "background": Window.main.setInventoryActive(false);
+                case "background": Window.main.setInventoryActive(false, true);
                 case "invspace": return;
             }
             setIndex(slot, ((HeroInventory)inventory).get(s));

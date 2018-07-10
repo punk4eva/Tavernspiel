@@ -1,7 +1,6 @@
 
 package animation;
 
-import creatures.Creature;
 import gui.mainToolbox.Main;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -13,7 +12,6 @@ import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import javax.swing.ImageIcon;
 import listeners.AnimationListener;
-import listeners.DeathEvent;
 import logic.Distribution;
 import logic.ImageUtils;
 
@@ -130,21 +128,6 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
         }
         barrier.reset();
         active = fade;
-    }
-    
-    /**
-     * Kills the owner of this animation.
-     * @param c The owner.
-     */
-    public synchronized void switchFadeKill(Creature c){
-        switchFade("die");
-        waitingForDone = true;
-        try{
-            barrier.await();
-        }catch(InterruptedException | BrokenBarrierException e){
-            e.printStackTrace(Main.exceptionStream);
-        }
-        new DeathEvent(c, c.x, c.y, c.area).notifyEvent();
     }
 
     @Override

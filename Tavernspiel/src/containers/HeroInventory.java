@@ -136,7 +136,7 @@ public class HeroInventory extends Inventory{
                 String slot = sc.getName();
                 System.out.println(slot);
                 switch(slot){
-                    case "background": if(exitable) Window.main.setInventoryActive(false);
+                    case "background": if(exitable) Window.main.setInventoryActive(false, true);
                     case "invspace": return;
                 }
                 if(slot.startsWith("Money"))

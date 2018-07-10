@@ -59,11 +59,11 @@ public class Equipment implements Serializable{
      * @param strength The strength of the Hero. 
      * @return
      */
-    public int nextHit(int strength){
+    public double nextHit(double strength){
         try{
             return weapon.action.nextInt();
         }catch(Exception e){
-            return Distribution.r.nextInt(strength);
+            return Distribution.r.nextInt((int)strength);
         }
     }
     
@@ -85,7 +85,7 @@ public class Equipment implements Serializable{
      * @param strength The given strength.
      * @return A positive number IFF strength > req.
      */
-    public int strengthDifference(int strength){
+    public int strengthDifference(double strength){
         int ret = 0;
         if(weapon!=null) ret += strength - weapon.strength;
         if(helmet!=null) ret += strength - helmet.strength;

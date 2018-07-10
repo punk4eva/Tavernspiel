@@ -22,7 +22,6 @@ import java.awt.Graphics;
 import java.util.LinkedList;
 import java.util.concurrent.CountDownLatch;
 import level.Area;
-import listeners.DeathEvent;
 import listeners.ScreenListener;
 import static logic.ConstantFields.beginHeight;
 import static logic.ConstantFields.beginWidth;
@@ -31,6 +30,7 @@ import static logic.ConstantFields.sqheight;
 import static logic.ConstantFields.sqwidth;
 import logic.Utils.Catch;
 import static gui.mainToolbox.MouseInterpreter.getCenter;
+import javafx.scene.paint.Color;
 
 /**
  *
@@ -114,8 +114,8 @@ public class Hero extends Creature{
      */
     public void die(Attack attack){
         animator.switchTo("die");
-        new DeathEvent(this, x, y, area).notifyEvent();
-        Main.addMessage(attack.deathMessage);
+        area.lifeTaken(this);
+        Main.addMessage(attack.deathMessage, "red");
         ((Game)Window.main).endGame();
     }
     

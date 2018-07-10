@@ -34,7 +34,7 @@ public class Apparatus extends Item{
     public Formula[] actionFormulas;
     public Formula strengthFormula = null; //null if no strength required.
     public Enchantment enchantment;
-    public int strength = -1;
+    public double strength = -1;
     public int usesTillIdentify = 20;
     private final ImageIcon imageWithoutEnchantment;
     

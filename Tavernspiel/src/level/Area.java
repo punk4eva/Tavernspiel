@@ -5,6 +5,7 @@ import blob.Blob;
 import containers.Floor;
 import containers.Receptacle;
 import creatureLogic.VisibilityOverlay;
+import creatures.Creature;
 import creatures.Hero;
 import designer.AreaTemplate;
 import exceptions.AreaCoordsOutOfBoundsException;
@@ -19,7 +20,6 @@ import java.util.ListIterator;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 import listeners.AreaEvent;
-import listeners.DeathEvent;
 import logic.GameObject;
 import pathfinding.Graph;
 import tiles.Tile;
@@ -180,21 +180,20 @@ public class Area implements Serializable{
     
     /**
      * Responds to a Creature's death.
-     * @param de The DeathEvent.
+     * @param c The Creature.
      */
-    public void lifeTaken(DeathEvent de){
+    public void lifeTaken(Creature c){
         //@unfinished
         try{
-            getReceptacle(de.getX(), de.getY()).addAll(de.getCreature().inventory);
-            getReceptacle(de.getX(), de.getY()).addAll(de.getCreature().equipment);
+            getReceptacle(c.x, c.y).addAll(c.inventory);
+            getReceptacle(c.x, c.y).addAll(c.equipment);
         }catch(NullPointerException e){
-            Floor floor = new Floor(de.getX(), de.getY());
-            floor.addAll(de.getCreature().inventory);
-            floor.addAll(de.getCreature().equipment);
+            Floor floor = new Floor(c.x, c.y);
+            floor.addAll(c.inventory);
+            floor.addAll(c.equipment);
             receptacles.add(floor);
         }
-        objects.remove(de.getCreature());
-        de.getCreature().animator.switchTo("death"); //May want to move this.
+        objects.remove(c);
     }
     
     /**

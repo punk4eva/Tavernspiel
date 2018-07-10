@@ -24,7 +24,7 @@ public class Attributes implements Serializable{
     public int hp;
     public double attackMult = 1.0;
     protected Resistance[] resistances;
-    public int strength = 10;
+    public double strength = 10;
     public Level level;
     public int xpOnDeath = 0;
     public boolean invisible = false;
@@ -50,7 +50,7 @@ public class Attributes implements Serializable{
      * @param xp The xp obtained by the killer on death.
      * @param rst The array of Resistances.
      */
-    public Attributes(AITemplate ait, double sp, double atksp, double dex, double acc, double reg, int mhp, int stg, int xp, Resistance... rst){
+    public Attributes(AITemplate ait, double sp, double atksp, double dex, double acc, double reg, int mhp, double stg, int xp, Resistance... rst){
         speed = sp;
         ai = ait;
         resistances = rst;
@@ -73,7 +73,7 @@ public class Attributes implements Serializable{
      * @param st The new strength.
      * @param sp The new speed.
      */
-    public void update(double atksp, double dex, double regen, int mxhp, int st, double sp){
+    public void update(double atksp, double dex, double regen, int mxhp, double st, double sp){
         attackSpeed = atksp;
         dexterity = dex;
         this.regen = regen;

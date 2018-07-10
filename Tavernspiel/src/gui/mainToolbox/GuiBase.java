@@ -164,10 +164,12 @@ public class GuiBase{
     /**
      * Sets the state of the inventory.
      * @param inv True if the inventory should be painted.
+     * @param ex Whether the Inventory is exitable.
      */
-    public void setInventoryActive(boolean inv){
+    public void setInventoryActive(boolean inv, boolean ex){
         ((HeroInventory)hero.inventory).manager.predicate = 
                 ConstantFields.truthPredicate;
+        ((HeroInventory)hero.inventory).manager.exitable = ex;
         viewingInventory = inv;
         resetScreens();
     }
@@ -175,10 +177,12 @@ public class GuiBase{
     /**
      * Sets the state of the inventory.
      * @param inv True if the inventory should be painted.
+     * @param ex Whether the Inventory is exitable.
      * @param pred Whether the Item should be selectable.
      */
-    public void setInventoryActive(boolean inv, Predicate<Item> pred){
+    public void setInventoryActive(boolean inv, boolean ex, Predicate<Item> pred){
         ((HeroInventory)hero.inventory).manager.predicate = pred;
+        ((HeroInventory)hero.inventory).manager.exitable = ex;
         viewingInventory = inv;
         resetScreens();
     }

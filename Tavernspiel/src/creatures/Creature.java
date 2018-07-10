@@ -90,7 +90,8 @@ public class Creature extends GameObject implements Comparable<Creature>{
      * Kills this Creature.
      */
     public void die(){
-        animator.switchFadeKill(this);
+        animator.switchFade("die");
+        area.lifeTaken(this);
     }
     
     /**
