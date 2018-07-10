@@ -1,8 +1,10 @@
 
 package enchantments;
 
+import creatureLogic.Attack;
 import creatureLogic.Attack.AttackType;
 import creatureLogic.Description;
+import creatures.Creature;
 import logic.Distribution;
 
 /**
@@ -33,6 +35,13 @@ public final class EnchantmentOfHoliness extends WeaponEnchantment{
     public void update(int lev){
         level = lev;
         action = new Distribution(0, (int)(level*20.0));
+    }
+
+    @Override
+    public void onHit(Creature victim, Attack attack){
+        if(shouldActivate()){
+            victim.takeDamage(new Attack(Distribution.r.nextInt(5+(int)(35D*level*level)), attack.deathMessage, AttackType.HOLY));
+        }
     }
     
 }

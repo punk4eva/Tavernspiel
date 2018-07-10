@@ -1,7 +1,10 @@
 
 package enchantments;
 
+import buffs.BuffBuilder;
+import creatureLogic.Attack;
 import creatureLogic.Description;
+import creatures.Creature;
 import logic.Distribution;
 
 /**
@@ -31,6 +34,13 @@ public final class EnchantmentOfDuelling extends WeaponEnchantment{
         level = lev;
         action = new Distribution(1.0, 10.5-(level*10.0));
         damageReduction = new Distribution(0, 1.05-level);
+    }
+
+    @Override
+    public void onHit(Creature victim, Attack attack){
+        if(shouldActivate()){
+            victim.addBuff(BuffBuilder.exhausted(27*level*level+3));
+        }
     }
     
 }

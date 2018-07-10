@@ -99,23 +99,23 @@ public class Hero extends Creature{
     }
     
     @Override
-    public void getAttacked(Attack attack){
+    public void takeDamage(Attack attack){
         attributes.hp -= attack.damage;
         if(attributes.hp<=0){
             if(inventory.contains("ankh")){
                 throw new UnsupportedOperationException("Not supported yet!");
-            }else die(attack.attacker);
+            }else die(attack);
         }
     }
     
     /**
      * Killed by a Creature.
-     * @param killer The killer.
+     * @param attack The killer attack.
      */
-    public void die(Creature killer){
+    public void die(Attack attack){
         animator.switchTo("die");
         new DeathEvent(this, x, y, area).notifyEvent();
-        Main.addMessage("red", killer.name + " killed you...");
+        Main.addMessage(attack.deathMessage);
         ((Game)Window.main).endGame();
     }
     

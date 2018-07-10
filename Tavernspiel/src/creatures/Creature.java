@@ -6,6 +6,7 @@ import buffs.Buff;
 import containers.Equipment;
 import containers.Inventory;
 import creatureLogic.Attack;
+import creatureLogic.Attack.CreatureAttack;
 import creatureLogic.Attributes;
 import creatureLogic.Description;
 import creatureLogic.FieldOfView;
@@ -17,7 +18,6 @@ import items.equipment.HeldWeapon;
 import java.awt.Graphics;
 import java.util.LinkedList;
 import java.util.concurrent.CountDownLatch;
-import listeners.BuffEvent;
 import logic.Distribution;
 import logic.GameObject;
 
@@ -110,13 +110,14 @@ public class Creature extends GameObject implements Comparable<Creature>{
      * Handles attacks. 
      * @param attack The attack.
      */
-    public void getAttacked(Attack attack){
+    public void takeDamage(Attack attack){
         attributes.hp -= attack.damage;
         if(attributes.hp<=0){
             if(inventory.contains("ankh")){
                 throw new UnsupportedOperationException("Not supported yet!");
             }else{
-                attack.attacker.gainXP(attributes.xpOnDeath);
+                if(attack instanceof CreatureAttack) 
+                    ((CreatureAttack)attack).attacker.gainXP(attributes.xpOnDeath);
                 die();
             }
         }
@@ -141,13 +142,10 @@ public class Creature extends GameObject implements Comparable<Creature>{
     
     /**
      * Removes the given buff.
-     * @param buff The buff.
+     * @param b The buff.
      */
-    public void removeBuff(String buff){
-        for(Buff b : buffs) if(buff.equals(b.name)){
-            buffs.remove(b);
-            break;
-        }
+    public void removeBuff(Buff b){
+        buffs.remove(b);
     }
     
     /**
@@ -156,30 +154,16 @@ public class Creature extends GameObject implements Comparable<Creature>{
      */
     public void addBuff(Buff buff){
         buffs.add(buff);
-    }
-
-    /**
-     * Parses a BuffEvent.
-     * @param be
-     */
-    public void buffTriggered(BuffEvent be){
-        switch(be.getName()){
-            //@unfinished
-            default: buffs.add(be.getNext());
-        }
+        buff.start(this);
     }
     
     /**
-     *
+     * Decrements each buff.
      * @param delta
      */
-    public void decrementAndUpdateBuffs(double delta){
-        LinkedList<Buff> temp = (LinkedList<Buff>) buffs.clone();
-        temp.stream().forEach((buff) -> {
-            buff.duration-=delta;
-            if(buff.duration<=0){
-                buff.end(this);
-            }
+    public void decrementBuffs(double delta){
+        buffs.stream().forEach((buff) -> {
+            buff.decrement(delta, this);
         });
     }
     
@@ -194,7 +178,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
     public void turn(double delta){
         for(delta+=turndelta;delta>=attributes.speed;delta-=attributes.speed){
             attributes.ai.turn(this, area);
-            decrementAndUpdateBuffs(1.0);
+            decrementBuffs(1.0);
         }
         turndelta = delta;
     }
@@ -261,11 +245,11 @@ public class Creature extends GameObject implements Comparable<Creature>{
      */
     public Attack nextAttack(){
         int stDif = equipment.strengthDifference(attributes.strength);
-        if(stDif<0) return new Attack(this, 
+        if(stDif<0) return new CreatureAttack(this, "unfinished", 
                 (int)(equipment.nextHit(attributes.strength)/Math.pow(1.5, 0-stDif)), 
                 attributes.accuracy*equipment.getWeaponAccuracy()/Math.pow(1.5, 0-stDif), 
                 ((WeaponEnchantment)equipment.weapon.enchantment));
-        return new Attack(this, 
+        return new CreatureAttack(this, "unfinished",
                 equipment.nextHit(attributes.strength), 
                 attributes.accuracy*equipment.getWeaponAccuracy(), 
                  ((WeaponEnchantment)equipment.weapon.enchantment));

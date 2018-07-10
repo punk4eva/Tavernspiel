@@ -7,15 +7,15 @@ import enchantments.WeaponEnchantment;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class represents any form of damage that a Creature might take.
  */
 public class Attack{
     
-    public final Creature attacker;
-    public final int damage;
-    public final double accuracy;
-    public final WeaponEnchantment enchantment;
-    public final boolean usingMagic;
+    public double damage;
+    public final boolean magic;
     public final AttackType type;
+    public String deathMessage;
     
     /**
      * The type of attack.
@@ -26,35 +26,98 @@ public class Attack{
     
     /**
      * Creates a new instance.
-     * @param a The attacker.
      * @param d The damage.
-     * @param acc The accuracy.
-     * @param g The Enchantment.
+     * @param dm The message to display if the Hero is killed by this Attack.
      */
-    public Attack(Creature a, int d, double acc, WeaponEnchantment g){
-        attacker = a;
+    public Attack(double d, String dm){
         damage = d;
-        accuracy = acc;
-        enchantment = g;
-        type = g!=null&&g.attackType!=null ? g.attackType : AttackType.PHYSICAL;
-        usingMagic = false;
+        type = AttackType.PHYSICAL;
+        magic = false;
+        deathMessage = dm;
     }
     
     /**
-     * Creates a new instance (Wands and special).
-     * @param a The attacker.
+     * Creates a new instance.
      * @param d The damage.
-     * @param acc The accuracy.
-     * @param g The Enchantment.
+     * @param dm The message to display if the Hero is killed by this Attack.
      * @param t The type of attack.
      */
-    public Attack(Creature a, int d, double acc, WeaponEnchantment g, AttackType t){
-        attacker = a;
+    public Attack(double d, String dm, AttackType t){
         damage = d;
-        accuracy = acc * 2;
-        enchantment = g;
         type = t;
-        usingMagic = true;
+        magic = false;
+        deathMessage = dm;
+    }
+    
+    /**
+     * Creates a new instance.
+     * @param d The damage.
+     * @param dm The message to display if the Hero is killed by this Attack.
+     * @param t The type of attack.
+     * @param m Whether the Attack is magical.
+     */
+    public Attack(double d, String dm, AttackType t, boolean m){
+        damage = d;
+        type = t;
+        deathMessage = dm;
+        magic = m;
+    }
+    
+    /**
+     * This class represents an attack performed by a Creature.
+     */
+    public static class CreatureAttack extends Attack{
+        
+        public final Creature attacker;
+        public final double accuracy;
+        public final WeaponEnchantment enchantment;
+
+        /**
+         * Creates a new instance.
+         * @param c The attacker.
+         * @param d The damage.
+         * @param dm The message to display if the Hero is killed by this Attack.
+         * @param acc The accuracy of the attack.
+         */
+        public CreatureAttack(Creature c, String dm, double d, double acc){
+            super(d, dm);
+            attacker = c;
+            accuracy = acc;
+            enchantment = null;
+        }
+        
+        /**
+         * Creates a new instance.
+         * @param c The attacker.
+         * @param d The damage.
+         * @param dm The message to display if the Hero is killed by this Attack.
+         * @param acc The accuracy of the attack.
+         * @param t The type of attack.
+         * @param m Whether the Attack is magical.
+         */
+        public CreatureAttack(Creature c, String dm, double d, double acc, AttackType t, boolean m){
+            super(d, dm, t, m);
+            attacker = c;
+            accuracy = acc;
+            if(magic) acc *= 2;
+            enchantment = null;
+        }
+        
+        /**
+         * Creates a new instance.
+         * @param c The attacker.
+         * @param d The damage.
+         * @param dm The message to display if the Hero is killed by this Attack.
+         * @param acc The accuracy of the attack.
+         * @param w The Enchantment on the weapon.
+         */
+        public CreatureAttack(Creature c, String dm, double d, double acc, WeaponEnchantment w){
+            super(d, dm, w.attackType);
+            attacker = c;
+            accuracy = acc;
+            enchantment = w;
+        }
+        
     }
     
 }

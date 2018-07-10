@@ -1,12 +1,10 @@
 
 package buffs;
 
-import creatureLogic.AttributeModifier;
+import creatureLogic.Description;
 import creatures.Creature;
 import java.io.Serializable;
-import java.util.function.Consumer;
-import listeners.BuffEvent;
-import logic.Distribution;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -14,78 +12,53 @@ import logic.Distribution;
  * 
  * The Buffs that creatures can experience.
  */
-public class Buff implements Serializable{
+public abstract class Buff implements Serializable{
     
     private final static long serialVersionUID = 2081907;
     
     public final String name;
+    public final Description description;
     public double duration = 1000000;
-    public Distribution damageDistribution = null; //null if deals no damage.
-    public AttributeModifier atribMod = null; //null if no attributes modified.
     public boolean visible = false;
-    public Consumer<Creature> action;
-    private BuffEvent event = null; //The event to broadcast once the buff ends (null if no event).
+    public final ImageIcon icon;
     
     /**
      * Creates a new Buff with the given name.
      * @param n The name of the buff.
+     * @param desc The Description.
      */
-    public Buff(String n){
+    public Buff(String n, Description desc){
         name = n;
+        description = desc;
+        icon = BuffBuilder.buffMap.get(name);
     }
     
     /**
      * Creates a new Buff with the given name and duration.
      * @param n The name of the buff.
+     * @param desc The Description.
      * @param d The duration.
      */
-    public Buff(String n, double d){
+    public Buff(String n, Description desc, double d){
         name = n;
+        description = desc;
+        icon = BuffBuilder.buffMap.get(name);
         duration = d;
     }
     
     /**
-     * Creates a new Buff with the given name and attribute modifier.
+     * Creates a new Buff with the given name, duration and visibility.
      * @param n The name of the buff.
-     * @param am The attribute modifier.
-     */
-    public Buff(String n, AttributeModifier am){
-        name = n;
-        atribMod = am;
-    }
-    
-    /**
-     * Creates a new Buff with the given name, duration, and attribute modifier.
-     * @param n The name of the buff.
+     * @param desc The Description.
      * @param d The duration.
-     * @param am The attribute modifier.
+     * @param v Whether the Buff is visible.
      */
-    public Buff(String n, double d, AttributeModifier am){
+    public Buff(String n, Description desc, double d, boolean v){
         name = n;
+        description = desc;
+        icon = BuffBuilder.buffMap.get(name);
         duration = d;
-        atribMod = am;
-    }
-    
-    /**
-     * Creates a new Buff with the given name, duration, and action.
-     * @param n The name of the buff.
-     * @param d The duration.
-     * @param act The action.
-     */
-    public Buff(String n, double d, Consumer<Creature> act){
-        name = n;
-        duration = d;
-        action = act;
-    }
-    
-    /**
-     * Ends the buff. Broadcasts the event (if exists) and removes itself from
-     * the creature's buff list.
-     * @param c The creature whose buff has ended.
-     */
-    public void end(Creature c){
-        c.removeBuff(name);
-        if(event!=null) event.fire();
+        visible = v;
     }
     
     /**
@@ -94,8 +67,42 @@ public class Buff implements Serializable{
      * @param c The victim of the buff.
      */
     public void decrement(double delta, Creature c){
-        duration -= delta;
-        if(duration<=0) end(c);
+        for(;delta>=1;delta--){
+            duration--;
+            turn(c);
+            if(duration<=0){
+                end(c);
+                c.removeBuff(this);
+                return;
+            }
+        }
+        if(delta>0){
+            double frac = duration - Math.floor(duration);
+            if(delta>frac) turn(c);
+            duration -= delta;
+            if(duration<=0){
+                end(c);
+                c.removeBuff(this);
+            }
+        }
     }
+    
+    /**
+     * What the Buff does at the start.
+     * @param c The victim
+     */
+    public abstract void start(Creature c);
+    
+    /**
+     * What the Buff does each turn.
+     * @param c The victim
+     */
+    public abstract void turn(Creature c);
+    
+    /**
+     * What the Buff does at the end.
+     * @param c The victim
+     */
+    public abstract void end(Creature c);
     
 }

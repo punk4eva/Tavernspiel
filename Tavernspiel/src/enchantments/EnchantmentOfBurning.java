@@ -1,7 +1,10 @@
 
 package enchantments;
 
+import buffs.BuffBuilder;
+import creatureLogic.Attack;
 import creatureLogic.Description;
+import creatures.Creature;
 import logic.Distribution;
 
 /**
@@ -39,6 +42,14 @@ public final class EnchantmentOfBurning extends WeaponEnchantment{
         int R = (int)(((double)hueR2-hueR1)*mult)+hueR1;
         int G = (int)(((double)hueG2-hueG1)*mult)+hueG1;
         return new int[]{R, G, 0, 128};
+    }
+
+    @Override
+    public void onHit(Creature victim, Attack attack){
+        if(shouldActivate()){
+            if(level<0.9) victim.addBuff(BuffBuilder.fire(19*level*level+1));
+            else victim.addBuff(BuffBuilder.superFire(19*level*level+1));
+        }
     }
     
 }

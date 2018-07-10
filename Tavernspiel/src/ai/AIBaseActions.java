@@ -5,7 +5,7 @@ import ai.intelligence.IntelligentAI1;
 import ai.intelligence.IntelligentAI1.EnState;
 import containers.Floor;
 import containers.PurchasableHeap;
-import creatureLogic.Attack;
+import creatureLogic.Attack.CreatureAttack;
 import creatures.Creature;
 import creatures.Hero;
 import gui.mainToolbox.Main;
@@ -165,9 +165,9 @@ public class AIBaseActions implements Serializable{
      * @param attack 
      * @param attacked
      */
-    public void attack(Attack attack, Creature attacked){
+    public void attack(CreatureAttack attack, Creature attacked){
         if(successfulHit(attack, attacked)){
-            attacked.getAttacked(attack); 
+            attacked.takeDamage(attack); 
         }
     }
     
@@ -176,9 +176,9 @@ public class AIBaseActions implements Serializable{
      * @param attack
      * @param attacked
      */
-    public void attack(Attack attack, Hero attacked){
+    public void attack(CreatureAttack attack, Hero attacked){
         if(AIPlayerActions.successfulHit(attack, attacked))
-            attacked.getAttacked(attack);
+            attacked.takeDamage(attack);
     }
     
     /**
@@ -187,7 +187,7 @@ public class AIBaseActions implements Serializable{
      * @param attacked
      * @return true if is was, false if not.
      */
-    public boolean successfulHit(Attack attack, Creature attacked){
+    public boolean successfulHit(CreatureAttack attack, Creature attacked){
         double attackedDexterity = dexterityCalculation.calc(attacked);
         return Distribution.randomDouble(0, attack.accuracy) >=
                 Distribution.randomDouble(0, attackedDexterity);

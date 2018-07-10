@@ -31,6 +31,7 @@ public abstract class Enchantment implements Serializable{
     public boolean unremovable = false;
     public boolean isKnownToBeCursed = false;
     protected int hueR1, hueR2, hueG1, hueG2, hueB1, hueB2;
+    
     private final static int[] hue1Regex = new int[]{11, 18, 1, 13}, 
         hue2Regex = new int[]{13, 1, 18, 11};
     
@@ -192,6 +193,10 @@ public abstract class Enchantment implements Serializable{
         ImageIcon[] icons = new ImageIcon[10];
         for(int n=0;n<10;n++) icons[n] = ImageHandler.combineIcons(img, outfitImage(overlay, n));
         return new Animation(icons, 10);
+    }
+    
+    protected boolean shouldActivate(){
+        return 0.45*Math.pow(level, 2.28)+0.05>Distribution.r.nextDouble();
     }
     
 }

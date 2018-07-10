@@ -172,6 +172,8 @@ public class ItemMap{
     
     /**
      * Returns the ItemMap for a garden.
+     * @param depth
+     * @param loc
      * @return
      */
     @Unfinished

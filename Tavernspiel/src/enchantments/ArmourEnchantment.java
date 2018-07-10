@@ -1,8 +1,10 @@
 
 package enchantments;
 
+import creatureLogic.Attack;
 import creatureLogic.Description;
 import creatureLogic.Resistance;
+import creatures.Creature;
 import java.util.ArrayList;
 import java.util.List;
 import logic.Distribution;
@@ -68,5 +70,12 @@ public abstract class ArmourEnchantment extends Enchantment{
         super(s, desc, d, l, aff);
         resistances = r;
     }
+    
+    /**
+     * Determines what happens when the wearer is hit.
+     * @param wearer
+     * @param a The Attack.
+     */
+    public abstract void onHit(Creature wearer, Attack a);
     
 }

@@ -5,6 +5,7 @@ import animation.Animation;
 import animation.GameObjectAnimator;
 import blob.Blob;
 import buffs.Buff;
+import buffs.BuffBuilder;
 import containers.Chest;
 import containers.Floor;
 import containers.Mimic;
@@ -36,7 +37,7 @@ public class TrapBuilder{
             Blob g = getToxicGas(location, Integer.MIN_VALUE, Integer.MIN_VALUE); //@unfinished
             return new Trap(tr, location, g);
         }else{
-            Buff b = new Buff("-1"); //@unfinished
+            Buff b = BuffBuilder.getTrapBuff(tr); //@unfinished
             return new Trap(tr, location, b);
         }
     }
@@ -47,11 +48,7 @@ public class TrapBuilder{
     
     @Unfinished
     public static Blob getToxicGas(Location location, int x, int y){
-        Buff b = new Buff("toxic gas", 1);
-        b.damageDistribution = new Distribution(/**
-                area.location.stageSpawnDistrib.incrementor-1, 
-                area.location.stageSpawnDistrib.incrementor+1*/
-        5, 6);              
+        Buff b = BuffBuilder.toxicGas();           
         GameObjectAnimator a = new GameObjectAnimator(new String[]{"placeholder"},
                 new Animation[]{new Animation(ImageHandler.getWaterFrames(location, 0))}); //@unfinished, placeholder
         return new Blob("Toxic Gas", new Description("gas", "A poisonous green vapour."), b, a, 7, x, y);

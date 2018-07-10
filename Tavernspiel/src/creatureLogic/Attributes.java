@@ -19,13 +19,15 @@ public class Attributes implements Serializable{
     public double attackSpeed = 1;
     public double dexterity = 1;
     public double accuracy = 1;
-    public double regenSpeed = 0.025;
+    public double regen = 0.025;
     public int maxhp;
     public int hp;
+    public double attackMult = 1.0;
     protected Resistance[] resistances;
     public int strength = 10;
     public Level level;
     public int xpOnDeath = 0;
+    public boolean invisible = false;
     
     /**
      * Creates a new instance.
@@ -56,7 +58,7 @@ public class Attributes implements Serializable{
         attackSpeed = atksp;
         dexterity = dex;
         accuracy = acc;
-        regenSpeed = reg;
+        regen = reg;
         hp = mhp;
         strength = stg;
         xpOnDeath = xp;
@@ -74,7 +76,7 @@ public class Attributes implements Serializable{
     public void update(double atksp, double dex, double regen, int mxhp, int st, double sp){
         attackSpeed = atksp;
         dexterity = dex;
-        regenSpeed = regen;
+        this.regen = regen;
         maxhp = mxhp;
         strength = st;
         speed = sp;
