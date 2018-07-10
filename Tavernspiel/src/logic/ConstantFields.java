@@ -43,6 +43,7 @@ public interface ConstantFields{
     
     public static final Image eyeButtonImg = new ImageIcon("graphics/gui/eye1.png").getImage();
     public static final Image waitButtonImg = new ImageIcon("graphics/gui/WaitButton1.png").getImage();
+    public static final Image inventoryButtonImage = new ImageIcon("graphics/gui/inventoryButtonImage").getImage();
     
     public final static int padding = 8,
         beginWidth = Main.WIDTH/9,

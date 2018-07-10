@@ -55,6 +55,7 @@ public class ReverseHUD implements HUDStrategy{
         g.fill3DRect(50, Game.HEIGHT - 73, 40, 40, true);
         g.drawImage(ConstantFields.waitButtonImg,50, Game.HEIGHT - 74,null);
         g.fill3DRect(95, Game.HEIGHT - 73, 40, 40, true);
+        g.drawImage(ConstantFields.inventoryButtonImage,95, Game.HEIGHT - 73, 40, 40,null);
         
         g.setColor(ConstantFields.frontColor);
         g.fill3DRect(0, Game.HEIGHT - 250, 70, 40, true);

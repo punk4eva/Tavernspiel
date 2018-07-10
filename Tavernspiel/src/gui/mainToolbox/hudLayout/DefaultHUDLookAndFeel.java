@@ -59,6 +59,7 @@ public class DefaultHUDLookAndFeel implements HUDStrategy{
         g.fill3DRect(Game.WIDTH - 95, Game.HEIGHT - 73, 40, 40, true);
         g.drawImage(ConstantFields.waitButtonImg,Game.WIDTH - 95, Game.HEIGHT - 74,null);
         g.fill3DRect(Game.WIDTH - 140, Game.HEIGHT - 73, 40, 40, true);
+        g.drawImage(ConstantFields.inventoryButtonImage,Game.WIDTH - 140, Game.HEIGHT - 73, 40, 40,null);
         
         g.setColor(ConstantFields.frontColor);
         g.fill3DRect(Game.WIDTH - 70, Game.HEIGHT - 250, 70, 40, true);
