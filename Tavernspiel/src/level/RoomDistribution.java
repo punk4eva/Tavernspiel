@@ -32,12 +32,25 @@ public class RoomDistribution{
         Room make(Location loc, int depth, Item i);
     };
     
+    /**
+     * Creates a new instance.
+     * @param loc The Location
+     * @param l The minimum number of Rooms.
+     * @param u The estimated maximum number of Rooms. (may be surpassed)
+     */
     public RoomDistribution(Location loc, int l, int u){
         location = loc;
         lower = l;
         upper = u;
     }
     
+    /**
+     * Generates a List of Rooms.
+     * @param forcedItems The list of Items that must be generated.
+     * @param forcedRooms The list of room algorithms that must be executed.
+     * @param depth The depth.
+     * @return
+     */
     public List<Room> generate(List<Item> forcedItems, List<MakeRoom> forcedRooms, int depth){
         int roomNum = Distribution.r.nextInt(upper-lower)+lower;
         List<Room> rooms = new LinkedList<>();

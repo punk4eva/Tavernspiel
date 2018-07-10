@@ -215,6 +215,7 @@ public class Searcher{
      * @param end The destination.
      * @return The shortest path between start and end.
      */
+    @Unfinished("May be redundant")
     @Optimisable("Heuristic calculations only account for likely scenarios.")
     public Path findExpressRoute(Point start, Point end){
         Waypoint startStation = graph.getClosestWaypoint(start.x, start.y);
@@ -229,6 +230,15 @@ public class Searcher{
         return findPath(start, startStation).concatenate(startStation.pathsToWaypoints.get(endStation)).concatenate(findPath(endStation, end));
     }
     
+    /**
+     * Finds the shortest path between two points only taking into account tiles
+     * that have been found by the visibility overlay.
+     * @param start The starting point.
+     * @param end The destination.
+     * @param fov The Hero's field of view
+     * @return The shortest path between start and end.
+     */
+    @Optimisable("Use Waypoint path concatenation.")
     public Path findPlayerRoute(Point start, Point end, VisibilityOverlay fov){
         graph.use();
         frontier.clear();

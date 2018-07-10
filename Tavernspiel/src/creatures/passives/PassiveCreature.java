@@ -3,6 +3,7 @@ package creatures.passives;
 import ai.intelligence.IntelligentAI1;
 import animation.GameObjectAnimator;
 import creatureLogic.Attack;
+import creatureLogic.Attack.CreatureAttack;
 import creatureLogic.Attributes;
 import creatureLogic.Description;
 import creatures.Creature;
@@ -28,15 +29,16 @@ public class PassiveCreature extends Creature{
     }
     
     @Override
-    public void getAttacked(Attack attack){
-        if(attack.attacker instanceof Hero){// new NPCSpeech(speechOptions[rand.nextInt(speechOptions.length)]).activate(Window.main);
+    public void takeDamage(Attack attack){
+        if(attack instanceof CreatureAttack && ((CreatureAttack)attack).attacker instanceof Hero){// new NPCSpeech(speechOptions[rand.nextInt(speechOptions.length)]).activate(Window.main);
         }else if(killable){
             attributes.hp -= attack.damage;
             if(attributes.hp<=0){
                 if(inventory.contains("ankh")){
                     throw new UnsupportedOperationException("Not supported yet!");
                 }else{
-                    attack.attacker.gainXP(attributes.xpOnDeath);
+                    if(attack instanceof CreatureAttack)
+                        ((CreatureAttack)attack).attacker.gainXP(attributes.xpOnDeath);
                     die();
                 }
             }
@@ -44,10 +46,6 @@ public class PassiveCreature extends Creature{
     }
     
     private static class PassiveAI extends IntelligentAI1{
-    
-        interface CanStep{
-            boolean check(Area area, int x, int y);
-        }
         
         @Override
         public void turn(Creature c, Area area){
