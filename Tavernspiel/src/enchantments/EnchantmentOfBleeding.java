@@ -1,7 +1,10 @@
 
 package enchantments;
 
+import buffs.BuffBuilder;
+import creatureLogic.Attack;
 import creatureLogic.Description;
+import creatures.Creature;
 import logic.Distribution;
 
 /**
@@ -41,6 +44,13 @@ public final class EnchantmentOfBleeding extends WeaponEnchantment{
         int R = (int)(((double)hueR2-hueR1)*progress)+hueR1;
         int B = (int)(((double)hueB2-hueB1)*progress)+hueB1;
         return new int[]{R, 45, B, 128};
+    }
+
+    @Override
+    public void onHit(Creature victim, Attack attack){
+        if(shouldActivate()){
+            victim.addBuff(BuffBuilder.bleeding(level*0.6*attack.damage));
+        }
     }
     
 }

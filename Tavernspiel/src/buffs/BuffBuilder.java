@@ -1,7 +1,6 @@
 
 package buffs;
 
-import creatureLogic.Attack;
 import creatureLogic.Description;
 import creatures.Creature;
 import java.util.HashMap;
@@ -25,8 +24,8 @@ public final class BuffBuilder{
     }
     
     @Unfinished("Redo Attack")
-    public static Buff fire(){
-        return new Buff("fire", new Description("You are on fire!")){
+    public static Buff fire(double duration){
+        return new Buff("fire", new Description("You are on fire!"), duration){
             @Override
             public void start(Creature c){}
             @Override
@@ -38,7 +37,15 @@ public final class BuffBuilder{
         };
     }
     
-    public static Buff enraged(Creature c){
+    public static Buff superFire(double duration){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public static Buff confusion(double duration){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public static Buff enraged(){
         return new Buff("enraged", new Description("You are angry!")){
             
             double mult, oSpeed, oAttack;
@@ -64,6 +71,14 @@ public final class BuffBuilder{
             }
         
         };
+    }
+    
+    public static Buff exhausted(double duration){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public static Buff slowness(double duration){
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     public static Buff beserk(){
@@ -113,6 +128,14 @@ public final class BuffBuilder{
             public void end(Creature c){}
             
         };
+    }
+    
+    public static Buff bleeding(double damage){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    public static Buff blindness(double duration){
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
     @Unfinished("Redo turn")

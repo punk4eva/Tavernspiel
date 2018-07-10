@@ -12,7 +12,7 @@ import enchantments.WeaponEnchantment;
  */
 public class Attack{
     
-    public final int damage;
+    public double damage;
     public final boolean magic;
     public final AttackType type;
     public String deathMessage;
@@ -29,7 +29,7 @@ public class Attack{
      * @param d The damage.
      * @param dm The message to display if the Hero is killed by this Attack.
      */
-    public Attack(int d, String dm){
+    public Attack(double d, String dm){
         damage = d;
         type = AttackType.PHYSICAL;
         magic = false;
@@ -42,7 +42,7 @@ public class Attack{
      * @param dm The message to display if the Hero is killed by this Attack.
      * @param t The type of attack.
      */
-    public Attack(int d, String dm, AttackType t){
+    public Attack(double d, String dm, AttackType t){
         damage = d;
         type = t;
         magic = false;
@@ -56,7 +56,7 @@ public class Attack{
      * @param t The type of attack.
      * @param m Whether the Attack is magical.
      */
-    public Attack(int d, String dm, AttackType t, boolean m){
+    public Attack(double d, String dm, AttackType t, boolean m){
         damage = d;
         type = t;
         deathMessage = dm;
@@ -79,7 +79,7 @@ public class Attack{
          * @param dm The message to display if the Hero is killed by this Attack.
          * @param acc The accuracy of the attack.
          */
-        public CreatureAttack(Creature c, String dm, int d, double acc){
+        public CreatureAttack(Creature c, String dm, double d, double acc){
             super(d, dm);
             attacker = c;
             accuracy = acc;
@@ -95,7 +95,7 @@ public class Attack{
          * @param t The type of attack.
          * @param m Whether the Attack is magical.
          */
-        public CreatureAttack(Creature c, String dm, int d, double acc, AttackType t, boolean m){
+        public CreatureAttack(Creature c, String dm, double d, double acc, AttackType t, boolean m){
             super(d, dm, t, m);
             attacker = c;
             accuracy = acc;
@@ -111,7 +111,7 @@ public class Attack{
          * @param acc The accuracy of the attack.
          * @param w The Enchantment on the weapon.
          */
-        public CreatureAttack(Creature c, String dm, int d, double acc, WeaponEnchantment w){
+        public CreatureAttack(Creature c, String dm, double d, double acc, WeaponEnchantment w){
             super(d, dm, w.attackType);
             attacker = c;
             accuracy = acc;

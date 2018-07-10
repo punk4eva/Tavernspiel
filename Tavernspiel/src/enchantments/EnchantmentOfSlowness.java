@@ -1,7 +1,10 @@
 
 package enchantments;
 
+import buffs.BuffBuilder;
+import creatureLogic.Attack;
 import creatureLogic.Description;
+import creatures.Creature;
 import logic.Distribution;
 
 /**
@@ -41,6 +44,13 @@ public final class EnchantmentOfSlowness extends WeaponEnchantment{
         int R = (int)(((double)hueR2-hueR1)*mult)+hueR1;
         int G = (int)(((double)hueG2-hueG1)*mult)+hueG1;
         return new int[]{R, G, 13, 128};
+    }
+
+    @Override
+    public void onHit(Creature victim, Attack attack){
+        if(shouldActivate()){
+            victim.addBuff(BuffBuilder.slowness(27*level*level+3));
+        }
     }
     
 }

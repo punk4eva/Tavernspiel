@@ -1,7 +1,10 @@
 
 package enchantments;
 
+import buffs.BuffBuilder;
+import creatureLogic.Attack;
 import creatureLogic.Description;
+import creatures.Creature;
 import logic.Distribution;
 
 /**
@@ -25,6 +28,13 @@ public final class EnchantmentOfBlindness extends WeaponEnchantment{
     public void update(int lev){
         level = lev;
         action = new Distribution(1.0, 10.0-(level*10.0));
+    }
+
+    @Override
+    public void onHit(Creature victim, Attack attack){
+        if(shouldActivate()){
+            victim.addBuff(BuffBuilder.blindness(27*level*level+3));
+        }
     }
     
 }

@@ -1,8 +1,10 @@
 
 package enchantments;
 
+import creatureLogic.Attack;
 import creatureLogic.Attack.AttackType;
 import creatureLogic.Description;
+import creatures.Creature;
 import logic.Distribution;
 
 /**
@@ -68,6 +70,10 @@ public abstract class WeaponEnchantment extends Enchantment{
         attackType = t;
     }
     
+    /**
+     * Returns a random WeaponEnchantment.
+     * @return
+     */
     public static WeaponEnchantment getRandomEnchantment(){
         switch((int)distrib.next()){
             case 0: return new EnchantmentOfBleeding(getLevel());
@@ -86,5 +92,12 @@ public abstract class WeaponEnchantment extends Enchantment{
     private static double getLevel(){
         return 1.0/(1.9*(0.38+Distribution.r.nextDouble())) - 0.38;
     }
+    
+    /**
+     * Determines what happens when the weapon is used.
+     * @param victim
+     * @param attack
+     */
+    public abstract void onHit(Creature victim, Attack attack);
     
 }

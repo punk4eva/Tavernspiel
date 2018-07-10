@@ -5,7 +5,6 @@ import ai.intelligence.IntelligentAI1;
 import ai.intelligence.IntelligentAI1.EnState;
 import containers.Floor;
 import containers.PurchasableHeap;
-import creatureLogic.Attack;
 import creatureLogic.Attack.CreatureAttack;
 import creatures.Creature;
 import creatures.Hero;

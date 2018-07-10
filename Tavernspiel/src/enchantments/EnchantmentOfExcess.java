@@ -1,7 +1,9 @@
 
 package enchantments;
 
+import creatureLogic.Attack;
 import creatureLogic.Description;
+import creatures.Creature;
 import logic.Distribution;
 import logic.Formula;
 
@@ -41,6 +43,11 @@ public final class EnchantmentOfExcess extends WeaponEnchantment{
         level = lev;
         damageExtra = new Formula(1.0/360.0, 0.0);
         limitHp = (int)Math.ceil(72*level);
+    }
+
+    @Override
+    public void onHit(Creature victim, Attack attack){
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }

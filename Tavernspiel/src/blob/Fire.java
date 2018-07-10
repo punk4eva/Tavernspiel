@@ -14,8 +14,11 @@ import logic.Utils.Unfinished;
 @Unfinished("Need to override turn() and create burn method.")
 public class Fire extends Blob{
     
-    public Fire(GameObjectAnimator a, int x, int y){
-        super("fire", new Description("naturals", "A fire is raging here"), BuffBuilder.fire(), a, Distribution.getRandomInt(2, 5),x,y);
+    private final int depth;
+    
+    public Fire(GameObjectAnimator a, int x, int y, int d){
+        super("fire", new Description("naturals", "A fire is raging here"), BuffBuilder.fire(d), a, Distribution.getRandomInt(2, 5),x,y);
+        depth = d;
     }
     
     @Override
@@ -25,10 +28,10 @@ public class Fire extends Blob{
             area.burn(x, y);
             return;
         }
-        if(area.map[y-1][x].flammable) area.addObject(new Fire(animator, x, y-1));
-        if(area.map[y+1][x].flammable) area.addObject(new Fire(animator, x, y+1));
-        if(area.map[y][x-1].flammable) area.addObject(new Fire(animator, x-1, y));
-        if(area.map[y][x+1].flammable) area.addObject(new Fire(animator, x+1, y));
+        if(area.map[y-1][x].flammable) area.addObject(new Fire(animator, x, y-1, depth));
+        if(area.map[y+1][x].flammable) area.addObject(new Fire(animator, x, y+1, depth));
+        if(area.map[y][x-1].flammable) area.addObject(new Fire(animator, x-1, y, depth));
+        if(area.map[y][x+1].flammable) area.addObject(new Fire(animator, x+1, y, depth));
         spreadNumber--;
     }
     

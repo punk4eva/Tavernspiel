@@ -1,8 +1,10 @@
 
 package enchantments;
 
+import creatureLogic.Attack;
 import creatureLogic.Attack.AttackType;
 import creatureLogic.Description;
+import creatures.Creature;
 import logic.Distribution;
 
 /**
@@ -27,6 +29,11 @@ public final class EnchantmentOfUnholiness extends WeaponEnchantment{
     public void update(int lev){
         level = lev;
         action = new Distribution(1.0, (int)(level*20.0));
+    }
+
+    @Override
+    public void onHit(Creature victim, Attack attack){
+        throw new UnsupportedOperationException("Not supported yet.");
     }
     
 }
