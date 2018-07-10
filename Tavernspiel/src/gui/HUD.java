@@ -26,6 +26,16 @@ public class HUD implements Viewable, ScreenListener{
         quickslot = q;
         strategy = new DefaultHUDLookAndFeel(this);
     }
+    /**
+     * Creates a new instance
+     * @param q The QuickSlot
+     * @param st The HUDStrategy
+     */
+    public HUD(QuickSlot q, HUDStrategy st){
+        quickslot = q;
+        strategy = st;
+    
+    }
     
     /**
      * Resets the HUD layout strategy.
