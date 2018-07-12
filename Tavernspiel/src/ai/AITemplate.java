@@ -4,6 +4,7 @@ package ai;
 import creatures.Creature;
 import java.io.Serializable;
 import java.util.Iterator;
+import java.util.concurrent.BrokenBarrierException;
 import level.Area;
 import pathfinding.Point;
 
@@ -24,6 +25,7 @@ public abstract class AITemplate implements Serializable{
     public int destinationx = -1, destinationy = -1; //The destination coords of the AI.
     public Iterator<Point> currentPath;
     public AIBaseActions BASEACTIONS = new AIBaseActions(); //The basic actions that the ai can do.
+    public int[] moving;
 
     /**
      * Sets the AI's destination coords.
@@ -42,9 +44,9 @@ public abstract class AITemplate implements Serializable{
             currentPath.next();
         }
         Point next = currentPath.next();
-        if(c.animatingMotion()) try{
-            c.motionLatch.await();
-        }catch(InterruptedException e){}
+        try{
+            c.motionBarrier.await();
+        }catch(InterruptedException | BrokenBarrierException e){}
         BASEACTIONS.smootheRaw(c, next.x, next.y);
         if(!currentPath.hasNext()){
             currentPath = null;

@@ -17,7 +17,8 @@ import static gui.mainToolbox.MouseInterpreter.MOVE_RESOLUTION;
 import items.equipment.HeldWeapon;
 import java.awt.Graphics;
 import java.util.LinkedList;
-import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
 import logic.Distribution;
 import logic.GameObject;
 
@@ -35,8 +36,8 @@ public class Creature extends GameObject implements Comparable<Creature>{
     public volatile Attributes attributes;
     public FieldOfView FOV;
     public volatile LinkedList<Buff> buffs = new LinkedList<>();
-    protected volatile double[] moving;
-    public CountDownLatch motionLatch = new CountDownLatch(1);
+    public volatile double[] moving;
+    public CyclicBarrier motionBarrier = new CyclicBarrier(2);
     
     /**
      * Creates a new instance.
@@ -188,16 +189,18 @@ public class Creature extends GameObject implements Comparable<Creature>{
     public void render(Graphics g, int focusX, int focusY){
         if(moving==null) animator.animate(g, x*16+focusX, y*16+focusY);
         else{
-            moving[4]++;
-            if(moving[4]>7){
-                attributes.ai.BASEACTIONS.moveRaw(this, (int)moving[5], (int)moving[6]);
+            moving[0]++;
+            if(moving[0]>=MOVE_RESOLUTION){
+                try{
+                    motionBarrier.await();
+                }catch(InterruptedException | BrokenBarrierException e){}
+                motionBarrier.reset();
+                animator.animate(g, (int)moving[3], (int)moving[4]);
                 moving = null;
-                motionLatch.countDown();
-                motionLatch = new CountDownLatch(1);
-                animator.animate(g, x*16+focusX, y*16+focusY);
             }else{
-                animator.animate(g, (x*16)+focusX+(int)((double)moving[4]/8.0*moving[2]),
-                        (y*16)+focusY+(int)((double)moving[4]/8.0*moving[3]));
+                moving[1] += moving[5];
+                moving[2] += moving[6];
+                animator.animate(g, (int)moving[1], (int)moving[2]);
             }
         }
     }

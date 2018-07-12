@@ -61,6 +61,7 @@ public class Game extends Main{
         gui.addMessage("You are now in " + dungeon.getDepthClassifier() + ".");
         soundSystem.playSFX("Misc/newDepth.wav"); //@unfinished
         soundSystem.playAbruptLoop(currentArea.location.backgroundMusicPath);
+        
     }
 
     /**

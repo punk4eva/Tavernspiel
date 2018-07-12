@@ -9,6 +9,7 @@ import gui.Window;
 import items.Item;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.concurrent.BrokenBarrierException;
 import level.Area;
 import logic.Utils.Unfinished;
 import pathfinding.Point;
@@ -60,7 +61,7 @@ public final class PlayerAI extends AITemplate implements KeyListener{
                 return;
             default: return;
         }
-        if(BASEACTIONS.canMove(hero, m)){
+        if(BASEACTIONS.canMove(hero, m)&&!hero.animatingMotion()){
             Window.main.turnThread.click(hero.x+m[0], hero.y+m[1]);
         }
     }
@@ -100,14 +101,19 @@ public final class PlayerAI extends AITemplate implements KeyListener{
             currentPath.next();
         }
         Point next = currentPath.next();
-        if(c.animatingMotion()){
-            c.area.objectLock.unlock();
-            try{
-                c.motionLatch.await();
-            }catch(InterruptedException e){}
-            c.area.objectLock.lock();
-        }
+        /*if(c.animatingMotion()){
+        c.area.objectLock.unlock();
+        try{
+        c.motionLatch.await();
+        }catch(InterruptedException e){}
+        BASEACTIONS.moveRaw(hero, moving[0], moving[1]);
+        c.area.objectLock.lock();
+        }*/
         BASEACTIONS.smootheRaw(hero, next.x, next.y);
+        try{
+            c.motionBarrier.await();
+        }catch(InterruptedException | BrokenBarrierException e){}
+        BASEACTIONS.moveRaw(c, next.x, next.y);
         if(!currentPath.hasNext()){
             currentPath = null;
             unfinished = false;

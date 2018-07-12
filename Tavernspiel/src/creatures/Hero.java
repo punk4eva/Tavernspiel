@@ -30,7 +30,7 @@ import static logic.ConstantFields.sqheight;
 import static logic.ConstantFields.sqwidth;
 import logic.Utils.Catch;
 import static gui.mainToolbox.MouseInterpreter.getCenter;
-import javafx.scene.paint.Color;
+import java.util.concurrent.BrokenBarrierException;
 
 /**
  *
@@ -77,9 +77,15 @@ public class Hero extends Creature{
         else{
             moving[0]++;
             if(moving[0]>=MOVE_RESOLUTION){
-                attributes.ai.BASEACTIONS.moveRaw(this, (int)moving[7], (int)moving[8]);
-                motionLatch.countDown();
-                motionLatch = new CountDownLatch(1);
+                /*int m = (int)moving[7], n = (int)moving[8];
+                Window.main.turnThread.queuedEvents.add(() -> {
+                attributes.ai.BASEACTIONS.moveRaw(this, m, n);
+                });*/
+                //attributes.ai.moving = new int[]{(int)moving[7], (int)moving[8]};
+                try{
+                    motionBarrier.await();
+                }catch(InterruptedException | BrokenBarrierException e){}
+                motionBarrier.reset();
                 animator.animate(g, c[0], c[1]);
                 moving = null;
             }else{
