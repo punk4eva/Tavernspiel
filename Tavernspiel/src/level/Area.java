@@ -1,6 +1,7 @@
 
 package level;
 
+import ai.PlayerAI;
 import blob.Blob;
 import containers.Floor;
 import containers.Receptacle;
@@ -8,7 +9,9 @@ import creatureLogic.VisibilityOverlay;
 import creatures.Creature;
 import creatures.Hero;
 import designer.AreaTemplate;
+import dialogues.StatisticsDialogue;
 import exceptions.AreaCoordsOutOfBoundsException;
+import gui.Window;
 import items.Item;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -127,19 +130,6 @@ public class Area implements Serializable{
      */
     public boolean withinBounds(int x, int y){
         return x>=0&&y>=0&&x<dimension.width&&y<dimension.height;
-    }
-    
-    /**
-     * Clicks on the given tile with the given coordinates.
-     * @param x The x of the Tile.
-     * @param y The y of the Tile.
-     * @param clickMode The click mode.
-     */
-    public void click(int x, int y, String clickMode){
-        switch(clickMode){
-            case "normal":
-                hero.attributes.ai.setDestination(x, y);
-        }
     }
     
     /**
@@ -395,6 +385,29 @@ public class Area implements Serializable{
         return receptacles.stream().collect(LinkedList<Item>::new, 
                 (lst, receptacle) -> lst.addAll(receptacle),
                 (lst, lst2) -> lst.addAll(lst2));
+    }
+    
+    /**
+     * Clicks on the given tile coordinates.
+     * @param x
+     * @param y
+     * @deprecated DANGEROUS AWT-only
+     */
+    public void click(int x, int y){
+        if(overlay.isUnexplored(x, y)) return;
+        if(hero.x!=x||hero.y!=y){
+            ((PlayerAI)hero.attributes.ai).unfinished = true;
+            hero.attributes.ai.setDestination(x, y);
+            Window.main.setTurnsPassed(hero.attributes.speed);
+        }else{
+            try{
+                ((PlayerAI)hero.attributes.ai).nextAction = 
+                        () -> hero.attributes.ai.BASEACTIONS.pickUp(hero);
+                Window.main.setTurnsPassed(hero.attributes.speed);
+            }catch(NullPointerException e){
+                new StatisticsDialogue(hero).next();
+            }
+        }
     }
     
 }

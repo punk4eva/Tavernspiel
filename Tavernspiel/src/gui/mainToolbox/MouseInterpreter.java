@@ -44,7 +44,7 @@ public class MouseInterpreter extends MouseAdapter{
         }
         if(notClicked){if(gui.hudClear()){
             Integer[] p = pixelToTile(x, y);
-            if(Window.main.currentArea.tileFree(p[0], p[1])) Window.main.turnThread.click(p[0], p[1]);
+            if(Window.main.currentArea.tileFree(p[0], p[1])) Window.main.currentArea.click(p[0], p[1]);
         }else{
             gui.dialogue.clickedOff();
         }}

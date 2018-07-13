@@ -91,9 +91,6 @@ public class AIBaseActions implements Serializable{
     public void smootheRaw(Creature c, int x, int y){
         if(!c.animator.currentName.equals("move")) c.changeAnimation("move");
         c.smootheXY(x, y);
-        if(c.attributes.ai.destinationx==c.x&&c.attributes.ai.destinationy==c.y){
-            c.changeAnimation("stand");
-        }
     }
     
     /**

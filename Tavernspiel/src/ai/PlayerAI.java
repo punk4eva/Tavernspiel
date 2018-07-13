@@ -9,7 +9,6 @@ import gui.Window;
 import items.Item;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.concurrent.BrokenBarrierException;
 import level.Area;
 import logic.Utils.Unfinished;
 import pathfinding.Point;
@@ -24,6 +23,10 @@ public final class PlayerAI extends AITemplate implements KeyListener{
 
     private final Hero hero;
     public volatile boolean unfinished = false;
+    private final boolean keysDown[] = new boolean[KeyEvent.VK_Z + 1];
+    
+    public Runnable nextAction = null;
+    
     
     /**
      * Creates a new instance.
@@ -43,8 +46,11 @@ public final class PlayerAI extends AITemplate implements KeyListener{
         hero.attributes.ai.destinationy = hero.y + ary[1];
     }
     
+    
+    
     @Override
     public void keyTyped(KeyEvent ke){
+        System.out.println(ke.getKeyChar() + ", " + ke.getKeyCode());
         Integer[] m;
         switch(ke.getKeyChar()){
             case 'w': m = new Integer[]{0, -1};
@@ -62,25 +68,43 @@ public final class PlayerAI extends AITemplate implements KeyListener{
             default: return;
         }
         if(BASEACTIONS.canMove(hero, m)&&!hero.animatingMotion()){
-            Window.main.turnThread.click(hero.x+m[0], hero.y+m[1]);
+            hero.area.click(hero.x+m[0], hero.y+m[1]);
         }
     }
 
     @Override
     @Unfinished("Escape key needs rewriting")
     public void keyPressed(KeyEvent ke){
-        switch(ke.getKeyCode()){
-            case KeyEvent.VK_ESCAPE: Window.main.removeViewable();
-                break;
+        System.err.println(ke.getKeyChar() + ", " + ke.getKeyCode());
+        try{
+            keysDown[ke.getKeyCode()] = true;
+        }catch(ArrayIndexOutOfBoundsException e){
+            //Foreign key pressed and should be ignored.
+        }
+        if(keysDown[KeyEvent.VK_ESCAPE]) Window.main.setInventoryActive(false, false);
+        if(keysDown[KeyEvent.VK_W]&&!keysDown[KeyEvent.VK_S]);
+        else if(keysDown[KeyEvent.VK_S]&&!keysDown[KeyEvent.VK_W]);
+        if(keysDown[KeyEvent.VK_A]&&!keysDown[KeyEvent.VK_D]);
+        else if(keysDown[KeyEvent.VK_D]&&!keysDown[KeyEvent.VK_A]);
+    }
+    
+    @Override
+    public void keyReleased(KeyEvent ke){
+        try{
+            keysDown[ke.getKeyCode()] = false;
+        }catch(ArrayIndexOutOfBoundsException e){
+            //Foreign key pressed and should be ignored.
         }
     }
-
-    @Override
-    public void keyReleased(KeyEvent ke){}
+    
+    
 
     @Override
     public void turn(Creature c, Area area){
-        if(skipping>0){
+        if(nextAction!=null){
+            nextAction.run();
+            nextAction = null;
+        }else if(skipping>0){
             skipping-=hero.attributes.speed;
             if(skipping<=0){
                 unfinished = false;
@@ -101,18 +125,7 @@ public final class PlayerAI extends AITemplate implements KeyListener{
             currentPath.next();
         }
         Point next = currentPath.next();
-        /*if(c.animatingMotion()){
-        c.area.objectLock.unlock();
-        try{
-        c.motionLatch.await();
-        }catch(InterruptedException e){}
-        BASEACTIONS.moveRaw(hero, moving[0], moving[1]);
-        c.area.objectLock.lock();
-        }*/
         BASEACTIONS.smootheRaw(hero, next.x, next.y);
-        try{
-            c.motionBarrier.await();
-        }catch(InterruptedException | BrokenBarrierException e){}
         BASEACTIONS.moveRaw(c, next.x, next.y);
         if(!currentPath.hasNext()){
             currentPath = null;
@@ -132,11 +145,12 @@ public final class PlayerAI extends AITemplate implements KeyListener{
     /**
      * Waits the given amount of turns.
      * @param turns
+     * @deprecated DANGEROUS
      */
     public void expendTurns(double turns){
         skipping += turns;
         unfinished = true;
-        Window.main.addEvent(() -> {});
+        Window.main.setTurnsPassed(turns);
     }
     
     @Override

@@ -81,11 +81,6 @@ public class Hero extends Creature{
                 Window.main.turnThread.queuedEvents.add(() -> {
                 attributes.ai.BASEACTIONS.moveRaw(this, m, n);
                 });*/
-                //attributes.ai.moving = new int[]{(int)moving[7], (int)moving[8]};
-                try{
-                    motionBarrier.await();
-                }catch(InterruptedException | BrokenBarrierException e){}
-                motionBarrier.reset();
                 animator.animate(g, c[0], c[1]);
                 moving = null;
             }else{

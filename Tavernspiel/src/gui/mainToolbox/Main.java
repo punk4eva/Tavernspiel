@@ -75,11 +75,12 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
     }
     
     /**
-     * Adds an event to the event queue.
-     * @param r
+     * Tells the the TurnThread that the given number of turns have passed.
+     * @param t
+     * @deprecated DANGEROUS
      */
-    public void addEvent(Runnable r){
-        turnThread.queuedEvents.add(r);
+    public void setTurnsPassed(double t){
+        turnThread.setTurnsPassed(t);
     }
     
     /**
