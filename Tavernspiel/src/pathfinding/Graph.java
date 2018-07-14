@@ -5,6 +5,7 @@ import java.awt.Graphics;
 import java.io.Serializable;
 import java.util.LinkedList;
 import level.Area;
+import tiles.Barricade;
 import tiles.Door;
 
 /**
@@ -31,11 +32,11 @@ public class Graph implements Serializable{
         LinkedList<Waypoint> wps = new LinkedList<>();
         for(int y=0;y<area.dimension.height;y++){
             for(int x=0;x<area.dimension.width;x++){
-                if(area.map[y][x]==null||(!area.map[y][x].treadable&&!(area.map[y][x] instanceof Door))){
+                if(area.map[y][x]==null||(!area.map[y][x].treadable&&!(area.map[y][x] instanceof Door || area.map[y][x] instanceof Barricade))){
                     map[y][x] = new Point(x, y, null);
                 }else{
                     map[y][x] = new Point(x, y);
-                    if(area.map[y][x] instanceof Door){
+                    if(area.map[y][x] instanceof Door || area.map[y][x] instanceof Barricade){
                         wps.add(new Waypoint(x, y));
                     }
                 }

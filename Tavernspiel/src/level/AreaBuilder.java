@@ -139,7 +139,11 @@ public class AreaBuilder implements Serializable{
         if(area.map[y][x+1]!=null&&area.map[y][x+1].treadable) return 1;
         if(area.map[y+1][x]!=null&&area.map[y+1][x].treadable) return 2;
         if(area.map[y][x-1]!=null&&area.map[y][x-1].treadable) return 3;
-        throw new IllegalStateException("No valid door direction.");
+        //@Unfinished remove debug
+        System.err.println("Illegal Door Exception");
+        area.debugMode = true;
+        return 0;
+        //throw new IllegalStateException("No valid door direction.");
     }
     
 }

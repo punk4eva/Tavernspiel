@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.util.List;
 import logic.Distribution;
 import tiles.AnimatedTile;
+import tiles.Barricade;
 import tiles.Door;
 import tiles.Grass;
 import tiles.Tile;
@@ -344,8 +345,7 @@ public class Room extends Area{
             }
             if(map[y][x].equals("wall")||map[y][x].equals("specialwall")){
                 running = false;
-                if(Distribution.chance(1, 3)) map[y][x] = new Tile("bookshelf", location, false, true, false);
-                else map[y][x] = new Tile("barricade", location, false, true, false);
+                map[y][x] = new Barricade(location);
             }
         }
     }

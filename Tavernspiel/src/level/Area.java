@@ -24,6 +24,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 import listeners.AreaEvent;
 import logic.GameObject;
+import logic.Utils.Unfinished;
 import pathfinding.Graph;
 import tiles.Tile;
 
@@ -47,6 +48,9 @@ public class Area implements Serializable{
     protected volatile Hero hero;
     public final VisibilityOverlay overlay;
     public final ReentrantLock objectLock = new ReentrantLock();
+    
+    @Unfinished("Remove debug")
+    public boolean debugMode = false;
     
     /**
      * Creates a new instance.
@@ -317,7 +321,7 @@ public class Area implements Serializable{
                 GameObject ob = iter.next();
                 if(overlay.isVisible(ob.x, ob.y)) ob.render(g, focusX, focusY);
             }
-            //graph.paint(g, focusX, focusY, this);
+            if(debugMode) graph.paint(g, focusX, focusY, this);
         }finally{
             objectLock.unlock();
         }
