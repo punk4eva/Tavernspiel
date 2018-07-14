@@ -49,7 +49,7 @@ public class Trap extends HiddenTile implements StepListener{
     public void steppedOn(Creature c){
         if(used) return;
         if(buff!=null) c.buffs.add(buff);
-        else{
+        else /*if(sprayedGas !=null)*/{
             sprayedGas.x = c.x;
             sprayedGas.y = c.y;
             c.area.addObject(sprayedGas);

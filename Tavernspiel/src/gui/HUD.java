@@ -17,7 +17,7 @@ public class HUD implements Viewable, ScreenListener{
     
     public final QuickSlot quickslot;
     private HUDStrategy strategy;
-    
+    private BuffDisplay buffdisplay = new BuffDisplay(65,65,100,100,Window.main.player);
     /**
      * Creates a new instance.
      * @param q The QuickSlot
@@ -61,6 +61,8 @@ public class HUD implements Viewable, ScreenListener{
                 Window.main.toggleInventory();
                 break;
             case "Wait": Window.main.player.attributes.ai.paralyze(1.0);
+                break;
+            case "Player": Window.main.setViewable(buffdisplay);
                 break;
         }
     }    
