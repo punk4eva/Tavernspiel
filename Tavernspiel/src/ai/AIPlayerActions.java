@@ -53,7 +53,7 @@ public class AIPlayerActions extends AIBaseActions{
     }
     
     private static void expendTurns(Creature c, double t){
-        ((PlayerAI)((Hero) c).attributes.ai).expendTurns(t);
+        ((PlayerAI)((Hero) c).attributes.ai).skipTurns(t);
     }
     
     /**

@@ -5,6 +5,7 @@ import ai.PlayerAI;
 import blob.Blob;
 import containers.Floor;
 import containers.Receptacle;
+import creatureLogic.Action;
 import creatureLogic.VisibilityOverlay;
 import creatures.Creature;
 import creatures.Hero;
@@ -42,12 +43,16 @@ public class Area implements Serializable{
     public final Dimension dimension;
     public final Location location;
     public Integer[] startCoords, endCoords;
-    private final List<GameObject> objects = (List<GameObject>)(Object)Collections.synchronizedList(new LinkedList<>());
-    protected final List<Receptacle> receptacles = (List<Receptacle>)(Object)Collections.synchronizedList(new LinkedList<>());
+    //
+    //private final List<GameObject> objects = (List<GameObject>)(Object)Collections.synchronizedList(new LinkedList<>());
+    //protected final List<Receptacle> receptacles = (List<Receptacle>)(Object)Collections.synchronizedList(new LinkedList<>());
+    private final List<GameObject> objects = new LinkedList<>();
+    protected final List<Receptacle> receptacles = new LinkedList<>();
+    //
     public Graph graph = null;
     protected volatile Hero hero;
     public final VisibilityOverlay overlay;
-    public final ReentrantLock objectLock = new ReentrantLock();
+    //public final ReentrantLock objectLock = new ReentrantLock();
     
     @Unfinished("Remove debug")
     public boolean debugMode = false;
@@ -229,13 +234,13 @@ public class Area implements Serializable{
      * @param object The new GameObject.
      */
     public void addObject(GameObject object){
-        objectLock.lock();
-        try{
+        //objectLock.lock();
+        //try{
             object.setArea(this, true);
             objects.add(object);
-        }finally{
-            objectLock.unlock();
-        }
+        //}finally{
+        //    objectLock.unlock();
+        //}
     }
     
     /**
@@ -243,12 +248,12 @@ public class Area implements Serializable{
      * @param object The new GameObject.
      */
     public void removeObject(GameObject object){
-        objectLock.lock();
-        try{
+        //objectLock.lock();
+        //try{
             objects.remove(object);
-        }finally{
-            objectLock.unlock();
-        }
+        //}finally{
+        //    objectLock.unlock();
+        //}
     }
 
     /**
@@ -315,16 +320,18 @@ public class Area implements Serializable{
                 }
             });
         }
-        objectLock.lock();
-        try{
+        //System.out.println("Checkpoint 1");
+        //objectLock.lock();
+        //System.out.println("Checkpoint 2");
+        //try{
             for(final ListIterator<GameObject> iter=objects.listIterator();iter.hasNext();){
                 GameObject ob = iter.next();
                 if(overlay.isVisible(ob.x, ob.y)) ob.render(g, focusX, focusY);
             }
             if(debugMode) graph.paint(g, focusX, focusY, this);
-        }finally{
-            objectLock.unlock();
-        }
+        //}finally{
+        //    objectLock.unlock();
+        //}
     }
     
     /**
@@ -332,19 +339,19 @@ public class Area implements Serializable{
      * @param turnNum The amount of turns passed.
      */
     public void turn(double turnNum){
-        objectLock.lock();
-        try{
-            for(;turnNum>=1;turnNum--){
-                for(final ListIterator<GameObject> iter = objects.listIterator();iter.hasNext();) 
-                    iter.next().turn(1.0);
-            }
-            if(turnNum!=0.0){
+        //objectLock.lock();
+        //try{
+            //for(;turnNum>=1;turnNum--){
+            //    for(final ListIterator<GameObject> iter = objects.listIterator();iter.hasNext();) 
+            //        iter.next().turn(1.0);
+            //}
+            //if(turnNum!=0.0){
                 for(final ListIterator<GameObject> iter = objects.listIterator();iter.hasNext();) 
                     iter.next().turn(turnNum);
-            }
-        }finally{
-            objectLock.unlock();
-        }
+            //}
+        //}finally{
+        //    objectLock.unlock();
+        //}
     }
     
     /**
@@ -355,8 +362,8 @@ public class Area implements Serializable{
     public void addHero(Hero h, boolean start){
         hero = h;
         h.setArea(this, start);
-        objectLock.lock();
-        try{
+        //objectLock.lock();
+        //try{
             try{
                 if(!(objects.get(0) instanceof Hero)){
                     objects.add(0, h);
@@ -364,9 +371,9 @@ public class Area implements Serializable{
             }catch(IndexOutOfBoundsException e){
                 objects.add(h);
             }
-        }finally{
-                objectLock.unlock();
-        }
+        //}finally{
+        //    objectLock.unlock();
+        //}
     }
 
     /**
@@ -404,12 +411,15 @@ public class Area implements Serializable{
             hero.attributes.ai.setDestination(x, y);
             Window.main.setTurnsPassed(hero.attributes.speed);
         }else{
-            try{
-                ((PlayerAI)hero.attributes.ai).nextAction = 
-                        () -> hero.attributes.ai.BASEACTIONS.pickUp(hero);
+            if(getReceptacle(hero.x, hero.y)==null) new StatisticsDialogue(hero).next();
+            else{
+                ((PlayerAI)hero.attributes.ai).nextAction = new Action(){
+                    @Override
+                    public void run(){
+                        hero.attributes.ai.BASEACTIONS.pickUp(hero);
+                    }
+                };
                 Window.main.setTurnsPassed(hero.attributes.speed);
-            }catch(NullPointerException e){
-                new StatisticsDialogue(hero).next();
             }
         }
     }

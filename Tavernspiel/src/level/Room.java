@@ -285,8 +285,9 @@ public class Room extends Area{
     
     /**
      * What do you think?
+     * @param doorNum The number of doors (random if left blank).
      */
-    protected void addDoors(){
+    protected void addDoors(int... doorNum){
         Distribution yDistrib = new Distribution(new double[]{0, dimension.height-1});
         Distribution xDistrib = new Distribution(new double[]{0, dimension.width-1});
         if(locked){
@@ -302,8 +303,8 @@ public class Room extends Area{
             System.out.println("LOCKED");
             return;
         }
-        int numDoors = (int)new Distribution(new double[]{1,2,3,4,5,6},
-                new int[]{3,4,6,4,2,1}).next();
+        int numDoors = doorNum.length==0 ? (int)new Distribution(new double[]{1,2,3,4,5,6},
+                new int[]{3,4,6,4,2,1}).next() : doorNum[0];
         int failed = 0;
         while(numDoors>0||failed>=40){
             int x, y;
@@ -398,6 +399,24 @@ public class Room extends Area{
         if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
         else{
             receptacles.add(TrapBuilder.getRandomReceptacle(item, x, y));
+        }
+    }
+    
+    /**
+     * Checks for and removes obstructions from doors.
+     */
+    public void checkDoors(){
+        for(int x=1;x<dimension.width-1;x++){
+            if(map[0][x] instanceof Door && !map[1][x].treadable)
+                map[1][x] = Tile.floor(location);
+            if(map[dimension.height-1][x] instanceof Door && !map[dimension.height-2][x].treadable)
+                map[dimension.height-2][x] = Tile.floor(location);
+        }
+        for(int y=1;y<dimension.height-1;y++){
+            if(map[y][0] instanceof Door && !map[y][1].treadable)
+                map[y][1] = Tile.floor(location);
+            if(map[y][dimension.width-1] instanceof Door && !map[y][dimension.width-2].treadable)
+                map[y][dimension.width-2] = Tile.floor(location);
         }
     }
     

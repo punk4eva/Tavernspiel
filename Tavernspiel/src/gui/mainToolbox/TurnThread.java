@@ -3,6 +3,7 @@ package gui.mainToolbox;
 
 import ai.PlayerAI;
 import gui.Window;
+import logic.Utils.Unfinished;
 
 /**
  *
@@ -14,7 +15,10 @@ public class TurnThread extends Thread{
         
     public static double gameTurns = 0;
 
-    private double turnsPassed = 0;
+    private volatile double turnsPassed = 0;
+    
+    @Unfinished("Remove debugging")
+    private boolean sleeping;
 
     TurnThread(){
         super("Turn Thread");
@@ -23,13 +27,16 @@ public class TurnThread extends Thread{
     @Override
     public synchronized void run(){
         while(Window.main.running){
+            sleeping = true;
+            System.out.println("THREAD SLEEPING");
             try{
                 while(turnsPassed==0) this.wait();
             }catch(InterruptedException e){}
+            System.out.println("THREAD AWOKEN");
+            sleeping = false;
             do{
-                for(;turnsPassed>=Window.main.player.attributes.speed;
-                        turnsPassed-=Window.main.player.attributes.speed)
-                    turn(Window.main.player.attributes.speed);
+                System.out.println("TURNING");
+                turn();
             }while(((PlayerAI)Window.main.player.attributes.ai).unfinished);
         }
     }
@@ -38,10 +45,12 @@ public class TurnThread extends Thread{
      * Runs the game for the given amount of turns.
      * @param delta The amount of turns to run.
      */
-    private void turn(double delta){
-        gameTurns += delta;
-        for(;delta>=1;delta--) Window.main.currentArea.turn(1.0);
-        if(delta!=0) Window.main.currentArea.turn(delta);
+    private void turn(){
+        gameTurns += turnsPassed;
+        for(;turnsPassed>=Window.main.player.attributes.speed;
+                turnsPassed-=Window.main.player.attributes.speed) 
+            Window.main.currentArea.turn(Window.main.player.attributes.speed);
+        if(turnsPassed!=0) Window.main.currentArea.turn(turnsPassed);
     }
         
     /**
@@ -50,8 +59,19 @@ public class TurnThread extends Thread{
      * @deprecated DANGEROUS: Only to be called by the key receiving AWT-thread.
      */
     public synchronized void setTurnsPassed(double t){
+        if(sleeping||((PlayerAI)Window.main.player.attributes.ai).unfinished){
             turnsPassed = t;
             this.notify();
-        }
+        }else throw new IllegalStateException("Mistimed wakeup");
+    }
+    
+    /**
+     * Adds the turns that have passed to the turn counter
+     * @param t The number of more turns to tick.
+     */
+    public synchronized void addTurnsPassed(double t){
+        gameTurns += t;
+        turnsPassed += t;
+    }
         
 }

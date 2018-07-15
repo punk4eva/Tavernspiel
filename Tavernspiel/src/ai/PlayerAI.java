@@ -1,6 +1,7 @@
 
 package ai;
 
+import creatureLogic.Action;
 import creatureLogic.VisibilityOverlay;
 import creatures.Creature;
 import creatures.Hero;
@@ -25,8 +26,8 @@ public final class PlayerAI extends AITemplate implements KeyListener{
     public volatile boolean unfinished = false;
     private final boolean keysDown[] = new boolean[KeyEvent.VK_Z + 1];
     
-    public Runnable nextAction = null;
-    
+    public Action nextAction = null;
+    private boolean waiting;
     
     /**
      * Creates a new instance.
@@ -36,14 +37,79 @@ public final class PlayerAI extends AITemplate implements KeyListener{
         hero = h;
         BASEACTIONS = new AIPlayerActions();
     }
+
+    @Override
+    public void turn(Creature c, Area area){
+        if(nextAction!=null){
+            nextAction.run();
+            nextAction.turns-=hero.attributes.speed;
+            if(nextAction.turns>0) hero.turndelta -= nextAction.turns;
+            else skipping += nextAction.turns;
+            nextAction = null;
+        }else if(skipping>0){
+            skipping-=hero.attributes.speed;
+            if(skipping<=0){
+                unfinished = false;
+                skipping = 0;
+            }
+        }else if(hero.x!=hero.attributes.ai.destinationx||
+                hero.y!=hero.attributes.ai.destinationy){
+            decideAndMove(hero);
+        }
+    }
+    
+    @Override
+    public synchronized void decideAndMove(Creature c){
+        if(currentPath==null){
+            currentPath = c.area.graph.searcher.findPlayerRoute(new Point(c.x, c.y), new Point(destinationx, destinationy), (VisibilityOverlay)hero.FOV).iterator();
+            c.changeAnimation("move");
+            unfinished = true;
+            currentPath.next();
+        }
+        Point next = currentPath.next();
+        BASEACTIONS.smootheRaw(hero, next.x, next.y);
+        waiting = true;
+        //hero.area.objectLock.unlock();
+        try{
+            while(waiting) wait();
+            //hero.area.objectLock.lock();
+        }catch(InterruptedException e){}
+        System.out.println("DONE WAITING");
+        BASEACTIONS.moveRaw(c, next.x, next.y);
+        if(!currentPath.hasNext()){
+            currentPath = null;
+            unfinished = false;
+            c.changeAnimation("stand");
+            if(c.area.getReceptacle(next.x, next.y)!=null){
+                Item i = c.area.pickUp(next.x, next.y);
+                if(!c.inventory.add(i)){
+                    c.area.plop(i, next.x, next.y);
+                    Main.addMessage("red", "Your pack is too full for the " +
+                            i.toString(3));
+                }
+            }
+        }else Window.main.addTurnsPassed(hero.attributes.speed);
+    }
     
     /**
-     * Updates the destination to the given coordinates.
-     * @param ary
+     * Waits the given amount of turns.
+     * @param turns
+     * @deprecated DANGEROUS AWT-only
      */
-    public final void updateDestination(Integer... ary){
-        hero.attributes.ai.destinationx = hero.x + ary[0];
-        hero.attributes.ai.destinationy = hero.y + ary[1];
+    public void skipTurns(double turns){
+        skipping += turns;
+        unfinished = true;
+        Window.main.setTurnsPassed(turns);
+    }
+    
+    @Override
+    public void paralyze(double turns){
+        skipTurns(turns);
+    }
+    
+    public synchronized void release(){
+        waiting = false;
+        notify();
     }
     
     
@@ -95,67 +161,6 @@ public final class PlayerAI extends AITemplate implements KeyListener{
         }catch(ArrayIndexOutOfBoundsException e){
             //Foreign key pressed and should be ignored.
         }
-    }
-    
-    
-
-    @Override
-    public void turn(Creature c, Area area){
-        if(nextAction!=null){
-            nextAction.run();
-            nextAction = null;
-        }else if(skipping>0){
-            skipping-=hero.attributes.speed;
-            if(skipping<=0){
-                unfinished = false;
-                skipping = 0;
-            }
-        }else if(hero.x!=hero.attributes.ai.destinationx||
-                hero.y!=hero.attributes.ai.destinationy){
-            decideAndMove(hero);
-        }
-    }
-    
-    @Override
-    public void decideAndMove(Creature c){
-        if(currentPath==null){
-            currentPath = c.area.graph.searcher.findPlayerRoute(new Point(c.x, c.y), new Point(destinationx, destinationy), (VisibilityOverlay)hero.FOV).iterator();
-            c.changeAnimation("move");
-            unfinished = true;
-            currentPath.next();
-        }
-        Point next = currentPath.next();
-        BASEACTIONS.smootheRaw(hero, next.x, next.y);
-        BASEACTIONS.moveRaw(c, next.x, next.y);
-        if(!currentPath.hasNext()){
-            currentPath = null;
-            unfinished = false;
-            c.changeAnimation("stand");
-            if(c.area.getReceptacle(next.x, next.y)!=null){
-                Item i = c.area.pickUp(next.x, next.y);
-                if(!c.inventory.add(i)){
-                    c.area.plop(i, next.x, next.y);
-                    Main.addMessage("red", "Your pack is too full for the " +
-                            i.toString(3));
-                }
-            }
-        }
-    }
-    
-    /**
-     * Waits the given amount of turns.
-     * @param turns
-     * @deprecated DANGEROUS
-     */
-    public void expendTurns(double turns){
-        skipping += turns;
-        unfinished = true;
-        Window.main.setTurnsPassed(turns);
-    }
-    
-    @Override
-    public void paralyze(double turns){
-        expendTurns(turns);
     }
     
 }

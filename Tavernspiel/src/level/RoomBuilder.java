@@ -261,6 +261,7 @@ public class RoomBuilder{
                 }
             }
         }
+        room.addDoors(1);
         room.randomlyPlop();
         room.addShaders();
         return room;
@@ -328,6 +329,7 @@ public class RoomBuilder{
         for(int y=1;y<room.dimension.height-1;y++)
             for(int x=1;x<room.dimension.width-1;x++)
                 if(Distribution.chance(1, 7)) room.map[y][x] = Tile.wall(location);
+        room.checkDoors();
         room.randomlyPlop();
         room.addShaders();
         return room;

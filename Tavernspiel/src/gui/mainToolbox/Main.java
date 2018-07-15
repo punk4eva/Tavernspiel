@@ -84,6 +84,14 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
     }
     
     /**
+     * Forwards the method.
+     * @param t
+     */
+    public void addTurnsPassed(double t){
+        turnThread.addTurnsPassed(t);
+    }
+    
+    /**
      * Adds a Viewable to the display.
      * @param viewable
      */
