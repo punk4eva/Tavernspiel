@@ -2,6 +2,7 @@
 package gui.mainToolbox.hudLayout;
 
 import creatureLogic.QuickSlot;
+import gui.BuffDisplay;
 import gui.Game;
 import gui.HUD;
 import gui.Window;
@@ -33,6 +34,7 @@ public class DefaultHUDLookAndFeel implements HUDStrategy{
         screens.add(new Screen("QuickPickup",Game.WIDTH - 70, Game.HEIGHT - 300, 70, 40,hud));
         
         for(int i = 0; i < quickslot.length(); i++) screens.add(new Screen("QuickSlot:" + i,Game.WIDTH - (350 + i * 45), Game.HEIGHT - 73, 40, 40, quickslot));
+        
     }
 
     @Override
@@ -53,7 +55,7 @@ public class DefaultHUDLookAndFeel implements HUDStrategy{
                 ImageUtils.paintItemSquare(g, Game.WIDTH - (350 + i * 45), Game.HEIGHT - 73, 40, 40, quickslot.getItem(i), Window.main.player, ConstantFields.truthPredicate);
             }catch(NullPointerException e){}
         }
-        
+        g.setColor(ConstantFields.backColor);
         g.fill3DRect(Game.WIDTH - 50, Game.HEIGHT - 73, 40, 40, true);
         g.drawImage(ConstantFields.eyeButtonImg, Game.WIDTH - 50, Game.HEIGHT - 70, null);
         g.fill3DRect(Game.WIDTH - 95, Game.HEIGHT - 73, 40, 40, true);
