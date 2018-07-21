@@ -30,7 +30,6 @@ public class RoomBuilder{
         Room ret = Room.genStandard(loc, depth);
         ret.addDoors();
         ret.randomlyPlop();
-        ret.addShaders();
         return ret;
     }
     
@@ -38,28 +37,25 @@ public class RoomBuilder{
         Room ret = Room.genStandard(loc, new Key(depth), ItemMap.getStandardItemMap(depth, loc));
         ret.addDoors();
         ret.randomlyPlop();
-        ret.addShaders();
         return ret;
     }
     
     public static Room itemless(Location loc, int depth){
         Room ret = Room.genStandard(loc, depth);
         ret.addDoors();
-        ret.addShaders();
         return ret;
     }
     
     public static Room lockedItemless(Location loc, int depth){
         Room ret = Room.genStandard(loc, new Key(depth), new ItemMap());
         ret.addDoors();
-        ret.addShaders();
         return ret;
     }
     
     public static Room roomOfTraps(Location loc, Item item, int depth){
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
                 Distribution.getRandomInt(5, 10)), loc, depth);
-        room.standardify();
+        room.paintAndPave();
         Trap trap = getRandomTrap(loc);
         switch(Distribution.getRandomInt(1, 4)){
             case 1: //North
@@ -111,7 +107,6 @@ public class RoomBuilder{
                         new Door(loc);
                 break;
         }
-        room.addShaders();
         return room;
     }
     
@@ -177,7 +172,6 @@ public class RoomBuilder{
                 room.map[room.dimension.height/2][room.dimension.width-1] = new Door(loc);
                 break;
         }
-        room.addShaders();
         return room;
     }
     
@@ -192,14 +186,13 @@ public class RoomBuilder{
         }
         room.barricade();
         room.randomlyPlop();
-        room.addShaders();
         return room;
     }
     
     public static Room magicWellRoom(Location loc, int depth){
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
                 Distribution.getRandomInt(5, 16)), loc, depth);
-        room.standardify();
+        room.paintAndPave();
         room.addDoors();
         switch(Distribution.getRandomInt(1, 3)){
             case 1:
@@ -215,33 +208,30 @@ public class RoomBuilder{
                         new Well("knowledge", loc);
                 break;
         }
-        room.addShaders();
         return room;
     }
     
     public static Room depthEntrance(Location loc, int depth){
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
                 Distribution.getRandomInt(5, 16)), loc, depth);
-        room.standardify();
+        room.paintAndPave();
         room.addDoors();
         room.map[room.dimension.height/2][room.dimension.width/2] =
                         new DepthEntrance(loc);
         room.startCoords = new Integer[]{room.dimension.width/2, room.dimension.height/2};
         room.randomlyPlop();
-        room.addShaders();
         return room;
     }
     
     public static Room depthExit(Location loc, int depth){
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
                 Distribution.getRandomInt(5, 16)), loc, depth);
-        room.standardify();
+        room.paintAndPave();
         room.addDoors();
         room.map[room.dimension.height/2][room.dimension.width/2] =
                         new DepthExit(loc);
         room.endCoords = new Integer[]{room.dimension.width/2, room.dimension.height/2};
         room.randomlyPlop();
-        room.addShaders();
         return room;
     }
     
@@ -263,7 +253,6 @@ public class RoomBuilder{
         }
         room.addDoors(1);
         room.randomlyPlop();
-        room.addShaders();
         return room;
     } 
     
@@ -319,7 +308,6 @@ public class RoomBuilder{
         }
         //@unfinished
         //room.spawnUncounted(CreatureBuilder.piranha(loc));
-        room.addShaders();
         return room;
     }
     
@@ -331,7 +319,6 @@ public class RoomBuilder{
                 if(Distribution.chance(1, 7)) room.map[y][x] = Tile.wall(location);
         room.checkDoors();
         room.randomlyPlop();
-        room.addShaders();
         return room;
     }
     
@@ -339,7 +326,6 @@ public class RoomBuilder{
         Room room = new Room(new Dimension(Distribution.getRandomInt(10, 32),
                 Distribution.getRandomInt(10, 32)), loc, depth);
         new MazeBuilder(room, 0, 0, room.dimension.width, room.dimension.height);
-        room.addShaders();
         room.randomlyPlop();
         return room;
     }

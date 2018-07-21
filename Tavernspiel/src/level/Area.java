@@ -20,11 +20,15 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 import listeners.AreaEvent;
+import logic.Distribution;
 import logic.GameObject;
 import logic.Utils.Unfinished;
 import pathfinding.Graph;
+import tiles.AnimatedTile;
+import tiles.Grass;
 import tiles.Tile;
 
 /**
@@ -46,11 +50,11 @@ public class Area implements Serializable{
     //protected final List<Receptacle> receptacles = (List<Receptacle>)(Object)Collections.synchronizedList(new LinkedList<>());
     private final List<GameObject> objects = new LinkedList<>();
     protected final List<Receptacle> receptacles = new LinkedList<>();
-    //
+
     public Graph graph = null;
     protected volatile Hero hero;
     public final VisibilityOverlay overlay;
-    //public final ReentrantLock objectLock = new ReentrantLock();
+    public final ReentrantLock objectLock = new ReentrantLock();
     
     @Unfinished("Remove debug")
     public boolean debugMode = false;
@@ -337,19 +341,13 @@ public class Area implements Serializable{
      * @param turnNum The amount of turns passed.
      */
     public void turn(double turnNum){
-        //objectLock.lock();
-        //try{
-            //for(;turnNum>=1;turnNum--){
-            //    for(final ListIterator<GameObject> iter = objects.listIterator();iter.hasNext();) 
-            //        iter.next().turn(1.0);
-            //}
-            //if(turnNum!=0.0){
-        for(final ListIterator<GameObject> iter = objects.listIterator();iter.hasNext();) 
-            iter.next().turn(turnNum);
-            //}
-        //}finally{
-        //    objectLock.unlock();
-        //}
+        objectLock.lock();
+        try{
+            for(final ListIterator<GameObject> iter = objects.listIterator();iter.hasNext();) 
+                iter.next().turn(turnNum);
+        }finally{
+            objectLock.unlock();
+        }
     }
     
     /**
@@ -420,6 +418,125 @@ public class Area implements Serializable{
                 Window.main.setTurnsPassed(hero.attributes.speed);
             }
         }
+    }
+    
+        
+    
+    /**
+     * Generates water.
+     */
+    private void water(){
+        for(int y=1;y<dimension.height-1;y++){
+            for(int x=1;x<dimension.width-1;x++){
+                if(map[y][x]!=null&&map[y][x].equals("floor")&&location.waterGenChance.chance()){
+                    map[y][x] = new AnimatedTile(location, x%2);
+                }
+            }
+        }
+        
+        boolean spreads = true;
+        for(int n=3;spreads;n++){
+            spreads = false;
+            Distribution ch = new Distribution(1, n);
+            for(int y=1;y<dimension.height-1;y++){
+                for(int x=1;x<dimension.width-1;x++){
+                    if(map[y][x]!=null&&map[y][x].equals("water")){
+                        if(ch.chance()){
+                            spreads = true;
+                            spreadWater(x, y);
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * Generates grass.
+     */
+    private void grass(){
+        for(int y=1;y<dimension.height-1;y++){
+            for(int x=1;x<dimension.width-1;x++){
+                if(map[y][x]!=null&&map[y][x].equals("floor")&&location.grassGenChance.chance()) 
+                    map[y][x] = new Grass(location, false);
+            }
+        }
+        
+        boolean spreads = true;
+        for(int n=3;spreads;n++){
+            spreads = false;
+            for(int y=1;y<dimension.height-1;y++){
+                for(int x=1;x<dimension.width-1;x++){
+                    if(map[y][x]!=null&&map[y][x].equals("lowgrass")&&Distribution.chance(1, n)){
+                        spreads = true;
+                        spreadGrass(x, y);
+                    }
+                }
+            }
+        }
+        
+        for(int y=1;y<dimension.height-1;y++){
+            for(int x=1;x<dimension.width-1;x++){
+                if(map[y][x]!=null&&map[y][x].equals("lowgrass")&&Distribution.chance(1, 2)){
+                    map[y][x] = new Grass(location, true);
+                }
+            }
+        }
+    }
+    
+    /**
+     * Spreads grass orthogonally.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     */
+    private void spreadGrass(int x, int y){
+        if(withinBounds(x+1, y)&&map[y][x+1].isFloor()) map[y][x+1] = new Grass(location, false);
+        if(withinBounds(x-1, y)&&map[y][x-1].isFloor()) map[y][x-1] = new Grass(location, false);
+        if(withinBounds(x, y+1)&&map[y+1][x].isFloor()) map[y+1][x] = new Grass(location, false);
+        if(withinBounds(x, y-1)&&map[y-1][x].isFloor()) map[y-1][x] = new Grass(location, false);
+    }
+    
+    /**
+     * Spreads water orthogonally.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     */
+    private void spreadWater(int x, int y){
+        if(withinBounds(x+1, y)&&map[y][x+1].isFloor()) map[y][x+1] = new AnimatedTile(location, x%2);
+        if(withinBounds(x-1, y)&&map[y][x-1].isFloor()) map[y][x-1] = new AnimatedTile(location, x%2);
+        if(withinBounds(x, y+1)&&map[y+1][x].isFloor()) map[y+1][x] = new AnimatedTile(location, x%2);
+        if(withinBounds(x, y-1)&&map[y-1][x].isFloor()) map[y-1][x] = new AnimatedTile(location, x%2);
+    }
+    
+    /**
+     * Adds water, grass and traps to this Room.
+     */
+    public void addDeco(){
+        if(location.waterBeforeGrass){
+            water();
+            grass();
+        }else{
+            grass();
+            water();
+        }
+        for(int y=1;y<dimension.height-1;y++){
+            for(int x=1;x<dimension.width-1;x++){
+                if(map[y][x]!=null&&map[y][x].equals("water")){
+                    AnimatedTile tile = (AnimatedTile) map[y][x];
+                    tile.addShaders(genShaderString(x, y), location);
+                    map[y][x] = tile;
+                }
+            }
+        }
+    }
+    
+    private String genShaderString(int x, int y){
+        String ret = "";
+        if(!map[y-1][x].name.contains("wa")) ret += "n";
+        if(!map[y][x+1].name.contains("wa")) ret += "e";
+        if(!map[y+1][x].name.contains("wa")) ret += "s";
+        if(!map[y][x-1].name.contains("wa")) ret += "w";
+        return ret;
     }
     
 }

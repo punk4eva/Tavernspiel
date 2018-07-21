@@ -3,16 +3,13 @@ package gui;
 
 import gui.mainToolbox.Main;
 import ai.PlayerAI;
-import animation.GameObjectAnimator;
 import containers.HeroInventory;
 import creatureLogic.Attributes;
 import creatures.Hero;
 import items.Apparatus;
 import items.misc.Gold;
-import javax.swing.ImageIcon;
 import level.Area;
 import level.Dungeon;
-import logic.ImageUtils;
 import logic.Utils.Unfinished;
 
 /**
@@ -33,9 +30,7 @@ public class Game extends Main{
         window = new Window(WIDTH, HEIGHT, "Tavernspiel", this);
         dungeon = new Dungeon(this);
         gui.addMessage("You are now in " + dungeon.getDepthClassifier() + ".");
-        GameObjectAnimator goa = new GameObjectAnimator(ImageUtils.addImageBuffer(new ImageIcon("graphics/spritesheets/tree.png")),
-                new String[]{"stand", "move", "attack", "die"}, new int[]{2, 4, 8, 5});
-        player = new Hero(new Attributes(), goa);
+        player = new Hero(new Attributes());
         gui.hero = player;
         currentArea.addHero(player, true);
         addKeyListener((PlayerAI) player.attributes.ai);

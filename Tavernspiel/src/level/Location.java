@@ -24,8 +24,8 @@ public class Location implements Serializable{
     public final String name;
     public final ImageIcon tileset;
     public final ImageIcon waterImage;
-    protected Distribution waterGenChance = new Distribution(1, 20);
-    protected Distribution grassGenChance = new Distribution(1, 20);
+    protected Distribution waterGenChance = new Distribution(1, 25);
+    protected Distribution grassGenChance = new Distribution(1, 25);
     protected RoomDistribution roomDistrib = null; //null if boss room.
     protected CreatureDistribution[] spawnDistribution;
     protected boolean waterBeforeGrass = true;
@@ -325,6 +325,7 @@ public class Location implements Serializable{
             {14,14}, {14,1}, {15,4}
         }, ImageHandler.getImage("highgrass", Location.SHKODER_TILESET), 57, 177, 249, 
                 40, 100, 190, 210, 190, 254);
+        SHKODER_TILESET.roomDistrib = new RoomDistribution(SHKODER_TILESET, 3, 12);
     }
     
 }

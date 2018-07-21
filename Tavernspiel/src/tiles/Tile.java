@@ -67,13 +67,17 @@ public class Tile implements Serializable, Comparable<Tile>{
     }
     
     public static Tile floor(Location loc){
-        if(Distribution.chance(1, 30)) return RoomBuilder.getRandomTrap(loc);
+        if(Distribution.chance(1, 26)) return RoomBuilder.getRandomTrap(loc);
         if(Distribution.chance(1, 22)) return new Tile("decofloor", loc, true, false, true);
         return new Tile("floor", loc, true, false, true);
     }
     
     public void paint(Graphics g, int x, int y){
         g.drawImage(image.getImage(), x, y, null);
+    }
+    
+    public boolean isFloor(){
+        return name.equals("floor")||name.equals("decofloor");
     }
     
 }

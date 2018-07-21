@@ -10,7 +10,6 @@ import logic.Distribution;
 import tiles.AnimatedTile;
 import tiles.Barricade;
 import tiles.Door;
-import tiles.Grass;
 import tiles.Tile;
 import tiles.TrapBuilder;
 
@@ -84,19 +83,6 @@ public class Room extends Area{
     public static Room genStandard(Location loc, int depth){
         Room room = genBlank(loc, depth);
         room.paintAndPave();
-        if(loc.waterBeforeGrass){
-            room.water();
-            room.grass();
-        }else{
-            room.grass();
-            room.water();
-        }
-        for(int y=0;y<room.dimension.height;y++){
-            for(int x=0;x<room.dimension.width;x++){
-                if(room.map[y][x].equals("floor")&&Distribution.chance(1, 30))
-                    room.map[y][x] = RoomBuilder.getRandomTrap(loc);
-            }
-        }
         return room;
     }
     
@@ -110,40 +96,7 @@ public class Room extends Area{
     public static Room genStandard(Location loc, Item key, ItemMap itMap){
         Room room = genBlank(loc, key, itMap);
         room.paintAndPave();
-        if(loc.waterBeforeGrass){
-            room.water();
-            room.grass();
-        }else{
-            room.grass();
-            room.water();
-        }
-        for(int y=0;y<room.dimension.height;y++){
-            for(int x=0;x<room.dimension.width;x++){
-                if(room.map[y][x].equals("floor")&&Distribution.chance(1, 30))
-                    room.map[y][x] = RoomBuilder.getRandomTrap(loc);
-            }
-        }
         return room;
-    }
-    
-    /**
-     * Standardifies this Room.
-     */
-    public void standardify(){
-        paintAndPave();
-        if(location.waterBeforeGrass){
-            water();
-            grass();
-        }else{
-            grass();
-            water();
-        }
-        for(int y=1;y<dimension.height-1;y++){
-            for(int x=1;x<dimension.width-1;x++){
-                if(map[y][x].equals("floor")&&Distribution.chance(1, 30))
-                    map[y][x] = RoomBuilder.getRandomTrap(location);
-            }
-        }
     }
     
     /**
@@ -157,116 +110,6 @@ public class Room extends Area{
                 else map[y][x] = Tile.floor(location);
             }
         }
-    }
-    
-    /**
-     * Generates water.
-     */
-    protected void water(){
-        for(int y=1;y<dimension.height-1;y++){
-            for(int x=1;x<dimension.width-1;x++){
-                if(map[y][x].equals("floor")&&location.waterGenChance.chance()){
-                    map[y][x] = new AnimatedTile(location, x%2);
-                }
-            }
-        }
-        
-        boolean spreads = true;
-        for(int n=3;spreads;n++){
-            spreads = false;
-            Distribution ch = new Distribution(1, n);
-            for(int y=1;y<dimension.height-1;y++){
-                for(int x=1;x<dimension.width-1;x++){
-                    if(map[y][x].equals("water")){
-                        if(ch.chance()){
-                            spreads = true;
-                            spreadWater(x, y);
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    /**
-     * Generates grass.
-     */
-    protected void grass(){
-        for(int y=1;y<dimension.height-1;y++){
-            for(int x=1;x<dimension.width-1;x++){
-                if(map[y][x].equals("floor")&&location.grassGenChance.chance()) 
-                    map[y][x] = new Grass(location, false);
-            }
-        }
-        
-        boolean spreads = true;
-        for(int n=3;spreads;n++){
-            spreads = false;
-            for(int y=1;y<dimension.height-1;y++){
-                for(int x=1;x<dimension.width-1;x++){
-                    if(map[y][x].equals("lowgrass")&&Distribution.chance(1, n)){
-                        spreads = true;
-                        spreadGrass(x, y);
-                    }
-                }
-            }
-        }
-        
-        for(int y=1;y<dimension.height-1;y++){
-            for(int x=1;x<dimension.width-1;x++){
-                if(map[y][x].equals("lowgrass")&&Distribution.chance(1, 2)){
-                    map[y][x] = new Grass(location, true);
-                }
-            }
-        }
-    }
-    
-    /**
-     * Spreads grass orthogonally.
-     * @param x The x coordinate.
-     * @param y The y coordinate.
-     */
-    protected void spreadGrass(int x, int y){
-        if(withinBounds(x+1, y)&&isTreadable(x+1, y)) map[y][x+1] = new Grass(location, false);
-        if(withinBounds(x-1, y)&&isTreadable(x-1, y)) map[y][x-1] = new Grass(location, false);
-        if(withinBounds(x, y+1)&&isTreadable(x, y+1)) map[y+1][x] = new Grass(location, false);
-        if(withinBounds(x, y-1)&&isTreadable(x, y-1)) map[y-1][x] = new Grass(location, false);
-    }
-    
-    /**
-     * Spreads water orthogonally.
-     * @param x The x coordinate.
-     * @param y The y coordinate.
-     */
-    protected void spreadWater(int x, int y){
-        if(withinBounds(x+1, y)&&isTreadable(x+1, y)) map[y][x+1] = new AnimatedTile(location, x%2);
-        if(withinBounds(x-1, y)&&isTreadable(x-1, y)) map[y][x-1] = new AnimatedTile(location, x%2);
-        if(withinBounds(x, y+1)&&isTreadable(x, y+1)) map[y+1][x] = new AnimatedTile(location, x%2);
-        if(withinBounds(x, y-1)&&isTreadable(x, y-1)) map[y-1][x] = new AnimatedTile(location, x%2);
-    }
-    
-    /**
-     * Adds shaders to the water.
-     */
-    protected void addShaders(){
-        for(int y=1;y<dimension.height-1;y++){
-            for(int x=1;x<dimension.width-1;x++){
-                if(map[y][x].equals("water")){
-                    AnimatedTile tile = (AnimatedTile) map[y][x];
-                    tile.addShaders(genShaderString(x, y), location);
-                    map[y][x] = tile;
-                }
-            }
-        }
-    }
-    
-    private String genShaderString(int x, int y){
-        String ret = "";
-        if(!map[y-1][x].name.contains("wa")) ret += "n";
-        if(!map[y][x+1].name.contains("wa")) ret += "e";
-        if(!map[y+1][x].name.contains("wa")) ret += "s";
-        if(!map[y][x-1].name.contains("wa")) ret += "w";
-        return ret;
     }
     
     /**

@@ -37,8 +37,10 @@ public class MazeBuilder{
         for(int cy=y;cy<height+y;cy++)
             for(int cx=x;cx<width+x;cx++) area.map[cy][cx] = Tile.wall(area.location);
         if(area.graph==null) area.graph = new Graph(area);
+        else area.graph.use();
         new MazeAlgorithm().floodfill(area.graph.map[Distribution.r.nextInt(area.dimension.height/2)]
                 [Distribution.r.nextInt(area.dimension.width/2)]);
+        area.graph = new Graph(area);
     }
     
     private final class MazeAlgorithm extends Searcher{

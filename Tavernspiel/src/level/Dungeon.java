@@ -4,6 +4,7 @@ package level;
 import creatures.Hero;
 import gui.Game;
 import java.io.Serializable;
+import logic.Distribution;
 
 /**
  *
@@ -28,10 +29,10 @@ public class Dungeon implements Serializable{
         game = g;
         stages = new Stage[5];
         Location loc = Location.SHKODER_TILESET;
-        loc.roomDistrib = new RoomDistribution(loc, 3, 12);
         stages[0] = new Stage(loc, 5, new String[]{"the upper level of the caves", "the lower level of the caves"}, null);
-        stages[0].areas[0] = stages[0].areaBuilder.load(stages[0].location.roomDistrib, 0); depth=1;stages[0].loadedLevel=1;
-        g.currentArea = getArea2();
+        stages[0].areas[0] = stages[0].areaBuilder.load(stages[0].location.roomDistrib, 0);
+        depth=1;stages[0].loadedLevel=1;
+        g.currentArea = getArea();
         //stages[0].areas[0] = Area.getPreloadedArea("filetesting/phallus.map");
     }
     
@@ -44,7 +45,7 @@ public class Dungeon implements Serializable{
         if(!getStage().isLoaded(depth)){
             getStage().loadNext();
         }
-        game.updateDepth(getArea2());
+        game.updateDepth(getArea());
         if(hero!=null) currentArea.addHero(hero, true);
     }
     
@@ -55,7 +56,7 @@ public class Dungeon implements Serializable{
     public void ascend(Hero hero){
         if(depth!=1){
             depth--;
-            game.updateDepth(getArea2());
+            game.updateDepth(getArea());
             currentArea.addHero(hero, false);
         }
     }
@@ -72,25 +73,7 @@ public class Dungeon implements Serializable{
         }
     }
     
-    /**
-     * Gets the current Area.
-     * @return The current Area.
-     */
-    public Area getArea(){
-        if(currentArea==null){
-            int roll = depth;
-            for(int n=0;true;n++){
-                if(roll<=stages[n].length){
-                    currentArea = stages[n].areas[roll-1];
-                    break;
-                }
-                else roll-=stages[n].length;
-            }
-        }
-        return currentArea;
-    }
-    
-    private Area getArea2(){
+    private Area getArea(){
         int roll = depth;
         for(int n=0;true;n++){
             if(roll<=stages[n].length){
