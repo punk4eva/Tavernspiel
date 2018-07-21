@@ -1,8 +1,9 @@
 
 package gui.mainToolbox.hudLayout;
 
+import buffs.Buff;
 import creatureLogic.QuickSlot;
-import gui.BuffDisplay;
+import creatures.Hero;
 import gui.Game;
 import gui.HUD;
 import gui.Window;
@@ -22,10 +23,12 @@ import logic.ImageUtils;
 public class DefaultHUDLookAndFeel implements HUDStrategy{
     
     private final QuickSlot quickslot;
+    private final Hero hero;
     private final List<Screen> screens = new LinkedList<>();
     
     public DefaultHUDLookAndFeel(HUD hud){
         quickslot = hud.quickslot;
+        hero = quickslot.hero;
         screens.add(new Screen("Player",5,5,60,60,hud));
         screens.add(new Screen("Wait",Game.WIDTH - 50, Game.HEIGHT - 73, 40, 40,hud));
         screens.add(new Screen("Search",Game.WIDTH - 95, Game.HEIGHT - 73, 40, 40,hud));
@@ -33,7 +36,14 @@ public class DefaultHUDLookAndFeel implements HUDStrategy{
         screens.add(new Screen("QuickAttack",Game.WIDTH - 70, Game.HEIGHT - 250, 70, 40,hud));
         screens.add(new Screen("QuickPickup",Game.WIDTH - 70, Game.HEIGHT - 300, 70, 40,hud));
         
-        for(int i = 0; i < quickslot.length(); i++) screens.add(new Screen("QuickSlot:" + i,Game.WIDTH - (350 + i * 45), Game.HEIGHT - 73, 40, 40, quickslot));
+        for(int i = 0; i < quickslot.length(); i++) 
+            screens.add(new Screen("QuickSlot:" + i, Game.WIDTH - (350 + i * 45), Game.HEIGHT - 73, 40, 40, quickslot));
+        
+        int x = 29, y = 77;
+        for(Buff b : hero.buffs){
+            screens.add(new Screen("buff: " + b.name, x, y, 12, 12, hud));
+            y += 16;
+        }
         
     }
 
@@ -69,6 +79,12 @@ public class DefaultHUDLookAndFeel implements HUDStrategy{
         
         g.setColor(Color.red);
         g.fill3DRect(70, 5, (int) ((double)Window.main.player.attributes.hp/(double)(Window.main.player.attributes.maxhp) * 200), 10, true);
+        
+        int x = 29, y = 77;
+        for(Buff b : hero.buffs){
+            g.drawImage(b.icon.getImage(), x, y, null);
+            y += 16;
+        }
     }
     
 }

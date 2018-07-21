@@ -143,6 +143,16 @@ public class Creature extends GameObject implements Comparable<Creature>{
     }
     
     /**
+     * Returns the Buff with the given name if it exists and null otherwise.
+     * @param b The name of the Buff.
+     * @return
+     */
+    public Buff getBuff(String b){
+        for(Buff buff : buffs) if(buff.name.equals(b)) return buff;
+        return null;
+    }
+    
+    /**
      * Removes the given buff.
      * @param b The buff.
      */

@@ -107,6 +107,9 @@ public final class PlayerAI extends AITemplate implements KeyListener{
         skipTurns(turns);
     }
     
+    /**
+     * Wakes up the TurnThread.
+     */
     public synchronized void release(){
         waiting = false;
         notify();

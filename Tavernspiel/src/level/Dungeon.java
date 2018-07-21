@@ -27,7 +27,7 @@ public class Dungeon implements Serializable{
     public Dungeon(Game g){
         game = g;
         stages = new Stage[5];
-        Location loc = new Location("Shkoder", "shkoderTileset", "water", "Cyanoshrooms.wav", 2);
+        Location loc = Location.SHKODER_TILESET;
         loc.roomDistrib = new RoomDistribution(loc, 3, 12);
         stages[0] = new Stage(loc, 5, new String[]{"the upper level of the caves", "the lower level of the caves"}, null);
         stages[0].areas[0] = stages[0].areaBuilder.load(stages[0].location.roomDistrib, 0); depth=1;stages[0].loadedLevel=1;

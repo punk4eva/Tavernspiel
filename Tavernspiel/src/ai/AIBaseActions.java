@@ -16,7 +16,7 @@ import items.ItemAction;
 import items.equipment.MeleeWeapon;
 import items.equipment.Wand;
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import level.Area;
 import listeners.StepListener;
 import logic.Distribution;
@@ -283,7 +283,7 @@ public class AIBaseActions implements Serializable{
      * @param area
      */
     public void search(Creature c, Area area){
-        ArrayList<Point> ary = new ArrayList<>();
+        LinkedList<Point> ary = new LinkedList<>();
         boolean searchSuccessful = false;
         for(int yPlus=-1;yPlus<2;yPlus++){
             for(int xPlus=-1;xPlus<2;xPlus++){

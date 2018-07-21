@@ -206,7 +206,7 @@ public class Room extends Area{
                 for(int x=1;x<dimension.width-1;x++){
                     if(map[y][x].equals("lowgrass")&&Distribution.chance(1, n)){
                         spreads = true;
-                        spread(new Grass(location, false), x, y);
+                        spreadGrass(x, y);
                     }
                 }
             }
@@ -222,29 +222,15 @@ public class Room extends Area{
     }
     
     /**
-     * Spreads this Tile orthogonally.
-     * @param t The Tile.
+     * Spreads grass orthogonally.
      * @param x The x coordinate.
      * @param y The y coordinate.
      */
-    protected void spread(Tile t, int x, int y){
-        if(withinBounds(x+1, y)&&isTreadable(x+1, y)) map[y][x+1] = new Tile(t);
-        if(withinBounds(x-1, y)&&isTreadable(x-1, y)) map[y][x-1] = new Tile(t);
-        if(withinBounds(x, y+1)&&isTreadable(x, y+1)) map[y+1][x] = new Tile(t);
-        if(withinBounds(x, y-1)&&isTreadable(x, y-1)) map[y-1][x] = new Tile(t);
-    }
-    
-    /**
-     * Spreads this AnimatedTile orthogonally.
-     * @param t The AnimateTile's name.
-     * @param x The x coordinate.
-     * @param y The y coordinate.
-     */
-    protected void spreadAnimated(String t, int x, int y){
-        if(withinBounds(x+1, y)&&isTreadable(x+1, y)) map[y][x+1] = new AnimatedTile(t, x%2);
-        if(withinBounds(x-1, y)&&isTreadable(x-1, y)) map[y][x-1] = new AnimatedTile(t, x%2);
-        if(withinBounds(x, y+1)&&isTreadable(x, y+1)) map[y+1][x] = new AnimatedTile(t, x%2);
-        if(withinBounds(x, y-1)&&isTreadable(x, y-1)) map[y-1][x] = new AnimatedTile(t, x%2);
+    protected void spreadGrass(int x, int y){
+        if(withinBounds(x+1, y)&&isTreadable(x+1, y)) map[y][x+1] = new Grass(location, false);
+        if(withinBounds(x-1, y)&&isTreadable(x-1, y)) map[y][x-1] = new Grass(location, false);
+        if(withinBounds(x, y+1)&&isTreadable(x, y+1)) map[y+1][x] = new Grass(location, false);
+        if(withinBounds(x, y-1)&&isTreadable(x, y-1)) map[y-1][x] = new Grass(location, false);
     }
     
     /**

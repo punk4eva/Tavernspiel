@@ -6,18 +6,21 @@ import java.awt.Graphics;
 import java.util.List;
 import listeners.ScreenListener;
 import creatureLogic.QuickSlot;
+import dialogues.BuffDialogue;
 import gui.mainToolbox.HUDStrategy;
 import gui.mainToolbox.hudLayout.DefaultHUDLookAndFeel;
 
 /**
  *
- * @author Charlie Hands
+ * @author Adam Whittaker and Charlie Hands
+ * 
+ * This class represents the Heads-Up Display of the GUI.
  */
 public class HUD implements Viewable, ScreenListener{
     
     public final QuickSlot quickslot;
     private HUDStrategy strategy;
-    private BuffDisplay buffdisplay = new BuffDisplay(65,65,100,100,Window.main.player);
+    
     /**
      * Creates a new instance.
      * @param q The QuickSlot
@@ -25,15 +28,6 @@ public class HUD implements Viewable, ScreenListener{
     public HUD(QuickSlot q){
         quickslot = q;
         strategy = new DefaultHUDLookAndFeel(this);
-    }
-    /**
-     * Creates a new instance
-     * @param q The QuickSlot
-     * @param st The HUDStrategy
-     */
-    public HUD(QuickSlot q, HUDStrategy st){
-        quickslot = q;
-        strategy = st;
     }
     
     /**
@@ -59,12 +53,12 @@ public class HUD implements Viewable, ScreenListener{
         switch(name.getName()){
             case "Inventory": 
                 Window.main.toggleInventory();
-                break;
+                return;
             case "Wait": Window.main.player.attributes.ai.paralyze(1.0);
-                break;
-            case "Player": Window.main.setViewable(buffdisplay);
-                break;
+                return;
         }
+        if(name.getName().startsWith("buff: "))
+            new BuffDialogue(quickslot.hero.getBuff(name.getName().substring(6))).next();
     }    
     
 }

@@ -2,6 +2,7 @@
 package tiles;
 
 import animation.Animation;
+import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import level.Location;
 import logic.ImageHandler;
@@ -14,18 +15,27 @@ public class AnimatedTile extends Tile{
     
     public Animation animation;
     
+    /**
+     * Creates an instance.
+     * @param tile The name of the Tile.
+     * @param an The Animation.
+     */
     public AnimatedTile(String tile, Animation an){
         super(tile, (ImageIcon) null);
         animation = an;
     }
     
-    public AnimatedTile(String tile){
-        super(tile, (ImageIcon) null);
-        /*super(tile, (ImageIcon) null);
-        if(tile.startsWith("water")||tile.startsWith("well")){
-        animation = new Animation(ImageHandler.getWaterFrames(tile, 0), 110);
-        }else animation = AnimationBuilder.getAnimation(tile);*/
-        throw new UnsupportedOperationException();
+    /**
+     * Creates an instance.
+     * @param tile The name of the Tile.
+     * @param an The Animation.
+     * @param t The treadability.
+     * @param tr The transparency.
+     * @param f The flammability.
+     */
+    public AnimatedTile(String tile, Animation an, boolean t, boolean f, boolean tr){
+        super(tile, (ImageIcon) null, t, f, tr);
+        animation = an;
     }
     
     /**
@@ -48,8 +58,18 @@ public class AnimatedTile extends Tile{
         animation = new Animation(ImageHandler.getWaterFrames(loc, x), 110);
     }
     
+    /**
+     * Adds a shader to this Tile.
+     * @param shaderString The string tag of the shader.
+     * @param loc The Location.
+     */
     public void addShaders(String shaderString, Location loc){
         animation.addShaders(shaderString, loc);
+    }
+    
+    @Override
+    public void paint(Graphics g, int x, int y){
+        animation.animate(g, x, y);
     }
 
 }

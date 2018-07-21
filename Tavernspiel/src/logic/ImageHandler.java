@@ -6,7 +6,9 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import javax.swing.ImageIcon;
 import level.Location;
 
@@ -16,7 +18,8 @@ import level.Location;
  */
 public class ImageHandler{
     
-    private static final HashMap<String, Dimension> map = new HashMap<>();    
+    private static final HashMap<String, Dimension> map = new HashMap<>();
+    private static final HashMap<String, List<Integer[]>[]> grassMap = new HashMap<>();
     static{
         map.put("void", new Dimension(0, 0));
         map.put("floor", new Dimension(16, 0));
@@ -73,6 +76,14 @@ public class ImageHandler{
         map.put("shadere", new Dimension(208, 48));
         map.put("shadern", new Dimension(224, 48));
         map.put("shader", new Dimension(240, 48));
+        
+        grassMap.put("Shkoder", new List[]{Arrays.asList(new Integer[][]{
+            {3,2}, {15,4}, {0,8}, {13,10}, {2,11}, {8,12}, {11,15}
+        }), Arrays.asList(new Integer[][]{
+            {0,8}, {1,1}, {3,4}, {3,9}, {4,0}, {4,14}, {5,5}, {8,2}, {8,8}, 
+            {9,0}, {9,12}, {10,4}, {11,8}, {12,6}, {12,14}, {14,9}, {14,12},
+            {14,14}, {14,1}, {15,4}
+        })});
     }
     
     /**

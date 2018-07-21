@@ -1,12 +1,14 @@
 
 package level;
 
+import animation.GrassAnimation;
 import creatureLogic.CreatureDistribution;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
 import logic.Distribution;
+import logic.ImageHandler;
 import logic.Utils.Unfinished;
 
 /**
@@ -32,6 +34,9 @@ public class Location implements Serializable{
     public int difficulty;
     public final WeaponIndex weaponIndex;
     private Distribution armourDistrib = new Distribution(new int[]{12,20,6,3,1});
+    
+    public GrassAnimation lowGrass;
+    public GrassAnimation highGrass;
     
     /**
      * Creates a new instance.
@@ -303,6 +308,23 @@ public class Location implements Serializable{
             case 3: return "scale";
             default: return "plate";
         }
+    }
+    
+    
+    
+    public static final Location SHKODER_TILESET = 
+            new Location("Shkoder", "shkoderTileset", "water", "Cyanoshrooms.wav", 2);
+    static{
+        SHKODER_TILESET.lowGrass = new GrassAnimation(new int[][]{
+                    {3,2}, {15,4}, {0,8}, {13,10}, {2,11}, {8,12}, {11,15}
+        }, ImageHandler.getImage("lowgrass", Location.SHKODER_TILESET), 57, 177, 249, 
+                40, 100, 190, 210, 190, 254);
+        SHKODER_TILESET.highGrass = new GrassAnimation(new int[][]{
+                    {0,8}, {1,1}, {3,4}, {3,9}, {4,0}, {4,14}, {5,5}, {8,2}, {8,8}, 
+            {9,0}, {9,12}, {10,4}, {11,8}, {12,6}, {12,14}, {14,9}, {14,12},
+            {14,14}, {14,1}, {15,4}
+        }, ImageHandler.getImage("highgrass", Location.SHKODER_TILESET), 57, 177, 249, 
+                40, 100, 190, 210, 190, 254);
     }
     
 }

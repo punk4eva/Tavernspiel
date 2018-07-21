@@ -1,6 +1,8 @@
 package gui.mainToolbox.hudLayout;
 
+import buffs.Buff;
 import creatureLogic.QuickSlot;
+import creatures.Hero;
 import gui.Game;
 import gui.HUD;
 import gui.Window;
@@ -17,11 +19,19 @@ import logic.ImageUtils;
  *
  * @author charl
  */
-public class ReverseHUD implements HUDStrategy{
+public class ReverseHUDLookAndFeel implements HUDStrategy{
+    
     private final List<Screen> screens = new LinkedList<>();
     private final QuickSlot quickslot;
-    public ReverseHUD(HUD hud){
+    private final Hero hero;
+    
+    /**
+     * Creates a new instance.
+     * @param hud The HUD.
+     */
+    public ReverseHUDLookAndFeel(HUD hud){
         quickslot = hud.quickslot;
+        hero = quickslot.hero;
         screens.add(new Screen("Player",5,5,60,60,hud));
         screens.add(new Screen("Wait",5, Game.HEIGHT - 73, 40, 40,hud));
         screens.add(new Screen("Search",50, Game.HEIGHT - 73, 40, 40,hud));
@@ -29,8 +39,17 @@ public class ReverseHUD implements HUDStrategy{
         screens.add(new Screen("QuickAttack",0, Game.HEIGHT - 250, 70, 40,hud));
         screens.add(new Screen("QuickPickup",0, Game.HEIGHT - 300, 70, 40,hud));
         
-        for(int i = 0; i < quickslot.length(); i++) screens.add(new Screen("QuickSlot:" + i,Game.WIDTH - (350 + i * 45), Game.HEIGHT - 73, 40, 40, quickslot));
+        for(int i = 0; i < quickslot.length(); i++) 
+            screens.add(new Screen("QuickSlot:" + i, Game.WIDTH - (350 + i * 45), Game.HEIGHT - 73, 40, 40, quickslot));
+        
+        int x = 29, y = 77;
+        for(Buff b : hero.buffs){
+            screens.add(new Screen("buff: " + b.name, x, y, 12, 12, hud));
+            y += 16;
+        }
+        
     }
+    
     @Override
     public List<Screen> getScreens(){
         return screens;
@@ -62,7 +81,13 @@ public class ReverseHUD implements HUDStrategy{
         g.fill3DRect(0, Game.HEIGHT - 300, 70, 40, true);
         
         g.setColor(Color.red);
-        g.fill3DRect(70, 5, (int) ((double)Window.main.player.attributes.hp/(double)(Window.main.player.attributes.maxhp) * 200), 10, true);    
+        g.fill3DRect(70, 5, (int) ((double)Window.main.player.attributes.hp/(double)(Window.main.player.attributes.maxhp) * 200), 10, true);
+        
+        int x = 29, y = 77;
+        for(Buff b : hero.buffs){
+            g.drawImage(b.icon.getImage(), x, y, null);
+            y += 16;
+        }
     }
     
 }

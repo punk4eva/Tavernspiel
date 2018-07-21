@@ -1,6 +1,7 @@
 
 package tiles;
 
+import java.awt.Graphics;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
 import level.Location;
@@ -16,7 +17,7 @@ public class Tile implements Serializable, Comparable<Tile>{
 
     private final static long serialVersionUID = 2606798;
     
-    public ImageIcon image;
+    protected ImageIcon image;
     public String name;
     public boolean treadable;
     public boolean flammable;
@@ -28,14 +29,6 @@ public class Tile implements Serializable, Comparable<Tile>{
         treadable = true;
         flammable = false;
         transparent = true;
-    }
-    
-    public Tile(Tile t){
-        image = t.image;
-        name = t.name;
-        treadable = t.treadable;
-        flammable = t.flammable;
-        transparent = t.transparent;
     }
     
     public Tile(String n, ImageIcon ic, boolean t, boolean f, boolean tr){
@@ -77,6 +70,10 @@ public class Tile implements Serializable, Comparable<Tile>{
         if(Distribution.chance(1, 30)) return RoomBuilder.getRandomTrap(loc);
         if(Distribution.chance(1, 22)) return new Tile("decofloor", loc, true, false, true);
         return new Tile("floor", loc, true, false, true);
+    }
+    
+    public void paint(Graphics g, int x, int y){
+        g.drawImage(image.getImage(), x, y, null);
     }
     
 }

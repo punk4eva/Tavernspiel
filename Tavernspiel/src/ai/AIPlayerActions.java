@@ -52,10 +52,6 @@ public class AIPlayerActions extends AIBaseActions{
                 Distribution.randomDouble(0, attackedDexterity);
     }
     
-    private static void expendTurns(Creature c, double t){
-        ((PlayerAI)((Hero) c).attributes.ai).skipTurns(t);
-    }
-    
     /**
      * Picks up an Item from the floor.
      * @param c The Creature.
@@ -65,25 +61,12 @@ public class AIPlayerActions extends AIBaseActions{
     @Unfinished("Add 'pickup' sound effect")
     public void pickUp(Creature c){
         Item i = c.area.pickUp(c.x, c.y);
-        expendTurns(c, 1);
         if(!c.inventory.add(i)){
             c.area.plop(i, c.x, c.y);
             Main.addMessage("red", "Your pack is too full for the " +
                     i.toString(3));
         }else Window.main.soundSystem.playSFX("pickUp.wav");
-    }
-    
-    @Override
-    public void throwItem(Creature c, Item i, int x, int y){
-        super.throwItem(c, i, x, y);
-        expendTurns(c, 1);
-    }
-    
-    @Override
-    public void dropItem(Creature c, Item i){
-        super.dropItem(c, i);
-        expendTurns(c, 1);
-    }    
+    }   
 
     /**
      * Handles throwing Items.

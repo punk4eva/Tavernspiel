@@ -1,33 +1,39 @@
 
 package tiles;
 
+import animation.GrassAnimation;
 import creatures.Creature;
-import javax.swing.ImageIcon;
 import level.Location;
 import listeners.StepListener;
-import logic.ImageHandler;
 
 /**
  *
  * @author Adam Whittaker
  */
-public class Grass extends Tile implements StepListener{
+public class Grass extends AnimatedTile implements StepListener{
 
     private boolean tall;
-    private ImageIcon shortImage;
+    private final GrassAnimation lowGrass;
     
+    /**
+     * Creates a new instance.
+     * @param loc The Location
+     * @param t Whether the Grass is tall or not.
+     */
     public Grass(Location loc, boolean t){
-        super(t ? "highgrass" : "lowgrass", loc, true, true, !t);
+        super(t ? "highgrass" : "lowgrass", null, true, true, !t);
         tall = t;
-        if(tall) shortImage = ImageHandler.getImage("lowgrass", loc);
+        animation = tall ? loc.highGrass : loc.lowGrass;
+        lowGrass = loc.lowGrass;
     }
-
+    
     @Override
     public void steppedOn(Creature c){
         if(tall){
             tall = false;
             transparent = true;
-            image = shortImage;
+            lowGrass.startFrom((GrassAnimation)animation);
+            animation = lowGrass;
         }
     }
     

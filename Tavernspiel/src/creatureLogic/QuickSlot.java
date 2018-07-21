@@ -22,7 +22,7 @@ public class QuickSlot implements Serializable, ScreenListener{
 
     private final Item[] items = new Item[4];
     private final Inventory inventory;
-    private final Hero hero;
+    public final Hero hero;
     private int slot = -1;
     
     /**

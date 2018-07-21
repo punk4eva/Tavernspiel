@@ -265,10 +265,9 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
                     else if(area.overlay.isUnexplored(tx, ty)) shade = Optional.ofNullable(VisibilityOverlay.unexploredFog.getShadow(area.overlay.map, tx, ty, 0, true));
                     if((!area.debugMode&&shade!=null&&!shade.isPresent())||x<0||y<0||x*zoom>WIDTH||y*zoom>HEIGHT) continue;
                     Tile tile = area.map[ty][tx];
-                    if(tile==null){
-                    }else if(tile instanceof AnimatedTile)
-                        ((AnimatedTile) tile).animation.animate(g, x, y);
-                    else g.drawImage(tile.image.getImage(), x, y, null);
+                    try{
+                        if(tile!=null) tile.paint(g, x, y);
+                    }catch(NullPointerException e){System.err.println("Tile: " + tile.name);}
                     if(!area.debugMode&&shade!=null) g.drawImage(shade.get(), x, y, null);
                 }catch(ArrayIndexOutOfBoundsException e){/*Skip frame*/}
             }

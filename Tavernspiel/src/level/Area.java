@@ -17,11 +17,9 @@ import items.Item;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 import listeners.AreaEvent;
 import logic.GameObject;
@@ -346,8 +344,8 @@ public class Area implements Serializable{
             //        iter.next().turn(1.0);
             //}
             //if(turnNum!=0.0){
-                for(final ListIterator<GameObject> iter = objects.listIterator();iter.hasNext();) 
-                    iter.next().turn(turnNum);
+        for(final ListIterator<GameObject> iter = objects.listIterator();iter.hasNext();) 
+            iter.next().turn(turnNum);
             //}
         //}finally{
         //    objectLock.unlock();
