@@ -16,6 +16,9 @@ import gui.Window;
 import items.Item;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,11 +44,10 @@ public class Area implements Serializable{
     
     private final static long serialVersionUID = 2049197;
     
-    public final Tile[][] map;
+    public transient Tile[][] map;
     public final Dimension dimension;
-    public final Location location;
+    public transient Location location;
     public Integer[] startCoords, endCoords;
-    //
     //private final List<GameObject> objects = (List<GameObject>)(Object)Collections.synchronizedList(new LinkedList<>());
     //protected final List<Receptacle> receptacles = (List<Receptacle>)(Object)Collections.synchronizedList(new LinkedList<>());
     private final List<GameObject> objects = new LinkedList<>();
@@ -509,7 +511,7 @@ public class Area implements Serializable{
     }
     
     /**
-     * Adds water, grass and traps to this Room.
+     * Adds water and grass to this Area and shades it.
      */
     public void addDeco(){
         if(location.waterBeforeGrass){
@@ -537,6 +539,22 @@ public class Area implements Serializable{
         if(!map[y+1][x].name.contains("wa")) ret += "s";
         if(!map[y][x-1].name.contains("wa")) ret += "w";
         return ret;
+    }
+    
+    
+    
+    private void readObject(ObjectInputStream in) 
+            throws IOException, ClassNotFoundException{
+        in.defaultReadObject();
+        AreaMemento memento = (AreaMemento) in.readObject();
+        location = memento.getLocation();
+        map = memento.getMap();
+    }
+    
+    private void writeObject(ObjectOutputStream out) 
+            throws IOException, ClassNotFoundException{
+        out.defaultWriteObject();
+        out.writeObject(new AreaMemento(location, map));
     }
     
 }

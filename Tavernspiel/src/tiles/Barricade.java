@@ -23,4 +23,13 @@ public class Barricade extends Tile{
                 loc, false, true, false);
     }
     
+    /**
+     * Creates a new instance.
+     * @param str The name of this Barricade.
+     * @param loc The Location
+     */
+    public Barricade(String str, Location loc){
+        super(str, loc, false, true, false);
+    }
+    
 }

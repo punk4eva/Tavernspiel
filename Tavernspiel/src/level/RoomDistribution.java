@@ -2,10 +2,10 @@
 package level;
 
 import items.Item;
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import logic.Distribution;
-import level.RoomBuilder;
 
 /**
  *
@@ -13,7 +13,9 @@ import level.RoomBuilder;
  * 
  * This class decides which rooms to generate.
  */
-public class RoomDistribution{
+public class RoomDistribution implements Serializable{
+    
+    private final static long serialVersionUID = 690629590;
     
     private final Location location;
     private final int lower, upper;

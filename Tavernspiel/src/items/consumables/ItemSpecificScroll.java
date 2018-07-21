@@ -7,6 +7,8 @@ import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
 import gui.Window;
 import items.Item;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import javax.swing.ImageIcon;
@@ -23,7 +25,7 @@ public abstract class ItemSpecificScroll extends Scroll implements ScreenListene
     
     private Hero hero;
     private boolean used = false;
-    private final CyclicBarrier barrier = new CyclicBarrier(2);
+    private transient CyclicBarrier barrier = new CyclicBarrier(2);
 
     /**
      * Creates a new instance.
@@ -98,6 +100,14 @@ public abstract class ItemSpecificScroll extends Scroll implements ScreenListene
         try{
             barrier.await();
         }catch(InterruptedException | BrokenBarrierException ex){}
+    }
+    
+    
+    
+    private void readObject(ObjectInputStream in) 
+            throws IOException, ClassNotFoundException{
+        in.defaultReadObject();
+        barrier = new CyclicBarrier(2);
     }
     
 }

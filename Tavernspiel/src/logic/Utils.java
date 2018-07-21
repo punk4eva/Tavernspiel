@@ -3,13 +3,11 @@ package logic;
 
 import gui.mainToolbox.Screen;
 import gui.utils.CComponent;
-import items.ItemBuilder;
-import items.equipment.Boots.ClothBoots;
-import items.equipment.Chestplate.ClothChestplate;
-import items.equipment.Helmet.ClothHelmet;
-import items.equipment.Leggings.ClothLeggings;
-import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.lang.annotation.Inherited;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -160,7 +158,16 @@ public final class Utils{
     
     public static void main(String... args) throws IOException{
         //debugging
-        ImageUtils.createImageOutline((BufferedImage)ItemBuilder.getIcon(96, 16).getImage(), "graphics/outlines/goldOutline.png");
+        /*try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("filetesting/distrib.ser"))){
+            out.writeObject(new Distribution(1, 2));
+            out.writeLong(118999);
+        }catch(IOException e){}*/
+        try(ObjectInputStream in = new ObjectInputStream(new FileInputStream("filetesting/distrib.ser"))){
+            Distribution d = (Distribution) in.readObject();
+            long l = in.readLong();
+            System.out.println(l);
+            System.out.println(d.chance());
+        }catch(IOException | ClassNotFoundException e){}
     }
     
 }

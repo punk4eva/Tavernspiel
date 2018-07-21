@@ -22,7 +22,6 @@ import java.util.Optional;
 import level.Area;
 import logic.ConstantFields;
 import logic.SoundHandler;
-import tiles.AnimatedTile;
 import tiles.Tile;
 import static gui.mainToolbox.MouseInterpreter.*;
 import gui.pages.Page;

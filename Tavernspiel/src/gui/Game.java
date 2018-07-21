@@ -10,6 +10,7 @@ import items.Apparatus;
 import items.misc.Gold;
 import level.Area;
 import level.Dungeon;
+import logic.FileHandler;
 import logic.Utils.Unfinished;
 
 /**
@@ -48,6 +49,7 @@ public class Game extends Main{
         }catch(InterruptedException e){}
         game.currentArea.plop(Apparatus.getRandomMeleeWeapon(1, game.currentArea.location), game.player.x, game.player.y);
         game.currentArea.plop(new Gold(100), game.player.x+1, game.player.y);
+        FileHandler.serialize(game, "filetesting/game.ser");
     }
 
     @Unfinished("The sfx for newDepth.")

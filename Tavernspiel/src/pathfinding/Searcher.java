@@ -2,6 +2,7 @@
 package pathfinding;
 
 import creatureLogic.VisibilityOverlay;
+import java.io.Serializable;
 import level.Area;
 import logic.Utils.Optimisable;
 import logic.Utils.Unfinished;
@@ -15,15 +16,17 @@ import pathfinding.PriorityQueue.Compare;
  * 
  * This class stores pathfinding algorithms and implements them on a Graph.
  */
-public class Searcher{
+public class Searcher implements Serializable{
+    
+    private final static long serialVersionUID = 690625658;
     
     private final Area area;
-    public PriorityQueue<Point> frontier = new PriorityQueue<>(p -> p.currentCost);
+    public PriorityQueue<Point> frontier = new PriorityQueue<>((Serializable & Compare<Point>)p -> p.currentCost);
     public final Graph graph;
-    public final static Direction[] directions = Direction.values();
-    public final static ExtendedDirection[] extendedDirections = ExtendedDirection.values();
-    public FrontierAdd addCheck = (from, to) -> to.currentCost > from.currentCost + to.movementCost; //A Predicate to check whether to add a new Point to the frontier. Dijkstra's algorithm is default.
-    interface FrontierAdd{
+    public final transient static Direction[] directions = Direction.values();
+    public final transient static ExtendedDirection[] extendedDirections = ExtendedDirection.values();
+    public FrontierAdd addCheck = (Serializable & FrontierAdd)(from, to) -> to.currentCost > from.currentCost + to.movementCost; //A Predicate to check whether to add a new Point to the frontier. Dijkstra's algorithm is default.
+    interface FrontierAdd extends Serializable{
         boolean check(Point from, Point to);
     }
     

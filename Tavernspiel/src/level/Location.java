@@ -4,7 +4,6 @@ package level;
 import animation.GrassAnimation;
 import creatureLogic.CreatureDistribution;
 import java.awt.image.BufferedImage;
-import java.io.Serializable;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
 import logic.Distribution;
@@ -17,9 +16,7 @@ import logic.Utils.Unfinished;
  * 
  * This class stores all information for generating a Stage.
  */
-public class Location implements Serializable{
-    
-    private final static long serialVersionUID = 1965687765;
+public class Location{
     
     public final String name;
     public final ImageIcon tileset;
@@ -326,6 +323,10 @@ public class Location implements Serializable{
         }, ImageHandler.getImage("highgrass", Location.SHKODER_TILESET), 57, 177, 249, 
                 40, 100, 190, 210, 190, 254);
         SHKODER_TILESET.roomDistrib = new RoomDistribution(SHKODER_TILESET, 3, 12);
+    }
+    public static final HashMap<String, Location> locationMap = new HashMap<>();
+    static{
+        locationMap.put("Shkoder", SHKODER_TILESET);
     }
     
 }

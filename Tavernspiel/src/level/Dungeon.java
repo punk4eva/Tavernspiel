@@ -4,7 +4,6 @@ package level;
 import creatures.Hero;
 import gui.Game;
 import java.io.Serializable;
-import logic.Distribution;
 
 /**
  *

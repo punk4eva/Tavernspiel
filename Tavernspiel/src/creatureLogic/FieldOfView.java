@@ -1,6 +1,7 @@
 
 package creatureLogic;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -11,7 +12,9 @@ import level.Area;
  *
  * @author Adam Whittaker
  */
-public class FieldOfView{
+public class FieldOfView implements Serializable{
+    
+    private final static long serialVersionUID = 90062958;
     
     private final Set<Integer[]> visible = new HashSet<>();
     protected int x, y;

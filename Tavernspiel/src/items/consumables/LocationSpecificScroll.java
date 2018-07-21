@@ -9,6 +9,8 @@ import gui.Viewable;
 import gui.Window;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
@@ -29,7 +31,7 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
     protected Hero hero;
     private Area area;
     private boolean used = false;
-    private CyclicBarrier barrier = new CyclicBarrier(2);
+    private transient CyclicBarrier barrier = new CyclicBarrier(2);
 
     /**
      * Creates a new instance.
@@ -125,6 +127,14 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
                 }catch(InterruptedException | BrokenBarrierException ex){}
                 break;
         }
+    }
+    
+    
+    
+    private void readObject(ObjectInputStream in) 
+            throws IOException, ClassNotFoundException{
+        in.defaultReadObject();
+        barrier = new CyclicBarrier(2);
     }
     
 }

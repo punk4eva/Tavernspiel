@@ -4,6 +4,8 @@ package animation;
 import gui.mainToolbox.Main;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -29,7 +31,7 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
     public Animation active;
     public String currentName = "DEFAULT";
     private boolean waitingForDone = false;
-    private CyclicBarrier barrier = new CyclicBarrier(2);
+    private transient CyclicBarrier barrier = new CyclicBarrier(2);
     
     /**
      * Creates a new instance of this class.
@@ -158,6 +160,14 @@ public class GameObjectAnimator implements AnimationListener, Serializable{
     
     public void animate(Graphics g, int x, int y){
         active.animate(g, x, y);
+    }
+    
+    
+    
+    private void readObject(ObjectInputStream in) 
+            throws IOException, ClassNotFoundException{
+        in.defaultReadObject();
+        barrier = new CyclicBarrier(2);
     }
     
 }

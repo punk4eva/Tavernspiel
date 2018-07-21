@@ -16,6 +16,8 @@ import gui.mainToolbox.MouseInterpreter;
 import static gui.mainToolbox.MouseInterpreter.MOVE_RESOLUTION;
 import items.equipment.HeldWeapon;
 import java.awt.Graphics;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.LinkedList;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
@@ -37,7 +39,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
     public FieldOfView FOV;
     public volatile LinkedList<Buff> buffs = new LinkedList<>();
     public volatile double[] moving;
-    public CyclicBarrier motionBarrier = new CyclicBarrier(2);
+    public transient CyclicBarrier motionBarrier = new CyclicBarrier(2);
     
     /**
      * Creates a new instance.
@@ -267,6 +269,14 @@ public class Creature extends GameObject implements Comparable<Creature>{
                 equipment.nextHit(attributes.strength), 
                 attributes.accuracy*equipment.getWeaponAccuracy(), 
                  ((WeaponEnchantment)equipment.weapon.enchantment));
+    }
+    
+    
+    
+    private void readObject(ObjectInputStream in) 
+            throws IOException, ClassNotFoundException{
+        in.defaultReadObject();
+        motionBarrier = new CyclicBarrier(2);
     }
     
 }

@@ -38,12 +38,12 @@ public class AIBaseActions implements Serializable{
     public interface calcAccuracy{
         double calc(Creature c);
     }
-    public static calcAccuracy accuracyCalculation = c -> c.attributes.accuracy * (c.equipment.weapon instanceof MeleeWeapon ? 1 : ((MeleeWeapon)c.equipment.weapon).accuracy);
+    public static calcAccuracy accuracyCalculation = (Serializable & calcAccuracy) c -> c.attributes.accuracy * (c.equipment.weapon instanceof MeleeWeapon ? 1 : ((MeleeWeapon)c.equipment.weapon).accuracy);
     public void resetAccuracyCalculation(){accuracyCalculation = c -> c.attributes.accuracy * (c.equipment.weapon instanceof MeleeWeapon ? 1 : ((MeleeWeapon)c.equipment.weapon).accuracy);}
     public interface calcDexterity{
         double calc(Creature c);
     }
-    public calcDexterity dexterityCalculation = c -> c.attributes.dexterity / (c.equipment.strengthDifference(c.attributes.strength)<0 ? Math.pow(1.5, c.equipment.strengthDifference(c.attributes.strength)) : 1);
+    public calcDexterity dexterityCalculation = (Serializable & calcDexterity) c -> c.attributes.dexterity / (c.equipment.strengthDifference(c.attributes.strength)<0 ? Math.pow(1.5, c.equipment.strengthDifference(c.attributes.strength)) : 1);
     public void resetDexterityCalculation(){accuracyCalculation = c -> c.attributes.dexterity / (c.equipment.strengthDifference(c.attributes.strength)<0 ? Math.pow(1.5, c.equipment.strengthDifference(c.attributes.strength)) : 1);}
     
 
