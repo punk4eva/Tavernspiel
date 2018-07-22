@@ -1,7 +1,7 @@
 
 package creatures;
 
-import animation.GameObjectAnimator;
+import animation.CreatureAnimator;
 import buffs.Buff;
 import containers.Equipment;
 import containers.Inventory;
@@ -51,7 +51,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
      * @param an The Animator.
      */
     public Creature(String n, Description desc, Equipment eq, Inventory inv, 
-            Attributes atb, GameObjectAnimator an){
+            Attributes atb, CreatureAnimator an){
         super(n, desc, an);
         equipment = eq;
         inventory = inv;
@@ -66,7 +66,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
      * @param atb The attributes.
      * @param an The Animator.
      */
-    public Creature(String n, Description desc, Attributes atb, GameObjectAnimator an){
+    public Creature(String n, Description desc, Attributes atb, CreatureAnimator an){
         super(n, desc, an);
         attributes = atb;
         inventory = new Inventory();

@@ -11,6 +11,7 @@ import items.ItemBuilder;
 import items.consumables.LocationSpecificScroll;
 import items.consumables.LocationSpecificScroll.LocationViewable;
 import java.util.List;
+import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 import level.Area;
 import listeners.AreaEvent;
@@ -49,13 +50,13 @@ public class Wand extends RangedWeapon implements ScreenListener{
     /**
      * @param s The name of the Wand.
      * @param desc The description.
-     * @param ic Its icon.
+     * @param lo Its icon.
      * @param dur Its durability.
      * @param d Its action distribution.
      * @param sp Its speed. 
      */
-    public Wand(String s, String desc, ImageIcon ic, int dur, Distribution d, double sp){
-        super(s, desc, ic, dur, d, -1, sp);
+    public Wand(String s, String desc, Supplier<ImageIcon> lo, int dur, Distribution d, double sp){
+        super(s, desc, lo, dur, d, -1, sp);
         firingAnimation = ItemBuilder.getWandAnimation(s);
         blockingLevel = ItemBuilder.getWandBlockingLevel(s);
         areaEvent = ItemBuilder.getWandAreaEvent(s);

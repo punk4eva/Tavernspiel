@@ -1,10 +1,7 @@
-java.io.IOException: failed to load image contents
-	at javax.swing.ImageIcon.writeObject(ImageIcon.java:520)
-	at sun.reflect.GeneratedMethodAccessor1.invoke(Unknown Source)
-	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
-	at java.lang.reflect.Method.invoke(Method.java:498)
-	at java.io.ObjectStreamClass.invokeWriteObject(ObjectStreamClass.java:1028)
-	at java.io.ObjectOutputStream.writeSerialData(ObjectOutputStream.java:1496)
+java.io.NotSerializableException: items.ItemMap$3
+	at java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1184)
+	at java.io.ObjectOutputStream.defaultWriteFields(ObjectOutputStream.java:1548)
+	at java.io.ObjectOutputStream.writeSerialData(ObjectOutputStream.java:1509)
 	at java.io.ObjectOutputStream.writeOrdinaryObject(ObjectOutputStream.java:1432)
 	at java.io.ObjectOutputStream.writeObject0(ObjectOutputStream.java:1178)
 	at java.io.ObjectOutputStream.defaultWriteFields(ObjectOutputStream.java:1548)

@@ -2,10 +2,10 @@
 package tiles;
 
 import animation.Animation;
+import animation.WaterAnimation;
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import level.Location;
-import logic.ImageHandler;
 
 /**
  *
@@ -40,22 +40,12 @@ public class AnimatedTile extends Tile{
     
     /**
      * Creates an Animated tile of water.
-     * @param tile The pseudo-path to the water image.
-     * @param x The offset.
-     */
-    public AnimatedTile(String tile, int x){
-        super(tile, (ImageIcon) null);
-        animation = new Animation(ImageHandler.getWaterFrames(tile, x), 110);
-    }
-    
-    /**
-     * Creates an Animated tile of water.
      * @param loc The location.
      * @param x The offset.
      */
     public AnimatedTile(Location loc, int x){
         super("water", (ImageIcon) null);
-        animation = new Animation(ImageHandler.getWaterFrames(loc, x), 110);
+        animation = new WaterAnimation(loc, x);
     }
     
     /**
@@ -64,7 +54,7 @@ public class AnimatedTile extends Tile{
      * @param loc The Location.
      */
     public void addShaders(String shaderString, Location loc){
-        animation.addShaders(shaderString, loc);
+        ((WaterAnimation)animation).addShaders(shaderString, loc);
     }
     
     @Override

@@ -1,12 +1,15 @@
 
 package items.consumables.scrolls;
 
+import animation.LoadableStillAnimation;
 import animation.StillAnimation;
 import creatures.Creature;
 import gui.mainToolbox.Main;
 import items.consumables.LocationSpecificScroll;
 import items.equipment.Wand;
 import java.awt.Image;
+import java.io.Serializable;
+import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 
 /**
@@ -32,7 +35,7 @@ public class CustomScroll extends LocationSpecificScroll{
     
     public void absorb(Wand wand){
         mimic = wand;
-        animation = new StillAnimation(hero.scrollBuilder.getRandomSmudge());
+        animation = new LoadableStillAnimation((Serializable & Supplier<ImageIcon>)() -> hero.scrollBuilder.getRandomSmudge());
         Main.addMessage("gold", "Your scroll has absorbed some magic.");
     }
     

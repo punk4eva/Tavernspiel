@@ -1,14 +1,12 @@
 
 package animation;
 
-import gui.Window;
+import gui.mainToolbox.Main;
 import items.Item;
 import items.equipment.Wand;
 import java.awt.Graphics;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.Semaphore;
-import javax.swing.ImageIcon;
 import listeners.AnimationListener;
 import logic.Utils.Unfinished;
 import pathfinding.Point;
@@ -19,9 +17,9 @@ import pathfinding.Point;
  */
 public class MiscAnimator implements AnimationListener{
     
-    public final List<Animation> current = new LinkedList<>();
+    public final List<TrackableAnimation> current = new LinkedList<>();
     
-    public void addAnimation(Animation a){
+    public void addAnimation(TrackableAnimation a){
         synchronized(current){
             current.add(a);
         }
@@ -57,13 +55,14 @@ public class MiscAnimator implements AnimationListener{
      * @param searchSuccessful Whether the search was successful.
      */
     public void searchAnimation(List<Point> ary, boolean searchSuccessful){
-        if(searchSuccessful) Window.main.soundSystem.playSFX("Misc/mystery.wav");
+        if(searchSuccessful) Main.soundSystem.playSFX("Misc/mystery.wav");
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
     @Unfinished("Only used for test purposes so remove later.")
     private Animation dummyAnimation(){
-        return new Animation(new ImageIcon[]{new ImageIcon()}, this);
+        //return new Animation(new ImageIcon[]{new ImageIcon()}, this);
+        throw new UnsupportedOperationException("No");
     }
 
     @Override

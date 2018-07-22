@@ -3,6 +3,9 @@ package level;
 
 import creatures.Hero;
 import gui.Game;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 /**
@@ -15,7 +18,7 @@ public class Dungeon implements Serializable{
     
     private final static long serialVersionUID = -619892070;
     
-    private final Game game;
+    private transient Game game;
     protected int depth = -1;
     protected Stage[] stages;
     public Area currentArea;
@@ -33,6 +36,14 @@ public class Dungeon implements Serializable{
         depth=1;stages[0].loadedLevel=1;
         g.currentArea = getArea();
         //stages[0].areas[0] = Area.getPreloadedArea("filetesting/phallus.map");
+    }
+    
+    /**
+     * Sets the Game.
+     * @param g The Game.
+     */
+    public void setGame(Game g){
+        game = g;
     }
     
     /**

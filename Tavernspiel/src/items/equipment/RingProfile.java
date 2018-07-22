@@ -8,7 +8,9 @@ import static items.ItemProfile.shade;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
+import java.io.Serializable;
 import java.util.HashMap;
+import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 import logic.Distribution;
 import logic.Utils;
@@ -90,10 +92,12 @@ public class RingProfile extends ItemProfile{
             String bandColour = colour(type);
             switch(type){
                 case 0: case 3://plain or transparent
-                    return new RingProfile(name, description+".", outfitImage(getImage(16*type, 176), getColour(bandColour), null), dur, dist, g);
+                    return new RingProfile(name, description+".", (Serializable & Supplier<ImageIcon>)() -> 
+                            new ImageIcon(outfitImage(getImage(16*type, 176), getColour(bandColour), null)), dur, dist, g);
                 default: //gemmed or braided
                     String gemColour = gemColour(type);
-                    return new RingProfile(name, description, outfitImage(getImage(16*type, 176), getColour(bandColour), getColour(gemColour)), dur, dist, g);
+                    return new RingProfile(name, description, (Serializable & Supplier<ImageIcon>)() -> 
+                            new ImageIcon(outfitImage(getImage(16*type, 176), getColour(bandColour), getColour(gemColour))), dur, dist, g);
             }
         }
         
@@ -110,8 +114,8 @@ public class RingProfile extends ItemProfile{
         return rdb.getProfile(name, Distribution.r.nextInt(4), bp.durability, bp.distribution, bp.glyph);
     }
     
-    RingProfile(String nm, String desc, BufferedImage im, int dur, Distribution dist, Enchantment g){
-        super(nm, new ImageIcon(im), new Description("amulets", desc));
+    RingProfile(String nm, String desc, Supplier<ImageIcon> lo, int dur, Distribution dist, Enchantment g){
+        super(nm, lo, new Description("amulets", desc));
         glyph = g;
         distribution = dist;
         durability = dur;

@@ -5,6 +5,9 @@ import exceptions.AreaCoordsOutOfBoundsException;
 import gui.mainToolbox.Main;
 import items.Item;
 import java.awt.Dimension;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,7 +30,7 @@ public class AreaBuilder implements Serializable{
     
     public List<Item> forcedItems = new LinkedList<>(), forcedKeys = new LinkedList<>();
     public List<MakeRoom> forcedRooms = new LinkedList<>();
-    private final Location location;
+    private transient Location location;
     
     /**
      * Creates a new instance.
@@ -145,6 +148,18 @@ public class AreaBuilder implements Serializable{
         area.debugMode = true;
         return 0;
         //throw new IllegalStateException("No valid door direction.");
+    }
+    
+    private void readObject(ObjectInputStream in) 
+            throws IOException, ClassNotFoundException{
+        in.defaultReadObject();
+        location = Location.locationMap.get((String) in.readObject());
+    }
+    
+    private void writeObject(ObjectOutputStream out) 
+            throws IOException, ClassNotFoundException{
+        out.defaultWriteObject();
+        out.writeObject(location.name);
     }
     
 }

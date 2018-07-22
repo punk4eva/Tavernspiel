@@ -8,7 +8,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
+import java.io.Serializable;
 import java.util.HashMap;
+import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 import logic.Utils;
 import logic.Utils.Unfinished;
@@ -159,7 +161,7 @@ public class PotionProfile extends ItemProfile{
     }
     
     PotionProfile(String nm, String un, String desc, String taste, String colour, String texture, Dimension dim, boolean idd){
-        super(nm, new ImageIcon(outfitImage(getImage(dim.width, dim.height), getColour(colour), texture==null ? null : getColour(texture))),
+        super(nm, (Serializable&Supplier<ImageIcon>)()->new ImageIcon(outfitImage(getImage(dim.width, dim.height), getColour(colour), texture==null ? null : getColour(texture))),
                 new Description("potions", desc));
         unknownName = un;
         tasteMessage = taste;

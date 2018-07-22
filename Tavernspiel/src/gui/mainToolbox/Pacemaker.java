@@ -13,6 +13,10 @@ public class Pacemaker{
     
     private Timer timer;
     
+    /**
+     * Creates a new instance.
+     * @param main The Main class
+     */
     protected Pacemaker(Main main){
         timer = new Timer(25, main);
     }

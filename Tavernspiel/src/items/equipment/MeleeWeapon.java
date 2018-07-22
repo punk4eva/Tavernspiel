@@ -1,6 +1,7 @@
 
 package items.equipment;
 
+import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 import level.Location.WeaponEntry;
 import logic.Distribution;
@@ -22,7 +23,7 @@ public class MeleeWeapon extends HeldWeapon{
      * Creates a new instance.
      * @param s The name.
      * @param desc The description.
-     * @param ic The image.
+     * @param lo The image.
      * @param dur The durability.
      * @param d The action distribution.
      * @param st The strength.
@@ -31,8 +32,8 @@ public class MeleeWeapon extends HeldWeapon{
      * @param re
      * @param db
      */
-    public MeleeWeapon(String s, String desc, ImageIcon ic, int dur, Distribution d, int st, double ac, double sp, int re, double db){
-        super(s, desc, ic, dur, d, st);
+    public MeleeWeapon(String s, String desc, Supplier<ImageIcon> lo, int dur, Distribution d, int st, double ac, double sp, int re, double db){
+        super(s, desc, lo, dur, d, st);
         accuracy = ac;
         speed = sp;
         reach = re;

@@ -26,6 +26,8 @@ import tiles.Tile;
 import static gui.mainToolbox.MouseInterpreter.*;
 import gui.pages.Page;
 import items.Item;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.function.Predicate;
@@ -38,39 +40,40 @@ import testUtilities.TestUtil;
  */
 public abstract class Main extends Canvas implements Runnable, ActionListener, Page{
     
-    public static final int WIDTH = 780, HEIGHT = WIDTH / 12 * 9;
+    public static final int WIDTH, HEIGHT;
     public transient static PrintStream exceptionStream, performanceStream;
-
-    protected volatile boolean running = false;
-    private Thread runThread;
-    public TurnThread turnThread = new TurnThread();
-    protected Window window;
-    protected Page page;
-    public final PageFlipper pageFlipper;
-
-    public final SoundHandler soundSystem = new SoundHandler();
-    public final Pacemaker pacemaker;
-    public final static MiscAnimator animator = new MiscAnimator();
-    protected static final GuiBase gui = new GuiBase();
-    protected MouseInterpreter mouse = new MouseInterpreter();
-    public volatile Area currentArea;
-    public volatile Hero player;
-
-
-    /**
-     * Creates a new instance.
-     * @thread progenitor
-     */
-    public Main(){
-        pageFlipper = new PageFlipper(this);
-        pageFlipper.setPage("main");
-        pacemaker = new Pacemaker(this);
+    static{
+        Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+        WIDTH = (int)screen.getWidth();
+        HEIGHT = (int)screen.getHeight();
         try{
             exceptionStream = new PrintStream(new File("log/exceptions.txt"));
             performanceStream = new PrintStream(new File("log/performance.txt"));
         }catch(FileNotFoundException e){
             System.err.println("PrintStream failed.");
         }
+    }
+
+    protected volatile boolean running = false;
+    private Thread runThread;
+    public TurnThread turnThread;
+    protected Window window;
+    protected Page page;
+    public PageFlipper pageFlipper;
+
+    public static final SoundHandler soundSystem = new SoundHandler();
+    public Pacemaker pacemaker;
+    public final static MiscAnimator animator = new MiscAnimator();
+    protected static final GuiBase gui = new GuiBase();
+    protected MouseInterpreter mouse = new MouseInterpreter();
+    public volatile Area currentArea;
+    public volatile Hero player;
+    
+    /**
+     * Creates an instance.
+     */
+    protected Main(){
+        pacemaker = new Pacemaker(this);
     }
     
     /**
@@ -225,8 +228,12 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
      * Starts the game.
      */
     public final synchronized void start(){
+        pageFlipper = new PageFlipper(this);
+        pageFlipper.setPage("main");
+        pacemaker = new Pacemaker(this);
         runThread = new Thread(this, "Run Thread");
         runThread.setDaemon(true);
+        turnThread = new TurnThread();
         turnThread.setDaemon(true);
         runThread.start();
         turnThread.start();

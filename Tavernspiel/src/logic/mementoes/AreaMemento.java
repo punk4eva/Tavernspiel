@@ -1,7 +1,8 @@
 
-package level;
+package logic.mementoes;
 
 import java.io.Serializable;
+import level.Location;
 import tiles.Tile;
 
 /**

@@ -4,6 +4,7 @@ package items.equipment;
 import creatures.Creature;
 import items.ItemAction;
 import items.Usable;
+import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 import logic.Distribution;
 import logic.Formula;
@@ -26,13 +27,13 @@ public class RangedWeapon extends HeldWeapon implements Usable{
      * Creates a new instance.
      * @param s The name.
      * @param desc The description.
-     * @param ic The image.
+     * @param lo The image.
      * @param dur The durability.
      * @param d The action distribution.
      * @param st The strength.
      */
-    public RangedWeapon(String s, String desc, ImageIcon ic, int dur, Distribution d, int st, double sp){
-        super(s, desc, ic, dur, d, st);
+    public RangedWeapon(String s, String desc, Supplier<ImageIcon> lo, int dur, Distribution d, int st, double sp){
+        super(s, desc, lo, dur, d, st);
         speed = sp;
     }
 

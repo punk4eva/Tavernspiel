@@ -3,6 +3,7 @@ package items;
 
 import creatureLogic.Description;
 import creatures.Creature;
+import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 
 /**
@@ -15,11 +16,11 @@ public abstract class Consumable extends Item implements Usable{
      * Creates an instance.
      * @param n The name of the Item.
      * @param desc The description of the Item.
-     * @param i The Item's Image. 
+     * @param lo
      * @param idd Whether the Item is identified.
      */
-    public Consumable(String n, String desc, ImageIcon i, boolean idd){
-        super(n, desc, i, true);
+    public Consumable(String n, String desc, Supplier<ImageIcon> lo, boolean idd){
+        super(n, desc, lo, true);
         identified = idd;
         actions = ItemAction.getArray(3, this);
     }
@@ -28,12 +29,12 @@ public abstract class Consumable extends Item implements Usable{
      * Creates an instance.
      * @param n The name of the Item.
      * @param desc The description of the Item.
-     * @param i The Item's Image. 
+     * @param lo
      * @param idd Whether the Item is identified.
      * @param q The quantity of the Item.
      */
-    public Consumable(String n, String desc, ImageIcon i, boolean idd, int q){
-        super(n, desc, i, q);
+    public Consumable(String n, String desc, Supplier<ImageIcon> lo, boolean idd, int q){
+        super(n, desc, lo, q);
         identified = idd;
         actions = ItemAction.getArray(3, this);
     }
@@ -42,13 +43,13 @@ public abstract class Consumable extends Item implements Usable{
      * Creates an instance.
      * @param n The name of the Item.
      * @param desc The description of the Item.
-     * @param i The Item's Image. 
+     * @param lo
      * @param idd Whether the Item is identified.
      * @param q The quantity of the Item.
      * @param flam Whether the Item is flammable.
      */
-    public Consumable(String n, String desc, ImageIcon i, boolean idd, int q, boolean flam){
-        super(n, desc, i, q, flam);
+    public Consumable(String n, String desc, Supplier<ImageIcon> lo, boolean idd, int q, boolean flam){
+        super(n, desc, lo, q, flam);
         identified = idd;
         actions = ItemAction.getArray(3, this);
     }
@@ -57,11 +58,11 @@ public abstract class Consumable extends Item implements Usable{
      * Creates an instance.
      * @param n The name of the Item.
      * @param desc The description of the Item.
-     * @param im The Item's Image. 
+     * @param lo
      * @param idd Whether the Item is identified.
      */
-    public Consumable(String n, Description desc, ImageIcon im, boolean idd){
-        super(n, desc, im, 1);
+    public Consumable(String n, Description desc, Supplier<ImageIcon> lo, boolean idd){
+        super(n, desc, lo, 1);
         identified = idd;
         actions = ItemAction.getArray(3, this);
     }

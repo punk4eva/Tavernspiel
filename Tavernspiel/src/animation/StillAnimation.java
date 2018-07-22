@@ -1,52 +1,48 @@
 
 package animation;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import javax.swing.ImageIcon;
 import level.Location;
 import listeners.AnimationListener;
 import logic.ImageHandler;
+import logic.mementoes.IconPointer;
 
 /**
  *
  * @author Adam Whittaker
  * 
- * An Animation of a still image.
- * Redesigned to make it more efficient.
+ * An Animation of a still image redesigned to make it more efficient.
  */
-public class StillAnimation extends Animation{
+public class StillAnimation implements Animation{
+    
+    public transient ImageIcon image;
+    private IconPointer pointer;
+    private String loc;
     
     /**
      * Creates a still image Animation.
-     * @param icon
+     * @param f The pointer to the Icon
+     * @param l The Location.
      */
-    public StillAnimation(ImageIcon icon){
-        super(icon);
-    }
-    
-    /**
-     * @deprecated
-     */
-    @Override
-    public void changeListener(AnimationListener l){
-        throw new IllegalStateException("Trying to call changeListener() for a "
-                + "still Animation.");
+    public StillAnimation(Dimension f, Location l){
+        image = ImageHandler.getImage(f, l);
+        pointer = new IconPointer(f);
+        loc = l.name;
     }
     
     @Override
     public void animate(Graphics g, int x, int y){
-        g.drawImage(frames[0].getImage(), x, y, null);
+        g.drawImage(image.getImage(), x, y, null);
     }
     
-    @Override
-    public void addShaders(String shaderString, Location loc){
-        if(shaderString.equals("well") || shaderString.equals("alchemypot")){
-            ImageIcon shader = ImageHandler.getImage(shaderString, loc);
-            frames[0] = ImageHandler.combineIcons(frames[0], shader);
-        }else{
-            ImageIcon shader = ImageHandler.getImage("shader" + shaderString, loc);
-            frames[0] = ImageHandler.combineIcons(frames[0], shader);
-        }
+    private void readObject(ObjectInputStream in) 
+            throws IOException, ClassNotFoundException{
+        in.defaultReadObject();
+        image = pointer.getIcon(Location.locationMap.get(loc));
     }
     
 }

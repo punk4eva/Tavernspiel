@@ -2,6 +2,9 @@
 package level;
 
 import creatureLogic.CreatureDistribution;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 /**
@@ -16,7 +19,7 @@ public class Stage implements Serializable{
     private final static long serialVersionUID = 80204510;
     
     protected Area[] areas;
-    public final Location location;
+    public transient Location location;
     public final int length;
     protected String[] depthClassifiers; //words such as "depth" or "the throne room".
     protected int loadedLevel = 0;
@@ -56,6 +59,18 @@ public class Stage implements Serializable{
         }else throw new IllegalStateException("Cannot load preloaded area.");
         loadedLevel++;
         areaBuilder.reset();
+    }
+    
+    private void readObject(ObjectInputStream in) 
+            throws IOException, ClassNotFoundException{
+        in.defaultReadObject();
+        location = Location.locationMap.get((String) in.readObject());
+    }
+    
+    private void writeObject(ObjectOutputStream out) 
+            throws IOException, ClassNotFoundException{
+        out.defaultWriteObject();
+        out.writeObject(location.name);
     }
     
 }

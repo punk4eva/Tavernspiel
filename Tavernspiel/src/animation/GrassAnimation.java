@@ -4,6 +4,7 @@ package animation;
 import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
+import listeners.AnimationListener;
 
 /**
  *

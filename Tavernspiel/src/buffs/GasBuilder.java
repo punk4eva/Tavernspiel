@@ -3,7 +3,7 @@ package buffs;
 
 import animation.Animation;
 import animation.DrawnAnimation;
-import animation.GameObjectAnimator;
+import animation.GasAnimator;
 import blob.Blob;
 import creatureLogic.Description;
 import java.awt.Color;
@@ -22,7 +22,7 @@ public abstract class GasBuilder{
         Blob g = new Blob("shadowmelded", 
                 new Description("gas", "Cleansing shafts of light pierce the vegetation."),
                 BuffBuilder.shadowmelded(),
-                new GameObjectAnimator(shadowmeldedAnimation()), 1, x, y){
+                new GasAnimator(shadowmeldedAnimation()), 1, x, y){
                     @Override
                     public void turn(double delta){}
                 };

@@ -8,6 +8,9 @@ import creatureLogic.Attributes;
 import creatures.Hero;
 import items.Apparatus;
 import items.misc.Gold;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import level.Area;
 import level.Dungeon;
 import logic.FileHandler;
@@ -32,6 +35,25 @@ public class Game extends Main{
         dungeon = new Dungeon(this);
         gui.addMessage("You are now in " + dungeon.getDepthClassifier() + ".");
         player = new Hero(new Attributes());
+        gui.hero = player;
+        currentArea.addHero(player, true);
+        addKeyListener((PlayerAI) player.attributes.ai);
+        gui.hud = new HUD(((HeroInventory)player.inventory).quickslot);
+        resetGUIScreens();
+        start();
+    }
+    
+    /**
+     * Starts the game from serialized context.
+     * @param hero The Hero
+     * @param dun The Dungeon
+     */
+    private Game(Hero hero, Dungeon dun){
+        window = new Window(WIDTH, HEIGHT, "Tavernspiel", this);
+        dungeon = dun;
+        dungeon.setGame(this);
+        gui.addMessage("You are now in " + dungeon.getDepthClassifier() + ".");
+        player = hero;
         gui.hero = player;
         currentArea.addHero(player, true);
         addKeyListener((PlayerAI) player.attributes.ai);
@@ -76,6 +98,18 @@ public class Game extends Main{
     public void endGame(){
         stop();
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    private void readObject(ObjectInputStream in) 
+            throws IOException, ClassNotFoundException{
+        Dungeon dun = (Dungeon) in.readObject();
+        Hero hero = (Hero) in.readObject();
+        new Game(hero, dun);
+    }
+    
+    private void writeObject(ObjectOutputStream out) throws IOException{
+        out.writeObject(dungeon);
+        out.writeObject(player);
     }
     
 }

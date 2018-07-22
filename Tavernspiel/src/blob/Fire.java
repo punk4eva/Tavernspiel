@@ -1,7 +1,7 @@
 
 package blob;
 
-import animation.GameObjectAnimator;
+import animation.GasAnimator;
 import buffs.BuffBuilder;
 import creatureLogic.Description;
 import logic.Distribution;
@@ -16,7 +16,7 @@ public class Fire extends Blob{
     
     private final int depth;
     
-    public Fire(GameObjectAnimator a, int x, int y, int d){
+    public Fire(GasAnimator a, int x, int y, int d){
         super("fire", new Description("naturals", "A fire is raging here"), BuffBuilder.fire(d), a, Distribution.getRandomInt(2, 5),x,y);
         depth = d;
     }
@@ -28,10 +28,10 @@ public class Fire extends Blob{
             area.burn(x, y);
             return;
         }
-        if(area.map[y-1][x].flammable) area.addObject(new Fire(animator, x, y-1, depth));
-        if(area.map[y+1][x].flammable) area.addObject(new Fire(animator, x, y+1, depth));
-        if(area.map[y][x-1].flammable) area.addObject(new Fire(animator, x-1, y, depth));
-        if(area.map[y][x+1].flammable) area.addObject(new Fire(animator, x+1, y, depth));
+        if(area.map[y-1][x].flammable) area.addObject(new Fire((GasAnimator)animator, x, y-1, depth));
+        if(area.map[y+1][x].flammable) area.addObject(new Fire((GasAnimator)animator, x, y+1, depth));
+        if(area.map[y][x-1].flammable) area.addObject(new Fire((GasAnimator)animator, x-1, y, depth));
+        if(area.map[y][x+1].flammable) area.addObject(new Fire((GasAnimator)animator, x+1, y, depth));
         spreadNumber--;
     }
     

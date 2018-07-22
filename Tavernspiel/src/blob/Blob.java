@@ -1,7 +1,7 @@
 
 package blob;
 
-import animation.GameObjectAnimator;
+import animation.GasAnimator;
 import buffs.Buff;
 import creatureLogic.Description;
 import java.awt.Graphics;
@@ -19,7 +19,7 @@ public class Blob extends GameObject{
     public LinkedList<Buff> buffs = new LinkedList<>();
     public int spreadNumber;
     
-    public Blob(String n, Description desc, Buff b, GameObjectAnimator a, int spread, int nx, int ny){
+    public Blob(String n, Description desc, Buff b, GasAnimator a, int spread, int nx, int ny){
         super(n, desc, a);
         buffs.add(b);
         spreadNumber = spread;

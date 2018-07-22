@@ -3,6 +3,7 @@ package ai;
 
 import ai.intelligence.IntelligentAI1;
 import ai.intelligence.IntelligentAI1.EnState;
+import animation.CreatureAnimator;
 import containers.Floor;
 import containers.PurchasableHeap;
 import creatureLogic.Action;
@@ -55,7 +56,7 @@ public class AIBaseActions implements Serializable{
      */
     public void move(Creature c, Integer[] dir){
         if(c.area.map[c.y][c.x] instanceof Door) ((Door)c.area.map[c.y][c.x]).stepOff(c);
-        if(!c.animator.currentName.equals("move")) c.changeAnimation("move");
+        if(!((CreatureAnimator)c.animator).currentName.equals("move")) c.changeAnimation("move");
         c.smootheXY(c.x+dir[0], c.y+dir[1]);
         if(c.attributes.ai.destinationx==c.x&&c.attributes.ai.destinationy==c.y){
             c.changeAnimation("stand");
@@ -90,7 +91,7 @@ public class AIBaseActions implements Serializable{
      * @param y
      */
     public void smootheRaw(Creature c, int x, int y){
-        if(!c.animator.currentName.equals("move")) c.changeAnimation("move");
+        if(!((CreatureAnimator)c.animator).currentName.equals("move")) c.changeAnimation("move");
         c.smootheXY(x, y);
     }
     

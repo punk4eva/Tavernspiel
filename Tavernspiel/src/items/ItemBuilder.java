@@ -1,7 +1,6 @@
 
 package items;
 
-import items.misc.Gold;
 import animation.Animation;
 import items.consumables.Potion;
 import items.consumables.Scroll;
@@ -11,9 +10,7 @@ import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.ImageIcon;
-import level.Location;
 import listeners.AreaEvent;
-import logic.Distribution;
 import logic.Utils.Unfinished;
 
 /**
@@ -36,7 +33,8 @@ public final class ItemBuilder{
     private ItemBuilder(){}
     
     public static Item amulet(){
-        return new Item("amulet", "Description.", new ImageIcon("graphics/amulet.png"));
+        //return new Item("amulet", "Description.", new ImageIcon("graphics/amulet.png"));
+        throw new UnsupportedOperationException("e");
     }
 
     public static Item get(String substring){

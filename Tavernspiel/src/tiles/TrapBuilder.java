@@ -1,8 +1,8 @@
 
 package tiles;
 
-import animation.Animation;
-import animation.GameObjectAnimator;
+import animation.GasAnimator;
+import animation.WaterAnimation;
 import blob.Blob;
 import buffs.Buff;
 import buffs.BuffBuilder;
@@ -16,7 +16,6 @@ import items.Item;
 import level.Area;
 import level.Location;
 import logic.Distribution;
-import logic.ImageHandler;
 import logic.Utils.Unfinished;
 
 /**
@@ -49,8 +48,7 @@ public class TrapBuilder{
     @Unfinished
     public static Blob getToxicGas(Location location, int x, int y){
         Buff b = BuffBuilder.toxicGas();           
-        GameObjectAnimator a = new GameObjectAnimator(new String[]{"placeholder"},
-                new Animation[]{new Animation(ImageHandler.getWaterFrames(location, 0))}); //@unfinished, placeholder
+        GasAnimator a = new GasAnimator(new WaterAnimation(location, 0)); //@unfinished, placeholder
         return new Blob("Toxic Gas", new Description("gas", "A poisonous green vapour."), b, a, 7, x, y);
     }
     

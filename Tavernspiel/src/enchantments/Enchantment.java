@@ -2,6 +2,7 @@
 package enchantments;
 
 import animation.Animation;
+import animation.SerialAnimation;
 import creatureLogic.Description;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
@@ -192,7 +193,7 @@ public abstract class Enchantment implements Serializable{
         if(overlay==null) overlay = new ImageIcon(ImageUtils.buildOverlay(ImageUtils.addImageBuffer(img)));
         ImageIcon[] icons = new ImageIcon[10];
         for(int n=0;n<10;n++) icons[n] = ImageHandler.combineIcons(img, outfitImage(overlay, n));
-        return new Animation(icons, 10);
+        return new SerialAnimation(icons, 10);
     }
     
     protected boolean shouldActivate(){

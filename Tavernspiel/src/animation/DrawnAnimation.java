@@ -1,23 +1,31 @@
 
 package animation;
 
-import java.awt.Graphics;
+import gui.Window;
 import listeners.AnimationListener;
 
 /**
  *
  * @author Adam Whittaker
+ * 
+ * Represents an Animation that has been drawn.
  */
-public abstract class DrawnAnimation extends Animation{
+public abstract class DrawnAnimation extends TrackableAnimation{
+    
+    private static final long serialVersionUID = 831290;
+    
+    protected AnimationListener listener;
+    protected double currentTicks;
+    protected final double maxTicks, ticksPerFrame;
+    public boolean done = false;
     
     public DrawnAnimation(int time, AnimationListener al){
-        super(null, time, al);
+        super(al);
+        ticksPerFrame = Window.main.pacemaker.getDelay();
+        listener = al;
+        maxTicks = time;
     }
     
-    @Override
-    public abstract void animate(Graphics g, int x, int y);
-    
-    @Override
     protected void recalc(){
         currentTicks += ticksPerFrame;
         if(currentTicks>maxTicks){

@@ -1,6 +1,7 @@
 
 package level;
 
+import logic.mementoes.AreaMemento;
 import ai.PlayerAI;
 import blob.Blob;
 import containers.Floor;

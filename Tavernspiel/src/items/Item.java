@@ -2,13 +2,14 @@
 package items;
 
 import animation.Animation;
-import animation.StillAnimation;
+import animation.LoadableStillAnimation;
 import creatureLogic.Description;
 import creatures.Creature;
 import creatures.Hero;
 import items.consumables.Potion;
 import items.consumables.Scroll;
 import java.io.Serializable;
+import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 import logic.Utils.Unfinished;
 
@@ -35,25 +36,27 @@ public class Item implements Serializable{
      * Creates an Instance.
      * @param n The name
      * @param desc The description
-     * @param i The ImageIcon
+     * @param x
+     * @param y
      */
-    public Item(String n, String desc, ImageIcon i){
+    public Item(String n, String desc, int x, int y){
         name = n;
         description = Description.parseDescription(null, desc);
-        animation = new StillAnimation(i);
+        animation = new LoadableStillAnimation((Serializable & Supplier<ImageIcon>)
+                () -> ItemBuilder.getIcon(x, y));
     }
     
     /**
      * Creates an Instance.
      * @param n The name
      * @param desc The description
-     * @param i The ImageIcon
+     * @param lo
      * @param q The quantity
      */
-    public Item(String n, String desc, ImageIcon i, int q){
+    public Item(String n, String desc, Supplier<ImageIcon> lo, int q){
         name = n;
         description = Description.parseDescription(null, desc);
-        animation = new StillAnimation(i);
+        animation = new LoadableStillAnimation(lo);
         quantity = q;
     }
     
@@ -61,14 +64,14 @@ public class Item implements Serializable{
      * Creates an Instance.
      * @param n The name
      * @param desc The description
-     * @param i The ImageIcon
+     * @param lo
      * @param q The quantity
      * @param flam Whether the Item is flammable.
      */
-    public Item(String n, String desc, ImageIcon i, int q, boolean flam){
+    public Item(String n, String desc, Supplier<ImageIcon> lo, int q, boolean flam){
         name = n;
         description = Description.parseDescription(null, desc);
-        animation = new StillAnimation(i);
+        animation = new LoadableStillAnimation(lo);
         quantity = q;
         flammable = flam;
     }
@@ -77,13 +80,13 @@ public class Item implements Serializable{
      * Creates an Instance.
      * @param n The name
      * @param desc The description
-     * @param i The ImageIcon
+     * @param lo
      * @param st Whether the Item is stackable.
      */
-    public Item(String n, String desc, ImageIcon i, boolean st){
+    public Item(String n, String desc, Supplier<ImageIcon> lo, boolean st){
         name = n;
         description = Description.parseDescription(null, desc);
-        animation = new StillAnimation(i);
+        animation = new LoadableStillAnimation(lo);
         stackable = st;
     }
     
@@ -91,13 +94,13 @@ public class Item implements Serializable{
      * Creates an Instance.
      * @param n The name
      * @param desc The description
-     * @param i The ImageIcon
+     * @param lo
      * @param s Whether the Item is stackable.
      */
-    public Item(String n, Description desc, ImageIcon i, boolean s){
+    public Item(String n, Description desc, Supplier<ImageIcon> lo, boolean s){
         name = n;
         description = desc;
-        animation = new StillAnimation(i);
+        animation = new LoadableStillAnimation(lo);
         stackable = s;
     }
     
@@ -119,13 +122,13 @@ public class Item implements Serializable{
      * Creates an Instance.
      * @param n The name
      * @param desc The description
-     * @param i The ImageIcon
+     * @param lo
      * @param q The quantity
      */
-    public Item(String n, Description desc, ImageIcon i, int q){
+    public Item(String n, Description desc, Supplier<ImageIcon> lo, int q){
         name = n;
         description = desc;
-        animation = new StillAnimation(i);
+        animation = new LoadableStillAnimation(lo);
         quantity = q;
     }
     

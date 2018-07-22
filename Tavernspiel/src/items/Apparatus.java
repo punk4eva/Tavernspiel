@@ -1,8 +1,7 @@
 
 package items;
 
-import animation.Animation;
-import animation.StillAnimation;
+import animation.LoadableStillAnimation;
 import creatureLogic.Description;
 import enchantments.Enchantment;
 import gui.mainToolbox.Main;
@@ -14,6 +13,7 @@ import items.equipment.Helmet;
 import items.equipment.Leggings;
 import items.equipment.MeleeWeapon;
 import items.equipment.Ring;
+import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 import level.Location;
 import logic.Distribution;
@@ -36,37 +36,37 @@ public class Apparatus extends Item{
     public Enchantment enchantment;
     public double strength = -1;
     public int usesTillIdentify = 20;
-    private final ImageIcon imageWithoutEnchantment;
+    private Supplier<ImageIcon> imageLoader;
     
     /**
      * Creates a new instance.
      * @param n The name of the Item.
      * @param desc The description of the Item.
-     * @param i The Image of the Item.
+     * @param lo The Image of the Item.
      * @param dur The durability of the Apparatus.
      * @param a The Distribution associated with this Apparatus.
      */
-    public Apparatus(String n, String desc, ImageIcon i, int dur, Distribution a){
-        super(n, desc, i, false);
+    public Apparatus(String n, String desc, Supplier<ImageIcon> lo, int dur, Distribution a){
+        super(n, desc, lo, false);
+        imageLoader = lo;
         durability = dur;
         maxDurability = dur;
         action = a;
-        imageWithoutEnchantment = i;
     }
     
     /**
      * Creates a new instance.
      * @param n The name of the Item.
      * @param desc The description of the Item.
-     * @param i The Image of the Item.
+     * @param lo The Image of the Item.
      * @param dur The durability of the Apparatus.
      * @param a The Distribution associated with this Apparatus.
      * @param st The strength requirement.
      */
-    public Apparatus(String n, String desc, ImageIcon i, int dur, Distribution a, int st){
-        super(n, desc, i, false);
+    public Apparatus(String n, String desc, Supplier<ImageIcon> lo, int dur, Distribution a, int st){
+        super(n, desc, lo, false);
         durability = dur;
-        imageWithoutEnchantment = i;
+        imageLoader = lo;
         maxDurability = dur;
         action = a;
         strength = st;
@@ -76,17 +76,17 @@ public class Apparatus extends Item{
      * Creates a new instance.
      * @param n The name of the Item.
      * @param desc The description of the Item.
-     * @param i The Image of the Item.
+     * @param lo The Image of the Item.
      * @param dur The durability of the Apparatus.
      * @param a The Distribution associated with this Apparatus.
      * @param st The strength requirement.
      */
-    public Apparatus(String n, Description desc, ImageIcon i, int dur, Distribution a, int st){
-        super(n, desc, i, false);
+    public Apparatus(String n, Description desc, Supplier<ImageIcon> lo, int dur, Distribution a, int st){
+        super(n, desc, lo, false);
         durability = dur;
         maxDurability = dur;
         action = a;
-        imageWithoutEnchantment = i;
+        imageLoader = lo;
         strength = st;
     }
     
@@ -94,16 +94,16 @@ public class Apparatus extends Item{
      * Creates a new instance.
      * @param n The name of the Item.
      * @param desc The description of the Item.
-     * @param i The Image of the Item.
+     * @param lo The Image of the Item.
      * @param dur The durability of the Apparatus.
      * @param a The Distribution associated with this Apparatus.
      */
-    public Apparatus(String n, Description desc, ImageIcon i, int dur, Distribution a){
-        super(n, desc, i, false);
+    public Apparatus(String n, Description desc, Supplier<ImageIcon> lo, int dur, Distribution a){
+        super(n, desc, lo, false);
         durability = dur;
         maxDurability = dur;
         action = a;
-        imageWithoutEnchantment = i;
+        imageLoader = lo;
     }
     
     /**
@@ -115,14 +115,14 @@ public class Apparatus extends Item{
      * @param a The Distribution associated with this Apparatus.
      * @param st The strength requirement.
      */
-    public Apparatus(String n, Description desc, Animation i, int dur, Distribution a, int st){
-        super(n, desc, i, false);
-        durability = dur;
-        strength = st;
-        maxDurability = dur;
-        action = a;
-        imageWithoutEnchantment = i.frames[0];
-    }
+    /*public Apparatus(String n, Description desc, LoadableStillAnimation i, int dur, Distribution a, int st){
+    super(n, desc, i, false);
+    durability = dur;
+    strength = st;
+    maxDurability = dur;
+    action = a;
+    imageLoader = i.loader;
+    }*/
     
     /**
      * Updates fields.
@@ -169,8 +169,8 @@ public class Apparatus extends Item{
      */
     public void changeEnchantment(Enchantment ench){
         enchantment = ench;
-        if(ench==null) animation = new StillAnimation(imageWithoutEnchantment);
-        else animation = enchantment.buildAnimation(imageWithoutEnchantment);
+        if(ench==null) animation = new LoadableStillAnimation(imageLoader);
+        else animation = enchantment.buildAnimation(imageLoader.get());
     }
     
     /**

@@ -3,6 +3,7 @@ package items.equipment;
 
 import enchantments.Enchantment;
 import items.Apparatus;
+import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 import logic.Distribution;
 
@@ -18,13 +19,13 @@ public class Ring extends Apparatus{
      * Creates a new instance.
      * @param n The name.
      * @param desc The description.
-     * @param ic The image.
+     * @param lo
      * @param dur The durability.
      * @param a The action distribution.
      * @param g The Enchantment.
      */
-    public Ring(String n, String desc, ImageIcon ic, int dur, Distribution a, Enchantment g){
-        super(n, desc, ic, dur, a);
+    public Ring(String n, String desc, Supplier<ImageIcon> lo, int dur, Distribution a, Enchantment g){
+        super(n, desc, lo, dur, a);
         enchantment = g;
         description.type = "amulets";
     }
@@ -34,7 +35,7 @@ public class Ring extends Apparatus{
      * @param rp The RingProfile to copy from.
      */
     public Ring(RingProfile rp){
-        super(rp.getName(), rp.getDescription(), rp.getImageIcon(), rp.durability, rp.distribution);
+        super(rp.getName(), rp.getDescription(), rp.getSupplier(), rp.durability, rp.distribution);
         enchantment = rp.glyph;
     }
     

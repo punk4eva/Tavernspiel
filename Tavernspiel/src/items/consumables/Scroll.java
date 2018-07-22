@@ -3,6 +3,8 @@ package items.consumables;
 
 import items.Consumable;
 import items.ItemAction;
+import java.io.Serializable;
+import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 
 /**
@@ -21,7 +23,9 @@ public abstract class Scroll extends Consumable{
      * @param idd Whether the Consumable is identified.
      */
     public Scroll(String n, String desc, ImageIcon i, boolean idd){
-        super(n, desc, i, idd, 1, true);
+        super(n, desc, 
+                (Serializable&Supplier<ImageIcon>)() -> {return i;},
+                idd, 1, true);
         actions[2] = new ItemAction("READ", this);
         description.type = "scrolls";
     }
@@ -35,7 +39,9 @@ public abstract class Scroll extends Consumable{
      * @param quantity The quantity of this Item.
      */
     public Scroll(String n, String desc, ImageIcon i, boolean idd, int quantity){
-        super(n, desc, i, idd, quantity, true);
+        super(n, desc, 
+                (Serializable&Supplier<ImageIcon>)() -> {return i;}, 
+                idd, quantity, true);
         actions[2] = new ItemAction("READ", this);
         description.type = "scrolls";
     }

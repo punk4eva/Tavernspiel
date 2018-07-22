@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.util.Random;
+import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 import logic.Utils;
 
@@ -18,13 +19,13 @@ import logic.Utils;
  */
 public abstract class ItemProfile{
     
-    protected ImageIcon image;
+    protected Supplier<ImageIcon> loader;
     protected String name;
     protected Description description;
     
-    protected ItemProfile(String nm, ImageIcon i, Description desc){
+    protected ItemProfile(String nm, Supplier<ImageIcon> lo, Description desc){
         name = nm;
-        image = i;
+        loader = lo;
         description = desc;
     }
     
@@ -236,11 +237,11 @@ public abstract class ItemProfile{
         return name;
     }
     /**
-     * Gets the image of this Potion.
+     * Gets the loader of this Potion.
      * @return The image.
      */
-    public ImageIcon getImageIcon(){
-        return image;
+    public Supplier<ImageIcon> getSupplier(){
+        return loader;
     }
     /**
      * Gets the description of this Potion.

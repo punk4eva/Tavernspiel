@@ -23,14 +23,14 @@ public class RoomDistribution implements Serializable{
      * This interface specifies the creation algorithm for a single Room given
      * the Location and depth.
      */
-    public interface MakeRoom{
+    public interface MakeRoom extends Serializable{
         Room make(Location loc, int depth);
     };
     /**
      * This interface specifies the creation algorithm for a single Room given
      * the Location, depth and a single Item.
      */
-    public interface MakeItemRoom{
+    public interface MakeItemRoom extends Serializable{
         Room make(Location loc, int depth, Item i);
     };
     
