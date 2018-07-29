@@ -1,14 +1,11 @@
 
 package animation;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import javax.swing.ImageIcon;
 import level.Location;
-import listeners.AnimationListener;
-import logic.ImageHandler;
 import logic.mementoes.IconPointer;
 
 /**
@@ -28,8 +25,8 @@ public class StillAnimation implements Animation{
      * @param f The pointer to the Icon
      * @param l The Location.
      */
-    public StillAnimation(Dimension f, Location l){
-        image = ImageHandler.getImage(f, l);
+    public StillAnimation(String f, Location l){
+        image = l.getImage(f);
         pointer = new IconPointer(f);
         loc = l.name;
     }

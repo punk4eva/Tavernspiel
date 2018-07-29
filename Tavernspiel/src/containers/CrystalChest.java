@@ -3,6 +3,9 @@ package containers;
 
 import creatureLogic.Description;
 import items.Item;
+import java.io.Serializable;
+import java.util.function.Supplier;
+import javax.swing.ImageIcon;
 import logic.ConstantFields;
 
 /**
@@ -20,15 +23,9 @@ public class CrystalChest extends Chest{
      * @param y
      */
     public CrystalChest(Item item, int x, int y){
-        super(ConstantFields.crystalChestIcon, item, x, y);
+        super((Serializable & Supplier<ImageIcon>)() -> ConstantFields.crystalChestIcon, item, x, y);
         description = new Description("receptacle", "You can see " + item.getPronounedName(0, "an") + " in "
                 + "the chest but you need a key to open the chest.");
     }
-    
-    /*public CrystalChest(Item item, int x, int y, int id){
-    super(item, x, y, id);
-    description = "You can see " + item.getPronounedName(0, "an") + " in "
-    + "the chest but you need a key to open the chest.";
-    }*/
     
 }

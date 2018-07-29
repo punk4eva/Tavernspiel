@@ -28,6 +28,8 @@ import static logic.ConstantFields.padding;
 import static logic.ConstantFields.sqheight;
 import static logic.ConstantFields.sqwidth;
 import static gui.mainToolbox.MouseInterpreter.getCenter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import javax.swing.ImageIcon;
 import logic.ImageUtils;
 import logic.Utils.Unfinished;
@@ -169,6 +171,12 @@ public class Hero extends Creature{
      */
     public void stopInventoryHijack(){
         ((HeroInventory)inventory).manager.hijacker = null;
+    }
+    
+    private void readObject(ObjectInputStream in) 
+            throws IOException, ClassNotFoundException{
+        in.defaultReadObject();
+        scrollBuilder.setHero(this);
     }
     
 }

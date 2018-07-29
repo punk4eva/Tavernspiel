@@ -18,6 +18,7 @@ import items.equipment.HeldWeapon;
 import java.awt.Graphics;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;

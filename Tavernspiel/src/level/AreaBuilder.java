@@ -87,7 +87,11 @@ public class AreaBuilder implements Serializable{
             }
             attempts++;
         }
-        if(attempts>40) throw new IllegalStateException("Unable to blit the given area.");
+        if(attempts>40){
+            System.err.println("Unable to blit the given area.");
+            area.debugMode = true;
+            //throw new IllegalStateException("Unable to blit the given area.");
+        }
         try{
             area.blit(add, x, y);
         }catch(AreaCoordsOutOfBoundsException e){

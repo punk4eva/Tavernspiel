@@ -41,7 +41,7 @@ public class ReverseHUDLookAndFeel implements HUDStrategy{
         screens.add(new Screen("QuickPickup",0, Game.HEIGHT - 300, 70, 40,hud));
         
         for(int i = 0; i < quickslot.length(); i++) 
-            screens.add(new Screen("QuickSlot:" + i, Game.WIDTH - (350 + i * 45), Game.HEIGHT - 73, 40, 40, quickslot));
+            screens.add(new Screen("QuickSlot:" + i, Game.WIDTH/2 - i * 45, Game.HEIGHT - 73, 40, 40, quickslot));
         
         int x = 29, y = 77;
         for(Buff b : hero.buffs){
@@ -64,9 +64,9 @@ public class ReverseHUDLookAndFeel implements HUDStrategy{
         g.fillRect(70,5,200,10);
         
         for(int i = 0; i < quickslot.length(); i++){
-            g.fill3DRect(Game.WIDTH - (350 + i * 45), Game.HEIGHT - 73, 40, 40, true);
+            g.fill3DRect(Game.WIDTH/2 - i * 45, Game.HEIGHT - 73, 40, 40, true);
             try{
-                ImageUtils.paintItemSquare(g, Game.WIDTH - (350 + i * 45), Game.HEIGHT - 73, 40, 40, quickslot.getItem(i), Window.main.player, ConstantFields.truthPredicate);
+                ImageUtils.paintItemSquare(g, Game.WIDTH/2 - i * 45, Game.HEIGHT - 73, 40, 40, quickslot.getItem(i), Window.main.player, ConstantFields.truthPredicate);
             }catch(NullPointerException e){}
         }
         

@@ -23,10 +23,10 @@ public class WaterAnimation implements Animation{
     protected final double maxTicks, ticksPerFrame;
     private final String locName;
     private String shaderString;
-    private int x;
+    public int x;
     
     public WaterAnimation(String shader, Location loc, int _x){
-        frames = ImageHandler.getWaterFrames("water", _x);
+        frames = ImageHandler.getWaterFrames(loc, _x);
         x = _x;
         maxTicks = 110;
         ticksPerFrame = Window.main.pacemaker.getDelay();
@@ -35,7 +35,7 @@ public class WaterAnimation implements Animation{
     }
     
     public WaterAnimation(Location loc, int x){
-        frames = ImageHandler.getWaterFrames("water", x);
+        frames = ImageHandler.getWaterFrames(loc, x);
         maxTicks = 110;
         ticksPerFrame = Window.main.pacemaker.getDelay();
         locName = loc.name;
@@ -49,12 +49,12 @@ public class WaterAnimation implements Animation{
      */
     public final void addShaders(String shader, Location loc){
         if(shader.equals("well") || shader.equals("alchemypot")){
-            ImageIcon shaderIcon = ImageHandler.getImage(shader, loc);
+            ImageIcon shaderIcon = loc.getImage(shader);
             for(int n=0;n<frames.length;n++){
                 frames[n] = ImageHandler.combineIcons(frames[n], shaderIcon);
             }
         }else{
-            ImageIcon shaderIcon = ImageHandler.getImage("shader" + shader, loc);
+            ImageIcon shaderIcon = loc.getImage("shader" + shader);
             for(int n=0;n<frames.length;n++){
                 frames[n] = ImageHandler.combineIcons(frames[n], shaderIcon);
             }
@@ -90,7 +90,7 @@ public class WaterAnimation implements Animation{
             throws IOException, ClassNotFoundException{
         in.defaultReadObject();
         Location loc = Location.locationMap.get(locName);
-        frames = ImageHandler.getWaterFrames("water", x);
+        frames = ImageHandler.getWaterFrames(loc, x);
         if(shaderString!=null) addShaders(shaderString, loc);
     }
     

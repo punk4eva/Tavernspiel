@@ -135,6 +135,16 @@ public class Point implements Serializable{
         checked = c;
     }
     
+    /**
+     * Checks whether two Points are horizontally aligned.
+     * @param prev
+     * @param next
+     * @return
+     */
+    public static boolean isHorizontal(Point prev, Point next){
+        return prev.x==next.x;
+    }
+    
     
     public int getOODistance(Point p){
         return Math.max(Math.abs(x-p.x), Math.abs(y-p.y));

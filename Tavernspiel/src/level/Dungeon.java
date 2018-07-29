@@ -3,9 +3,6 @@ package level;
 
 import creatures.Hero;
 import gui.Game;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 /**
@@ -42,7 +39,7 @@ public class Dungeon implements Serializable{
      * Sets the Game.
      * @param g The Game.
      */
-    public void setGame(Game g){
+    public final void setGame(Game g){
         game = g;
     }
     

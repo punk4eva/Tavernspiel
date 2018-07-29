@@ -10,7 +10,7 @@ import listeners.AnimationListener;
  *
  * @author Adam Whittaker
  */
-public class FramedAnimation extends TrackableAnimation{
+public abstract class FramedAnimation extends TrackableAnimation{
     
     public transient ImageIcon[] frames;
     protected int currentFrame = 0;

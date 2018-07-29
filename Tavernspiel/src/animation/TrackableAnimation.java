@@ -1,9 +1,6 @@
 
 package animation;
 
-import gui.Window;
-import java.awt.Graphics;
-import javax.swing.ImageIcon;
 import listeners.AnimationListener;
 
 /**
@@ -23,7 +20,7 @@ public abstract class TrackableAnimation implements Animation{
      * Changes the listener of this animation.
      * @param li The new listener.
      */
-    public void changeListener(AnimationListener li){
+    public final void changeListener(AnimationListener li){
         listener = li;
     }
     

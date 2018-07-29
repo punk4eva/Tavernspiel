@@ -16,7 +16,7 @@ public class ExceptionDialogue extends Dialogue{
     private final Exception exception;
     
     public ExceptionDialogue(Exception ex){
-        super(ex.toString().toUpperCase() + ": " + ex.getMessage(), null, false, "abort", "retry", "fail");
+        super(ex.toString().toUpperCase() + ": " + ex.getMessage(), null, false, "abort", "restart", "fail");
         exception = ex;
     }
     
@@ -30,7 +30,7 @@ public class ExceptionDialogue extends Dialogue{
             case "abort":
                 game.save();
                 System.exit(-1);
-            case "retry":
+            case "restart":
                 game.save();
                 game.stop();
                 game.start();

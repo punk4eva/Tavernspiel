@@ -1,7 +1,6 @@
 
 package logic.mementoes;
 
-import java.awt.Dimension;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
 import level.Location;
@@ -24,7 +23,7 @@ public class AnimationMemento implements Serializable{
      * @param icons The pointers
      * @param l The Location
      */
-    public AnimationMemento(Dimension[] icons, Location l){
+    public AnimationMemento(String[] icons, Location l){
         if(l!=null){
             loc = l.name;
             pointers = new IconPointer[icons.length];

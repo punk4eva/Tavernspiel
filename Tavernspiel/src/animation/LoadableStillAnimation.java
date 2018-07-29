@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.function.Supplier;
 import javax.swing.ImageIcon;
-import listeners.AnimationListener;
 
 /**
  *
@@ -15,7 +14,7 @@ import listeners.AnimationListener;
 public class LoadableStillAnimation implements Animation{
     
     public transient ImageIcon image;
-    private Supplier<ImageIcon> loader;
+    private final Supplier<ImageIcon> loader;
     
     /**
      * Creates a new instance.

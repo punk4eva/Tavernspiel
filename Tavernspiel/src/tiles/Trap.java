@@ -6,7 +6,6 @@ import buffs.Buff;
 import creatures.Creature;
 import level.Location;
 import listeners.StepListener;
-import logic.ImageHandler;
 
 /**
  *
@@ -56,7 +55,7 @@ public class Trap extends HiddenTile implements StepListener{
         }
         if(!reusable){
             used = true;
-            image = ImageHandler.getImage("offtrap", c.area.location);
+            image = c.area.location.getImage("offtrap");
         }
     }
     

@@ -5,7 +5,6 @@ import creatures.Creature;
 import javax.swing.ImageIcon;
 import level.Location;
 import listeners.StepListener;
-import logic.ImageHandler;
 
 /**
  *
@@ -21,28 +20,28 @@ public class Door extends HiddenTile implements StepListener{
     
     public Door(Location loc){
         super("door", loc, true, true, false);
-        open = ImageHandler.getImage("opendoor", loc);
-        closed = ImageHandler.getImage("closeddoor", loc);
-        locked = ImageHandler.getImage("lockeddoor", loc);
+        open = loc.getImage("opendoor");
+        closed = loc.getImage("closeddoor");
+        locked = loc.getImage("lockeddoor");
     }
     
     public Door(Location loc, boolean lock, boolean hid){
         super("door", hid ? 
-                ImageHandler.getImage("wall", loc) : lock ?
-                ImageHandler.getImage("lockeddoor", loc) :
-                ImageHandler.getImage("closeddoor", loc), loc, hid, !lock, !lock, false);
-        open = ImageHandler.getImage("opendoor", loc);
-        closed = ImageHandler.getImage("closeddoor", loc);
-        locked = ImageHandler.getImage("lockeddoor", loc);
+                loc.getImage("wall") : lock ?
+                loc.getImage("lockeddoor") :
+                loc.getImage("closeddoor"), loc, hid, !lock, !lock, false);
+        open = loc.getImage("opendoor");
+        closed = loc.getImage("closeddoor");
+        locked = loc.getImage("lockeddoor");
     }
     
     public Door(Location loc, boolean lock){
         super("door", lock ?
-                ImageHandler.getImage("lockeddoor", loc) :
-                ImageHandler.getImage("closeddoor", loc), loc, false, true, false, false);
-        open = ImageHandler.getImage("opendoor", loc);
-        closed = ImageHandler.getImage("closeddoor", loc);
-        locked = ImageHandler.getImage("lockeddoor", loc);
+                loc.getImage("lockeddoor") :
+                loc.getImage("closeddoor"), loc, false, true, false, false);
+        open = loc.getImage("opendoor");
+        closed = loc.getImage("closeddoor");
+        locked = loc.getImage("lockeddoor");
         isLocked = lock;
         if(lock) treadable = false;
         else flammable = true;

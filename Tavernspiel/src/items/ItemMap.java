@@ -68,7 +68,7 @@ public class ItemMap{
      * Generates a list of Items.
      * @return
      */
-    @Unfinished("No new Items are created")
+    @Unfinished("No new Items are created, May be redundant")
     public List<Item> genList(){
         List<Item> ret = new LinkedList<>();
         if(stackSizes==null) while(hasNext()){
@@ -79,7 +79,8 @@ public class ItemMap{
             if(i.stackable) i.quantity = (int) stackSizes[index].next();
             ret.add(i);
         }
-        return ret;
+        throw new UnsupportedOperationException("GenList used");
+        //return ret;
     }
     
     private boolean hasNext(){

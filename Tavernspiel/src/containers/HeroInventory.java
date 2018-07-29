@@ -13,6 +13,8 @@ import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
 import items.Item;
 import java.awt.Graphics;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -36,7 +38,7 @@ public class HeroInventory extends Inventory{
     public final List<Screen> screens;
     public final Hero owner;
     public final QuickSlot quickslot;
-    public final InventoryManager manager = new InventoryManager();
+    public transient InventoryManager manager = new InventoryManager();
     
     /**
      * Creates a new instance.
@@ -155,6 +157,12 @@ public class HeroInventory extends Inventory{
             }
         }
     
+    }
+    
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException{
+        in.defaultReadObject();
+        manager = new InventoryManager();
+        screens.forEach(s -> s.changeScreenListener(manager));
     }
     
 }

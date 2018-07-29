@@ -16,8 +16,8 @@ public class AreaMemento implements Serializable{
     
     private static final long serialVersionUID = 732194622;
     
-    private String locName;
-    private int[][] tileMap;
+    private final String locName;
+    private final int[][] tileMap;
     
     /**
      * Creates an instance.

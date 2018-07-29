@@ -3,6 +3,9 @@ package containers;
 
 import creatureLogic.Description;
 import items.Item;
+import java.io.Serializable;
+import java.util.function.Supplier;
+import javax.swing.ImageIcon;
 import level.Area;
 import logic.ConstantFields;
 
@@ -19,7 +22,7 @@ public class SkeletalRemains extends Chest{
      * @param y
      */
     public SkeletalRemains(Item item, int x, int y){
-        super(ConstantFields.skeletalRemainsIcon , item, x, y);
+        super((Serializable & Supplier<ImageIcon>)() -> ConstantFields.skeletalRemainsIcon , item, x, y);
         description = new Description("receptacle", "A pile of bones from an unlucky adventurer or resident "
                 + "of this place. May be worth checking for valuables.");
     }
@@ -27,7 +30,7 @@ public class SkeletalRemains extends Chest{
     @Override
     public void open(Area area){
         super.open(area);
-        //1 in 5 chance of wraith spawn.
+        //@Unfinished 1 in 5 chance of wraith spawn.
     }
     
 }

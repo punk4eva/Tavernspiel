@@ -135,15 +135,15 @@ public class CorridorBuilder{
      * @param path
      */
     public void buildCorridor(Path path){
-        boolean horizontal = Path.isHorizontal(path.points[0], path.points[1]), nowHorizontal;
-        extend(path.points[1], horizontal);
-        for(int n=1;n<path.points.length-1;n++){
-            nowHorizontal = Path.isHorizontal(path.points[n], path.points[n+1]);
-            extend(path.points[n+1], horizontal);
-            if(nowHorizontal!=horizontal) fillGaps(path.points[n], horizontal);
+        boolean horizontal = Point.isHorizontal(path.get(0), path.get(1)), nowHorizontal;
+        extend(path.get(1), horizontal);
+        for(int n=1;n<path.size()-1;n++){
+            nowHorizontal = Point.isHorizontal(path.get(n), path.get(1+n));
+            extend(path.get(n+1), horizontal);
+            if(nowHorizontal!=horizontal) fillGaps(path.get(n), horizontal);
             horizontal = nowHorizontal;
         }
-        extend(path.points[path.points.length-1], horizontal);
+        extend(path.get(path.size()-1), horizontal);
     }
     
     /**

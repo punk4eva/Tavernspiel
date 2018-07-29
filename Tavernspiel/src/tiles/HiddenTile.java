@@ -6,7 +6,6 @@ import creatures.Hero;
 import gui.Window;
 import javax.swing.ImageIcon;
 import level.Location;
-import logic.ImageHandler;
 
 /**
  *
@@ -23,7 +22,7 @@ public class HiddenTile extends Tile{
     public HiddenTile(String imposterTileName, boolean t, boolean f, boolean tr, String realName, Location loc, boolean reallyFlam, boolean reallyTread, boolean reallyTrans){
         super(imposterTileName, loc, t, f, tr);
         name = realName;
-        realIcon = ImageHandler.getImage(realName, loc);
+        realIcon = loc.getImage(realName);
         reallyFlammable = reallyFlam;
         reallyTreadable = reallyTread;
         reallyTransparent = reallyTrans;
@@ -32,7 +31,7 @@ public class HiddenTile extends Tile{
     public HiddenTile(String imposterTileName, boolean t, boolean f, boolean tr, String realName, Location loc, boolean hid, boolean reallyFlam, boolean reallyTread, boolean reallyTrans){
         super(imposterTileName, loc, t, f, tr);
         name = realName;
-        realIcon = ImageHandler.getImage(realName, loc);
+        realIcon = loc.getImage(realName);
         hidden = hid;
         reallyFlammable = reallyFlam;
         reallyTreadable = reallyTread;
@@ -46,7 +45,7 @@ public class HiddenTile extends Tile{
     
     public HiddenTile(String realName, ImageIcon icon, Location loc, boolean hid, boolean reallyFlam, boolean reallyTread, boolean reallyTrans){
         super(realName, icon);
-        realIcon = ImageHandler.getImage(realName, loc);
+        realIcon = loc.getImage(realName);
         hidden = hid;
         reallyFlammable = reallyFlam;
         reallyTreadable = reallyTread;
@@ -61,7 +60,7 @@ public class HiddenTile extends Tile{
     public HiddenTile(String realName, Location loc, boolean reallyFlam, boolean reallyTread, boolean reallyTrans){
         super(realName, loc, reallyTread, reallyFlam, reallyTrans);
         hidden = false;
-        realIcon = ImageHandler.getImage(realName, loc);
+        realIcon = loc.getImage(realName);
         reallyFlammable = reallyFlam;
         reallyTreadable = reallyTread;
         reallyTransparent = reallyTrans;

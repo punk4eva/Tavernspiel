@@ -35,7 +35,6 @@ public class Dialogue implements ScreenListener, KeyListener{
     private final int padding = 8;
     private final int heightOfQuestion;
     private boolean clickOffable = true;
-    private boolean customComponents = false;
     private final Semaphore semaphore = new Semaphore(0);
     
     /**
@@ -78,31 +77,11 @@ public class Dialogue implements ScreenListener, KeyListener{
     public Dialogue(String quest, String off, boolean click, String... opt){
         question = Utils.lineFormat(quest, 31);
         heightOfQuestion = ImageUtils.getStringHeight()*Utils.lineCount(question);
-        options = getButtons(opt);
         height = 2*padding + heightOfQuestion + (36+padding)*opt.length;
+        options = getButtons(opt);
         clickOffable = click;
         offCase = new ScreenEvent(off);
         screens = convertCComponents(options);
-    }
-    
-    /**
-     * Creates a new Dialogue with the given options.
-     * @param quest The question.
-     * @param off What happens if the user clicks away.
-     * @param click Sets whether the user can click away.
-     * @param opt The interactables.
-     * @param n The names of the options.
-     */
-    public Dialogue(String quest, String off, boolean click, CComponent[] opt){
-        question = Utils.lineFormat(quest, 31);
-        heightOfQuestion = ImageUtils.getStringHeight()*Utils.lineCount(question);
-        height = 2*padding + heightOfQuestion + (36+padding)*opt.length;
-        options = opt;
-        dressCComponents();
-        clickOffable = click;
-        offCase = new ScreenEvent(off);
-        screens = Utils.getScreens(opt);
-        customComponents = true;
     }
     
     /**
@@ -122,7 +101,6 @@ public class Dialogue implements ScreenListener, KeyListener{
     }
     
     private void activate(Main main){
-        if(customComponents) main.addKeyListener(this);
         main.setDialogue(this);
         screens.forEach((sc) -> {
             if(sc instanceof CSlider.CSliderHandle) main.addDraggable(sc);
@@ -140,14 +118,12 @@ public class Dialogue implements ScreenListener, KeyListener{
      */
     public synchronized ScreenEvent action(Main main){
         activate(main);
-        //main.addEvent(() -> {
-            try{
-                semaphore.acquire();
-            }catch(InterruptedException ex){
-                ex.printStackTrace(Main.exceptionStream);
-            }
-            deactivate(main);
-        //});
+        try{
+            semaphore.acquire();
+        }catch(InterruptedException ex){
+            ex.printStackTrace(Main.exceptionStream);
+        }
+        deactivate(main);
         return clickedScreen;
     }
 
@@ -167,11 +143,10 @@ public class Dialogue implements ScreenListener, KeyListener{
 
     private CButton[] getButtons(String[] strs){
         CButton[] ary = new CButton[strs.length];
-        int beginWidth = Main.WIDTH/3;
+        int beginWidth = Main.WIDTH/3 + padding;
         int beginHeight = (Main.HEIGHT-height)/2;
         for(int n=0;n<ary.length;n++){
-            ary[n] = new CButton(strs[n], 
-                    padding+beginWidth, 
+            ary[n] = new CButton(strs[n], beginWidth, 
                     2*padding+heightOfQuestion+(36+padding)*n+beginHeight, 
                     padding, this);
         }
@@ -193,16 +168,6 @@ public class Dialogue implements ScreenListener, KeyListener{
         lst.add(new Screen("/exit", 0, 0, Main.WIDTH, Main.HEIGHT, this));
         return lst;
     }
-    
-    private void dressCComponents(){
-        int beginWidth = Main.WIDTH/3;
-        int beginHeight = (Main.HEIGHT-height)/2;
-        for(int n=0;n<options.length;n++){
-            options[n].setTopLeft(padding+beginWidth, 
-                    2*padding+heightOfQuestion+(36+padding)*n+beginHeight);
-            if(options[n] instanceof Screen) ((Screen) options[n]).changeScreenListener(this);
-        }
-    }
 
     @Override
     public void keyTyped(KeyEvent ke){}
@@ -210,7 +175,7 @@ public class Dialogue implements ScreenListener, KeyListener{
     public void keyPressed(KeyEvent ke){}
     @Override
     public synchronized void keyReleased(KeyEvent ke){
-        if(ke.getKeyCode()==KeyEvent.VK_ENTER&&customComponents){
+        if(ke.getKeyCode()==KeyEvent.VK_ENTER){
             clickedScreen = new ScreenEvent(options);
             semaphore.release();
         }

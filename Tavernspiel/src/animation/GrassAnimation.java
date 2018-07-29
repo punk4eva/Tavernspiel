@@ -3,8 +3,11 @@ package animation;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import javax.swing.ImageIcon;
-import listeners.AnimationListener;
+import level.Location;
+import logic.mementoes.IconPointer;
 
 /**
  *
@@ -13,7 +16,9 @@ import listeners.AnimationListener;
 public class GrassAnimation extends DrawnAnimation{
         
     private final int[][] pixels;
-    private final ImageIcon icon;
+    private transient ImageIcon icon;
+    private final IconPointer pointer;
+    private final String loc;
     protected int R, G, B;
     protected int minR, minG, minB, maxR, maxG, maxB;
     protected boolean rUP = true, gUP = true, bUP = false;
@@ -21,16 +26,19 @@ public class GrassAnimation extends DrawnAnimation{
     /**
      * Creates a new instance.
      * @param p The array of pixel coordinates to recolor.
-     * @param i The ImageIcon.
+     * @param str The grass name
+     * @param l The location
      * @param r The starting red value.
      * @param g The starting red value.
      * @param b The starting red value.
      * @param v The array of min/max RGB values.
      */
-    public GrassAnimation(int[][] p, ImageIcon i, int r, int g, int b, int... v){
+    public GrassAnimation(int[][] p, String str, Location l, int r, int g, int b, int... v){
         super(8800, null);
         pixels = p;
-        icon = i;
+        icon = l.getImage(str);
+        loc = l.name;
+        pointer = new IconPointer(str);
         R = r;
         G = g;
         B = b;
@@ -99,6 +107,12 @@ public class GrassAnimation extends DrawnAnimation{
         rUP = g.rUP;
         gUP = g.gUP;
         bUP = g.bUP;
+    }
+    
+    private void readObject(ObjectInputStream in) 
+            throws IOException, ClassNotFoundException{
+        in.defaultReadObject();
+        icon = pointer.getIcon(Location.locationMap.get(loc));
     }
 
 }

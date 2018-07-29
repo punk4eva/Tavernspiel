@@ -1,11 +1,9 @@
 
 package logic.mementoes;
 
-import java.awt.Dimension;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
 import level.Location;
-import logic.ImageHandler;
 
 /**
  *
@@ -17,14 +15,14 @@ public class IconPointer implements Serializable{
     
     private static final long serialVersionUID = 53267198;
     
-    private Dimension dim;
+    private String pointer;
     
     /**
      * Creates an instance.
      * @param d
      */
-    public IconPointer(Dimension d){
-        dim = d;
+    public IconPointer(String d){
+        pointer = d;
     }
     
     /**
@@ -33,7 +31,7 @@ public class IconPointer implements Serializable{
      * @return
      */
     public ImageIcon getIcon(Location loc){
-        return ImageHandler.getImage(dim, loc);
+        return loc.getImage(pointer);
     }
     
 }

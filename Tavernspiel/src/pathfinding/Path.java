@@ -2,10 +2,10 @@
 package pathfinding;
 
 import java.awt.Graphics;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
-import java.util.RandomAccess;
 import logic.ConstantFields;
 
 /**
@@ -14,28 +14,31 @@ import logic.ConstantFields;
  * 
  * This class represents a Path of Points.
  */
-public class Path implements Iterable<Point>, RandomAccess{
+public class Path extends ArrayList<Point>{
     
-    public Point[] points;
+    /**
+     * Creates an instance.
+     * @param ps The array of Points forming this Path.
+     */
+    public Path(Point... ps){
+        super(Arrays.asList(ps));
+    }
     
     /**
      * Creates an instance.
      * @param ps The collection of Points forming this Path.
      */
-    public Path(Point... ps){
-        points = ps;
+    public Path(Collection<Point> ps){
+        super(ps);
     }
     
     /**
-     * Creates a new Path equal to the reverse of this Path.
-     * @return
+     * Condenses an iterator of Points into a Path.
+     * @param iter The Iterator.
      */
-    public Path reverse(){
-        Point[] ret = new Point[points.length];
-        for(int n=0;n<points.length;n++){
-            ret[ret.length-n-1] = points[n];
-        }
-        return new Path(ret);
+    public Path(Iterator<Point> iter){
+        super();
+        while(iter.hasNext()) add(iter.next());
     }
     
     /**
@@ -43,31 +46,8 @@ public class Path implements Iterable<Point>, RandomAccess{
      * @param p
      * @return
      */
-    public Path concatenate(Path p){
-        List<Point> ret = Arrays.asList(points);
-        ret.addAll(Arrays.asList(p.points).subList(1, p.points.length));
-        return new Path(ret.toArray(new Point[ret.size()]));
-    }
-    
-    /**
-     * Concatenates another Path with this one and returns the result.
-     * @param p
-     * @return
-     */
-    public Path concatenateBefore(Path p){
-        List<Point> ret = Arrays.asList(p.points);
-        ret.addAll(Arrays.asList(points).subList(1, points.length));
-        return new Path(ret.toArray(new Point[ret.size()]));
-    }
-    
-    /**
-     * Checks whether two Points are horizontally aligned.
-     * @param prev
-     * @param next
-     * @return
-     */
-    public static boolean isHorizontal(Point prev, Point next){
-        return prev.x==next.x;
+    public void concatenate(Path path){
+        addAll(path.subList(1, size()));
     }
 
     /**
@@ -75,31 +55,13 @@ public class Path implements Iterable<Point>, RandomAccess{
      * @param g The Graphics.
      * @param focusX
      * @param focusY
+     * @Delete
      */
     public void paint(Graphics g, int focusX, int focusY){
         g.setColor(ConstantFields.frontColor);
-        for(Point point : points){
+        forEach((point) -> {
             g.fillOval(point.x*16+focusX+4, point.y*16+focusY+4, 8, 8);
-        }
-    }
-    
-    @Override
-    public Iterator<Point> iterator(){
-        return new Iterator<Point>(){
-            
-            private int currentIndex = 0;
-            
-            @Override
-            public boolean hasNext(){
-                return currentIndex<points.length;
-            }
-
-            @Override
-            public Point next(){
-                return points[currentIndex++];
-            }
-            
-        };
+        });
     }
     
 }

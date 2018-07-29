@@ -1,14 +1,13 @@
 
 package animation;
 
-import java.awt.Dimension;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.Serializable;
 import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 import level.Location;
 import logic.Distribution;
-import logic.ImageHandler;
 
 /**
  *
@@ -17,13 +16,17 @@ import logic.ImageHandler;
 public class RandomAnimation extends FramedAnimation{
     
     private final Distribution skipChance;
-    private Supplier<ImageIcon[]> loader;
+    private final Supplier<ImageIcon[]> loader;
 
-    public RandomAnimation(Dimension[] f, Location loc, int d, Distribution s){
+    public RandomAnimation(String[] f, Location loc, int d, Distribution s){
         super(null, d, null);
-        frames = new ImageIcon[f.length];
-        for(int n=0;n<f.length;n++)
-            frames[n] = ImageHandler.getImage(f[n], loc);
+        loader = (Serializable & Supplier<ImageIcon[]>)() -> {
+            ImageIcon[] ret = new ImageIcon[f.length];
+            for(int n=0;n<f.length;n++)
+                ret[n] = loc.getImage(f[n]);
+            return ret;
+        };
+        frames = loader.get();
         skipChance = s;
     }
     

@@ -1,6 +1,8 @@
 
 package logic;
 
+import creatureLogic.Attributes;
+import creatures.Hero;
 import gui.mainToolbox.Screen;
 import gui.utils.CComponent;
 import java.io.FileInputStream;
@@ -8,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.lang.annotation.Inherited;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -148,26 +151,10 @@ public final class Utils{
         for(String str : strs) System.out.println(str.hashCode());
     }
     
-    public static Integer[] testPolarConversion(int r, double theta){
-        return new Integer[]{(int)Math.round(r*Math.cos(theta)), (int)Math.round(r*Math.sin(theta))};
-    }
-    
-    protected static boolean testBlocked(double theta, List<Double[]> block){
-        return block.stream().anyMatch(c -> theta>=c[0]&&theta<=c[1]);
-    }
-    
+    //@Delete after debugging
     public static void main(String... args) throws IOException{
         //debugging
-        /*try(ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("filetesting/distrib.ser"))){
-            out.writeObject(new Distribution(1, 2));
-            out.writeLong(118999);
-        }catch(IOException e){}*/
-        try(ObjectInputStream in = new ObjectInputStream(new FileInputStream("filetesting/distrib.ser"))){
-            Distribution d = (Distribution) in.readObject();
-            long l = in.readLong();
-            System.out.println(l);
-            System.out.println(d.chance());
-        }catch(IOException | ClassNotFoundException e){}
+        FileHandler.serialize(new Hero(new Attributes()), "filetesting/serial.ser");
     }
     
 }

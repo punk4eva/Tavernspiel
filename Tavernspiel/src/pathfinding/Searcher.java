@@ -230,7 +230,10 @@ public class Searcher implements Serializable{
                 startStation.equals(endStation)){
             return findPath(start, end);
         }
-        return findPath(start, startStation).concatenate(startStation.pathsToWaypoints.get(endStation)).concatenate(findPath(endStation, end));
+        Path p = findPath(start, startStation);
+        p.concatenate(startStation.pathsToWaypoints.get(endStation));
+        p.concatenate(findPath(endStation, end));
+        return p;
     }
     
     /**

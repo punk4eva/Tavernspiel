@@ -49,7 +49,7 @@ public class MazeBuilder{
             super(area.graph, area);
         }
         
-        @Override
+        /*@Override
         public void floodfill(Point start){
             graph.use();
             Point next;
@@ -85,6 +85,33 @@ public class MazeBuilder{
                 next.checked = true;
                 start = next;
             }
+        }*/
+        
+        @Override
+        public void floodfill(Point start){
+            System.err.println("Maze built");
+            area.debugMode = true;
+            graph.use();
+            Point next;
+            start.checked = true;
+            int doors = Distribution.getRandomInt(2, (area.dimension.width+area.dimension.height)*7/50);
+            while(true){
+                next = getDirection(start);
+                while(next==null){
+                    if(start.cameFrom==null) return;
+                    start = start.cameFrom;
+                    next = getDirection(start);
+                }
+                carve(start, next);
+                if(onEdge(next)){
+                    doors--;
+                    area.map[next.y][next.x] = new Door(area.location);
+                    if(doors==0) break;
+                }
+                next.cameFrom = start;
+                next.checked = true;
+                start = next;
+            }
         }
 
         private Point getDirection(Point p){
@@ -96,12 +123,13 @@ public class MazeBuilder{
             return points.isEmpty()? null : points.get(Distribution.r.nextInt(points.size()));
         }
         
-        private void checkAll(Point p){
+        //@Delete May be redundant
+        /*private void checkAll(Point p){
             if(withinBounds(p.x+2, p.y)) graph.map[p.y][p.x+2].checked = true;
             if(withinBounds(p.x-2, p.y)) graph.map[p.y][p.x-2].checked = true;
             if(withinBounds(p.x, p.y+2)) graph.map[p.y+2][p.x].checked = true;
             if(withinBounds(p.x, p.y-2)) graph.map[p.y-2][p.x].checked = true;
-        }
+        }*/
         
     }
     

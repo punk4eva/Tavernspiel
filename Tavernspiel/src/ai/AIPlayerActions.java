@@ -1,7 +1,6 @@
 
 package ai;
 
-import creatureLogic.Attack;
 import creatureLogic.Attack.CreatureAttack;
 import creatureLogic.EnClass;
 import creatures.Creature;

@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -21,9 +22,9 @@ import logic.Utils.Unfinished;
  * 
  * This class builds Scrolls.
  */
-public class ScrollBuilder{
+public class ScrollBuilder implements Serializable{
     
-    private Hero hero;
+    public transient Hero hero;
     protected HashMap<String, String> nameAndRune = new HashMap<>(); //Works both ways.
     protected HashMap<String, Dimension> scrollMap = new HashMap<>();
     @Unfinished("Remember to make custom scrolls part of natural terrain gen.")
@@ -245,6 +246,14 @@ public class ScrollBuilder{
     public ImageIcon getRandomSmudge(){
         if(Distribution.chance(1, 2)) return new ImageIcon(getImage("SMUDGE1"));
         else return new ImageIcon(getImage("SMUDGE2"));
+    }
+    
+    /**
+     * Sets the Hero after Serialization.
+     * @param h
+     */
+    public void setHero(Hero h){
+        hero = h;
     }
     
 }

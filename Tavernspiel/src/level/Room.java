@@ -2,12 +2,14 @@
 package level;
 
 import containers.Receptacle;
+import gui.Window;
 import items.Item;
 import items.ItemMap;
 import java.awt.Dimension;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.List;
 import logic.Distribution;
-import tiles.AnimatedTile;
 import tiles.Barricade;
 import tiles.Door;
 import tiles.Tile;
@@ -255,6 +257,12 @@ public class Room extends Area{
      */
     public Receptacle getReceptacle(){
         return receptacles.get(0);
+    }
+    
+    private void writeObject(ObjectOutputStream out) 
+            throws IOException, ClassNotFoundException{
+        Window.main.currentArea.debugMode = true;
+        throw new IllegalStateException("Room Serialized");
     }
     
 }

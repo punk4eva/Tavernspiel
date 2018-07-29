@@ -89,7 +89,7 @@ public class Graph implements Serializable{
             p = p.cameFrom;
         }
         ret.add(map[p.y][p.x]);
-        return new Path(ret.toArray(new Point[ret.size()])).reverse();
+        return new Path(ret.descendingIterator());
     }
     
     protected void initializeWaypoints(){

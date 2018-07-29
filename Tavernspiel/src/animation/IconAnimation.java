@@ -1,7 +1,6 @@
 
 package animation;
 
-import java.awt.Dimension;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import level.Location;
@@ -14,14 +13,14 @@ import logic.mementoes.AnimationMemento;
  */
 public class IconAnimation extends FramedAnimation{
     
-    private AnimationMemento memento;
+    private final AnimationMemento memento;
     
     /**
      * Creates an Animation from the given frames.
      * @param f The frames.
      * @param loc The Location.
      */
-    public IconAnimation(Dimension[] f, Location loc){
+    public IconAnimation(String[] f, Location loc){
         super(null, 5, null);
         memento = new AnimationMemento(f, loc);
         frames = memento.getIcons();
@@ -33,7 +32,7 @@ public class IconAnimation extends FramedAnimation{
      * @param loc The Location.
      * @param delay The delay between each frame.
      */
-    public IconAnimation(Dimension[] f, Location loc, int delay){
+    public IconAnimation(String[] f, Location loc, int delay){
         super(null, delay, null);
         memento = new AnimationMemento(f, loc);
         frames = memento.getIcons();
@@ -46,7 +45,7 @@ public class IconAnimation extends FramedAnimation{
      * @param al The listener that is interested in when this animation finishes
      * a cycle.
      */
-    public IconAnimation(Dimension[] f, Location loc, AnimationListener al){
+    public IconAnimation(String[] f, Location loc, AnimationListener al){
         super(null, 5, al);
         memento = new AnimationMemento(f, loc);
         frames = memento.getIcons();
@@ -60,7 +59,7 @@ public class IconAnimation extends FramedAnimation{
      * @param al The listener that is interested in when this animation finishes
      * a cycle.
      */
-    public IconAnimation(Dimension[] f, Location loc, int d, AnimationListener al){
+    public IconAnimation(String[] f, Location loc, int d, AnimationListener al){
         super(null, d, al);
         memento = new AnimationMemento(f, loc);
         frames = memento.getIcons();

@@ -2,6 +2,7 @@
 package logic;
 
 import dialogues.ExceptionDialogue;
+import gui.Game;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -9,6 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import level.Dungeon;
 
 /**
  *
@@ -67,6 +69,25 @@ public final class FileHandler{
             new ExceptionDialogue(e).next();
         }
         return "EXCEPTION";
+    }
+    
+    public static void serializeGame(Game game){
+        try(ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(game.savePath))){
+            output.writeObject(game.dungeon);
+        }catch(IOException e){
+            e.printStackTrace();
+            new ExceptionDialogue(e).next();
+        }
+    }
+    
+    public static Game deserializeGame(String filepath){
+        try(ObjectInputStream in = new ObjectInputStream(new FileInputStream(filepath))){
+            return new Game((Dungeon)in.readObject());
+        }catch(IOException | ClassNotFoundException e){
+            e.printStackTrace();
+            new ExceptionDialogue(e).next();
+        }
+        return null;
     }
     
 }

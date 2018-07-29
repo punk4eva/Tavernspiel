@@ -75,21 +75,10 @@ public class ImageHandler{
         map.put("shader", new Dimension(240, 48));
     }
     
-    /**
-     * Retrieves the Image for a given Tile name and Location.
-     * @param str The name of the Tile
-     * @param loc The Location
-     * @return
-     */
-    public static ImageIcon getImage(String str, Location loc){
-        str = str.toLowerCase();
-        ImageIcon img = loc.tilemap.get(str);
-        if(img!=null) return img;
-        img = getImage(
-                map.get(str)==null ?
-                new Dimension(240, 48) : map.get(str), loc);
-        loc.tilemap.put(str, img);
-        return img;
+    public final static void initializeIcons(Location loc){
+        map.entrySet().forEach((entry) -> {
+            loc.tilemap.put(entry.getKey(), getImage(entry.getValue(), loc));
+        });
     }
     
     /**
@@ -98,7 +87,7 @@ public class ImageHandler{
      * @param loc The Location
      * @return
      */
-    public static ImageIcon getImage(Dimension dim, Location loc){
+    private static ImageIcon getImage(Dimension dim, Location loc){
         BufferedImage bi = new BufferedImage(
                 loc.tileset.getIconWidth(),
                 loc.tileset.getIconHeight(),
@@ -107,29 +96,6 @@ public class ImageHandler{
         g.drawImage(loc.tileset.getImage(), 0, 0, null);
         g.dispose();
         return new ImageIcon(bi.getSubimage(dim.width, dim.height, 16, 16));
-    }
-    
-    /**
-     * Gets the frames for the water animation.
-     * @param str The filepath
-     * @param x The starting x coordinate.
-     * @return
-     */
-    public static ImageIcon[] getWaterFrames(String str, int x){
-        Image img = new ImageIcon("graphics/" + str + ".png").getImage();
-        BufferedImage bi = new BufferedImage(
-                img.getWidth(null),
-                img.getHeight(null),
-                BufferedImage.TYPE_INT_ARGB);
-        Graphics g = bi.createGraphics();
-        g.drawImage(img, 0, 0, null);
-        g.dispose();
-        ImageIcon[] ret = new ImageIcon[img.getHeight(null)-15];
-        x*=16;
-        for(int y=ret.length-1;y>=0;y--){
-            ret[ret.length-y-1] = new ImageIcon(bi.getSubimage(x, y, 16, 16));
-        }
-        return ret;
     }
     
     /**

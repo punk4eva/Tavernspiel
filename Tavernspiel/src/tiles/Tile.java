@@ -1,6 +1,7 @@
 
 package tiles;
 
+import animation.WaterAnimation;
 import java.awt.Graphics;
 import java.util.HashMap;
 import java.util.function.Function;
@@ -8,7 +9,6 @@ import javax.swing.ImageIcon;
 import level.Location;
 import level.RoomBuilder;
 import logic.Distribution;
-import logic.ImageHandler;
 
 /**
  *
@@ -39,7 +39,7 @@ public class Tile implements Comparable<Tile>{
     }
     
     public Tile(String tile, Location loc, boolean t, boolean f, boolean tr){
-        image = ImageHandler.getImage(tile, loc);
+        image = loc.getImage(tile);
         name = tile;
         treadable = t;
         flammable = f;
@@ -80,14 +80,20 @@ public class Tile implements Comparable<Tile>{
     }
     
     public static int getID(Tile tile){
+        if(tile==null) return -1;
         if(tile instanceof Door){
             if(((Door) tile).hidden) return 6;
             if(((Door) tile).isOpen) return 7;
         }
-        return IDmap.get(tile.name);
+        try{
+            return IDmap.get(tile.name);
+        }catch(NullPointerException e){
+            return ((WaterAnimation)((AnimatedTile)tile).animation).x+39;
+        }
     }
     
     public static Tile getTile(int id, Location loc){
+        if(id==-1) return null;
         if(id==6) return new Door(loc, false, true);
         if(id==7){
             Door d = new Door(loc);
@@ -176,6 +182,8 @@ public class Tile implements Comparable<Tile>{
         tileMap.put(36, loc -> new Chasm("specialfloor", loc));
         tileMap.put(37, loc -> new Chasm("wall", loc));
         tileMap.put(38, loc -> new Chasm("broken", loc));
+        tileMap.put(39, loc -> new AnimatedTile(loc, 0));
+        tileMap.put(40, loc -> new AnimatedTile(loc, 1));
     }
     
 }

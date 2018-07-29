@@ -2,6 +2,8 @@
 package containers;
 
 import items.Item;
+import java.io.Serializable;
+import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 import level.Area;
 import logic.ConstantFields;
@@ -19,7 +21,7 @@ public class Chest extends Receptacle{
      * @param y
      */
     public Chest(Item item, int x, int y){
-        super(ConstantFields.chestIcon, 1, "You won't know what's inside until you open it!", x, y);
+        super((Serializable & Supplier<ImageIcon>)() -> ConstantFields.chestIcon, 1, "You won't know what's inside until you open it!", x, y);
         add(item);
     }
     
@@ -30,7 +32,7 @@ public class Chest extends Receptacle{
      * @param x
      * @param y
      */
-    public Chest(ImageIcon ic, Item item, int x, int y){
+    public Chest(Supplier<ImageIcon> ic, Item item, int x, int y){
         super(ic, 1, "You won't know what's inside until you open it!", x, y);
         add(item);
     }

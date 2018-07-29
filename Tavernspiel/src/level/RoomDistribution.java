@@ -13,9 +13,7 @@ import logic.Distribution;
  * 
  * This class decides which rooms to generate.
  */
-public class RoomDistribution implements Serializable{
-    
-    private final static long serialVersionUID = 690629590;
+public class RoomDistribution{
     
     private final Location location;
     private final int lower, upper;

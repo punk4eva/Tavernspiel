@@ -49,15 +49,16 @@ public class Area implements Serializable{
     public final Dimension dimension;
     public transient Location location;
     public Integer[] startCoords, endCoords;
+    //@Delete
     //private final List<GameObject> objects = (List<GameObject>)(Object)Collections.synchronizedList(new LinkedList<>());
     //protected final List<Receptacle> receptacles = (List<Receptacle>)(Object)Collections.synchronizedList(new LinkedList<>());
     private final List<GameObject> objects = new LinkedList<>();
     protected final List<Receptacle> receptacles = new LinkedList<>();
 
     public Graph graph = null;
-    protected volatile Hero hero;
+    public volatile Hero hero;
     public final VisibilityOverlay overlay;
-    public final ReentrantLock objectLock = new ReentrantLock();
+    public transient ReentrantLock objectLock = new ReentrantLock();
     
     @Unfinished("Remove debug")
     public boolean debugMode = false;
@@ -204,6 +205,7 @@ public class Area implements Serializable{
      * Responds to an AreaEvent.
      * @param ae The AreaEvent.
      */
+    @Unfinished("May be redundant")
     public void areaActedUpon(AreaEvent ae){
         switch(ae.getAction()){
             case "FELLINTOCHASM":
@@ -446,7 +448,14 @@ public class Area implements Serializable{
                     if(map[y][x]!=null&&map[y][x].equals("water")){
                         if(ch.chance()){
                             spreads = true;
-                            spreadWater(x, y);
+                            try{
+                                spreadWater(x, y);
+                            }catch(NullPointerException e){
+                                //@Catch
+                                System.err.println("WATER ON EDGE 2");
+                                System.err.println(x + ", " + y);
+                                debugMode = true;
+                            }
                         }
                     }
                 }
@@ -493,10 +502,10 @@ public class Area implements Serializable{
      * @param y The y coordinate.
      */
     private void spreadGrass(int x, int y){
-        if(withinBounds(x+1, y)&&map[y][x+1].isFloor()) map[y][x+1] = new Grass(location, false);
-        if(withinBounds(x-1, y)&&map[y][x-1].isFloor()) map[y][x-1] = new Grass(location, false);
-        if(withinBounds(x, y+1)&&map[y+1][x].isFloor()) map[y+1][x] = new Grass(location, false);
-        if(withinBounds(x, y-1)&&map[y-1][x].isFloor()) map[y-1][x] = new Grass(location, false);
+        if(map[y][x+1].isFloor()) map[y][x+1] = new Grass(location, false);
+        if(map[y][x-1].isFloor()) map[y][x-1] = new Grass(location, false);
+        if(map[y+1][x].isFloor()) map[y+1][x] = new Grass(location, false);
+        if(map[y-1][x].isFloor()) map[y-1][x] = new Grass(location, false);
     }
     
     /**
@@ -505,10 +514,10 @@ public class Area implements Serializable{
      * @param y The y coordinate.
      */
     private void spreadWater(int x, int y){
-        if(withinBounds(x+1, y)&&map[y][x+1].isFloor()) map[y][x+1] = new AnimatedTile(location, x%2);
-        if(withinBounds(x-1, y)&&map[y][x-1].isFloor()) map[y][x-1] = new AnimatedTile(location, x%2);
-        if(withinBounds(x, y+1)&&map[y+1][x].isFloor()) map[y+1][x] = new AnimatedTile(location, x%2);
-        if(withinBounds(x, y-1)&&map[y-1][x].isFloor()) map[y-1][x] = new AnimatedTile(location, x%2);
+        if(map[y][x+1].isFloor()) map[y][x+1] = new AnimatedTile(location, x%2);
+        if(map[y][x-1].isFloor()) map[y][x-1] = new AnimatedTile(location, x%2);
+        if(map[y+1][x].isFloor()) map[y+1][x] = new AnimatedTile(location, x%2);
+        if(map[y-1][x].isFloor()) map[y-1][x] = new AnimatedTile(location, x%2);
     }
     
     /**
@@ -525,9 +534,14 @@ public class Area implements Serializable{
         for(int y=1;y<dimension.height-1;y++){
             for(int x=1;x<dimension.width-1;x++){
                 if(map[y][x]!=null&&map[y][x].equals("water")){
-                    AnimatedTile tile = (AnimatedTile) map[y][x];
-                    tile.addShaders(genShaderString(x, y), location);
-                    map[y][x] = tile;
+                    try{
+                        ((AnimatedTile)map[y][x]).addShaders(genShaderString(x, y), location);
+                    }catch(NullPointerException e){
+                        //@Catch should be fixed
+                        debugMode = true;
+                        System.err.println("WATER ON EDGE!");
+                        System.err.println(x + ", " + y);
+                    }
                 }
             }
         }
@@ -550,10 +564,10 @@ public class Area implements Serializable{
         AreaMemento memento = (AreaMemento) in.readObject();
         location = memento.getLocation();
         map = memento.getMap();
+        objectLock = new ReentrantLock();
     }
     
-    private void writeObject(ObjectOutputStream out) 
-            throws IOException, ClassNotFoundException{
+    private void writeObject(ObjectOutputStream out) throws IOException{
         out.defaultWriteObject();
         out.writeObject(new AreaMemento(location, map));
     }

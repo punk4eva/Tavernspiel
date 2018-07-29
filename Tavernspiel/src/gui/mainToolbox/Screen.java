@@ -19,7 +19,7 @@ public class Screen implements Serializable{
     
     protected final String name;
     protected int tlx, tly, brx, bry;
-    protected ScreenListener listener;
+    protected transient ScreenListener listener;
     
     /**
      * Creates a new instance.
