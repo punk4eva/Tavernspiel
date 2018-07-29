@@ -163,18 +163,12 @@ public class Point implements Serializable{
     }
     
     public void paint(Graphics g, int _x, int _y, Area area){
-        /*if(isCorridor) g.setColor(Color.BLUE);
-        else if(checked==null) g.setColor(Color.WHITE);
-        else if(cameFrom==null) g.setColor(Color.YELLOW);
-        else if(checked) g.setColor(Color.RED);
-        else g.setColor(Color.BLACK);*/
-        try{ if(area.map[y][x].transparent){
-            g.setColor(Color.BLUE);
-            g.fillOval(_x+4, _y+4, 8, 8);
-        }}catch(NullPointerException e){
-            g.setColor(Color.RED);
-            g.fillOval(_x+4, _y+4, 8, 8);
-        }
+        //if(isCorridor) g.setColor(Color.BLUE);
+        //else if(checked==null) g.setColor(Color.WHITE);
+        //else if(cameFrom==null) g.setColor(Color.YELLOW);
+        //else if(checked) g.setColor(Color.RED);
+        //else g.setColor(Color.BLACK);
+        //g.fillOval(_x+4, _y+4, 8, 8);
     }
     
 }

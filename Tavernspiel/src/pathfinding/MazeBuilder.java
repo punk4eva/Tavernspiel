@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import level.Area;
 import logic.Distribution;
+import tiles.Barricade;
 import tiles.Door;
 import tiles.Tile;
 
@@ -38,8 +39,9 @@ public class MazeBuilder{
             for(int cx=x;cx<width+x;cx++) area.map[cy][cx] = Tile.wall(area.location);
         if(area.graph==null) area.graph = new Graph(area);
         else area.graph.use();
-        new MazeAlgorithm().floodfill(area.graph.map[Distribution.r.nextInt(area.dimension.height/2)]
-                [Distribution.r.nextInt(area.dimension.width/2)]);
+        int dx = Distribution.r.nextInt(area.dimension.width/2-2)*2+3,
+                dy = Distribution.r.nextInt(area.dimension.height/2-2)*2+3;
+        new MazeAlgorithm().floodfill(area.graph.map[dy][dx]);
         area.graph = new Graph(area);
     }
     
@@ -49,48 +51,11 @@ public class MazeBuilder{
             super(area.graph, area);
         }
         
-        /*@Override
-        public void floodfill(Point start){
-            graph.use();
-            Point next;
-            start.checked = true;
-            int doors = Distribution.getRandomInt(2, (area.dimension.width+area.dimension.height)*7/50);
-            while(true){
-                next = getDirection(start);
-                while(next==null){
-                    if(start.cameFrom==null){
-                        for(int n=0;n<2;n++) switch(Distribution.r.nextInt(4)){
-                            case 0: area.map[TLY][TLX+Distribution.r.nextInt(area.dimension.width-2)+1] = new Door(area.location);
-                                break;
-                            case 1: area.map[TLY+height-1][TLX+Distribution.r.nextInt(area.dimension.width-2)+1] = new Door(area.location);
-                                break;
-                            case 2: area.map[TLY+Distribution.r.nextInt(area.dimension.height-2)+1][TLX] = new Door(area.location);
-                                break;
-                            default: area.map[TLY+Distribution.r.nextInt(area.dimension.height-2)+1][TLX+width-1] = new Door(area.location);
-                                break;
-                        }
-                        return;
-                    }
-                    start = start.cameFrom;
-                    next = getDirection(start);
-                }
-                carve(start, next);
-                if(onEdge(next)){
-                    doors--;
-                    area.map[next.y][next.x] = new Door(area.location);
-                    if(doors==0) break;
-                    checkAll(next);
-                }
-                next.cameFrom = start;
-                next.checked = true;
-                start = next;
-            }
-        }*/
-        
         @Override
         public void floodfill(Point start){
             System.err.println("Maze built");
             area.debugMode = true;
+            
             graph.use();
             Point next;
             start.checked = true;
@@ -102,34 +67,33 @@ public class MazeBuilder{
                     start = start.cameFrom;
                     next = getDirection(start);
                 }
-                carve(start, next);
-                if(onEdge(next)){
-                    doors--;
-                    area.map[next.y][next.x] = new Door(area.location);
-                    if(doors==0) break;
-                }
                 next.cameFrom = start;
                 next.checked = true;
-                start = next;
+                if(onEdge(next)){
+                    if(doors>0){
+                        doors--;
+                        area.map[next.y][next.x] = new Door(area.location);
+                    }
+                    start = start.cameFrom;
+                }else{
+                    carve(start, next);
+                    start = next;
+                }
             }
         }
 
         private Point getDirection(Point p){
             List<Point> points = new LinkedList<>();
             if(withinBounds(p.x, p.y-2)&&(graph.map[p.y-2][p.x].checked==null||!graph.map[p.y-2][p.x].checked)) points.add(graph.map[p.y-2][p.x]);
+            else if(onEdge(p.x, p.y-1)&&graph.map[p.y-1][p.x].checked==null) points.add(graph.map[p.y-1][p.x]);
             if(withinBounds(p.x, p.y+2)&&(graph.map[p.y+2][p.x].checked==null||!graph.map[p.y+2][p.x].checked)) points.add(graph.map[p.y+2][p.x]);
+            else if(onEdge(p.x, p.y+1)&&graph.map[p.y+1][p.x].checked==null) points.add(graph.map[p.y+1][p.x]);
             if(withinBounds(p.x-2, p.y)&&(graph.map[p.y][p.x-2].checked==null||!graph.map[p.y][p.x-2].checked)) points.add(graph.map[p.y][p.x-2]);
+            else if(onEdge(p.x-1, p.y)&&graph.map[p.y][p.x-1].checked==null) points.add(graph.map[p.y][p.x-1]);
             if(withinBounds(p.x+2, p.y)&&(graph.map[p.y][p.x+2].checked==null||!graph.map[p.y][p.x+2].checked)) points.add(graph.map[p.y][p.x+2]);
+            else if(onEdge(p.x+1, p.y)&&graph.map[p.y][p.x+1].checked==null) points.add(graph.map[p.y][p.x+1]);
             return points.isEmpty()? null : points.get(Distribution.r.nextInt(points.size()));
         }
-        
-        //@Delete May be redundant
-        /*private void checkAll(Point p){
-            if(withinBounds(p.x+2, p.y)) graph.map[p.y][p.x+2].checked = true;
-            if(withinBounds(p.x-2, p.y)) graph.map[p.y][p.x-2].checked = true;
-            if(withinBounds(p.x, p.y+2)) graph.map[p.y+2][p.x].checked = true;
-            if(withinBounds(p.x, p.y-2)) graph.map[p.y-2][p.x].checked = true;
-        }*/
         
     }
     
@@ -155,6 +119,10 @@ public class MazeBuilder{
     
     private boolean onEdge(Point p){
         return TLX==p.x||p.x==TLX+width-1||TLY==p.y||p.y==TLY+height-1;
+    }
+    
+    private boolean onEdge(int x, int y){
+        return TLX==x||x==TLX+width-1||TLY==y||y==TLY+height-1;
     }
     
 }

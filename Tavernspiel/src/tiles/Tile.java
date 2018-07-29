@@ -22,6 +22,8 @@ public class Tile implements Comparable<Tile>{
     public boolean flammable;
     public boolean transparent;
     
+    public static final Distribution trapChance = new Distribution(1, 35);
+    
     public Tile(String n, ImageIcon ic){
         image = ic;
         name = n;
@@ -66,7 +68,7 @@ public class Tile implements Comparable<Tile>{
     }
     
     public static Tile floor(Location loc){
-        if(Distribution.chance(1, 26)) return RoomBuilder.getRandomTrap(loc);
+        if(trapChance.chance()) return RoomBuilder.getRandomTrap(loc);
         if(Distribution.chance(1, 22)) return new Tile("decofloor", loc, true, false, true);
         return new Tile("floor", loc, true, false, true);
     }

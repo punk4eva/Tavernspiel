@@ -13,7 +13,6 @@ import java.util.LinkedList;
 import java.util.List;
 import level.RoomDistribution.MakeRoom;
 import logic.Distribution;
-import logic.Utils.Unfinished;
 import pathfinding.CorridorBuilder;
 import pathfinding.Graph;
 import pathfinding.Point;
@@ -58,7 +57,6 @@ public class AreaBuilder implements Serializable{
      * @param depth The depth of the next Area.
      * @return The Area that was built.
      */
-    @Unfinished("Generate forced rooms.")
     protected Area load(RoomDistribution roomDist, int depth){
         Area area = new Area(new Dimension(80, 80), location);
         List<Room> rooms = roomDist.generate(forcedItems, forcedRooms, depth);

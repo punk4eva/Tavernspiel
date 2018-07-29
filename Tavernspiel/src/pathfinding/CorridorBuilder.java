@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import level.Area;
 import logic.Distribution;
 import static pathfinding.Searcher.directions;
+import tiles.Barricade;
 import tiles.Door;
 import tiles.Tile;
 
@@ -92,7 +93,7 @@ public class CorridorBuilder{
     
     private void extend(Point p, boolean hor){
         int x = p.x, y = p.y;
-        if(!(area.map[y][x] instanceof Door)){
+        if(!(area.map[y][x] instanceof Door||area.map[y][x] instanceof Barricade)){
             area.map[y][x] = Tile.floor(area.location);
             area.graph.map[y][x].isCorridor = true;
         }

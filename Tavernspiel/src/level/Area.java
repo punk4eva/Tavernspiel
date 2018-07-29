@@ -61,7 +61,7 @@ public class Area implements Serializable{
     public transient ReentrantLock objectLock = new ReentrantLock();
     
     @Unfinished("Remove debug")
-    public boolean debugMode = false;
+    public boolean debugMode = true;
     
     /**
      * Creates a new instance.
@@ -448,14 +448,7 @@ public class Area implements Serializable{
                     if(map[y][x]!=null&&map[y][x].equals("water")){
                         if(ch.chance()){
                             spreads = true;
-                            try{
-                                spreadWater(x, y);
-                            }catch(NullPointerException e){
-                                //@Catch
-                                System.err.println("WATER ON EDGE 2");
-                                System.err.println(x + ", " + y);
-                                debugMode = true;
-                            }
+                            spreadWater(x, y);
                         }
                     }
                 }
@@ -531,20 +524,10 @@ public class Area implements Serializable{
             grass();
             water();
         }
-        for(int y=1;y<dimension.height-1;y++){
-            for(int x=1;x<dimension.width-1;x++){
-                if(map[y][x]!=null&&map[y][x].equals("water")){
-                    try{
-                        ((AnimatedTile)map[y][x]).addShaders(genShaderString(x, y), location);
-                    }catch(NullPointerException e){
-                        //@Catch should be fixed
-                        debugMode = true;
-                        System.err.println("WATER ON EDGE!");
-                        System.err.println(x + ", " + y);
-                    }
-                }
-            }
-        }
+        for(int y=1;y<dimension.height-1;y++)
+            for(int x=1;x<dimension.width-1;x++)
+                if(map[y][x]!=null&&map[y][x].equals("water"))
+                    ((AnimatedTile)map[y][x]).addShaders(genShaderString(x, y), location);
     }
     
     private String genShaderString(int x, int y){

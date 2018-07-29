@@ -10,6 +10,8 @@ import items.Apparatus;
 import items.misc.Gold;
 import level.Area;
 import level.Dungeon;
+import level.Location;
+import level.RoomBuilder;
 import logic.FileHandler;
 import logic.Utils.Unfinished;
 
@@ -62,15 +64,16 @@ public class Game extends Main{
     
     //Progenitor Thread
     public static void main(String... args){
-        /*Thread.currentThread().setName("Progenitor Thread");
+        Thread.currentThread().setName("Progenitor Thread");
         Game game = new Game();
-        try{
+        //game.currentArea = RoomBuilder.maze(Location.SHKODER_TILESET, 0);
+        /*try{
             Thread.sleep(1200);
         }catch(InterruptedException e){}
         game.currentArea.plop(Apparatus.getRandomMeleeWeapon(1, game.currentArea.location), game.player.x, game.player.y);
-        game.currentArea.plop(new Gold(100), game.player.x+1, game.player.y);
-        game.save();*/
-        Game game = FileHandler.deserializeGame("filetesting/game.ser");
+        game.currentArea.plop(new Gold(100), game.player.x+1, game.player.y);*/
+        //game.save();
+        //Game game = FileHandler.deserializeGame("filetesting/game.ser");
     }
 
     @Unfinished("The sfx for newDepth.")

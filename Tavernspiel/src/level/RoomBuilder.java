@@ -323,8 +323,8 @@ public class RoomBuilder{
     }
     
     public static Room maze(Location loc, int depth){
-        Room room = new Room(new Dimension(Distribution.getRandomInt(10, 32),
-                Distribution.getRandomInt(10, 32)), loc, depth);
+        Room room = new Room(new Dimension(Distribution.r.nextInt(12)*2+9,
+                Distribution.r.nextInt(12)*2+9), loc, depth);
         new MazeBuilder(room, 0, 0, room.dimension.width, room.dimension.height);
         room.randomlyPlop();
         return room;

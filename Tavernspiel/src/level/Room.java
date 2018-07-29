@@ -165,8 +165,7 @@ public class Room extends Area{
     protected void barricade(){
         Distribution yDistrib = new Distribution(new double[]{0, dimension.height-1});
         Distribution xDistrib = new Distribution(new double[]{0, dimension.width-1});
-        boolean running = true;
-        while(running){
+        while(true){
             int x, y;
             if(Distribution.chance(1, 2)){
                 x = Distribution.getRandomInt(1, dimension.width-2);
@@ -176,8 +175,8 @@ public class Room extends Area{
                 x = (int) xDistrib.next();
             }
             if(map[y][x].equals("wall")||map[y][x].equals("specialwall")){
-                running = false;
                 map[y][x] = new Barricade(location);
+                return;
             }
         }
     }
