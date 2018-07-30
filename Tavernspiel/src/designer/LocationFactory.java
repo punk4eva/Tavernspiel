@@ -15,8 +15,6 @@ import logic.Distribution;
 public class LocationFactory{
     
     Scanner scan = new Scanner(System.in);
-    Location defaultLocation = new Location("Default", "shkoderTileset",
-            "water", "sound/songs/Cyanoshrooms.wav", 2);
     
     /**
      * The factory method for Locations.
@@ -25,7 +23,7 @@ public class LocationFactory{
     public Location produce(){
         out.println("What is the name?");
         String name = scan.nextLine();
-        if(name.equals("/pass")) return defaultLocation;
+        if(name.equals("/pass")) return Location.SHKODER_TILESET;
         out.println("What is the path to the tileset?");
         String tiles = scan.nextLine();
         out.println("What is the path to the water image?");
@@ -36,7 +34,8 @@ public class LocationFactory{
         Boolean wbg = Boolean.parseBoolean(scan.nextLine());
         System.out.println("What's the country code?");
         int i = Integer.parseInt(scan.nextLine());
-        return new Location(name, tiles, water, getWaterDistrib(), getGrassDistrib(), wbg, bmp, i);
+        //return new Location(name, tiles, water, getWaterDistrib(), getGrassDistrib(), wbg, bmp, i);
+        throw new UnsupportedOperationException("@Unfinished");
     }
     
     private Distribution getWaterDistrib(){
@@ -44,7 +43,7 @@ public class LocationFactory{
         String[] p = scan.nextLine().split(" in ");
         try{
             return new Distribution(Integer.parseInt(p[0]), Integer.parseInt(p[1]));
-        }catch(Exception e){
+        }catch(NumberFormatException e){
             return new Distribution(1, 20);
         }
     }
@@ -54,7 +53,7 @@ public class LocationFactory{
         String[] p = scan.nextLine().split(" in ");
         try{
             return new Distribution(Integer.parseInt(p[0]), Integer.parseInt(p[1]));
-        }catch(Exception e){
+        }catch(NumberFormatException e){
             return new Distribution(1, 20);
         }
     }

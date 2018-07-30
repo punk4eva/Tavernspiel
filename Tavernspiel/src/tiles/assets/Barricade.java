@@ -1,8 +1,9 @@
 
-package tiles;
+package tiles.assets;
 
 import level.Location;
 import logic.Distribution;
+import tiles.Tile;
 
 /**
  *

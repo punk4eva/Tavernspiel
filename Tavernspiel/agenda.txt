@@ -1,4 +1,2 @@
-Build Quickslot
-Allow Item generation
-Work on item graphics
-Work on new indoor tilesets
+Level feelings
+Rooms: alchemy room

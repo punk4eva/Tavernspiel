@@ -5,12 +5,6 @@ import creatureLogic.Attributes;
 import creatures.Hero;
 import gui.mainToolbox.Screen;
 import gui.utils.CComponent;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.lang.annotation.Inherited;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -152,7 +146,7 @@ public final class Utils{
     }
     
     //@Delete after debugging
-    public static void main(String... args) throws IOException{
+    public static void main(String... args){
         //debugging
         FileHandler.serialize(new Hero(new Attributes()), "filetesting/serial.ser");
     }

@@ -9,9 +9,10 @@ import java.awt.Dimension;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.List;
+import java.util.function.Predicate;
 import logic.Distribution;
-import tiles.Barricade;
-import tiles.Door;
+import tiles.assets.Barricade;
+import tiles.assets.Door;
 import tiles.Tile;
 import tiles.TrapBuilder;
 
@@ -209,6 +210,24 @@ public class Room extends Area{
                 x = Distribution.getRandomInt(1, dimension.width-2);
                 y = Distribution.getRandomInt(1, dimension.height-2);
             }while(!isTreadable(x, y));
+            if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
+            else{
+                receptacles.add(TrapBuilder.getRandomReceptacle(item, x, y));
+            }
+        });
+    }
+    
+    /**
+     * Randomly places Items on the ground.
+     * @param pred The Predicate
+     */
+    protected void randomlyPlop(Predicate<Integer[]> pred){
+        itemMap.genList().stream().forEach(item -> {
+            int x, y;
+            do{
+                x = Distribution.getRandomInt(1, dimension.width-2);
+                y = Distribution.getRandomInt(1, dimension.height-2);
+            }while(!pred.test(new Integer[]{x, y}));
             if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
             else{
                 receptacles.add(TrapBuilder.getRandomReceptacle(item, x, y));

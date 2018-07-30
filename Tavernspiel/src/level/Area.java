@@ -32,7 +32,7 @@ import logic.GameObject;
 import logic.Utils.Unfinished;
 import pathfinding.Graph;
 import tiles.AnimatedTile;
-import tiles.Grass;
+import tiles.assets.Grass;
 import tiles.Tile;
 
 /**
@@ -433,7 +433,7 @@ public class Area implements Serializable{
     private void water(){
         for(int y=1;y<dimension.height-1;y++){
             for(int x=1;x<dimension.width-1;x++){
-                if(map[y][x]!=null&&map[y][x].equals("floor")&&location.waterGenChance.chance()){
+                if(map[y][x]!=null&&map[y][x].equals("floor")&&location.feeling.waterGenChance.chance()){
                     map[y][x] = new AnimatedTile(location, x%2);
                 }
             }
@@ -462,7 +462,7 @@ public class Area implements Serializable{
     private void grass(){
         for(int y=1;y<dimension.height-1;y++){
             for(int x=1;x<dimension.width-1;x++){
-                if(map[y][x]!=null&&map[y][x].equals("floor")&&location.grassGenChance.chance()) 
+                if(map[y][x]!=null&&map[y][x].equals("floor")&&location.feeling.grassGenChance.chance()) 
                     map[y][x] = new Grass(location, false);
             }
         }
@@ -482,7 +482,7 @@ public class Area implements Serializable{
         
         for(int y=1;y<dimension.height-1;y++){
             for(int x=1;x<dimension.width-1;x++){
-                if(map[y][x]!=null&&map[y][x].equals("lowgrass")&&Distribution.chance(1, 2)){
+                if(map[y][x]!=null&&map[y][x].equals("lowgrass")&&location.feeling.grassUpgradeChance.chance()){
                     map[y][x] = new Grass(location, true);
                 }
             }
@@ -517,7 +517,7 @@ public class Area implements Serializable{
      * Adds water and grass to this Area and shades it.
      */
     public void addDeco(){
-        if(location.waterBeforeGrass){
+        if(location.feeling.waterBeforeGrass){
             water();
             grass();
         }else{

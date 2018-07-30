@@ -22,7 +22,7 @@ import level.Area;
 import listeners.StepListener;
 import logic.Distribution;
 import pathfinding.Point;
-import tiles.Door;
+import tiles.assets.Door;
 import tiles.HiddenTile;
 
 /**

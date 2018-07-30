@@ -1,10 +1,11 @@
 
-package tiles;
+package tiles.assets;
 
 import creatures.Creature;
 import javax.swing.ImageIcon;
 import level.Location;
 import listeners.StepListener;
+import tiles.HiddenTile;
 
 /**
  *
@@ -16,7 +17,7 @@ public class Door extends HiddenTile implements StepListener{
     protected final ImageIcon closed;
     protected final ImageIcon locked;
     public boolean isLocked = false;
-    protected boolean isOpen = false;
+    public boolean isOpen = false;
     
     public Door(Location loc){
         super("door", loc, true, true, false);

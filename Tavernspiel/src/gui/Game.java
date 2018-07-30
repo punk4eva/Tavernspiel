@@ -10,8 +10,6 @@ import items.Apparatus;
 import items.misc.Gold;
 import level.Area;
 import level.Dungeon;
-import level.Location;
-import level.RoomBuilder;
 import logic.FileHandler;
 import logic.Utils.Unfinished;
 
@@ -45,7 +43,6 @@ public class Game extends Main{
     
     /**
      * Starts the game from serialized context.
-     * @param hero The Hero
      * @param dun The Dungeon
      */
     public Game(Dungeon dun){
@@ -66,12 +63,8 @@ public class Game extends Main{
     public static void main(String... args){
         Thread.currentThread().setName("Progenitor Thread");
         Game game = new Game();
-        //game.currentArea = RoomBuilder.maze(Location.SHKODER_TILESET, 0);
-        /*try{
-            Thread.sleep(1200);
-        }catch(InterruptedException e){}
         game.currentArea.plop(Apparatus.getRandomMeleeWeapon(1, game.currentArea.location), game.player.x, game.player.y);
-        game.currentArea.plop(new Gold(100), game.player.x+1, game.player.y);*/
+        game.currentArea.plop(new Gold(100), game.player.x+1, game.player.y);
         //game.save();
         //Game game = FileHandler.deserializeGame("filetesting/game.ser");
     }
@@ -81,7 +74,7 @@ public class Game extends Main{
         currentArea = area;
         gui.addMessage("You are now in " + dungeon.getDepthClassifier() + ".");
         soundSystem.playSFX("Misc/newDepth.wav"); //@unfinished
-        soundSystem.playAbruptLoop(currentArea.location.backgroundMusicPath);
+        soundSystem.playAbruptLoop(currentArea.location.feeling.backgroundMusicPath);
         
     }
 

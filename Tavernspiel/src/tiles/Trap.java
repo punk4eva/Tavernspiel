@@ -19,17 +19,19 @@ public class Trap extends HiddenTile implements StepListener{
     private Buff buff = null; //null if there is no buff.
     
     public Trap(String tile, Location loc, Buff b){
-        super("floor", true, false, true, tile, loc, false, true, true);
+        super("floor", true, false, true, tile, loc, 
+                loc.feeling.trapVisibleChance.chance(), false, true, true);
         buff = b;
     }
     
     public Trap(String tile, Location loc, Blob g){
-        super("floor", true, false, true, tile, loc, false, true, true);
+        super("floor", true, false, true, tile, loc, 
+                loc.feeling.trapVisibleChance.chance(), false, true, true);
         sprayedGas = g;
     }
     
     public Trap(String tile, Location loc, Buff b, boolean hid){
-        super("floor", true, false, true, tile, loc, hid, false, true);
+        super("floor", true, false, true, tile, loc, hid, false, true, true);
         buff = b;
     }
     

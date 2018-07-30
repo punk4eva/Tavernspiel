@@ -51,11 +51,6 @@ public interface ConstantFields{
         sqwidth = (int)(((double)Main.WIDTH*(7.0/9.0)-7*padding)/6.0),
         sqheight = (int)(((double)Main.HEIGHT*(7.0/9.0)-6*padding)/5.0);
     
-    public static final Predicate<Item> truthPredicate = new Predicate<Item>(){
-        @Override
-        public boolean test(Item t){
-            return true;
-        }
-    };
+    public static final Predicate<Item> truthPredicate = t -> true;
     
 }

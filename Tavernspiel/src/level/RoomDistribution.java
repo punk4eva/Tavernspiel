@@ -93,8 +93,8 @@ public class RoomDistribution{
     
     protected final static List<MakeRoom> roomAlgs = new LinkedList<>();
     protected final static List<MakeItemRoom> itemRoomAlgs = new LinkedList<>();
-    protected final static Distribution roomDist = new Distribution(new int[]{10,6,6,2,1,3,3});
-    protected final static Distribution itemRoomDist = new Distribution(new int[]{1,4,6});
+    protected final static Distribution roomDist = new Distribution(new int[]{10,6,6,2,1,3,3,7,5,2,1,1});
+    protected final static Distribution itemRoomDist = new Distribution(new int[]{1,4,6,2});
     static{
         roomAlgs.add((loc, d) -> RoomBuilder.standard(loc, d));
         roomAlgs.add((loc, d) -> RoomBuilder.standardLocked(loc, d));
@@ -103,10 +103,16 @@ public class RoomDistribution{
         roomAlgs.add((loc, d) -> RoomBuilder.magicWellRoom(loc, d));
         roomAlgs.add((loc, d) -> RoomBuilder.maze(loc, d));
         roomAlgs.add((loc, d) -> RoomBuilder.storage(loc, d));
+        roomAlgs.add((loc, d) -> RoomBuilder.exhibition(loc, d));
+        roomAlgs.add((loc, d) -> RoomBuilder.campfire(loc, d));
+        roomAlgs.add((loc, d) -> RoomBuilder.burntGarden(loc, d));
+        roomAlgs.add((loc, d) -> RoomBuilder.laboratory(loc, d));
+        roomAlgs.add((loc, d) -> RoomBuilder.library(loc, d));
         
         itemRoomAlgs.add((loc, d, i) -> RoomBuilder.floodedVault(loc, i));
         itemRoomAlgs.add((loc, d, i) -> RoomBuilder.chasmVault(loc, i, d));
         itemRoomAlgs.add((loc, d, i) -> RoomBuilder.roomOfTraps(loc, i, d));
+        itemRoomAlgs.add((loc, d, i) -> RoomBuilder.altar(loc, i, d));
     }
     
 }

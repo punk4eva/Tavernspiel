@@ -3,7 +3,7 @@ package tiles;
 
 import creatures.Creature;
 import creatures.Hero;
-import gui.Window;
+import gui.mainToolbox.Main;
 import javax.swing.ImageIcon;
 import level.Location;
 
@@ -82,7 +82,7 @@ public class HiddenTile extends Tile{
     
     
     public void find(Creature c){
-        if(c instanceof Hero) Window.main.addMessage("orange", "You notice something...");
+        if(c instanceof Hero) Main.addMessage("orange", "You notice something...");
         hidden = false;
         flammable = reallyFlammable;
         treadable = reallyTreadable;

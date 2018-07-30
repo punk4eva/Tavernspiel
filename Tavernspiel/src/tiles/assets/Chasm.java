@@ -1,5 +1,5 @@
 
-package tiles;
+package tiles.assets;
 
 import creatures.Creature;
 import creatures.Hero;
@@ -8,6 +8,7 @@ import level.Location;
 import listeners.AreaEvent;
 import listeners.StepListener;
 import logic.Utils.Unfinished;
+import tiles.Tile;
 
 /**
  *

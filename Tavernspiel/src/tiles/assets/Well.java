@@ -1,8 +1,9 @@
 
-package tiles;
+package tiles.assets;
 
 import animation.WaterAnimation;
 import level.Location;
+import tiles.AnimatedTile;
 
 /**
  *

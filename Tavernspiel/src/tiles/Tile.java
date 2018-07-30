@@ -1,6 +1,7 @@
 
 package tiles;
 
+import tiles.assets.*;
 import animation.WaterAnimation;
 import java.awt.Graphics;
 import java.util.HashMap;
@@ -14,9 +15,9 @@ import logic.Distribution;
  *
  * @author Adam Whittaker
  */
-public class Tile implements Comparable<Tile>{
+public class Tile{
     
-    protected ImageIcon image;
+    public ImageIcon image;
     public String name;
     public boolean treadable;
     public boolean flammable;
@@ -56,11 +57,6 @@ public class Tile implements Comparable<Tile>{
     public boolean equals(String str){
         return str.compareToIgnoreCase(name)==0;
     }
-
-    @Override
-    public int compareTo(Tile t){
-        return name.compareToIgnoreCase(t.name);
-    }
     
     public static Tile wall(Location loc){
         if(Distribution.chance(1, 22)) return new Tile("specialwall", loc, false, false, false);
@@ -86,6 +82,12 @@ public class Tile implements Comparable<Tile>{
         if(tile instanceof Door){
             if(((Door) tile).hidden) return 6;
             if(((Door) tile).isOpen) return 7;
+        }
+        if(tile instanceof CustomTile){
+            int s = IDmap.size();
+            IDmap.put(""+((CustomTile)tile).loader, s);
+            tileMap.put(s, ((CustomTile)tile).loader);
+            return s;
         }
         try{
             return IDmap.get(tile.name);
@@ -178,8 +180,7 @@ public class Tile implements Comparable<Tile>{
         tileMap.put(31, loc -> TrapBuilder.getTrap("beartrap", loc));
         tileMap.put(32, loc -> TrapBuilder.getTrap("silvertrap", loc));
         tileMap.put(33, loc -> new Barricade("bookshelf", loc));
-        //@Unfinished alchemy pot
-        //tileMap.put(34, );
+        tileMap.put(34, loc -> new AlchemyPot(loc));
         tileMap.put(35, loc -> new Chasm("floor", loc));
         tileMap.put(36, loc -> new Chasm("specialfloor", loc));
         tileMap.put(37, loc -> new Chasm("wall", loc));

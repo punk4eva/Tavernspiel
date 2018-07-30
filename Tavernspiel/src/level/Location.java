@@ -22,14 +22,10 @@ public class Location{
     public final String name;
     public final ImageIcon tileset;
     public final ImageIcon waterImage;
-    protected Distribution waterGenChance = new Distribution(1, 25);
-    protected Distribution grassGenChance = new Distribution(1, 25);
-    protected RoomDistribution roomDistrib = null; //null if boss room.
+    protected RoomDistribution roomDistrib; //null if boss room.
     protected CreatureDistribution[] spawnDistribution;
-    protected boolean waterBeforeGrass = true;
-    public final String backgroundMusicPath;
+    public LevelFeeling feeling = LevelFeeling.STANDARD;
     public final HashMap<String, ImageIcon> tilemap = new HashMap<>();
-    public int difficulty;
     public final WeaponIndex weaponIndex;
     private final Distribution armourDistrib = new Distribution(new int[]{12,20,6,3,1});
     
@@ -44,11 +40,10 @@ public class Location{
      * @param bmp The path for the background music.
      * @param a Represents the country (0-3).
      */
-    public Location(String n, BufferedImage tiles, BufferedImage water, String bmp, int a){
+    public Location(String n, BufferedImage tiles, BufferedImage water, int a){
         name = n;
         waterImage = new ImageIcon(water);
         tileset = new ImageIcon(tiles);
-        backgroundMusicPath = bmp;
         weaponIndex = WeaponIndex.getIndex(a);
         ImageHandler.initializeIcons(this);
     }
@@ -61,35 +56,14 @@ public class Location{
      * @param bmp The path for the background music.
      * @param a Represents the country (0-3).
      */
-    public Location(String n, String tiles, String water, String bmp, int a){
+    public Location(String n, String tiles, String water, int a){
         name = n;
         waterImage = new ImageIcon("graphics/tilesets/"+water+".png");
         tileset = new ImageIcon("graphics/tilesets/"+tiles+".png");
-        backgroundMusicPath = bmp;
         weaponIndex = WeaponIndex.getIndex(a);
         ImageHandler.initializeIcons(this);
     }
-    
-    /**
-     * Creates a new instance.
-     * @param n The name.
-     * @param tiles The tileset.
-     * @param waterI The water image.
-     * @param water The water gen. chance.
-     * @param grass The grass gen. chance.
-     * @param bmp The path for the background music.
-     * @param a Represents the country (0-3).
-     */
-    public Location(String n, BufferedImage tiles, BufferedImage waterI, Distribution water, Distribution grass, String bmp, int a){
-        name = n;
-        tileset = new ImageIcon(tiles);
-        waterImage = new ImageIcon(waterI);
-        backgroundMusicPath = bmp;
-        waterGenChance = water;
-        grassGenChance = grass;
-        weaponIndex = WeaponIndex.getIndex(a);
-        ImageHandler.initializeIcons(this);
-    }
+
     
     /**
      * Creates a new instance.
@@ -102,103 +76,11 @@ public class Location{
      * @param bmp The path for the background music.
      * @param a Represents the country (0-3).
      */
-    public Location(String n, BufferedImage tiles, BufferedImage waterI, CreatureDistribution[] sp, Distribution water, Distribution grass, String bmp, int a){
+    public Location(String n, BufferedImage tiles, BufferedImage waterI, CreatureDistribution[] sp, int a){
         name = n;
         waterImage = new ImageIcon(waterI);
         tileset = new ImageIcon(tiles);
         spawnDistribution = sp;
-        backgroundMusicPath = bmp;
-        waterGenChance = water;
-        grassGenChance = grass;
-        weaponIndex = WeaponIndex.getIndex(a);
-        ImageHandler.initializeIcons(this);
-    }
-    
-    /**
-     * Creates a new instance.
-     * @param n The name.
-     * @param tiles The tileset.
-     * @param water The water image.
-     * @param sp The CreatureDistributions.
-     * @param bmp The path for the background music.
-     * @param a Represents the country (0-3).
-     */
-    public Location(String n, BufferedImage tiles, BufferedImage water, CreatureDistribution[] sp, String bmp, int a){
-        name = n;
-        tileset = new ImageIcon(tiles);
-        backgroundMusicPath = bmp;
-        waterImage = new ImageIcon(water);
-        spawnDistribution = sp;
-        weaponIndex = WeaponIndex.getIndex(a);
-        ImageHandler.initializeIcons(this);
-    }
-    
-    /**
-     * Creates a new instance.
-     * @param n The name.
-     * @param tiles The tileset.
-     * @param waterI The water image.
-     * @param water The water gen. chance.
-     * @param grass The grass gen. chance.
-     * @param wbg Whether water should be generated before grass.
-     * @param bmp The path for the background music.
-     * @param a Represents the country (0-3).
-     */
-    public Location(String n, BufferedImage tiles, BufferedImage waterI, Distribution water, Distribution grass, boolean wbg, String bmp, int a){
-        name = n;
-        tileset = new ImageIcon(tiles);
-        backgroundMusicPath = bmp;
-        waterGenChance = water;
-        grassGenChance = grass;
-        waterImage = new ImageIcon(waterI);
-        waterBeforeGrass = wbg;
-        weaponIndex = WeaponIndex.getIndex(a);
-    }
-    
-    /**
-     * Creates a new instance.
-     * @param n The name.
-     * @param tiles The tileset.
-     * @param waterI The water image.
-     * @param water The water gen. chance.
-     * @param grass The grass gen. chance.
-     * @param wbg Whether water should be generated before grass.
-     * @param bmp The path for the background music.
-     * @param a Represents the country (0-3).
-     */
-    public Location(String n, String tiles, String waterI, Distribution water, Distribution grass, boolean wbg, String bmp, int a){
-        name = n;
-        tileset = new ImageIcon(tiles);
-        backgroundMusicPath = bmp;
-        waterGenChance = water;
-        grassGenChance = grass;
-        waterImage = new ImageIcon(waterI);
-        waterBeforeGrass = wbg;
-        weaponIndex = WeaponIndex.getIndex(a);
-        ImageHandler.initializeIcons(this);
-    }
-    
-    /**
-     * Creates a new instance.
-     * @param n The name.
-     * @param tiles The tileset.
-     * @param waterI The water image.
-     * @param sp The CreatureDistributions.
-     * @param water The water gen. chance.
-     * @param grass The grass gen. chance.
-     * @param wbg Whether water should be generated before grass.
-     * @param bmp The path for the background music.
-     * @param a Represents the country (0-3).
-     */
-    public Location(String n, BufferedImage tiles, BufferedImage waterI, CreatureDistribution[] sp, Distribution water, Distribution grass, boolean wbg, String bmp, int a){
-        name = n;
-        tileset = new ImageIcon(tiles);
-        spawnDistribution = sp;
-        waterGenChance = water;
-        backgroundMusicPath = bmp;
-        waterImage = new ImageIcon(waterI);
-        grassGenChance = grass;
-        waterBeforeGrass = wbg;
         weaponIndex = WeaponIndex.getIndex(a);
         ImageHandler.initializeIcons(this);
     }
@@ -338,7 +220,7 @@ public class Location{
     
     
     public static final Location SHKODER_TILESET = 
-            new Location("Shkoder", "shkoderTileset", "water", "Cyanoshrooms.wav", 2);
+            new Location("Shkoder", "shkoderTileset", "water", 2);
     static{
         SHKODER_TILESET.lowGrass = new GrassAnimation(new int[][]{
                     {3,2}, {15,4}, {0,8}, {13,10}, {2,11}, {8,12}, {11,15}

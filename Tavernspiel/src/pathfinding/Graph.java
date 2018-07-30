@@ -5,8 +5,8 @@ import java.awt.Graphics;
 import java.io.Serializable;
 import java.util.LinkedList;
 import level.Area;
-import tiles.Barricade;
-import tiles.Door;
+import tiles.assets.Barricade;
+import tiles.assets.Door;
 
 /**
  *

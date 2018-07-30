@@ -1,6 +1,7 @@
 
 package tiles;
 
+import tiles.assets.Chasm;
 import animation.GasAnimator;
 import animation.WaterAnimation;
 import blob.Blob;

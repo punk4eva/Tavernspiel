@@ -7,7 +7,7 @@ import java.awt.Graphics;
 import java.io.Serializable;
 import level.Location;
 import logic.Distribution;
-import tiles.Door;
+import tiles.assets.Door;
 import tiles.Tile;
 
 /**

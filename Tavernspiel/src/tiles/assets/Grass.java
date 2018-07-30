@@ -1,10 +1,11 @@
 
-package tiles;
+package tiles.assets;
 
 import animation.GrassAnimation;
 import creatures.Creature;
 import level.Location;
 import listeners.StepListener;
+import tiles.AnimatedTile;
 
 /**
  *

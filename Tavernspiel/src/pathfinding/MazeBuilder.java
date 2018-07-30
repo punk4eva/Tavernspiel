@@ -5,8 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 import level.Area;
 import logic.Distribution;
-import tiles.Barricade;
-import tiles.Door;
+import tiles.assets.Door;
 import tiles.Tile;
 
 /**
@@ -53,9 +52,6 @@ public class MazeBuilder{
         
         @Override
         public void floodfill(Point start){
-            System.err.println("Maze built");
-            area.debugMode = true;
-            
             graph.use();
             Point next;
             start.checked = true;

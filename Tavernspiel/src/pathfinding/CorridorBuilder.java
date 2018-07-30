@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 import level.Area;
 import logic.Distribution;
 import static pathfinding.Searcher.directions;
-import tiles.Barricade;
-import tiles.Door;
+import tiles.assets.Barricade;
+import tiles.assets.Door;
 import tiles.Tile;
 
 /**

@@ -1,6 +1,7 @@
 
 package level;
 
+import tiles.assets.*;
 import buffs.GasBuilder;
 import containers.Chest;
 import containers.Floor;
@@ -9,10 +10,15 @@ import items.ItemMap;
 import items.consumables.PotionBuilder;
 import items.misc.Key;
 import java.awt.Dimension;
+import java.util.function.Function;
 import logic.Distribution;
 import logic.Utils.Unfinished;
 import pathfinding.MazeBuilder;
-import tiles.*;
+import tiles.AnimatedTile;
+import tiles.CustomTile;
+import tiles.Tile;
+import tiles.Trap;
+import tiles.TrapBuilder;
 
 /**
  *
@@ -57,6 +63,7 @@ public class RoomBuilder{
                 Distribution.getRandomInt(5, 10)), loc, depth);
         room.paintAndPave();
         Trap trap = getRandomTrap(loc);
+        trap.hidden = false;
         switch(Distribution.getRandomInt(1, 4)){
             case 1: //North
                 for(int y = 2; y < room.dimension.height - 1; y++){
@@ -329,6 +336,204 @@ public class RoomBuilder{
         room.randomlyPlop();
         return room;
     }
+    
+    public static Room grandExhibition(Location loc, Item item, int depth){
+        throw new UnsupportedOperationException("Not Supported Yet!");
+    }
+    
+    public static Room exhibition(Location loc, int depth){
+        Room room = new Room(new Dimension(Distribution.getRandomInt(7, 16), 
+                Distribution.getRandomInt(7, 16)), loc, depth);
+        room.paintAndPave();
+        int x = room.dimension.width/2, y = room.dimension.height/2;
+        if(Distribution.chance(1, 2)) room.map[y][x] = new Tile("statue", loc, false, false, true);
+        else{
+            room.map[y][x] = new Tile("specialstatue", loc, false, false, true);
+            room.map[y-1][x-1] = new CustomTile(loc, ES);
+            room.map[y-1][x] = new CustomTile(loc, ESW);
+            room.map[y-1][x+1] = new CustomTile(loc, SW);
+            room.map[y][x-1] = new CustomTile(loc, NES);
+            room.map[y+1][x-1] = new CustomTile(loc, NE);
+            room.map[y+1][x] = new CustomTile(loc, NEW);
+            room.map[y+1][x+1] = new CustomTile(loc, NW);
+            room.map[y][x+1] = new CustomTile(loc, NSW);
+        }
+        room.addDoors();
+        room.randomlyPlop();
+        return room;
+    }
+    
+    public static Room kitchen(Location loc, int depth){
+        throw new UnsupportedOperationException("Not Supported Yet!");
+    }
+    
+    public static Room laboratory(Location loc, int depth){
+        Room room = new Room(new Dimension(Distribution.getRandomInt(7, 14), 
+                Distribution.getRandomInt(7, 14)), loc, new Key(depth), 
+                ItemMap.getLaboratoryItemMap(depth, loc));
+        int orient = Distribution.r.nextInt(4);
+        for(int y=0;y<room.dimension.height;y++)
+            for(int x=0;x<room.dimension.width;x++)
+                if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) 
+                    room.map[y][x] = Tile.wall(loc);
+        switch(orient){
+            case 0:
+                for(int x=1;x<room.dimension.width-1;x++)
+                    room.map[1][x] = new Tile("bookshelf", loc, false, true, false);
+                for(int y=2;y<room.dimension.height-1;y++){
+                    for(int x=1;x<room.dimension.width-2;x++)
+                        room.map[y][x] = new Tile("specialfloor", loc, true, false, true);
+                    room.map[y][room.dimension.width-2] = new Tile("pedestal", loc, true, false, true);
+                }
+                room.map[room.dimension.height-2][1] = new AlchemyPot(loc);
+                break;
+            case 1:
+                for(int y=1;y<room.dimension.height-1;y++){
+                    for(int x=1;x<room.dimension.width-2;x++)
+                        room.map[y][x] = new Tile("specialfloor", loc, true, false, true);
+                    room.map[y][room.dimension.width-2] = new Tile("bookshelf", loc, false, true, false);
+                }
+                for(int x=1;x<room.dimension.width-2;x++)
+                    room.map[room.dimension.height-2][x] = new Tile("pedestal", loc, true, false, true);
+                room.map[1][room.dimension.width-2] = new AlchemyPot(loc);
+                break;
+            case 2:
+                for(int y=1;y<room.dimension.height-2;y++){
+                    for(int x=2;x<room.dimension.width-1;x++)
+                        room.map[y][x] = new Tile("specialfloor", loc, true, false, true);
+                    room.map[y][1] = new Tile("pedestal", loc, true, false, true);
+                }
+                for(int x=1;x<room.dimension.width-1;x++)
+                    room.map[room.dimension.height-2][x] = new Tile("bookshelf", loc, false, true, false);
+                room.map[1][room.dimension.width-2] = new AlchemyPot(loc);
+                break;
+            default:
+                for(int x=2;x<room.dimension.width-1;x++)
+                    room.map[1][x] = new Tile("pedestal", loc, true, false, true);
+                room.map[1][1] = new Tile("bookshelf", loc, false, true, false);
+                for(int y=2;y<room.dimension.height-1;y++){
+                    for(int x=2;x<room.dimension.width-1;x++)
+                        room.map[y][x] = new Tile("specialfloor", loc, true, false, true);
+                    room.map[y][1] = new Tile("bookshelf", loc, false, true, false);
+                }
+                room.map[room.dimension.height-2][room.dimension.width-2] = new AlchemyPot(loc);
+                break;
+        }
+        switch(orient){
+            case 2: room.map[0][room.dimension.width/2] = new Door(loc, true); break;
+            case 3: room.map[room.dimension.height/2][room.dimension.width-1] = new Door(loc, true); break;
+            case 0: room.map[room.dimension.height-1][room.dimension.width/2] = new Door(loc, true); break;
+            case 1: room.map[room.dimension.height/2][0] = new Door(loc, true); break;
+        }
+        room.randomlyPlop(i -> room.map[i[1]][i[0]].equals("pedestal"));
+        return room;
+    }
+    
+    public static Room campfire(Location loc, int depth){
+        Room room = new Room(new Dimension(Distribution.getRandomInt(7, 16), 
+                Distribution.getRandomInt(7, 16)), loc, depth);
+        room.paintAndPave();
+        int x = room.dimension.width/2, y = room.dimension.height/2;
+        room.map[y][x] = new Tile("barricade", loc, false, true, false);
+        room.map[y-1][x-1] = new Tile("embers", loc, true, false, true);
+        room.map[y-1][x] = new Tile("embers", loc, true, false, true);
+        room.map[y-1][x+1] = new Tile("embers", loc, true, false, true);
+        room.map[y][x-1] = new Tile("embers", loc, true, false, true);
+        room.map[y+1][x-1] = new Tile("embers", loc, true, false, true);
+        room.map[y+1][x] = new Tile("embers", loc, true, false, true);
+        room.map[y+1][x+1] = new Tile("embers", loc, true, false, true);
+        room.map[y][x+1] = new Tile("embers", loc, true, false, true);
+        room.addDoors();
+        room.randomlyPlop();
+        return room;
+    }
+    
+    public static Room burntGarden(Location loc, int depth){
+        Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
+                Distribution.getRandomInt(5, 16)), loc, depth);
+        for(int y=0;y<room.dimension.height;y++){
+            for(int x=0;x<room.dimension.width;x++){
+                if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) 
+                    room.map[y][x] = Tile.wall(loc);
+                else if(Distribution.chance(1, 3)) room.map[y][x] = new Tile("embers", loc, true, false, true);
+                else room.map[y][x] = new Grass(loc, false);
+            }
+        }
+        room.addDoors();
+        room.randomlyPlop();
+        return room;
+    }
+    
+    public static Room altar(Location loc, Item item, int depth){
+        System.err.println("altar");
+        int d = Distribution.getRandomInt(5, 17);
+        Room room = new Room(new Dimension(d, d), loc, depth);
+        room.paintAndPave();
+        d/=2;
+        if(d<5){
+            room.map[d][d] = new Tile("pedestal", loc, true, false, true);
+            if(item!=null) room.receptacles.add(new Floor(item, d/2, d/2));
+            for(int y=1;y<d;y++) room.map[y][d] = new Tile("specialfloor", loc, true, false, true);
+            for(int y=d+1;y<room.dimension.height-1;y++) room.map[y][d] = new Tile("specialfloor", loc, true, false, true);
+            for(int x=1;x<d;x++) room.map[d][x] = new Tile("specialfloor", loc, true, false, true);
+            for(int x=d+1;x<room.dimension.width-1;x++) room.map[d][x] = new Tile("specialfloor", loc, true, false, true);
+        }else{
+            room.map[d][d] = new Tile("pedestal", loc, true, false, true);
+            room.map[d+1][d] = new Tile("pedestal", loc, true, false, true);
+            room.map[d][d+1] = new Tile("pedestal", loc, true, false, true);
+            room.map[d+1][d+1] = new Tile("pedestal", loc, true, false, true);
+            if(item!=null) room.receptacles.add(new Floor(item, d/2, d/2));
+            for(int y=1;y<d;y++){
+                room.map[y][d] = new Tile("specialfloor", loc, true, false, true);
+                room.map[y][d+1] = new Tile("specialfloor", loc, true, false, true);
+            }
+            for(int y=d+2;y<room.dimension.height-1;y++){
+                room.map[y][d] = new Tile("specialfloor", loc, true, false, true);
+                room.map[y][d+1] = new Tile("specialfloor", loc, true, false, true);
+            }
+            for(int x=1;x<d;x++){
+                room.map[d][x] = new Tile("specialfloor", loc, true, false, true);
+                room.map[d+1][x] = new Tile("specialfloor", loc, true, false, true);
+            }
+            for(int x=d+2;x<room.dimension.width-1;x++){
+                room.map[d][x] = new Tile("specialfloor", loc, true, false, true);
+                room.map[d+1][x] = new Tile("specialfloor", loc, true, false, true);
+            }
+            switch(Distribution.r.nextInt(4)){
+                case 0: room.map[0][d] = new Door(loc);
+                case 1: room.map[room.dimension.height-1][d] = new Door(loc);
+                case 2: room.map[d][0] = new Door(loc);
+                case 3: room.map[d][room.dimension.width-1] = new Door(loc);
+            }
+        }
+        return room;
+    }
+    
+    public static Room library(Location loc, int depth){
+        Room room = new Room(new Dimension(Distribution.getRandomInt(8, 22),
+                Distribution.getRandomInt(8, 22)), loc, depth);
+        int mod;
+        if(room.dimension.width<14) mod = 3;
+        else if(room.dimension.width<18) mod = 4;
+        else mod = 5;
+        for(int y=0;y<room.dimension.height;y++){
+            for(int x=0;x<room.dimension.width;x++){
+                if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) 
+                    room.map[y][x] = Tile.wall(loc);
+                else if(y>1&&y<room.dimension.height-2&&y%2==0&&x%mod!=0&&
+                        x>1&&x<room.dimension.width-2) room.map[y][x] = new Tile("bookshelf", loc, false, true, false);
+                else room.map[y][x] = new Tile("specialfloor", loc, true, false, true);
+            }
+        }
+        room.addDoors();
+        room.randomlyPlop();
+        return room;
+    }
+    
+    public static Room secretLibrary(Location loc, int depth){
+        throw new UnsupportedOperationException("Not Supported Yet!");
+    }
+    
                     
             
     
@@ -345,5 +550,46 @@ public class RoomBuilder{
             return new Chasm(area, x, y);
         }
     }
+    
+    private static final Function<Location, Tile> ES = (loc) -> {
+        Tile t = new Tile("specialnw", loc.getImage("specialfloor"), true, false, true);
+        t.image = CustomTile.addShaders(t.image, "nw", loc);
+        return t;
+    };
+    private static final Function<Location, Tile> ESW = (loc) -> {
+        Tile t = new Tile("specialn", loc.getImage("specialfloor"), true, false, true);
+        t.image = CustomTile.addShaders(t.image, "n", loc);
+        return t;
+    };
+    private static final Function<Location, Tile> SW = (loc) -> {
+        Tile t = new Tile("specialne", loc.getImage("specialfloor"), true, false, true);
+        t.image = CustomTile.addShaders(t.image, "ne", loc);
+        return t;
+    };
+    private static final Function<Location, Tile> NSW = (loc) -> {
+        Tile t = new Tile("speciale", loc.getImage("specialfloor"), true, false, true);
+        t.image = CustomTile.addShaders(t.image, "e", loc);
+        return t;
+    };
+    private static final Function<Location, Tile> NW = (loc) -> {
+        Tile t = new Tile("speciales", loc.getImage("specialfloor"), true, false, true);
+        t.image = CustomTile.addShaders(t.image, "es", loc);
+        return t;
+    };
+    private static final Function<Location, Tile> NEW = (loc) -> {
+        Tile t = new Tile("specials", loc.getImage("specialfloor"), true, false, true);
+        t.image = CustomTile.addShaders(t.image, "s", loc);
+        return t;
+    };
+    private static final Function<Location, Tile> NE = (loc) -> {
+        Tile t = new Tile("specialsw", loc.getImage("specialfloor"), true, false, true);
+        t.image = CustomTile.addShaders(t.image, "sw", loc);
+        return t;
+    };
+    private static final Function<Location, Tile> NES = (loc) -> {
+        Tile t = new Tile("specialw", loc.getImage("specialfloor"), true, false, true);
+        t.image = CustomTile.addShaders(t.image, "w", loc);
+        return t;
+    };
     
 }
