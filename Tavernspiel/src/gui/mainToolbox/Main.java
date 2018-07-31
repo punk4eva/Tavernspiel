@@ -164,7 +164,7 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
         mouse.setDirectFocus(x, y);
     }
     
-    public static void addMessage(String col, String str){
+    public static void addMessage(Color col, String str){
         gui.addMessage(col, str);
     }
     

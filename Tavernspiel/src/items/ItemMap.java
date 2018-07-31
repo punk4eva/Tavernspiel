@@ -253,4 +253,127 @@ public class ItemMap{
         };
     }
     
+    /**
+     * Returns the ItemMap for a library.
+     * @param depth
+     * @param loc
+     * @return
+     */
+    @Unfinished
+    public static ItemMap getLibraryItemMap(int depth, Location loc){
+        return new ItemMap(null, null, -1, -1){
+            
+            Distribution type = new Distribution(new int[]{12, 3, 3, 9, 9, 1, 1});
+            
+            @Override
+            public List<Item> genList(){
+                List<Item> ret = new LinkedList<>();
+                while(Distribution.chance(1, 3)){
+                    switch((int)type.next()){
+                        case 0: //gold
+                            ret.add(new Gold(Distribution.getRandomInt(depth*(5-loc.feeling.difficulty), depth*(40-2*loc.feeling.difficulty))));
+                            break;
+                        case 1: //armour
+                            ret.add(Apparatus.getRandomArmour(depth, loc));
+                            break;
+                        case 2: //weapons
+                            ret.add(Apparatus.getRandomMeleeWeapon(depth, loc));
+                            break;
+                        case 3: //potions
+                            break;
+                        case 4: //scrolls
+                            break;
+                        case 5: //rings
+                            break;
+                        case 6: //wands
+                            break;
+                    }
+                }
+                return ret;
+            }
+        };
+    }
+    
+    /**
+     * Returns the ItemMap for a secret library.
+     * @param depth
+     * @param loc
+     * @return
+     */
+    @Unfinished
+    public static ItemMap getSecretLibraryItemMap(int depth, Location loc){
+        return new ItemMap(null, null, -1, -1){
+            
+            Distribution type = new Distribution(new int[]{12, 3, 3, 9, 9, 1, 1});
+            
+            @Override
+            public List<Item> genList(){
+                List<Item> ret = new LinkedList<>();
+                while(Distribution.chance(1, 3)){
+                    switch((int)type.next()){
+                        case 0: //gold
+                            ret.add(new Gold(Distribution.getRandomInt(depth*(5-loc.feeling.difficulty), depth*(40-2*loc.feeling.difficulty))));
+                            break;
+                        case 1: //armour
+                            ret.add(Apparatus.getRandomArmour(depth, loc));
+                            break;
+                        case 2: //weapons
+                            ret.add(Apparatus.getRandomMeleeWeapon(depth, loc));
+                            break;
+                        case 3: //potions
+                            break;
+                        case 4: //scrolls
+                            break;
+                        case 5: //rings
+                            break;
+                        case 6: //wands
+                            break;
+                    }
+                }
+                return ret;
+            }
+        };
+    }
+    
+    /**
+     * Returns the ItemMap for a secret library.
+     * @param depth
+     * @param loc
+     * @return
+     */
+    @Unfinished
+    public static ItemMap getKitchenItemMap(int depth, Location loc){
+        return new ItemMap(null, null, -1, -1){
+            
+            Distribution type = new Distribution(new int[]{12, 3, 3, 9, 9, 1, 1});
+            
+            @Override
+            public List<Item> genList(){
+                List<Item> ret = new LinkedList<>();
+                while(Distribution.chance(1, 3)){
+                    switch((int)type.next()){
+                        case 0: //gold
+                            ret.add(new Gold(Distribution.getRandomInt(depth*(5-loc.feeling.difficulty), depth*(40-2*loc.feeling.difficulty))));
+                            break;
+                        case 1: //armour
+                            ret.add(Apparatus.getRandomArmour(depth, loc));
+                            break;
+                        case 2: //weapons
+                            ret.add(Apparatus.getRandomMeleeWeapon(depth, loc));
+                            break;
+                        case 3: //potions
+                            break;
+                        case 4: //scrolls
+                            break;
+                        case 5: //rings
+                            break;
+                        case 6: //wands
+                            break;
+                    }
+                }
+                return ret;
+            }
+        };
+    }
+    
 }

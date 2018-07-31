@@ -107,11 +107,13 @@ public class Graph implements Serializable{
         if(!used) used = true;
         else for(int y=0;y<map.length;y++){
             for(int x=0;x<map[0].length;x++){
+                boolean p = map[y][x].isCorridor;
                 if(map[y][x].checked!=null){
                     map[y][x] = new Point(x, y);
                 }else{
                     map[y][x] = new Point(x, y, null);
                 }
+                map[y][x].isCorridor = p;
             }
         }
     }

@@ -12,6 +12,7 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 import level.RoomDistribution.MakeRoom;
+import logic.ConstantFields;
 import logic.Distribution;
 import pathfinding.CorridorBuilder;
 import pathfinding.Graph;
@@ -58,12 +59,14 @@ public class AreaBuilder implements Serializable{
      * @return The Area that was built.
      */
     protected Area load(RoomDistribution roomDist, int depth){
+        location.feeling = LevelFeeling.getRandomFeeling();
         Area area = new Area(new Dimension(80, 80), location);
-        List<Room> rooms = roomDist.generate(forcedItems, forcedRooms, depth);
+        List<Room> rooms = roomDist.generate(forcedItems, forcedRooms, depth, location.feeling);
         rooms.stream().forEach(r -> selectAndBlit(area, r));
         new CorridorBuilder(area).build();
         area.addDeco();
         area.graph = new Graph(area);
+        Main.addMessage(ConstantFields.interestColor, location.feeling.description);
         
         return area;
     }

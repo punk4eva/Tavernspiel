@@ -72,7 +72,7 @@ public class Area implements Serializable{
         dimension = dim;
         location = loc;
         map = new Tile[dimension.height][dimension.width];
-        overlay = new VisibilityOverlay(0,0,6,this);
+        overlay = new VisibilityOverlay(0,0,loc.feeling.visibility,this);
     }
     
     /**
@@ -483,7 +483,9 @@ public class Area implements Serializable{
         for(int y=1;y<dimension.height-1;y++){
             for(int x=1;x<dimension.width-1;x++){
                 if(map[y][x]!=null&&map[y][x].equals("lowgrass")&&location.feeling.grassUpgradeChance.chance()){
-                    map[y][x] = new Grass(location, true);
+                    if(location.feeling.equals(LevelFeeling.BURNED))
+                        map[y][x] = new Tile("embers", location, true, false, true);
+                    else map[y][x] = new Grass(location, true);
                 }
             }
         }

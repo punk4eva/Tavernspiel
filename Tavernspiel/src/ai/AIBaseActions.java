@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import level.Area;
 import listeners.StepListener;
+import logic.ConstantFields;
 import logic.Distribution;
 import pathfinding.Point;
 import tiles.assets.Door;
@@ -214,7 +215,7 @@ public class AIBaseActions implements Serializable{
         Apparatus reject = c.equipment.unequip((Apparatus)item);
         if(!c.inventory.add(reject)){
             c.area.plop(reject, c.x, c.y);
-            Main.addMessage("red", "Your pack is too full for the " +
+            Main.addMessage(ConstantFields.badColor, "Your pack is too full for the " +
                     reject.toString(3));
         }
     }
@@ -239,7 +240,7 @@ public class AIBaseActions implements Serializable{
         Item i = c.area.pickUp(c.x, c.y);
         if(!c.inventory.add(i)){
             c.area.plop(i, c.x, c.y);
-            Main.addMessage("red", "Your pack is too full for the " +
+            Main.addMessage(ConstantFields.badColor, "Your pack is too full for the " +
                     i.toString(3));
         }
     }

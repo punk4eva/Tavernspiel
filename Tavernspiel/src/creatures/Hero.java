@@ -31,6 +31,7 @@ import static gui.mainToolbox.MouseInterpreter.getCenter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import javax.swing.ImageIcon;
+import logic.ConstantFields;
 import logic.ImageUtils;
 import logic.Utils.Unfinished;
 
@@ -119,7 +120,7 @@ public class Hero extends Creature{
     public void die(Attack attack){
         animator.switchTo("die");
         area.lifeTaken(this);
-        Main.addMessage(attack.deathMessage, "red");
+        Main.addMessage(ConstantFields.badColor, attack.deathMessage);
         ((Game)Window.main).endGame();
     }
     

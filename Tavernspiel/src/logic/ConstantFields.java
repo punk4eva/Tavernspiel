@@ -31,6 +31,9 @@ public interface ConstantFields{
     public static final Color fadeColor = new Color(90, 90, 90);
     public static final Font textFont = new Font(Font.SERIF, Font.PLAIN, 18);
     public static final Font smallTextFont = new Font(Font.SERIF, Font.PLAIN, 15);
+    public static final Color badColor = Color.RED;
+    public static final Color interestColor = new Color(232, 121, 25);
+    public static final Color plainColor = Color.YELLOW;
     
     public static final Image helmetOutline = new ImageIcon("graphics/outlines/helmetOutline.png").getImage();
     public static final Image chestplateOutline = new ImageIcon("graphics/outlines/chestplateOutline.png").getImage();

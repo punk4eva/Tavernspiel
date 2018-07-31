@@ -9,6 +9,7 @@ import gui.Viewable;
 import items.Item;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayDeque;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -31,14 +32,14 @@ public class GuiBase{
     public Hero hero;
     public volatile Dialogue dialogue = null;
     public volatile Viewable viewable;
-    protected ArrayDeque<String> queue = new ArrayDeque<>();
+    protected ArrayDeque<SimpleEntry<Color, String>> queue = new ArrayDeque<>();
     
     /**
      * Creates a new instance.
      * The HUD and Hero need to be injected manually.
      */
     public GuiBase(){
-        for(int i=0;i<4;i++) queue.add("");
+        for(int i=0;i<4;i++) queue.add(new SimpleEntry(ConstantFields.plainColor, ""));
     }
     
     @Unfinished("Remove debug")
@@ -118,9 +119,11 @@ public class GuiBase{
         g.setColor(ConstantFields.textColor);
         g.setFont(ConstantFields.smallTextFont);
         int height = Main.HEIGHT*6/7;
-        Iterator<String> iter = queue.descendingIterator();
+        Iterator<SimpleEntry<Color, String>> iter = queue.descendingIterator();
         while(iter.hasNext()){
-            g.drawString(iter.next(), 48, height);
+            SimpleEntry se = iter.next();
+            g.setColor((Color)se.getKey());
+            g.drawString((String)se.getValue(), 48, height);
             height -= 16;
         }
         hud.paint(g);
@@ -143,22 +146,22 @@ public class GuiBase{
      * @param message The message.
      */
     public void addMessage(String message){
-        queue.add(message);
-        queue.pop();
+        if(message!=null){
+            queue.add(new SimpleEntry(ConstantFields.plainColor, message));
+            queue.pop();
+        }
     }
     
     /**
      * Adds a message to the queue in the given color.
-     * @param colour The color.
+     * @param color The color.
      * @param message The message.
      */
-    public void addMessage(String colour, String message){
-        if(colour.startsWith("#")){
-            queue.add("<html><font bgcolor=\""+colour+"\">"+message+"</font>");
-        }else{
-            queue.add("<html><font color=\""+colour+"\">"+message+"</font>");
+    public void addMessage(Color color, String message){
+        if(message!=null){
+            queue.add(new SimpleEntry(color, message));
+            queue.pop();
         }
-        queue.pop();
     }
     
     /**

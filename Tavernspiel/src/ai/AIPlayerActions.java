@@ -13,6 +13,7 @@ import items.consumables.LocationSpecificScroll;
 import items.consumables.LocationSpecificScroll.LocationViewable;
 import java.util.List;
 import listeners.ScreenListener;
+import logic.ConstantFields;
 import logic.Distribution;
 import logic.Utils.Unfinished;
 
@@ -62,9 +63,9 @@ public class AIPlayerActions extends AIBaseActions{
         Item i = c.area.pickUp(c.x, c.y);
         if(!c.inventory.add(i)){
             c.area.plop(i, c.x, c.y);
-            Main.addMessage("red", "Your pack is too full for the " +
+            Main.addMessage(ConstantFields.badColor, "Your pack is too full for the " +
                     i.toString(3));
-        }else Window.main.soundSystem.playSFX("pickUp.wav");
+        }else Main.soundSystem.playSFX("pickUp.wav");
     }   
 
     /**
@@ -79,20 +80,16 @@ public class AIPlayerActions extends AIBaseActions{
                 throw new UnsupportedOperationException("AIPlayerActions.locationSelect.use() should remain unused!");
             }
         }.new LocationViewable(
-                new ScreenListener(){
-            @Override
-            public void screenClicked(Screen.ScreenEvent sc){
+                (ScreenListener) (Screen.ScreenEvent sc) -> {
                 System.out.println(sc.getName());
                 switch(sc.getName()){
-                    case "backLocation":
-                        throwItem(h, item, sc.x, sc.y);
-                    case "locationPopupX":
-                        Window.main.removeViewable();
-                        break;
+                case "backLocation":
+                throwItem(h, item, sc.x, sc.y);
+                case "locationPopupX":
+                Window.main.removeViewable();
+                break;
                 }
-            }
-        }
-        ){
+        }){
             @Override
             public List<Screen> getScreens(){
                 return screens;

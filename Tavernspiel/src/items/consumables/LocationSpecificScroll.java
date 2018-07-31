@@ -18,6 +18,7 @@ import java.util.concurrent.CyclicBarrier;
 import javax.swing.ImageIcon;
 import level.Area;
 import listeners.ScreenListener;
+import logic.ConstantFields;
 import logic.Utils.Catch;
 
 /**
@@ -80,7 +81,7 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
             g.fill3DRect(bw, bh, 144, 48, false);
             g.setColor(new Color(230, 25, 25));
             g.fill3DRect(bw+108, bh+8, 24, 24, true);
-            g.setColor(Color.yellow);
+            g.setColor(ConstantFields.plainColor);
             g.drawString("Select a location", bw+8, bh+20);
             g.drawString("X", bw+116, bh+20);
         }

@@ -80,6 +80,12 @@ public class CorridorBuilder{
             return generatePaths(points, carry);
         }
         
+        Path generatePath(Point p1, Point p2){
+            setDestination(p2);
+            floodfill(p1);
+            return graph.followTrail(p2.x, p2.y);
+        }
+        
     }
     
     /**
@@ -128,6 +134,7 @@ public class CorridorBuilder{
         paths.stream().forEach((path) -> {
             buildCorridor(path);
         });
+        fix();
         area.graph.initializeWaypoints();
     }
     
@@ -192,6 +199,17 @@ public class CorridorBuilder{
                 area.map[p.y][p.x+1] = Tile.wall(area.location);
                 area.graph.map[p.y][p.x+1].isCorridor = true;
             }
+        }
+    }
+    
+    private void fix(){
+        Point waypoint = area.graph.getClosestWaypoint(
+                area.startCoords[0], area.startCoords[1]);
+        Searcher search = new Searcher(area.graph, area);
+        WanderingCorridorAlgorithm corSearch = new WanderingCorridorAlgorithm();
+        search.floodfill(new Point(area.startCoords[0], area.startCoords[1]));
+        for(Point p : area.graph.waypoints){
+            if(p.cameFrom==null) buildCorridor(corSearch.generatePath(waypoint, p));
         }
     }
     

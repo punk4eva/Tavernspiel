@@ -11,6 +11,7 @@ import items.Item;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import level.Area;
+import logic.ConstantFields;
 import logic.Utils.Unfinished;
 import pathfinding.Point;
 
@@ -84,7 +85,7 @@ public final class PlayerAI extends AITemplate implements KeyListener{
                 Item i = c.area.pickUp(next.x, next.y);
                 if(!c.inventory.add(i)){
                     c.area.plop(i, next.x, next.y);
-                    Main.addMessage("red", "Your pack is too full for the " +
+                    Main.addMessage(ConstantFields.badColor, "Your pack is too full for the " +
                             i.toString(3));
                 }
             }

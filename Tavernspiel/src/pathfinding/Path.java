@@ -43,8 +43,7 @@ public class Path extends ArrayList<Point>{
     
     /**
      * Concatenates this Path with another and returns the result.
-     * @param p
-     * @return
+     * @param path
      */
     public void concatenate(Path path){
         addAll(path.subList(1, size()));

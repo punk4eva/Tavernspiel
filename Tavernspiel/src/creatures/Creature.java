@@ -18,7 +18,6 @@ import items.equipment.HeldWeapon;
 import java.awt.Graphics;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.LinkedList;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
@@ -57,7 +56,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
         equipment = eq;
         inventory = inv;
         attributes = atb;
-        FOV = new FieldOfView(x, y, 5);
+        FOV = new FieldOfView(x, y, 6);
     }
     
     /**
@@ -71,7 +70,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
         super(n, desc, an);
         attributes = atb;
         inventory = new Inventory();
-        FOV = new FieldOfView(x, y, 5);
+        FOV = new FieldOfView(x, y, 6);
     }
     
     /**

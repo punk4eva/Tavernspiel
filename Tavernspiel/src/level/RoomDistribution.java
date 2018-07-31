@@ -49,9 +49,10 @@ public class RoomDistribution{
      * @param forcedItems The list of Items that must be generated.
      * @param forcedRooms The list of room algorithms that must be executed.
      * @param depth The depth.
+     * @param feeling
      * @return
      */
-    public List<Room> generate(List<Item> forcedItems, List<MakeRoom> forcedRooms, int depth){
+    public List<Room> generate(List<Item> forcedItems, List<MakeRoom> forcedRooms, int depth, LevelFeeling feeling){
         int roomNum = Distribution.r.nextInt(upper-lower)+lower;
         List<Room> rooms = new LinkedList<>();
         List<Item> leftovers = new LinkedList<>();
@@ -62,13 +63,13 @@ public class RoomDistribution{
         });
         forcedItems.addAll(leftovers);
         leftovers.clear();
-        forcedItems.stream().map((i) -> populateForcedItems(i, depth, itemRoomAlgs, itemRoomDist)).forEach((r) -> {
+        forcedItems.stream().map((i) -> populateForcedItems(i, depth, itemRoomAlgs, feeling.itemRoomDist)).forEach((r) -> {
             if(r.locked) leftovers.add(r.key);
             rooms.add(r);
         });
         int freeRooms = 0;
         for(roomNum -= rooms.size();roomNum>0;roomNum--){
-            Room r = roomAlgs.get((int)roomDist.next()).make(location, depth);
+            Room r = roomAlgs.get((int)feeling.roomDist.next()).make(location, depth);
             if(r.locked) leftovers.add(r.key);
             rooms.add(0, r);
             freeRooms++;
@@ -79,7 +80,7 @@ public class RoomDistribution{
         }else if(!leftovers.isEmpty()){
             Room r;
             do{
-                r = roomAlgs.get((int)roomDist.next()).make(location, depth);
+                r = roomAlgs.get((int)feeling.roomDist.next()).make(location, depth);
             }while(r.locked);
             r.randomlyPlop(leftovers);
             rooms.add(r);
@@ -93,8 +94,6 @@ public class RoomDistribution{
     
     protected final static List<MakeRoom> roomAlgs = new LinkedList<>();
     protected final static List<MakeItemRoom> itemRoomAlgs = new LinkedList<>();
-    protected final static Distribution roomDist = new Distribution(new int[]{10,6,6,2,1,3,3,7,5,2,1,1});
-    protected final static Distribution itemRoomDist = new Distribution(new int[]{1,4,6,2});
     static{
         roomAlgs.add((loc, d) -> RoomBuilder.standard(loc, d));
         roomAlgs.add((loc, d) -> RoomBuilder.standardLocked(loc, d));
@@ -108,8 +107,10 @@ public class RoomDistribution{
         roomAlgs.add((loc, d) -> RoomBuilder.burntGarden(loc, d));
         roomAlgs.add((loc, d) -> RoomBuilder.laboratory(loc, d));
         roomAlgs.add((loc, d) -> RoomBuilder.library(loc, d));
+        roomAlgs.add((loc, d) -> RoomBuilder.kitchen(loc, d));
+        roomAlgs.add((loc, d) -> RoomBuilder.secretLibrary(loc, d));
         
-        itemRoomAlgs.add((loc, d, i) -> RoomBuilder.floodedVault(loc, i));
+        itemRoomAlgs.add((loc, d, i) -> RoomBuilder.floodedVault(loc, i, d));
         itemRoomAlgs.add((loc, d, i) -> RoomBuilder.chasmVault(loc, i, d));
         itemRoomAlgs.add((loc, d, i) -> RoomBuilder.roomOfTraps(loc, i, d));
         itemRoomAlgs.add((loc, d, i) -> RoomBuilder.altar(loc, i, d));
