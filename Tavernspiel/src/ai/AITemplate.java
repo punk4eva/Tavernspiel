@@ -26,6 +26,7 @@ public abstract class AITemplate implements Serializable{
     public Iterator<Point> currentPath;
     public AIBaseActions BASEACTIONS = new AIBaseActions(); //The basic actions that the ai can do.
     public int[] moving;
+    public boolean restrained = false;
 
     /**
      * Sets the AI's destination coords.
@@ -33,8 +34,10 @@ public abstract class AITemplate implements Serializable{
      * @param y
      */
     public void setDestination(int x, int y){
-        destinationx = x;
-        destinationy = y;
+        if(!restrained){
+            destinationx = x;
+            destinationy = y;
+        }
     }
     
     public void decideAndMove(Creature c){

@@ -4,6 +4,10 @@ package blob;
 import animation.GasAnimator;
 import buffs.BuffBuilder;
 import creatureLogic.Description;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import level.Location;
 import logic.Distribution;
 import logic.Utils.Unfinished;
 
@@ -15,10 +19,12 @@ import logic.Utils.Unfinished;
 public class Fire extends Blob{
     
     private final int depth;
+    private transient Location location;
     
-    public Fire(GasAnimator a, int x, int y, int d){
-        super("fire", new Description("naturals", "A fire is raging here"), BuffBuilder.fire(d), a, Distribution.getRandomInt(2, 5),x,y);
+    public Fire(GasAnimator a, Location loc, int x, int y, int d){
+        super("fire", new Description("naturals", "A fire is raging here"), BuffBuilder.fire(d, loc), a, Distribution.getRandomInt(2, 5),x,y);
         depth = d;
+        location = loc;
     }
     
     @Override
@@ -28,11 +34,22 @@ public class Fire extends Blob{
             area.burn(x, y);
             return;
         }
-        if(area.map[y-1][x].flammable) area.addObject(new Fire((GasAnimator)animator, x, y-1, depth));
-        if(area.map[y+1][x].flammable) area.addObject(new Fire((GasAnimator)animator, x, y+1, depth));
-        if(area.map[y][x-1].flammable) area.addObject(new Fire((GasAnimator)animator, x-1, y, depth));
-        if(area.map[y][x+1].flammable) area.addObject(new Fire((GasAnimator)animator, x+1, y, depth));
+        if(area.map[y-1][x].flammable) area.addObject(new Fire((GasAnimator)animator, location, x, y-1, depth));
+        if(area.map[y+1][x].flammable) area.addObject(new Fire((GasAnimator)animator, location, x, y+1, depth));
+        if(area.map[y][x-1].flammable) area.addObject(new Fire((GasAnimator)animator, location, x-1, y, depth));
+        if(area.map[y][x+1].flammable) area.addObject(new Fire((GasAnimator)animator, location, x+1, y, depth));
         spreadNumber--;
+    }
+    
+    private void writeObject(ObjectOutputStream out) throws IOException{
+        out.defaultWriteObject();
+        out.writeObject(location.name);
+    }
+    
+    private void readObject(ObjectInputStream in) 
+            throws IOException, ClassNotFoundException{
+        in.defaultReadObject();
+        location = Location.locationMap.get((String) in.readObject());
     }
     
 }

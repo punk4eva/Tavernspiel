@@ -70,7 +70,7 @@ public class Game extends Main{
     }
 
     @Unfinished("The sfx for newDepth.")
-    public void updateDepth(Area area){
+    public void updateArea(Area area){
         currentArea = area;
         gui.addMessage("You are now in " + dungeon.getDepthClassifier() + ".");
         soundSystem.playSFX("Misc/newDepth.wav"); //@unfinished

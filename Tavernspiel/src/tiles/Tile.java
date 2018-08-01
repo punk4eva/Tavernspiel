@@ -9,7 +9,6 @@ import java.util.function.Function;
 import javax.swing.ImageIcon;
 import level.Location;
 import level.RoomBuilder;
-import logic.Distribution;
 
 /**
  *
@@ -22,8 +21,6 @@ public class Tile{
     public boolean treadable;
     public boolean flammable;
     public boolean transparent;
-    
-    public static final Distribution trapChance = new Distribution(1, 35);
     
     public Tile(String n, ImageIcon ic){
         image = ic;
@@ -59,13 +56,13 @@ public class Tile{
     }
     
     public static Tile wall(Location loc){
-        if(Distribution.chance(1, 22)) return new Tile("specialwall", loc, false, false, false);
+        if(loc.feeling.wallChance.chance()) return new Tile("specialwall", loc, false, false, false);
         return new Tile("wall", loc, false, false, false);
     }
     
     public static Tile floor(Location loc){
-        if(trapChance.chance()) return RoomBuilder.getRandomTrap(loc);
-        if(Distribution.chance(1, 22)) return new Tile("decofloor", loc, true, false, true);
+        if(loc.feeling.trapChance.chance()) return RoomBuilder.getRandomTrap(loc);
+        if(loc.feeling.floorChance.chance()) return new Tile("decofloor", loc, true, false, true);
         return new Tile("floor", loc, true, false, true);
     }
     

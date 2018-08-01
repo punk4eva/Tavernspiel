@@ -27,7 +27,7 @@ public class Dungeon implements Serializable{
     public Dungeon(Game g){
         game = g;
         stages = new Stage[5];
-        Location loc = Location.SHKODER_TILESET;
+        Location loc = Location.SHKODER_LOCATION;
         stages[0] = new Stage(loc, 5, new String[]{"the upper level of the caves", "the lower level of the caves"}, null);
         stages[0].areas[0] = stages[0].areaBuilder.load(stages[0].location.roomDistrib, 0);
         depth=1;stages[0].loadedLevel=1;
@@ -52,8 +52,12 @@ public class Dungeon implements Serializable{
         if(!getStage().isLoaded(depth)){
             getStage().loadNext();
         }
-        game.updateDepth(getArea());
+        game.updateArea(getArea());
         if(hero!=null) currentArea.addHero(hero, true);
+    }
+    
+    public void setArea(Hero hero, Area area){
+        area.addHero(hero, true);
     }
     
     /**
@@ -63,7 +67,7 @@ public class Dungeon implements Serializable{
     public void ascend(Hero hero){
         if(depth!=1){
             depth--;
-            game.updateDepth(getArea());
+            game.updateArea(getArea());
             currentArea.addHero(hero, false);
         }
     }

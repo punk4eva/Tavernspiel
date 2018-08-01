@@ -108,7 +108,7 @@ public class TileSelection implements Serializable, Cloneable{
         String[] tiles = new String[tls.length-1];
         int chances[] = new int[tls.length-1];
         for(int n=0;n<tls.length-1;n++){
-            String[] p = tls[n].split(" ");
+            String[] p = tls[n].split(", ");
             tiles[n] = p[0];
             chances[n] = Integer.parseInt(p[1]);
         }
@@ -145,11 +145,10 @@ public class TileSelection implements Serializable, Cloneable{
     
     final static TileSelection wall = new TileSelection(new int[]{1, 9}, new String[]{"specialwall", "wall"}, Color.DARK_GRAY);
     final static TileSelection floor = new TileSelection(new int[]{1, 9}, new String[]{"decofloor", "floor"}, Color.GRAY);
-    final static TileSelection door = new TileSelection(new int[]{1, 9}, null, new Color(80, 80, 0)){
+    final static TileSelection door = new TileSelection(new int[]{0}, new String[]{""}, new Color(80, 80, 0)){
         @Override
         public Door getTile(Location loc){
-            boolean b = Distribution.chance(1, 4);
-            return new Door(loc, false, b);
+            return new Door(loc, false, Distribution.chance(1, 4));
         }
         
         @Override

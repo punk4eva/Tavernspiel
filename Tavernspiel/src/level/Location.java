@@ -37,7 +37,6 @@ public class Location{
      * @param n The name.
      * @param tiles The tileset.
      * @param water The water gen. chance.
-     * @param bmp The path for the background music.
      * @param a Represents the country (0-3).
      */
     public Location(String n, BufferedImage tiles, BufferedImage water, int a){
@@ -45,7 +44,6 @@ public class Location{
         waterImage = new ImageIcon(water);
         tileset = new ImageIcon(tiles);
         weaponIndex = WeaponIndex.getIndex(a);
-        ImageHandler.initializeIcons(this);
     }
     
     /**
@@ -53,7 +51,6 @@ public class Location{
      * @param n The name.
      * @param tiles The tileset.
      * @param water The water gen. chance.
-     * @param bmp The path for the background music.
      * @param a Represents the country (0-3).
      */
     public Location(String n, String tiles, String water, int a){
@@ -61,9 +58,7 @@ public class Location{
         waterImage = new ImageIcon("graphics/tilesets/"+water+".png");
         tileset = new ImageIcon("graphics/tilesets/"+tiles+".png");
         weaponIndex = WeaponIndex.getIndex(a);
-        ImageHandler.initializeIcons(this);
     }
-
     
     /**
      * Creates a new instance.
@@ -71,9 +66,6 @@ public class Location{
      * @param tiles The tileset.
      * @param waterI The water image.
      * @param sp The CreatureDistributions.
-     * @param water The water gen. chance.
-     * @param grass The grass gen. chance.
-     * @param bmp The path for the background music.
      * @param a Represents the country (0-3).
      */
     public Location(String n, BufferedImage tiles, BufferedImage waterI, CreatureDistribution[] sp, int a){
@@ -82,7 +74,6 @@ public class Location{
         tileset = new ImageIcon(tiles);
         spawnDistribution = sp;
         weaponIndex = WeaponIndex.getIndex(a);
-        ImageHandler.initializeIcons(this);
     }
     
     /**
@@ -219,24 +210,31 @@ public class Location{
     
     
     
-    public static final Location SHKODER_TILESET = 
-            new Location("Shkoder", "shkoderTileset", "water", 2);
+    public static final Location SHKODER_LOCATION = 
+            new Location("Shkoder", "shkoderTileset", "shkoderWater", 2);
     static{
-        SHKODER_TILESET.lowGrass = new GrassAnimation(new int[][]{
+        ImageHandler.initializeIcons(SHKODER_LOCATION);
+        SHKODER_LOCATION.lowGrass = new GrassAnimation(new int[][]{
                     {3,2}, {15,4}, {0,8}, {13,10}, {2,11}, {8,12}, {11,15}
-        }, "lowgrass", SHKODER_TILESET, 57, 177, 249, 
+        }, "lowgrass", SHKODER_LOCATION, 57, 177, 249, 
                 40, 100, 190, 210, 190, 254);
-        SHKODER_TILESET.highGrass = new GrassAnimation(new int[][]{
+        SHKODER_LOCATION.highGrass = new GrassAnimation(new int[][]{
                     {0,8}, {1,1}, {3,4}, {3,9}, {4,0}, {4,14}, {5,5}, {8,2}, {8,8}, 
             {9,0}, {9,12}, {10,4}, {11,8}, {12,6}, {12,14}, {14,9}, {14,12},
             {14,14}, {14,1}, {15,4}
-        }, "highgrass", SHKODER_TILESET, 57, 177, 249, 
+        }, "highgrass", SHKODER_LOCATION, 57, 177, 249, 
                 40, 100, 190, 210, 190, 254);
-        SHKODER_TILESET.roomDistrib = new RoomDistribution(SHKODER_TILESET, 3, 12);
+        SHKODER_LOCATION.roomDistrib = new RoomDistribution(SHKODER_LOCATION, 3, 12);
+    }
+    public static final Location INDOOR_CAVES_LOCATION = new Location(
+            "Indoor Caves", "indoorCavesTileset", "shkoderWater", 2);
+    static{
+        ImageHandler.initializeInteriorIcons(INDOOR_CAVES_LOCATION);
     }
     public static final HashMap<String, Location> locationMap = new HashMap<>();
     static{
-        locationMap.put("Shkoder", SHKODER_TILESET);
+        locationMap.put("Shkoder", SHKODER_LOCATION);
+        locationMap.put("Indoor Caves", INDOOR_CAVES_LOCATION);
     }
     
 }

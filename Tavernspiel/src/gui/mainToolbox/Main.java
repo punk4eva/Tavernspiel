@@ -55,7 +55,7 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
     }
 
     protected volatile boolean running = false;
-    private Thread runThread;
+    protected Thread runThread;
     public TurnThread turnThread;
     protected Window window;
     protected Page page;
@@ -227,7 +227,7 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
     /**
      * Starts the game.
      */
-    public final synchronized void start(){
+    public synchronized void start(){
         pageFlipper = new PageFlipper(this);
         pageFlipper.setPage("main");
         pacemaker = new Pacemaker(this);

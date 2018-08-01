@@ -48,7 +48,7 @@ public class TrapBuilder{
     
     @Unfinished
     public static Blob getToxicGas(Location location, int x, int y){
-        Buff b = BuffBuilder.toxicGas();           
+        Buff b = BuffBuilder.toxicGas(location);           
         GasAnimator a = new GasAnimator(new WaterAnimation(location, 0)); //@unfinished, placeholder
         return new Blob("Toxic Gas", new Description("gas", "A poisonous green vapour."), b, a, 7, x, y);
     }

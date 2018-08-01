@@ -21,7 +21,7 @@ public class Attack{
      * The type of attack.
      */
     public enum AttackType{
-        PHYSICAL,FIRE,ELECTRIC,PSYCHIC,HOLY,DEMONIC
+        PHYSICAL,FIRE,POISON,BLEEDING,ELECTRIC,PSYCHIC,HOLY,DEMONIC
     }
     
     /**

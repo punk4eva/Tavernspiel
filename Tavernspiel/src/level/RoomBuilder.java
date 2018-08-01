@@ -26,7 +26,7 @@ import tiles.TrapBuilder;
  * 
  * Builds rooms.
  */
-public class RoomBuilder{
+public abstract class RoomBuilder{
     
     
     private static final String[] TRAPCOLOURS = new String[]{
@@ -338,7 +338,45 @@ public class RoomBuilder{
     }
     
     public static Room grandExhibition(Location loc, Item item, int depth){
-        throw new UnsupportedOperationException("Not Supported Yet!");
+        boolean horizontal = Distribution.chance(1, 2);
+        Room room;
+        int mod;
+        if(horizontal){
+            room = new Room(new Dimension(Distribution.getRandomInt(15, 26), 
+                9), loc, new Key(depth), new ItemMap());
+            if(room.dimension.width<18) mod = 4;
+            else mod = 5;
+            for(int y=0;y<9;y++){
+                for(int x=0;x<room.dimension.width;x++){
+                    if(y==0||x==0||y==8||x==room.dimension.width-1) 
+                        room.map[y][x] = new Tile("wall", loc, false, false, false);
+                    else if(y==1||y==7||x==1||x==room.dimension.width-2) 
+                        room.map[y][x] = new Tile("floor", loc, true, false, true);
+                    else if(y==4||x%mod==0) room.map[y][x] = new Tile("specialfloor", loc, true, false, true);
+                    else if(x%mod==2) room.map[y][x] = new Tile("statue", loc, false, false, true);
+                }
+            }
+            if(Distribution.chance(1, 2)) room.map[4][0] = new Door(loc, true);
+            else room.map[4][room.dimension.width-1] = new Door(loc, true);
+        }else{
+            room = new Room(new Dimension(9, Distribution.getRandomInt(15, 26)),
+                loc, new Key(depth), new ItemMap());
+            if(room.dimension.height<18) mod = 4;
+            else mod = 5;
+            for(int y=0;y<room.dimension.height;y++){
+                for(int x=0;x<9;x++){
+                    if(y==0||x==0||y==room.dimension.height-1||x==8) 
+                        room.map[y][x] = new Tile("wall", loc, false, false, false);
+                    else if(y==1||y==room.dimension.height-2||x==1||x==7) 
+                        room.map[y][x] = new Tile("floor", loc, true, false, true);
+                    else if(x==4||y%mod==0) room.map[y][x] = new Tile("specialfloor", loc, true, false, true);
+                    else if(y%mod==2) room.map[y][x] = new Tile("statue", loc, false, false, true);
+                }
+            }
+            if(Distribution.chance(1, 2)) room.map[0][4] = new Door(loc, true);
+            else room.map[room.dimension.height-1][4] = new Door(loc, true);
+        }
+        return room;
     }
     
     public static Room exhibition(Location loc, int depth){

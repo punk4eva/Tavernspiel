@@ -8,6 +8,8 @@ import gui.Window;
 import gui.mainToolbox.MouseInterpreter;
 import static gui.mainToolbox.MouseInterpreter.focusX;
 import static gui.mainToolbox.MouseInterpreter.focusY;
+import gui.mainToolbox.Pacemaker;
+import gui.mainToolbox.PageFlipper;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -17,6 +19,8 @@ import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayDeque;
 import java.util.Scanner;
+import level.Location;
+import logic.Utils.Unfinished;
 import pathfinding.Point;
 
 /**
@@ -41,7 +45,7 @@ public class AreaDesigner extends Main{
             System.out.println("Filepath...");
             area = AreaTemplate.deserialize(new Scanner(System.in).nextLine());
         }else area = new AreaTemplate(
-            dim, new LocationFactory().produce());
+            dim, pollLocation());
         start();
     }
     
@@ -52,6 +56,18 @@ public class AreaDesigner extends Main{
         String[] p = next.split(", ");
         return new Dimension(Integer.parseInt(p[0]), 
                 Integer.parseInt(p[1]));
+    }
+    
+    @Override
+    @Unfinished("Fix")
+    public final synchronized void start(){
+        pageFlipper = new PageFlipper(this);
+        pageFlipper.setPage("main");
+        pacemaker = new Pacemaker(this);
+        runThread = new Thread(this, "Run Thread");
+        runThread.setDaemon(true);
+        runThread.start();
+        running = true;
     }
     
     class CommandLibrary{
@@ -88,19 +104,35 @@ public class AreaDesigner extends Main{
         
     }
     
+    /**
+     * @param str name of TileSelection (e.g: "wall").
+     * Sets the TileSelection directly.
+     */
     void tileStar(String str){
         brush = TileSelection.select(str);
     }
     
+    /**
+     * @param str The name and color of the Tile (e.g: "wall, emerald").
+     * Sets the TileSelection to be a single static tile with the given color.
+     */
     void tile(String str){
-        String[] p = str.split(" ");
+        String[] p = str.split(", ");
         brush = new TileSelection(p[0], p[1]);
     }
     
+    /**
+     * Toggles the boundary status of the brush.
+     */
     void boundary(){
         boundary = !boundary;
     }
     
+    /**
+     * @param str The tile names and probabilities (e.g: 
+     *          "wall, 22|specialwall, 1").
+     * Sets the brush to a brand new TileSelection.
+     */
     void custom(String str){
         brush = TileSelection.parse(str);
     }
@@ -203,6 +235,14 @@ public class AreaDesigner extends Main{
         @Override
         public void mouseWheelMoved(MouseWheelEvent me){}
 
+    }
+    
+    public static Location pollLocation(){
+        System.out.println("What is the name of the location?");
+        String name = new Scanner(System.in).nextLine();
+        Location loc = Location.locationMap.get(name);
+        if(loc==null) throw new IllegalStateException("Invalid name: " + name);
+        return loc;
     }
     
 }

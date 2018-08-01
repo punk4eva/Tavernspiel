@@ -17,7 +17,7 @@ public class Pacemaker{
      * Creates a new instance.
      * @param main The Main class
      */
-    protected Pacemaker(Main main){
+    public Pacemaker(Main main){
         timer = new Timer(25, main);
     }
     

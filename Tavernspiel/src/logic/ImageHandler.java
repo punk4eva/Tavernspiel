@@ -17,6 +17,7 @@ import level.Location;
 public class ImageHandler{
     
     private static final HashMap<String, Dimension> map = new HashMap<>();
+    private static final HashMap<String, Dimension> interiorMap = new HashMap<>();
     static{
         map.put("void", new Dimension(0, 0));
         map.put("floor", new Dimension(16, 0));
@@ -73,10 +74,33 @@ public class ImageHandler{
         map.put("shadere", new Dimension(208, 48));
         map.put("shadern", new Dimension(224, 48));
         map.put("shader", new Dimension(240, 48));
+        
+        interiorMap.put("wall", new Dimension(0, 0));
+        interiorMap.put("specialwall", new Dimension(16, 0));
+        interiorMap.put("floor", new Dimension(32, 0));
+        interiorMap.put("specialfloor", new Dimension(48, 0));
+        interiorMap.put("door", new Dimension(0, 16));
+        interiorMap.put("opendoor", new Dimension(16, 16));
+        interiorMap.put("lockeddoor", new Dimension(32, 16));
+        interiorMap.put("sign", new Dimension(48, 16));
+        interiorMap.put("depthentrance", new Dimension(0, 32));
+        interiorMap.put("depthexit", new Dimension(16, 32));
+        interiorMap.put("alchemypot", new Dimension(32, 32));
+        interiorMap.put("decofloor", new Dimension(48, 32));
+        interiorMap.put("bookshelf", new Dimension(0, 48));
+        interiorMap.put("table", new Dimension(16, 48));
+        interiorMap.put("bed1", new Dimension(32, 48));
+        interiorMap.put("bed2", new Dimension(48, 48));
     }
     
     public final static void initializeIcons(Location loc){
         map.entrySet().forEach((entry) -> {
+            loc.tilemap.put(entry.getKey(), getImage(entry.getValue(), loc));
+        });
+    }
+    
+    public final static void initializeInteriorIcons(Location loc){
+        interiorMap.entrySet().forEach((entry) -> {
             loc.tilemap.put(entry.getKey(), getImage(entry.getValue(), loc));
         });
     }
