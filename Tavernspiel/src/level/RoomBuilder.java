@@ -242,6 +242,13 @@ public abstract class RoomBuilder{
         return room;
     }
     
+    public static Area tomb(Item i){
+        Area tomb = Area.getPreloadedArea("preload/tomb.template");
+        if(i!=null) tomb.receptacles.add(new Floor(i, 10, 3));
+        tomb.startCoords = new Integer[]{10, 21};
+        return tomb;
+    }
+    
     @Unfinished("Way too close to Pixel Dungeon")
     public static Room garden(Location location, int depth){
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
@@ -623,10 +630,10 @@ public abstract class RoomBuilder{
         for(int y=4*dy;y<room.dimension.height-1;y++) room.map[y][3*dx] = new Tile("bookshelf", loc, false, true, false);
         
         switch(Distribution.r.nextInt(4)){
-            case 0: room.map[1][1] = new DepthExit(loc); break;
-            case 1: room.map[1][room.dimension.width-2] = new DepthExit(loc); break;
-            case 2: room.map[room.dimension.height-2][1] = new DepthExit(loc); break;
-            case 3: room.map[room.dimension.height-2][room.dimension.width-2] = new DepthExit(loc); break;
+            case 0: room.map[1][1] = new DepthExit(loc, tomb(null)); break;
+            case 1: room.map[1][room.dimension.width-2] = new DepthExit(loc, tomb(null)); break;
+            case 2: room.map[room.dimension.height-2][1] = new DepthExit(loc, tomb(null)); break;
+            case 3: room.map[room.dimension.height-2][room.dimension.width-2] = new DepthExit(loc, tomb(null)); break;
         }
         switch(Distribution.r.nextInt(4)){
             case 0: if(room.dimension.width%2==0) room.map[0][room.dimension.width/2-1] = new Door(loc, true); 

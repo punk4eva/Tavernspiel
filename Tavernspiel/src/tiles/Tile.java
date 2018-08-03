@@ -89,7 +89,7 @@ public class Tile{
         try{
             return IDmap.get(tile.name);
         }catch(NullPointerException e){
-            return ((WaterAnimation)((AnimatedTile)tile).animation).x+39;
+            return ((WaterAnimation)((AnimatedTile)tile).animation).x-3;
         }
     }
     
@@ -143,6 +143,8 @@ public class Tile{
         IDmap.put("specialfloorcutoff", 36);
         IDmap.put("wallcutoff", 37);
         IDmap.put("brokencutoff", 38);
+        IDmap.put("bed1", 39);
+        IDmap.put("bed2", 40);
         tileMap.put(0, loc -> new Chasm("void", loc));
         tileMap.put(1, loc -> new Tile("floor", loc, true, false, true));
         tileMap.put(2, loc -> new Grass(loc, false));
@@ -182,8 +184,8 @@ public class Tile{
         tileMap.put(36, loc -> new Chasm("specialfloor", loc));
         tileMap.put(37, loc -> new Chasm("wall", loc));
         tileMap.put(38, loc -> new Chasm("broken", loc));
-        tileMap.put(39, loc -> new AnimatedTile(loc, 0));
-        tileMap.put(40, loc -> new AnimatedTile(loc, 1));
+        tileMap.put(-3, loc -> new AnimatedTile(loc, 0));
+        tileMap.put(-2, loc -> new AnimatedTile(loc, 1));
     }
     
 }

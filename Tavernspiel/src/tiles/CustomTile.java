@@ -25,6 +25,10 @@ public class CustomTile extends Tile{
         treadable = t.treadable;
     }
     
+    protected CustomTile(){
+        super(null, (ImageIcon)null, false, false, false);
+    }
+    
     /**
      * Adds shaders (overlay) to the given ImageIcon.
      * @param i The ImageIcon.

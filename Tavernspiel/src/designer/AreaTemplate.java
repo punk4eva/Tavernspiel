@@ -3,6 +3,9 @@ package designer;
 
 import logic.FileHandler;
 import java.awt.Dimension;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import level.Area;
 import level.Location;
@@ -16,7 +19,7 @@ public class AreaTemplate implements Serializable{
     private static final long serialVersionUID = -2047903673;
     
     TileSelection[][] map;
-    Location location;
+    transient Location location;
     final Dimension dimension;
     
     /**
@@ -28,6 +31,17 @@ public class AreaTemplate implements Serializable{
         map = new TileSelection[dim.height][dim.width];
         location = loc;
         dimension = dim;
+    }
+    
+    /**
+     * Wraps a TileSelection map.
+     * @param tS The 2D array.
+     * @param loc The Location.
+     */
+    protected AreaTemplate(TileSelection[][] tS, Location loc){
+        map = tS;
+        location = loc;
+        dimension = new Dimension(map[0].length, map.length);
     }
     
     /**
@@ -72,6 +86,17 @@ public class AreaTemplate implements Serializable{
      */
     public void insert(int x, int y, TileSelection tl){
         map[y][x] = tl;
+    }
+    
+    private void readObject(ObjectInputStream in) 
+            throws IOException, ClassNotFoundException{
+        in.defaultReadObject();
+        location = Location.locationMap.get((String) in.readObject());
+    }
+    
+    private void writeObject(ObjectOutputStream out) throws IOException{
+        out.defaultWriteObject();
+        out.writeObject(location.name);
     }
     
 }

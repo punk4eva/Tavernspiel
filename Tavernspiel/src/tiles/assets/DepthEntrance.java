@@ -5,6 +5,7 @@ import creatures.Creature;
 import creatures.Hero;
 import gui.Game;
 import gui.Window;
+import level.Area;
 import level.Location;
 import listeners.StepListener;
 import tiles.Tile;
@@ -15,6 +16,8 @@ import tiles.Tile;
  */
 public class DepthEntrance extends Tile implements StepListener{
     
+    public Area previousArea, currentArea;
+    
     public DepthEntrance(Location loc){
         super("depthentrance", loc, true, false, true);
     }
@@ -22,7 +25,8 @@ public class DepthEntrance extends Tile implements StepListener{
     @Override
     public void steppedOn(Creature c){
         if(c instanceof Hero){
-            ((Game) Window.main).dungeon.ascend((Hero) c);
+            if(previousArea==null) ((Game) Window.main).dungeon.ascend((Hero) c);
+            else ((Game) Window.main).dungeon.setArea((Hero) c, previousArea);
         }
     }
     

@@ -34,6 +34,8 @@ import pathfinding.Graph;
 import tiles.AnimatedTile;
 import tiles.assets.Grass;
 import tiles.Tile;
+import tiles.assets.DepthEntrance;
+import tiles.assets.DepthExit;
 
 /**
  *
@@ -102,8 +104,13 @@ public class Area implements Serializable{
             rec.y += y1;
             return rec;
         }).collect(Collectors.toList()));
-        if(area.startCoords!=null) startCoords = new Integer[]{area.startCoords[0]+x1, area.startCoords[1]+y1};
-        else if(area.endCoords!=null) endCoords = new Integer[]{area.endCoords[0]+x1, area.endCoords[1]+y1};
+        if(area.startCoords!=null){
+            startCoords = new Integer[]{area.startCoords[0]+x1, area.startCoords[1]+y1};
+            ((DepthEntrance) map[startCoords[1]][startCoords[0]]).currentArea = this;
+        }else if(area.endCoords!=null){
+            endCoords = new Integer[]{area.endCoords[0]+x1, area.endCoords[1]+y1};
+            ((DepthExit) map[endCoords[1]][endCoords[0]]).setArea(this);
+        }
     }
     
     /**
@@ -133,8 +140,13 @@ public class Area implements Serializable{
             rec.y += y1;
             return rec;
         }).collect(Collectors.toList()));
-        if(area.startCoords!=null) startCoords = new Integer[]{area.startCoords[0]+x1, area.startCoords[1]+y1};
-        else if(area.endCoords!=null) endCoords = new Integer[]{area.endCoords[0]+x1, area.endCoords[1]+y1};
+        if(area.startCoords!=null){
+            startCoords = new Integer[]{area.startCoords[0]+x1, area.startCoords[1]+y1};
+            ((DepthEntrance) map[startCoords[1]][startCoords[0]]).currentArea = this;
+        }else if(area.endCoords!=null){
+            endCoords = new Integer[]{area.endCoords[0]+x1, area.endCoords[1]+y1};
+            ((DepthExit) map[endCoords[1]][endCoords[0]]).setArea(this);
+        }
     }
     
     /**
@@ -310,6 +322,14 @@ public class Area implements Serializable{
      */
     public static Area getPreloadedArea(String filepath){
         return AreaTemplate.deserialize(filepath).toArea();
+    }
+    
+    /**
+     * Links this Area's entrance with another Area.
+     * @param link The Area to link with.
+     */
+    public void linkEntrance(Area link){
+        ((DepthEntrance)map[startCoords[1]][startCoords[0]]).previousArea = link;
     }
     
     /**

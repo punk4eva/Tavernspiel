@@ -16,11 +16,16 @@ import tiles.Tile;
  */
 public class DepthExit extends Tile implements StepListener{
     
-    public Area nextArea;
+    public Area currentArea, nextArea;
     
     public DepthExit(Location loc, Area... nA){
         super("depthexit", loc, true, false, true);
         if(nA.length!=0) nextArea = nA[0];
+    }
+    
+    public void setArea(Area a){
+        currentArea = a;
+        nextArea.linkEntrance(a);
     }
     
     @Override

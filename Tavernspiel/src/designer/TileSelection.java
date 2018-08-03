@@ -7,8 +7,9 @@ import java.awt.Graphics;
 import java.io.Serializable;
 import level.Location;
 import logic.Distribution;
-import tiles.assets.Door;
+import tiles.assets.*;
 import tiles.Tile;
+import tiles.TrapBuilder;
 
 /**
  *
@@ -78,6 +79,24 @@ public class TileSelection implements Serializable, Cloneable{
         initialize();
     }
     
+    protected TileSelection(String tile, boolean tre, boolean fl, boolean tra){
+        distrib = new Distribution(new int[]{1});
+        tiles = new String[]{tile};
+        color = null;
+        treadible = new boolean[]{tre};
+        flammable = new boolean[]{fl};
+        transparent = new boolean[]{tra};
+    }
+    
+    protected TileSelection(Distribution dist, String[] tile, boolean[] tre, boolean[] fl, boolean[] tra){
+        distrib = dist;
+        tiles = tile;
+        color = null;
+        treadible = tre;
+        flammable = fl;
+        transparent = tra;
+    }
+    
     /**
      * Converts this TileSelection into a randomly generated Tile.
      * @param loc The Location
@@ -143,12 +162,13 @@ public class TileSelection implements Serializable, Cloneable{
         return new TileSelection(distrib, tiles, color, boundary);
     }
     
+    //@Unfinished Rework needed.
     final static TileSelection wall = new TileSelection(new int[]{1, 9}, new String[]{"specialwall", "wall"}, Color.DARK_GRAY);
     final static TileSelection floor = new TileSelection(new int[]{1, 9}, new String[]{"decofloor", "floor"}, Color.GRAY);
     final static TileSelection door = new TileSelection(new int[]{0}, new String[]{""}, new Color(80, 80, 0)){
         @Override
         public Door getTile(Location loc){
-            return new Door(loc, false, Distribution.chance(1, 4));
+            return new Door(loc, false, loc.feeling.doorHideChance.chance());
         }
         
         @Override
@@ -157,5 +177,108 @@ public class TileSelection implements Serializable, Cloneable{
         }
         
     };
+    
+    public final static TileSelection wall(Location loc){
+        return new TileSelection("wall", false, false, false){ //depthexit
+            @Override
+            public Tile getTile(Location loc){
+                return Tile.wall(loc);
+            }
+        };
+    }
+    
+    public final static TileSelection floor(Location loc){
+        return new TileSelection("floor", true, false, true){ //depthexit
+            @Override
+            public Tile getTile(Location loc){
+                return Tile.floor(loc);
+            }
+        };
+    }
+    
+    public final static TileSelection depthExit(Location loc){
+        return new TileSelection("depthexit", true, false, true){ //depthexit
+            @Override
+            public Tile getTile(Location loc){
+                return new DepthExit(loc);
+            }
+        };
+    }
+    
+    public final static TileSelection depthExit(Location loc, boolean locked){
+        return new TileSelection("depthexit", true, false, true){ //depthexit
+            @Override
+            public Tile getTile(Location loc){
+                //return new DepthExit(loc);
+                throw new UnsupportedOperationException("@Unfinished");
+            }
+        };
+    }
+    
+    public final static TileSelection depthEntrance(Location loc){
+        return new TileSelection("depthentrance", true, false, true){ //depthexit
+            @Override
+            public Tile getTile(Location loc){
+                return new DepthEntrance(loc);
+            }
+        };
+    }
+    
+    public final static TileSelection lockedDoor(Location loc){
+        return new TileSelection("lockeddoor", true, false, false){ //depthexit
+            @Override
+            public Tile getTile(Location loc){
+                return new Door(loc, true);
+            }
+        };
+    }
+    
+    public final static TileSelection alchemyPot(Location loc){
+        return new TileSelection("alchemypot", true, false, true){ //depthexit
+            @Override
+            public Tile getTile(Location loc){
+                return new AlchemyPot(loc);
+            }
+        };
+    }
+    
+    public final static TileSelection grass(Location loc, Boolean high){
+        return new TileSelection("grass", true, true, true){ //depthexit
+            @Override
+            public Tile getTile(Location loc){
+                if(high!=null) return new Grass(loc, high);
+                if(loc.feeling.grassUpgradeChance.chance())
+                    return new Grass(loc, true);
+                return new Grass(loc, false);
+            }
+        };
+    }
+    
+    public final static TileSelection trap(Location loc, String trapName){
+        return new TileSelection("trap", true, false, true){ //depthexit
+            @Override
+            public Tile getTile(Location loc){
+                return TrapBuilder.getTrap(trapName, loc);
+            }
+        };
+    }
+    
+    public final static TileSelection chasm(Location loc, String tileAbove){
+        return new TileSelection("chasm", true, false, true){ //depthexit
+            @Override
+            public Tile getTile(Location loc){
+                return new Chasm(tileAbove, loc);
+            }
+        };
+    }
+    
+    public final static TileSelection bed(String name, Location loc, int num, int rot){
+        return new TileSelection("chasm", true, false, true){ //depthexit
+            @Override
+            public Tile getTile(Location loc){
+                return new Bed(name, loc, num, rot);
+            }
+        };
+    }
     
 }
