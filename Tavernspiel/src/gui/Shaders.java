@@ -57,18 +57,18 @@ public class Shaders{
      * @return
      */
     public BufferedImage getShadow(int[][] map, int x, int y, int n, boolean black){
-        boolean s0=true,s1=true,s2=true,s3=true;
+        boolean s0 = true, s1 = true, s2 = true, s3 = true;
         try{
-            if(map[y-1][x]!=n) s0 = false;
+            if(map[y - 1][x] != n) s0 = false;
         }catch(ArrayIndexOutOfBoundsException e){}
         try{
-            if(map[y][x-1]!=n) s1 = false;
+            if(map[y][x - 1] != n) s1 = false;
         }catch(ArrayIndexOutOfBoundsException e){}
         try{
-            if(map[y][x+1]!=n) s2 = false;
+            if(map[y][x + 1] != n) s2 = false;
         }catch(ArrayIndexOutOfBoundsException e){}
         try{
-            if(map[y+1][x]!=n) s3 = false;
+            if(map[y + 1][x] != n) s3 = false;
         }catch(ArrayIndexOutOfBoundsException e){}
         if(s0){
             if(s1){
@@ -126,11 +126,16 @@ public class Shaders{
                     if(s3){
                         return shadows.getSubimage(32, 48, 16, 16);
                     }else{
-                        return shadows.getSubimage(16, 0, 16, 16);
+                        //return shadows.getSubimage(16, 0, 16, 16);
+                        return null;
                     }
                 }
             }
         }
+    }
+    
+    public BufferedImage getFullShader(){
+        return shadows.getSubimage(0, 0, 16, 16);
     }
     
 }

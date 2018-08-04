@@ -18,7 +18,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
-import java.util.Optional;
 import level.Area;
 import logic.ConstantFields;
 import logic.SoundHandler;
@@ -266,15 +265,17 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
             for(int x=focusX, maxX=focusX+area.dimension.width*16;x<maxX;x+=16){
                 int tx = (x-focusX)/16, ty = (y-focusY)/16;
                 try{
-                    Optional<Image> shade = null;
-                    if(area.overlay.isExplored(tx, ty)) shade = Optional.of(VisibilityOverlay.exploredFog.getShadow(area.overlay.map, tx, ty, 1, false));
-                    else if(area.overlay.isUnexplored(tx, ty)) shade = Optional.ofNullable(VisibilityOverlay.unexploredFog.getShadow(area.overlay.map, tx, ty, 0, true));
-                    if((!area.debugMode&&shade!=null&&!shade.isPresent())||x<0||y<0||x*zoom>WIDTH||y*zoom>HEIGHT) continue;
+                    Image shade, exShade = null;
+                    if(area.overlay.isUnexplored(tx, ty)) continue;
+                    else shade = VisibilityOverlay.unexploredFog.getShadow(area.overlay.map, tx, ty, 0, true);
+                    if(x<0||y<0||x*zoom>WIDTH||y*zoom>HEIGHT) continue;
                     Tile tile = area.map[ty][tx];
-                    try{
-                        if(tile!=null) tile.paint(g, x, y);
-                    }catch(NullPointerException e){System.err.println("Tile: " + tile.name);}
-                    if(!area.debugMode&&shade!=null) g.drawImage(shade.get(), x, y, null);
+                    if(tile!=null) tile.paint(g, x, y);
+                    if(!area.overlay.isExplored(tx, ty))
+                        exShade = VisibilityOverlay.exploredFog.getShadow(area.overlay.map, tx, ty, 1, false);
+                    else exShade = VisibilityOverlay.exploredFog.getFullShader();
+                    if(exShade!=null) g.drawImage(exShade, x, y, null);
+                    if(shade!=null) g.drawImage(shade, x, y, null);
                 }catch(ArrayIndexOutOfBoundsException e){/*Skip frame*/}
             }
         }

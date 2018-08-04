@@ -84,7 +84,7 @@ public class DefaultHUDLookAndFeel implements HUDStrategy{
         
         int x = 29, y = 77;
         for(Buff b : hero.buffs){
-            g.drawImage(b.icon.getImage(), x, y, null);
+            g.drawImage(b.smallIcon.getImage(), x, y, null);
             y += 16;
         }
     }

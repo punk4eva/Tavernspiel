@@ -25,7 +25,7 @@ public class DepthExit extends Tile implements StepListener{
     
     public void setArea(Area a){
         currentArea = a;
-        nextArea.linkEntrance(a);
+        if(nextArea!=null) nextArea.linkEntrance(a);
     }
     
     @Override

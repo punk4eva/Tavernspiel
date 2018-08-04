@@ -3,6 +3,8 @@ package buffs;
 
 import creatureLogic.Description;
 import creatures.Creature;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
 
@@ -20,7 +22,7 @@ public abstract class Buff implements Serializable{
     public final Description description;
     public double duration = 1000000;
     public boolean visible = false;
-    public final ImageIcon icon;
+    public transient ImageIcon icon, smallIcon;
     
     /**
      * Creates a new Buff with the given name.
@@ -31,6 +33,7 @@ public abstract class Buff implements Serializable{
         name = n;
         description = desc;
         icon = BuffBuilder.buffMap.get(name);
+        smallIcon = BuffBuilder.buffMap.get(name + "Small");
     }
     
     /**
@@ -43,6 +46,7 @@ public abstract class Buff implements Serializable{
         name = n;
         description = desc;
         icon = BuffBuilder.buffMap.get(name);
+        smallIcon = BuffBuilder.buffMap.get(name + "Small");
         duration = d;
     }
     
@@ -57,6 +61,7 @@ public abstract class Buff implements Serializable{
         name = n;
         description = desc;
         icon = BuffBuilder.buffMap.get(name);
+        smallIcon = BuffBuilder.buffMap.get(name + "Small");
         duration = d;
         visible = v;
     }
@@ -104,5 +109,12 @@ public abstract class Buff implements Serializable{
      * @param c The victim
      */
     public abstract void end(Creature c);
+    
+    private void readObject(ObjectInputStream in) throws IOException,
+            ClassNotFoundException{
+        in.defaultReadObject();
+        icon = BuffBuilder.buffMap.get(name);
+        smallIcon = BuffBuilder.buffMap.get(name + "Small");
+    }
     
 }

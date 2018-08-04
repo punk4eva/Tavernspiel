@@ -24,7 +24,8 @@ public final class BuffBuilder{
     @Unfinished("Add icons for Buffs")
     protected final static HashMap<String, ImageIcon> buffMap = new HashMap<>();
     static{
-        
+        buffMap.put("poison", new ImageIcon("graphics/gui/buffIcons/poison.png"));
+        buffMap.put("poisonSmall", new ImageIcon("graphics/gui/buffIcons/poisonSmall.png"));
     }
     
     
@@ -198,7 +199,7 @@ public final class BuffBuilder{
     }
     
     public static Buff poison(double _damage){
-        return new Buff("bleeding", new Description("buffs", "You feel very ill.")){
+        return new Buff("poison", new Description("buffs", "You feel very ill.")){
             double damage = _damage;
             int turns = 2;
             @Override
