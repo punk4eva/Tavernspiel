@@ -28,6 +28,7 @@ public class Location{
     public final HashMap<String, ImageIcon> tilemap = new HashMap<>();
     public final WeaponIndex weaponIndex;
     private final Distribution armourDistrib = new Distribution(new int[]{12,20,6,3,1});
+    public int depth = 1;
     
     public GrassAnimation lowGrass;
     public GrassAnimation highGrass;

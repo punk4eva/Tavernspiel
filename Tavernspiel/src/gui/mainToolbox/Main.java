@@ -265,7 +265,7 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
             for(int x=focusX, maxX=focusX+area.dimension.width*16;x<maxX;x+=16){
                 int tx = (x-focusX)/16, ty = (y-focusY)/16;
                 try{
-                    Image shade, exShade = null;
+                    Image shade, exShade;
                     if(area.overlay.isUnexplored(tx, ty)) continue;
                     else shade = VisibilityOverlay.unexploredFog.getShadow(area.overlay.map, tx, ty, 0, true);
                     if(x<0||y<0||x*zoom>WIDTH||y*zoom>HEIGHT) continue;

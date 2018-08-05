@@ -27,7 +27,7 @@ public class Gula extends Creature{
                 "unarmed opponents, although their main function is resource gathering. This Gula is probably a remenant of a past war.")
                 , new Attributes(new IntelligentAI3(), 1, 1, 0.8+0.05*level, 1,
                 0.025, 8+2*level, 7, 1+level/2), 
-                new CreatureAnimator(ImageUtils.addImageBuffer(new ImageIcon("graphics/spritesheets/tree.png")),
+                new CreatureAnimator(ImageUtils.convertToBuffered(new ImageIcon("graphics/spritesheets/tree.png")),
                 new String[]{"stand", "move", "attack", "die"}, new int[]{2, 4, 8, 5}));
     }
     

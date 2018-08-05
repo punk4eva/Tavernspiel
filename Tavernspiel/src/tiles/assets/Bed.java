@@ -37,7 +37,7 @@ public class Bed extends CustomTile implements StepListener{
         BufferedImage ret = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = (Graphics2D) ret.getGraphics();
         AffineTransform t = AffineTransform.getRotateInstance(Math.PI/2*rotation);
-        g.drawRenderedImage(ImageUtils.addImageBuffer(image), t);
+        g.drawRenderedImage(ImageUtils.convertToBuffered(image), t);
         image = new ImageIcon(ret);
     }
 

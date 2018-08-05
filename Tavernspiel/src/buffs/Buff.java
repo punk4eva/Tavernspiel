@@ -6,6 +6,7 @@ import creatures.Creature;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.util.Iterator;
 import javax.swing.ImageIcon;
 
 /**
@@ -21,7 +22,7 @@ public abstract class Buff implements Serializable{
     public final String name;
     public final Description description;
     public double duration = 1000000;
-    public boolean visible = false;
+    public boolean visible = false, markedForEnd = false;
     public transient ImageIcon icon, smallIcon;
     
     /**
@@ -70,24 +71,30 @@ public abstract class Buff implements Serializable{
      * Decrements the Buff's duration by the given amount and ends it if necessary.
      * @param delta The amount of turns.
      * @param c The victim of the buff.
+     * @param iter The iterator of buffs.
      */
-    public void decrement(double delta, Creature c){
-        for(;delta>=1;delta--){
-            duration--;
-            turn(c);
-            if(duration<=0){
-                end(c);
-                c.removeBuff(this);
-                return;
+    public void decrement(double delta, Creature c, Iterator iter){
+        if(markedForEnd){
+            end(c);
+            iter.remove();
+        }else{
+            for(;delta>=1;delta--){
+                duration--;
+                turn(c, iter);
+                if(duration<=0){
+                    end(c);
+                    iter.remove();
+                    return;
+                }
             }
-        }
-        if(delta>0){
-            double frac = duration - Math.floor(duration);
-            if(delta>frac) turn(c);
-            duration -= delta;
-            if(duration<=0){
-                end(c);
-                c.removeBuff(this);
+            if(delta>0){
+                double frac = duration - Math.floor(duration);
+                if(delta>frac) turn(c, iter);
+                duration -= delta;
+                if(duration<=0){
+                    end(c);
+                    iter.remove();
+                }
             }
         }
     }
@@ -101,12 +108,14 @@ public abstract class Buff implements Serializable{
     /**
      * What the Buff does each turn.
      * @param c The victim
+     * @param iter The iterator of buffs.
      */
-    public abstract void turn(Creature c);
+    public abstract void turn(Creature c, Iterator iter);
     
     /**
      * What the Buff does at the end.
      * @param c The victim
+     * @param iter The iterator of buffs.
      */
     public abstract void end(Creature c);
     

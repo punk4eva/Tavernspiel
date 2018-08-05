@@ -170,7 +170,7 @@ public abstract class Enchantment implements Serializable{
     }
     
     private ImageIcon outfitImage(ImageIcon img, int i){
-        BufferedImage ret = ImageUtils.addImageBuffer(img);
+        BufferedImage ret = ImageUtils.convertToBuffered(img);
         WritableRaster raster = ret.getRaster();
         int[] hue1 = getHue1(i);
         int[] hue2 = getHue2(i);
@@ -190,7 +190,7 @@ public abstract class Enchantment implements Serializable{
      * @return The Animation.
      */
     public Animation buildAnimation(ImageIcon img){
-        if(overlay==null) overlay = new ImageIcon(ImageUtils.buildOverlay(ImageUtils.addImageBuffer(img)));
+        if(overlay==null) overlay = new ImageIcon(ImageUtils.buildOverlay(ImageUtils.convertToBuffered(img)));
         ImageIcon[] icons = new ImageIcon[10];
         for(int n=0;n<10;n++) icons[n] = ImageHandler.combineIcons(img, outfitImage(overlay, n));
         return new SerialAnimation(icons, 10);

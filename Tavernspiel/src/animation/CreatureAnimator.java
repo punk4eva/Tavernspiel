@@ -3,6 +3,8 @@ package animation;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -24,9 +26,11 @@ public class CreatureAnimator implements AnimationListener, GameObjectAnimator{
     private final static long serialVersionUID = -21002248;
     
     private final HashMap<String, FramedAnimation> map = new HashMap<>();
+    private transient HashMap<String, FramedAnimation> reverse;
     public FramedAnimation active;
     public String currentName = "DEFAULT";
     private String nextName;
+    private boolean facingLeft = true;
     
     /**
      * Creates a new instance of this class.
@@ -40,6 +44,7 @@ public class CreatureAnimator implements AnimationListener, GameObjectAnimator{
             map.put(na[n], ani[n]);
         }
         active = ani[0];
+        initializeReverse();
     }
     
     /**
@@ -65,7 +70,8 @@ public class CreatureAnimator implements AnimationListener, GameObjectAnimator{
                 }, 500, this));
         }
         active = map.get("stand");
-        map.put("stand", new RandomAnimation((LoadableAnimation)active, 5, new Distribution(7, 8)));
+        map.put("stand", new RandomAnimation((LoadableAnimation)active, 5, new Distribution(800, 801)));
+        initializeReverse();
     }
     
     /**
@@ -74,7 +80,8 @@ public class CreatureAnimator implements AnimationListener, GameObjectAnimator{
      */
     @Override
     public void switchTo(String name){
-        active = map.get(name);
+        if(facingLeft) active = map.get(name);
+        else active = reverse.get(name);
         currentName = name;
     }
     
@@ -116,7 +123,7 @@ public class CreatureAnimator implements AnimationListener, GameObjectAnimator{
      */
     public FramedAnimation getFadeAnimation(ImageIcon i){
         return new LoadableAnimation((Serializable&Supplier<ImageIcon[]>)()->{
-            BufferedImage bi = ImageUtils.addImageBuffer(i);
+            BufferedImage bi = ImageUtils.convertToBuffered(i);
             ImageIcon[] ret = new ImageIcon[25];
             for(int n=0;n<25;n++)
                 ret[n] = new ImageIcon(ImageUtils.fade(bi, 245-10*n));
@@ -133,6 +140,38 @@ public class CreatureAnimator implements AnimationListener, GameObjectAnimator{
     @Override
     public void animate(Graphics g, int x, int y){
         active.animate(g, x, y);
+    }
+    
+    /**
+     * Updates the orientation of this sprite after it moved.
+     * @param x1 The first x coordinate.
+     * @param x2 The next x coordinate.
+     */
+    public void updateOrientation(int x1, int x2){
+        if(x2>x1){
+            if(facingLeft){
+                facingLeft = false;
+                active = reverse.get(currentName);
+            }
+        }else if(x2<x1){
+            if(!facingLeft){
+                facingLeft = true;
+                active = map.get(currentName);
+            }
+        }
+    }
+    
+    private void initializeReverse(){
+        reverse = new HashMap<>();
+        map.entrySet().forEach((entry) -> {
+            reverse.put(entry.getKey(), entry.getValue().mirror());
+        });
+    }
+    
+    private void readObject(ObjectInputStream in) 
+            throws IOException, ClassNotFoundException{
+        in.defaultReadObject();
+        initializeReverse();
     }
     
 }

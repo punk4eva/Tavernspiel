@@ -23,7 +23,7 @@ public class PassiveCreature extends Creature{
     
     public PassiveCreature(String name, boolean k, String... spo){
         super(name, new Description("creatures", ""), new Attributes(new PassiveAI(),1,1,1,1,0.025,20,10,0), 
-                new CreatureAnimator(ImageUtils.addImageBuffer(new ImageIcon("graphics/spritesheets/tree.png")), new String[]{"stand", "move", "attack", "die"}, new int[]{2, 4, 8, 5}));
+                new CreatureAnimator(ImageUtils.convertToBuffered(new ImageIcon("graphics/spritesheets/tree.png")), new String[]{"stand", "move", "attack", "die"}, new int[]{2, 4, 8, 5}));
         speechOptions = spo;
         killable = k;
     }

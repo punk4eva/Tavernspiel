@@ -24,12 +24,14 @@ import javax.swing.ImageIcon;
  */
 public class ImageUtils{
     
-    private static final BufferedImage scaledGold = scale(addImageBuffer(ItemBuilder.getIcon(96, 16)), 3),
-            scaledGoldOutline = scale(addImageBuffer(new ImageIcon("graphics/outlines/goldOutline.png")), 3);
-    public static final BufferedImage scaledHelmetOutline = scale(addImageBuffer(new ImageIcon("graphics/outlines/helmetOutline.png")), 3),
-            scaledChestplateOutline = scale(addImageBuffer(new ImageIcon("graphics/outlines/chestplateOutline.png")), 3),
-            scaledLeggingsOutline = scale(addImageBuffer(new ImageIcon("graphics/outlines/leggingsOutline.png")), 3),
-            scaledBootsOutline = scale(addImageBuffer(new ImageIcon("graphics/outlines/bootsOutline.png")), 3);
+    private ImageUtils(){}
+    
+    private static final BufferedImage scaledGold = scale(convertToBuffered(ItemBuilder.getIcon(96, 16)), 3),
+            scaledGoldOutline = scale(convertToBuffered(new ImageIcon("graphics/outlines/goldOutline.png")), 3);
+    public static final BufferedImage scaledHelmetOutline = scale(convertToBuffered(new ImageIcon("graphics/outlines/helmetOutline.png")), 3),
+            scaledChestplateOutline = scale(convertToBuffered(new ImageIcon("graphics/outlines/chestplateOutline.png")), 3),
+            scaledLeggingsOutline = scale(convertToBuffered(new ImageIcon("graphics/outlines/leggingsOutline.png")), 3),
+            scaledBootsOutline = scale(convertToBuffered(new ImageIcon("graphics/outlines/bootsOutline.png")), 3);
     
     
     public static void paintItemSquare(Graphics g, int x, int y, int sqwidth, int sqheight, Item i, Hero h, Predicate<Item> pred){
@@ -155,7 +157,7 @@ public class ImageUtils{
         return img;
     }
     
-    public static BufferedImage addImageBuffer(ImageIcon image){
+    public static BufferedImage convertToBuffered(ImageIcon image){
         Image img = image.getImage();
         if(img instanceof BufferedImage) return (BufferedImage) img;
         BufferedImage bi = new BufferedImage(image.getIconWidth(), image.getIconHeight(),
@@ -164,6 +166,16 @@ public class ImageUtils{
         g.drawImage(img, 0, 0, null);
         g.dispose();
         return bi;
+    }
+    
+    public static ImageIcon mirror(ImageIcon icon){
+        int w = icon.getIconWidth(), h = icon.getIconHeight();
+        BufferedImage ret = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+        WritableRaster raster = ret.getRaster(), iconRaster = convertToBuffered(icon).getRaster();
+        for(int x=0;x<w;x++)
+            for(int y=0;y<h;y++)
+                raster.setPixel(x, y, iconRaster.getPixel(w-1-x, y, (int[]) null));
+        return new ImageIcon(ret);
     }
     
     public static void drawString(Graphics g, String str, int x, int y){

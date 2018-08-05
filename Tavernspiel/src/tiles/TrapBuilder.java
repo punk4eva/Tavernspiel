@@ -31,15 +31,18 @@ public class TrapBuilder{
         return new Chasm(area.map[y-1][x].name, loc);
     }
     
-    @Unfinished
-    public static Trap getTrap(String tr, Location location){
-        if(isGaseous(tr)){
-            Blob g = getToxicGas(location, Integer.MIN_VALUE, Integer.MIN_VALUE); //@unfinished
-            return new Trap(tr, location, g);
-        }else{
-            Buff b = BuffBuilder.getTrapBuff(tr); //@unfinished
-            return new Trap(tr, location, b);
+    public static Trap getTrap(String trapColor, Location loc){
+        switch(trapColor){
+            case "green": return greenTrap(loc);
+            case "orange": return orangeTrap(loc);
+            case "yellow": return yellowTrap(loc);
+            case "purple": return purpleTrap(loc);
+            case "red": return redTrap(loc);
+            case "blue": return blueTrap(loc);
+            case "bear": return bearTrap(loc);
+            case "silver": return silverTrap(loc);
         }
+        throw new IllegalStateException("Illegal trap color: " + trapColor);
     }
     
     public static boolean isGaseous(String str){
@@ -60,6 +63,45 @@ public class TrapBuilder{
             case 3: return new Mimic(i, x, y);
             default: return new SkeletalRemains(i, x, y);
         }
+    }
+    
+    @Unfinished("Placeholder")
+    private static Trap greenTrap(Location loc){
+        return new BuffTrap("greentrap", loc, BuffBuilder.poison(loc.depth));
+    }
+
+    @Unfinished("Placeholder")
+    private static Trap orangeTrap(Location loc){
+        return new BuffTrap("orangetrap", loc, BuffBuilder.poison(loc.depth));
+    }
+
+    @Unfinished("Placeholder")
+    private static Trap yellowTrap(Location loc){
+        return new BuffTrap("yellowtrap", loc, BuffBuilder.poison(loc.depth));
+    }
+
+    private static Trap purpleTrap(Location loc){
+        return new BuffTrap("purpletrap", loc, BuffBuilder.poison(loc.depth));
+    }
+
+    @Unfinished("Placeholder")
+    private static Trap redTrap(Location loc){
+        return new BuffTrap("redtrap", loc, BuffBuilder.poison(loc.depth));
+    }
+
+    @Unfinished("Placeholder")
+    private static Trap blueTrap(Location loc){
+        return new BuffTrap("bluetrap", loc, BuffBuilder.poison(loc.depth));
+    }
+
+    @Unfinished("Placeholder")
+    private static Trap bearTrap(Location loc){
+        return new BuffTrap("beartrap", loc, BuffBuilder.poison(loc.depth));
+    }
+
+    @Unfinished("Placeholder")
+    private static Trap silverTrap(Location loc){
+        return new BuffTrap("silvertrap", loc, BuffBuilder.poison(loc.depth));
     }
     
 }

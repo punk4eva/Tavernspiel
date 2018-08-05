@@ -18,7 +18,7 @@ public class RandomAnimation extends FramedAnimation{
     private final Distribution skipChance;
     private final Supplier<ImageIcon[]> loader;
 
-    public RandomAnimation(String[] f, Location loc, int d, Distribution s){
+    public RandomAnimation(String[] f, Location loc, double d, Distribution s){
         super(null, d, null);
         loader = (Serializable & Supplier<ImageIcon[]>)() -> {
             ImageIcon[] ret = new ImageIcon[f.length];
@@ -30,7 +30,7 @@ public class RandomAnimation extends FramedAnimation{
         skipChance = s;
     }
     
-    public RandomAnimation(LoadableAnimation i, int d, Distribution s){
+    public RandomAnimation(LoadableAnimation i, double d, Distribution s){
         super(i.frames, d, null);
         loader = i.loader;
         skipChance = s;
@@ -46,6 +46,11 @@ public class RandomAnimation extends FramedAnimation{
                 currentFrame = 0;
             }
         }
+    }
+    
+    @Override
+    public RandomAnimation mirror(){
+        return new RandomAnimation(new LoadableAnimation(loader, 0, null).mirror(), maxTicks, skipChance);
     }
     
     private void readObject(ObjectInputStream in) 

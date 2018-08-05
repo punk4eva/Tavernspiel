@@ -18,6 +18,7 @@ import items.equipment.HeldWeapon;
 import java.awt.Graphics;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
@@ -37,7 +38,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
     public Inventory inventory;
     public volatile Attributes attributes;
     public FieldOfView FOV;
-    public volatile LinkedList<Buff> buffs = new LinkedList<>();
+    public final LinkedList<Buff> buffs = new LinkedList<>();
     public volatile double[] moving;
     public transient CyclicBarrier motionBarrier = new CyclicBarrier(2);
     
@@ -153,22 +154,17 @@ public class Creature extends GameObject implements Comparable<Creature>{
         for(Buff buff : buffs) if(buff.name.equals(b)) return buff;
         return null;
     }
-    
-    /**
-     * Removes the given buff.
-     * @param b The buff.
-     */
-    public void removeBuff(Buff b){
-        buffs.remove(b);
-    }
+
     
     /**
      * Adds the given buff.
      * @param buff The buff.
      */
     public void addBuff(Buff buff){
-        buffs.add(buff);
-        buff.start(this);
+        synchronized(buffs){
+            buffs.add(buff);
+            buff.start(this);
+        }
     }
     
     /**
@@ -176,9 +172,13 @@ public class Creature extends GameObject implements Comparable<Creature>{
      * @param delta
      */
     public void decrementBuffs(double delta){
-        buffs.stream().forEach((buff) -> {
-            buff.decrement(delta, this);
-        });
+        synchronized(buffs){
+            Buff buff;
+            for(Iterator<Buff> iter = buffs.iterator();iter.hasNext();){
+                buff = iter.next();
+                buff.decrement(delta, this, iter);
+            }
+        }
     }
     
     /**

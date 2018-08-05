@@ -5,6 +5,7 @@ import gui.Window;
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import listeners.AnimationListener;
+import logic.ImageUtils;
 
 /**
  *
@@ -17,7 +18,7 @@ public abstract class FramedAnimation extends TrackableAnimation{
     protected double currentTicks;
     protected final double maxTicks, ticksPerFrame;
     
-    protected FramedAnimation(ImageIcon[] f, int delay, AnimationListener li){
+    protected FramedAnimation(ImageIcon[] f, double delay, AnimationListener li){
         super(li);
         frames = f;
         maxTicks = delay;
@@ -61,5 +62,18 @@ public abstract class FramedAnimation extends TrackableAnimation{
     public ImageIcon getCurrentIcon(){
         return frames[currentFrame];
     }
+    
+    /**
+     * Flips all frames of this animation along the x axis.
+     * @return The mirrored animation.
+     */
+    protected ImageIcon[] getMirroredIcons(){
+        ImageIcon[] ret = new ImageIcon[frames.length];
+        for(int n=0;n<frames.length;n++)
+            ret[n] = ImageUtils.mirror(frames[n]);
+        return ret;
+    }
+    
+    public abstract FramedAnimation mirror();
     
 }

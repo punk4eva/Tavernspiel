@@ -65,6 +65,11 @@ public class IconAnimation extends FramedAnimation{
         frames = memento.getIcons();
     }
     
+    @Override
+    public FramedAnimation mirror(){
+        throw new UnsupportedOperationException("Trying to mirror IconAnimation");
+    }
+    
     private void readObject(ObjectInputStream in) 
             throws IOException, ClassNotFoundException{
         in.defaultReadObject();

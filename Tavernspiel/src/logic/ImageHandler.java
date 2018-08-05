@@ -89,8 +89,8 @@ public class ImageHandler{
         interiorMap.put("decofloor", new Dimension(48, 32));
         interiorMap.put("bookshelf", new Dimension(0, 48));
         interiorMap.put("table", new Dimension(16, 48));
-        interiorMap.put("bed1", new Dimension(32, 48));
-        interiorMap.put("bed2", new Dimension(48, 48));
+        interiorMap.put("bed0", new Dimension(32, 48));
+        interiorMap.put("bed1", new Dimension(48, 48));
     }
     
     public final static void initializeIcons(Location loc){

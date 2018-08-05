@@ -21,9 +21,14 @@ public class LoadableAnimation extends FramedAnimation{
      * @param delay The frame delay.
      * @param li The Listener.
      */
-    public LoadableAnimation(Supplier<ImageIcon[]> lo, int delay, AnimationListener li){
+    public LoadableAnimation(Supplier<ImageIcon[]> lo, double delay, AnimationListener li){
         super(lo.get(), delay, li);
         loader = lo;
+    }
+    
+    @Override
+    public LoadableAnimation mirror(){
+        return new LoadableAnimation(() -> getMirroredIcons(), maxTicks, listener);
     }
     
     private void readObject(ObjectInputStream in) 

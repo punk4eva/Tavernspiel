@@ -104,8 +104,8 @@ public class Tile{
         return tileMap.get(id).apply(loc);
     }
     
-    private static final HashMap<String, Integer> IDmap = new HashMap<>();
-    private static final HashMap<Integer, Function<Location, Tile>> tileMap = new HashMap<>();
+    public static HashMap<String, Integer> IDmap = new HashMap<>();
+    public static HashMap<Integer, Function<Location, Tile>> tileMap = new HashMap<>();
     static{
         IDmap.put("void", 0);
         IDmap.put("floor", 1);
@@ -143,8 +143,6 @@ public class Tile{
         IDmap.put("specialfloorcutoff", 36);
         IDmap.put("wallcutoff", 37);
         IDmap.put("brokencutoff", 38);
-        IDmap.put("bed1", 39);
-        IDmap.put("bed2", 40);
         tileMap.put(0, loc -> new Chasm("void", loc));
         tileMap.put(1, loc -> new Tile("floor", loc, true, false, true));
         tileMap.put(2, loc -> new Grass(loc, false));

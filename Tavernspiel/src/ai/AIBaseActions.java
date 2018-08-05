@@ -93,6 +93,7 @@ public class AIBaseActions implements Serializable{
      */
     public void smootheRaw(Creature c, int x, int y){
         if(!((CreatureAnimator)c.animator).currentName.equals("move")) c.changeAnimation("move");
+        ((CreatureAnimator)c.animator).updateOrientation(c.x, x);
         c.smootheXY(x, y);
     }
     

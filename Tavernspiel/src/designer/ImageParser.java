@@ -100,7 +100,7 @@ public abstract class ImageParser{
     public static void main(String... args){
         Game game = new Game();
         String filepath = "filetesting/tomb.png", savepath = "preload/tomb.template";
-        BufferedImage bi = ImageUtils.addImageBuffer(new ImageIcon(filepath));
+        BufferedImage bi = ImageUtils.convertToBuffered(new ImageIcon(filepath));
         AreaTemplate t = parseImage(bi, Location.INDOOR_CAVES_LOCATION);
         t.serialize(savepath);
     }

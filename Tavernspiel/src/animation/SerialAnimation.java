@@ -26,7 +26,7 @@ public class SerialAnimation extends FramedAnimation{
      * @param f The frames.
      * @param delay The delay between each frame.
      */
-    public SerialAnimation(ImageIcon[] f, int delay){
+    public SerialAnimation(ImageIcon[] f, double delay){
         super(f, delay, null);
     }
     
@@ -37,8 +37,13 @@ public class SerialAnimation extends FramedAnimation{
      * @param al The listener that is interested in when this animation finishes
      * a cycle.
      */
-    public SerialAnimation(ImageIcon[] f, int d, AnimationListener al){
+    public SerialAnimation(ImageIcon[] f, double d, AnimationListener al){
         super(f, d, al);
+    }
+    
+    @Override
+    public SerialAnimation mirror(){
+        return new SerialAnimation(getMirroredIcons(), maxTicks, listener);
     }
     
     private void readObject(ObjectInputStream in) 

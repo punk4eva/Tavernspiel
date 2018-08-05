@@ -58,7 +58,7 @@ public class Hero extends Creature{
     @Unfinished("Unnessesary catch")
     public Hero(Attributes atb){
         super("Hero", new Description("hero","UNWRITTEN"), atb, 
-                new CreatureAnimator(ImageUtils.addImageBuffer(new ImageIcon("graphics/spritesheets/tree.png")),
+                new CreatureAnimator(ImageUtils.convertToBuffered(new ImageIcon("graphics/spritesheets/tree.png")),
                 new String[]{"stand", "move", "attack", "die"}, new int[]{2, 4, 8, 5}));
         inventory = new HeroInventory(this);
         equipment = new Equipment(this);

@@ -68,7 +68,7 @@ public abstract class RoomBuilder{
             case 1: //North
                 for(int y = 2; y < room.dimension.height - 1; y++){
                     for(int x = 1; x < room.dimension.width - 1; x++){
-                        room.map[y][x] = new Trap(trap);
+                        room.map[y][x] = trap.copy(loc);
                     }
                 }
                 if(Distribution.chance(1, 2)){
@@ -80,7 +80,7 @@ public abstract class RoomBuilder{
             case 2: //East
                 for(int y = 1; y < room.dimension.height - 1; y++){
                     for(int x = 1; x < room.dimension.width - 2; x++){
-                        room.map[y][x] = new Trap(trap);
+                        room.map[y][x] = trap.copy(loc);
                     }
                 }
                 if(Distribution.chance(1, 2)){
@@ -92,7 +92,7 @@ public abstract class RoomBuilder{
             case 3: //South
                 for(int y = 1; y < room.dimension.height - 2; y++){
                     for(int x = 1; x < room.dimension.width - 1; x++){
-                        room.map[y][x] = new Trap(trap);
+                        room.map[y][x] = trap.copy(loc);
                     }
                 }
                 if(Distribution.chance(1, 2)){
@@ -104,7 +104,7 @@ public abstract class RoomBuilder{
             case 4: //West
                 for(int y = 1; y < room.dimension.height - 1; y++){
                     for(int x = 2; x < room.dimension.width - 1; x++){
-                        room.map[y][x] = new Trap(trap);
+                        room.map[y][x] = trap.copy(loc);
                     }
                 }
                 if(Distribution.chance(1, 2)){
@@ -662,7 +662,7 @@ public abstract class RoomBuilder{
             
     
     public static Trap getRandomTrap(Location loc){
-        String tr = TRAPCOLOURS[Distribution.getRandomInt(0, TRAPCOLOURS.length-1)] + "trap";
+        String tr = TRAPCOLOURS[Distribution.getRandomInt(0, TRAPCOLOURS.length-1)];
         return TrapBuilder.getTrap(tr, loc);
     }
     

@@ -60,6 +60,7 @@ public class AreaBuilder implements Serializable{
      */
     protected Area load(RoomDistribution roomDist, int depth){
         location.feeling = LevelFeeling.getRandomFeeling();
+        location.depth = depth;
         Area area = new Area(new Dimension(80, 80), location);
         List<Room> rooms = roomDist.generate(forcedItems, forcedRooms, depth, location.feeling);
         rooms.stream().forEach(r -> selectAndBlit(area, r));

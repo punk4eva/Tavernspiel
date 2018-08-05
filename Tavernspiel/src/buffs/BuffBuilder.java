@@ -6,6 +6,7 @@ import creatureLogic.Attack.AttackType;
 import creatureLogic.Description;
 import creatures.Creature;
 import java.util.HashMap;
+import java.util.Iterator;
 import javax.swing.ImageIcon;
 import level.Location;
 import static logic.Distribution.r;
@@ -45,7 +46,7 @@ public final class BuffBuilder{
             @Override
             public void start(Creature c){}
             @Override
-            public void turn(Creature c){
+            public void turn(Creature c, Iterator iter){
                 c.takeDamage(new Attack(
                         (r.nextInt(4)+1)*loc.feeling.difficulty,
                         FIRE_MESSAGES[r.nextInt(FIRE_MESSAGES.length)],
@@ -78,7 +79,7 @@ public final class BuffBuilder{
                 c.attributes.attackMult = oAttack * mult;
             }
             @Override
-            public void turn(Creature c){
+            public void turn(Creature c, Iterator iter){
                 mult = 1.0 + (1.0/c.attributes.hp);
                 c.attributes.attackSpeed = oSpeed * mult;
                 c.attributes.attackMult = oAttack * mult;
@@ -108,7 +109,7 @@ public final class BuffBuilder{
                 c.attributes.attackSpeed *= 2;
             }
             @Override
-            public void turn(Creature c){}
+            public void turn(Creature c, Iterator iter){}
             @Override
             public void end(Creature c){
                 c.attributes.attackMult /= 2;
@@ -126,7 +127,7 @@ public final class BuffBuilder{
                 c.attributes.invisible = true;
             }
             @Override
-            public void turn(Creature c){}
+            public void turn(Creature c, Iterator iter){}
             @Override
             public void end(Creature c){
                 c.attributes.regen /= 1.1;
@@ -141,7 +142,7 @@ public final class BuffBuilder{
                 c.attributes.ai.paralyze(duration);
             }
             @Override
-            public void turn(Creature c){}
+            public void turn(Creature c, Iterator iter){}
             @Override
             public void end(Creature c){}
             
@@ -154,12 +155,12 @@ public final class BuffBuilder{
             @Override
             public void start(Creature c){}
             @Override
-            public void turn(Creature c){
+            public void turn(Creature c, Iterator iter){
                 c.takeDamage(new Attack(currentDamage, 
                         BLEEDING_MESSAGES[r.nextInt(BLEEDING_MESSAGES.length)], 
                         AttackType.BLEEDING));
                 currentDamage *= r.nextDouble();
-                if(currentDamage<1) c.removeBuff(this);
+                if(currentDamage<1) iter.remove();
             }
             @Override
             public void end(Creature c){}
@@ -175,7 +176,7 @@ public final class BuffBuilder{
                 c.FOV.range = 1;
             }
             @Override
-            public void turn(Creature c){}
+            public void turn(Creature c, Iterator iter){}
             @Override
             public void end(Creature c){
                 c.FOV.range = v;
@@ -190,7 +191,7 @@ public final class BuffBuilder{
                 c.attributes.ai.restrained = true;
             }
             @Override
-            public void turn(Creature c){}
+            public void turn(Creature c, Iterator iter){}
             @Override
             public void end(Creature c){
                 c.attributes.ai.restrained = true;
@@ -205,7 +206,7 @@ public final class BuffBuilder{
             @Override
             public void start(Creature c){}
             @Override
-            public void turn(Creature c){
+            public void turn(Creature c, Iterator iter){
                 c.takeDamage(new Attack(damage, 
                         POISON_MESSAGES[r.nextInt(POISON_MESSAGES.length)], 
                         AttackType.POISON));
@@ -213,7 +214,7 @@ public final class BuffBuilder{
                     turns = 2;
                     damage--;
                 }else turns--;
-                if(damage==0) c.removeBuff(this);
+                if(damage==0) iter.remove();
             }
             @Override
             public void end(Creature c){}
@@ -226,7 +227,7 @@ public final class BuffBuilder{
             @Override
             public void start(Creature c){}
             @Override
-            public void turn(Creature c){
+            public void turn(Creature c, Iterator iter){
                 c.takeDamage(new Attack(
                         (r.nextInt(4)+1)*loc.feeling.difficulty,
                         TOXICGAS_MESSAGES[r.nextInt(TOXICGAS_MESSAGES.length)],
@@ -235,13 +236,6 @@ public final class BuffBuilder{
             @Override
             public void end(Creature c){}
         };
-    }
-    
-    @Unfinished
-    public static Buff getTrapBuff(String trap){
-        switch(trap){
-            default: return null;
-        }
     }
     
 }
