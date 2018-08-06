@@ -160,11 +160,9 @@ public class Hero extends Creature{
      * Hijacks the InventoryManager. This reroutes all ScreenEvents to the
      * hijacker.
      * @param hijacker
-     * @param exitable Whether it is possible to exit the inventory window.
      */
-    public void hijackInventoryManager(ScreenListener hijacker, boolean exitable){
+    public void hijackInventoryManager(ScreenListener hijacker){
         ((HeroInventory)inventory).manager.hijacker = hijacker;
-        ((HeroInventory)inventory).manager.exitable = exitable;
     }
 
     /**

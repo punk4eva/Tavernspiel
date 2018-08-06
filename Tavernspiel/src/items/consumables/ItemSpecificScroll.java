@@ -43,8 +43,8 @@ public abstract class ItemSpecificScroll extends Scroll implements ScreenListene
     public boolean use(Creature c){
         if(c instanceof Hero){
             hero = (Hero) c;
-            hero.hijackInventoryManager(this, false);
-            Window.main.setInventoryActive(true, true);
+            hero.hijackInventoryManager(this);
+            Window.main.setInventoryActive(true);
             try{
                 barrier.await();
             }catch(InterruptedException | BrokenBarrierException ex){}
@@ -66,7 +66,7 @@ public abstract class ItemSpecificScroll extends Scroll implements ScreenListene
         switch(sc.getName()){
             case "invspace": return;
             case "background":
-                Window.main.removeViewable();
+                Window.main.setInventoryActive(false);
                 used = false;
                 break;
             case "Weapon": if(hero.equipment.weapon!=null){

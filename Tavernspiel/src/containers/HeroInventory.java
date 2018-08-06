@@ -131,7 +131,6 @@ public class HeroInventory extends Inventory{
 
         public ScreenListener hijacker;
         public Predicate<Item> predicate = ConstantFields.truthPredicate;
-        public boolean exitable = true;
         
         @Override
         public void screenClicked(Screen.ScreenEvent sc){
@@ -140,7 +139,7 @@ public class HeroInventory extends Inventory{
                 String slot = sc.getName();
                 System.out.println(slot);
                 switch(slot){
-                    case "background": if(exitable) Window.main.setInventoryActive(false, true);
+                    case "background": Window.main.setInventoryActive(false);
                     case "invspace": return;
                 }
                 if(slot.startsWith("Money"))

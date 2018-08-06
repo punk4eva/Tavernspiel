@@ -285,12 +285,12 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
         gui.toggleInventory();
     }
     
-    public void setInventoryActive(boolean i, boolean e){
-        gui.setInventoryActive(i, e);
+    public void setInventoryActive(boolean i){
+        gui.setInventoryActive(i);
     }
     
-    public void setInventoryActive(boolean i, boolean e, Predicate<Item> pred){
-        gui.setInventoryActive(i, e, pred);
+    public void setInventoryActive(boolean i, Predicate<Item> pred){
+        gui.setInventoryActive(i, pred);
     }
     
     protected final void resetGUIScreens(){

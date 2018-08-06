@@ -126,7 +126,22 @@ public class Shaders{
                     if(s3){
                         return shadows.getSubimage(32, 48, 16, 16);
                     }else{
-                        //return shadows.getSubimage(16, 0, 16, 16);
+                        try{
+                            if(map[y+1][x+1]==n)
+                                return shadows.getSubimage(0, 64, 16, 16);
+                        }catch(ArrayIndexOutOfBoundsException e){}
+                        try{
+                            if(map[y+1][x-1]==n)
+                                return shadows.getSubimage(16, 64, 16, 16);
+                        }catch(ArrayIndexOutOfBoundsException e){}
+                        try{
+                            if(map[y-1][x-1]==n)
+                                return shadows.getSubimage(32, 64, 6, 6);
+                        }catch(ArrayIndexOutOfBoundsException e){}
+                        try{
+                            if(map[y-1][x+1]==n)
+                                return shadows.getSubimage(48, 64, 16, 16);
+                        }catch(ArrayIndexOutOfBoundsException e){}
                         return null;
                     }
                 }
@@ -134,6 +149,10 @@ public class Shaders{
         }
     }
     
+    /**
+     * Returns the 16x16 shadow for a fully shaded tile.
+     * @return
+     */
     public BufferedImage getFullShader(){
         return shadows.getSubimage(0, 0, 16, 16);
     }

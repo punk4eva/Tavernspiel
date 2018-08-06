@@ -151,7 +151,7 @@ public final class PlayerAI extends AITemplate implements KeyListener{
         }catch(ArrayIndexOutOfBoundsException e){
             //Foreign key pressed and should be ignored.
         }
-        if(keysDown[KeyEvent.VK_ESCAPE]) Window.main.setInventoryActive(false, false);
+        if(keysDown[KeyEvent.VK_ESCAPE]) Window.main.setInventoryActive(false);
         if(keysDown[KeyEvent.VK_W]&&!keysDown[KeyEvent.VK_S]);
         else if(keysDown[KeyEvent.VK_S]&&!keysDown[KeyEvent.VK_W]);
         if(keysDown[KeyEvent.VK_A]&&!keysDown[KeyEvent.VK_D]);
