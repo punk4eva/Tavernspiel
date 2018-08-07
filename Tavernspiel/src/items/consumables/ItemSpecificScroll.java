@@ -23,6 +23,8 @@ import logic.Utils.Catch;
  */
 public abstract class ItemSpecificScroll extends Scroll implements ScreenListener{
     
+    private final static long serialVersionUID = 4234545434732899L;
+    
     private Hero hero;
     private boolean used = false;
     private transient CyclicBarrier barrier = new CyclicBarrier(2);

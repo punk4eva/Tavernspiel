@@ -10,6 +10,8 @@ import items.ItemAction;
  */
 public class Key extends Item{
     
+    private final static long serialVersionUID = 78823214732899L;
+    
     public final int depth;
     
     public Key(int d){

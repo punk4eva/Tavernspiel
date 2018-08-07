@@ -16,9 +16,11 @@ import logic.mementoes.IconPointer;
  */
 public class StillAnimation implements Animation{
     
+    private final static long serialVersionUID = 234893132;
+    
     public transient ImageIcon image;
-    private IconPointer pointer;
-    private String loc;
+    private final IconPointer pointer;
+    private final String loc;
     
     /**
      * Creates a still image Animation.

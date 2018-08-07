@@ -9,6 +9,8 @@ import items.Item;
  */
 public class PurchasableHeap extends Floor{
     
+    private final static long serialVersionUID = 23721674337L;
+    
     public final int price;
     
     /**

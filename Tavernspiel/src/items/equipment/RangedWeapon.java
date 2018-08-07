@@ -17,6 +17,8 @@ import logic.Formula;
  */
 public class RangedWeapon extends HeldWeapon implements Usable{
     
+    private final static long serialVersionUID = 13413223203459L;
+    
     public Distribution distanceDamage;
     public Formula[] distanceDamageFormulas[];
     public Distribution distanceAccuracy;

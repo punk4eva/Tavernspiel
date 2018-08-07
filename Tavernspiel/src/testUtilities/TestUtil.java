@@ -16,6 +16,8 @@ import logic.Utils.Unfinished;
 @Unfinished("Remove later")
 public class TestUtil{
     
+    private TestUtil(){}
+    
     private static Graphics g;
     
     public static void setGraphics(Graphics g_){
@@ -52,6 +54,7 @@ public class TestUtil{
     
     public static void animateTileLine(int mil, int x1, int y1, int x2, int y2, Color c){
         Main.animator.addAnimation(new DrawnAnimation(mil, Main.animator){
+            private final static long serialVersionUID = 1223327;
             @Override
             public void animate(Graphics g, int x, int y){
                 recalc();
@@ -62,6 +65,7 @@ public class TestUtil{
     
     public static void animatePoint(int mil, int x1, int y1, Color c){
         Main.animator.addAnimation(new DrawnAnimation(mil, Main.animator){
+            private final static long serialVersionUID = 221007;
             @Override
             public void animate(Graphics g, int x, int y){
                 recalc();

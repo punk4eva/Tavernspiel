@@ -32,6 +32,7 @@ public abstract class GasBuilder{
     @Unfinished("Placeholder Animation")
     private static Animation shadowmeldedAnimation(){
         return new DrawnAnimation(-1, null){
+            private final static long serialVersionUID = 209333;
             @Override
             public void animate(Graphics g, int x, int y){
                 g.setColor(Color.WHITE);

@@ -15,6 +15,8 @@ import logic.ConstantFields;
  */
 public class SkeletalRemains extends Chest{
     
+    private final static long serialVersionUID = 2049310321222227L;
+    
     /**
      * Creates a new instance.
      * @param item 

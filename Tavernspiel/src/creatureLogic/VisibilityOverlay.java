@@ -13,6 +13,8 @@ import logic.ConstantFields;
  */
 public class VisibilityOverlay extends FieldOfView{
     
+    private final static long serialVersionUID = 901233123217L;
+    
     //0: unexplored
     //1: explored
     //2: visible

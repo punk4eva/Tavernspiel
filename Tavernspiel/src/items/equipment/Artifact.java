@@ -15,7 +15,9 @@ import logic.Distribution;
  */
 public class Artifact extends Apparatus{
     
-    public Buff buff;
+    private final static long serialVersionUID = 12391223;
+    
+    public Buff buff;//@Unfinished may be reduntant: replace with turn() method.
     public int charges;
     public int maxCharges;
     

@@ -11,6 +11,8 @@ import java.util.HashMap;
  */
 public class Waypoint extends Point{
     
+    private final static long serialVersionUID = 58846665532899L;
+    
     public HashMap<Waypoint, Path> pathsToWaypoints = new HashMap<>();
     public boolean reached = false;
     

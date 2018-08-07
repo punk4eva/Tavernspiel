@@ -26,6 +26,8 @@ import logic.Utils.Unfinished;
  */
 public class Apparatus extends Item{
     
+    private final static long serialVersionUID = 308217;
+    
     public int durability;
     public int maxDurability;
     public Distribution action;

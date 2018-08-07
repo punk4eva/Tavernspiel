@@ -13,6 +13,8 @@ import listeners.AnimationListener;
  */
 public class SerialAnimation extends FramedAnimation{
     
+    private final static long serialVersionUID = 170000032;
+    
     /**
      * Creates an Animation from the given frames.
      * @param f The frames.

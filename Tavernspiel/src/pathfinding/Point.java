@@ -1,7 +1,6 @@
 
 package pathfinding;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.io.Serializable;
 import level.Area;

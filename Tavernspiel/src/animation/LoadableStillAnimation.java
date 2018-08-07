@@ -13,6 +13,8 @@ import javax.swing.ImageIcon;
  */
 public class LoadableStillAnimation implements Animation{
     
+    private final static long serialVersionUID = 892733132;
+    
     public transient ImageIcon image;
     private final Supplier<ImageIcon> loader;
     

@@ -27,6 +27,8 @@ import logic.Formula;
  */
 public class Wand extends RangedWeapon implements ScreenListener{
     
+    private final static long serialVersionUID =8628773459L;
+    
     public double rechargeSpeed = 1;
     public Formula rechargeFormula = new Formula(1,0);
     public final Animation firingAnimation;
@@ -61,6 +63,7 @@ public class Wand extends RangedWeapon implements ScreenListener{
         blockingLevel = ItemBuilder.getWandBlockingLevel(s);
         areaEvent = ItemBuilder.getWandAreaEvent(s);
         locationSelect = new LocationSpecificScroll(null, "", null, false){
+            private final static long serialVersionUID = 58098765439L;
             @Override
             public boolean use(Creature c, int x, int y){
                 throw new UnsupportedOperationException("Wand.locationSelect.use() should remain unused!");

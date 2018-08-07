@@ -15,6 +15,8 @@ import logic.Distribution;
  */
 public class Ring extends Apparatus{
     
+    private final static long serialVersionUID = 58843820946389L;
+    
     /**
      * Creates a new instance.
      * @param n The name.

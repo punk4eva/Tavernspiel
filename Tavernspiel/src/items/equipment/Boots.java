@@ -16,6 +16,8 @@ import logic.Distribution;
  */
 public class Boots extends Apparatus{
     
+    private final static long serialVersionUID = 22723243167459L;
+    
     /**
      * Creates a new instance.
      * @param s The name.
@@ -35,6 +37,8 @@ public class Boots extends Apparatus{
     }
     
     public static class ClothBoots extends Boots{
+        
+        private final static long serialVersionUID = 227211113459L;
     
         public ClothBoots(){
             super("Cloth slippers", "More useful at bedtime, these slippers offer almost no protection. Atleast they feel comfortable.", 
@@ -44,6 +48,8 @@ public class Boots extends Apparatus{
     }
     
     public static class LeatherBoots extends Boots{
+        
+        private final static long serialVersionUID = 2222222459L;
     
         public LeatherBoots(){
             super("Leather shoes", "The tough leather of these shoes offers some protection.", 
@@ -53,7 +59,9 @@ public class Boots extends Apparatus{
     }
     
     public static class MailBoots extends Boots{
-    
+        
+        private final static long serialVersionUID = 2272891313333L;
+        
         public MailBoots(){
             super("Mail stockings", "The interlocking rings of metal provide safety against blunt attacks.", 
                     32, 144, 61, new Distribution(2, 5), 13);
@@ -62,6 +70,8 @@ public class Boots extends Apparatus{
     }
     
     public static class ScaleBoots extends Boots{
+        
+        private final static long serialVersionUID = 2272844444L;
     
         public ScaleBoots(){
             super("Scale boots", "Guaranteed to let the user walk away from any fight, most of the time.", 
@@ -71,6 +81,8 @@ public class Boots extends Apparatus{
     }
     
     public static class PlateBoots extends Boots{
+        
+        private final static long serialVersionUID = 227255555L;
     
         public PlateBoots(){
             super("Plate boots", "Boots with solid steel plating. Nothing can penetrate this legendary footwear.", 

@@ -9,4 +9,6 @@ package ai.intelligence;
  */
 public class IntelligentAI3 extends IntelligentAI2{
     
+    private final static long serialVersionUID = 1749131132;
+    
 }

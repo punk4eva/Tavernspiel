@@ -19,7 +19,7 @@ import logic.Utils.Unfinished;
  * 
  * Plays the Game.
  */
-public class Game extends Main{
+public final class Game extends Main{
     
     public final Dungeon dungeon;
     public String savePath = "filetesting/game.ser";
@@ -50,7 +50,8 @@ public class Game extends Main{
         dungeon = dun;
         dungeon.setGame(this);
         gui.addMessage("You are now in " + dungeon.getDepthClassifier() + ".");
-        player = dungeon.currentArea.hero;
+        currentArea = dungeon.currentArea;
+        player = currentArea.hero;
         gui.hero = player;
         currentArea.addHero(player, true);
         addKeyListener((PlayerAI) player.attributes.ai);
@@ -62,11 +63,11 @@ public class Game extends Main{
     //Progenitor Thread
     public static void main(String... args){
         Thread.currentThread().setName("Progenitor Thread");
-        Game game = new Game();
+        /*Game game = new Game();
         game.currentArea.plop(Apparatus.getRandomMeleeWeapon(1, game.currentArea.location), game.player.x, game.player.y);
         game.currentArea.plop(new Gold(100), game.player.x+1, game.player.y);
-        //game.save();
-        //Game game = FileHandler.deserializeGame("filetesting/game.ser");
+        game.save();*/
+        Game game = FileHandler.deserializeGame("filetesting/game.ser");
     }
 
     @Unfinished("The sfx for newDepth.")

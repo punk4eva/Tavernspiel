@@ -21,7 +21,7 @@ import logic.Utils.Unfinished;
  */
 public class Item implements Serializable{
     
-    private final static long serialVersionUID = 2289459;
+    private final static long serialVersionUID = 2272891313459L;
     
     public Animation animation;
     public final String name;

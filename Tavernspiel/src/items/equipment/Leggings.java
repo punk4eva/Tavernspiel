@@ -16,6 +16,8 @@ import logic.Distribution;
  */
 public class Leggings extends Apparatus{
     
+    private final static long serialVersionUID = 588432425434732899L;
+    
     /**
      * Creates a new instance.
      * @param s The name.
@@ -33,6 +35,8 @@ public class Leggings extends Apparatus{
     }
     
     public static class ClothLeggings extends Leggings{
+        
+        private final static long serialVersionUID = 58843242511111119L;
     
         public ClothLeggings(){
             super("Cloth trousers", "These light leggings offer more warmth than protection.", 
@@ -42,6 +46,8 @@ public class Leggings extends Apparatus{
     }
     
     public static class LeatherLeggings extends Leggings{
+        
+        private final static long serialVersionUID = 588432425222232899L;
     
         public LeatherLeggings(){
             super("Leather trousers", "These leggings possess the strength of the animal from which they were made.", 
@@ -51,6 +57,8 @@ public class Leggings extends Apparatus{
     }
     
     public static class MailLeggings extends Leggings{
+        
+        private final static long serialVersionUID = 58843242333339L;
     
         public MailLeggings(){
             super("Mail greaves", "The choice of most knights, these greaves offer unencumbered protection.", 
@@ -60,6 +68,8 @@ public class Leggings extends Apparatus{
     }
     
     public static class ScaleLeggings extends Leggings{
+        
+        private final static long serialVersionUID = 588444444732899L;
     
         public ScaleLeggings(){
             super("Scale greaves", "Greaves constructed by dwarvern masters have insane durability.", 
@@ -69,6 +79,8 @@ public class Leggings extends Apparatus{
     }
     
     public static class PlateLeggings extends Leggings{
+        
+        private final static long serialVersionUID = 58845555555555L;
     
         public PlateLeggings(){
             super("Plate legplates", "Lower body protection from these metal plates is unparalleled, however the metal rusts easily.", 

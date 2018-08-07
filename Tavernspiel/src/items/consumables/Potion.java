@@ -14,6 +14,8 @@ import javax.swing.ImageIcon;
  */
 public abstract class Potion extends Consumable{
     
+    private final static long serialVersionUID = 5884324288873289L;
+    
     private final String tasteMessage;
     public final String unknownName;
     public final Type type;

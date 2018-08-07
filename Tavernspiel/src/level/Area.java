@@ -36,6 +36,7 @@ import tiles.assets.Grass;
 import tiles.Tile;
 import tiles.assets.DepthEntrance;
 import tiles.assets.DepthExit;
+import tiles.assets.Water;
 
 /**
  *
@@ -546,10 +547,14 @@ public class Area implements Serializable{
             grass();
             water();
         }
+        addWaterShaders();
+    }
+    
+    private void addWaterShaders(){
         for(int y=1;y<dimension.height-1;y++)
             for(int x=1;x<dimension.width-1;x++)
                 if(map[y][x]!=null&&map[y][x].equals("water"))
-                    ((AnimatedTile)map[y][x]).addShaders(genShaderString(x, y), location);
+                    ((Water)map[y][x]).addShaders(genShaderString(x, y), location);
     }
     
     private String genShaderString(int x, int y){
@@ -570,9 +575,11 @@ public class Area implements Serializable{
         location = memento.getLocation();
         map = memento.getMap();
         objectLock = new ReentrantLock();
+        addWaterShaders();
     }
     
     private void writeObject(ObjectOutputStream out) throws IOException{
+        System.out.println("CHECK: " + (this instanceof Room));
         out.defaultWriteObject();
         out.writeObject(new AreaMemento(location, map));
     }

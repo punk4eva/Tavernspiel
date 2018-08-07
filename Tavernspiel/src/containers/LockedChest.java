@@ -14,6 +14,8 @@ import logic.ConstantFields;
  */
 public class LockedChest extends Chest{
     
+    private final static long serialVersionUID = 285389597;
+    
     public LockedChest(Item item, int x, int y){
         super((Serializable & Supplier<ImageIcon>)() -> ConstantFields.lockedChestIcon, item, x, y);
         description = new Description("receptacle","You can't open this chest without a key.");

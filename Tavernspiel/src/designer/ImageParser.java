@@ -42,23 +42,23 @@ public abstract class ImageParser{
         colorMap.put("110,90,40", loc -> new TileSelection("barricade", false, true, false));
         colorMap.put("80,40,40", loc -> new TileSelection("specialfloor", true, false, true));
         colorMap.put("0,80,0", loc -> TileSelection.grass(loc, true));
-        colorMap.put("0,255,0", loc -> TileSelection.trap(loc, "greentrap"));
-        colorMap.put("255,120,0", loc -> TileSelection.trap(loc, "orangetrap"));
-        colorMap.put("255,255,0", loc -> TileSelection.trap(loc, "yellowtrap"));
+        colorMap.put("0,255,0", loc -> TileSelection.trap(loc, "green"));
+        colorMap.put("255,120,0", loc -> TileSelection.trap(loc, "orange"));
+        colorMap.put("255,255,0", loc -> TileSelection.trap(loc, "yellow"));
         colorMap.put("40,80,40", loc -> new TileSelection("decofloor", true, false, true));
         colorMap.put("170,60,140", loc -> TileSelection.depthExit(loc, true));
         colorMap.put("170,120,140", loc -> TileSelection.depthExit(loc, false));
-        colorMap.put("255,0,255", loc -> TileSelection.trap(loc, "trap"));
+        colorMap.put("255,0,255", loc -> TileSelection.trap(loc, "purple"));
         //@Unfinished
-        //colorMap.put("sign", loc -> TileSelection.trap(loc, "trap"));
-        colorMap.put("255,0,0", loc -> TileSelection.trap(loc, "redtrap"));
-        colorMap.put("0,0,255", loc -> TileSelection.trap(loc, "bluetrap"));
+        //colorMap.put("sign", loc -> );
+        colorMap.put("255,0,0", loc -> TileSelection.trap(loc, "red"));
+        colorMap.put("0,0,255", loc -> TileSelection.trap(loc, "blue"));
         //@Unfinished
         //colorMap.put("well", 28);
         colorMap.put("120,150,120", loc -> new TileSelection("statue", false, false, true));
         colorMap.put("150,150,120", loc -> new TileSelection("specialstatue", false, false, true));
-        colorMap.put("255,255,100", loc -> TileSelection.trap(loc, "beartrap"));
-        colorMap.put("200,200,200", loc -> TileSelection.trap(loc, "silvertrap"));
+        colorMap.put("255,255,100", loc -> TileSelection.trap(loc, "bear"));
+        colorMap.put("200,200,200", loc -> TileSelection.trap(loc, "silver"));
         colorMap.put("150,90,40", loc -> new TileSelection("bookshelf", false, true, false));
         colorMap.put("255,200,0", loc -> TileSelection.alchemyPot(loc));
         colorMap.put("200,100,100", loc -> TileSelection.bed("bed", loc, 0, 0));

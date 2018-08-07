@@ -1,7 +1,7 @@
 
 package level;
 
-import animation.GrassAnimation;
+import animation.assets.GrassAnimation;
 import creatureLogic.CreatureDistribution;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
@@ -162,6 +162,9 @@ public class Location{
      * This class represents the statistics of a Weapon.
      */
     public static class WeaponEntry implements Serializable{
+        
+        private final static long serialVersionUID = 58843242548889L;
+        
         public final int x, y, re, durability, strength, ID;
         public final String name, description;
         public final Distribution distrib;

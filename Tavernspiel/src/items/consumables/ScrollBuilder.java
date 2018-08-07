@@ -151,6 +151,7 @@ public class ScrollBuilder implements Serializable{
 
     public WonderScroll wonder(){
         return new WonderScroll(getImage("Scroll of Wonder"), isIdd("Wonder")){
+            private final static long serialVersionUID = 58843248340249L;
             @Override
             public boolean use(Creature c){
                 Scroll s;

@@ -35,6 +35,8 @@ import logic.ImageUtils;
  */
 public class HeroInventory extends Inventory{
     
+    private final static long serialVersionUID = 20432178497L;
+    
     public final List<Screen> screens;
     public final Hero owner;
     public final QuickSlot quickslot;

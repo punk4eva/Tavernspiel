@@ -2,6 +2,7 @@
 package animation;
 
 import gui.Window;
+import gui.mainToolbox.Pacemaker;
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import listeners.AnimationListener;
@@ -11,18 +12,25 @@ import logic.ImageUtils;
  *
  * @author Adam Whittaker
  */
-public abstract class FramedAnimation extends TrackableAnimation{
+public abstract class FramedAnimation extends TrackableAnimation
+        implements TickedAnimation{
+    
+    private final static long serialVersionUID = 174192632;
     
     public transient ImageIcon[] frames;
     protected int currentFrame = 0;
-    protected double currentTicks;
-    protected final double maxTicks, ticksPerFrame;
+    protected double currentTicks, ticksPerFrame;
+    protected final double maxTicks;
     
     protected FramedAnimation(ImageIcon[] f, double delay, AnimationListener li){
         super(li);
         frames = f;
         maxTicks = delay;
-        ticksPerFrame = Window.main.pacemaker.getDelay();
+        try{
+            ticksPerFrame = Window.main.pacemaker.getDelay();
+        }catch(NullPointerException e){
+            Pacemaker.registerWaitingAnimation(this);
+        }
     }
     
     /**
@@ -75,5 +83,14 @@ public abstract class FramedAnimation extends TrackableAnimation{
     }
     
     public abstract FramedAnimation mirror();
+    
+    /**
+     * Sets the speed of this Animation.
+     * @param tpf The amount of pacemaker ticks to wait per frame.
+     */
+    @Override
+    public void setTicksPerFrame(double tpf){
+        ticksPerFrame = tpf;
+    }
     
 }

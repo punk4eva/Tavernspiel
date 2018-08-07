@@ -17,6 +17,8 @@ import logic.Distribution;
  */
 public class Chestplate extends Apparatus{
     
+    private final static long serialVersionUID = 12319483203459L;
+    
     /**
      * Creates a new instance.
      * @param s The name.
@@ -34,6 +36,8 @@ public class Chestplate extends Apparatus{
     }
     
     public static class ClothChestplate extends Chestplate{
+        
+        private final static long serialVersionUID = 123191111L;
     
         public ClothChestplate(){
             super("Cloth vest", "This simple garment offers poor damage reduction but it's better than nothing.", 
@@ -43,6 +47,8 @@ public class Chestplate extends Apparatus{
     }
     
     public static class LeatherChestplate extends Chestplate{
+        
+        private final static long serialVersionUID = 1231948323232122L;
     
         public LeatherChestplate(){
             super("Leather tunic", "A well crafted piece of armour made from the thick skin of a monster.|Its thickness results in "
@@ -53,6 +59,8 @@ public class Chestplate extends Apparatus{
     }
     
     public static class MailChestplate extends Chestplate{
+        
+        private final static long serialVersionUID = 1231333333L;
     
         public MailChestplate(){
             super("Mail chestplate", "An armour piece made of interlocking chains offering decent protection.", 
@@ -62,6 +70,8 @@ public class Chestplate extends Apparatus{
     }
     
     public static class ScaleChestplate extends Chestplate{
+        
+        private final static long serialVersionUID = 1231444449L;
     
         public ScaleChestplate(){
             super("Scale chestplate", "This exellently crafted chestplate is lightweight for those who favour mobility over defense.|It has great durability aswell.", 
@@ -71,6 +81,8 @@ public class Chestplate extends Apparatus{
     }
     
     public static class PlateChestplate extends Chestplate{
+        
+        private final static long serialVersionUID = 123194555459L;
     
         public PlateChestplate(){
             super("Plate chestplate", "More like a portable wall than a piece of armour, this towering piece offers immense protection to any strong enough to wear it.",

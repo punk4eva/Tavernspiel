@@ -29,6 +29,8 @@ import logic.Utils.Catch;
  */
 public abstract class LocationSpecificScroll extends Scroll implements ScreenListener{
     
+    private final static long serialVersionUID = 5843820943899L;
+    
     protected Hero hero;
     private Area area;
     private boolean used = false;

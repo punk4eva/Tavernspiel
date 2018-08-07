@@ -11,6 +11,8 @@ import items.Item;
  * This class represents a creature's inventory.
  */
 public class Inventory extends Receptacle{
+    
+    private final static long serialVersionUID = 1782937;
 
     public int amountOfMoney = 0;
     

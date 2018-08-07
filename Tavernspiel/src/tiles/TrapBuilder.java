@@ -3,7 +3,7 @@ package tiles;
 
 import tiles.assets.Chasm;
 import animation.GasAnimator;
-import animation.WaterAnimation;
+import animation.assets.WaterAnimation;
 import blob.Blob;
 import buffs.Buff;
 import buffs.BuffBuilder;

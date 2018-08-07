@@ -13,6 +13,8 @@ import java.util.ArrayList;
  */
 public class Floor extends Receptacle{
     
+    private final static long serialVersionUID = 2890391007L;
+    
     /**
      * Creates a new receptacle.
      * @param x

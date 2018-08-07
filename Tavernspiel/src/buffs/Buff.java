@@ -17,7 +17,7 @@ import javax.swing.ImageIcon;
  */
 public abstract class Buff implements Serializable{
     
-    private final static long serialVersionUID = 2081907;
+    private final static long serialVersionUID = 20231407;
     
     public final String name;
     public final Description description;

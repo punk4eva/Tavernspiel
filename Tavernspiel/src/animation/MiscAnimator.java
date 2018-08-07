@@ -26,8 +26,10 @@ public class MiscAnimator implements AnimationListener{
     }
     
     public void animate(Graphics g, int fx, int fy){
-        current.removeIf(a -> a.done);
-        current.stream().forEach(a -> a.animate(g, fx, fy));
+        synchronized(current){
+            current.removeIf(a -> a.done);
+            current.stream().forEach(a -> a.animate(g, fx, fy));
+        }
     }
     
     

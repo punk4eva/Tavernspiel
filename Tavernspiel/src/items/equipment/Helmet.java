@@ -16,6 +16,8 @@ import logic.Distribution;
  */
 public class Helmet extends Apparatus{
     
+    private final static long serialVersionUID = 78857483494732899L;
+    
     /**
      * Creates a new instance.
      * @param s The name.
@@ -33,6 +35,8 @@ public class Helmet extends Apparatus{
     }
     
     public static class ClothHelmet extends Helmet{
+        
+        private final static long serialVersionUID = 7885748111119L;
     
         public ClothHelmet(){
             super("Cloth hat", "This crude make-shift hat offers basic protection.", 
@@ -42,6 +46,8 @@ public class Helmet extends Apparatus{
     }
     
     public static class LeatherHelmet extends Helmet{
+        
+        private final static long serialVersionUID = 7885748322229L;
     
         public LeatherHelmet(){
             super("Leather cap", "A lightweight headpiece made of some tanned hide used by scouts and travellers.", 
@@ -51,6 +57,8 @@ public class Helmet extends Apparatus{
     }
     
     public static class MailHelmet extends Helmet{
+        
+        private final static long serialVersionUID = 7885748333339L;
     
         public MailHelmet(){
             super("Mail helmet", "The knight's choice of headwear. It can protect it's wearer from most melee attack.", 
@@ -60,6 +68,8 @@ public class Helmet extends Apparatus{
     }
     
     public static class ScaleHelmet extends Helmet{
+        
+        private final static long serialVersionUID = 7885748344449L;
     
         public ScaleHelmet(){
             super("Scale helmet", "Interlinked scale technology allows for protection from the heaviest of blows.|This "
@@ -70,6 +80,8 @@ public class Helmet extends Apparatus{
     }
     
     public static class PlateHelmet extends Helmet{
+        
+        private final static long serialVersionUID = 788555559L;
     
         public PlateHelmet(){
             super("Plate helmet", "Despite its name you cannot eat off this helmet however its protection is unchallenged.", 

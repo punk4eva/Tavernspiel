@@ -11,6 +11,8 @@ import level.Location.WeaponEntry;
  */
 public class MeleeWeapon extends HeldWeapon{
     
+    private final static long serialVersionUID = 222324352203459L;
+    
     public final double accuracy;
     public final double speed;
     public final int reach;

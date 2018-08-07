@@ -1,6 +1,7 @@
 
-package animation;
+package animation.assets;
 
+import animation.DrawnAnimation;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.io.IOException;
@@ -14,6 +15,8 @@ import logic.mementoes.IconPointer;
  * @author Adam Whittaker
  */
 public class GrassAnimation extends DrawnAnimation{
+    
+    private final static long serialVersionUID = 1493697432;
         
     private final int[][] pixels;
     private transient ImageIcon icon;

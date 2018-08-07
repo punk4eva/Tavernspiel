@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class TrailGenerator implements Serializable{
 
-    private static final long serialVersionUID = 1000L;
+    private static final long serialVersionUID = 463178L;
 
     private final int width, height;
     private int R, G, B, tick;

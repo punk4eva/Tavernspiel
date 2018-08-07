@@ -17,6 +17,8 @@ import logic.Distribution;
  */
 public class HeldWeapon extends Apparatus{
     
+    private final static long serialVersionUID = 1231141312459L;
+    
     protected int value;
     
     public HeldWeapon(String s, String desc, Supplier<ImageIcon> lo, int dur, Distribution d, int st){

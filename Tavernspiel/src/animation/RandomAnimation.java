@@ -15,6 +15,8 @@ import logic.Distribution;
  */
 public class RandomAnimation extends FramedAnimation{
     
+    private final static long serialVersionUID = 1749456789;
+    
     private final Distribution skipChance;
     private final Supplier<ImageIcon[]> loader;
 

@@ -19,6 +19,8 @@ import listeners.ScreenListener;
  * without opening the inventory.
  */
 public class QuickSlot implements Serializable, ScreenListener{
+    
+    private final static long serialVersionUID = 239032999;
 
     private final Item[] items = new Item[4];
     private final Inventory inventory;

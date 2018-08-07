@@ -15,6 +15,8 @@ import javax.swing.ImageIcon;
  */
 public class Gold extends Item{
     
+    private final static long serialVersionUID = 12314567L;
+    
     public Gold(int quantity){
         super("Gold", new Description("gold", "This is a pile of " + quantity + 
                 " gold coins."), (Serializable&Supplier<ImageIcon>)()->ItemBuilder.getIcon(96, 16), quantity);

@@ -14,6 +14,8 @@ import logic.Utils.Unfinished;
  */
 public class IntelligentAI1 extends AITemplate{
     
+    private final static long serialVersionUID = 174983132;
+    
     public EnState state;
 
     @Override

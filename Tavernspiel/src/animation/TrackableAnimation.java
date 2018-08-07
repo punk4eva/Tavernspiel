@@ -9,6 +9,8 @@ import listeners.AnimationListener;
  */
 public abstract class TrackableAnimation implements Animation{
     
+    private final static long serialVersionUID = 17498092;
+    
     protected AnimationListener listener;
     public boolean done = false;
     

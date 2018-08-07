@@ -1,7 +1,7 @@
 
 package tiles.assets;
 
-import animation.GrassAnimation;
+import animation.assets.GrassAnimation;
 import creatures.Creature;
 import level.Location;
 import listeners.StepListener;

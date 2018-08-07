@@ -13,6 +13,8 @@ import logic.mementoes.AnimationMemento;
  */
 public class IconAnimation extends FramedAnimation{
     
+    private final static long serialVersionUID = 174931232;
+    
     private final AnimationMemento memento;
     
     /**

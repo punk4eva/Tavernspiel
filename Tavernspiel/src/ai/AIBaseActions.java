@@ -4,6 +4,7 @@ package ai;
 import ai.intelligence.IntelligentAI1;
 import ai.intelligence.IntelligentAI1.EnState;
 import animation.CreatureAnimator;
+import animation.assets.WaterStepAnimation;
 import containers.Floor;
 import containers.PurchasableHeap;
 import creatureLogic.Action;
@@ -25,6 +26,7 @@ import logic.Distribution;
 import pathfinding.Point;
 import tiles.assets.Door;
 import tiles.HiddenTile;
+import tiles.assets.Water;
 
 /**
  *
@@ -76,6 +78,8 @@ public class AIBaseActions implements Serializable{
     public void moveRaw(Creature c, int x, int y){
         if(c.area.map[c.y][c.x] instanceof Door) ((Door)c.area.map[c.y][c.x]).stepOff(c);
         c.area.graph.moveOff(c.x, c.y);
+        if(c.area.map[c.y][c.x] instanceof Water) 
+            Main.animator.addAnimation(new WaterStepAnimation(c.x, c.y));
         c.setXY(x, y);
         c.area.graph.moveOn(c.x, c.y);
         if(c.area.map[c.y][c.x] instanceof StepListener){

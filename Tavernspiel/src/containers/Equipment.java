@@ -34,6 +34,8 @@ import logic.ImageUtils;
  */
 public class Equipment implements Serializable{
     
+    private final static long serialVersionUID = 11121437;
+    
     public final List<Screen> screens;
     private final Hero heroOwner;
     public HeldWeapon weapon;

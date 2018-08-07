@@ -25,6 +25,8 @@ import logic.Utils.Unfinished;
  */
 public class AIPlayerActions extends AIBaseActions{
     
+    private final static long serialVersionUID = 1749310132;
+    
     public static calcDexterity dexterityCalculation = c -> ((Hero) c).job==EnClass.Rogue ? 
             c.attributes.dexterity / Math.pow(1.5, c.equipment.strengthDifference(c.attributes.strength)) : 
             c.attributes.dexterity / (c.equipment.strengthDifference(c.attributes.strength)<0 ? Math.pow(1.5, c.equipment.strengthDifference(c.attributes.strength)) : 1);
@@ -75,6 +77,7 @@ public class AIPlayerActions extends AIBaseActions{
      */
     public void throwItem(Hero h, Item item){
         Window.main.setViewable(new LocationSpecificScroll(null, "", null, false){
+            private final static long serialVersionUID = 5884324434239L;
             @Override
             public boolean use(Creature c, int x, int y){
                 throw new UnsupportedOperationException("AIPlayerActions.locationSelect.use() should remain unused!");

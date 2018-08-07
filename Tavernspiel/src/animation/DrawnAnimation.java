@@ -2,6 +2,7 @@
 package animation;
 
 import gui.Window;
+import gui.mainToolbox.Pacemaker;
 import listeners.AnimationListener;
 
 /**
@@ -10,17 +11,27 @@ import listeners.AnimationListener;
  * 
  * Represents an Animation that has been drawn.
  */
-public abstract class DrawnAnimation extends TrackableAnimation{
+public abstract class DrawnAnimation extends TrackableAnimation 
+        implements TickedAnimation{
     
     private static final long serialVersionUID = 831290;
     
-    protected double currentTicks;
-    protected final double maxTicks, ticksPerFrame;
+    protected double currentTicks, ticksPerFrame;
+    protected final double maxTicks;
     
     public DrawnAnimation(int time, AnimationListener al){
         super(al);
-        ticksPerFrame = Window.main.pacemaker.getDelay();
+        try{
+            ticksPerFrame = Window.main.pacemaker.getDelay();
+        }catch(NullPointerException e){
+            Pacemaker.registerWaitingAnimation(this);
+        }
         maxTicks = time;
+    }
+    
+    public DrawnAnimation(AnimationListener al){
+        super(al);
+        maxTicks = 1;
     }
     
     protected void recalc(){
@@ -29,6 +40,11 @@ public abstract class DrawnAnimation extends TrackableAnimation{
             done = true;
             if(listener!=null) listener.done(this);
         }
+    }
+    
+    @Override
+    public void setTicksPerFrame(double tpf){
+        ticksPerFrame = tpf;
     }
     
 }

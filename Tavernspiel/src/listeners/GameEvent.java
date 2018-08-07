@@ -6,6 +6,8 @@ package listeners;
  * @author Adam Whittaker
  * 
  * An event to an individual entity.
+ * 
+ * @Delete May be sub-optimal. 
  */
 public class GameEvent{
     

@@ -271,6 +271,7 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
                     if(x<0||y<0||x*zoom>WIDTH||y*zoom>HEIGHT) continue;
                     Tile tile = area.map[ty][tx];
                     if(tile!=null) tile.paint(g, x, y);
+                    
                     if(!area.overlay.isExplored(tx, ty))
                         exShade = VisibilityOverlay.exploredFog.getShadow(area.overlay.map, tx, ty, 1, false);
                     else exShade = VisibilityOverlay.exploredFog.getFullShader();

@@ -1,7 +1,10 @@
 
-package animation;
+package animation.assets;
 
+import animation.Animation;
+import animation.TickedAnimation;
 import gui.Window;
+import gui.mainToolbox.Pacemaker;
 import java.awt.Graphics;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -15,30 +18,34 @@ import logic.ImageHandler;
  * 
  * Represents the Animation for water.
  */
-public class WaterAnimation implements Animation{
+public class WaterAnimation implements Animation, TickedAnimation{
+    
+    private final static long serialVersionUID = 174801232;
     
     public transient ImageIcon[] frames;
     protected int currentFrame = 0;
-    protected double currentTicks;
-    protected final double maxTicks, ticksPerFrame;
-    private final String locName;
-    private String shaderString;
-    public int x;
+    protected double currentTicks, ticksPerFrame;
+    protected final double maxTicks;
     
     public WaterAnimation(String shader, Location loc, int _x){
         frames = ImageHandler.getWaterFrames(loc, _x);
-        x = _x;
         maxTicks = 110;
-        ticksPerFrame = Window.main.pacemaker.getDelay();
+        try{
+            ticksPerFrame = Window.main.pacemaker.getDelay();
+        }catch(NullPointerException e){
+            Pacemaker.registerWaitingAnimation(this);
+        }
         addShaders(shader, loc);
-        locName = loc.name;
     }
     
     public WaterAnimation(Location loc, int x){
         frames = ImageHandler.getWaterFrames(loc, x);
         maxTicks = 110;
-        ticksPerFrame = Window.main.pacemaker.getDelay();
-        locName = loc.name;
+        try{
+            ticksPerFrame = Window.main.pacemaker.getDelay();
+        }catch(NullPointerException e){
+            Pacemaker.registerWaitingAnimation(this);
+        }
     }
     
     /**
@@ -59,7 +66,6 @@ public class WaterAnimation implements Animation{
                 frames[n] = ImageHandler.combineIcons(frames[n], shaderIcon);
             }
         }
-        shaderString = shader;
     }
     
     /**
@@ -73,6 +79,11 @@ public class WaterAnimation implements Animation{
         recalc();
         g.drawImage(frames[currentFrame].getImage(), x, y, null);
     }
+    
+    @Override
+    public void setTicksPerFrame(double tpf){
+        ticksPerFrame = tpf;
+    }
 
     /**
      * Recalculates the frame number.
@@ -84,14 +95,6 @@ public class WaterAnimation implements Animation{
             currentFrame++;
             if(currentFrame>=frames.length) currentFrame = 0;
         }
-    }
-    
-    private void readObject(ObjectInputStream in) 
-            throws IOException, ClassNotFoundException{
-        in.defaultReadObject();
-        Location loc = Location.locationMap.get(locName);
-        frames = ImageHandler.getWaterFrames(loc, x);
-        if(shaderString!=null) addShaders(shaderString, loc);
     }
     
 }

@@ -10,6 +10,8 @@ import level.Area;
  */
 public class Mimic extends Chest{
     
+    private final static long serialVersionUID = 20321921;
+    
     /**
      * Creates a new instance.
      * @param item
@@ -22,7 +24,7 @@ public class Mimic extends Chest{
     
     @Override
     public void open(Area area){
-        throw new UnsupportedOperationException("Unfinished.");
+        throw new UnsupportedOperationException("@Unfinished");
         //Spawn mimic creature.
         //Destroy mimic chest.
     }

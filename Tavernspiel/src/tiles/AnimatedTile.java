@@ -2,7 +2,7 @@
 package tiles;
 
 import animation.Animation;
-import animation.WaterAnimation;
+import animation.assets.WaterAnimation;
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 import level.Location;
@@ -46,15 +46,6 @@ public class AnimatedTile extends Tile{
     public AnimatedTile(Location loc, int x){
         super("water", (ImageIcon) null);
         animation = new WaterAnimation(loc, x);
-    }
-    
-    /**
-     * Adds a shader to this Tile.
-     * @param shaderString The string tag of the shader.
-     * @param loc The Location.
-     */
-    public void addShaders(String shaderString, Location loc){
-        ((WaterAnimation)animation).addShaders(shaderString, loc);
     }
     
     @Override

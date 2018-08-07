@@ -15,6 +15,8 @@ import javax.swing.ImageIcon;
  */
 public abstract class Scroll extends Consumable{
     
+    private final static long serialVersionUID = 588478994732899L;
+    
     /**
      * Creates a new instance.
      * @param n The name of the Item.

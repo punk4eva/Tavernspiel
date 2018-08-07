@@ -6,6 +6,8 @@ import level.Area;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * @Delete May be sub-optimal.
  */
 public class AreaEvent{
     

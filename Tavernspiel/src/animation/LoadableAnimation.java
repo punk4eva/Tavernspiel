@@ -13,6 +13,8 @@ import listeners.AnimationListener;
  */
 public class LoadableAnimation extends FramedAnimation{
     
+    private final static long serialVersionUID = 174739132;
+    
     public Supplier<ImageIcon[]> loader;
     
     /**

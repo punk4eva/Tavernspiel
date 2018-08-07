@@ -16,6 +16,8 @@ import logic.ConstantFields;
  */
 public class CrystalChest extends Chest{
     
+    private final static long serialVersionUID = 123801897210L;
+    
     /**
      * Creates a new crystal chest
      * @param item The item within.

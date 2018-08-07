@@ -14,6 +14,8 @@ import logic.ConstantFields;
  */
 public class Chest extends Receptacle{
     
+    private final static long serialVersionUID = 8590327;
+    
     /**
      * Creates a new chest instance containing an item.
      * @param item The item within.

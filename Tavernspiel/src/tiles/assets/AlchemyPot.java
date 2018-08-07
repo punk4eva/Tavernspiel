@@ -1,7 +1,7 @@
 
 package tiles.assets;
 
-import animation.WaterAnimation;
+import animation.assets.WaterAnimation;
 import tiles.AnimatedTile;
 import level.Location;
 

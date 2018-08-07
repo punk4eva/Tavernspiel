@@ -12,6 +12,8 @@ import javax.swing.ImageIcon;
  */
 public abstract class Consumable extends Item implements Usable{
     
+    private final static long serialVersionUID = 123567382L;
+    
     /**
      * Creates an instance.
      * @param n The name of the Item.

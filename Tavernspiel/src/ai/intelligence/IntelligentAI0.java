@@ -15,6 +15,8 @@ import logic.Distribution;
  */
 public class IntelligentAI0 extends AITemplate{
     
+    private final static long serialVersionUID = 1749300789;
+    
     protected LinkedList<Integer[]> directionsToMove = new LinkedList<>();
     
     public IntelligentAI0(){

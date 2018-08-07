@@ -161,7 +161,7 @@ public abstract class Receptacle extends LinkedList<Item>{
             throws IOException, ClassNotFoundException{
         in.defaultReadObject();
         System.err.println("loader: " + loader);
-        icon = loader.get();
+        if(loader!=null) icon = loader.get();
     }
     
 }
