@@ -18,6 +18,8 @@ import logic.Utils.Unfinished;
  */
 public abstract class GasBuilder{
     
+    private GasBuilder(){}
+    
     public static Blob gardengas(int x, int y){
         Blob g = new Blob("shadowmelded", 
                 new Description("gas", "Cleansing shafts of light pierce the vegetation."),

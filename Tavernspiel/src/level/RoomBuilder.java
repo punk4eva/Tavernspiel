@@ -14,11 +14,7 @@ import java.util.function.Function;
 import logic.Distribution;
 import logic.Utils.Unfinished;
 import pathfinding.MazeBuilder;
-import tiles.AnimatedTile;
-import tiles.CustomTile;
-import tiles.Tile;
-import tiles.Trap;
-import tiles.TrapBuilder;
+import tiles.*;
 
 /**
  *
@@ -27,6 +23,8 @@ import tiles.TrapBuilder;
  * Builds rooms.
  */
 public abstract class RoomBuilder{
+    
+    private RoomBuilder(){}
     
     
     private static final String[] TRAPCOLOURS = new String[]{
@@ -279,7 +277,7 @@ public abstract class RoomBuilder{
             case 1: //North
                 for(int y = 1; y < room.dimension.height - 1; y++){
                     for(int x = 1; x < room.dimension.width - 1; x++){
-                        room.map[y][x] = new AnimatedTile(loc, x%2);
+                        room.map[y][x] = new Water(loc, x%2);
                     }
                 }
                 room.map[1][room.dimension.width/2] = pedestal;
@@ -290,7 +288,7 @@ public abstract class RoomBuilder{
             case 2: //East
                 for(int y = 1; y < room.dimension.height - 1; y++){
                     for(int x = 1; x < room.dimension.width - 1; x++){
-                        room.map[y][x] = new AnimatedTile(loc, x%2);
+                        room.map[y][x] = new Water(loc, x%2);
                     }
                 }
                 room.map[room.dimension.height/2][room.dimension.width-2] = pedestal;
@@ -301,7 +299,7 @@ public abstract class RoomBuilder{
             case 3: //South
                 for(int y = 1; y < room.dimension.height - 1; y++){
                    for(int x = 1; x < room.dimension.width - 1; x++)
-                        room.map[y][x] = new AnimatedTile(loc, x%2);
+                        room.map[y][x] = new Water(loc, x%2);
                 }
                 room.map[room.dimension.height-2][room.dimension.width/2] = pedestal;
                 if(Distribution.chance(1, 2)) room.receptacles.add(new Floor(item, room.dimension.width/2, room.dimension.height-2));
@@ -311,7 +309,7 @@ public abstract class RoomBuilder{
             case 4: //West
                 for(int y = 1; y < room.dimension.height - 1; y++){
                     for(int x = 1; x < room.dimension.width - 1; x++){
-                        room.map[y][x] = new AnimatedTile(loc, x%2);
+                        room.map[y][x] = new Water(loc, x%2);
                     }
                 }
                 room.map[room.dimension.height/2][1] = pedestal;

@@ -24,6 +24,8 @@ import tiles.TrapBuilder;
  */
 public class Room extends Area{
     
+    private final static long serialVersionUID = 3265439197L;
+    
     public boolean locked;
     public ItemMap itemMap;
     public Item key;
@@ -275,12 +277,6 @@ public class Room extends Area{
      */
     public Receptacle getReceptacle(){
         return receptacles.get(0);
-    }
-    
-    private void writeObject(ObjectOutputStream out) 
-            throws IOException, ClassNotFoundException{
-        Window.main.currentArea.debugMode = true;
-        throw new IllegalStateException("Room Serialized");
     }
     
 }

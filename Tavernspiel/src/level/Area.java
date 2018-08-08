@@ -31,7 +31,6 @@ import logic.Distribution;
 import logic.GameObject;
 import logic.Utils.Unfinished;
 import pathfinding.Graph;
-import tiles.AnimatedTile;
 import tiles.assets.Grass;
 import tiles.Tile;
 import tiles.assets.DepthEntrance;
@@ -98,6 +97,7 @@ public class Area implements Serializable{
         objects.addAll(area.objects.stream().map(ob -> {
             ob.x += x1;
             ob.y += y1;
+            ob.setArea(this, true);
             return ob;
         }).collect(Collectors.toList()));
         receptacles.addAll(area.receptacles.stream().map(rec -> {
@@ -134,6 +134,7 @@ public class Area implements Serializable{
         objects.addAll(area.objects.stream().map(ob -> {
             ob.x += x1;
             ob.y += y1;
+            ob.setArea(this, true);
             return ob;
         }).collect(Collectors.toList()));
         receptacles.addAll(area.receptacles.stream().map(rec -> {
@@ -455,7 +456,7 @@ public class Area implements Serializable{
         for(int y=1;y<dimension.height-1;y++){
             for(int x=1;x<dimension.width-1;x++){
                 if(map[y][x]!=null&&map[y][x].equals("floor")&&location.feeling.waterGenChance.chance()){
-                    map[y][x] = new AnimatedTile(location, x%2);
+                    map[y][x] = new Water(location, x%2);
                 }
             }
         }
@@ -530,10 +531,10 @@ public class Area implements Serializable{
      * @param y The y coordinate.
      */
     private void spreadWater(int x, int y){
-        if(map[y][x+1].isFloor()) map[y][x+1] = new AnimatedTile(location, x%2);
-        if(map[y][x-1].isFloor()) map[y][x-1] = new AnimatedTile(location, x%2);
-        if(map[y+1][x].isFloor()) map[y+1][x] = new AnimatedTile(location, x%2);
-        if(map[y-1][x].isFloor()) map[y-1][x] = new AnimatedTile(location, x%2);
+        if(map[y][x+1].isFloor()) map[y][x+1] = new Water(location, x%2);
+        if(map[y][x-1].isFloor()) map[y][x-1] = new Water(location, x%2);
+        if(map[y+1][x].isFloor()) map[y+1][x] = new Water(location, x%2);
+        if(map[y-1][x].isFloor()) map[y-1][x] = new Water(location, x%2);
     }
     
     /**
@@ -579,7 +580,6 @@ public class Area implements Serializable{
     }
     
     private void writeObject(ObjectOutputStream out) throws IOException{
-        System.out.println("CHECK: " + (this instanceof Room));
         out.defaultWriteObject();
         out.writeObject(new AreaMemento(location, map));
     }

@@ -227,7 +227,6 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
      * Starts the game.
      */
     public synchronized void start(){
-        pageFlipper = new PageFlipper(this);
         pageFlipper.setPage("main");
         pacemaker = new Pacemaker(this);
         runThread = new Thread(this, "Run Thread");

@@ -1,6 +1,7 @@
 package gui;
 
 import gui.mainToolbox.Main;
+import gui.mainToolbox.PageFlipper;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import javax.swing.JFrame;
@@ -34,6 +35,8 @@ public class Window extends Canvas{
         frame.add(m);
         frame.setVisible(true);
         main = m;
+        main.pageFlipper = new PageFlipper(main);
+        main.pageFlipper.setPage("loading");
     }
     
 }
