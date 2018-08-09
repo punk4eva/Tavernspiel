@@ -2,6 +2,7 @@
 package containers;
 
 import creatureLogic.Description;
+import creatures.Creature;
 import items.Item;
 import java.io.Serializable;
 import java.util.function.Supplier;
@@ -30,8 +31,8 @@ public class SkeletalRemains extends Chest{
     }
     
     @Override
-    public void open(Area area){
-        super.open(area);
+    public void interact(Creature c, Area area){
+        super.interact(c, area);
         //@Unfinished 1 in 5 chance of wraith spawn.
     }
     

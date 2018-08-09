@@ -1,18 +1,20 @@
 
 package containers;
 
+import creatures.Creature;
 import items.Item;
 import java.io.Serializable;
 import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 import level.Area;
+import listeners.Interactable;
 import logic.ConstantFields;
 
 /**
  *
  * @author Adam Whittaker
  */
-public class Chest extends Receptacle{
+public class Chest extends Receptacle implements Interactable{
     
     private final static long serialVersionUID = 8590327;
     
@@ -41,9 +43,11 @@ public class Chest extends Receptacle{
     
     /**
      * Removes the chest and puts the contents on the ground
+     * @param c The Creature that interacts.
      * @param area The area in which this chest is located.
      */
-    public void open(Area area){
+    @Override
+    public void interact(Creature c, Area area){
         throw new UnsupportedOperationException("Unfinished.");
         //Remove chest and put item on ground.
     }

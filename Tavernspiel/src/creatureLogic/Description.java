@@ -33,7 +33,7 @@ public class Description implements Serializable{
      */
     public String getDescription(Expertise e){
         String ret = "";
-        int level = 0;
+        int level = 1;
         switch(type){
             case "armour": level = e.armour; break;
             case "weapons": level = e.weapons; break;

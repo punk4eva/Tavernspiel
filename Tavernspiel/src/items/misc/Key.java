@@ -13,11 +13,37 @@ public class Key extends Item{
     private final static long serialVersionUID = 78823214732899L;
     
     public final int depth;
+    public final KeyType type;
     
     public Key(int d){
-        super("Key", "This key opens a door", 16, 16);
+        super("Key", KeyType.NORMAL.description, 16, 16);
         depth = d;
         actions = ItemAction.getDefaultActions(this);
+        type = KeyType.NORMAL;
+    }
+    
+    public Key(int d, KeyType t){
+        super("Key", "KEY CONSTRUCTOR", 16, 16);
+        depth = d;
+        actions = ItemAction.getDefaultActions(this);
+        type = t;
+        description.layers[0] = type.description;
+    }
+    
+    /**
+     * The type of Key.
+     */
+    public enum KeyType{
+        NORMAL("This is a bulk standard key that opens a lock."),
+        GOLDEN("This intricate key can open a lock with an equally intricate "
+                + "design."),
+        RED("This rare key is the pinnacle of craftsmanship and should probably"
+                + " open some serious lock.");
+        
+        public final String description;
+        private KeyType(String str){
+            description = str;
+        }
     }
     
 }

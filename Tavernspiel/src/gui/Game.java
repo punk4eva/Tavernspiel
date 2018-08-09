@@ -63,11 +63,11 @@ public final class Game extends Main{
     //Progenitor Thread
     public static void main(String... args){
         Thread.currentThread().setName("Progenitor Thread");
-        /*Game game = new Game();
+        Game game = new Game();
         game.currentArea.plop(Apparatus.getRandomMeleeWeapon(1, game.currentArea.location), game.player.x, game.player.y);
         game.currentArea.plop(new Gold(100), game.player.x+1, game.player.y);
-        game.save();*/
-        Game game = FileHandler.deserializeGame("filetesting/game.ser");
+        game.save();
+        //Game game = FileHandler.deserializeGame("filetesting/game.ser");
     }
 
     @Unfinished("The sfx for newDepth.")

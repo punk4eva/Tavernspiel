@@ -5,6 +5,9 @@ import tiles.assets.*;
 import buffs.GasBuilder;
 import containers.Chest;
 import containers.Floor;
+import containers.Mimic;
+import containers.Receptacle;
+import containers.SkeletalRemains;
 import items.Item;
 import items.ItemMap;
 import items.consumables.PotionBuilder;
@@ -670,6 +673,15 @@ public abstract class RoomBuilder{
             return TrapBuilder.getTrap(tr, area.location);
         }else{
             return new Chasm(area, x, y);
+        }
+    }
+    
+    public static Receptacle getRandomReceptacle(Location loc, Item i, int x, int y){  
+        switch((int) loc.feeling.receptacleDist.next()){
+            case 0: return new Floor(i, x, y);
+            case 1: return new Chest(i, x, y);
+            case 2: return new Mimic(i, x, y);
+            default: return new SkeletalRemains(i, x, y);
         }
     }
     

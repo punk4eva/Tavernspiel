@@ -25,7 +25,7 @@ import logic.Utils.Unfinished;
  */
 public class TrapBuilder{
     
-    private static final Distribution receptacleDistrib = new Distribution(new double[]{1, 2, 3, 4}, new int[]{10,4,1,2});
+    private TrapBuilder(){}
     
     public static Chasm getChasm(int x, int y, Location loc, Area area){
         return new Chasm(area.map[y-1][x].name, loc);
@@ -54,15 +54,6 @@ public class TrapBuilder{
         Buff b = BuffBuilder.toxicGas(location);           
         GasAnimator a = new GasAnimator(new WaterAnimation(location, 0)); //@unfinished, placeholder
         return new Blob("Toxic Gas", new Description("gas", "A poisonous green vapour."), b, a, 7, x, y);
-    }
-    
-    public static Receptacle getRandomReceptacle(Item i, int x, int y){  
-        switch((int) receptacleDistrib.next()){
-            case 1: return new Floor(i, x, y);
-            case 2: return new Chest(i, x, y);
-            case 3: return new Mimic(i, x, y);
-            default: return new SkeletalRemains(i, x, y);
-        }
     }
     
     @Unfinished("Placeholder")

@@ -1,6 +1,7 @@
 
 package containers;
 
+import creatures.Creature;
 import items.Item;
 import level.Area;
 
@@ -23,7 +24,7 @@ public class Mimic extends Chest{
     }
     
     @Override
-    public void open(Area area){
+    public void interact(Creature c, Area area){
         throw new UnsupportedOperationException("@Unfinished");
         //Spawn mimic creature.
         //Destroy mimic chest.

@@ -2,19 +2,15 @@
 package level;
 
 import containers.Receptacle;
-import gui.Window;
 import items.Item;
 import items.ItemMap;
 import java.awt.Dimension;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.util.List;
 import java.util.function.Predicate;
 import logic.Distribution;
 import tiles.assets.Barricade;
 import tiles.assets.Door;
 import tiles.Tile;
-import tiles.TrapBuilder;
 
 /**
  *
@@ -197,7 +193,7 @@ public class Room extends Area{
             }while(!isTreadable(x, y));
             if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
             else{
-                receptacles.add(TrapBuilder.getRandomReceptacle(item, x, y));
+                receptacles.add(RoomBuilder.getRandomReceptacle(location, item, x, y));
             }
         });
     }
@@ -214,7 +210,7 @@ public class Room extends Area{
             }while(!isTreadable(x, y));
             if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
             else{
-                receptacles.add(TrapBuilder.getRandomReceptacle(item, x, y));
+                receptacles.add(RoomBuilder.getRandomReceptacle(location, item, x, y));
             }
         });
     }
@@ -232,7 +228,7 @@ public class Room extends Area{
             }while(!pred.test(new Integer[]{x, y}));
             if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
             else{
-                receptacles.add(TrapBuilder.getRandomReceptacle(item, x, y));
+                receptacles.add(RoomBuilder.getRandomReceptacle(location, item, x, y));
             }
         });
     }
@@ -249,7 +245,7 @@ public class Room extends Area{
         }while(!isTreadable(x, y));
         if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
         else{
-            receptacles.add(TrapBuilder.getRandomReceptacle(item, x, y));
+            receptacles.add(RoomBuilder.getRandomReceptacle(location, item, x, y));
         }
     }
     

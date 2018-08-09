@@ -3,7 +3,7 @@ package logic;
 
 import gui.mainToolbox.Main;
 import items.Item;
-import items.ItemBuilder;
+import static items.ItemBuilder.getIcon;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
@@ -16,10 +16,10 @@ import javax.swing.ImageIcon;
  */
 public interface ConstantFields{
     
-    public static final ImageIcon chestIcon = new ImageIcon(""); //@unfinished
+    public static final ImageIcon chestIcon = getIcon(48, 16); //@unfinished
     public static final ImageIcon crystalChestIcon = new ImageIcon(""); //@unfinished
-    public static final ImageIcon lockedChestIcon = new ImageIcon(""); //@unfinished
-    public static final ImageIcon skeletalRemainsIcon = new ImageIcon(""); //@unfinished
+    public static final ImageIcon lockedChestIcon = getIcon(64, 16); //@unfinished
+    public static final ImageIcon skeletalRemainsIcon = getIcon(0, 0); //@unfinished
     
     public static final Color unidentifiedColour = new Color(129, 35, 160, 80);
     public static final Color cursedColour = new Color(210, 0, 0, 40);
@@ -42,7 +42,7 @@ public interface ConstantFields{
     public static final Image weaponOutline = new ImageIcon("").getImage(); //@unfinished
     public static final Image goldOutline = new ImageIcon("graphics/outlines/goldOutline.png").getImage();
     public static final Image amuletOutline = new ImageIcon("").getImage(); //@unfinished
-    public static final Image gold = ItemBuilder.getIcon(96, 16).getImage();
+    public static final Image gold = getIcon(96, 16).getImage();
     
     public static final Image eyeButtonImg = new ImageIcon("graphics/gui/eye1.png").getImage();
     public static final Image waitButtonImg = new ImageIcon("graphics/gui/WaitButton1.png").getImage();
