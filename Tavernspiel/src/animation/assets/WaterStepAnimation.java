@@ -43,7 +43,7 @@ public class WaterStepAnimation extends DrawnAnimation{
             diameter++;
             if(diameter>=15){
                 done = true;
-                if(listener!=null) listener.done(this);
+                if(listener!=null) listener.animationDone(this);
             }
         }
     }

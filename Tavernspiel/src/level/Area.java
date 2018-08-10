@@ -5,6 +5,7 @@ import logic.mementoes.AreaMemento;
 import ai.PlayerAI;
 import blob.Blob;
 import containers.Floor;
+import containers.LockedChest;
 import containers.Receptacle;
 import creatureLogic.Action;
 import creatureLogic.VisibilityOverlay;
@@ -21,12 +22,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 import listeners.AreaEvent;
+import listeners.Interactable;
 import logic.Distribution;
 import logic.GameObject;
 import logic.Utils.Unfinished;
@@ -51,6 +54,7 @@ public class Area implements Serializable{
     public final Dimension dimension;
     public transient Location location;
     public Integer[] startCoords, endCoords;
+    public final int depth;
     //@Delete
     //private final List<GameObject> objects = (List<GameObject>)(Object)Collections.synchronizedList(new LinkedList<>());
     //protected final List<Receptacle> receptacles = (List<Receptacle>)(Object)Collections.synchronizedList(new LinkedList<>());
@@ -72,6 +76,7 @@ public class Area implements Serializable{
      */
     public Area(Dimension dim, Location loc){
         dimension = dim;
+        depth = location.depth;
         location = loc;
         map = new Tile[dimension.height][dimension.width];
         overlay = new VisibilityOverlay(0,0,loc.feeling.visibility,this);
@@ -103,6 +108,8 @@ public class Area implements Serializable{
         receptacles.addAll(area.receptacles.stream().map(rec -> {
             rec.x += x1;
             rec.y += y1;
+            if(rec instanceof Interactable) 
+                map[rec.y][rec.x].interactable = (Interactable) rec;
             return rec;
         }).collect(Collectors.toList()));
         if(area.startCoords!=null){
@@ -140,6 +147,8 @@ public class Area implements Serializable{
         receptacles.addAll(area.receptacles.stream().map(rec -> {
             rec.x += x1;
             rec.y += y1;
+            if(rec instanceof Interactable) 
+                map[rec.y][rec.x].interactable = (Interactable) rec;
             return rec;
         }).collect(Collectors.toList()));
         if(area.startCoords!=null){
@@ -194,7 +203,38 @@ public class Area implements Serializable{
             if(temp.x==x&&temp.y==y) return temp;
         }
         return null;
-    }   
+    }
+    
+    /**
+     * Adds a Receptacle to this Area.
+     * @param rec
+     */
+    public void addReceptacle(Receptacle rec){
+        if(rec instanceof Interactable) 
+            map[rec.y][rec.x].interactable = (Interactable) rec;
+        receptacles.add(rec);
+    }
+    
+    /**
+     * Removes the Receptacle at the given coordinates.
+     * @param x
+     * @param y
+     * @throws IllegalStateException if there is no Receptacle at the given
+     * coords.
+     */
+    public void removeReceptacle(int x, int y){
+        Receptacle r;
+        Iterator<Receptacle> iter = receptacles.iterator();
+        while(iter.hasNext()){
+            r = iter.next();
+            if(r.x==x&&r.y==y){
+                if(r instanceof Interactable) map[y][x].interactable = null;
+                iter.remove();
+                return;
+            }
+        }
+        throw new IllegalStateException("No receptacle at coords: " + x + ", " + y);
+    }
     
     
     /**
@@ -243,11 +283,13 @@ public class Area implements Serializable{
      * receptacle is there, nothing will happen.
      * @param x The x of the Receptacle.
      * @param y The x of the Receptacle.
-     * @param receptacle The new Receptacle.
+     * @param rec The new Receptacle.
      */
-    public void replaceHeap(int x, int y, Receptacle receptacle){
+    public void replaceHeap(int x, int y, Receptacle rec){
         receptacles.remove(getReceptacle(x, y));
-        receptacles.add(receptacle);
+        if(rec instanceof Interactable) 
+                map[y][x].interactable = (Interactable) rec;
+        receptacles.add(rec);
     }
     
     /**
@@ -408,6 +450,7 @@ public class Area implements Serializable{
     public void plop(Item i, int x, int y){
         Receptacle r = getReceptacle(x, y);
         if(r==null) receptacles.add(new Floor(i, x, y));
+        else if(r instanceof LockedChest) LockedChest.replop(x, y, this, i);
         else r.add(i);
     }
     
@@ -434,7 +477,12 @@ public class Area implements Serializable{
             hero.attributes.ai.setDestination(x, y);
             Window.main.setTurnsPassed(hero.attributes.speed);
         }else{
-            if(getReceptacle(hero.x, hero.y)==null) new StatisticsDialogue(hero).next();
+            if(map[y][x].interactable!=null){
+                double turns = map[y][x].interactable.interactTurns();
+                map[y][x].interactable.interact(hero, this);
+                Window.main.setTurnsPassed(turns*hero.attributes.speed);
+            }else if(getReceptacle(hero.x, hero.y)==null) 
+                new StatisticsDialogue(hero).next();
             else{
                 ((PlayerAI)hero.attributes.ai).nextAction = new Action(){
                     @Override

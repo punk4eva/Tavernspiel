@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import level.Area;
 import listeners.Interactable;
 import logic.ConstantFields;
+import logic.SoundHandler;
 
 /**
  *
@@ -32,12 +33,13 @@ public class Chest extends Receptacle implements Interactable{
     /**
      * Creates a new chest instance containing an item.
      * @param ic The icon.
+     * @param desc The description.
      * @param item The item within.
      * @param x
      * @param y
      */
-    public Chest(Supplier<ImageIcon> ic, Item item, int x, int y){
-        super(ic, 1, "You won't know what's inside until you open it!", x, y);
+    public Chest(Supplier<ImageIcon> ic, String desc, Item item, int x, int y){
+        super(ic, 1000, desc, x, y);
         add(item);
     }
     
@@ -48,8 +50,16 @@ public class Chest extends Receptacle implements Interactable{
      */
     @Override
     public void interact(Creature c, Area area){
-        throw new UnsupportedOperationException("Unfinished.");
-        //Remove chest and put item on ground.
+        area.removeReceptacle(x, y);
+        forEach((i) -> {
+            area.plop(i, x, y);
+        });
+        SoundHandler.SFX("Misc/openChest.wav");
+    }
+
+    @Override
+    public double interactTurns(){
+        return 1;
     }
     
 }

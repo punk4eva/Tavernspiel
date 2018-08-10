@@ -2,7 +2,6 @@
 package tiles;
 
 import tiles.assets.*;
-import animation.assets.WaterAnimation;
 import java.awt.Graphics;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -10,6 +9,7 @@ import java.util.function.Function;
 import javax.swing.ImageIcon;
 import level.Location;
 import level.RoomBuilder;
+import listeners.Interactable;
 
 /**
  *
@@ -22,6 +22,7 @@ public class Tile{
     public boolean treadable;
     public boolean flammable;
     public boolean transparent;
+    public Interactable interactable;
     
     public Tile(String n, ImageIcon ic){
         image = ic;

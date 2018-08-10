@@ -10,4 +10,5 @@ import level.Area;
  */
 public interface Interactable{
     public void interact(Creature c, Area a);
+    public double interactTurns();
 }

@@ -106,7 +106,7 @@ public class CreatureAnimator implements AnimationListener, GameObjectAnimator{
     }
 
     @Override
-    public synchronized void done(Animation a){
+    public synchronized void animationDone(Animation a){
         if(nextName!=null){
             if(nextName.equals("fade")){
                 active = getFadeAnimation(active.frames[active.frames.length-1]);

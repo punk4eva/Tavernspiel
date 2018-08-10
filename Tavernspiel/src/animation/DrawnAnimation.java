@@ -38,7 +38,7 @@ public abstract class DrawnAnimation extends TrackableAnimation
         currentTicks += ticksPerFrame;
         if(currentTicks>maxTicks){
             done = true;
-            if(listener!=null) listener.done(this);
+            if(listener!=null) listener.animationDone(this);
         }
     }
     

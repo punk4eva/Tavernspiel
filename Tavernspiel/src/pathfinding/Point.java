@@ -23,25 +23,18 @@ public class Point implements Serializable{
      * This Enum represents all the cardinal directions.
      */
     public static enum Direction{
-        NORTH(2, x->x, y->y-1),
-        EAST(5, x->x-1, y->y),
-        SOUTH(7, x->x, y->y+1), 
-        WEST(4, x->x+1, y->y);
+        NORTH(2, 0, -1),
+        EAST(5, -1, 0),
+        SOUTH(7, 0, 1), 
+        WEST(4, 1, 0);
         
         int code;
-        public final xDir x;
-        public final yDir y;
-        Direction(int c, xDir xd, yDir yd){
+        public final int x;
+        public final int y;
+        Direction(int c, int xd, int yd){
             code = c;
             x = xd;
             y = yd;
-        }
-        
-        public interface xDir{
-            int update(int x);
-        }
-        public interface yDir{
-            int update(int y);
         }
         
         public Direction polar(){
@@ -58,29 +51,22 @@ public class Point implements Serializable{
      * This Enum represents all the ordino-cardinal directions.
      */
     public static enum ExtendedDirection{
-        NORTH(2, x->x, y->y-1),
-        EAST(5, x->x-1, y->y),
-        SOUTH(7, x->x, y->y+1), 
-        WEST(4, x->x+1, y->y),
-        NORTHWEST(1, x->x-1, y->y-1),
-        NORTHEAST(3, x->x+1, y->y-1),
-        SOUTHEAST(8, x->x+1, y->y+1),
-        SOUTHWEST(6, x->x+1, y->y+1);
+        NORTH(2, 0, -1),
+        EAST(5, -1, 0),
+        SOUTH(7, 0, 1), 
+        WEST(4, 1, 0),
+        NORTHWEST(1, -1, -1),
+        NORTHEAST(3, 1, -1),
+        SOUTHEAST(8, 1, 1),
+        SOUTHWEST(6, -1, 1);
         
         int code;
-        public final xDir x;
-        public final yDir y;
-        ExtendedDirection(int c, xDir xd, yDir yd){
+        public final int x;
+        public final int y;
+        ExtendedDirection(int c, int xd, int yd){
             code = c;
             x = xd;
             y = yd;
-        }
-        
-        public interface xDir{
-            int update(int x);
-        }
-        public interface yDir{
-            int update(int y);
         }
         
         public ExtendedDirection polar(){

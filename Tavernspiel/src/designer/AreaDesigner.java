@@ -154,7 +154,7 @@ public class AreaDesigner extends Main{
         while(!queue.isEmpty()){
             Integer[] current = queue.pop();
             for(Point.Direction dir : Point.Direction.values()){
-                Integer[] next = new Integer[]{dir.x.update(current[0]), dir.y.update(current[1])};
+                Integer[] next = new Integer[]{dir.x+current[0], dir.y+current[1]};
                 System.out.println(current[0] + ", " + current[1]);
                 try{
                     if(area.map[next[1]][next[0]]==null){

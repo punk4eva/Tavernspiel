@@ -109,8 +109,8 @@ public class Searcher implements Serializable{
         while(!frontier.isEmpty()){
             Point p = frontier.poll();
             for(Direction dir : directions){
-                nx = dir.x.update(p.x);
-                ny = dir.y.update(p.y);
+                nx = p.x+dir.x;
+                ny = p.y+dir.y;
                 try{ if(area.map[ny][nx].treadable&&(!graph.map[ny][nx].checked||addCheck.check(p, graph.map[ny][nx]))){
                     graph.map[ny][nx].checked = true;
                     graph.map[ny][nx].cameFrom = p;
@@ -136,8 +136,8 @@ public class Searcher implements Serializable{
         while(!frontier.isEmpty()){
             Point p = frontier.poll();
             for(ExtendedDirection dir : extendedDirections){
-                nx = dir.x.update(p.x);
-                ny = dir.y.update(p.y);
+                nx = p.x+dir.x;
+                ny = p.y+dir.y;
                 try{ if(area.map[ny][nx].treadable&&(!graph.map[ny][nx].checked/*||addCheck.check(p, graph.map[ny][nx])*/)){
                     graph.map[ny][nx].checked = true;
                     graph.map[ny][nx].cameFrom = p;
@@ -165,8 +165,8 @@ public class Searcher implements Serializable{
         while(!frontier.isEmpty()){
             Point p = frontier.poll();
             for(ExtendedDirection dir : extendedDirections){
-                nx = dir.x.update(p.x);
-                ny = dir.y.update(p.y);
+                nx = p.x+dir.x;
+                ny = p.y+dir.y;
                 try{ if(graph.map[ny][nx].checked!=null&&(!graph.map[ny][nx].checked||addCheck.check(p, graph.map[ny][nx]))){
                     graph.map[ny][nx].checked = true;
                     graph.map[ny][nx].cameFrom = p;
@@ -194,8 +194,8 @@ public class Searcher implements Serializable{
         while(!frontier.isEmpty()){
             Point p = frontier.poll();
             for(Direction dir : directions){
-                nx = dir.x.update(p.x);
-                ny = dir.y.update(p.y);
+                nx = p.x+dir.x;
+                ny = p.y+dir.y;
                 try{ if(graph.map[ny][nx].equals(end)){
                     graph.map[ny][nx].cameFrom = p;
                     return graph.followTrail(end.x, end.y);
@@ -254,8 +254,8 @@ public class Searcher implements Serializable{
         while(!frontier.isEmpty()){
             Point p = frontier.poll();
             for(ExtendedDirection dir : extendedDirections){
-                nx = dir.x.update(p.x);
-                ny = dir.y.update(p.y);
+                nx = p.x+dir.x;
+                ny = p.y+dir.y;
                 try{ if(fov.map[ny][nx]!=0&&graph.map[ny][nx].checked!=null&&(!graph.map[ny][nx].checked||addCheck.check(p, graph.map[ny][nx]))){
                     graph.map[ny][nx].checked = true;
                     graph.map[ny][nx].cameFrom = p;

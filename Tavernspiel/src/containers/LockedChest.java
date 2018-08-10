@@ -2,11 +2,21 @@
 package containers;
 
 import creatureLogic.Description;
+import creatures.Creature;
 import items.Item;
+import items.misc.Key;
+import items.misc.Key.KeyType;
 import java.io.Serializable;
+import java.util.LinkedList;
 import java.util.function.Supplier;
 import javax.swing.ImageIcon;
+import level.Area;
 import logic.ConstantFields;
+import logic.Distribution;
+import logic.SoundHandler;
+import logic.Utils.Catch;
+import pathfinding.Point;
+import pathfinding.Point.ExtendedDirection;
 
 /**
  *
@@ -15,10 +25,52 @@ import logic.ConstantFields;
 public class LockedChest extends Chest{
     
     private final static long serialVersionUID = 285389597;
+    private KeyType keyType = KeyType.GOLDEN;
     
     public LockedChest(Item item, int x, int y){
-        super((Serializable & Supplier<ImageIcon>)() -> ConstantFields.lockedChestIcon, item, x, y);
-        description = new Description("receptacle","You can't open this chest without a key.");
+        super((Serializable & Supplier<ImageIcon>)
+                () -> ConstantFields.lockedChestIcon, 
+                "You can't open this chest without a key.", item, x, y);
+    }
+    
+    /**
+     * Creates a new chest instance containing an item.
+     * @param ic The icon.
+     * @param desc The description.
+     * @param item The item within.
+     * @param x
+     * @param y
+     */
+    public LockedChest(Supplier<ImageIcon> ic, String desc, Item item, int x, int y){
+        super(ic, desc, item, x, y);
+    }
+    
+    @Override
+    public void interact(Creature c, Area area){
+        if(c.inventory.useKey(keyType, area.depth)){
+            area.removeReceptacle(x, y);
+            forEach((i) -> {
+                area.plop(i, x, y);
+            });
+            SoundHandler.SFX("Misc/openLockedChest.wav");
+        }
+    }
+    
+    /**
+     * Plops the Item on an adjacent Tile.
+     * @param x
+     * @param y
+     * @param area
+     * @param i
+     */
+    @Catch("Line 4")
+    public static void replop(int x, int y, Area area, Item i){
+        LinkedList<ExtendedDirection> list = new LinkedList<>();
+        for(ExtendedDirection dir : ExtendedDirection.values())
+            if(area.map[y+dir.y][x+dir.x].treadable) list.add(dir);
+        if(list.isEmpty()) throw new IllegalStateException("Illegal replop() context");
+        ExtendedDirection dir = list.get(Distribution.r.nextInt(list.size()));
+        area.plop(i, x+dir.x, y+dir.y);
     }
     
 }

@@ -25,9 +25,10 @@ public class SkeletalRemains extends Chest{
      * @param y
      */
     public SkeletalRemains(Item item, int x, int y){
-        super((Serializable & Supplier<ImageIcon>)() -> ConstantFields.skeletalRemainsIcon , item, x, y);
-        description = new Description("receptacle", "A pile of bones from an unlucky adventurer or resident "
-                + "of this place. May be worth checking for valuables.");
+        super((Serializable & Supplier<ImageIcon>)
+                () -> ConstantFields.skeletalRemainsIcon, "A pile of bones from"
+                        + " an unlucky adventurer or resident of this place. "
+                        + "May be worth checking for valuables.", item, x, y);
     }
     
     @Override

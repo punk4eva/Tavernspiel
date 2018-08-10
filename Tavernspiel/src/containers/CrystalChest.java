@@ -1,7 +1,6 @@
 
 package containers;
 
-import creatureLogic.Description;
 import items.Item;
 import java.io.Serializable;
 import java.util.function.Supplier;
@@ -14,7 +13,7 @@ import logic.ConstantFields;
  * 
  * This class represents a crystal chest.
  */
-public class CrystalChest extends Chest{
+public class CrystalChest extends LockedChest{
     
     private final static long serialVersionUID = 123801897210L;
     
@@ -25,9 +24,10 @@ public class CrystalChest extends Chest{
      * @param y
      */
     public CrystalChest(Item item, int x, int y){
-        super((Serializable & Supplier<ImageIcon>)() -> ConstantFields.crystalChestIcon, item, x, y);
-        description = new Description("receptacle", "You can see " + item.getPronounedName(0, "an") + " in "
-                + "the chest but you need a key to open the chest.");
+        super((Serializable & Supplier<ImageIcon>)
+                () -> ConstantFields.crystalChestIcon, 
+                "You can see " + item.getPronounedName(0, "an") + " in "
+                + "the chest but you need a key to open the chest.", item, x, y);
     }
     
 }

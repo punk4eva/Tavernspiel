@@ -2,6 +2,7 @@
 package logic;
 
 import gui.Window;
+import gui.mainToolbox.Main;
 import java.io.File;
 import java.util.ArrayDeque;
 import javax.sound.sampled.AudioInputStream;
@@ -39,6 +40,14 @@ public class SoundHandler{
         }catch(Exception e){
             System.err.println(e.getMessage());
         }
+    }
+    
+    /**
+     * A static version of the playSFX method.
+     * @param path
+     */
+    public static void SFX(String path){
+        Main.soundSystem.playSFX(path);
     }
     
     /**

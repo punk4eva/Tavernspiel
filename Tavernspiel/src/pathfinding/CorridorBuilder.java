@@ -45,8 +45,8 @@ public class CorridorBuilder{
             while(!frontier.isEmpty()){
                 Point p = frontier.poll();
                 for(Point.Direction dir : directions){
-                    nx = dir.x.update(p.x);
-                    ny = dir.y.update(p.y);
+                    nx = p.x+dir.x;
+                    ny = p.y+dir.y;
                     if(area.withinBounds(nx-1, ny-1)&&area.withinBounds(nx+1, ny+1)){
                         if(graph.map[ny][nx].equals(end)){
                             graph.map[ny][nx].cameFrom = p;

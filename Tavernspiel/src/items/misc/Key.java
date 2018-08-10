@@ -46,4 +46,14 @@ public class Key extends Item{
         }
     }
     
+    /**
+     * Checks if the given key matches a given key description.
+     * @param t
+     * @param d
+     * @return
+     */
+    public boolean matches(KeyType t, int d){
+        return t.equals(type)&&d==depth;
+    }
+    
 }

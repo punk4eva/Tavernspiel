@@ -8,5 +8,5 @@ import animation.Animation;
  * @author Adam Whittaker
  */
 public interface AnimationListener{
-    void done(Animation a);
+    void animationDone(Animation a);
 }

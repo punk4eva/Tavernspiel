@@ -57,7 +57,7 @@ public abstract class FramedAnimation extends TrackableAnimation
                 currentFrame = 0;
                 if(listener!=null){
                     done = true;
-                    listener.done(this);
+                    listener.animationDone(this);
                 }
             }
         }

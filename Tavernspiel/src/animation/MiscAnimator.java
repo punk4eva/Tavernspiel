@@ -68,6 +68,6 @@ public class MiscAnimator implements AnimationListener{
     }
 
     @Override
-    public void done(Animation a){}
+    public void animationDone(Animation a){}
     
 }

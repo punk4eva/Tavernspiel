@@ -193,7 +193,7 @@ public class Room extends Area{
             }while(!isTreadable(x, y));
             if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
             else{
-                receptacles.add(RoomBuilder.getRandomReceptacle(location, item, x, y));
+                addReceptacle(RoomBuilder.getRandomReceptacle(location, item, x, y));
             }
         });
     }
@@ -210,7 +210,7 @@ public class Room extends Area{
             }while(!isTreadable(x, y));
             if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
             else{
-                receptacles.add(RoomBuilder.getRandomReceptacle(location, item, x, y));
+                addReceptacle(RoomBuilder.getRandomReceptacle(location, item, x, y));
             }
         });
     }
@@ -228,7 +228,7 @@ public class Room extends Area{
             }while(!pred.test(new Integer[]{x, y}));
             if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
             else{
-                receptacles.add(RoomBuilder.getRandomReceptacle(location, item, x, y));
+                addReceptacle(RoomBuilder.getRandomReceptacle(location, item, x, y));
             }
         });
     }
@@ -245,7 +245,7 @@ public class Room extends Area{
         }while(!isTreadable(x, y));
         if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
         else{
-            receptacles.add(RoomBuilder.getRandomReceptacle(location, item, x, y));
+            addReceptacle(RoomBuilder.getRandomReceptacle(location, item, x, y));
         }
     }
     
