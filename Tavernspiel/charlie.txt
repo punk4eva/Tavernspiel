@@ -1,5 +1,1 @@
-Quickslot
-Button for picking up items in range
-Button for attacking enemies in range
-Inventory icon
-Loading Screen
+Design buff icons
