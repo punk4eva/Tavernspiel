@@ -1,1 +1,5 @@
-Rework CustomTile
+Rework Floor, Chest, etc.
+Integrate Interactable - Tile interface.
+Finish Wand Icons
+Rework Item spritesheet to incorporate 4 different chest, food, gravestone, skeletal remains icons, etc.
+Incorporate the different icon Systems into Location.
