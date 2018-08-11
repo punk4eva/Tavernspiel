@@ -5,7 +5,6 @@ import creatures.Creature;
 import creatures.Hero;
 import level.Area;
 import level.Location;
-import listeners.AreaEvent;
 import listeners.StepListener;
 import logic.Utils.Unfinished;
 import tiles.Tile;
@@ -38,21 +37,12 @@ public class Chasm extends Tile implements StepListener{
     @Override
     public void steppedOn(Creature c){
         if(!isPitroom){
-            //unfinished
-        }else try{
+            //@Unfinished
+        }else if(c instanceof Hero){
             Hero hero = (Hero) c;
-            new AreaEvent("FELLINTOCHASM", c.area).notifyEvent();
-        }catch(ClassCastException e){
-            //c.fallAnimation();
-            //gainXP(); ???
-            //if(nextLevel==null){
-            //    nextLevel.preLoad();
-            //    for(Apparatus ap : c.equipment) nextLevel.addForcedItem(ap);
-            //    for(Item i : c.inventory) nextLevel.addForcedItem(i);
-            //}else{
-            //    for(Apparatus ap : c.equipment) nextLevel.randomPlop(ap);
-            //    for(Item i : c.inventory) nextLevel.randomPlop(i);
-            //}
+            //@Unfinished
+        }else{
+            //@Unfinished
         }
     }
     

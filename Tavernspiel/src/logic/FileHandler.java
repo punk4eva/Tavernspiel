@@ -80,6 +80,7 @@ public final class FileHandler{
             output.writeObject(Tile.IDmap);
             output.writeObject(Tile.tileMap);
             output.writeObject(game.dungeon);
+            KeyMapping.saveState();
         }catch(IOException e){
             e.printStackTrace();
             new ExceptionDialogue(e).next();
@@ -90,6 +91,7 @@ public final class FileHandler{
         try(ObjectInputStream in = new ObjectInputStream(new FileInputStream(filepath))){
             Tile.IDmap = (HashMap<String, Integer>) in.readObject();
             Tile.tileMap = (HashMap<Integer, Function<Location, Tile>>) in.readObject();
+            KeyMapping.retrieveState();
             return new Game((Dungeon)in.readObject());
         }catch(IOException | ClassNotFoundException e){
             e.printStackTrace();

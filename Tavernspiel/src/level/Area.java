@@ -28,7 +28,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
-import listeners.AreaEvent;
 import listeners.Interactable;
 import logic.Distribution;
 import logic.GameObject;
@@ -76,7 +75,7 @@ public class Area implements Serializable{
      */
     public Area(Dimension dim, Location loc){
         dimension = dim;
-        depth = location.depth;
+        depth = loc.depth;
         location = loc;
         map = new Tile[dimension.height][dimension.width];
         overlay = new VisibilityOverlay(0,0,loc.feeling.visibility,this);
@@ -250,32 +249,9 @@ public class Area implements Serializable{
             Floor floor = new Floor(c.x, c.y);
             floor.addAll(c.inventory);
             floor.addAll(c.equipment);
-            receptacles.add(floor);
+            addReceptacle(floor);
         }
         objects.remove(c);
-    }
-    
-    /**
-     * Responds to an AreaEvent.
-     * @param ae The AreaEvent.
-     */
-    @Unfinished("May be redundant")
-    public void areaActedUpon(AreaEvent ae){
-        switch(ae.getAction()){
-            case "FELLINTOCHASM":
-                //if(nextLevel==null){          @unfinished
-                //    nextLevel.fullLoad();
-                //    hero.changeLevel(nextLevel.zipcode);
-                //    hero.addBuff(BuffBuilder.bleeding(level*2));
-                //}else{
-                //    @unfinished
-                //}
-                break;
-            case "BURN": burn(ae.getX(), ae.getY());
-                break;
-            case "FIND": 
-                break;
-        }
     }
 
     /**
@@ -449,7 +425,7 @@ public class Area implements Serializable{
      */
     public void plop(Item i, int x, int y){
         Receptacle r = getReceptacle(x, y);
-        if(r==null) receptacles.add(new Floor(i, x, y));
+        if(r==null) addReceptacle(new Floor(i, x, y));
         else if(r instanceof LockedChest) LockedChest.replop(x, y, this, i);
         else r.add(i);
     }
@@ -477,11 +453,7 @@ public class Area implements Serializable{
             hero.attributes.ai.setDestination(x, y);
             Window.main.setTurnsPassed(hero.attributes.speed);
         }else{
-            if(map[y][x].interactable!=null){
-                double turns = map[y][x].interactable.interactTurns();
-                map[y][x].interactable.interact(hero, this);
-                Window.main.setTurnsPassed(turns*hero.attributes.speed);
-            }else if(getReceptacle(hero.x, hero.y)==null) 
+            if(getReceptacle(hero.x, hero.y)==null) 
                 new StatisticsDialogue(hero).next();
             else{
                 ((PlayerAI)hero.attributes.ai).nextAction = new Action(){

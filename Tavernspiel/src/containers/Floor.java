@@ -2,8 +2,11 @@
 package containers;
 
 import creatureLogic.Description;
+import creatures.Creature;
 import items.Item;
 import java.util.ArrayList;
+import level.Area;
+import listeners.Interactable;
 
 /**
  *
@@ -11,7 +14,7 @@ import java.util.ArrayList;
  * 
  * This class represents items on the ground.
  */
-public class Floor extends Receptacle{
+public class Floor extends Receptacle implements Interactable{
     
     private final static long serialVersionUID = 2890391007L;
     
@@ -47,13 +50,6 @@ public class Floor extends Receptacle{
         description = isEmpty() ? new Description("tile", "There is nothing interesting here.") : 
                 get(size()-1).description;
     }
-    
-    /*public Floor(ArrayList<Item> ary, int x, int y, int id){
-    super("You shouldn't be reading this.", x, y, id);
-    items.addAll(ary);
-    description = items.isEmpty() ? "There is nothing interesting here." :
-    items.get(items.size()-1).description;
-    }*/
 
     
     
@@ -82,6 +78,16 @@ public class Floor extends Receptacle{
         description = size()==1 ? new Description("tile", "There is nothing interesting here.") : 
                 get(size()-2).description;
         return super.pop();
+    }
+
+    @Override
+    public void interact(Creature c, Area a){
+        c.attributes.ai.BASEACTIONS.pickUp(c);
+    }
+
+    @Override
+    public double interactTurns(){
+        return 1;
     }
     
 }

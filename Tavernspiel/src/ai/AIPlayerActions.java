@@ -12,6 +12,7 @@ import items.Item;
 import items.consumables.LocationSpecificScroll;
 import items.consumables.LocationSpecificScroll.LocationViewable;
 import java.util.List;
+import level.Area;
 import listeners.ScreenListener;
 import logic.ConstantFields;
 import logic.Distribution;
@@ -98,6 +99,22 @@ public class AIPlayerActions extends AIBaseActions{
                 return screens;
             }
         });
+    }
+    
+    /**
+     * Interacts with this Tile.
+     * @param c
+     * @param area
+     * @param x
+     * @param y
+     */
+    @Override
+    public void interact(Creature c, Area area, int x, int y){
+        if(area.map[y][x].interactable!=null){
+            double turns = area.map[y][x].interactable.interactTurns();
+            area.map[y][x].interactable.interact(c, area);
+            Window.main.setTurnsPassed(turns*c.attributes.speed);
+        }
     }
     
 }

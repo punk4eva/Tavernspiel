@@ -10,7 +10,6 @@ import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.ImageIcon;
-import listeners.AreaEvent;
 import logic.Utils.Unfinished;
 
 /**
@@ -46,10 +45,6 @@ public final class ItemBuilder{
     }
 
     public static int getWandBlockingLevel(String s){
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public static AreaEvent getWandAreaEvent(String s){
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

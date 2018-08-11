@@ -5,13 +5,11 @@ import creatureLogic.Action;
 import creatureLogic.VisibilityOverlay;
 import creatures.Creature;
 import creatures.Hero;
-import gui.mainToolbox.Main;
 import gui.Window;
-import items.Item;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import level.Area;
-import logic.ConstantFields;
+import logic.KeyMapping;
 import logic.Utils.Unfinished;
 import pathfinding.Point;
 
@@ -82,12 +80,7 @@ public final class PlayerAI extends AITemplate implements KeyListener{
             unfinished = false;
             c.changeAnimation("stand");
             if(c.area.getReceptacle(next.x, next.y)!=null){
-                Item i = c.area.pickUp(next.x, next.y);
-                if(!c.inventory.add(i)){
-                    c.area.plop(i, next.x, next.y);
-                    Main.addMessage(ConstantFields.badColor, "Your pack is too full for the " +
-                            i.toString(3));
-                }
+                BASEACTIONS.pickUp(c);
             }
         }else Window.main.addTurnsPassed(hero.attributes.speed);
     }
@@ -122,21 +115,18 @@ public final class PlayerAI extends AITemplate implements KeyListener{
     public void keyTyped(KeyEvent ke){
         System.out.println(ke.getKeyChar() + ", " + ke.getKeyCode());
         Integer[] m;
-        switch(ke.getKeyChar()){
-            case 'w': m = new Integer[]{0, -1};
-                break;
-            case 'a': m = new Integer[]{-1, 0};
-                break;
-            case 's': m = new Integer[]{0, 1};
-                break;
-            case 'd': m = new Integer[]{1, 0};
-                break;
-            case 'f': m = new Integer[]{0, 0};
-                break;
-            case 'e': Window.main.toggleInventory();
-                return;
-            default: return;
-        }
+        char k = ke.getKeyChar();
+        if(k==KeyMapping.GO_UP) m = new Integer[]{0, -1};
+        else if(k==KeyMapping.GO_LEFT) m = new Integer[]{-1, 0};
+        else if(k==KeyMapping.GO_DOWN) m = new Integer[]{0, 1};
+        else if(k==KeyMapping.GO_RIGHT) m = new Integer[]{1, 0};
+        else if(k==KeyMapping.INTERACT){
+            BASEACTIONS.interact(hero, hero.area, hero.x, hero.y);
+            return;
+        }else if(k==KeyMapping.TOGGLE_INVENTORY){
+            Window.main.toggleInventory();
+            return;
+        }else return;
         if(BASEACTIONS.canMove(hero, m)&&!hero.animatingMotion()){
             hero.area.click(hero.x+m[0], hero.y+m[1]);
         }
@@ -151,11 +141,11 @@ public final class PlayerAI extends AITemplate implements KeyListener{
         }catch(ArrayIndexOutOfBoundsException e){
             //Foreign key pressed and should be ignored.
         }
-        if(keysDown[KeyEvent.VK_ESCAPE]) Window.main.setInventoryActive(false);
-        if(keysDown[KeyEvent.VK_W]&&!keysDown[KeyEvent.VK_S]);
-        else if(keysDown[KeyEvent.VK_S]&&!keysDown[KeyEvent.VK_W]);
-        if(keysDown[KeyEvent.VK_A]&&!keysDown[KeyEvent.VK_D]);
-        else if(keysDown[KeyEvent.VK_D]&&!keysDown[KeyEvent.VK_A]);
+        if(keysDown[KeyMapping.ESCAPE]) Window.main.setInventoryActive(false);
+        if(keysDown[KeyMapping.UP]&&!keysDown[KeyMapping.DOWN]);
+        else if(keysDown[KeyMapping.DOWN]&&!keysDown[KeyMapping.UP]);
+        if(keysDown[KeyMapping.LEFT]&&!keysDown[KeyMapping.RIGHT]);
+        else if(keysDown[KeyMapping.RIGHT]&&!keysDown[KeyMapping.LEFT]);
     }
     
     @Override

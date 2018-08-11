@@ -11,6 +11,7 @@ import creatureLogic.Action;
 import creatureLogic.Attack.CreatureAttack;
 import creatures.Creature;
 import creatures.Hero;
+import gui.Window;
 import gui.mainToolbox.Main;
 import items.Apparatus;
 import items.Item;
@@ -315,6 +316,21 @@ public class AIBaseActions implements Serializable{
     public boolean canMove(Creature c, Integer[] dir){
         if(dir[0]==0&&dir[1]==0) return true;
         return c.area.tileFree(c.x+dir[0], c.y+dir[1]);
+    }
+    
+    /**
+     * Interacts with this Tile.
+     * @param c
+     * @param area
+     * @param x
+     * @param y
+     */
+    public void interact(Creature c, Area area, int x, int y){
+        if(area.map[y][x].interactable!=null){
+            double turns = area.map[y][x].interactable.interactTurns();
+            area.map[y][x].interactable.interact(c, area);
+            c.attributes.ai.skipping += turns*c.attributes.speed;
+        }
     }
     
 }

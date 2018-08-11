@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 import level.Area;
-import listeners.AreaEvent;
 import listeners.ScreenListener;
 import logic.Distribution;
 import logic.Formula;
@@ -34,7 +33,6 @@ public class Wand extends RangedWeapon implements ScreenListener{
     public final Animation firingAnimation;
     public int range = -1; //-1 if N/A.
     public Formula rangeFormula = null; //Null if no formula.
-    public AreaEvent areaEvent; //Null if no AreaEvent.
     public final int blockingLevel;
     /**
      * 0: Travels through anything.
@@ -61,7 +59,6 @@ public class Wand extends RangedWeapon implements ScreenListener{
         super(s, desc, lo, dur, d, -1, sp);
         firingAnimation = ItemBuilder.getWandAnimation(s);
         blockingLevel = ItemBuilder.getWandBlockingLevel(s);
-        areaEvent = ItemBuilder.getWandAreaEvent(s);
         locationSelect = new LocationSpecificScroll(null, "", null, false){
             private final static long serialVersionUID = 58098765439L;
             @Override
@@ -94,11 +91,7 @@ public class Wand extends RangedWeapon implements ScreenListener{
      */
     public void fire(Creature c, int x, int y){
         Main.animator.drawWandArc(this, c.x, c.y, x, y);
-        if(areaEvent!=null){
-            areaEvent.setArea(c.area);
-            areaEvent.setXY(x, y);
-            areaEvent.notifyEvent();
-        }
+        throw new UnsupportedOperationException("@Unfinished");
     }
 
     @Override
