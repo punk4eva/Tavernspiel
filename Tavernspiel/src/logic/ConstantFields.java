@@ -16,11 +16,6 @@ import javax.swing.ImageIcon;
  */
 public interface ConstantFields{
     
-    public static final ImageIcon chestIcon = getIcon(48, 16); //@unfinished
-    public static final ImageIcon crystalChestIcon = new ImageIcon(""); //@unfinished
-    public static final ImageIcon lockedChestIcon = getIcon(64, 16); //@unfinished
-    public static final ImageIcon skeletalRemainsIcon = getIcon(0, 0); //@unfinished
-    
     public static final Color unidentifiedColour = new Color(129, 35, 160, 80);
     public static final Color cursedColour = new Color(210, 0, 0, 40);
     

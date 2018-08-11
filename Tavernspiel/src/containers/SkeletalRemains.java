@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 import level.Area;
+import level.Location;
 import logic.ConstantFields;
 
 /**
@@ -20,13 +21,14 @@ public class SkeletalRemains extends Chest{
     
     /**
      * Creates a new instance.
+     * @param loc
      * @param item 
      * @param x
      * @param y
      */
-    public SkeletalRemains(Item item, int x, int y){
+    public SkeletalRemains(Location loc, Item item, int x, int y){
         super((Serializable & Supplier<ImageIcon>)
-                () -> ConstantFields.skeletalRemainsIcon, "A pile of bones from"
+                () -> loc.getSkeletalRemainsIcon(), "A pile of bones from"
                         + " an unlucky adventurer or resident of this place. "
                         + "May be worth checking for valuables.", item, x, y);
     }

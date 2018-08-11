@@ -73,7 +73,7 @@ public abstract class RoomBuilder{
                     }
                 }
                 if(Distribution.chance(1, 2)){
-                    room.addReceptacle(new Chest(item, room.dimension.width/2, 1));
+                    room.addReceptacle(new Chest(loc, item, room.dimension.width/2, 1));
                 }else room.addReceptacle(new Floor(item, room.dimension.width / 2, 1));
                 room.map[room.dimension.height-1][room.dimension.width/2] =
                         new Door(loc);
@@ -85,7 +85,7 @@ public abstract class RoomBuilder{
                     }
                 }
                 if(Distribution.chance(1, 2)){
-                    room.addReceptacle(new Chest(item, room.dimension.width-2, room.dimension.height/2));
+                    room.addReceptacle(new Chest(loc, item, room.dimension.width-2, room.dimension.height/2));
                 }else room.addReceptacle(new Floor(item, room.dimension.width-2, room.dimension.height/2));
                 room.map[room.dimension.height/2][0] =
                         new Door(loc);
@@ -97,7 +97,7 @@ public abstract class RoomBuilder{
                     }
                 }
                 if(Distribution.chance(1, 2)){
-                    room.addReceptacle(new Chest(item, room.dimension.width/2, room.dimension.height-2));
+                    room.addReceptacle(new Chest(loc, item, room.dimension.width/2, room.dimension.height-2));
                 }else room.addReceptacle(new Floor(item, room.dimension.width/2, room.dimension.height-2));
                 room.map[0][room.dimension.width/2] =
                         new Door(loc);
@@ -109,7 +109,7 @@ public abstract class RoomBuilder{
                     }
                 }
                 if(Distribution.chance(1, 2)){
-                    room.addReceptacle(new Chest(item, 1, room.dimension.height/2));
+                    room.addReceptacle(new Chest(loc, item, 1, room.dimension.height/2));
                 }else room.addReceptacle(new Floor(item, 1, room.dimension.height/2));
                 room.map[room.dimension.height/2][room.dimension.width-1] =
                         new Door(loc);
@@ -285,7 +285,7 @@ public abstract class RoomBuilder{
                 }
                 room.map[1][room.dimension.width/2] = pedestal;
                 if(Distribution.chance(1, 2)) room.addReceptacle(new Floor(item, room.dimension.width/2, 1));
-                else room.addReceptacle(new Chest(item, room.dimension.width/2, 1));
+                else room.addReceptacle(new Chest(loc, item, room.dimension.width/2, 1));
                 room.map[room.dimension.height-1][room.dimension.width/2] = new Door(loc);
                 break;
             case 2: //East
@@ -296,7 +296,7 @@ public abstract class RoomBuilder{
                 }
                 room.map[room.dimension.height/2][room.dimension.width-2] = pedestal;
                 if(Distribution.chance(1, 2)) room.addReceptacle(new Floor(item, room.dimension.width-2, room.dimension.height/2));
-                else room.addReceptacle(new Chest(item, room.dimension.width-2, room.dimension.height/2));
+                else room.addReceptacle(new Chest(loc, item, room.dimension.width-2, room.dimension.height/2));
                 room.map[room.dimension.height/2][0] = new Door(loc);
                 break;
             case 3: //South
@@ -306,7 +306,7 @@ public abstract class RoomBuilder{
                 }
                 room.map[room.dimension.height-2][room.dimension.width/2] = pedestal;
                 if(Distribution.chance(1, 2)) room.addReceptacle(new Floor(item, room.dimension.width/2, room.dimension.height-2));
-                else room.addReceptacle(new Chest(item, room.dimension.width/2, room.dimension.height-2));
+                else room.addReceptacle(new Chest(loc, item, room.dimension.width/2, room.dimension.height-2));
                 room.map[0][room.dimension.width/2] = new Door(loc);
                 break;
             case 4: //West
@@ -317,7 +317,7 @@ public abstract class RoomBuilder{
                 }
                 room.map[room.dimension.height/2][1] = pedestal;
                 if(Distribution.chance(1, 2)) room.addReceptacle(new Floor(item, 1, room.dimension.height/2));
-                else room.addReceptacle(new Chest(item, 1, room.dimension.height/2));
+                else room.addReceptacle(new Chest(loc, item, 1, room.dimension.height/2));
                 room.map[room.dimension.height/2][room.dimension.width-1] = new Door(loc);
                 break;
         }
@@ -679,9 +679,9 @@ public abstract class RoomBuilder{
     public static Receptacle getRandomReceptacle(Location loc, Item i, int x, int y){  
         switch((int) loc.feeling.receptacleDist.next()){
             case 0: return new Floor(i, x, y);
-            case 1: return new Chest(i, x, y);
-            case 2: return new Mimic(i, x, y);
-            default: return new SkeletalRemains(i, x, y);
+            case 1: return new Chest(loc, i, x, y);
+            case 2: return new Mimic(loc, i, x, y);
+            default: return new SkeletalRemains(loc, i, x, y);
         }
     }
     

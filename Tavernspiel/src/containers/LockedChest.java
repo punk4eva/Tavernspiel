@@ -1,21 +1,18 @@
 
 package containers;
 
-import creatureLogic.Description;
 import creatures.Creature;
 import items.Item;
-import items.misc.Key;
 import items.misc.Key.KeyType;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 import level.Area;
-import logic.ConstantFields;
+import level.Location;
 import logic.Distribution;
 import logic.SoundHandler;
 import logic.Utils.Catch;
-import pathfinding.Point;
 import pathfinding.Point.ExtendedDirection;
 
 /**
@@ -27,9 +24,9 @@ public class LockedChest extends Chest{
     private final static long serialVersionUID = 285389597;
     private KeyType keyType = KeyType.GOLDEN;
     
-    public LockedChest(Item item, int x, int y){
+    public LockedChest(Location loc, Item item, int x, int y){
         super((Serializable & Supplier<ImageIcon>)
-                () -> ConstantFields.lockedChestIcon, 
+                () -> loc.getLockedChestIcon(), 
                 "You can't open this chest without a key.", item, x, y);
     }
     

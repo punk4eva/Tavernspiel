@@ -2,7 +2,6 @@
 package logic;
 
 import java.awt.event.KeyEvent;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;

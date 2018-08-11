@@ -7,8 +7,8 @@ import java.io.Serializable;
 import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 import level.Area;
+import level.Location;
 import listeners.Interactable;
-import logic.ConstantFields;
 import logic.SoundHandler;
 
 /**
@@ -21,12 +21,14 @@ public class Chest extends Receptacle implements Interactable{
     
     /**
      * Creates a new chest instance containing an item.
+     * @param loc The Location.
      * @param item The item within.
      * @param x
      * @param y
      */
-    public Chest(Item item, int x, int y){
-        super((Serializable & Supplier<ImageIcon>)() -> ConstantFields.chestIcon, 1, "You won't know what's inside until you open it!", x, y);
+    public Chest(Location loc, Item item, int x, int y){
+        super((Serializable & Supplier<ImageIcon>)() -> loc.getChestIcon(), 1, 
+                "You won't know what's inside until you open it!", x, y);
         add(item);
     }
     

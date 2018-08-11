@@ -3,6 +3,7 @@ package level;
 
 import animation.assets.GrassAnimation;
 import creatureLogic.CreatureDistribution;
+import items.ItemBuilder;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -22,29 +23,29 @@ public class Location{
     public final String name;
     public final ImageIcon tileset;
     public final ImageIcon waterImage;
-    protected RoomDistribution roomDistrib; //null if boss room.
+    protected RoomDistribution roomDistrib;
     protected CreatureDistribution[] spawnDistribution;
     public LevelFeeling feeling = LevelFeeling.STANDARD;
     public final HashMap<String, ImageIcon> tilemap = new HashMap<>();
-    public final WeaponIndex weaponIndex;
     private final Distribution armourDistrib = new Distribution(new int[]{12,20,6,3,1});
     public int depth = 1;
+    public final Region region;
     
     public GrassAnimation lowGrass;
     public GrassAnimation highGrass;
     
-    /**
-     * Creates a new instance.
-     * @param n The name.
-     * @param tiles The tileset.
-     * @param water The water gen. chance.
-     * @param a Represents the country (0-3).
-     */
-    public Location(String n, BufferedImage tiles, BufferedImage water, int a){
-        name = n;
-        waterImage = new ImageIcon(water);
-        tileset = new ImageIcon(tiles);
-        weaponIndex = WeaponIndex.getIndex(a);
+    public enum Region{
+        KIRI(0, WeaponIndex.getIndex(0)),
+        KYOU(1, WeaponIndex.getIndex(1)),
+        SUDA(2, WeaponIndex.getIndex(2)),
+        HURI(3, WeaponIndex.getIndex(3));
+        
+        final int code;
+        final WeaponIndex weaponIndex;
+        private Region(int c, WeaponIndex wi){
+            code = c;
+            weaponIndex = wi;
+        }
     }
     
     /**
@@ -52,13 +53,27 @@ public class Location{
      * @param n The name.
      * @param tiles The tileset.
      * @param water The water gen. chance.
-     * @param a Represents the country (0-3).
+     * @param r The Region.
      */
-    public Location(String n, String tiles, String water, int a){
+    public Location(String n, BufferedImage tiles, BufferedImage water, Region r){
+        name = n;
+        waterImage = new ImageIcon(water);
+        tileset = new ImageIcon(tiles);
+        region = r;
+    }
+    
+    /**
+     * Creates a new instance.
+     * @param n The name.
+     * @param tiles The tileset.
+     * @param water The water gen. chance.
+     * @param r The Region.
+     */
+    public Location(String n, String tiles, String water, Region r){
         name = n;
         waterImage = new ImageIcon("graphics/tilesets/"+water+".png");
         tileset = new ImageIcon("graphics/tilesets/"+tiles+".png");
-        weaponIndex = WeaponIndex.getIndex(a);
+        region = r;
     }
     
     /**
@@ -67,14 +82,14 @@ public class Location{
      * @param tiles The tileset.
      * @param waterI The water image.
      * @param sp The CreatureDistributions.
-     * @param a Represents the country (0-3).
+     * @param r The Region.
      */
-    public Location(String n, BufferedImage tiles, BufferedImage waterI, CreatureDistribution[] sp, int a){
+    public Location(String n, BufferedImage tiles, BufferedImage waterI, CreatureDistribution[] sp, Region r){
         name = n;
         waterImage = new ImageIcon(waterI);
         tileset = new ImageIcon(tiles);
         spawnDistribution = sp;
-        weaponIndex = WeaponIndex.getIndex(a);
+        region = r;
     }
     
     /**
@@ -191,7 +206,8 @@ public class Location{
      * @return
      */
     public WeaponEntry getRandomWeaponEntry(){
-        return weaponIndex.map.get((int)weaponIndex.rarities.next());
+        return region.weaponIndex.map.get(
+                (int)region.weaponIndex.rarities.next());
     }
     
     /**
@@ -208,14 +224,51 @@ public class Location{
         }
     }
     
+    /**
+     * Retrieves the Image for the Tile with the given name.
+     * @param str
+     * @return
+     */
     public ImageIcon getImage(String str){
         return tilemap.get(str);
+    }
+    
+    /**
+     * Retrieves the Chest Icon for this Region.
+     * @return
+     */
+    public ImageIcon getChestIcon(){
+        return ItemBuilder.getIcon(region.code*16, 16);
+    }
+    
+    /**
+     * Retrieves the Locked Chest Icon for this Region.
+     * @return
+     */
+    public ImageIcon getLockedChestIcon(){
+        return ItemBuilder.getIcon(region.code*16+64, 16);
+    }
+    
+    /**
+     * Retrieves the Skeletal Remains Icon for this Region.
+     * @return
+     */
+    public ImageIcon getSkeletalRemainsIcon(){
+        return ItemBuilder.getIcon(region.code*16+64, 0);
+    }
+    
+    /**
+     * Retrieves the Locked Crystal Icon for this Region.
+     * @return
+     */
+    public ImageIcon getCrystalChestIcon(){
+        return ItemBuilder.getIcon(region.code*16, 0);
     }
     
     
     
     public static final Location SHKODER_LOCATION = 
-            new Location("Shkoder", "shkoderTileset", "shkoderWater", 2);
+            new Location("Shkoder", "shkoderTileset", "shkoderWater", Region.SUDA);
     static{
         ImageHandler.initializeIcons(SHKODER_LOCATION);
         SHKODER_LOCATION.lowGrass = new GrassAnimation(new int[][]{
@@ -231,7 +284,7 @@ public class Location{
         SHKODER_LOCATION.roomDistrib = new RoomDistribution(SHKODER_LOCATION, 3, 12);
     }
     public static final Location INDOOR_CAVES_LOCATION = new Location(
-            "Indoor Caves", "indoorCavesTileset", "shkoderWater", 2);
+            "Indoor Caves", "indoorCavesTileset", "shkoderWater", Region.SUDA);
     static{
         ImageHandler.initializeInteriorIcons(INDOOR_CAVES_LOCATION);
     }
