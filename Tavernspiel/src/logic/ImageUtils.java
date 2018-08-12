@@ -3,7 +3,7 @@ package logic;
 
 import creatures.Hero;
 import items.Item;
-import items.ItemBuilder;
+import items.builders.ItemBuilder;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -26,7 +26,7 @@ public class ImageUtils{
     
     private ImageUtils(){}
     
-    private static final BufferedImage scaledGold = scale(convertToBuffered(ItemBuilder.getIcon(96, 16)), 3),
+    private static final BufferedImage scaledGold = scale(convertToBuffered(ItemBuilder.getIcon(64, 160)), 3),
             scaledGoldOutline = scale(convertToBuffered(new ImageIcon("graphics/outlines/goldOutline.png")), 3);
     public static final BufferedImage scaledHelmetOutline = scale(convertToBuffered(new ImageIcon("graphics/outlines/helmetOutline.png")), 3),
             scaledChestplateOutline = scale(convertToBuffered(new ImageIcon("graphics/outlines/chestplateOutline.png")), 3),

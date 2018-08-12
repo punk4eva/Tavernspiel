@@ -3,7 +3,7 @@ package logic;
 
 import gui.mainToolbox.Main;
 import items.Item;
-import static items.ItemBuilder.getIcon;
+import static items.builders.ItemBuilder.getIcon;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;

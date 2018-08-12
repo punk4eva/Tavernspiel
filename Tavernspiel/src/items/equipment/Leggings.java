@@ -2,7 +2,7 @@
 package items.equipment;
 
 import items.Apparatus;
-import items.ItemBuilder;
+import items.builders.ItemBuilder;
 import java.io.Serializable;
 import java.util.function.Supplier;
 import javax.swing.ImageIcon;

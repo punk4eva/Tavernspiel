@@ -10,7 +10,7 @@ import containers.Receptacle;
 import containers.SkeletalRemains;
 import items.Item;
 import items.ItemMap;
-import items.consumables.PotionBuilder;
+import items.builders.PotionBuilder;
 import items.misc.Key;
 import java.awt.Dimension;
 import java.util.function.Function;

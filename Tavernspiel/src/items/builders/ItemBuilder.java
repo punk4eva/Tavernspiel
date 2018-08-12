@@ -1,7 +1,7 @@
 
-package items;
+package items.builders;
 
-import animation.Animation;
+import items.Item;
 import items.consumables.Potion;
 import items.consumables.Scroll;
 import items.equipment.Ring;
@@ -37,14 +37,6 @@ public final class ItemBuilder{
     }
 
     public static Item get(String substring){
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public static Animation getWandAnimation(String s){
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    public static int getWandBlockingLevel(String s){
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

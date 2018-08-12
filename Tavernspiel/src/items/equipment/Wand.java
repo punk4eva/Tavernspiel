@@ -1,22 +1,19 @@
 
 package items.equipment;
 
-import animation.Animation;
 import creatures.Creature;
 import creatures.Hero;
 import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
 import gui.Window;
-import items.ItemBuilder;
+import items.builders.WandBuilder;
 import items.consumables.LocationSpecificScroll;
 import items.consumables.LocationSpecificScroll.LocationViewable;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.List;
-import java.util.function.Supplier;
-import javax.swing.ImageIcon;
-import level.Area;
+import level.Location;
 import listeners.ScreenListener;
-import logic.Distribution;
-import logic.Formula;
 
 /**
  *
@@ -26,51 +23,38 @@ import logic.Formula;
  */
 public class Wand extends RangedWeapon implements ScreenListener{
     
-    private final static long serialVersionUID =8628773459L;
+    private final static long serialVersionUID = 8628773459L;
     
-    public double rechargeSpeed = 1;
-    public Formula rechargeFormula = new Formula(1,0);
-    public final Animation firingAnimation;
-    public int range = -1; //-1 if N/A.
-    public Formula rangeFormula = null; //Null if no formula.
-    public final int blockingLevel;
+    private transient Hero hero;
+    private String wandPowerName;
+    public transient WandPower wandPower;
+    
+    private static final LocationViewable locationSelect = 
+            new LocationSpecificScroll(null, "", null, false){
+        private final static long serialVersionUID = 58098765439L;
+        @Override
+        public boolean use(Creature c, int x, int y){
+            throw new UnsupportedOperationException("Wand.locationSelect.use() should remain unused!");
+        }
+    }
+        .new LocationViewable(null){
+        @Override
+        public List<Screen> getScreens(){
+            return screens;
+        }
+    };
+    
     /**
-     * 0: Travels through anything.
-     * 1: Stops at destination.
-     * 2: Stops at non-treadable tiles, but not destination.
-     * 3: Stops at creatures and non-treadable tiles, but not destination.
-     * 4: Stops at non-treadable tiles and destination.
-     * 5: Stops at creatures and non-treadable tiles and destination.
-     */
-    
-    private Hero hero;
-    private Area area;
-    private final LocationViewable locationSelect;
-    
-    /**
-     * @param s The name of the Wand.
-     * @param desc The description.
-     * @param lo Its icon.
+     * Semi-initializes an instance.
+     * @param loc
      * @param dur Its durability.
-     * @param d Its action distribution.
      * @param sp Its speed. 
+     * @param name The name of the power.
      */
-    public Wand(String s, String desc, Supplier<ImageIcon> lo, int dur, Distribution d, double sp){
-        super(s, desc, lo, dur, d, -1, sp);
-        firingAnimation = ItemBuilder.getWandAnimation(s);
-        blockingLevel = ItemBuilder.getWandBlockingLevel(s);
-        locationSelect = new LocationSpecificScroll(null, "", null, false){
-            private final static long serialVersionUID = 58098765439L;
-            @Override
-            public boolean use(Creature c, int x, int y){
-                throw new UnsupportedOperationException("Wand.locationSelect.use() should remain unused!");
-            }
-        }.new LocationViewable(this){
-            @Override
-            public List<Screen> getScreens(){
-                return screens;
-            }
-        };
+    public Wand(Location loc, String name, int dur, double sp){
+        super(null, null, null, dur, null, -1, sp);
+        wandPowerName = name;
+        wandPower = WandBuilder.powerMap.get(wandPowerName);
     }
     
     /**
@@ -79,7 +63,7 @@ public class Wand extends RangedWeapon implements ScreenListener{
      */
     public void fire(Hero h){
         hero = h;
-        area = h.area;
+        locationSelect.changeListener(this);
         Window.main.setViewable(locationSelect);
     }
     
@@ -98,7 +82,6 @@ public class Wand extends RangedWeapon implements ScreenListener{
     public void screenClicked(Screen.ScreenEvent sc){
         switch(sc.getName()){
             case "backLocation":
-                if(hero==null||area==null) new RuntimeException("hero/area uninitialized in LocationSpecificScroll.screenClicked()!").printStackTrace(Main.exceptionStream);
                 fire(hero, sc.x, sc.y);
             case "locationPopupX":
                 Window.main.removeViewable();
@@ -107,5 +90,11 @@ public class Wand extends RangedWeapon implements ScreenListener{
     }
     
     
+    
+    private void readObject(ObjectInputStream in) throws IOException,
+            ClassNotFoundException{
+        in.defaultReadObject();
+        wandPower = WandBuilder.powerMap.get(wandPowerName);
+    }
     
 }

@@ -1,8 +1,9 @@
 
-package items.consumables;
+package items.builders;
 
 import creatures.Creature;
 import creatures.Hero;
+import items.consumables.Scroll;
 import items.consumables.scrolls.*;
 import java.awt.Dimension;
 import java.awt.Graphics;

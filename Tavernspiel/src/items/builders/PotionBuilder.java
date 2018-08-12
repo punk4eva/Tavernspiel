@@ -1,6 +1,7 @@
 
-package items.consumables;
+package items.builders;
 
+import items.consumables.PotionProfile;
 import items.consumables.potions.FlamePotion;
 import logic.Utils.Unfinished;
 

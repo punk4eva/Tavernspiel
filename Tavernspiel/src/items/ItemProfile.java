@@ -1,6 +1,7 @@
 
 package items;
 
+import items.builders.ItemBuilder;
 import creatureLogic.Description;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
@@ -48,6 +49,12 @@ public abstract class ItemProfile{
         public final String[] temp = {" warm", " cold", " hot", " lukewarm",
             "n ice cold", " chilly", "n icy", " bitterly cold", " torrid",
             " blazing hot"};
+        public final String[] wood = {"red mogle wood", "hurian titan wood", 
+            "hurian goddess wood", "pinkheart wood", "spireling wood", 
+            "spickle wood", "master mogle wood", "schmetterhaus wood", 
+            "pingle wood", "pongle wood", "callop wood", "pesous wood",
+            "shraub wood", "hulous wood", "albino mori wood", "thickbranch wood",
+            "roachwood", "white magmatic wood", "crying brown magmatic wood"};
         public final String[] shapeMod = {"", " thin", " thick", " wide", " narrow"};
         public final String[] shape = {"star-shaped", "conical", "spherical",
             "cubic", "pyramidal", "heart shaped", "skull shaped", "triangular",
@@ -71,7 +78,7 @@ public abstract class ItemProfile{
         public final String[] smell = {"putrid", "like " + word(sLike), "like "
             + word(food), "sweet", "aromatic", "refreshing", "pungent", "fetid",
             "unpleasant", "malodorous", "funky", "funny", "musty", "rancid", "old",
-            "fragrant", "foul", "healthy", "unhealthy"};
+            "fragrant", "foul", "healthy", "unhealthy", "like " + word(wood)};
         public final String[] viscosity = {"viscous", "runny", "thick", "syrupy",
             "slimy", "gooey", "watery", "thin"};
         public final String[] decoration = {"The container is mildly cracked.",
@@ -205,7 +212,26 @@ public abstract class ItemProfile{
             case     "flame": return Color.decode("#f84400");
             case     "white wine": return Color.decode("#dae8a9");
             case     "red" : return Color.decode("#ff0000");
-            default: return new Color(255,255,255,255);
+            case "red mogle wood": return Color.decode("#872f10");
+            case "hurian titan wood": return Color.decode("#eddbd5");
+            case "hurian goddess wood": return Color.decode("#edd5e3");
+            case "pinkheart wood": return Color.decode("#edb2af");
+            case "spireling wood": return Color.decode("#602d00");
+            case "spickle wood": return Color.decode("#603a19");
+            case "master mogle wood": return Color.decode("#9e734d");
+            case "schmetterhaus wood": return Color.decode("#639b41");
+            case "pingle wood": return Color.decode("#9b7741");
+            case "pongle wood": return Color.decode("#6d593a");
+            case "callop wood": return Color.decode("#a2adaa");
+            case "pesous wood": return Color.decode("#490b40");
+            case "shraub wood": return Color.decode("#110c00");
+            case "hulous wood": return Color.decode("#7a4d09");
+            case "albino mori wood": return Color.decode("#ede4aa");
+            case "thickbranch wood": return Color.decode("#6b4a00");
+            case "roachwood": return Color.decode("#556b00");
+            case "crying brown magmatic wood": return Color.decode("#5b0606");
+            case "white magmatic wood": return Color.decode("#ffffff");
+            default: throw new IllegalStateException("Illegal color: " + name);
         }
     }
     

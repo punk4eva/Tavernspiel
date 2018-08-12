@@ -2,7 +2,7 @@
 package creatureLogic;
 
 import creatures.Hero;
-import items.ItemBuilder;
+import items.builders.ItemBuilder;
 import items.consumables.Potion;
 import items.consumables.Scroll;
 import items.equipment.Ring;

@@ -17,7 +17,7 @@ import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
 import gui.Window;
 import static gui.mainToolbox.MouseInterpreter.MOVE_RESOLUTION;
-import items.consumables.ScrollBuilder;
+import items.builders.ScrollBuilder;
 import java.awt.Graphics;
 import java.util.LinkedList;
 import level.Area;

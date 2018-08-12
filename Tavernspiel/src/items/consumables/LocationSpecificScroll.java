@@ -55,7 +55,7 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
      */
     public class LocationViewable implements Viewable{
         
-        private final ScreenListener listener;
+        private ScreenListener listener;
         protected final List<Screen> screens;
         
         /**
@@ -86,6 +86,14 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
             g.setColor(ConstantFields.plainColor);
             g.drawString("Select a location", bw+8, bh+20);
             g.drawString("X", bw+116, bh+20);
+        }
+        
+        /**
+         * Changes the ScreenListener.
+         * @param l
+         */
+        public void changeListener(ScreenListener l){
+            listener = l;
         }
         
     };

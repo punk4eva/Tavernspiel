@@ -15,7 +15,8 @@ public final class LevelFeeling{
     public final String description, backgroundMusicPath;
     public final Distribution roomDist, itemRoomDist, trapVisibleChance, 
             trapChance, waterGenChance, grassGenChance, grassUpgradeChance,
-            wallChance, floorChance, doorHideChance, receptacleDist;
+            wallChance, floorChance, doorHideChance, receptacleDist,
+            wandTypeChance, wandWoodChance;
     public final List<MakeRoom> forcedRooms;
     public final boolean waterBeforeGrass;
     public final int difficulty, visibility;
@@ -23,7 +24,8 @@ public final class LevelFeeling{
     private LevelFeeling(String desc, String bgp, Distribution room, Distribution itRoom,
             Distribution trapVis, Distribution trap, Distribution wC,
             Distribution gC, Distribution guc, Distribution wallCh,
-            Distribution floorCh, Distribution dhc, Distribution recDist, 
+            Distribution floorCh, Distribution dhc, Distribution recDist,
+            Distribution wandTC, Distribution wandWC,
             boolean wbg, int dif, int vis, List<MakeRoom>... fRooms){
         description = desc;
         wallChance = wallCh;
@@ -41,6 +43,8 @@ public final class LevelFeeling{
         grassUpgradeChance = guc;
         grassGenChance = gC;
         backgroundMusicPath = bgp;
+        wandTypeChance = wandTC;
+        wandWoodChance = wandWC;
         visibility = vis;
         receptacleDist = recDist;
     }
@@ -58,6 +62,8 @@ public final class LevelFeeling{
         throw new IllegalStateException();
     }
     
+    
+    
     public static final LevelFeeling STANDARD = new LevelFeeling(null,
             "Cyanoshrooms.wav",
             new Distribution(new int[]{20,11,13,3,1,5,6,13,10,4,2,3,3,1}), 
@@ -66,6 +72,7 @@ public final class LevelFeeling{
             new Distribution(1, 25), new Distribution(1, 2), 
             new Distribution(1, 22), new Distribution(1, 22), 
             new Distribution(1, 10), new Distribution(new int[]{10,4,1,2}), 
+            new Distribution(new int[]{}), new Distribution(new int[]{}), 
             true, 1, 6);
     public static final LevelFeeling GRASS = new LevelFeeling(
             "Thick vegetation hides your surroundings...", "Cyanoshrooms.wav",
@@ -75,6 +82,7 @@ public final class LevelFeeling{
             new Distribution(1, 16), new Distribution(6, 11), 
             new Distribution(1, 18), new Distribution(1, 18), 
             new Distribution(1, 9), new Distribution(new int[]{8,3,1,3}), 
+            new Distribution(new int[]{}), new Distribution(new int[]{}), 
             false, 1, 5);
     public static final LevelFeeling WATER = new LevelFeeling(
             "Your feet feel wet...", "Cyanoshrooms.wav",
@@ -84,6 +92,7 @@ public final class LevelFeeling{
             new Distribution(1, 28), new Distribution(1, 3), 
             new Distribution(1, 30), new Distribution(0, 1), 
             new Distribution(1, 11), new Distribution(new int[]{11,3,1,1}), 
+            new Distribution(new int[]{}), new Distribution(new int[]{}), 
             true, 1, 6);
     public static final LevelFeeling BURIED_CITY = new LevelFeeling(
             "This looks like the ruins of an ancient civilization...",
@@ -94,6 +103,7 @@ public final class LevelFeeling{
             new Distribution(1, 25), new Distribution(10, 19), 
             new Distribution(0, 1), new Distribution(1, 16), 
             new Distribution(1, 8), new Distribution(new int[]{6,3,1,4}), 
+            new Distribution(new int[]{}), new Distribution(new int[]{}), 
             false, 1, 6);
     public static final LevelFeeling BURNED = new LevelFeeling(
             "The smell of ash wafts into your nose...", "Cyanoshrooms.wav",
@@ -103,6 +113,7 @@ public final class LevelFeeling{
             new Distribution(1, 29), new Distribution(4, 7), 
             new Distribution(1, 22), new Distribution(1, 21), 
             new Distribution(1, 15), new Distribution(new int[]{10,6,1,4}), 
+            new Distribution(new int[]{}), new Distribution(new int[]{}), 
             false, 1, 6);
     
     

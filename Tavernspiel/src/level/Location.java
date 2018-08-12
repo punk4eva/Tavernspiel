@@ -3,7 +3,7 @@ package level;
 
 import animation.assets.GrassAnimation;
 import creatureLogic.CreatureDistribution;
-import items.ItemBuilder;
+import items.builders.ItemBuilder;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.HashMap;
