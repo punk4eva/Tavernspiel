@@ -12,7 +12,8 @@ import items.consumables.LocationSpecificScroll.LocationViewable;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.List;
-import level.Location;
+import java.util.function.Supplier;
+import javax.swing.ImageIcon;
 import listeners.ScreenListener;
 
 /**
@@ -46,13 +47,14 @@ public class Wand extends RangedWeapon implements ScreenListener{
     
     /**
      * Semi-initializes an instance.
-     * @param loc
+     * @param obj The Profile of the Wand.
      * @param dur Its durability.
      * @param sp Its speed. 
      * @param name The name of the power.
      */
-    public Wand(Location loc, String name, int dur, double sp){
-        super(null, null, null, dur, null, -1, sp);
+    public Wand(String name, Object[] obj, int dur, double sp){
+        super("Wand of " + name, (String) obj[0], (Supplier<ImageIcon>) obj[1], dur, null, -1, sp);
+        description.type = "wands";
         wandPowerName = name;
         wandPower = WandBuilder.powerMap.get(wandPowerName);
     }

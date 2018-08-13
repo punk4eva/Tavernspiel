@@ -93,11 +93,11 @@ public class RingProfile extends ItemProfile{
             switch(type){
                 case 0: case 3://plain or transparent
                     return new RingProfile(name, description+".", (Serializable & Supplier<ImageIcon>)() -> 
-                            new ImageIcon(outfitImage(getImage(16*type, 176), getColour(bandColour), null)), dur, dist, g);
+                            new ImageIcon(outfitImage(getImage(16*type, 176), getColor(bandColour), null)), dur, dist, g);
                 default: //gemmed or braided
                     String gemColour = gemColour(type);
                     return new RingProfile(name, description, (Serializable & Supplier<ImageIcon>)() -> 
-                            new ImageIcon(outfitImage(getImage(16*type, 176), getColour(bandColour), getColour(gemColour))), dur, dist, g);
+                            new ImageIcon(outfitImage(getImage(16*type, 176), getColor(bandColour), getColor(gemColour))), dur, dist, g);
             }
         }
         

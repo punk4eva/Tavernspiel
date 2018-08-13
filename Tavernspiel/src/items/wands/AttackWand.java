@@ -1,8 +1,9 @@
 
 package items.wands;
 
+import items.builders.WandBuilder;
 import items.equipment.Wand;
-import level.Location;
+import logic.Distribution;
 
 /**
  *
@@ -10,8 +11,8 @@ import level.Location;
  */
 public class AttackWand extends Wand{
     
-    public AttackWand(Location loc, String name, int dur, double sp){
-        super(loc, name, dur, sp);
+    public AttackWand(String name, int dur, double sp, Distribution woodDistrib){
+        super(name, WandBuilder.getAttackInfo(woodDistrib), dur, sp);
     }
     
 }

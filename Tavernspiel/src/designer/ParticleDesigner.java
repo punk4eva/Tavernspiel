@@ -158,7 +158,7 @@ public class ParticleDesigner extends Main implements ActionListener{
     private void particle(String str){
         String p[] = str.split(",");
         try{
-            Particle part = new PowerParticle(ItemProfile.getColour(p[1]), 
+            Particle part = new PowerParticle(ItemProfile.getColor(p[1]), 
                 new Rectangle(Integer.parseInt(p[2]),
                 Integer.parseInt(p[3])),
                 Double.parseDouble(p[4]), Double.parseDouble(p[5]));

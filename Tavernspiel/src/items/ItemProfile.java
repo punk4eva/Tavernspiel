@@ -6,9 +6,9 @@ import creatureLogic.Description;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
-import java.util.Random;
 import java.util.function.Supplier;
 import javax.swing.ImageIcon;
+import logic.Distribution;
 import logic.Utils;
 
 /**
@@ -30,10 +30,9 @@ public abstract class ItemProfile{
         description = desc;
     }
     
-    protected static abstract class DescriptionBuilder{
-        protected final Random r = new Random();
+    public static abstract class DescriptionBuilder{
         protected String description = "";
-        public final String[] colour = {"apple green", "aquamarine", "apricot",
+        public static final String[] colour = {"apple green", "aquamarine", "apricot",
             "lime", "sky blue", "amber", "auburn", "gold", "electrum", "silver",
             "azure", "magnolia", "banana", "orange", "blizzard blue", "blueberry",
             "cerulean", "periwinckle", "turquoise", "rose", "bubblegum", "burgundy",
@@ -44,32 +43,32 @@ public abstract class ItemProfile{
             "purple", "boysenberry", "ochre", "maroon", "lavender", 
             "lilac", "sugar brown", "coffee", "scarlet", "crimson", "salmon", 
             "metallic", "mint", "saffron", "eggplant", "firebrick", "flame", "white wine"};
-        public final String[] colourMod = {"dark ", "bright ", "clear ", "",
+        public static final String[] colourMod = {"dark ", "bright ", "clear ", "",
             "crystal clear ", "dull ", "vibrant ", "glowing ", "murderous ", "curious "};
-        public final String[] temp = {" warm", " cold", " hot", " lukewarm",
+        public static final String[] temp = {" warm", " cold", " hot", " lukewarm",
             "n ice cold", " chilly", "n icy", " bitterly cold", " torrid",
             " blazing hot"};
-        public final String[] wood = {"red mogle wood", "hurian titan wood", 
+        public static final String[] wood = {"red mogle wood", "hurian titan wood", 
             "hurian goddess wood", "pinkheart wood", "spireling wood", 
             "spickle wood", "master mogle wood", "schmetterhaus wood", 
             "pingle wood", "pongle wood", "callop wood", "pesous wood",
             "shraub wood", "hulous wood", "albino mori wood", "thickbranch wood",
             "roachwood", "white magmatic wood", "crying brown magmatic wood"};
-        public final String[] shapeMod = {"", " thin", " thick", " wide", " narrow"};
-        public final String[] shape = {"star-shaped", "conical", "spherical",
+        public static final String[] shapeMod = {"", " thin", " thick", " wide", " narrow"};
+        public static final String[] shape = {"star-shaped", "conical", "spherical",
             "cubic", "pyramidal", "heart shaped", "skull shaped", "triangular",
             "circular"};
-        public final String[] container = {"flask", "bottle", "vial", "jar", "tube"};
-        public final String[] stopper = {"cork", "rubber", "wooden", "glass"};
+        public static final String[] container = {"flask", "bottle", "vial", "jar", "tube"};
+        public static final String[] stopper = {"cork", "rubber", "wooden", "glass"};
         public final String[] texture = {"is frothy", "is bubbly", "is gelatinous",
             "is thick", "is effervescent", "is creamy",
             "contains " + word(colourMod) + word(colour) + " coloured" + word(shapeMod) + " "
             + word(shape) + " fragments",
             "contains " + word(colourMod) + word(colour) + " coloured" + word(shapeMod) + " "
             + word(shape) + " flakes"};
-        public final String[] sLike = {"perfume", "rotten eggs", "freshly cut grass", "burnt plastic", "ash", "a corpse", "some exotic plant",
+        public static final String[] sLike = {"perfume", "rotten eggs", "freshly cut grass", "burnt plastic", "ash", "a corpse", "some exotic plant",
             "some eccentric plant", "petrichor"};
-        public final String[] food = {"chocolate", "a strawberry", "an orange",
+        public static final String[] food = {"chocolate", "a strawberry", "an orange",
             "a squid", "the summer", "the winter", "valentine's chocolate", "fire",
             "wine", "chicken"};
         public final String[] taste = {"spicy", "bitter", "sweet", "divine",
@@ -79,19 +78,19 @@ public abstract class ItemProfile{
             + word(food), "sweet", "aromatic", "refreshing", "pungent", "fetid",
             "unpleasant", "malodorous", "funky", "funny", "musty", "rancid", "old",
             "fragrant", "foul", "healthy", "unhealthy", "like " + word(wood)};
-        public final String[] viscosity = {"viscous", "runny", "thick", "syrupy",
+        public static final String[] viscosity = {"viscous", "runny", "thick", "syrupy",
             "slimy", "gooey", "watery", "thin"};
-        public final String[] decoration = {"The container is mildly cracked.",
+        public static final String[] decoration = {"The container is mildly cracked.",
             "The container has lots of cracks.", "The stopper is in the shape of a skull.", "The stopper is in the shape of a heart.",
             "There is a label stuck on one side.",
             "There are strange engravings on the container."};
         
-        protected String word(String[] ary){
-            return ary[r.nextInt(ary.length)];
+        public static String word(String[] ary){
+            return ary[Distribution.r.nextInt(ary.length)];
         }
         
         protected String[] textureWord(){
-            int n = r.nextInt(texture.length);
+            int n = Distribution.r.nextInt(texture.length);
             if(n==6){
                 String word = word(colour);
                 return new String[]{"contains " + word(colourMod) + word + " coloured" + word(shapeMod) + " "
@@ -143,7 +142,7 @@ public abstract class ItemProfile{
      * @param name The name of the colour.
      * @return The Color.
      */
-    public static Color getColour(String name){
+    public static Color getColor(String name){
         switch(name){
             case "apple green": return Color.decode("#00ff1d");
             case "aquamarine": return Color.decode("#7FFFD4");

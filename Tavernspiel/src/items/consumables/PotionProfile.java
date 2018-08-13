@@ -161,7 +161,7 @@ public class PotionProfile extends ItemProfile{
     }
     
     PotionProfile(String nm, String un, String desc, String taste, String colour, String texture, Dimension dim, boolean idd){
-        super(nm, (Serializable&Supplier<ImageIcon>)()->new ImageIcon(outfitImage(getImage(dim.width, dim.height), getColour(colour), texture==null ? null : getColour(texture))),
+        super(nm, (Serializable&Supplier<ImageIcon>)()->new ImageIcon(outfitImage(getImage(dim.width, dim.height), getColor(colour), texture==null ? null : getColor(texture))),
                 new Description("potions", desc));
         unknownName = un;
         tasteMessage = taste;

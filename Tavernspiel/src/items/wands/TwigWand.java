@@ -1,8 +1,9 @@
 
 package items.wands;
 
+import items.builders.WandBuilder;
 import items.equipment.Wand;
-import level.Location;
+import logic.Distribution;
 
 /**
  *
@@ -10,8 +11,8 @@ import level.Location;
  */
 public class TwigWand extends Wand{
     
-    public TwigWand(Location loc, String name, int dur, double sp){
-        super(loc, name, dur, sp);
+    public TwigWand(String name, int dur, double sp, Distribution wD){
+        super(name, WandBuilder.getTwigInfo(wD), dur, sp);
     }
     
 }

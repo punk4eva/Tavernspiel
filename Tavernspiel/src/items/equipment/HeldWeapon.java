@@ -23,7 +23,6 @@ public class HeldWeapon extends Apparatus{
     
     public HeldWeapon(String s, String desc, Supplier<ImageIcon> lo, int dur, Distribution d, int st){
         super(s, desc, lo, dur, d, st);
-        description.type = "weapons";
     }
     
     public HeldWeapon(WeaponEntry entry){
@@ -32,7 +31,6 @@ public class HeldWeapon extends Apparatus{
                         ItemBuilder.getIcon(entry.x, entry.y), 
                 entry.durability, entry.distrib, entry.strength);
         value = entry.ID;
-        description.type = "weapons";
     }
     
 }
