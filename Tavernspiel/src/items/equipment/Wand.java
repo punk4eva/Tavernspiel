@@ -3,15 +3,13 @@ package items.equipment;
 
 import creatures.Creature;
 import creatures.Hero;
+import static gui.LocationViewable.locationSelect;
 import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
 import gui.Window;
 import items.builders.WandBuilder;
-import items.consumables.LocationSpecificScroll;
-import items.consumables.LocationSpecificScroll.LocationViewable;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.util.List;
 import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 import listeners.ScreenListener;
@@ -29,21 +27,6 @@ public class Wand extends RangedWeapon implements ScreenListener{
     private transient Hero hero;
     private String wandPowerName;
     public transient WandPower wandPower;
-    
-    private static final LocationViewable locationSelect = 
-            new LocationSpecificScroll(null, "", null, false){
-        private final static long serialVersionUID = 58098765439L;
-        @Override
-        public boolean use(Creature c, int x, int y){
-            throw new UnsupportedOperationException("Wand.locationSelect.use() should remain unused!");
-        }
-    }
-        .new LocationViewable(null){
-        @Override
-        public List<Screen> getScreens(){
-            return screens;
-        }
-    };
     
     /**
      * Semi-initializes an instance.

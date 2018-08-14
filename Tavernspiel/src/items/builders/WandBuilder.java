@@ -1,10 +1,8 @@
 
 package items.builders;
 
-import items.ItemProfile;
-import items.ItemProfile.DescriptionBuilder;
-import static items.ItemProfile.getColor;
-import static items.ItemProfile.DescriptionBuilder.word;
+import static items.builders.DescriptionBuilder.word;
+import static items.builders.ItemBuilder.getColor;
 import static logic.ImageUtils.convertToBuffered;
 import items.equipment.Wand;
 import items.equipment.WandPower;
@@ -44,9 +42,9 @@ public class WandBuilder{
             Color gemCol, Color decoCol1, Color decoCol2){
         WritableRaster raster = img.getRaster();
         int[] wood1 = new int[]{woodCol.getRed(), woodCol.getGreen(), woodCol.getBlue()},
-                wood2 = ItemProfile.shade(wood1), gem1 = 
+                wood2 = ItemBuilder.shade(wood1), gem1 = 
                 new int[]{gemCol.getRed(), gemCol.getGreen(), gemCol.getBlue()},
-                gem2 = ItemProfile.shade(gem1), deco1 = 
+                gem2 = ItemBuilder.shade(gem1), deco1 = 
                 new int[]{decoCol1.getRed(), decoCol1.getGreen(), decoCol1.getBlue()},
                 deco2 = new int[]{decoCol2.getRed(), decoCol2.getGreen(), decoCol2.getBlue()};
         for(int y=0;y<16;y++){
@@ -65,9 +63,9 @@ public class WandBuilder{
     
     public static Object[] getAttackInfo(Distribution woodDistrib){
         Object ret[] = new Object[2];
-        String deco1 = word(DescriptionBuilder.colour), 
-                deco2 = word(DescriptionBuilder.colour),
-                gem = word(DescriptionBuilder.colour),
+        String deco1 = word(DescriptionBuilder.color), 
+                deco2 = word(DescriptionBuilder.color),
+                gem = word(DescriptionBuilder.color),
                 wood = DescriptionBuilder.wood[(int)woodDistrib.next()];
         ret[0] = "This dangerous looking battle wand was crafted to be able to "
             + "release the maximum amount of energy per blast. It has a sharp," + 
@@ -81,9 +79,9 @@ public class WandBuilder{
     
     public static Object[] getElongatedInfo(Distribution woodDistrib){
         Object ret[] = new Object[2];
-        String deco1 = word(DescriptionBuilder.colour), 
-                deco2 = word(DescriptionBuilder.colour),
-                gem = word(DescriptionBuilder.colour),
+        String deco1 = word(DescriptionBuilder.color), 
+                deco2 = word(DescriptionBuilder.color),
+                gem = word(DescriptionBuilder.color),
                 wood = DescriptionBuilder.wood[(int)woodDistrib.next()];
         ret[0] = "The wood of this wand was worked around an especially elongated"
             + " gemstone. It has a long, " + 
@@ -97,9 +95,9 @@ public class WandBuilder{
     
     public static Object[] getStandardInfo(Distribution woodDistrib){
         Object ret[] = new Object[2];
-        String deco1 = word(DescriptionBuilder.colour), 
-                deco2 = word(DescriptionBuilder.colour),
-                gem = word(DescriptionBuilder.colour),
+        String deco1 = word(DescriptionBuilder.color), 
+                deco2 = word(DescriptionBuilder.color),
+                gem = word(DescriptionBuilder.color),
                 wood = DescriptionBuilder.wood[(int)woodDistrib.next()];
         ret[0] = "This wand looks unusually well crafted. It has a round, " + 
             gem + " colored gem and is made of " + wood + ". There are " + deco1
@@ -112,9 +110,9 @@ public class WandBuilder{
     
     public static Object[] getEyeInfo(Distribution woodDistrib){
         Object ret[] = new Object[2];
-        String deco1 = word(DescriptionBuilder.colour), 
-                deco2 = word(DescriptionBuilder.colour),
-                gem = word(DescriptionBuilder.colour),
+        String deco1 = word(DescriptionBuilder.color), 
+                deco2 = word(DescriptionBuilder.color),
+                gem = word(DescriptionBuilder.color),
                 wood = DescriptionBuilder.wood[(int)woodDistrib.next()];
         ret[0] = "This wand is old: eye-shaped, "+gem+" gem holders are a mark of ancient "
             + "craftsmanship. It is made of " + wood + ". There is a " + deco1
@@ -127,9 +125,9 @@ public class WandBuilder{
     
     public static Object[] getSkullInfo(Distribution woodDistrib){
         Object ret[] = new Object[2];
-        String deco1 = word(DescriptionBuilder.colour), 
-                deco2 = word(DescriptionBuilder.colour),
-                gem = word(DescriptionBuilder.colour),
+        String deco1 = word(DescriptionBuilder.color), 
+                deco2 = word(DescriptionBuilder.color),
+                gem = word(DescriptionBuilder.color),
                 wood = DescriptionBuilder.wood[(int)woodDistrib.next()];
         ret[0] = "The skull-shaped, "+gem+" gem of this wand seems like something that could be "
             + "worshipped as an idol. It is made of " + wood + ". There are " + deco1
@@ -142,9 +140,9 @@ public class WandBuilder{
     
     public static Object[] getSwordInfo(Distribution woodDistrib){
         Object ret[] = new Object[2];
-        String deco1 = word(DescriptionBuilder.colour), 
-                deco2 = word(DescriptionBuilder.colour),
-                gem = word(DescriptionBuilder.colour),
+        String deco1 = word(DescriptionBuilder.color), 
+                deco2 = word(DescriptionBuilder.color),
+                gem = word(DescriptionBuilder.color),
                 wood = DescriptionBuilder.wood[(int)woodDistrib.next()];
         ret[0] = "This wand was built by warriors and has melee "
             + "capabilities. It is designed to be stored in a holster and is"
@@ -158,9 +156,9 @@ public class WandBuilder{
     
     public static Object[] getThinInfo(Distribution woodDistrib){
         Object ret[] = new Object[2];
-        String deco1 = word(DescriptionBuilder.colour), 
-                deco2 = word(DescriptionBuilder.colour),
-                gem = word(DescriptionBuilder.colour),
+        String deco1 = word(DescriptionBuilder.color), 
+                deco2 = word(DescriptionBuilder.color),
+                gem = word(DescriptionBuilder.color),
                 wood = DescriptionBuilder.wood[(int)woodDistrib.next()];
         ret[0] = "This wand is so thin that you can barely see " +
             " it. It looks like a " + wood + " stick with a slender " + gem
@@ -173,9 +171,9 @@ public class WandBuilder{
     
     public static Object[] getTwigInfo(Distribution woodDistrib){
         Object ret[] = new Object[2];
-        String deco1 = word(DescriptionBuilder.colour), 
-                deco2 = word(DescriptionBuilder.colour),
-                gem = word(DescriptionBuilder.colour),
+        String deco1 = word(DescriptionBuilder.color), 
+                deco2 = word(DescriptionBuilder.color),
+                gem = word(DescriptionBuilder.color),
                 wood = DescriptionBuilder.wood[(int)woodDistrib.next()];
         ret[0] = "This wand is made of "+wood+" twigs that have been braided "
                 + "together. It is has a small, "+gem+" gem lodged at the top. "

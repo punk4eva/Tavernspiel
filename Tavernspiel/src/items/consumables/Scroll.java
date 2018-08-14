@@ -3,9 +3,7 @@ package items.consumables;
 
 import items.Consumable;
 import items.ItemAction;
-import java.io.Serializable;
-import java.util.function.Supplier;
-import javax.swing.ImageIcon;
+import static level.Dungeon.scrollBuilder;
 
 /**
  *
@@ -17,35 +15,21 @@ public abstract class Scroll extends Consumable{
     
     private final static long serialVersionUID = 588478994732899L;
     
-    /**
-     * Creates a new instance.
-     * @param n The name of the Item.
-     * @param desc The name of the Item.
-     * @param i The name of the Item.
-     * @param idd Whether the Consumable is identified.
-     */
-    public Scroll(String n, String desc, ImageIcon i, boolean idd){
-        super(n, desc, 
-                (Serializable&Supplier<ImageIcon>)() -> {return i;},
-                idd, 1, true);
-        actions[2] = new ItemAction("READ", this);
-        description.type = "scrolls";
-    }
+    public final String rune;
     
     /**
      * Creates a new instance.
-     * @param n The name of the Item.
-     * @param desc The name of the Item.
-     * @param i The name of the Item.
-     * @param idd Whether the Consumable is identified.
-     * @param quantity The quantity of this Item.
+     * @param name The name of the Item.
+     * @param desc The description of the Scroll's action.
+     * @param sp
      */
-    public Scroll(String n, String desc, ImageIcon i, boolean idd, int quantity){
-        super(n, desc, 
-                (Serializable&Supplier<ImageIcon>)() -> {return i;}, 
-                idd, quantity, true);
+    public Scroll(String name, String desc, ScrollProfile sp){
+        super(name, sp.unknownName, sp.description + "\n\n" + desc, sp.loader,
+                scrollBuilder().isIdentified(name), 1, true);
         actions[2] = new ItemAction("READ", this);
         description.type = "scrolls";
+        String ary[] = unknownName.split(" ");
+        rune = ary[ary.length-1];
     }
     
 }

@@ -28,8 +28,7 @@ import static logic.ConstantFields.padding;
 import static logic.ConstantFields.sqheight;
 import static logic.ConstantFields.sqwidth;
 import static gui.mainToolbox.MouseInterpreter.getCenter;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import items.builders.PotionBuilder;
 import javax.swing.ImageIcon;
 import logic.ConstantFields;
 import logic.ImageUtils;
@@ -44,7 +43,6 @@ import logic.Utils.Unfinished;
 public class Hero extends Creature{
     
     public final LinkedList<Screen> screens = new LinkedList<>();
-    public final ScrollBuilder scrollBuilder;
     public int hunger = 100;
     public DeathData data;
     public Expertise expertise = new Expertise();
@@ -54,7 +52,7 @@ public class Hero extends Creature{
     /**
      * Creates a new Hero.
      * @param atb The attributes.
-     */
+         */
     @Unfinished("Unnessesary catch")
     public Hero(Attributes atb){
         super("Hero", new Description("hero","UNWRITTEN"), atb, 
@@ -64,7 +62,7 @@ public class Hero extends Creature{
         equipment = new Equipment(this);
         attributes.ai = new PlayerAI(this);
         try{data = new DeathData(this);}catch(Exception e){}
-        scrollBuilder = new ScrollBuilder(this);
+        //scrollBuilder = new ScrollBuilder(this);
         screens.addAll(equipment.screens);
         screens.addAll(((HeroInventory)inventory).screens);
     }
@@ -172,10 +170,10 @@ public class Hero extends Creature{
         ((HeroInventory)inventory).manager.hijacker = null;
     }
     
-    private void readObject(ObjectInputStream in) 
-            throws IOException, ClassNotFoundException{
-        in.defaultReadObject();
-        scrollBuilder.setHero(this);
-    }
+    /*private void readObject(ObjectInputStream in)
+    throws IOException, ClassNotFoundException{
+    in.defaultReadObject();
+    scrollBuilder.setHero(this);
+    }*/
     
 }

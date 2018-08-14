@@ -27,7 +27,6 @@ public class Location{
     protected CreatureDistribution[] spawnDistribution;
     public LevelFeeling feeling = LevelFeeling.STANDARD;
     public final HashMap<String, ImageIcon> tilemap = new HashMap<>();
-    private final Distribution armourDistrib = new Distribution(new int[]{12,20,6,3,1});
     public int depth = 1;
     public final Region region;
     
@@ -208,20 +207,6 @@ public class Location{
     public WeaponEntry getRandomWeaponEntry(){
         return region.weaponIndex.map.get(
                 (int)region.weaponIndex.rarities.next());
-    }
-    
-    /**
-     * Returns a random type of armour based on their respective rarities.
-     * @return
-     */
-    public String getArmourType(){
-        switch((int)armourDistrib.next()){
-            case 0: return "cloth";
-            case 1: return "leather";
-            case 2: return "mail";
-            case 3: return "scale";
-            default: return "plate";
-        }
     }
     
     /**

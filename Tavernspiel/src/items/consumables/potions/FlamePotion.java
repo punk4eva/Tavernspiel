@@ -11,8 +11,8 @@ import items.consumables.PotionProfile;
  */
 public class FlamePotion extends Potion{
 
-    public FlamePotion(PotionProfile pp, boolean idd){
-        super(pp, idd);
+    public FlamePotion(PotionProfile pp){
+        super("Flame Potion", pp, Type.VOLATILE);
     }
 
     @Override

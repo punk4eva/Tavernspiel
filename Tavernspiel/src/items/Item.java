@@ -251,4 +251,8 @@ public class Item implements Serializable{
         return true;
     }
     
+    public String getName(){
+        return name;
+    }
+    
 }

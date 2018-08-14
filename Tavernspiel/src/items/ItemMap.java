@@ -4,6 +4,9 @@ package items;
 import items.misc.Gold;
 import java.util.LinkedList;
 import java.util.List;
+import static level.Dungeon.potionBuilder;
+import static level.Dungeon.ringBuilder;
+import static level.Dungeon.scrollBuilder;
 import level.Location;
 import logic.Distribution;
 import logic.Utils.Unfinished;
@@ -16,71 +19,89 @@ import logic.Utils.Unfinished;
  */
 public class ItemMap{
     
-    private final Distribution distrib;
-    private final Item[] items;
-    private final Distribution[] stackSizes;
+    private final static Distribution STANDARD_TYPEDIST = new Distribution(new int[]{12,3,3,9,9,1,1}),
+            STANDARD_POTIONDIST = new Distribution(new int[]{}), 
+            STANDARD_SCROLLDIST = new Distribution(new int[]{}), 
+            STANDARD_VILEDIST = new Distribution(new int[]{}), 
+            STANDARD_ARMORDIST = new Distribution(new int[]{12,20,6,3,1}),
+            STANDARD_RINGDIST = new Distribution(new int[]{}),
+            STANDARD_RINGTYPEDIST = new Distribution(new int[]{5,4,3,1});
+    private final static double STANDARD_NEXTCHANCE = 1d/3d, 
+            STANDARD_DIMINISHER = 0.8;
+    
+    private final Distribution typeDist;
     public double nextChance, diminisher;
+    public final Distribution potionDist, scrollDist, vileDist, armorDist, 
+            ringDist, ringTypeDist;
     
     /**
      * Creates a new Instance.
-     * @param chances The generation chances
-     * @param it The Items that could be generated
+     * @param chances The generation chances.
      * @param c The chance for one more Item to be generated.
      * @param d The coefficient with which the chance for another Item is
      * diminished.
+     * @param potDist The potion generation chances.
+     * @param scrDist The scroll generation chances.
+     * @param armDist The armor distribution.
+     * @param vDist The vile generation chances.
+     * @param rDist
+     * @param rTDist The ring type distribution.
      */
-    public ItemMap(int[] chances, Item[] it, double c, double d){
-        distrib = chances==null ? null : new Distribution(chances);
-        items = it;
-        stackSizes = null;
+    public ItemMap(Distribution chances, double c, double d, Distribution potDist, 
+            Distribution scrDist, Distribution vDist, Distribution armDist, 
+            Distribution rDist, Distribution rTDist){
+        typeDist = chances;
+        potionDist = potDist;
+        scrollDist = scrDist;
+        vileDist = vDist;
         nextChance = c;
         diminisher = d;
-    }
-    
-    /**
-     * Creates a new Instance.
-     * @param chances The generation chances
-     * @param it The Items that could be generated
-     * @param stk The stack size chance of each Item.
-     * @param c The chance for one more Item to be generated.
-     * @param d The coefficient with which the chance for another Item is
-     * diminished.
-     */
-    public ItemMap(int[] chances, Item[] it, Distribution[] stk, double c, double d){
-        distrib = chances==null ? null : new Distribution(chances);
-        items = it;
-        stackSizes = stk;
-        nextChance = c;
-        diminisher = d;
+        armorDist = armDist;
+        ringTypeDist = rTDist;
+        ringDist = rDist;
     }
     
     /**
      * Creates a new instance for Itemless rooms.
      */
     public ItemMap(){
-        distrib = new Distribution(new int[]{});
-        items = new Item[]{};
-        stackSizes = null;
+        typeDist = null;
+        scrollDist = null;
+        armorDist = null;
+        potionDist = null;
+        vileDist = null;
+        ringDist = null;
         nextChance = 0;
+        ringTypeDist = null;
     }
     
-    /**
-     * Generates a list of Items.
-     * @return
-     */
-    @Unfinished("No new Items are created, May be redundant")
-    public List<Item> genList(){
+    public List<Item> genList(Location loc){
         List<Item> ret = new LinkedList<>();
-        if(stackSizes==null) while(hasNext()){
-            ret.add(items[(int)distrib.next()]);
-        }else while(hasNext()){
-            int index = (int)distrib.next();
-            Item i = items[index];
-            if(i.stackable) i.quantity = (int) stackSizes[index].next();
-            ret.add(i);
+        while(hasNext()){
+            switch((int)typeDist.next()){
+                case 0: //gold
+                    ret.add(new Gold(Distribution.getRandomInt(loc.depth*(5-loc.feeling.difficulty), loc.depth*(40-2*loc.feeling.difficulty))));
+                    break;
+                case 1: //armour
+                    ret.add(Apparatus.getRandomArmour(armorDist));
+                    break;
+                case 2: //weapons
+                    ret.add(Apparatus.getRandomMeleeWeapon(loc.depth, loc));
+                    break;
+                case 3: //potions
+                    ret.add(potionBuilder().getRandomPotion(potionDist));
+                    break;
+                case 4: //scrolls
+                    ret.add(scrollBuilder().getRandomScroll(scrollDist));
+                    break;
+                case 5: //rings
+                    ret.add(ringBuilder().getRandomRing(ringDist, ringTypeDist));
+                    break;
+                case 6: //wands
+                    break;
+            }
         }
-        throw new UnsupportedOperationException("GenList used");
-        //return ret;
+        return ret;
     }
     
     private boolean hasNext(){
@@ -89,291 +110,48 @@ public class ItemMap{
         return ret;
     }
     
-    /**
-     * Returns the standard ItemMap.
-     * @param depth The depth
-     * @param loc The Location
-     * @return
-     */
-    @Unfinished
-    public static ItemMap getStandardItemMap(int depth, Location loc){
-        return new ItemMap(null, null, -1, -1){
-            
-            Distribution type = new Distribution(new int[]{12, 3, 3, 9, 9, 1, 1});
-            
-            @Override
-            public List<Item> genList(){
-                List<Item> ret = new LinkedList<>();
-                while(Distribution.chance(1, 3)){
-                    switch((int)type.next()){
-                        case 0: //gold
-                            ret.add(new Gold(Distribution.getRandomInt(depth*(5-loc.feeling.difficulty), depth*(40-2*loc.feeling.difficulty))));
-                            break;
-                        case 1: //armour
-                            ret.add(Apparatus.getRandomArmour(depth, loc));
-                            break;
-                        case 2: //weapons
-                            ret.add(Apparatus.getRandomMeleeWeapon(depth, loc));
-                            break;
-                        case 3: //potions
-                            break;
-                        case 4: //scrolls
-                            break;
-                        case 5: //rings
-                            break;
-                        case 6: //wands
-                            break;
-                    }
-                }
-                return ret;
-            }
-        };
-    }
     
-    /**
-     * Returns the storage ItemMap.
-     * @param depth The depth
-     * @param loc The Location
-     * @return
-     */
-    @Unfinished
-    public static ItemMap getStorageItemMap(int depth, Location loc){
-        return new ItemMap(null, null, -1, -1){
-            
-            Distribution type = new Distribution(new int[]{12, 3, 3, 9, 9, 1, 1});
-            
-            @Override
-            public List<Item> genList(){
-                List<Item> ret = new LinkedList<>();
-                while(Distribution.chance(1, 3)){
-                    switch((int)type.next()){
-                        case 0: //gold
-                            ret.add(new Gold(Distribution.getRandomInt(depth*(5-loc.feeling.difficulty), depth*(40-2*loc.feeling.difficulty))));
-                            break;
-                        case 1: //armour
-                            ret.add(Apparatus.getRandomArmour(depth, loc));
-                            break;
-                        case 2: //weapons
-                            ret.add(Apparatus.getRandomMeleeWeapon(depth, loc));
-                            break;
-                        case 3: //potions
-                            break;
-                        case 4: //scrolls
-                            break;
-                        case 5: //rings
-                            break;
-                        case 6: //wands
-                            break;
-                    }
-                }
-                return ret;
-            }
-        };
-    }
     
-    /**
-     * Returns the ItemMap for a garden.
-     * @param depth
-     * @param loc
-     * @return
-     */
     @Unfinished
-    public static ItemMap getGardenItemMap(int depth, Location loc){
-        return new ItemMap(null, null, -1, -1){
-            
-            Distribution type = new Distribution(new int[]{12, 3, 3, 9, 9, 1, 1});
-            
-            @Override
-            public List<Item> genList(){
-                List<Item> ret = new LinkedList<>();
-                while(Distribution.chance(1, 3)){
-                    switch((int)type.next()){
-                        case 0: //gold
-                            ret.add(new Gold(Distribution.getRandomInt(depth*(5-loc.feeling.difficulty), depth*(40-2*loc.feeling.difficulty))));
-                            break;
-                        case 1: //armour
-                            ret.add(Apparatus.getRandomArmour(depth, loc));
-                            break;
-                        case 2: //weapons
-                            ret.add(Apparatus.getRandomMeleeWeapon(depth, loc));
-                            break;
-                        case 3: //potions
-                            break;
-                        case 4: //scrolls
-                            break;
-                        case 5: //rings
-                            break;
-                        case 6: //wands
-                            break;
-                    }
-                }
-                return ret;
-            }
-        };
-    }
+    public final static ItemMap standardItemMap = new ItemMap(STANDARD_TYPEDIST,
+            STANDARD_NEXTCHANCE, STANDARD_DIMINISHER, STANDARD_POTIONDIST, 
+            STANDARD_SCROLLDIST, STANDARD_VILEDIST, STANDARD_ARMORDIST, 
+            STANDARD_RINGDIST, STANDARD_RINGTYPEDIST);
     
-    /**
-     * Returns the ItemMap for a laboratory.
-     * @param depth
-     * @param loc
-     * @return
-     */
     @Unfinished
-    public static ItemMap getLaboratoryItemMap(int depth, Location loc){
-        return new ItemMap(null, null, -1, -1){
-            
-            Distribution type = new Distribution(new int[]{12, 3, 3, 9, 9, 1, 1});
-            
-            @Override
-            public List<Item> genList(){
-                List<Item> ret = new LinkedList<>();
-                while(Distribution.chance(1, 3)){
-                    switch((int)type.next()){
-                        case 0: //gold
-                            ret.add(new Gold(Distribution.getRandomInt(depth*(5-loc.feeling.difficulty), depth*(40-2*loc.feeling.difficulty))));
-                            break;
-                        case 1: //armour
-                            ret.add(Apparatus.getRandomArmour(depth, loc));
-                            break;
-                        case 2: //weapons
-                            ret.add(Apparatus.getRandomMeleeWeapon(depth, loc));
-                            break;
-                        case 3: //potions
-                            break;
-                        case 4: //scrolls
-                            break;
-                        case 5: //rings
-                            break;
-                        case 6: //wands
-                            break;
-                    }
-                }
-                return ret;
-            }
-        };
-    }
+    public final static ItemMap storageItemMap = new ItemMap(STANDARD_TYPEDIST,
+            STANDARD_NEXTCHANCE, STANDARD_DIMINISHER, STANDARD_POTIONDIST, 
+            STANDARD_SCROLLDIST, STANDARD_VILEDIST, STANDARD_ARMORDIST, 
+            STANDARD_RINGDIST, STANDARD_RINGTYPEDIST);
     
-    /**
-     * Returns the ItemMap for a library.
-     * @param depth
-     * @param loc
-     * @return
-     */
     @Unfinished
-    public static ItemMap getLibraryItemMap(int depth, Location loc){
-        return new ItemMap(null, null, -1, -1){
-            
-            Distribution type = new Distribution(new int[]{12, 3, 3, 9, 9, 1, 1});
-            
-            @Override
-            public List<Item> genList(){
-                List<Item> ret = new LinkedList<>();
-                while(Distribution.chance(1, 3)){
-                    switch((int)type.next()){
-                        case 0: //gold
-                            ret.add(new Gold(Distribution.getRandomInt(depth*(5-loc.feeling.difficulty), depth*(40-2*loc.feeling.difficulty))));
-                            break;
-                        case 1: //armour
-                            ret.add(Apparatus.getRandomArmour(depth, loc));
-                            break;
-                        case 2: //weapons
-                            ret.add(Apparatus.getRandomMeleeWeapon(depth, loc));
-                            break;
-                        case 3: //potions
-                            break;
-                        case 4: //scrolls
-                            break;
-                        case 5: //rings
-                            break;
-                        case 6: //wands
-                            break;
-                    }
-                }
-                return ret;
-            }
-        };
-    }
+    public final static ItemMap gardenItemMap = new ItemMap(STANDARD_TYPEDIST,
+            STANDARD_NEXTCHANCE, STANDARD_DIMINISHER, STANDARD_POTIONDIST, 
+            STANDARD_SCROLLDIST, STANDARD_VILEDIST, STANDARD_ARMORDIST, 
+            STANDARD_RINGDIST, STANDARD_RINGTYPEDIST);
     
-    /**
-     * Returns the ItemMap for a secret library.
-     * @param depth
-     * @param loc
-     * @return
-     */
     @Unfinished
-    public static ItemMap getSecretLibraryItemMap(int depth, Location loc){
-        return new ItemMap(null, null, -1, -1){
-            
-            Distribution type = new Distribution(new int[]{12, 3, 3, 9, 9, 1, 1});
-            
-            @Override
-            public List<Item> genList(){
-                List<Item> ret = new LinkedList<>();
-                while(Distribution.chance(1, 3)){
-                    switch((int)type.next()){
-                        case 0: //gold
-                            ret.add(new Gold(Distribution.getRandomInt(depth*(5-loc.feeling.difficulty), depth*(40-2*loc.feeling.difficulty))));
-                            break;
-                        case 1: //armour
-                            ret.add(Apparatus.getRandomArmour(depth, loc));
-                            break;
-                        case 2: //weapons
-                            ret.add(Apparatus.getRandomMeleeWeapon(depth, loc));
-                            break;
-                        case 3: //potions
-                            break;
-                        case 4: //scrolls
-                            break;
-                        case 5: //rings
-                            break;
-                        case 6: //wands
-                            break;
-                    }
-                }
-                return ret;
-            }
-        };
-    }
+    public final static ItemMap laboratoryItemMap = new ItemMap(STANDARD_TYPEDIST,
+            STANDARD_NEXTCHANCE, STANDARD_DIMINISHER, STANDARD_POTIONDIST, 
+            STANDARD_SCROLLDIST, STANDARD_VILEDIST, STANDARD_ARMORDIST, 
+            STANDARD_RINGDIST, STANDARD_RINGTYPEDIST);
     
-    /**
-     * Returns the ItemMap for a secret library.
-     * @param depth
-     * @param loc
-     * @return
-     */
     @Unfinished
-    public static ItemMap getKitchenItemMap(int depth, Location loc){
-        return new ItemMap(null, null, -1, -1){
-            
-            Distribution type = new Distribution(new int[]{12, 3, 3, 9, 9, 1, 1});
-            
-            @Override
-            public List<Item> genList(){
-                List<Item> ret = new LinkedList<>();
-                while(Distribution.chance(1, 3)){
-                    switch((int)type.next()){
-                        case 0: //gold
-                            ret.add(new Gold(Distribution.getRandomInt(depth*(5-loc.feeling.difficulty), depth*(40-2*loc.feeling.difficulty))));
-                            break;
-                        case 1: //armour
-                            ret.add(Apparatus.getRandomArmour(depth, loc));
-                            break;
-                        case 2: //weapons
-                            ret.add(Apparatus.getRandomMeleeWeapon(depth, loc));
-                            break;
-                        case 3: //potions
-                            break;
-                        case 4: //scrolls
-                            break;
-                        case 5: //rings
-                            break;
-                        case 6: //wands
-                            break;
-                    }
-                }
-                return ret;
-            }
-        };
-    }
+    public final static ItemMap libraryItemMap = new ItemMap(STANDARD_TYPEDIST,
+            STANDARD_NEXTCHANCE, STANDARD_DIMINISHER, STANDARD_POTIONDIST, 
+            STANDARD_SCROLLDIST, STANDARD_VILEDIST, STANDARD_ARMORDIST, 
+            STANDARD_RINGDIST, STANDARD_RINGTYPEDIST);
+    
+    @Unfinished
+    public final static ItemMap secretLibraryItemMap = new ItemMap(STANDARD_TYPEDIST,
+            STANDARD_NEXTCHANCE, STANDARD_DIMINISHER, STANDARD_POTIONDIST, 
+            STANDARD_SCROLLDIST, STANDARD_VILEDIST, STANDARD_ARMORDIST, 
+            STANDARD_RINGDIST, STANDARD_RINGTYPEDIST);
+    
+    @Unfinished
+    public final static ItemMap kitchenItemMap = new ItemMap(STANDARD_TYPEDIST,
+            STANDARD_NEXTCHANCE, STANDARD_DIMINISHER, STANDARD_POTIONDIST, 
+            STANDARD_SCROLLDIST, STANDARD_VILEDIST, STANDARD_ARMORDIST, 
+            STANDARD_RINGDIST, STANDARD_RINGTYPEDIST);
     
 }

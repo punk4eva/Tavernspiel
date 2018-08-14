@@ -3,8 +3,7 @@ package items.consumables.scrolls;
 
 import creatures.Creature;
 import items.consumables.Scroll;
-import java.awt.Image;
-import javax.swing.ImageIcon;
+import items.consumables.ScrollProfile;
 
 /**
  *
@@ -12,8 +11,8 @@ import javax.swing.ImageIcon;
  */
 public class EarthwallScroll extends Scroll{
 
-    public EarthwallScroll(Image i, boolean idd){
-        super("Scroll of Earthwall", "This nifty parchment commands the ground to rise to form a temporary wall, thus providing refuge from a perilous situation.", new ImageIcon(i), idd);
+    public EarthwallScroll(ScrollProfile sp){
+        super("Scroll of Earthwall", "This nifty parchment commands the ground to rise to form a temporary wall, thus providing refuge from a perilous situation.", sp);
     }
 
     @Override

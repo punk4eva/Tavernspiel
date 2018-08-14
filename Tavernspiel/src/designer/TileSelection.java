@@ -1,7 +1,7 @@
 
 package designer;
 
-import items.ItemProfile;
+import items.builders.ItemBuilder;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.io.Serializable;
@@ -54,7 +54,7 @@ public class TileSelection implements Serializable, Cloneable{
     public TileSelection(String tile, String col){
         distrib = new Distribution(new int[]{1});
         tiles = new String[]{tile};
-        color = ItemProfile.getColor(col);
+        color = ItemBuilder.getColor(col);
         treadible = new boolean[1];
         flammable = new boolean[1];
         transparent = new boolean[1];
@@ -131,7 +131,7 @@ public class TileSelection implements Serializable, Cloneable{
             tiles[n] = p[0];
             chances[n] = Integer.parseInt(p[1]);
         }
-        return new TileSelection(chances, tiles, ItemProfile.getColor(tls[tls.length-1]));
+        return new TileSelection(chances, tiles, ItemBuilder.getColor(tls[tls.length-1]));
     }
     
     static TileSelection select(String str){

@@ -10,7 +10,7 @@ import static gui.mainToolbox.Main.HEIGHT;
 import static gui.mainToolbox.Main.WIDTH;
 import gui.Window;
 import gui.mainToolbox.MouseInterpreter;
-import items.ItemProfile;
+import items.builders.ItemBuilder;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -158,7 +158,7 @@ public class ParticleDesigner extends Main implements ActionListener{
     private void particle(String str){
         String p[] = str.split(",");
         try{
-            Particle part = new PowerParticle(ItemProfile.getColor(p[1]), 
+            Particle part = new PowerParticle(ItemBuilder.getColor(p[1]), 
                 new Rectangle(Integer.parseInt(p[2]),
                 Integer.parseInt(p[3])),
                 Double.parseDouble(p[4]), Double.parseDouble(p[5]));

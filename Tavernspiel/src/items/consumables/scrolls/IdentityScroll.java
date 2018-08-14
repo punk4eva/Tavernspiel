@@ -3,8 +3,7 @@ package items.consumables.scrolls;
 
 import creatures.Creature;
 import items.consumables.Scroll;
-import java.awt.Image;
-import javax.swing.ImageIcon;
+import items.consumables.ScrollProfile;
 
 /**
  *
@@ -12,8 +11,8 @@ import javax.swing.ImageIcon;
  */
 public class IdentityScroll extends Scroll{
 
-    public IdentityScroll(Image i, boolean idd){
-        super("Scroll of Identity", "The curious charm of this scroll increases the intelligence of the reader, revealing the secrets of a single item of their choice to them.", new ImageIcon(i), idd);
+    public IdentityScroll(ScrollProfile sp){
+        super("Scroll of Identity", "The curious charm of this scroll increases the intelligence of the reader, revealing the secrets of a single item of their choice to them.", sp);
     }
 
     @Override

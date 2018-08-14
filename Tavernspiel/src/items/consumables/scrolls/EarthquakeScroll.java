@@ -3,8 +3,7 @@ package items.consumables.scrolls;
 
 import creatures.Creature;
 import items.consumables.Scroll;
-import java.awt.Image;
-import javax.swing.ImageIcon;
+import items.consumables.ScrollProfile;
 
 /**
  *
@@ -12,8 +11,8 @@ import javax.swing.ImageIcon;
  */
 public class EarthquakeScroll extends Scroll{
 
-    public EarthquakeScroll(Image i, boolean idd){
-        super("Scroll of Earthquake", "Sends a shockwave strong enough to create a localised earthquake.|Used commonly by ground troops during wars to demolish underground tunnels and trenches.", new ImageIcon(i), idd);
+    public EarthquakeScroll(ScrollProfile sp){
+        super("Scroll of Earthquake", "Sends a shockwave strong enough to create a localised earthquake.|Used commonly by ground troops during wars to demolish underground tunnels and trenches.", sp);
     }
 
     @Override

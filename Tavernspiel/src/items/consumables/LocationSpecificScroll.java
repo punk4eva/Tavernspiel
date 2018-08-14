@@ -2,23 +2,16 @@ package items.consumables;
 
 import creatures.Creature;
 import creatures.Hero;
+import static gui.LocationViewable.locationSelect;
 import gui.mainToolbox.Main;
-import gui.mainToolbox.Screen;
 import gui.mainToolbox.Screen.ScreenEvent;
-import gui.Viewable;
 import gui.Window;
-import java.awt.Color;
-import java.awt.Graphics;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
-import javax.swing.ImageIcon;
 import level.Area;
 import listeners.ScreenListener;
-import logic.ConstantFields;
 import logic.Utils.Catch;
 
 /**
@@ -39,64 +32,12 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
     /**
      * Creates a new instance.
      * @param n The name of this Item.
-     * @param desc The description of this Item.
-     * @param i The image of this Item.
-     * @param idd Whether this Consumable is identified.
+     * @param desc
+     * @param sp
      */
-    public LocationSpecificScroll(String n, String desc, ImageIcon i, boolean idd){
-        super(n, desc, i, idd);
-        locationSelect = new LocationViewable(this);
+    public LocationSpecificScroll(String n, String desc, ScrollProfile sp){
+        super(n, desc, sp);
     }
-    
-    protected final LocationViewable locationSelect;
-    
-    /**
-     * This class is the location Viewable.
-     */
-    public class LocationViewable implements Viewable{
-        
-        private ScreenListener listener;
-        protected final List<Screen> screens;
-        
-        /**
-         * Creates a new instance.
-         * @param sl The ScreenListener associated with this Viewable.
-         */
-        public LocationViewable(ScreenListener sl){
-            listener = sl;
-            int bw = Main.WIDTH/2-72, bh = Main.HEIGHT-64;
-            screens = new LinkedList<>();
-            screens.add(new Screen("locationPopupX", bw+108, bh+8, 24, 24, listener));
-            screens.add(new Screen("locationPopup", bw, bh, 144, 48, listener));
-            screens.add(new Screen("backLocation", 0, 0, Main.WIDTH, Main.HEIGHT, listener));
-        }
-        
-        @Override
-        public List<Screen> getScreens(){
-            return screens;
-        }
-
-        @Override
-        public void paint(Graphics g){
-            int bw = Main.WIDTH/2-72, bh = Main.HEIGHT-64;
-            g.setColor(new Color(230, 20, 20, 164));
-            g.fill3DRect(bw, bh, 144, 48, false);
-            g.setColor(new Color(230, 25, 25));
-            g.fill3DRect(bw+108, bh+8, 24, 24, true);
-            g.setColor(ConstantFields.plainColor);
-            g.drawString("Select a location", bw+8, bh+20);
-            g.drawString("X", bw+116, bh+20);
-        }
-        
-        /**
-         * Changes the ScreenListener.
-         * @param l
-         */
-        public void changeListener(ScreenListener l){
-            listener = l;
-        }
-        
-    };
 
     @Override
     @Catch("Exception should never be thrown if done right.")
@@ -104,6 +45,7 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
         if(c instanceof Hero){
             hero = (Hero) c;
             area = c.area;
+            locationSelect.changeListener(this);
             Window.main.setViewable(locationSelect);
             try{
                 barrier.await();

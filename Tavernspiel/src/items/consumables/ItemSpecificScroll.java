@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
-import javax.swing.ImageIcon;
 import listeners.ScreenListener;
 import logic.Utils.Catch;
 
@@ -32,12 +31,11 @@ public abstract class ItemSpecificScroll extends Scroll implements ScreenListene
     /**
      * Creates a new instance.
      * @param n The name of this Item.
-     * @param desc The description of this Item.
-     * @param i The image of this Item.
-     * @param idd Whether this Consumable is identified.
+     * @param desc
+     * @param sp
      */
-    public ItemSpecificScroll(String n, String desc, ImageIcon i, boolean idd){
-        super(n, desc, i, idd);
+    public ItemSpecificScroll(String n, String desc, ScrollProfile sp){
+        super(n, desc, sp);
     }
 
     @Override

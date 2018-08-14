@@ -5,13 +5,11 @@ import creatureLogic.Attack.CreatureAttack;
 import creatureLogic.EnClass;
 import creatures.Creature;
 import creatures.Hero;
+import static gui.LocationViewable.locationSelect;
 import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
 import gui.Window;
 import items.Item;
-import items.consumables.LocationSpecificScroll;
-import items.consumables.LocationSpecificScroll.LocationViewable;
-import java.util.List;
 import level.Area;
 import listeners.ScreenListener;
 import logic.ConstantFields;
@@ -77,28 +75,15 @@ public class AIPlayerActions extends AIBaseActions{
      * @param item The Item
      */
     public void throwItem(Hero h, Item item){
-        Window.main.setViewable(new LocationSpecificScroll(null, "", null, false){
-            private final static long serialVersionUID = 5884324434239L;
-            @Override
-            public boolean use(Creature c, int x, int y){
-                throw new UnsupportedOperationException("AIPlayerActions.locationSelect.use() should remain unused!");
-            }
-        }.new LocationViewable(
-                (ScreenListener) (Screen.ScreenEvent sc) -> {
-                System.out.println(sc.getName());
-                switch(sc.getName()){
-                case "backLocation":
-                throwItem(h, item, sc.x, sc.y);
-                case "locationPopupX":
-                Window.main.removeViewable();
-                break;
-                }
-        }){
-            @Override
-            public List<Screen> getScreens(){
-                return screens;
+        locationSelect.changeListener((ScreenListener) (Screen.ScreenEvent sc) -> {
+            System.out.println(sc.getName());
+            switch(sc.getName()){
+                case "backLocation": throwItem(h, item, sc.x, sc.y);
+                case "locationPopupX": Window.main.removeViewable();
+                    break;
             }
         });
+        Window.main.setViewable(locationSelect);
     }
     
     /**

@@ -3,8 +3,7 @@ package items.consumables.scrolls;
 
 import creatures.Creature;
 import items.consumables.Scroll;
-import java.awt.Image;
-import javax.swing.ImageIcon;
+import items.consumables.ScrollProfile;
 
 /**
  *
@@ -12,8 +11,8 @@ import javax.swing.ImageIcon;
  */
 public class JuxtapositionScroll extends Scroll{
 
-    public JuxtapositionScroll(Image i, boolean idd){
-        super("Scroll of Juxtaposition", "This mysterious parchment possesses the power to move the reader to a nearby location.", new ImageIcon(i), idd);
+    public JuxtapositionScroll(ScrollProfile sp){
+        super("Scroll of Juxtaposition", "This mysterious parchment possesses the power to move the reader to a nearby location.", sp);
     }
 
     @Override

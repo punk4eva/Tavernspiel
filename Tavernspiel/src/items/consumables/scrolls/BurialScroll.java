@@ -3,8 +3,7 @@ package items.consumables.scrolls;
 
 import creatures.Creature;
 import items.consumables.LocationSpecificScroll;
-import java.awt.Image;
-import javax.swing.ImageIcon;
+import items.consumables.ScrollProfile;
 
 /**
  *
@@ -12,8 +11,8 @@ import javax.swing.ImageIcon;
  */
 public class BurialScroll extends LocationSpecificScroll{
 
-    public BurialScroll(Image i, boolean idd){
-        super("Scroll of Burial", "Buries everything in the effect area in the ground.", new ImageIcon(i), idd);
+    public BurialScroll(ScrollProfile sp){
+        super("Scroll of Burial", "Buries everything in the effect area in the ground.", sp);
     }
 
     @Override

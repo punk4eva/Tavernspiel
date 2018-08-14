@@ -3,6 +3,10 @@ package level;
 
 import creatures.Hero;
 import gui.Game;
+import gui.Window;
+import items.builders.PotionBuilder;
+import items.builders.RingBuilder;
+import items.builders.ScrollBuilder;
 import java.io.Serializable;
 
 /**
@@ -19,6 +23,9 @@ public class Dungeon implements Serializable{
     protected int depth = -1;
     protected Stage[] stages;
     public Area currentArea;
+    private final ScrollBuilder scrollBuilder = new ScrollBuilder();
+    private final PotionBuilder potionBuilder = new PotionBuilder();
+    private final RingBuilder ringBuilder = new RingBuilder();
     
     /**
      * Creates a new instance.
@@ -118,6 +125,30 @@ public class Dungeon implements Serializable{
             if(roll<=stages[n].length) return stages[n].depthClassifiers[roll-1];
             else roll-=stages[n].length;
         }
+    }
+    
+    /**
+     * A static retrieval method for the PotionBuilder.
+     * @return
+     */
+    public static PotionBuilder potionBuilder(){
+        return ((Game)Window.main).dungeon.potionBuilder;
+    }
+    
+    /**
+     * A static retrieval method for the ScrollBuilder.
+     * @return
+     */
+    public static ScrollBuilder scrollBuilder(){
+        return ((Game)Window.main).dungeon.scrollBuilder;
+    }
+    
+    /**
+     * A static retrieval method for the RingBuilder.
+     * @return
+     */
+    public static RingBuilder ringBuilder(){
+        return ((Game)Window.main).dungeon.ringBuilder;
     }
     
 }

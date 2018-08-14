@@ -19,26 +19,16 @@ public class Ring extends Apparatus{
     
     /**
      * Creates a new instance.
-     * @param n The name.
-     * @param desc The description.
-     * @param lo
+     * @param name The name.
      * @param dur The durability.
      * @param a The action distribution.
      * @param g The Enchantment.
+     * @param rp The RingProfile.
      */
-    public Ring(String n, String desc, Supplier<ImageIcon> lo, int dur, Distribution a, Enchantment g){
-        super(n, desc, lo, dur, a);
+    public Ring(String name, int dur, Distribution a, Enchantment g, RingProfile rp){
+        super(name, rp.description, rp.loader, dur, a);
         enchantment = g;
         description.type = "amulets";
-    }
-    
-    /**
-     * Creates a new instance.
-     * @param rp The RingProfile to copy from.
-     */
-    public Ring(RingProfile rp){
-        super(rp.getName(), rp.getDescription(), rp.getSupplier(), rp.durability, rp.distribution);
-        enchantment = rp.glyph;
     }
     
 }

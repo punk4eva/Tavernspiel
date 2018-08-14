@@ -2,6 +2,7 @@
 package items;
 
 import animation.LoadableStillAnimation;
+import containers.Equipment;
 import creatureLogic.Description;
 import enchantments.Enchantment;
 import gui.mainToolbox.Main;
@@ -224,17 +225,16 @@ public class Apparatus extends Item{
     
     /**
      * Generates a random armor Object.
-     * @param depth The depth
-     * @param loc The Location
+     * @param armorDist
      * @return
      */
     @Unfinished("Flesh out generation algorithm using depth and hero")
-    public static Apparatus getRandomArmour(int depth, Location loc){
+    public static Apparatus getRandomArmour(Distribution armorDist){
         switch(Distribution.r.nextInt(4)){
-            case 0: return Helmet.getArmour(loc.getArmourType());
-            case 1: return Chestplate.getArmour(loc.getArmourType());
-            case 2: return Leggings.getArmour(loc.getArmourType());
-            default: return Boots.getArmour(loc.getArmourType());
+            case 0: return Helmet.getArmour(Equipment.getArmourType(armorDist));
+            case 1: return Chestplate.getArmour(Equipment.getArmourType(armorDist));
+            case 2: return Leggings.getArmour(Equipment.getArmourType(armorDist));
+            default: return Boots.getArmour(Equipment.getArmourType(armorDist));
         }
     }
     

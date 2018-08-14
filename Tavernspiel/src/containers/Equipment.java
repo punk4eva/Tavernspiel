@@ -211,4 +211,19 @@ public class Equipment implements Serializable{
         return ret;
     }
     
+    /**
+     * Returns a random type of armour based on their respective rarities.
+     * @param armourDist
+     * @return
+     */
+    public static String getArmourType(Distribution armourDist){
+        switch((int)armourDist.next()){
+            case 0: return "cloth";
+            case 1: return "leather";
+            case 2: return "mail";
+            case 3: return "scale";
+            default: return "plate";
+        }
+    }
+    
 }

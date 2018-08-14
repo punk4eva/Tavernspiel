@@ -3,8 +3,7 @@ package items.consumables.scrolls;
 
 import creatures.Creature;
 import items.consumables.LocationSpecificScroll;
-import java.awt.Image;
-import javax.swing.ImageIcon;
+import items.consumables.ScrollProfile;
 
 /**
  *
@@ -12,8 +11,8 @@ import javax.swing.ImageIcon;
  */
 public class SmiteScroll extends LocationSpecificScroll{
 
-    public SmiteScroll(Image i, boolean idd){
-        super("Scroll of Smite", "Even the most mute of wizards can bring about magical destruction with this battle scroll.", new ImageIcon(i), idd);
+    public SmiteScroll(ScrollProfile sp){
+        super("Scroll of Smite", "Even the most mute of wizards can bring about magical destruction with this battle scroll.", sp);
     }
 
     @Override

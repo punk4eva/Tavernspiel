@@ -10,10 +10,10 @@ import containers.Receptacle;
 import containers.SkeletalRemains;
 import items.Item;
 import items.ItemMap;
-import items.builders.PotionBuilder;
 import items.misc.Key;
 import java.awt.Dimension;
 import java.util.function.Function;
+import static level.Dungeon.potionBuilder;
 import logic.Distribution;
 import logic.Utils.Unfinished;
 import pathfinding.MazeBuilder;
@@ -41,7 +41,7 @@ public abstract class RoomBuilder{
     }
     
     public static Room standardLocked(Location loc, int depth){
-        Room ret = Room.genStandard(loc, new Key(depth), ItemMap.getStandardItemMap(depth, loc));
+        Room ret = Room.genStandard(loc, new Key(depth), ItemMap.standardItemMap);
         ret.addDoors();
         ret.randomlyPlop();
         return ret;
@@ -185,7 +185,8 @@ public abstract class RoomBuilder{
     
     public static Room storage(Location loc, int depth){
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
-                Distribution.getRandomInt(5, 16)), loc, PotionBuilder.flamePotion(), ItemMap.getStorageItemMap(depth, loc));
+                Distribution.getRandomInt(5, 16)), loc, 
+                potionBuilder().flamePotion(ItemMap.storageItemMap), ItemMap.storageItemMap);
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
                 if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) room.map[y][x] = Tile.wall(loc);
@@ -254,7 +255,7 @@ public abstract class RoomBuilder{
     public static Room garden(Location location, int depth){
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
                 Distribution.getRandomInt(5, 16)), location, depth);
-        room.itemMap = ItemMap.getGardenItemMap(depth, location);
+        room.itemMap = ItemMap.gardenItemMap;
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
                 if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) room.map[y][x] = Tile.wall(location);
@@ -405,7 +406,7 @@ public abstract class RoomBuilder{
     public static Room kitchen(Location loc, int depth){
         Room room = new Room(new Dimension(Distribution.getRandomInt(7, 16),
                 Distribution.getRandomInt(7, 16)), loc, depth); 
-        room.itemMap = ItemMap.getKitchenItemMap(depth, loc);
+        room.itemMap = ItemMap.kitchenItemMap;
         room.paintAndPave();
         int x = Distribution.getRandomInt(2, room.dimension.width-3),
                 y = Distribution.getRandomInt(2, room.dimension.height-3);
@@ -427,7 +428,7 @@ public abstract class RoomBuilder{
     public static Room laboratory(Location loc, int depth){
         Room room = new Room(new Dimension(Distribution.getRandomInt(7, 14), 
                 Distribution.getRandomInt(7, 14)), loc, new Key(depth), 
-                ItemMap.getLaboratoryItemMap(depth, loc));
+                ItemMap.laboratoryItemMap);
         int orient = Distribution.r.nextInt(4);
         for(int y=0;y<room.dimension.height;y++)
             for(int x=0;x<room.dimension.width;x++)
@@ -582,7 +583,7 @@ public abstract class RoomBuilder{
     public static Room library(Location loc, int depth){
         Room room = new Room(new Dimension(Distribution.getRandomInt(8, 22),
                 Distribution.getRandomInt(8, 22)), loc, depth);
-        room.itemMap = ItemMap.getLibraryItemMap(depth, loc);
+        room.itemMap = ItemMap.libraryItemMap;
         int mod;
         if(room.dimension.width<14) mod = 3;
         else if(room.dimension.width<18) mod = 4;
@@ -604,7 +605,7 @@ public abstract class RoomBuilder{
     public static Room secretLibrary(Location loc, int depth){
         Room room = new Room(new Dimension(Distribution.getRandomInt(14, 26),
                 Distribution.getRandomInt(14, 26)), loc, new Key(depth), 
-                ItemMap.getSecretLibraryItemMap(depth, loc));
+                ItemMap.secretLibraryItemMap);
         int dx = room.dimension.width/5, dy = room.dimension.height/5;
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){

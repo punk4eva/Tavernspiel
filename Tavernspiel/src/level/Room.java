@@ -35,7 +35,7 @@ public class Room extends Area{
     public Room(Dimension dim, Location loc, int depth){
         super(dim, loc);
         locked = false;
-        itemMap = ItemMap.getStandardItemMap(depth, loc);
+        itemMap = ItemMap.standardItemMap;
     }
     
     /**
@@ -202,7 +202,7 @@ public class Room extends Area{
      * Randomly places Items on the ground.
      */
     protected void randomlyPlop(){
-        itemMap.genList().stream().forEach(item -> {
+        itemMap.genList(location).stream().forEach(item -> {
             int x, y;
             do{
                 x = Distribution.getRandomInt(1, dimension.width-2);
@@ -220,7 +220,7 @@ public class Room extends Area{
      * @param pred The Predicate
      */
     protected void randomlyPlop(Predicate<Integer[]> pred){
-        itemMap.genList().stream().forEach(item -> {
+        itemMap.genList(location).stream().forEach(item -> {
             int x, y;
             do{
                 x = Distribution.getRandomInt(1, dimension.width-2);
