@@ -2,7 +2,7 @@
 package items.consumables;
 
 import items.Consumable;
-import items.ItemAction;
+import items.actions.ItemAction;
 import static level.Dungeon.scrollBuilder;
 
 /**
@@ -26,7 +26,7 @@ public abstract class Scroll extends Consumable{
     public Scroll(String name, String desc, ScrollProfile sp){
         super(name, sp.unknownName, sp.description + "\n\n" + desc, sp.loader,
                 scrollBuilder().isIdentified(name), 1, true);
-        actions[2] = new ItemAction("READ", this);
+        actions[2] = ItemAction.READ;
         description.type = "scrolls";
         String ary[] = unknownName.split(" ");
         rune = ary[ary.length-1];

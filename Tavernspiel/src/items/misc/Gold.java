@@ -3,7 +3,7 @@ package items.misc;
 
 import creatureLogic.Description;
 import items.Item;
-import items.ItemAction;
+import items.actions.ItemAction;
 import items.builders.ItemBuilder;
 import java.io.Serializable;
 import java.util.function.Supplier;

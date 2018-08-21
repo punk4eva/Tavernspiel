@@ -1,6 +1,7 @@
 
 package items;
 
+import items.actions.ItemAction;
 import creatureLogic.Description;
 import creatures.Creature;
 import java.util.function.Supplier;

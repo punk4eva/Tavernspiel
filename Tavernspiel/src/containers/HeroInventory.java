@@ -1,9 +1,8 @@
 
 package containers;
 
-import ai.ItemActionInterpreter;
 import ai.PlayerAI;
-import creatureLogic.Action;
+import creatureLogic.Action.ActionOnItem;
 import creatureLogic.QuickSlot;
 import creatures.Hero;
 import dialogues.ItemDialogue;
@@ -148,12 +147,10 @@ public class HeroInventory extends Inventory{
                     new MoneyDialogue(amountOfMoney).next();
                 else{
                     Item i = get(slot);
-                    if(i!=null&&predicate.test(i)) ((PlayerAI)owner.attributes.ai).nextAction = new Action(){
-                        @Override
-                        public void run(){
-                            ItemActionInterpreter.act(this, new ItemDialogue(i, owner.expertise).next(), owner, -1);
-                        }
-                    };
+                    if(i!=null&&predicate.test(i)) ((PlayerAI)owner.attributes.ai)
+                            .nextAction = new ActionOnItem(
+                                    new ItemDialogue(i, owner.expertise).next(),
+                                    i, owner, -1, -1, -1);
                 }
             }
         }

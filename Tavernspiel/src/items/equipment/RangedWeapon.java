@@ -2,7 +2,7 @@
 package items.equipment;
 
 import creatures.Creature;
-import items.ItemAction;
+import items.actions.ItemAction;
 import items.Usable;
 import java.util.function.Supplier;
 import javax.swing.ImageIcon;

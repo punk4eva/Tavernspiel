@@ -34,12 +34,14 @@ public class Dungeon implements Serializable{
     public Dungeon(Game g){
         game = g;
         stages = new Stage[5];
-        Location loc = Location.SHKODER_LOCATION;
+    }
+    
+    public final void initialize(Game g, Location loc){
         stages[0] = new Stage(loc, 5, new String[]{"the upper level of the caves", "the lower level of the caves"}, null);
         stages[0].areas[0] = stages[0].areaBuilder.load(stages[0].location.roomDistrib, 0);
-        depth=1;stages[0].loadedLevel=1;
+        depth = 1;
+        stages[0].loadedLevel = 1;
         g.currentArea = getArea();
-        //stages[0].areas[0] = Area.getPreloadedArea("filetesting/phallus.map");
     }
     
     /**

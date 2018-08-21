@@ -1,6 +1,7 @@
 
 package items;
 
+import items.actions.ItemAction;
 import creatures.Creature;
 
 public interface Usable{

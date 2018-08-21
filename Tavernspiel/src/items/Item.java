@@ -1,6 +1,7 @@
 
 package items;
 
+import items.actions.ItemAction;
 import items.builders.ItemBuilder;
 import animation.Animation;
 import animation.LoadableStillAnimation;

@@ -4,7 +4,7 @@ package dialogues;
 import creatureLogic.Expertise;
 import gui.Window;
 import items.Item;
-import items.ItemAction;
+import items.actions.ItemAction;
 
 /**
  *
@@ -34,7 +34,7 @@ public class ItemDialogue extends Dialogue{
     public ItemAction next(){
         String ret = super.action(Window.main).getName();
         for(ItemAction act : actions){
-            if(act.action.equals(ret)) return act;
+            if(act.name.equals(ret)) return act;
         }
         return null;
     }

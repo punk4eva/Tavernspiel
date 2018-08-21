@@ -4,7 +4,7 @@ package items.consumables;
 import creatures.Creature;
 import gui.mainToolbox.Main;
 import items.Consumable;
-import items.ItemAction;
+import items.actions.ItemAction;
 import items.builders.PotionBuilder;
 import logic.ConstantFields;
 
@@ -32,7 +32,7 @@ public abstract class Potion extends Consumable{
      */
     public Potion(String n, PotionProfile pp, Type t){
         super(n, pp.unknownName, pp.description, pp.loader, PotionBuilder.idMap.get(n));
-        actions[2] = new ItemAction("DRINK", this);
+        actions[2] = ItemAction.DRINK;
         tasteMessage = pp.tasteMessage;
         type = t;
         description.type = "potions";

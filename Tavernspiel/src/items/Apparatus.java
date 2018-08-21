@@ -1,6 +1,7 @@
 
 package items;
 
+import items.actions.ItemAction;
 import animation.LoadableStillAnimation;
 import containers.Equipment;
 import creatureLogic.Description;
@@ -162,14 +163,14 @@ public class Apparatus extends Item{
      *  Sets the ItemActions to unequipped status.
      */
     public void setToUnequipped(){
-        actions[2] = new ItemAction("EQUIP", this);
+        actions[2] = ItemAction.EQUIP;
     }
     
     /**
      * Sets the ItemActions to equipped status.
      */
     public void setToEquipped(){
-        actions[2] = new ItemAction("UNEQUIP", this);
+        actions[2] = ItemAction.UNEQUIP;
     }
     
     /**
@@ -180,7 +181,7 @@ public class Apparatus extends Item{
      */
     public static ItemAction[] standardActions(int length, Apparatus i){
         ItemAction[] ret = ItemAction.getArray(length, i);
-        ret[2] = new ItemAction("EQUIP", i);
+        ret[2] = ItemAction.EQUIP;
         return ret;
     }
     

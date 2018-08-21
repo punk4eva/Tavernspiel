@@ -1,6 +1,8 @@
 
-package items;
+package items.actions;
 
+import creatures.Creature;
+import items.Item;
 import java.io.Serializable;
 
 
@@ -10,34 +12,30 @@ import java.io.Serializable;
  * 
  * This class represents the actions that an Item can take.
  */
-public class ItemAction implements Serializable{
+public abstract class ItemAction implements Serializable{
     
     private final static long serialVersionUID = -832184255;
     
-    public final String action;
-    public final Item item;
-    public String data[];
+    public final String name;
+    public double turnMult;
     
     /**
-     * Creates a new instance.
-     * @param str The name of the action.
-     * @param i The Item.
+     * 
+     * @param str
+     * @param tM
      */
-    public ItemAction(String str, Item i){
-        action = str;
-        item = i;
+    public ItemAction(String str, double tM){
+        name = str;
+        turnMult = tM;
     }
     
     /**
-     * Creates a new instance.
-     * @param str The name of the action.
-     * @param i The Item.
-     * @param d The data associated with this action.
+     * 
+     * @param str
      */
-    public ItemAction(String str, Item i, String... d){
-        action = str;
-        data = d;
-        item = i;
+    public ItemAction(String str){
+        name = str;
+        turnMult = 1;
     }
     
     /**
@@ -46,7 +44,7 @@ public class ItemAction implements Serializable{
      * @return The array.
      */
     public static ItemAction[] getDefaultActions(Item i){
-        return new ItemAction[]{new ItemAction("THROW", i), new ItemAction("DROP", i)};
+        return new ItemAction[]{THROW, DROP};
     }
     
     /**
@@ -58,8 +56,8 @@ public class ItemAction implements Serializable{
      */
     public static ItemAction[] getArray(int length, Item i){
         ItemAction[] ret = new ItemAction[length];
-        ret[0] = new ItemAction("THROW", i);
-        ret[1] = new ItemAction("DROP", i);
+        ret[0] = THROW;
+        ret[1] = DROP;
         return ret;
     }
     
@@ -72,9 +70,25 @@ public class ItemAction implements Serializable{
     public static String[] toStringArray(ItemAction[] ary){
         String[] ret = new String[ary.length];
         for(int n=0;n<ary.length;n++){
-            ret[n] = ary[n].action;
+            ret[n] = ary[n].name;
         }
         return ret;
     }
+    
+    /**
+     * Acts on an Item and a Creature.
+     * @param i
+     * @param c
+     * @param x
+     * @param y
+     * @param slot
+     * @param data
+     */
+    public abstract void act(Item i, Creature c, int x, int y, int slot, Object... data);
+    
+    public static final ItemAction THROW = new ThrowAction(),
+            DROP = new DropAction(), EQUIP = new EquipAction(), 
+            UNEQUIP = new UnequipAction(), READ = new ReadAction(),
+            DRINK = new DrinkAction();
     
 }

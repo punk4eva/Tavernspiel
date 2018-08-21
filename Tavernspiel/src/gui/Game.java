@@ -10,6 +10,7 @@ import items.Apparatus;
 import items.misc.Gold;
 import level.Area;
 import level.Dungeon;
+import level.Location;
 import logic.FileHandler;
 import logic.Utils.Unfinished;
 
@@ -31,6 +32,7 @@ public final class Game extends Main{
     public Game(){
         window = new Window(WIDTH, HEIGHT, "Tavernspiel", this);
         dungeon = new Dungeon(this);
+        dungeon.initialize(this, Location.SHKODER_LOCATION);
         gui.addMessage("You are now in " + dungeon.getDepthClassifier() + ".");
         player = new Hero(new Attributes());
         gui.hero = player;

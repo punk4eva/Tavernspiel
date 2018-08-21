@@ -7,15 +7,12 @@ import animation.CreatureAnimator;
 import animation.assets.WaterStepAnimation;
 import containers.Floor;
 import containers.PurchasableHeap;
-import creatureLogic.Action;
 import creatureLogic.Attack.CreatureAttack;
 import creatures.Creature;
 import creatures.Hero;
-import gui.Window;
 import gui.mainToolbox.Main;
 import items.Apparatus;
 import items.Item;
-import items.ItemAction;
 import items.equipment.MeleeWeapon;
 import items.equipment.Wand;
 import java.io.Serializable;
@@ -249,17 +246,6 @@ public class AIBaseActions implements Serializable{
             Main.addMessage(ConstantFields.badColor, "Your pack is too full for the " +
                     i.toString(3));
         }
-    }
-    
-    /**
-     * Forwards an ItemAction.
-     * @param enc The enclosing Action
-     * @param c The Creature
-     * @param a The ItemAction
-     * @param slot The slot number of the Item
-     */
-    public void interpretItemAction(Action enc, Creature c, ItemAction a, int slot){
-        ItemActionInterpreter.act(enc, a, c, slot);
     }
     
     /**
