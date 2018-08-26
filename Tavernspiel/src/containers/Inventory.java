@@ -25,7 +25,7 @@ public class Inventory extends Receptacle{
      * Creates a new instance for a Creature.
      */
     public Inventory(){
-        super(null, 18, "ERROR: You shouldn't be reading this.", -1, -1);
+        super(18);
     }
     
     public void setMoneyAmount(int amount){

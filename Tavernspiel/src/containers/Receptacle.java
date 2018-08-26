@@ -23,60 +23,18 @@ public abstract class Receptacle extends LinkedList<Item>{
     private final static long serialVersionUID = -1893808300;
     
     public int capacity = 1000;
-    public Description description;
-    public int x, y; 
-    public transient ImageIcon icon;
-    private final Supplier<ImageIcon> loader;
     
     /**
-     * Creates a new Receptacle.
-     * @param l The icon.
-     * @param desc The description.
-     * @param xc The x coord.
-     * @param yc The y coord.
+     * Creates a new instance.
      */
-    public Receptacle(Supplier<ImageIcon> l, String desc, int xc, int yc){
-        description = Description.parseDescription("receptacle", desc);
-        x = xc;
-        y = yc;
-        loader = l;
-        if(l!=null) icon = l.get();
-    }
+    public Receptacle(){}
     
     /**
-     * Creates a new Receptacle.
-     * @param l The icon.
-     * @param cap The capacity.
-     * @param desc The description.
-     * @param xc The x coord.
-     * @param yc The y coord.
+     * Creates a new instance with the given capacity.
+     * @param cap
      */
-    public Receptacle(Supplier<ImageIcon> l, int cap, String desc, int xc, int yc){
-        description = Description.parseDescription("receptacle", desc);
+    public Receptacle(int cap){
         capacity = cap;
-        x = xc;
-        y = yc;
-        loader = l;
-        if(l!=null) icon = l.get();
-    }
-    
-    /**
-     * Creates a new Receptacle.
-     * @param l The icon.
-     * @param cap The capacity.
-     * @param i The list of apparatus.
-     * @param desc The description.
-     * @param xc
-     * @param yc
-     */
-    public Receptacle(Supplier<ImageIcon> l, int cap, List<Apparatus> i, String desc, int xc, int yc){
-        description = Description.parseDescription("receptacle", desc);
-        addAll(i);
-        capacity = cap;
-        x = xc;
-        y = yc;
-        loader = l;
-        if(l!=null) icon = l.get();
     }
     
     /**
@@ -147,16 +105,9 @@ public abstract class Receptacle extends LinkedList<Item>{
      */
     public Item swapItem(Item i){
         if(size()!=1) throw new IllegalStateException("Trying to swap item of"
-                + "larger container");
+                + "large container");
         add(i);
         return remove(0);
-    }
-    
-    private void readObject(ObjectInputStream in) 
-            throws IOException, ClassNotFoundException{
-        in.defaultReadObject();
-        System.err.println("loader: " + loader);
-        if(loader!=null) icon = loader.get();
     }
     
 }

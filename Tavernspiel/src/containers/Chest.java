@@ -8,14 +8,13 @@ import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 import level.Area;
 import level.Location;
-import listeners.Interactable;
 import logic.SoundHandler;
 
 /**
  *
  * @author Adam Whittaker
  */
-public class Chest extends Receptacle implements Interactable{
+public class Chest extends PhysicalReceptacle{
     
     private final static long serialVersionUID = 8590327;
     

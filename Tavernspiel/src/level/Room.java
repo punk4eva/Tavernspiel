@@ -1,7 +1,7 @@
 
 package level;
 
-import containers.Receptacle;
+import containers.PhysicalReceptacle;
 import items.Item;
 import items.ItemMap;
 import java.awt.Dimension;
@@ -271,7 +271,7 @@ public class Room extends Area{
      * Gets the receptacle of this room (only to be used if there is one receptacle).
      * @return The Receptacle.
      */
-    public Receptacle getReceptacle(){
+    public PhysicalReceptacle getReceptacle(){
         return receptacles.get(0);
     }
     

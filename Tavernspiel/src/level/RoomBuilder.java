@@ -6,7 +6,7 @@ import buffs.GasBuilder;
 import containers.Chest;
 import containers.Floor;
 import containers.Mimic;
-import containers.Receptacle;
+import containers.PhysicalReceptacle;
 import containers.SkeletalRemains;
 import items.Item;
 import items.ItemMap;
@@ -677,7 +677,7 @@ public abstract class RoomBuilder{
         }
     }
     
-    public static Receptacle getRandomReceptacle(Location loc, Item i, int x, int y){  
+    public static PhysicalReceptacle getRandomReceptacle(Location loc, Item i, int x, int y){  
         switch((int) loc.feeling.receptacleDist.next()){
             case 0: return new Floor(i, x, y);
             case 1: return new Chest(loc.name, i, x, y);

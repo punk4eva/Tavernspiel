@@ -1,6 +1,7 @@
 
 package ai;
 
+import containers.Floor;
 import creatureLogic.Attack.CreatureAttack;
 import creatureLogic.EnClass;
 import creatures.Creature;
@@ -61,8 +62,8 @@ public class AIPlayerActions extends AIBaseActions{
      */
     @Override
     @Unfinished("Add 'pickup' sound effect")
-    public void pickUp(Creature c){
-        Item i = c.area.pickUp(c.x, c.y);
+    public void pickUp(Creature c, Floor r){
+        Item i = r.pickUp(c.area);
         if(!c.inventory.add(i)){
             c.area.plop(i, c.x, c.y);
             Main.addMessage(ConstantFields.badColor, "Your pack is too full for the " +

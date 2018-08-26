@@ -26,7 +26,7 @@ public class PurchasableHeap extends Floor{
         price = p;
     }
     
-    public PurchasableHeap(Receptacle r, int p){
+    public PurchasableHeap(PhysicalReceptacle r, int p){
         super(r, r.x, r.y);
         price = p;
     }

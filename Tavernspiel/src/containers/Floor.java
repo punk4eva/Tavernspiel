@@ -6,7 +6,6 @@ import creatures.Creature;
 import items.Item;
 import java.util.ArrayList;
 import level.Area;
-import listeners.Interactable;
 
 /**
  *
@@ -14,7 +13,7 @@ import listeners.Interactable;
  * 
  * This class represents items on the ground.
  */
-public class Floor extends Receptacle implements Interactable{
+public class Floor extends PhysicalReceptacle{
     
     private final static long serialVersionUID = 2890391007L;
     
@@ -79,10 +78,23 @@ public class Floor extends Receptacle implements Interactable{
                 get(size()-2).description;
         return super.pop();
     }
+    
+    /**
+     * Removes and returns an Item from the Floor and removes the Receptacle
+     * from the Area if necessary.
+     * @param area The Area.
+     * @return The item at the top of the Receptacle.
+     * @throws NullPointerException if there is no Receptacle.
+     */
+    public final Item pickUp(Area area){
+        Item ret = pop();
+        if(isEmpty()) area.removeReceptacle(this);
+        return ret;
+    }
 
     @Override
     public void interact(Creature c, Area a){
-        c.attributes.ai.BASEACTIONS.pickUp(c);
+        c.attributes.ai.BASEACTIONS.pickUp(c, this);
     }
 
     @Override
