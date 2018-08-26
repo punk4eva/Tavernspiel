@@ -24,7 +24,7 @@ public abstract class ItemSpecificScroll extends Scroll implements ScreenListene
     
     private final static long serialVersionUID = 4234545434732899L;
     
-    private Hero hero;
+    private transient Hero hero;
     private boolean used = false;
     private transient CyclicBarrier barrier = new CyclicBarrier(2);
 

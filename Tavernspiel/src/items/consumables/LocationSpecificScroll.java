@@ -24,8 +24,8 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
     
     private final static long serialVersionUID = 5843820943899L;
     
-    protected Hero hero;
-    private Area area;
+    protected transient Hero hero;
+    private transient Area area;
     private boolean used = false;
     private transient CyclicBarrier barrier = new CyclicBarrier(2);
 

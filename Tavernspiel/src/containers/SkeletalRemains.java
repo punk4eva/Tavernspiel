@@ -1,7 +1,6 @@
 
 package containers;
 
-import creatureLogic.Description;
 import creatures.Creature;
 import items.Item;
 import java.io.Serializable;
@@ -9,7 +8,6 @@ import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 import level.Area;
 import level.Location;
-import logic.ConstantFields;
 
 /**
  *
@@ -26,9 +24,9 @@ public class SkeletalRemains extends Chest{
      * @param x
      * @param y
      */
-    public SkeletalRemains(Location loc, Item item, int x, int y){
+    public SkeletalRemains(String loc, Item item, int x, int y){
         super((Serializable & Supplier<ImageIcon>)
-                () -> loc.getSkeletalRemainsIcon(), "A pile of bones from"
+                () -> Location.getSkeletalRemainsIcon(loc), "A pile of bones from"
                         + " an unlucky adventurer or resident of this place. "
                         + "May be worth checking for valuables.", item, x, y);
     }

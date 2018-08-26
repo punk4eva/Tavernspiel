@@ -24,9 +24,9 @@ public class LockedChest extends Chest{
     private final static long serialVersionUID = 285389597;
     private KeyType keyType = KeyType.GOLDEN;
     
-    public LockedChest(Location loc, Item item, int x, int y){
+    public LockedChest(String locName, Item item, int x, int y){
         super((Serializable & Supplier<ImageIcon>)
-                () -> loc.getLockedChestIcon(), 
+                () -> Location.getLockedChestIcon(locName), 
                 "You can't open this chest without a key.", item, x, y);
     }
     

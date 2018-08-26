@@ -92,11 +92,6 @@ public abstract class Receptacle extends LinkedList<Item>{
         }
     }
     
-    /*
-    public void trimToCapacity(){
-        for(int n=0;n<){}
-    }*/
-    
     /**
      * Adds an item to this receptacle.
      * @param item The item to add.

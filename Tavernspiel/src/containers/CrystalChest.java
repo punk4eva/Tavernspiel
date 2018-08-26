@@ -19,14 +19,14 @@ public class CrystalChest extends LockedChest{
     
     /**
      * Creates a new crystal chest
-     * @param loc
+     * @param locName
      * @param item The item within.
      * @param x
      * @param y
      */
-    public CrystalChest(Location loc, Item item, int x, int y){
+    public CrystalChest(String locName, Item item, int x, int y){
         super((Serializable & Supplier<ImageIcon>)
-                () -> loc.getCrystalChestIcon(), 
+                () -> Location.getCrystalChestIcon(locName), 
                 "You can see " + item.getPronounedName(0, "an") + " in "
                 + "the chest but you need a key to open the chest.", item, x, y);
     }

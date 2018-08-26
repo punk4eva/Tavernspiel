@@ -7,12 +7,10 @@ import blob.Blob;
 import containers.Floor;
 import containers.LockedChest;
 import containers.Receptacle;
-import creatureLogic.Action;
 import creatureLogic.VisibilityOverlay;
 import creatures.Creature;
 import creatures.Hero;
 import designer.AreaTemplate;
-import dialogues.StatisticsDialogue;
 import exceptions.AreaCoordsOutOfBoundsException;
 import gui.Window;
 import items.Item;
@@ -177,7 +175,13 @@ public class Area implements Serializable{
     public void burn(int x, int y){
         map[y][x] = new Tile("embers", location, true, false, true);
         Receptacle r = getReceptacle(x, y);
-        if(r != null) r.removeIf(item -> item.flammable);
+        if(r != null){
+            r.removeIf(item -> item.flammable);
+            if(r.isEmpty()){
+                receptacles.remove(r);
+                map[r.y][r.x].interactable = null;
+            }
+        }
     }
     
     /**
@@ -199,8 +203,12 @@ public class Area implements Serializable{
     public Receptacle getReceptacle(int x, int y){
         for(int n=0;n<receptacles.size();n++){
             Receptacle temp = receptacles.get(n);
-            if(temp.x==x&&temp.y==y) return temp;
+            if(temp.x==x&&temp.y==y){
+                System.out.println("get: " + temp);
+                return temp;
+            }
         }
+        System.out.println("get: null");
         return null;
     }
     
@@ -233,6 +241,15 @@ public class Area implements Serializable{
             }
         }
         throw new IllegalStateException("No receptacle at coords: " + x + ", " + y);
+    }
+    
+    /**
+     * Removes the given Receptacle.
+     * @param r
+     */
+    public void removeReceptacle(Receptacle r){
+        receptacles.remove(r);
+        map[r.y][r.x].interactable = null;
     }
     
     
@@ -331,7 +348,7 @@ public class Area implements Serializable{
     public Item pickUp(int x, int y){
         Receptacle r = getReceptacle(x, y);
         Item ret = r.pop();
-        if(r.isEmpty()) receptacles.remove(r);
+        if(r.isEmpty()) removeReceptacle(r);
         return ret;
     }
     
@@ -452,19 +469,8 @@ public class Area implements Serializable{
             ((PlayerAI)hero.attributes.ai).unfinished = true;
             hero.attributes.ai.setDestination(x, y);
             Window.main.setTurnsPassed(hero.attributes.speed);
-        }else{
-            if(getReceptacle(hero.x, hero.y)==null) 
-                new StatisticsDialogue(hero).next();
-            else{
-                ((PlayerAI)hero.attributes.ai).nextAction = new Action(){
-                    @Override
-                    public void run(){
-                        hero.attributes.ai.BASEACTIONS.pickUp(hero);
-                    }
-                };
-                Window.main.setTurnsPassed(hero.attributes.speed);
-            }
-        }
+        }else hero.attributes.ai.BASEACTIONS
+                    .interact(hero, hero.area, hero.x, hero.y);
     }
     
         

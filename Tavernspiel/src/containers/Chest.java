@@ -21,13 +21,13 @@ public class Chest extends Receptacle implements Interactable{
     
     /**
      * Creates a new chest instance containing an item.
-     * @param loc The Location.
+     * @param locName The Location's name.
      * @param item The item within.
      * @param x
      * @param y
      */
-    public Chest(Location loc, Item item, int x, int y){
-        super((Serializable & Supplier<ImageIcon>)() -> loc.getChestIcon(), 1, 
+    public Chest(String locName, Item item, int x, int y){
+        super((Serializable & Supplier<ImageIcon>)() -> Location.getChestIcon(locName), 1, 
                 "You won't know what's inside until you open it!", x, y);
         add(item);
     }

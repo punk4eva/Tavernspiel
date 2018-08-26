@@ -8,6 +8,7 @@ import items.consumables.potions.*;
 import java.io.Serializable;
 import java.util.HashMap;
 import logic.Distribution;
+import logic.Utils.Unfinished;
 
 /**
  *
@@ -34,8 +35,9 @@ public class PotionBuilder implements Serializable{
         return f;
     }
     
-    public Potion getRandomPotion(Distribution potDist){
-        throw new IllegalStateException("@Unfinished");
+    @Unfinished()
+    public Potion getRandomPotion(Distribution potDist, ItemMap itMap){
+        return flamePotion(itMap);
     }
     
     

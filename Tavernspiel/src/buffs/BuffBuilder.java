@@ -5,9 +5,7 @@ import creatureLogic.Attack;
 import creatureLogic.Attack.AttackType;
 import creatureLogic.Description;
 import creatures.Creature;
-import java.util.HashMap;
 import java.util.Iterator;
-import javax.swing.ImageIcon;
 import level.Location;
 import static logic.Distribution.r;
 import logic.Utils.Unfinished;
@@ -20,15 +18,7 @@ import logic.Utils.Unfinished;
  */
 public final class BuffBuilder{
     
-    private BuffBuilder(){}
-    
-    @Unfinished("Add icons for Buffs")
-    protected final static HashMap<String, ImageIcon> buffMap = new HashMap<>();
-    static{
-        buffMap.put("poison", new ImageIcon("graphics/gui/buffIcons/poison.png"));
-        buffMap.put("poisonSmall", new ImageIcon("graphics/gui/buffIcons/poisonSmall.png"));
-    }
-    
+    private BuffBuilder(){}    
     
     private final static String[] FIRE_MESSAGES = {"You burnt to a crisp!",
             "You have been roasted!", "You turned to ash..."},

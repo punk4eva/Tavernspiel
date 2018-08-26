@@ -4,7 +4,6 @@ package containers;
 import creatures.Creature;
 import items.Item;
 import level.Area;
-import level.Location;
 
 /**
  *
@@ -16,13 +15,13 @@ public class Mimic extends Chest{
     
     /**
      * Creates a new instance.
-     * @param loc
+     * @param locName
      * @param item
      * @param x
      * @param y
      */
-    public Mimic(Location loc, Item item, int x, int y){
-        super(loc, item, x, y);
+    public Mimic(String locName, Item item, int x, int y){
+        super(locName, item, x, y);
     }
     
     @Override

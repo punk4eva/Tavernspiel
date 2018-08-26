@@ -22,7 +22,6 @@ public class ScrollBuilder implements Serializable{
     
     protected HashMap<String, ScrollProfile> scrollMap = new HashMap<>();
     private final LinkedList<String> runes = new LinkedList<>();
-    //@Unfinished("Remember to make custom scrolls part of natural item gen.")
     {
         runes.add("GICH");
         runes.add("META");
@@ -71,25 +70,13 @@ public class ScrollBuilder implements Serializable{
         return sp;
     }
 
-    public WonderScroll wonder(){
+    public WonderScroll wonder(Distribution scDist){
         return new WonderScroll(getProfile("Scroll of Wonder")){
             private final static long serialVersionUID = 58843248340249L;
+            private final Scroll scroll = getRandomScroll(scDist);
             @Override
             public boolean use(Creature c){
-                Scroll s;
-                Distribution distrib = new Distribution(new double[]{0,1,2,3,4,5,6,7,8}, new int[]{18,3,1,12,18,18,12,15,15});
-                switch((int)distrib.next()){
-                    case 0: s = countercurse(); break;
-                    case 1: s = upgrade(); break;
-                    case 2: s = enchantment(); break;
-                    case 3: s = infiniteHorse(); break;
-                    case 4: s = identity(); break;
-                    case 5: s = earthwall(); break;
-                    case 6: s = juxtaposition(); break;
-                    case 7: s = knowledge(); break;
-                    default: s = recharging();
-                }
-                return s.use(c);
+                return scroll.use(c);
             }
         };
     }
@@ -163,6 +150,45 @@ public class ScrollBuilder implements Serializable{
     }
     
     public Scroll getRandomScroll(Distribution scrollDist){
+        int i = (int)scrollDist.next();
+        System.out.println("Scroll: " + i);
+        switch(i){
+            case 0: return wonder(scrollDist);
+            case 1: return countercurse();
+            case 2: return enchantment();
+            case 3: return infiniteHorse();
+            case 4: return identity();
+            case 5: return earthwall();
+            case 6: return juxtaposition();
+            case 7: return knowledge();
+            case 8: return recharging();
+            case 9: return smite();
+            case 10: return curse();
+            case 11: return skeleton();
+            case 12: return earthquake();
+            case 13: return animation();
+            case 14: return burial();
+            case 15: return grim();
+            case 16: return custom();
+        }
+        throw new IllegalStateException("Scroll Distribution Error");
+    }
+    
+    public Scroll getRandomPositiveScroll(Distribution scrollDist){
+        switch((int)scrollDist.nextFromRange(0, 9)){
+            case 0: return wonder(scrollDist);
+            case 1: return countercurse();
+            case 2: return enchantment(); 
+            case 3: return infiniteHorse(); 
+            case 4: return identity(); 
+            case 5: return earthwall(); 
+            case 6: return juxtaposition(); 
+            case 7: return knowledge();
+            default: return recharging();
+        }
+    }
+    
+    public Scroll getRandomNegativeScroll(Distribution scrollDist){
         throw new UnsupportedOperationException("@Unfinished");
     }
     

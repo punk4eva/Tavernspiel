@@ -220,34 +220,38 @@ public class Location{
     
     /**
      * Retrieves the Chest Icon for this Region.
+     * @param loc The name of the Location
      * @return
      */
-    public ImageIcon getChestIcon(){
-        return ItemBuilder.getIcon(region.code*16, 16);
+    public static ImageIcon getChestIcon(String loc){
+        return ItemBuilder.getIcon(locationMap.get(loc).region.code*16, 16);
     }
     
     /**
      * Retrieves the Locked Chest Icon for this Region.
+     * @param loc The name of the Location
      * @return
      */
-    public ImageIcon getLockedChestIcon(){
-        return ItemBuilder.getIcon(region.code*16+64, 16);
+    public static ImageIcon getLockedChestIcon(String loc){
+        return ItemBuilder.getIcon(locationMap.get(loc).region.code*16+64, 16);
     }
     
     /**
      * Retrieves the Skeletal Remains Icon for this Region.
+     * @param loc The name of the Location
      * @return
      */
-    public ImageIcon getSkeletalRemainsIcon(){
-        return ItemBuilder.getIcon(region.code*16+64, 0);
+    public static ImageIcon getSkeletalRemainsIcon(String loc){
+        return ItemBuilder.getIcon(locationMap.get(loc).region.code*16+64, 0);
     }
     
     /**
      * Retrieves the Locked Crystal Icon for this Region.
+     * @param loc The name of the Location
      * @return
      */
-    public ImageIcon getCrystalChestIcon(){
-        return ItemBuilder.getIcon(region.code*16, 0);
+    public static ImageIcon getCrystalChestIcon(String loc){
+        return ItemBuilder.getIcon(locationMap.get(loc).region.code*16, 0);
     }
     
     

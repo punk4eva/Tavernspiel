@@ -256,4 +256,9 @@ public class Item implements Serializable{
         return name;
     }
     
+    @Override
+    public String toString(){
+        return name;
+    }
+    
 }

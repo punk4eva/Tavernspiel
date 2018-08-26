@@ -5,6 +5,7 @@ import creatureLogic.Attack.CreatureAttack;
 import creatureLogic.EnClass;
 import creatures.Creature;
 import creatures.Hero;
+import dialogues.StatisticsDialogue;
 import static gui.LocationViewable.locationSelect;
 import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
@@ -99,7 +100,7 @@ public class AIPlayerActions extends AIBaseActions{
             double turns = area.map[y][x].interactable.interactTurns();
             area.map[y][x].interactable.interact(c, area);
             Window.main.setTurnsPassed(turns*c.attributes.speed);
-        }
+        }else new StatisticsDialogue((Hero)c).next();
     }
     
 }

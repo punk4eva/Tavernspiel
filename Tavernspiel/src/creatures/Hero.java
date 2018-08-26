@@ -17,7 +17,6 @@ import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
 import gui.Window;
 import static gui.mainToolbox.MouseInterpreter.MOVE_RESOLUTION;
-import items.builders.ScrollBuilder;
 import java.awt.Graphics;
 import java.util.LinkedList;
 import level.Area;
@@ -28,7 +27,6 @@ import static logic.ConstantFields.padding;
 import static logic.ConstantFields.sqheight;
 import static logic.ConstantFields.sqwidth;
 import static gui.mainToolbox.MouseInterpreter.getCenter;
-import items.builders.PotionBuilder;
 import javax.swing.ImageIcon;
 import logic.ConstantFields;
 import logic.ImageUtils;
@@ -169,11 +167,5 @@ public class Hero extends Creature{
     public void stopInventoryHijack(){
         ((HeroInventory)inventory).manager.hijacker = null;
     }
-    
-    /*private void readObject(ObjectInputStream in)
-    throws IOException, ClassNotFoundException{
-    in.defaultReadObject();
-    scrollBuilder.setHero(this);
-    }*/
     
 }

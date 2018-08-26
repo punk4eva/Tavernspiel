@@ -5,10 +5,14 @@ import creatureLogic.Attributes;
 import creatures.Hero;
 import gui.mainToolbox.Screen;
 import gui.utils.CComponent;
+import java.io.Serializable;
 import java.lang.annotation.Inherited;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Supplier;
+import javax.swing.ImageIcon;
+import level.Location;
 import static logic.Distribution.r;
 
 /**
@@ -148,7 +152,9 @@ public final class Utils{
     //@Delete after debugging
     public static void main(String... args){
         //debugging
-        FileHandler.serialize(new Hero(new Attributes()), "filetesting/serial.ser");
+        Location loc = Location.SHKODER_LOCATION;
+        String s = loc.name;
+        FileHandler.serialize((Supplier<ImageIcon> & Serializable)() -> Location.getChestIcon(s), "filetesting/serial.ser");
     }
     
 }

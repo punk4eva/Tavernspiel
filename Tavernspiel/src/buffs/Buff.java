@@ -22,7 +22,7 @@ public abstract class Buff implements Serializable{
     public final String name;
     public final Description description;
     public double duration = 1000000;
-    public boolean visible = false, markedForEnd = false;
+    public boolean visible = true, markedForEnd = false;
     public transient ImageIcon icon, smallIcon;
     
     /**
@@ -33,8 +33,8 @@ public abstract class Buff implements Serializable{
     public Buff(String n, Description desc){
         name = n;
         description = desc;
-        icon = BuffBuilder.buffMap.get(name);
-        smallIcon = BuffBuilder.buffMap.get(name + "Small");
+        icon = new ImageIcon("graphics/gui/buffIcons/"+name+".png");
+        smallIcon = new ImageIcon("graphics/gui/buffIcons/"+name+"Small.png");
     }
     
     /**
@@ -46,8 +46,8 @@ public abstract class Buff implements Serializable{
     public Buff(String n, Description desc, double d){
         name = n;
         description = desc;
-        icon = BuffBuilder.buffMap.get(name);
-        smallIcon = BuffBuilder.buffMap.get(name + "Small");
+        icon = new ImageIcon("graphics/gui/buffIcons/"+name+".png");
+        smallIcon = new ImageIcon("graphics/gui/buffIcons/"+name+"Small.png");
         duration = d;
     }
     
@@ -61,8 +61,8 @@ public abstract class Buff implements Serializable{
     public Buff(String n, Description desc, double d, boolean v){
         name = n;
         description = desc;
-        icon = BuffBuilder.buffMap.get(name);
-        smallIcon = BuffBuilder.buffMap.get(name + "Small");
+        icon = new ImageIcon("graphics/gui/buffIcons/"+name+".png");
+        smallIcon = new ImageIcon("graphics/gui/buffIcons/"+name+"Small.png");
         duration = d;
         visible = v;
     }
@@ -122,8 +122,8 @@ public abstract class Buff implements Serializable{
     private void readObject(ObjectInputStream in) throws IOException,
             ClassNotFoundException{
         in.defaultReadObject();
-        icon = BuffBuilder.buffMap.get(name);
-        smallIcon = BuffBuilder.buffMap.get(name + "Small");
+        icon = new ImageIcon("graphics/gui/buffIcons/"+name+".png");
+        smallIcon = new ImageIcon("graphics/gui/buffIcons/"+name+"Small.png");
     }
     
 }

@@ -138,6 +138,19 @@ public class Distribution implements Serializable{
         return new Distribution(output, chances);
     }
     
+    public double nextFromRange(int s, int t){
+        int start;
+        if(s==0) start=0;
+        else start = chances[s-1];
+        int[] c = new int[t-s];
+        double[] o = new double[t-s];
+        for(int n=s;n<t;n++){
+            o[n] = outputs[n];
+            c[n] = chances[n]-start;
+        }
+        return new Distribution(o, c).next();
+    }
+    
     /**
      *
      * @param ary
