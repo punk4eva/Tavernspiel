@@ -117,7 +117,7 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
      * @param newVolume The gain in dB.
      */
     public void changeSFXVolume(float newVolume){
-        Window.SFXVolume = newVolume;
+        Window.sfxVolume = newVolume;
     }
     
     /**

@@ -14,7 +14,7 @@ public class Window extends Canvas{
     
     public static Main main;
     protected JFrame frame;
-    public static float SFXVolume = 0, musicVolume = 0;
+    public static float sfxVolume = 0, musicVolume = 0;
     
     /**
      * Creates a new instance.
