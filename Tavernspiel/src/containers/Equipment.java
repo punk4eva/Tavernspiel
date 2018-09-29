@@ -4,6 +4,7 @@ package containers;
 import creatures.Hero;
 import dialogues.UnequipAmuletDialogue;
 import gui.Window;
+import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
 import items.Apparatus;
 import items.equipment.Boots;
@@ -63,7 +64,7 @@ public class Equipment implements Serializable{
      */
     public double nextHit(double strength){
         try{
-            return weapon.action.nextInt();
+            return weapon.damageDistrib.nextInt();
         }catch(Exception e){
             return Distribution.r.nextInt((int)strength);
         }
@@ -104,8 +105,13 @@ public class Equipment implements Serializable{
      * @return The apparatus that was displaced, null if nothing.
      */
     public Apparatus equip(Apparatus app, int... choiceOfAmulet){
+        if(app.durability<=0){
+            Main.addMessage(ConstantFields.interestColor, "You cannot equip a "
+                    + "broken item.");
+            return null;
+        }
         Apparatus ret;
-        app.setToEquipped();
+        app.setToEquipped(this);
         if(app instanceof HeldWeapon){
             ret = weapon;
             if(ret!=null) ret.setToUnequipped();
@@ -224,6 +230,15 @@ public class Equipment implements Serializable{
             case 3: return "scale";
             default: return "plate";
         }
+    }
+    
+    /**
+     * Removes the Apparatus and plops it on the ground.
+     * @param app
+     */
+    public void plop(Apparatus app){
+        unequip(app);
+        heroOwner.area.plop(app, heroOwner.x, heroOwner.y);
     }
     
 }

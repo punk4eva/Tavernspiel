@@ -1,11 +1,9 @@
 
 package items.equipment;
 
+import creatureLogic.Description;
 import enchantments.Enchantment;
 import items.Apparatus;
-import java.util.function.Supplier;
-import javax.swing.ImageIcon;
-import logic.Distribution;
 
 /**
  *
@@ -21,14 +19,20 @@ public class Ring extends Apparatus{
      * Creates a new instance.
      * @param name The name.
      * @param dur The durability.
-     * @param a The action distribution.
      * @param g The Enchantment.
      * @param rp The RingProfile.
      */
-    public Ring(String name, int dur, Distribution a, Enchantment g, RingProfile rp){
-        super(name, rp.description, rp.loader, dur, a);
+    public Ring(String name, int dur, Enchantment g, RingProfile rp){
+        super(name, new Description("rings", rp.description), rp.loader, dur);
         enchantment = g;
         description.type = "amulets";
+    }
+    
+    @Override
+    public void upgrade(){
+        level++;
+        maxDurability += 10;
+        durability = maxDurability;
     }
     
 }

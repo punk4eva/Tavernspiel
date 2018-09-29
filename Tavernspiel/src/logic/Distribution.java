@@ -189,13 +189,10 @@ public class Distribution implements Serializable{
     
     /**
      *
-     * @param x
-     * @param formulas
+     * @param a
      */
-    public void updateFromFormula(int x, Formula... formulas){
-        for(int n=0;n<outputs.length;n++){
-            outputs[n] = formulas[n].get(x);
-        }
+    public void add(double a){
+        for(int n=0;n<outputs.length;n++) outputs[n] += a;
     }
     
     /**

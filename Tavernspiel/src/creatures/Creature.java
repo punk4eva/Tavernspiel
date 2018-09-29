@@ -14,7 +14,6 @@ import enchantments.WeaponEnchantment;
 import gui.Window;
 import gui.mainToolbox.MouseInterpreter;
 import static gui.mainToolbox.MouseInterpreter.MOVE_RESOLUTION;
-import items.equipment.HeldWeapon;
 import java.awt.Graphics;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -22,7 +21,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
-import logic.Distribution;
 import logic.GameObject;
 
 /**
@@ -231,15 +229,8 @@ public class Creature extends GameObject implements Comparable<Creature>{
      * Calculates the next hit damage.
      * @return The next hit damage.
      */
-    public int nextHit(){
-        try{
-            HeldWeapon weap = equipment.weapon;
-            return weap.nextIntAction() + new Distribution(0, attributes.strength - weap.strength).nextInt();
-        }catch(NullPointerException e){
-            return new Distribution(0, attributes.strength-7).nextInt();
-        }catch(IllegalArgumentException e){
-            return equipment.weapon.nextIntAction();
-        }
+    public double nextHit(){
+        return equipment.nextHit(attributes.strength);
     }
 
     @Override

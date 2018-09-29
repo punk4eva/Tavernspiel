@@ -98,7 +98,7 @@ public abstract class Consumable extends Item implements Usable{
     }
     
     @Override
-    public String getName(){
+    public String toString(){
         if(identified) return name;
         else return unknownName;
     }

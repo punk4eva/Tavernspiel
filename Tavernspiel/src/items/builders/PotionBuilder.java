@@ -45,5 +45,9 @@ public class PotionBuilder implements Serializable{
     public FlamePotion flamePotion(ItemMap itMap){
         return new FlamePotion(getProfile("Flame Potion", itMap));
     }
+
+    public boolean isIdentified(String name){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
 }

@@ -1,7 +1,7 @@
 
 package items.equipment;
 
-import items.Apparatus;
+import creatureLogic.Description;
 import items.builders.ItemBuilder;
 import java.io.Serializable;
 import java.util.function.Supplier;
@@ -14,12 +14,13 @@ import logic.Distribution;
  * 
  * This class represents Leggings.
  */
-public class Leggings extends Apparatus{
+public class Leggings extends Armor{
     
     private final static long serialVersionUID = 588432425434732899L;
     
     /**
      * Creates a new instance.
+     * @param q
      * @param s The name.
      * @param desc The description.
      * @param x
@@ -28,8 +29,8 @@ public class Leggings extends Apparatus{
      * @param d The action distribution.
      * @param st The strength.
      */
-    public Leggings(String s, String desc, int x, int y, int dur, Distribution d, int st){
-        super(s, desc, (Serializable&Supplier<ImageIcon>)()->ItemBuilder.getIcon(x, y), dur, d, st);
+    public Leggings(double q, String s, Description desc, int x, int y, int dur, Distribution d, int st){
+        super(q, s, desc, (Serializable&Supplier<ImageIcon>)()->ItemBuilder.getIcon(x, y), dur, d, st);
         description.type = "armour";
         actions = standardActions(3, this);
     }
@@ -39,7 +40,7 @@ public class Leggings extends Apparatus{
         private final static long serialVersionUID = 58843242511111119L;
     
         public ClothLeggings(){
-            super("Cloth trousers", "These light leggings offer more warmth than protection.", 
+            super(1, "Cloth trousers", new Description("armour", "These light leggings offer more warmth than protection."), 
                     0, 128, 24, new Distribution(0, 4), 10);
         }
 
@@ -50,7 +51,7 @@ public class Leggings extends Apparatus{
         private final static long serialVersionUID = 588432425222232899L;
     
         public LeatherLeggings(){
-            super("Leather trousers", "These leggings possess the strength of the animal from which they were made.", 
+            super(2,"Leather trousers", new Description("armour", "These leggings possess the strength of the animal from which they were made."), 
                     16, 128, 45, new Distribution(2, 6), 11);
         }
 
@@ -61,7 +62,7 @@ public class Leggings extends Apparatus{
         private final static long serialVersionUID = 58843242333339L;
     
         public MailLeggings(){
-            super("Mail greaves", "The choice of most knights, these greaves offer unencumbered protection.", 
+            super(3,"Mail greaves", new Description("armour", "The choice of most knights, these greaves offer unencumbered protection."), 
                     32, 128, 100, new Distribution(5, 13), 13);
         }
 
@@ -72,7 +73,7 @@ public class Leggings extends Apparatus{
         private final static long serialVersionUID = 588444444732899L;
     
         public ScaleLeggings(){
-            super("Scale greaves", "Greaves constructed by dwarvern masters have insane durability.", 
+            super(4,"Scale greaves", new Description("armour", "Greaves constructed by dwarvern masters have insane durability."), 
                     48, 128, 210, new Distribution(3, 19), 17);
         }
 
@@ -83,7 +84,7 @@ public class Leggings extends Apparatus{
         private final static long serialVersionUID = 58845555555555L;
     
         public PlateLeggings(){
-            super("Plate legplates", "Lower body protection from these metal plates is unparalleled, however the metal rusts easily.", 
+            super(5,"Plate legplates", new Description("armour", "Lower body protection from these metal plates is unparalleled, however the metal rusts easily."), 
                     64, 128, 150, new Distribution(6, 21), 17);
         }
 

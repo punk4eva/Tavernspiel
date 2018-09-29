@@ -7,9 +7,6 @@ import animation.Animation;
 import animation.LoadableStillAnimation;
 import creatureLogic.Description;
 import creatures.Creature;
-import creatures.Hero;
-import items.consumables.Potion;
-import items.consumables.Scroll;
 import java.io.Serializable;
 import java.util.function.Supplier;
 import javax.swing.ImageIcon;
@@ -32,7 +29,8 @@ public class Item implements Serializable{
     public boolean stackable = true;
     public boolean flammable = false;
     public ItemAction actions[];
-    protected Boolean cursed, identified;
+    protected Boolean cursed;
+    protected boolean identified;
     
     /**
      * Creates an Instance.
@@ -137,11 +135,11 @@ public class Item implements Serializable{
     /**
      * Gets a pronouned representation of this Item.
      * @param level The level of detail.
-     * @param pro The pronoun.
+     * @param definite The pronoun.
      * @return A String
      */
-    public String getPronounedName(int level, String pro){
-        if(pro.equals("the")) return "the " + toString(level);
+    public String getPronounedName(int level, boolean definite){
+        if(definite) return "the " + toString(level);
         else{
             String ret = toString(level);
             if(ret.charAt(0)=='y'||ret.charAt(0)=='e'||ret.charAt(0)=='u'||
@@ -199,7 +197,7 @@ public class Item implements Serializable{
      */
     @Unfinished
     public boolean isIdentified(Creature c){
-        if(identified==null || !identified){
+        if(!identified){
             if(this instanceof Apparatus && ((Apparatus) this).usesTillIdentify!=0){
                 identified = false;
                 return false;
@@ -229,31 +227,15 @@ public class Item implements Serializable{
     }
     
     /**
-     * Checks if the Item is identified by the given hero.
-     * @param h The hero
+     * Checks if the Item is identified by the hero.
      * @return True if it is, false if not.
      */
-    public boolean isIdentified(Hero h){
-        if(identified==null || !identified){
-            if(this instanceof Apparatus && ((Apparatus) this).usesTillIdentify!=0){
-                identified = false;
-                return false;
-            }
-            if(this instanceof Scroll && h.data.scrollsToIdentify.contains((Scroll)this)){
-                identified = false;
-                return false;
-            }
-            if(this instanceof Potion && h.data.potionsToIdentify.contains((Potion)this)){
-                identified = false;
-                return false;
-            }
-            identified = true;
-        }
-        return true;
+    public boolean isIdentified(){
+        return identified;
     }
     
-    public String getName(){
-        return name;
+    public void identify(){
+        identified = true;
     }
     
     @Override

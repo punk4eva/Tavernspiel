@@ -1,6 +1,7 @@
 
 package items.equipment;
 
+import creatureLogic.Description;
 import creatures.Creature;
 import creatures.Hero;
 import static gui.LocationViewable.locationSelect;
@@ -36,7 +37,7 @@ public class Wand extends RangedWeapon implements ScreenListener{
      * @param name The name of the power.
      */
     public Wand(String name, Object[] obj, int dur, double sp){
-        super("Wand of " + name, (String) obj[0], (Supplier<ImageIcon>) obj[1], dur, null, -1, sp);
+        super(-1, "Wand of " + name, new Description("wands", (String) obj[0]), (Supplier<ImageIcon>) obj[1], dur, null, -1, sp);
         description.type = "wands";
         wandPowerName = name;
         wandPower = WandBuilder.powerMap.get(wandPowerName);
@@ -72,6 +73,11 @@ public class Wand extends RangedWeapon implements ScreenListener{
                 Window.main.removeViewable();
                 break;
         }
+    }
+    
+    @Override
+    public void upgrade(){
+        throw new UnsupportedOperationException();
     }
     
     

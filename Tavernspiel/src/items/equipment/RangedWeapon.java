@@ -1,6 +1,7 @@
 
 package items.equipment;
 
+import creatureLogic.Description;
 import creatures.Creature;
 import items.actions.ItemAction;
 import items.Usable;
@@ -20,23 +21,35 @@ public class RangedWeapon extends HeldWeapon implements Usable{
     private final static long serialVersionUID = 13413223203459L;
     
     public Distribution distanceDamage;
-    public Formula[] distanceDamageFormulas[];
+    public Formula distanceDamageFormula;
     public Distribution distanceAccuracy;
-    public Formula[] distanceAccuracyFormulas[];
-    public final double speed;
+    public Formula distanceAccuracyFormula;
+    public double speed, quality;
     
     /**
      * Creates a new instance.
+     * @param q
      * @param s The name.
      * @param desc The description.
      * @param lo The image.
      * @param dur The durability.
      * @param d The action distribution.
      * @param st The strength.
+     * @param sp
      */
-    public RangedWeapon(String s, String desc, Supplier<ImageIcon> lo, int dur, Distribution d, int st, double sp){
+    public RangedWeapon(double q, String s, Description desc, Supplier<ImageIcon> lo, int dur, Distribution d, int st, double sp){
         super(s, desc, lo, dur, d, st);
+        quality = q;
         speed = sp;
+    }
+    
+    @Override
+    public void upgrade(){
+        level++;
+        damageDistrib.add(quality);
+        maxDurability += 5;
+        durability = maxDurability;
+        testEnchantment();
     }
 
     @Override

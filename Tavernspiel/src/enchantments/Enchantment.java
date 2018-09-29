@@ -37,7 +37,12 @@ public abstract class Enchantment implements Serializable{
         hue2Regex = new int[]{13, 1, 18, 11};
     
     public enum EnchantmentAffinity{
-        OFFENSIVE, DEFENSIVE, HEALING, FOCUS, SACRIFICIAL, MIND, NULL;
+        OFFENSIVE(-1), DEFENSIVE(1), HEALING(2), SACRIFICIAL(-2), FOCUS(-3), MIND(3), NULL(4);
+        
+        public final int code;
+        private EnchantmentAffinity(int i){
+            code = i;
+        }
     }
     
     /**
@@ -142,6 +147,14 @@ public abstract class Enchantment implements Serializable{
      * @param lev The new level.
      */
     public abstract void update(int lev);
+    
+    public boolean penalize(EnchantmentAffinity context){
+        if(context.code==affinity.code) level *= 0.4+Distribution.r.nextDouble()*0.6;
+        else if(context.code+affinity.code==0) level *= 0.1 + 0.75 * Distribution.r.nextDouble();
+        else level *= 0.2+Distribution.r.nextDouble()*0.8;
+        if(level<0.1) return true;
+        return false;
+    }
     
     /**
      * Returns a colour representing this Enchantment.
