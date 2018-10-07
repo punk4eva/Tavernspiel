@@ -336,6 +336,16 @@ public class Area implements Serializable{
     }
     
     /**
+     * Checks if there is a Creature on the given Tile.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @return True if there is, false if not.
+     */
+    public boolean creaturePresent(int x, int y){
+        return objects.stream().anyMatch(c -> c instanceof Creature && c.x==x && c.y==y);
+    }
+    
+    /**
      * Deserializes an AreaTemplate and generates an Area from it.
      * @param filepath The filepath of the AreaTemplate.
      * @return

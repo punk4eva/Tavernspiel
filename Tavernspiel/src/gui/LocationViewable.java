@@ -1,8 +1,10 @@
 
 package gui;
 
+import creatures.Creature;
 import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
+import gui.mainToolbox.Screen.ScreenEvent;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.LinkedList;
@@ -16,11 +18,14 @@ import logic.ConstantFields;
  * 
  * This class is the location Viewable.
  */
-public class LocationViewable implements Viewable{
+public class LocationViewable implements Viewable, ScreenListener{
     
-    public final static LocationViewable locationSelect = new LocationViewable(null);
+    public final static LocationViewable LOCATION_SELECT = new LocationViewable(null);
 
     private ScreenListener listener;
+    private String message;
+    private Creature creature;
+    private ClickPredicate clickPredicate;
     protected final List<Screen> screens;
 
     /**
@@ -49,19 +54,30 @@ public class LocationViewable implements Viewable{
         g.setColor(new Color(230, 25, 25));
         g.fill3DRect(bw+108, bh+8, 24, 24, true);
         g.setColor(ConstantFields.plainColor);
-        g.drawString("Select a location", bw+8, bh+20);
+        g.drawString(message, bw+8, bh+20);
         g.drawString("X", bw+116, bh+20);
     }
-
+    
     /**
-     * Changes the ScreenListener.
-     * @param l
+     * Changes the data.
+     * @param l The ScreenListener
+     * @param mes The message to display.
+     * @param c The predicate determining whether a tile is clickable.
      */
-    public void changeListener(ScreenListener l){
+    public void setData(ScreenListener l, String mes, Creature a, ClickPredicate... c){
         listener = l;
-        screens.forEach((sc) -> {
-            sc.changeScreenListener(l);
-        });
+        creature = a;
+        message = mes;
+        if(c.length!=0) clickPredicate = c[0];
+    }
+
+    @Override
+    public void screenClicked(ScreenEvent sc){
+        if(clickPredicate==null||clickPredicate.test(creature, sc.x, sc.y)) listener.screenClicked(sc);
+    }
+    
+    public static interface ClickPredicate{
+        public boolean test(Creature c, int x, int y);
     }
 
 };

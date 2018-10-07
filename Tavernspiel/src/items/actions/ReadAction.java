@@ -15,7 +15,7 @@ public class ReadAction extends ItemAction{
     }
 
     @Override
-    public void act(Item i, Creature c, int x, int y, int slot, Object... data){
+    public void act(Item i, Creature c, int slot, Object... data){
         throw new UnsupportedOperationException("Not supported yet.");
     }
     

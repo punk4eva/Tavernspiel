@@ -16,7 +16,7 @@ public class EquipAction extends ItemAction{
     }
 
     @Override
-    public void act(Item item, Creature c, int x, int y, int slot, Object... data){
+    public void act(Item item, Creature c, int slot, Object... data){
         if(data.length==0) c.attributes.ai.BASEACTIONS.equip(c, (Apparatus)item, slot);
         else c.attributes.ai.BASEACTIONS.equip(c, (Apparatus)item, slot, (Integer)data[0]);
     }

@@ -32,7 +32,7 @@ public class MeleeWeapon extends HeldWeapon{
         reach = re;
         damageBlock = bl;
         quality = q;
-        actions = standardActions(3, this);
+        actions = standardActions(3);
     }
 
     @Override
@@ -41,6 +41,7 @@ public class MeleeWeapon extends HeldWeapon{
         damageDistrib.add(quality);
         maxDurability += 5;
         durability = maxDurability;
+        strength -= 1D/level;
         testEnchantment();
     }
     

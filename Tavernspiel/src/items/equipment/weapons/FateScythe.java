@@ -24,9 +24,20 @@ import items.equipment.MeleeWeapon;
  */
 public class FateScythe extends MeleeWeapon{
     
+    private int usesTillMastery = 60; /*Damage scales to 12-27*/
+    
     public FateScythe(){
         super(3, "Fate's Scythe", 112, 80, new Description("weapons", 
-                "The unwieldly shape of this weapon means it needs a lot of skill to master. It is designed to quickly eliminate multiple opponents.","This weapon has insane durability, is well balanced and blocks some damage but takes a while to master."), 205, 19, 12, 27, 1, 1.08, 1.08, 2);
+                "The unwieldly shape of this weapon means it needs a lot of skill to master. It is designed to quickly eliminate multiple opponents.","This weapon has insane durability, is well balanced and blocks some damage but takes a while to master."), 205, 19, 2, 7, 1, 1.08, 1.08, 2);
+    }
+    
+    @Override
+    public void use(){
+        super.use();
+        if(usesTillMastery>0){
+            usesTillMastery--;
+            if(usesTillMastery%6==0) damageDistrib.add(1, 2);
+        }
     }
     
 }

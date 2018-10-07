@@ -4,7 +4,6 @@ package items.equipment;
 import creatureLogic.Description;
 import creatures.Creature;
 import creatures.Hero;
-import static gui.LocationViewable.locationSelect;
 import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
 import gui.Window;
@@ -14,6 +13,7 @@ import java.io.ObjectInputStream;
 import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 import listeners.ScreenListener;
+import static gui.LocationViewable.LOCATION_SELECT;
 
 /**
  *
@@ -49,8 +49,8 @@ public class Wand extends RangedWeapon implements ScreenListener{
      */
     public void fire(Hero h){
         hero = h;
-        locationSelect.changeListener(this);
-        Window.main.setViewable(locationSelect);
+        LOCATION_SELECT.setData(this, "Select a tile to shoot.", null);
+        Window.main.setViewable(LOCATION_SELECT);
     }
     
     /**

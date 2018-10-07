@@ -188,11 +188,21 @@ public class Distribution implements Serializable{
     }
     
     /**
-     *
-     * @param a
+     * Ups all the values in the output array by 'a'.
+     * @param a The additive.
      */
     public void add(double a){
         for(int n=0;n<outputs.length;n++) outputs[n] += a;
+    }
+    
+    /**
+     * Ups the first value by 'a' and the second by 'b'.
+     * @param a The additive.
+     * @param b The additive.
+     */
+    public void add(double a, double b){
+        outputs[0] += a;
+        outputs[1] += b;
     }
     
     /**

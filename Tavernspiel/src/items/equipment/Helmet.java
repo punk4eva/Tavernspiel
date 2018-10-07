@@ -31,7 +31,7 @@ public class Helmet extends Armor{
      */
     public Helmet(double q, String s, Description desc, int x, int y, int dur, Distribution d, int st){
         super(q, s, desc, (Serializable&Supplier<ImageIcon>)()->ItemBuilder.getIcon(x, y), dur, d, st);
-        actions = standardActions(3, this);
+        actions = standardActions(3);
     }
     
     public static class ClothHelmet extends Helmet{

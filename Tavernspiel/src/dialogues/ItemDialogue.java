@@ -5,6 +5,7 @@ import creatureLogic.Expertise;
 import gui.Window;
 import items.Item;
 import items.actions.ItemAction;
+import listeners.ScreenItem;
 
 /**
  *
@@ -22,7 +23,7 @@ public class ItemDialogue extends Dialogue{
      * @param expertise The expertise to judge.
      */
     public ItemDialogue(Item item, Expertise expertise){
-        super(item.name + "\n\n" + item.description.getDescription(expertise), 
+        super(((item instanceof ScreenItem && ((ScreenItem)item).onOpeningDialogue() ? "" : "") + item.name + "\n\n" + item.description.getDescription(expertise)), 
                 (String) null, ItemAction.toStringArray(item.actions));
         actions = item.actions;
     }

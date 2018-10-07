@@ -33,7 +33,7 @@ public class Boots extends Armor{
         super(q, s, desc, 
                 (Serializable&Supplier<ImageIcon>)()->ItemBuilder.getIcon(x, y), 
                 dur, d, st);
-        actions = standardActions(3, this);
+        actions = standardActions(3);
     }
     
     public static class ClothBoots extends Boots{

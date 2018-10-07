@@ -3,6 +3,7 @@ package items.actions;
 
 import creatures.Creature;
 import items.Item;
+import items.actions.special.*;
 import java.io.Serializable;
 
 
@@ -43,7 +44,7 @@ public abstract class ItemAction implements Serializable{
      * @param i The Item.
      * @return The array.
      */
-    public static ItemAction[] getDefaultActions(Item i){
+    public static ItemAction[] getDefaultActions(){
         return new ItemAction[]{THROW, DROP};
     }
     
@@ -51,10 +52,9 @@ public abstract class ItemAction implements Serializable{
      * Returns an ItemAction array of the given length, with THROW and DROP 
      * being the first choices.
      * @param length The length of the array.
-     * @param i The Item.
      * @return an ItemAction array.
      */
-    public static ItemAction[] getArray(int length, Item i){
+    public static ItemAction[] getArray(int length){
         ItemAction[] ret = new ItemAction[length];
         ret[0] = THROW;
         ret[1] = DROP;
@@ -79,16 +79,16 @@ public abstract class ItemAction implements Serializable{
      * Acts on an Item and a Creature.
      * @param i
      * @param c
-     * @param x
-     * @param y
      * @param slot
      * @param data
      */
-    public abstract void act(Item i, Creature c, int x, int y, int slot, Object... data);
+    public abstract void act(Item i, Creature c, int slot, Object... data);
     
     public static final ItemAction THROW = new ThrowAction(),
             DROP = new DropAction(), EQUIP = new EquipAction(), 
             UNEQUIP = new UnequipAction(), READ = new ReadAction(),
-            DRINK = new DrinkAction();
+            DRINK = new DrinkAction(), DRAGON_SLICE = new DragonSliceAction(),
+            DRAGON_FLAME = new DragonFlameAction(), DRAGON_WRATH = 
+            new DragonWrathAction();
     
 }

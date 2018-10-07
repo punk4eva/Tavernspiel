@@ -7,13 +7,10 @@ import creatureLogic.EnClass;
 import creatures.Creature;
 import creatures.Hero;
 import dialogues.StatisticsDialogue;
-import static gui.LocationViewable.locationSelect;
 import gui.mainToolbox.Main;
-import gui.mainToolbox.Screen;
 import gui.Window;
 import items.Item;
 import level.Area;
-import listeners.ScreenListener;
 import logic.ConstantFields;
 import logic.Distribution;
 import logic.Utils.Unfinished;
@@ -76,8 +73,8 @@ public class AIPlayerActions extends AIBaseActions{
      * @param h The Hero
      * @param item The Item
      */
-    public void throwItem(Hero h, Item item){
-        locationSelect.changeListener((ScreenListener) (Screen.ScreenEvent sc) -> {
+    /*public void throwItem(Hero h, Item item){
+        LOCATION_SELECT.changeListener((ScreenListener) (Screen.ScreenEvent sc) -> {
             System.out.println(sc.getName());
             switch(sc.getName()){
                 case "backLocation": throwItem(h, item, sc.x, sc.y);
@@ -85,8 +82,8 @@ public class AIPlayerActions extends AIBaseActions{
                     break;
             }
         });
-        Window.main.setViewable(locationSelect);
-    }
+        Window.main.setViewable(LOCATION_SELECT);
+    }*/
     
     /**
      * Interacts with this Tile.
