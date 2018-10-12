@@ -73,7 +73,7 @@ public class PriorityQueue<T extends Object> extends ArrayList<T> implements Com
      * A lambda interface for enumerating the elements of this queue.
      * @param <T> The element type
      */
-    protected interface Compare<T>{
+    public interface Compare<T>{
         long enumerate(T element);
     }
     protected final Compare<T> compare;

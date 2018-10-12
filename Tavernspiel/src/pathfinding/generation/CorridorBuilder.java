@@ -1,5 +1,5 @@
 
-package pathfinding;
+package pathfinding.generation;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -7,6 +7,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import level.Area;
 import logic.Distribution;
+import pathfinding.Graph;
+import pathfinding.Path;
+import pathfinding.Point;
+import pathfinding.PriorityQueue;
+import pathfinding.Searcher;
+import pathfinding.Waypoint;
 import static pathfinding.Searcher.directions;
 import tiles.assets.Barricade;
 import tiles.assets.Door;
@@ -36,7 +42,7 @@ public class CorridorBuilder{
         }
         
         @Override
-        public void floodfill(Point start){
+        public void checkedFloodfill(Point start){
             graph.use();
             frontier.clear();
             start.currentCost = 0;
@@ -67,12 +73,12 @@ public class CorridorBuilder{
                     e = Distribution.getRandomInt(0, points.size(), s);
             Waypoint start = points.get(s);
             setDestination(points.remove(e));
-            floodfill(start);
+            checkedFloodfill(start);
             carry.add(graph.followTrail(end.x, end.y));
             if(points.size()==1) return carry;
             if(points.size()==2){
                 setDestination(points.get(1));
-                floodfill(points.get(0));
+                checkedFloodfill(points.get(0));
                 carry.add(graph.followTrail(end.x, end.y));
                 return carry;
             }
@@ -82,7 +88,7 @@ public class CorridorBuilder{
         
         Path generatePath(Point p1, Point p2){
             setDestination(p2);
-            floodfill(p1);
+            checkedFloodfill(p1);
             return graph.followTrail(p2.x, p2.y);
         }
         
@@ -207,7 +213,7 @@ public class CorridorBuilder{
                 area.startCoords[0], area.startCoords[1]);
         Searcher search = new Searcher(area.graph, area);
         WanderingCorridorAlgorithm corSearch = new WanderingCorridorAlgorithm();
-        search.floodfill(new Point(area.startCoords[0], area.startCoords[1]));
+        search.checkedFloodfill(new Point(area.startCoords[0], area.startCoords[1]));
         for(Point p : area.graph.waypoints){
             if(p.cameFrom==null) buildCorridor(corSearch.generatePath(waypoint, p));
         }

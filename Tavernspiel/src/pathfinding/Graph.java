@@ -18,8 +18,8 @@ public class Graph implements Serializable{
     
     private final static long serialVersionUID = 69062958;
     
-    Point[][] map;
-    Waypoint[] waypoints;
+    public Point[][] map;
+    public Waypoint[] waypoints;
     private boolean used = false;
     public final Searcher searcher;
     
@@ -92,9 +92,9 @@ public class Graph implements Serializable{
         return new Path(ret.descendingIterator());
     }
     
-    protected void initializeWaypoints(){
+    public void initializeWaypoints(){
         for(int w=0;w<waypoints.length;w++){
-            searcher.diagonalFloodfill(waypoints[w]);
+            searcher.extendedFloodfill(waypoints[w]);
             for(int ow=0;ow<waypoints.length;ow++) if(ow!=w)
                 waypoints[w].pathsToWaypoints.put(waypoints[ow], followTrail(waypoints[ow].x, waypoints[ow].y));
         }
@@ -103,7 +103,7 @@ public class Graph implements Serializable{
     /**
      * Ensures this Graph is ready for use.
      */
-    protected void use(){
+    public void use(){
         if(!used) used = true;
         else for(int y=0;y<map.length;y++){
             for(int x=0;x<map[0].length;x++){
