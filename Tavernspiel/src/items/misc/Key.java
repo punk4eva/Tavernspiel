@@ -18,14 +18,14 @@ public class Key extends Item{
     public Key(int d){
         super("Key", KeyType.NORMAL.description, 16, 16);
         depth = d;
-        actions = ItemAction.getDefaultActions(this);
+        actions = ItemAction.getDefaultActions();
         type = KeyType.NORMAL;
     }
     
     public Key(int d, KeyType t){
         super("Key", "KEY CONSTRUCTOR", 16, 16);
         depth = d;
-        actions = ItemAction.getDefaultActions(this);
+        actions = ItemAction.getDefaultActions();
         type = t;
         description.layers[0] = type.description;
     }

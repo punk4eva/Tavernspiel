@@ -78,6 +78,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
      */
     public void gainXP(int e){
         attributes.level.gainXP(e, attributes);
+        if(attributes.xpListener!=null) attributes.xpListener.xpChange(e, attributes.level.level);
     }
     
     /**
@@ -153,7 +154,6 @@ public class Creature extends GameObject implements Comparable<Creature>{
         return null;
     }
 
-    
     /**
      * Adds the given buff.
      * @param buff The buff.
@@ -232,7 +232,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
     public double nextHit(){
         return equipment.nextHit(attributes.strength);
     }
-
+    
     @Override
     public int compareTo(Creature t){
         throw new UnsupportedOperationException("Not supported yet.");

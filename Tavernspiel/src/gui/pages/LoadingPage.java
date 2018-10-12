@@ -19,7 +19,9 @@ public class LoadingPage implements Page{
     private static final String[] TIPS = new String[]{"Do you even read these?", "Another random tip!",
             "Just because a weapon deals more damage than another, does not mean it is better. All weapons are nuanced in speed, accuracy and durability.",
             "Some weapons have secrets waiting to be discovered by a skilled enough wielder.", 
-            "To get more information about the speed of a weapon, find someone willing to teach you the art of weaponry."};
+            "To get more information about the speed of a weapon, find someone willing to teach you the art of weaponry.",
+            "The harder you look, the more powerful the items that you find will be.",
+            "There are rumours of the existance of an axe made of the wings of a dragon."};
 
     public LoadingPage(){
         rand = Distribution.r.nextInt(TIPS.length);

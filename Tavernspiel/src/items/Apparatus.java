@@ -13,7 +13,6 @@ import items.equipment.Chestplate;
 import items.equipment.HeldWeapon;
 import items.equipment.Helmet;
 import items.equipment.Leggings;
-import items.equipment.MeleeWeapon;
 import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 import level.Location;
@@ -29,13 +28,13 @@ public abstract class Apparatus extends Item{
     
     private final static long serialVersionUID = 308217;
     
-    private Equipment equipment;
+    protected Equipment equipment;
     public int durability;
     public int maxDurability;
-    public int level = 0;
+    public double level = 0;
     public Enchantment enchantment;
     public double strength = -1;
-    public int usesTillIdentify = 20;
+    public int usesTillIdentify = 10 + Distribution.r.nextInt(21);
     private final Supplier<ImageIcon> imageLoader;
     
     /**
@@ -124,14 +123,21 @@ public abstract class Apparatus extends Item{
         equipment = eq;
     }
     
+    @Override
+    public void identify(){
+        super.identify();
+        usesTillIdentify = 0;
+    }
+    
+    
+    
     /**
      * Creates an ItemAction array for Apparatus with the given length.
      * @param length
-     * @param i The Item.
      * @return The ItemAction array.
      */
-    public static ItemAction[] standardActions(int length, Apparatus i){
-        ItemAction[] ret = ItemAction.getArray(length, i);
+    public static ItemAction[] standardActions(int length){
+        ItemAction[] ret = ItemAction.getArray(length);
         ret[2] = ItemAction.EQUIP;
         return ret;
     }

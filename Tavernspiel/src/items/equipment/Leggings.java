@@ -32,7 +32,7 @@ public class Leggings extends Armor{
     public Leggings(double q, String s, Description desc, int x, int y, int dur, Distribution d, int st){
         super(q, s, desc, (Serializable&Supplier<ImageIcon>)()->ItemBuilder.getIcon(x, y), dur, d, st);
         description.type = "armour";
-        actions = standardActions(3, this);
+        actions = standardActions(3);
     }
     
     public static class ClothLeggings extends Leggings{

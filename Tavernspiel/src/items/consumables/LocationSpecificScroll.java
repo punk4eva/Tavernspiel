@@ -2,7 +2,6 @@ package items.consumables;
 
 import creatures.Creature;
 import creatures.Hero;
-import static gui.LocationViewable.locationSelect;
 import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen.ScreenEvent;
 import gui.Window;
@@ -13,6 +12,7 @@ import java.util.concurrent.CyclicBarrier;
 import level.Area;
 import listeners.ScreenListener;
 import logic.Utils.Catch;
+import static gui.LocationViewable.LOCATION_SELECT;
 
 /**
  *
@@ -45,8 +45,8 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
         if(c instanceof Hero){
             hero = (Hero) c;
             area = c.area;
-            locationSelect.changeListener(this);
-            Window.main.setViewable(locationSelect);
+            LOCATION_SELECT.setData(this, "Select a tile.", null);
+            Window.main.setViewable(LOCATION_SELECT);
             try{
                 barrier.await();
             }catch(InterruptedException | BrokenBarrierException ex){}

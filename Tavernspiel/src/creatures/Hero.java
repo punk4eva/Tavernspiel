@@ -64,12 +64,6 @@ public class Hero extends Creature{
         screens.addAll(equipment.screens);
         screens.addAll(((HeroInventory)inventory).screens);
     }
-
-    //@Unfinished may need to remove if unnecessary.
-    /*@Override
-    public void turn(double delta){
-    super.turn(delta);
-    }*/
     
     @Override
     public void render(Graphics g, int focusX, int focusY){

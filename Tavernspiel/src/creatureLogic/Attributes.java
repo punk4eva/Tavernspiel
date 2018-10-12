@@ -3,6 +3,7 @@ package creatureLogic;
 
 import ai.AITemplate;
 import java.io.Serializable;
+import listeners.XPListener;
 
 /**
  * 
@@ -28,6 +29,7 @@ public class Attributes implements Serializable{
     public Level level;
     public int xpOnDeath = 0;
     public boolean invisible = false;
+    public XPListener xpListener;
     
     /**
      * Creates a new instance.

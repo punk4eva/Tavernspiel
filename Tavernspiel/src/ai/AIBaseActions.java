@@ -21,6 +21,7 @@ import level.Area;
 import listeners.StepListener;
 import logic.ConstantFields;
 import logic.Distribution;
+import logic.Utils.Unfinished;
 import pathfinding.Point;
 import tiles.assets.Door;
 import tiles.HiddenTile;
@@ -254,6 +255,7 @@ public class AIBaseActions implements Serializable{
      * @param x
      * @param y
      */
+    @Unfinished("Check Treadable")
     public void throwItem(Creature c, Item i, int x, int y){
         c.inventory.remove(i);
         Main.animator.throwItem(c.x, c.y, i, x, y);

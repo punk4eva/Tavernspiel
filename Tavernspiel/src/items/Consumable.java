@@ -29,7 +29,7 @@ public abstract class Consumable extends Item implements Usable{
         super(n, desc, lo, true);
         unknownName = uN;
         identified = idd;
-        actions = ItemAction.getArray(3, this);
+        actions = ItemAction.getArray(3);
     }
     
     /**
@@ -45,7 +45,7 @@ public abstract class Consumable extends Item implements Usable{
         super(n, desc, lo, q);
         identified = idd;
         unknownName = uN;
-        actions = ItemAction.getArray(3, this);
+        actions = ItemAction.getArray(3);
     }
     
     /**
@@ -62,7 +62,7 @@ public abstract class Consumable extends Item implements Usable{
         super(n, desc, lo, q, flam);
         identified = idd;
         unknownName = uN;
-        actions = ItemAction.getArray(3, this);
+        actions = ItemAction.getArray(3);
     }
     
     /**
@@ -77,7 +77,7 @@ public abstract class Consumable extends Item implements Usable{
         super(n, desc, lo, 1);
         identified = idd;
         unknownName = uN;
-        actions = ItemAction.getArray(3, this);
+        actions = ItemAction.getArray(3);
     }
     
     /**

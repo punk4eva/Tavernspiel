@@ -15,7 +15,7 @@ public class UnequipAction extends ItemAction{
     }
 
     @Override
-    public void act(Item item, Creature c, int x, int y, int slot, Object... data){
+    public void act(Item item, Creature c, int slot, Object... data){
         c.attributes.ai.BASEACTIONS.unequip(c, item);
     }
     
