@@ -63,4 +63,11 @@ public class Path extends ArrayList<Point>{
         });
     }
     
+    public void cutToWaypoint(){
+        for(int n = size()-1;n>=0;n--) if(get(n) instanceof Waypoint){
+            removeRange(n+1, size());
+            break;
+        }
+    }
+    
 }

@@ -20,8 +20,8 @@ public class Graph implements Serializable{
     
     public Point[][] map;
     public Waypoint[] waypoints;
-    private boolean used = false;
     public final Searcher searcher;
+    public NavigationMesh navMesh;
     
     /**
      * Creates an instance.
@@ -55,23 +55,12 @@ public class Graph implements Serializable{
     public Waypoint getClosestWaypoint(int x, int y){
         Waypoint ret = waypoints[0];
         for(int n=1;n<waypoints.length;n++){
-            if(ret.getOODistance(x, y) > 
-                    waypoints[n].getOODistance(x, y)){
+            if(ret.getOMDistance(x, y) > 
+                    waypoints[n].getOMDistance(x, y)){
                 ret = waypoints[0];
             }
         }
         return ret;
-    }
-    
-    /**
-     * Returns the nth closest WayPoint to the given coordinates.
-     * @param x
-     * @param y
-     * @param n
-     * @return
-     */
-    public Waypoint getNthClosestWaypoint(final int x, final int y, final int n){
-        return (Waypoint) new PriorityQueue(waypoints, (p) -> ((Waypoint) p).getOODistance(x, y)).get(n);
     }
     
     /**
@@ -92,30 +81,12 @@ public class Graph implements Serializable{
         return new Path(ret.descendingIterator());
     }
     
-    public void initializeWaypoints(){
-        for(int w=0;w<waypoints.length;w++){
-            searcher.extendedFloodfill(waypoints[w]);
-            for(int ow=0;ow<waypoints.length;ow++) if(ow!=w)
-                waypoints[w].pathsToWaypoints.put(waypoints[ow], followTrail(waypoints[ow].x, waypoints[ow].y));
-        }
-    }
-    
     /**
-     * Ensures this Graph is ready for use.
+     * Ensures this Graph is ready for use by reseting all trails.
      */
-    public void use(){
-        if(!used) used = true;
-        else for(int y=0;y<map.length;y++){
-            for(int x=0;x<map[0].length;x++){
-                boolean p = map[y][x].isCorridor;
-                if(map[y][x].checked!=null){
-                    map[y][x] = new Point(x, y);
-                }else{
-                    map[y][x] = new Point(x, y, null);
-                }
-                map[y][x].isCorridor = p;
-            }
-        }
+    public void reset(){
+        for(Point[] row : map)
+            for(int x = 0; x<map[0].length; x++) row[x].reset();
     }
     
     /**
@@ -137,16 +108,14 @@ public class Graph implements Serializable{
      * @param focusY
      * @param area
      */
-    public void paint(Graphics g, int focusX, int focusY, Area area){
+    public void debugPaint(Graphics g, int focusX, int focusY, Area area){
         for(int y=focusY;y<focusY+map.length*16;y+=16){
             for(int x=focusX;x<focusX+map[0].length*16;x+=16){ 
                 Point point = map[(y-focusY)/16][(x-focusX)/16];
                 if(point!=null) point.paint(g, x, y, area);
             }
         }
-        for(Waypoint w : waypoints) w.pathsToWaypoints.values().forEach((p) -> {
-            p.paint(g, focusX, focusY);
-        });
+        navMesh.debugPaint(g, focusX, focusY);
     }
 
     /**

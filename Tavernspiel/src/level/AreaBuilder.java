@@ -125,7 +125,7 @@ public class AreaBuilder implements Serializable{
     }
     
     private int[] getConjoiningCoords(Area area, Area add, Point point, int x, int y){
-        int[] c = point.getCoords();
+        int[] c = new int[]{point.x, point.y};
         switch(getDoorDirection(area, c[0], c[1])){
             case 0:
                 c[0] -= Distribution.r.nextInt(add.dimension.width-2)+1;

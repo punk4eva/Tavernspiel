@@ -40,7 +40,7 @@ public class MazeBuilder{
         for(int cy=y;cy<height+y;cy++)
             for(int cx=x;cx<width+x;cx++) area.map[cy][cx] = Tile.wall(area.location);
         if(area.graph==null) area.graph = new Graph(area);
-        else area.graph.use();
+        else area.graph.reset();
         int dx = Distribution.r.nextInt(area.dimension.width/2-2)*2+3,
                 dy = Distribution.r.nextInt(area.dimension.height/2-2)*2+3;
         new MazeAlgorithm().checkedFloodfill(area.graph.map[dy][dx]);
@@ -55,7 +55,7 @@ public class MazeBuilder{
         
         @Override
         public void checkedFloodfill(Point start){
-            graph.use();
+            graph.reset();
             Point next;
             start.checked = true;
             int doors = Distribution.getRandomInt(2, (area.dimension.width+area.dimension.height)*7/50);

@@ -5,7 +5,6 @@ import creatureLogic.VisibilityOverlay;
 import java.io.Serializable;
 import level.Area;
 import logic.Utils.Optimisable;
-import logic.Utils.Unfinished;
 import pathfinding.Point.Direction;
 import pathfinding.Point.ExtendedDirection;
 import pathfinding.PriorityQueue.Compare;
@@ -37,8 +36,7 @@ public class Searcher implements Serializable{
      * @param end The destination to navigate to.
      */
     public void initializeEndpoint(Point end){
-        addCheck = (from, to) -> to.currentCost > from.currentCost + to.movementCost;
-        frontier = new PriorityQueue<>(p -> p.currentCost + p.getOODistance(end));
+        frontier = new PriorityQueue<>(p -> p.currentCost + p.getOMDistance(end));
     }
     
     /**
@@ -57,7 +55,7 @@ public class Searcher implements Serializable{
      * @param start The starting point.
      */
     public void checkedFloodfill(Point start){
-        graph.use();
+        graph.reset();
         frontier.clear();
         start.currentCost = 0;
         frontier.add(start);
@@ -83,7 +81,7 @@ public class Searcher implements Serializable{
      * @param start The starting point.
      */
     public void extendedFloodfill(Point start){
-        graph.use();
+        graph.reset();
         frontier.clear();
         start.currentCost = 0;
         frontier.add(start);
@@ -112,7 +110,7 @@ public class Searcher implements Serializable{
      * @see findExpressRoute()
      */
     public Path findPath(Point start, Point end){
-        graph.use();
+        graph.reset();
         frontier.clear();
         start.currentCost = 0;
         frontier.add(start);
@@ -122,7 +120,7 @@ public class Searcher implements Serializable{
             for(ExtendedDirection dir : extendedDirections){
                 nx = p.x+dir.x;
                 ny = p.y+dir.y;
-                try{ if(graph.map[ny][nx].checked!=null&&(!graph.map[ny][nx].checked||addCheck.check(p, graph.map[ny][nx]))){
+                try{ if(graph.map[ny][nx].checked!=null&&(!graph.map[ny][nx].checked/*||addCheck.check(p, graph.map[ny][nx])*/)){
                     graph.map[ny][nx].checked = true;
                     graph.map[ny][nx].cameFrom = p;
                     graph.map[ny][nx].currentCost = p.currentCost + graph.map[ny][nx].movementCost;
@@ -141,7 +139,7 @@ public class Searcher implements Serializable{
      * @return
      */
     public Path findNullPath(Point start, Point end){
-        graph.use();
+        graph.reset();
         frontier.clear();
         start.currentCost = 0;
         frontier.add(start);
@@ -154,7 +152,7 @@ public class Searcher implements Serializable{
                 try{ if(graph.map[ny][nx].equals(end)){
                     graph.map[ny][nx].cameFrom = p;
                     return graph.followTrail(end.x, end.y);
-                }else if((graph.map[ny][nx].checked==null||graph.map[ny][nx].isCorridor)&&addCheck.check(p, graph.map[ny][nx])){
+                }else if((graph.map[ny][nx].checked==null||graph.map[ny][nx].isCorridor)/*&&addCheck.check(p, graph.map[ny][nx])*/){
                     graph.map[ny][nx].checked = true;
                     graph.map[ny][nx].cameFrom = p;
                     graph.map[ny][nx].currentCost = p.currentCost + graph.map[ny][nx].movementCost;
@@ -173,22 +171,20 @@ public class Searcher implements Serializable{
      * @param end The destination.
      * @return The shortest path between start and end.
      */
-    @Unfinished("May be redundant")
-    @Optimisable("Heuristic calculations only account for likely scenarios.")
     public Path findExpressRoute(Point start, Point end){
-        Waypoint startStation = graph.getClosestWaypoint(start.x, start.y);
-        Waypoint endStation = graph.getClosestWaypoint(end.x, end.y);
-        initializeEndpoint(end);
-        int commonDist = start.getOODistance(end);
-        if(start.getOODistance(startStation)>commonDist||
-                end.getOODistance(startStation)>commonDist||
-                startStation.equals(endStation)){
+        if(start.roomNum == end.roomNum){
+            initializeEndpoint(end);
             return findPath(start, end);
+        }else{
+            Path b = graph.navMesh.retrievePath(start.roomNum, end.roomNum);
+            initializeEndpoint(b.get(0));
+            Path a = findPath(start, b.get(0));
+            initializeEndpoint(end);
+            a.concatenate(b);
+            start = a.remove(a.size()-1);
+            a.concatenate(findPath(start, end));
+            return a;
         }
-        Path p = findPath(start, startStation);
-        p.concatenate(startStation.pathsToWaypoints.get(endStation));
-        p.concatenate(findPath(endStation, end));
-        return p;
     }
     
     /**
@@ -201,7 +197,7 @@ public class Searcher implements Serializable{
      */
     @Optimisable("Use Waypoint path concatenation.")
     public Path findPlayerRoute(Point start, Point end, VisibilityOverlay fov){
-        graph.use();
+        graph.reset();
         frontier.clear();
         start.currentCost = 0;
         frontier.add(start);
@@ -211,7 +207,7 @@ public class Searcher implements Serializable{
             for(ExtendedDirection dir : extendedDirections){
                 nx = p.x+dir.x;
                 ny = p.y+dir.y;
-                try{ if(fov.map[ny][nx]!=0&&graph.map[ny][nx].checked!=null&&(!graph.map[ny][nx].checked||addCheck.check(p, graph.map[ny][nx]))){
+                try{ if(fov.map[ny][nx]!=0&&graph.map[ny][nx].checked!=null&&(!graph.map[ny][nx].checked/*||addCheck.check(p, graph.map[ny][nx])*/)){
                     graph.map[ny][nx].checked = true;
                     graph.map[ny][nx].cameFrom = p;
                     graph.map[ny][nx].currentCost = p.currentCost + graph.map[ny][nx].movementCost;

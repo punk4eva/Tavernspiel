@@ -19,6 +19,7 @@ public class Point implements Serializable{
     public Point cameFrom = null; //null if starting point. 
     public int currentCost = Integer.MAX_VALUE;
     public boolean isCorridor = false;
+    public int roomNum = -1;
     /**
      * This Enum represents all the cardinal directions.
      */
@@ -131,11 +132,17 @@ public class Point implements Serializable{
     }
     
     
-    public int getOODistance(Point p){
+    public void reset(){
+        if(checked!=null) checked = false;
+        cameFrom = null;
+        currentCost = Integer.MAX_VALUE;
+    }
+    
+    public int getOMDistance(Point p){
         return Math.max(Math.abs(x-p.x), Math.abs(y-p.y));
     }
     
-    public int getOODistance(int x1, int y1){
+    public int getOMDistance(int x1, int y1){
         return Math.max(Math.abs(x-x1), Math.abs(y-y1));
     }
     
@@ -143,10 +150,13 @@ public class Point implements Serializable{
         return x==p.x&&y==p.y;
     }
     
-    public int[] getCoords(){
-        return new int[]{x, y};
-    }
-    
+    /**
+     * Debug method
+     * @param g
+     * @param _x
+     * @param _y
+     * @param area
+     */
     public void paint(Graphics g, int _x, int _y, Area area){
         //if(isCorridor) g.setColor(Color.BLUE);
         //else if(checked==null) g.setColor(Color.WHITE);

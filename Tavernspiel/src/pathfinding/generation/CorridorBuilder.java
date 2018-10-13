@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import level.Area;
 import logic.Distribution;
 import pathfinding.Graph;
+import pathfinding.NavigationMesh;
 import pathfinding.Path;
 import pathfinding.Point;
 import pathfinding.PriorityQueue;
@@ -38,12 +39,12 @@ public class CorridorBuilder{
         
         void setDestination(Point d){
             end = d;
-            frontier = new PriorityQueue<>(p -> Distribution.getRandomInt(5, 15) +  p.currentCost + p.getOODistance(d));
+            frontier = new PriorityQueue<>(p -> Distribution.getRandomInt(5, 15) +  p.currentCost + p.getOMDistance(d));
         }
         
         @Override
         public void checkedFloodfill(Point start){
-            graph.use();
+            graph.reset();
             frontier.clear();
             start.currentCost = 0;
             frontier.add(start);
@@ -141,7 +142,7 @@ public class CorridorBuilder{
             buildCorridor(path);
         });
         fix();
-        area.graph.initializeWaypoints();
+        area.graph.navMesh = new NavigationMesh(area.graph);
     }
     
     /**
