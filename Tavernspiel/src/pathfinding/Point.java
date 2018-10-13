@@ -13,12 +13,12 @@ public class Point implements Serializable{
     
     private final static long serialVersionUID = 77292912;
     
-    Boolean checked = false; //null if not treadable
+    public Boolean checked = false; //null if not treadable
     public final int x, y;
-    int movementCost = 1; //The cost to step into this tile.
-    Point cameFrom = null; //null if starting point. 
-    int currentCost = Integer.MAX_VALUE;
-    boolean isCorridor = false;
+    public int movementCost = 1; //The cost to step into this tile.
+    public Point cameFrom = null; //null if starting point. 
+    public int currentCost = Integer.MAX_VALUE;
+    public boolean isCorridor = false;
     /**
      * This Enum represents all the cardinal directions.
      */

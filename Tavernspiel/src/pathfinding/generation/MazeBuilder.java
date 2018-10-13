@@ -1,10 +1,13 @@
 
-package pathfinding;
+package pathfinding.generation;
 
 import java.util.LinkedList;
 import java.util.List;
 import level.Area;
 import logic.Distribution;
+import pathfinding.Graph;
+import pathfinding.Point;
+import pathfinding.Searcher;
 import tiles.assets.Door;
 import tiles.Tile;
 
@@ -40,7 +43,7 @@ public class MazeBuilder{
         else area.graph.use();
         int dx = Distribution.r.nextInt(area.dimension.width/2-2)*2+3,
                 dy = Distribution.r.nextInt(area.dimension.height/2-2)*2+3;
-        new MazeAlgorithm().floodfill(area.graph.map[dy][dx]);
+        new MazeAlgorithm().checkedFloodfill(area.graph.map[dy][dx]);
         area.graph = new Graph(area);
     }
     
@@ -51,7 +54,7 @@ public class MazeBuilder{
         }
         
         @Override
-        public void floodfill(Point start){
+        public void checkedFloodfill(Point start){
             graph.use();
             Point next;
             start.checked = true;

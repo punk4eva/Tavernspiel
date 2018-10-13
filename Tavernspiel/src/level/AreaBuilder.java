@@ -14,7 +14,7 @@ import java.util.List;
 import level.RoomDistribution.MakeRoom;
 import logic.ConstantFields;
 import logic.Distribution;
-import pathfinding.CorridorBuilder;
+import pathfinding.generation.CorridorBuilder;
 import pathfinding.Graph;
 import pathfinding.Point;
 

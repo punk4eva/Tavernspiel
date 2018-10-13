@@ -16,7 +16,7 @@ import java.util.function.Function;
 import static level.Dungeon.potionBuilder;
 import logic.Distribution;
 import logic.Utils.Unfinished;
-import pathfinding.MazeBuilder;
+import pathfinding.generation.MazeBuilder;
 import tiles.*;
 
 /**
