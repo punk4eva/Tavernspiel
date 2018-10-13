@@ -68,7 +68,7 @@ public final class Game extends Main{
         Game game = new Game();
         game.currentArea.plop(Apparatus.getRandomMeleeWeapon(1, game.currentArea.location), game.player.x, game.player.y);
         game.currentArea.plop(new Gold(100), game.player.x+1, game.player.y);
-        game.save();
+        //game.save();
         //Game game = FileHandler.deserializeGame("filetesting/game.ser");
     }
 

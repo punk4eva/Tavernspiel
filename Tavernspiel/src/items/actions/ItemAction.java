@@ -41,7 +41,6 @@ public abstract class ItemAction implements Serializable{
     
     /**
      * Returns the array of default ItemActions.
-     * @param i The Item.
      * @return The array.
      */
     public static ItemAction[] getDefaultActions(){
