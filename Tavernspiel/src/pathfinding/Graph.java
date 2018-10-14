@@ -26,8 +26,9 @@ public class Graph implements Serializable{
     /**
      * Creates an instance.
      * @param area
+     * @param corridors The location of corridors.
      */
-    public Graph(Area area){
+    public Graph(Area area, boolean[][] corridors){
         map = new Point[area.dimension.height][area.dimension.width];
         LinkedList<Waypoint> wps = new LinkedList<>();
         for(int y=0;y<area.dimension.height;y++){
@@ -35,15 +36,17 @@ public class Graph implements Serializable{
                 if(area.map[y][x]==null||(!area.map[y][x].treadable&&!(area.map[y][x] instanceof Door || area.map[y][x] instanceof Barricade))){
                     map[y][x] = new Point(x, y, null);
                 }else{
-                    map[y][x] = new Point(x, y);
                     if(area.map[y][x] instanceof Door || area.map[y][x] instanceof Barricade){
-                        wps.add(new Waypoint(x, y));
-                    }
+                        map[y][x] = new Waypoint(x, y);
+                        wps.add((Waypoint)map[y][x]);
+                    }else map[y][x] = new Point(x, y);
                 }
+                if(corridors!=null&&corridors[y][x]) map[y][x].isCorridor = true;
             }
         }
         waypoints = wps.toArray(new Waypoint[wps.size()]);
         searcher = new Searcher(this, area);
+        //if(areaComplete) navMesh = new NavigationMesh(this, area);
     }
     
     /**
@@ -115,7 +118,7 @@ public class Graph implements Serializable{
                 if(point!=null) point.paint(g, x, y, area);
             }
         }
-        navMesh.debugPaint(g, focusX, focusY);
+        if(navMesh!=null) navMesh.debugPaint(g, focusX, focusY);
     }
 
     /**

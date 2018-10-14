@@ -1,6 +1,7 @@
 
 package pathfinding;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.io.Serializable;
 import level.Area;
@@ -19,7 +20,7 @@ public class Point implements Serializable{
     public Point cameFrom = null; //null if starting point. 
     public int currentCost = Integer.MAX_VALUE;
     public boolean isCorridor = false;
-    public int roomNum = -1;
+    public int roomNum = -1, number = -1;
     /**
      * This Enum represents all the cardinal directions.
      */
@@ -158,12 +159,14 @@ public class Point implements Serializable{
      * @param area
      */
     public void paint(Graphics g, int _x, int _y, Area area){
-        //if(isCorridor) g.setColor(Color.BLUE);
-        //else if(checked==null) g.setColor(Color.WHITE);
-        //else if(cameFrom==null) g.setColor(Color.YELLOW);
-        //else if(checked) g.setColor(Color.RED);
-        //else g.setColor(Color.BLACK);
-        //g.fillOval(_x+4, _y+4, 8, 8);
+        switch(roomNum){
+            case -1: g.setColor(Color.WHITE); break;
+            case 0: g.setColor(Color.BLUE); break;
+            case 1: g.setColor(Color.BLACK); break;
+            case 2: g.setColor(Color.RED); break;
+            default: g.setColor(Color.YELLOW);
+        }
+        g.fillOval(_x+4, _y+4, 8, 8);
     }
     
 }

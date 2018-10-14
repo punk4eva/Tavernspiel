@@ -15,11 +15,15 @@
  */
 package pathfinding;
 
+import creatureLogic.VisibilityOverlay;
 import java.awt.Graphics;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.Objects;
+import level.Area;
 import pathfinding.Point.Direction;
+import tiles.assets.Door;
 
 /**
  *
@@ -32,27 +36,34 @@ public class NavigationMesh implements Serializable{
     private HashMap<Integer, Point> pointInRoom = new HashMap<>();
     private HashMap<Integer, LinkedList<Waypoint>> roomPoints = new HashMap<>();
     private HashMap<Integer, HashMap<Integer, Path>> mesh = new HashMap<>();
+    private final boolean[][] found;
     
     /**
      *  Creates a new instance.
-     * @param graph Requires Searcher, waypoints and map.
+     * @param graph Requires Searcher, Waypoints and map.
+     * @param area
      */
-    public NavigationMesh(Graph graph){
+    public NavigationMesh(Graph graph, Area area){
         int roomNum = 0;
-        for(Point[] row : graph.map)
+        for(int y = 0; y<graph.map.length; y++)
             for(int x = 0; x<graph.map[0].length; x++)
-                if(row[x].checked != null && row[x].roomNum == -1 && !row[x].isCorridor && !(row[x] instanceof Waypoint)){
-            roomFloodFill(graph, row[x], roomNum);
+                if(area.map[y][x]!=null && graph.map[y][x].checked != null
+                        && graph.map[y][x].roomNum == -1 
+                        && !graph.map[y][x].isCorridor 
+                        && !(graph.map[y][x] instanceof Waypoint)){
+            roomFloodFill(area, graph, graph.map[y][x], roomNum);
             roomNum++;
         }
         for(Integer i=0;i<roomNum;i++){
             HashMap<Integer, Path> paths = new HashMap<>(); 
             for(Integer j=0;j<roomNum;j++){
-                if(i.equals(j)) continue;
+                if(Objects.equals(i, j)) continue;
                 paths.put(j, buildPath(graph, i ,j));
             }
             mesh.put(i, paths);
         }
+        found = new boolean[roomNum][];
+        for(int y=0;y<roomNum;y++) found[y] = new boolean[roomNum-y];
     }
     
     private Path buildPath(Graph graph, int r1, int r2){
@@ -66,25 +77,27 @@ public class NavigationMesh implements Serializable{
             p.cutToWaypoint();
             paths.add(p);
         });
+        System.out.println(r1==r2);
+        System.out.println("paths: " + paths.size());
         return paths.stream().reduce((p1, p2) -> p1.size()>p2.size() ? p2 : p1).get();
     }
     
-    private void roomFloodFill(Graph graph, Point start, int rN){
+    private void roomFloodFill(Area area, Graph graph, Point start, int rN){
+        graph.reset();
         LinkedList<Point> frontier = new LinkedList<>();
         LinkedList<Waypoint> wayP = new LinkedList<>();
         frontier.add(start);
         pointInRoom.put(rN, start);
+        start.roomNum = rN;
         while(!frontier.isEmpty()){
             Point p = frontier.pop();
-            p.roomNum = rN;
             for(Direction d : Searcher.directions){
-                int x = p.x+d.x, y = p.y+d.y;
-                if(graph.map[y][x].roomNum==-1&&graph.map[y][x].checked!=null){
-                    if(graph.map[y][x] instanceof Waypoint){
-                        graph.map[y][x].roomNum = rN;
-                        wayP.add((Waypoint) graph.map[y][x]);
-                    }
-                    else frontier.add(graph.map[y][x]);
+                int nx = p.x+d.x, ny = p.y+d.y;
+                if(area.map[ny][nx].treadable && graph.map[ny][nx].roomNum==-1&&graph.map[ny][nx].checked!=null){
+                    graph.map[ny][nx].roomNum = rN;
+                    if(graph.map[ny][nx] instanceof Waypoint)
+                        wayP.add((Waypoint) graph.map[ny][nx]);
+                    else frontier.add(graph.map[ny][nx]);
                 }
             }
         }
@@ -99,6 +112,25 @@ public class NavigationMesh implements Serializable{
      */
     public Path retrievePath(Integer a, Integer b){
         return mesh.get(a).get(b);
+    }
+    
+    /**
+     * Returns The Path between two Waypoints and null if the Path doesn't exist
+     * or hasn't been found yet.
+     * @param a
+     * @param b
+     * @param fov
+     * @return
+     */
+    public Path retrievePath(Integer a, Integer b, VisibilityOverlay fov){
+        if(found[a][b]) return mesh.get(a).get(b);
+        else{
+            Path p = mesh.get(a).get(b);
+            if(p.isDiscovered(fov)){
+                found[a][b] = true;
+                return p;
+            }else return null;
+        }
     }
     
     public void debugPaint(Graphics g, int focusX, int focusY){

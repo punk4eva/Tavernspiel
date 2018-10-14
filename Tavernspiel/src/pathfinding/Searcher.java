@@ -4,7 +4,6 @@ package pathfinding;
 import creatureLogic.VisibilityOverlay;
 import java.io.Serializable;
 import level.Area;
-import logic.Utils.Optimisable;
 import pathfinding.Point.Direction;
 import pathfinding.Point.ExtendedDirection;
 import pathfinding.PriorityQueue.Compare;
@@ -106,10 +105,9 @@ public class Searcher implements Serializable{
      * @param start The starting point.
      * @param end The destination.
      * @return The shortest path between start and end.
-     * @deprecated Only use for short distance maneuvering.
      * @see findExpressRoute()
      */
-    public Path findPath(Point start, Point end){
+    private Path findPath(Point start, Point end){
         graph.reset();
         frontier.clear();
         start.currentCost = 0;
@@ -121,6 +119,37 @@ public class Searcher implements Serializable{
                 nx = p.x+dir.x;
                 ny = p.y+dir.y;
                 try{ if(graph.map[ny][nx].checked!=null&&(!graph.map[ny][nx].checked/*||addCheck.check(p, graph.map[ny][nx])*/)){
+                    graph.map[ny][nx].checked = true;
+                    graph.map[ny][nx].cameFrom = p;
+                    graph.map[ny][nx].currentCost = p.currentCost + graph.map[ny][nx].movementCost;
+                    if(graph.map[ny][nx].equals(end)) break;
+                    frontier.add(graph.map[ny][nx]);
+                }}catch(ArrayIndexOutOfBoundsException e){}
+            }
+        }
+        return graph.followTrail(end.x, end.y);
+    }
+    
+    /**
+     * Finds the shortest path between two points only taking into account tiles
+     * that have been found by the visibility overlay.
+     * @param start The starting point.
+     * @param end The destination.
+     * @param fov The Hero's field of view
+     * @return The shortest path between start and end.
+     */
+    private Path findPlayerPath(Point start, Point end, VisibilityOverlay fov){
+        graph.reset();
+        frontier.clear();
+        start.currentCost = 0;
+        frontier.add(start);
+        int nx, ny;
+        while(!frontier.isEmpty()){
+            Point p = frontier.poll();
+            for(ExtendedDirection dir : extendedDirections){
+                nx = p.x+dir.x;
+                ny = p.y+dir.y;
+                try{ if(fov.map[ny][nx]!=0&&graph.map[ny][nx].checked!=null&&(!graph.map[ny][nx].checked/*||addCheck.check(p, graph.map[ny][nx])*/)){
                     graph.map[ny][nx].checked = true;
                     graph.map[ny][nx].cameFrom = p;
                     graph.map[ny][nx].currentCost = p.currentCost + graph.map[ny][nx].movementCost;
@@ -195,28 +224,20 @@ public class Searcher implements Serializable{
      * @param fov The Hero's field of view
      * @return The shortest path between start and end.
      */
-    @Optimisable("Use Waypoint path concatenation.")
     public Path findPlayerRoute(Point start, Point end, VisibilityOverlay fov){
-        graph.reset();
-        frontier.clear();
-        start.currentCost = 0;
-        frontier.add(start);
-        int nx, ny;
-        while(!frontier.isEmpty()){
-            Point p = frontier.poll();
-            for(ExtendedDirection dir : extendedDirections){
-                nx = p.x+dir.x;
-                ny = p.y+dir.y;
-                try{ if(fov.map[ny][nx]!=0&&graph.map[ny][nx].checked!=null&&(!graph.map[ny][nx].checked/*||addCheck.check(p, graph.map[ny][nx])*/)){
-                    graph.map[ny][nx].checked = true;
-                    graph.map[ny][nx].cameFrom = p;
-                    graph.map[ny][nx].currentCost = p.currentCost + graph.map[ny][nx].movementCost;
-                    if(graph.map[ny][nx].equals(end)) break;
-                    frontier.add(graph.map[ny][nx]);
-                }}catch(ArrayIndexOutOfBoundsException e){}
-            }
+        if(start.roomNum == end.roomNum){
+            initializeEndpoint(end);
+            return findPlayerPath(start, end, fov);
+        }else{
+            Path b = graph.navMesh.retrievePath(start.roomNum, end.roomNum);
+            initializeEndpoint(b.get(0));
+            Path a = findPlayerPath(start, b.get(0), fov);
+            initializeEndpoint(end);
+            a.concatenate(b);
+            start = a.remove(a.size()-1);
+            a.concatenate(findPlayerPath(start, end, fov));
+            return a;
         }
-        return graph.followTrail(end.x, end.y);
     }
     
 }

@@ -64,7 +64,7 @@ public class Area implements Serializable{
     public transient ReentrantLock objectLock = new ReentrantLock();
     
     @Unfinished("Remove debug")
-    public boolean debugMode = false;
+    public boolean debugMode = true;
     
     /**
      * Creates a new instance.
@@ -201,11 +201,9 @@ public class Area implements Serializable{
         for(int n=0;n<receptacles.size();n++){
             PhysicalReceptacle temp = receptacles.get(n);
             if(temp.x==x&&temp.y==y){
-                System.out.println("get: " + temp);
                 return temp;
             }
         }
-        System.out.println("get: null");
         return null;
     }
     
@@ -476,6 +474,7 @@ public class Area implements Serializable{
             for(int x=1;x<dimension.width-1;x++){
                 if(map[y][x]!=null&&map[y][x].equals("floor")&&location.feeling.waterGenChance.chance()){
                     map[y][x] = new Water(location, x%2);
+                    graph.map[y][x].number = 3;
                 }
             }
         }
@@ -483,14 +482,11 @@ public class Area implements Serializable{
         boolean spreads = true;
         for(int n=3;spreads;n++){
             spreads = false;
-            Distribution ch = new Distribution(1, n);
             for(int y=1;y<dimension.height-1;y++){
                 for(int x=1;x<dimension.width-1;x++){
-                    if(map[y][x]!=null&&map[y][x].equals("water")){
-                        if(ch.chance()){
-                            spreads = true;
-                            spreadWater(x, y);
-                        }
+                    if(map[y][x]!=null && graph.map[y][x].number == n && map[y][x].equals("water") && Distribution.chance(1, n)){
+                        spreads = true;
+                        spreadWater(x, y, n+1);
                     }
                 }
             }
@@ -503,8 +499,10 @@ public class Area implements Serializable{
     private void grass(){
         for(int y=1;y<dimension.height-1;y++){
             for(int x=1;x<dimension.width-1;x++){
-                if(map[y][x]!=null&&map[y][x].equals("floor")&&location.feeling.grassGenChance.chance()) 
+                if(map[y][x]!=null&&map[y][x].equals("floor")&&location.feeling.grassGenChance.chance()){
                     map[y][x] = new Grass(location, false);
+                    graph.map[y][x].number = 3;
+                }
             }
         }
         
@@ -513,9 +511,9 @@ public class Area implements Serializable{
             spreads = false;
             for(int y=1;y<dimension.height-1;y++){
                 for(int x=1;x<dimension.width-1;x++){
-                    if(map[y][x]!=null&&map[y][x].equals("lowgrass")&&Distribution.chance(1, n)){
+                    if(map[y][x]!=null && graph.map[y][x].number == n && map[y][x].equals("lowgrass") && Distribution.chance(1, n)){
                         spreads = true;
-                        spreadGrass(x, y);
+                        spreadGrass(x, y, n+1);
                     }
                 }
             }
@@ -537,11 +535,23 @@ public class Area implements Serializable{
      * @param x The x coordinate.
      * @param y The y coordinate.
      */
-    private void spreadGrass(int x, int y){
-        if(map[y][x+1].isFloor()) map[y][x+1] = new Grass(location, false);
-        if(map[y][x-1].isFloor()) map[y][x-1] = new Grass(location, false);
-        if(map[y+1][x].isFloor()) map[y+1][x] = new Grass(location, false);
-        if(map[y-1][x].isFloor()) map[y-1][x] = new Grass(location, false);
+    private void spreadGrass(int x, int y, int generation){
+        if(map[y][x+1].isFloor()){
+            map[y][x+1] = new Grass(location, false);
+            graph.map[y][x+1].number = generation;
+        }
+        if(map[y][x-1].isFloor()){
+            map[y][x-1] = new Grass(location, false);
+            graph.map[y][x-1].number = generation;
+        }
+        if(map[y+1][x].isFloor()){
+            map[y+1][x] = new Grass(location, false);
+            graph.map[y+1][x].number = generation;
+        }
+        if(map[y-1][x].isFloor()){
+            map[y-1][x] = new Grass(location, false);
+            graph.map[y-1][x].number = generation;
+        }
     }
     
     /**
@@ -549,11 +559,23 @@ public class Area implements Serializable{
      * @param x The x coordinate.
      * @param y The y coordinate.
      */
-    private void spreadWater(int x, int y){
-        if(map[y][x+1].isFloor()) map[y][x+1] = new Water(location, x%2);
-        if(map[y][x-1].isFloor()) map[y][x-1] = new Water(location, x%2);
-        if(map[y+1][x].isFloor()) map[y+1][x] = new Water(location, x%2);
-        if(map[y-1][x].isFloor()) map[y-1][x] = new Water(location, x%2);
+    private void spreadWater(int x, int y, int generation){
+        if(map[y][x+1].isFloor()){
+            map[y][x+1] = new Water(location, x%2);
+            graph.map[y][x+1].number = generation;
+        }
+        if(map[y][x-1].isFloor()){
+            map[y][x-1] = new Water(location, x%2);
+            graph.map[y][x-1].number = generation;
+        }
+        if(map[y+1][x].isFloor()){
+            map[y+1][x] = new Water(location, x%2);
+            graph.map[y+1][x].number = generation;
+        }
+        if(map[y-1][x].isFloor()){
+            map[y-1][x] = new Water(location, x%2);
+            graph.map[y-1][x].number = generation;
+        }
     }
     
     /**

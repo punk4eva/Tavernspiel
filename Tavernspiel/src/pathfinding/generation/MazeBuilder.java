@@ -39,12 +39,12 @@ public class MazeBuilder{
         height = h;
         for(int cy=y;cy<height+y;cy++)
             for(int cx=x;cx<width+x;cx++) area.map[cy][cx] = Tile.wall(area.location);
-        if(area.graph==null) area.graph = new Graph(area);
+        if(area.graph==null) area.graph = new Graph(area, null);
         else area.graph.reset();
         int dx = Distribution.r.nextInt(area.dimension.width/2-2)*2+3,
                 dy = Distribution.r.nextInt(area.dimension.height/2-2)*2+3;
         new MazeAlgorithm().checkedFloodfill(area.graph.map[dy][dx]);
-        area.graph = new Graph(area);
+        area.graph = new Graph(area, null);
     }
     
     private final class MazeAlgorithm extends Searcher{

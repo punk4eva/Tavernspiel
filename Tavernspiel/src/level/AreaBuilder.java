@@ -64,9 +64,9 @@ public class AreaBuilder implements Serializable{
         Area area = new Area(new Dimension(80, 80), location);
         List<Room> rooms = roomDist.generate(forcedItems, forcedRooms, depth, location.feeling);
         rooms.stream().forEach(r -> selectAndBlit(area, r));
-        new CorridorBuilder(area).build();
+        boolean[][] corridors = new CorridorBuilder(area).build();
         area.addDeco();
-        area.graph = new Graph(area);
+        area.graph = new Graph(area, corridors);
         Main.addMessage(ConstantFields.interestColor, location.feeling.description);
         
         return area;

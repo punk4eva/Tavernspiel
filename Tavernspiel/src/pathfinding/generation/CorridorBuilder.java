@@ -8,15 +8,12 @@ import java.util.stream.Collectors;
 import level.Area;
 import logic.Distribution;
 import pathfinding.Graph;
-import pathfinding.NavigationMesh;
 import pathfinding.Path;
 import pathfinding.Point;
 import pathfinding.PriorityQueue;
 import pathfinding.Searcher;
 import pathfinding.Waypoint;
 import static pathfinding.Searcher.directions;
-import tiles.assets.Barricade;
-import tiles.assets.Door;
 import tiles.Tile;
 
 /**
@@ -26,6 +23,7 @@ import tiles.Tile;
 public class CorridorBuilder{
     
     private final Area area;
+    private final boolean[][] corridors;
     
     private final class WanderingCorridorAlgorithm extends Searcher{
         
@@ -58,7 +56,7 @@ public class CorridorBuilder{
                         if(graph.map[ny][nx].equals(end)){
                             graph.map[ny][nx].cameFrom = p;
                             return;
-                        }else if((area.map[ny][nx]==null||graph.map[ny][nx].isCorridor)&&addCheck.check(p, graph.map[ny][nx])){
+                        }else if((area.map[ny][nx]==null||corridors[ny][nx])&&addCheck.check(p, graph.map[ny][nx])){
                             graph.map[ny][nx].checked = true;
                             graph.map[ny][nx].cameFrom = p;
                             graph.map[ny][nx].currentCost = p.currentCost + graph.map[ny][nx].movementCost;
@@ -101,48 +99,54 @@ public class CorridorBuilder{
      */
     public CorridorBuilder(Area a){
         area = a;
-        if(area.graph==null) area.graph = new Graph(area);
+        corridors = new boolean[a.dimension.height][a.dimension.width];
+        if(area.graph==null) area.graph = new Graph(area, null);
     }
     
     private void extend(Point p, boolean hor){
         int x = p.x, y = p.y;
-        if(!(area.map[y][x] instanceof Door||area.map[y][x] instanceof Barricade)){
+        if(!(area.graph.map[y][x] instanceof Waypoint)){
             area.map[y][x] = Tile.floor(area.location);
-            area.graph.map[y][x].isCorridor = true;
+            corridors[y][x] = true;
         }
         if(hor){
             if(area.map[y][x-1]==null){
                 area.map[y][x-1] = Tile.wall(area.location);
-                area.graph.map[y][x-1].isCorridor = true;
+                corridors[y][x-1] = true;
             }
             if(area.map[y][x+1]==null){
                 area.map[y][x+1] = Tile.wall(area.location);
-                area.graph.map[y][x+1].isCorridor = true;
+                corridors[y][x+1] = true;
             }
         }else{
             if(area.map[y-1][x]==null){
                 area.map[y-1][x] = Tile.wall(area.location);
-                area.graph.map[y-1][x].isCorridor = true;
+                corridors[y-1][x] = true;
             }
             if(area.map[y+1][x]==null){
                 area.map[y+1][x] = Tile.wall(area.location);
-                area.graph.map[y+1][x].isCorridor = true;
+                corridors[y+1][x] = true;
             }
         }
     }
     
     /**
      * Generates and builds all corridors in the Area.
+     * @return A map of corridors.
      */
-    public void build(){
+    public boolean[][] build(){
+        System.out.println("Start");
         List<Path> paths = new WanderingCorridorAlgorithm().generatePaths(
                 Arrays.asList(area.graph.waypoints).stream().filter(p -> !waypointReached(p)).collect(Collectors.toList()),
                 new LinkedList<>());
+        System.out.println("Next");
         paths.stream().forEach((path) -> {
             buildCorridor(path);
         });
+        System.out.println("Then");
         fix();
-        area.graph.navMesh = new NavigationMesh(area.graph);
+        System.out.println("End");
+        return corridors;
     }
     
     /**
@@ -174,50 +178,54 @@ public class CorridorBuilder{
     private void fillGaps(Point p, boolean hor){
         if(area.map[p.y+1][p.x+1]==null){
             area.map[p.y+1][p.x+1] = Tile.wall(area.location);
-            area.graph.map[p.y+1][p.x+1].isCorridor = true;
+            corridors[p.y+1][1+p.x] = true;
         }
         if(area.map[p.y-1][p.x-1]==null){
             area.map[p.y-1][p.x-1] = Tile.wall(area.location);
-            area.graph.map[p.y-1][p.x-1].isCorridor = true;
+            corridors[p.y-1][p.x-1] = true;
         }
         if(area.map[p.y-1][p.x+1]==null){
             area.map[p.y-1][p.x+1] = Tile.wall(area.location);
-            area.graph.map[p.y-1][p.x+1].isCorridor = true;
+            corridors[p.y-1][1+p.x] = true;
         }
         if(area.map[p.y+1][p.x-1]==null){
             area.map[p.y+1][p.x-1] = Tile.wall(area.location);
-            area.graph.map[p.y+1][p.x-1].isCorridor = true;
+            corridors[p.y+1][p.x-1] = true;
         }
         if(hor){
             if(area.map[p.y-1][p.x]==null){
                 area.map[p.y-1][p.x] = Tile.wall(area.location);
-                area.graph.map[p.y-1][p.x].isCorridor = true;
+                corridors[p.y-1][p.x] = true;
             }
             if(area.map[p.y+1][p.x]==null){
                 area.map[p.y+1][p.x] = Tile.wall(area.location);
-                area.graph.map[p.y+1][p.x].isCorridor = true;
+                corridors[p.y+1][p.x] = true;
             }
         }else{
             if(area.map[p.y][p.x-1]==null){
                 area.map[p.y][p.x-1] = Tile.wall(area.location);
-                area.graph.map[p.y][p.x-1].isCorridor = true;
+                corridors[p.y][p.x-1] = true;
             }
             if(area.map[p.y][p.x+1]==null){
                 area.map[p.y][p.x+1] = Tile.wall(area.location);
-                area.graph.map[p.y][p.x+1].isCorridor = true;
+                corridors[p.y][p.x+1] = true;
             }
         }
     }
     
     private void fix(){
+        System.out.println("A");
         Point waypoint = area.graph.getClosestWaypoint(
                 area.startCoords[0], area.startCoords[1]);
         Searcher search = new Searcher(area.graph, area);
+        System.out.println("B");
         WanderingCorridorAlgorithm corSearch = new WanderingCorridorAlgorithm();
         search.checkedFloodfill(new Point(area.startCoords[0], area.startCoords[1]));
+        System.out.println("C");
         for(Point p : area.graph.waypoints){
             if(p.cameFrom==null) buildCorridor(corSearch.generatePath(waypoint, p));
         }
+        System.out.println("D");
     }
     
 }

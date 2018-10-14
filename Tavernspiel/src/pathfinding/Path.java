@@ -1,6 +1,7 @@
 
 package pathfinding;
 
+import creatureLogic.VisibilityOverlay;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -63,11 +64,23 @@ public class Path extends ArrayList<Point>{
         });
     }
     
+    /**
+     * Cuts the Path down to the nearest Waypoint.
+     */
     public void cutToWaypoint(){
         for(int n = size()-1;n>=0;n--) if(get(n) instanceof Waypoint){
             removeRange(n+1, size());
             break;
         }
+    }
+    
+    /**
+     * Returns whether this Path has been discovered by the player.
+     * @param fov The FieldOfView.
+     * @return
+     */
+    public boolean isDiscovered(VisibilityOverlay fov){
+        return stream().allMatch(p -> fov.map[p.y][p.x]!=0);
     }
     
 }

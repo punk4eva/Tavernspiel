@@ -13,6 +13,7 @@ import level.Dungeon;
 import level.Location;
 import logic.FileHandler;
 import logic.Utils.Unfinished;
+import pathfinding.NavigationMesh;
 
 /**
  *
@@ -70,6 +71,8 @@ public final class Game extends Main{
         game.currentArea.plop(new Gold(100), game.player.x+1, game.player.y);
         //game.save();
         //Game game = FileHandler.deserializeGame("filetesting/game.ser");
+        System.out.println("Running");
+        game.currentArea.graph.navMesh = new NavigationMesh(game.currentArea.graph, game.currentArea);
     }
 
     @Unfinished("The sfx for newDepth.")
