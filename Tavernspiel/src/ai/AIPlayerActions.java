@@ -97,6 +97,7 @@ public class AIPlayerActions extends AIBaseActions{
         if(area.map[y][x].interactable!=null){
             double turns = area.map[y][x].interactable.interactTurns();
             area.map[y][x].interactable.interact(c, area);
+            c.attributes.ai.skipping += turns*c.attributes.speed;
             Window.main.setTurnsPassed(turns*c.attributes.speed);
         }else new StatisticsDialogue((Hero)c).next();
     }

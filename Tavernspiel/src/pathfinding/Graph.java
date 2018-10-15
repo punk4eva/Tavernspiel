@@ -46,7 +46,7 @@ public class Graph implements Serializable{
         }
         waypoints = wps.toArray(new Waypoint[wps.size()]);
         searcher = new Searcher(this, area);
-        //if(areaComplete) navMesh = new NavigationMesh(this, area);
+        if(corridors!=null && area.dimension.height>100 && area.dimension.width > 100) navMesh = new NavigationMesh(this, area);
     }
     
     /**

@@ -72,7 +72,7 @@ public final class Game extends Main{
         //game.save();
         //Game game = FileHandler.deserializeGame("filetesting/game.ser");
         System.out.println("Running");
-        game.currentArea.graph.navMesh = new NavigationMesh(game.currentArea.graph, game.currentArea);
+        //game.currentArea.graph.navMesh = new NavigationMesh(game.currentArea.graph, game.currentArea);
     }
 
     @Unfinished("The sfx for newDepth.")

@@ -29,6 +29,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.util.function.Predicate;
 import testUtilities.TestUtil;
 
@@ -56,6 +57,7 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
     protected volatile boolean running = false;
     protected Thread runThread;
     public TurnThread turnThread;
+    private KeyProcessor keyProcessor = new KeyProcessor();
     protected Window window;
     protected Page page;
     public PageFlipper pageFlipper;
@@ -73,6 +75,7 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
      */
     protected Main(){
         pacemaker = new Pacemaker(this);
+        super.addKeyListener(keyProcessor);
     }
     
     /**
@@ -235,6 +238,7 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
         turnThread.setDaemon(true);
         runThread.start();
         turnThread.start();
+        keyProcessor.start();
         running = true;
     }
 
@@ -295,6 +299,11 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
     
     protected final void resetGUIScreens(){
         gui.resetScreens();
+    }
+    
+    @Override
+    public void addKeyListener(KeyListener k){
+        keyProcessor.listener = k;
     }
     
 }

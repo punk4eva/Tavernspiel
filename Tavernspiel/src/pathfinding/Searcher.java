@@ -21,8 +21,8 @@ public class Searcher implements Serializable{
     private final Area area;
     public PriorityQueue<Point> frontier = new PriorityQueue<>((Serializable & Compare<Point>)p -> p.currentCost);
     public final Graph graph;
-    public final transient static Direction[] directions = Direction.values();
-    public final transient static ExtendedDirection[] extendedDirections = ExtendedDirection.values();
+    public final transient static Direction[] DIRECTIONS = Direction.values();
+    public final transient static ExtendedDirection[] EXTENDED_DIRECTIONS = ExtendedDirection.values();
     public FrontierAdd addCheck = (Serializable & FrontierAdd)(from, to) -> to.currentCost > from.currentCost + to.movementCost; //A Predicate to check whether to add a new Point to the frontier. Dijkstra's algorithm is default.
     
     public interface FrontierAdd extends Serializable{
@@ -61,7 +61,7 @@ public class Searcher implements Serializable{
         int nx, ny;
         while(!frontier.isEmpty()){
             Point p = frontier.poll();
-            for(Direction dir : directions){
+            for(Direction dir : DIRECTIONS){
                 nx = p.x+dir.x;
                 ny = p.y+dir.y;
                 try{ if(area.map[ny][nx].treadable&&(!graph.map[ny][nx].checked||addCheck.check(p, graph.map[ny][nx]))){
@@ -87,7 +87,7 @@ public class Searcher implements Serializable{
         int nx, ny;
         while(!frontier.isEmpty()){
             Point p = frontier.poll();
-            for(ExtendedDirection dir : extendedDirections){
+            for(ExtendedDirection dir : EXTENDED_DIRECTIONS){
                 nx = p.x+dir.x;
                 ny = p.y+dir.y;
                 try{ if(area.map[ny][nx].treadable&&(!graph.map[ny][nx].checked/*||addCheck.check(p, graph.map[ny][nx])*/)){
@@ -115,7 +115,7 @@ public class Searcher implements Serializable{
         int nx, ny;
         while(!frontier.isEmpty()){
             Point p = frontier.poll();
-            for(ExtendedDirection dir : extendedDirections){
+            for(ExtendedDirection dir : EXTENDED_DIRECTIONS){
                 nx = p.x+dir.x;
                 ny = p.y+dir.y;
                 try{ if(graph.map[ny][nx].checked!=null&&(!graph.map[ny][nx].checked/*||addCheck.check(p, graph.map[ny][nx])*/)){
@@ -146,7 +146,7 @@ public class Searcher implements Serializable{
         int nx, ny;
         while(!frontier.isEmpty()){
             Point p = frontier.poll();
-            for(ExtendedDirection dir : extendedDirections){
+            for(ExtendedDirection dir : EXTENDED_DIRECTIONS){
                 nx = p.x+dir.x;
                 ny = p.y+dir.y;
                 try{ if(fov.map[ny][nx]!=0&&graph.map[ny][nx].checked!=null&&(!graph.map[ny][nx].checked/*||addCheck.check(p, graph.map[ny][nx])*/)){
@@ -175,7 +175,7 @@ public class Searcher implements Serializable{
         int nx, ny;
         while(!frontier.isEmpty()){
             Point p = frontier.poll();
-            for(Direction dir : directions){
+            for(Direction dir : DIRECTIONS){
                 nx = p.x+dir.x;
                 ny = p.y+dir.y;
                 try{ if(graph.map[ny][nx].equals(end)){
@@ -201,7 +201,7 @@ public class Searcher implements Serializable{
      * @return The shortest path between start and end.
      */
     public Path findExpressRoute(Point start, Point end){
-        if(start.roomNum == end.roomNum){
+        if(graph.navMesh == null || start.roomNum == end.roomNum){
             initializeEndpoint(end);
             return findPath(start, end);
         }else{
@@ -225,7 +225,7 @@ public class Searcher implements Serializable{
      * @return The shortest path between start and end.
      */
     public Path findPlayerRoute(Point start, Point end, VisibilityOverlay fov){
-        if(start.roomNum == end.roomNum){
+        if(graph.navMesh == null || start.roomNum == end.roomNum){
             initializeEndpoint(end);
             return findPlayerPath(start, end, fov);
         }else{

@@ -13,8 +13,8 @@ import pathfinding.Point;
 import pathfinding.PriorityQueue;
 import pathfinding.Searcher;
 import pathfinding.Waypoint;
-import static pathfinding.Searcher.directions;
 import tiles.Tile;
+import static pathfinding.Searcher.DIRECTIONS;
 
 /**
  *
@@ -49,7 +49,7 @@ public class CorridorBuilder{
             int nx, ny;
             while(!frontier.isEmpty()){
                 Point p = frontier.poll();
-                for(Point.Direction dir : directions){
+                for(Point.Direction dir : DIRECTIONS){
                     nx = p.x+dir.x;
                     ny = p.y+dir.y;
                     if(area.withinBounds(nx-1, ny-1)&&area.withinBounds(nx+1, ny+1)){
@@ -135,17 +135,13 @@ public class CorridorBuilder{
      * @return A map of corridors.
      */
     public boolean[][] build(){
-        System.out.println("Start");
         List<Path> paths = new WanderingCorridorAlgorithm().generatePaths(
                 Arrays.asList(area.graph.waypoints).stream().filter(p -> !waypointReached(p)).collect(Collectors.toList()),
                 new LinkedList<>());
-        System.out.println("Next");
         paths.stream().forEach((path) -> {
             buildCorridor(path);
         });
-        System.out.println("Then");
         fix();
-        System.out.println("End");
         return corridors;
     }
     
@@ -214,18 +210,14 @@ public class CorridorBuilder{
     }
     
     private void fix(){
-        System.out.println("A");
         Point waypoint = area.graph.getClosestWaypoint(
                 area.startCoords[0], area.startCoords[1]);
         Searcher search = new Searcher(area.graph, area);
-        System.out.println("B");
         WanderingCorridorAlgorithm corSearch = new WanderingCorridorAlgorithm();
         search.checkedFloodfill(new Point(area.startCoords[0], area.startCoords[1]));
-        System.out.println("C");
         for(Point p : area.graph.waypoints){
             if(p.cameFrom==null) buildCorridor(corSearch.generatePath(waypoint, p));
         }
-        System.out.println("D");
     }
     
 }

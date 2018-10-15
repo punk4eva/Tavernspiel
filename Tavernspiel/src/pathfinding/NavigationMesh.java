@@ -91,7 +91,7 @@ public class NavigationMesh implements Serializable{
         start.roomNum = rN;
         while(!frontier.isEmpty()){
             Point p = frontier.pop();
-            for(Direction d : Searcher.directions){
+            for(Direction d : Searcher.DIRECTIONS){
                 int nx = p.x+d.x, ny = p.y+d.y;
                 if(area.map[ny][nx].treadable && graph.map[ny][nx].roomNum==-1&&graph.map[ny][nx].checked!=null){
                     graph.map[ny][nx].roomNum = rN;
