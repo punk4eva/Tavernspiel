@@ -29,7 +29,7 @@ public class DragonWings extends MythicalWeapon{
     private int currentHeroLevel, lastHeroLevel;
     
     public DragonWings(){
-        super("Wings of the Dragon", 80, 144, new Description("weapons", "@Unfinished"), 24, 26, 54, 2, 1.6, 1.1, 5);
+        super("Wings of the Dragon", 80, 144, new Description("weapons", "This is tremendously rare weapon was forged by many craftsmen over 1000s of years using divine black magic."), 24, 26, 54, 2, 1.6, 1.1, 5);
         actions[3] = ItemAction.DRAGON_SLICE;
     }
 
