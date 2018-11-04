@@ -172,7 +172,10 @@ public class ParticleDesigner extends Main implements ActionListener{
     }
     
     private void save(String filepath){
-        pacemaker.stop();
+        running = false;
+        try{
+            pacemaker.stop();
+        }catch(InterruptedException e){}
         FileHandler.serialize(effect, filepath);
         stop();
         System.exit(0);

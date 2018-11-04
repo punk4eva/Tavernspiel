@@ -130,7 +130,6 @@ public class GuiBase{
         if(viewingInventory) hero.paintInventory(g);
         if(dialogue!=null){
             dialogue.paint(g);
-            System.out.println("BA");
         }
         if(viewable!=null) viewable.paint(g);
     }

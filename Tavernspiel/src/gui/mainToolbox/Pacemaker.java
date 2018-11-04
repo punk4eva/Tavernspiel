@@ -3,7 +3,6 @@ package gui.mainToolbox;
 
 import animation.TickedAnimation;
 import java.util.LinkedList;
-import javax.swing.Timer;
 
 /**
  *
@@ -11,33 +10,38 @@ import javax.swing.Timer;
  * 
  * This class wraps a timer in order to control frame rate internally.
  */
-public class Pacemaker{
+public class Pacemaker implements Runnable{
     
-    private Timer timer;
+    private final Main main;
+    private final Thread renderThread;
+    
+    private long now, delay, misses;
+    private final int buffer = 4;
     
     /**
      * Creates a new instance.
-     * @param main The Main class
+     * @param m The Main.
      */
-    public Pacemaker(Main main){
-        timer = new Timer(25, main);
-        updateDelay(25);
+    public Pacemaker(Main m){
+        main = m;
+        renderThread = new Thread(this, "Render Thread");
+        setDelay(1000L/60L);
     }
     
     public void start(){
-        timer.start();
+        renderThread.start();
     }
     
-    public void stop(){
-        timer.stop();
+    public void stop() throws InterruptedException{
+        renderThread.join();
     }
     
-    public int getDelay(){
-        return timer.getDelay();
+    public long getDelay(){
+        return delay;
     }
     
-    public void setDelay(int d){
-        timer.setDelay(d);
+    public final void setDelay(long d){
+        delay = d;
         updateDelay(d);
     }
     
@@ -56,5 +60,21 @@ public class Pacemaker{
     }
     
     private final static LinkedList<TickedAnimation> animationsToInit = new LinkedList<>();
+
+    @Override
+    public void run(){
+        long n;
+        main.createBufferStrategy(buffer);
+        while(main.running){
+            n = System.currentTimeMillis();
+            if(n-now>delay){
+                now = n;
+                main.render();
+            }else if(n-now>2L*delay){
+                misses++;
+                System.out.println("Miss: " + misses);
+            }
+        }
+    }
     
 }

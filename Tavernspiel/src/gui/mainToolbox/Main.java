@@ -21,14 +21,11 @@ import java.io.PrintStream;
 import level.Area;
 import logic.ConstantFields;
 import logic.SoundHandler;
-import tiles.Tile;
 import static gui.mainToolbox.MouseInterpreter.*;
 import gui.pages.Page;
 import items.Item;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyListener;
 import java.util.function.Predicate;
 import testUtilities.TestUtil;
@@ -38,7 +35,7 @@ import testUtilities.TestUtil;
  *
  * @author Adam Whittaker
  */
-public abstract class Main extends Canvas implements Runnable, ActionListener, Page{
+public abstract class Main extends Canvas implements Runnable, Page{
     
     public static final int WIDTH, HEIGHT;
     public transient static PrintStream exceptionStream, performanceStream;
@@ -57,7 +54,7 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
     protected volatile boolean running = false;
     protected Thread runThread;
     public TurnThread turnThread;
-    private KeyProcessor keyProcessor = new KeyProcessor();
+    private final KeyProcessor keyProcessor = new KeyProcessor();
     protected Window window;
     protected Page page;
     public PageFlipper pageFlipper;
@@ -189,16 +186,10 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
 
     /**
      * Renders the game.
-     * @param ae
      * @thread render
      */
-    @Override
-    public void actionPerformed(ActionEvent ae){
+    public void render(){
         BufferStrategy bs = this.getBufferStrategy();
-        if(bs == null){
-            this.createBufferStrategy(2);
-            return;
-        }
         Graphics2D bsg = (Graphics2D) bs.getDrawGraphics();
         page.paint(bsg);
         bsg.dispose();
@@ -246,8 +237,8 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
      * Stops the game.
      */
     public synchronized void stop(){
-        pacemaker.stop();
         try{
+            pacemaker.stop();
             runThread.join();
             turnThread.join();
             running = false;
@@ -268,18 +259,21 @@ public abstract class Main extends Canvas implements Runnable, ActionListener, P
             for(int x=focusX, maxX=focusX+area.dimension.width*16;x<maxX;x+=16){
                 int tx = (x-focusX)/16, ty = (y-focusY)/16;
                 try{
-                    Image shade, exShade;
-                    if(area.overlay.isUnexplored(tx, ty)) continue;
-                    else shade = VisibilityOverlay.unexploredFog.getShadow(area.overlay.map, tx, ty, 0, true);
                     if(x<0||y<0||x*zoom>WIDTH||y*zoom>HEIGHT) continue;
-                    Tile tile = area.map[ty][tx];
-                    if(tile!=null) tile.paint(g, x, y);
-                    
-                    if(!area.overlay.isExplored(tx, ty))
-                        exShade = VisibilityOverlay.exploredFog.getShadow(area.overlay.map, tx, ty, 1, false);
-                    else exShade = VisibilityOverlay.exploredFog.getFullShader();
-                    if(exShade!=null) g.drawImage(exShade, x, y, null);
-                    if(shade!=null) g.drawImage(shade, x, y, null);
+                    if(area.debugMode){
+                        if(area.map[ty][tx]!=null) area.map[ty][tx].paint(g, x, y);
+                    }else{                  
+                        Image shade, exShade;
+                        if(area.overlay.isUnexplored(tx, ty)) continue;
+                        else shade = VisibilityOverlay.unexploredFog.getShadow(area.overlay.map, tx, ty, 0, true);
+                        if(area.map[ty][tx]!=null) area.map[ty][tx].paint(g, x, y);
+                        
+                        if(!area.overlay.isExplored(tx, ty))
+                            exShade = VisibilityOverlay.exploredFog.getShadow(area.overlay.map, tx, ty, 1, false);
+                        else exShade = VisibilityOverlay.exploredFog.getFullShader();
+                        if(exShade!=null) g.drawImage(exShade, x, y, null);
+                        if(shade!=null) g.drawImage(shade, x, y, null);
+                    }
                 }catch(ArrayIndexOutOfBoundsException e){/*Skip frame*/}
             }
         }

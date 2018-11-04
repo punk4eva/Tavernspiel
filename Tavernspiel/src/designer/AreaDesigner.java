@@ -13,7 +13,6 @@ import gui.mainToolbox.PageFlipper;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferStrategy;
@@ -168,10 +167,9 @@ public class AreaDesigner extends Main{
     
     /**
      * Renders the designer.
-     * @param ae.
      */
     @Override
-    public void actionPerformed(ActionEvent ae){
+    public void render(){
         BufferStrategy bs = this.getBufferStrategy();
         if(bs == null){
             this.createBufferStrategy(4);
