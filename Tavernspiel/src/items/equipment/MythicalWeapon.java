@@ -15,6 +15,7 @@
  */
 package items.equipment;
 
+import buffs.Buff;
 import containers.Equipment;
 import creatureLogic.Description;
 import items.actions.ItemAction;
@@ -25,9 +26,10 @@ import listeners.XPListener;
  *
  * @author Adam Whittaker
  */
-public abstract class MythicalWeapon extends MeleeWeapon implements ScreenItem, XPListener{
+public abstract class MythicalWeapon extends ModifiedWeapon implements ScreenItem, XPListener{
     
     protected int uses = 0;
+    public Buff buff;
     
     public MythicalWeapon(String n, int _x, int _y, Description desc, int st, int lo, int up, int re, double ac, double sp, double bl){
         super(6, n, _x, _y, desc, -1, st, lo, up, re, ac, sp, bl);

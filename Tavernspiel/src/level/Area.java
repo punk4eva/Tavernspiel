@@ -64,7 +64,7 @@ public class Area implements Serializable{
     public transient ReentrantLock objectLock = new ReentrantLock();
     
     @Unfinished("Remove debug")
-    public boolean debugMode = false;
+    public boolean debugMode = true;
     
     /**
      * Creates a new instance.

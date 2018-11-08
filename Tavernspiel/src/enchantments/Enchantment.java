@@ -3,6 +3,7 @@ package enchantments;
 
 import animation.Animation;
 import animation.SerialAnimation;
+import buffs.Buff;
 import creatureLogic.Description;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
@@ -24,6 +25,7 @@ public abstract class Enchantment implements Serializable{
     private final static long serialVersionUID = 68907276;
     
     public final String name;
+    public Buff buff;
     public final Description description;
     public final EnchantmentAffinity affinity;
     public ImageIcon overlay;
