@@ -1,7 +1,7 @@
 
 package animation;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -138,7 +138,7 @@ public class CreatureAnimator implements AnimationListener, GameObjectAnimator{
      * @param y The y coordinate
      */
     @Override
-    public void animate(Graphics g, int x, int y){
+    public void animate(Graphics2D g, int x, int y){
         active.animate(g, x, y);
     }
     

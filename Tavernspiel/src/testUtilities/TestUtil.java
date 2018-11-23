@@ -6,7 +6,7 @@ import gui.Window;
 import gui.mainToolbox.Main;
 import gui.mainToolbox.MouseInterpreter;
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import logic.Utils.Unfinished;
 
 /**
@@ -18,9 +18,9 @@ public class TestUtil{
     
     private TestUtil(){}
     
-    private static Graphics g;
+    private static Graphics2D g;
     
-    public static void setGraphics(Graphics g_){
+    public static void setGraphics(Graphics2D g_){
         g = g_;
     }
     
@@ -56,7 +56,7 @@ public class TestUtil{
         Main.animator.addAnimation(new DrawnAnimation(mil, Main.animator){
             private final static long serialVersionUID = 1223327;
             @Override
-            public void animate(Graphics g, int x, int y){
+            public void animate(Graphics2D g, int x, int y){
                 recalc();
                 drawTileLine(x1, y1, x2, y2, c);
             }
@@ -67,7 +67,7 @@ public class TestUtil{
         Main.animator.addAnimation(new DrawnAnimation(mil, Main.animator){
             private final static long serialVersionUID = 221007;
             @Override
-            public void animate(Graphics g, int x, int y){
+            public void animate(Graphics2D g, int x, int y){
                 recalc();
                 drawPoint(x1, y1, c);
             }

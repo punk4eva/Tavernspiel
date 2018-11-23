@@ -3,7 +3,7 @@ package animation.assets;
 
 import animation.DrawnAnimation;
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import javax.swing.ImageIcon;
@@ -54,7 +54,7 @@ public class GrassAnimation extends DrawnAnimation{
     }
 
     @Override
-    public void animate(Graphics g, int x, int y){
+    public void animate(Graphics2D g, int x, int y){
         g.drawImage(icon.getImage(), x, y, null);
         g.setColor(new Color(R, G, B));
         for(int[] pixel : pixels)

@@ -1,8 +1,8 @@
 
 package designer;
 
-import blob.ParticleEffect;
-import blob.ParticleEffect.Particle;
+import blob.ParticleAnimation;
+import blob.ParticleAnimation.Particle;
 import blob.particles.PowerParticle;
 import logic.FileHandler;
 import gui.mainToolbox.Main;
@@ -32,7 +32,7 @@ import javax.swing.SwingUtilities;
 public class ParticleDesigner extends Main implements ActionListener{
     
     CommandLibrary command = new CommandLibrary();
-    ParticleEffect effect;
+    ParticleAnimation effect;
     boolean capOverInt = false;
     private HashMap<String, Particle> particles = new HashMap<>();
     {
@@ -48,10 +48,10 @@ public class ParticleDesigner extends Main implements ActionListener{
         Rectangle[] rect = getBounding();
         if(rect==null){
             System.out.println("Filepath...");
-            effect = (ParticleEffect) FileHandler.deserialize(new Scanner(System.in).nextLine());
+            effect = (ParticleAnimation) FileHandler.deserialize(new Scanner(System.in).nextLine());
             particles = effect.getParticleMap();
         }else{
-            effect = new ParticleEffect(4, 10, rect[0], rect[1], particles.get("first"));
+            effect = new ParticleAnimation(4, 10, rect[0], rect[1], particles.get("first"));
         }
         pacemaker.setDelay(5);
         window = new Window(WIDTH, HEIGHT, "Particle Designer", this);
@@ -90,7 +90,7 @@ public class ParticleDesigner extends Main implements ActionListener{
         Graphics2D g = (Graphics2D) bs.getDrawGraphics();
         g.setColor(Color.black);
         g.fillRect(0, 0, WIDTH, HEIGHT);
-        effect.paint(g);
+        effect.animate(g, -1, -1);
         g.dispose();
         bs.show();
     }

@@ -4,7 +4,7 @@ package blob;
 import animation.GasAnimator;
 import buffs.Buff;
 import creatureLogic.Description;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.LinkedList;
 import logic.GameObject;
 
@@ -48,7 +48,7 @@ public class Blob extends GameObject{
     }
 
     @Override
-    public void render(Graphics g, int fx, int fy){
+    public void render(Graphics2D g, int fx, int fy){
         standardAnimation(g, fx, fy);
     }
 

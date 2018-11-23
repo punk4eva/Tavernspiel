@@ -2,7 +2,7 @@
 package tiles;
 
 import tiles.assets.*;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.function.Function;
@@ -68,7 +68,7 @@ public class Tile{
         return new Tile("floor", loc, true, false, true);
     }
     
-    public void paint(Graphics g, int x, int y){
+    public void paint(Graphics2D g, int x, int y){
         g.drawImage(image.getImage(), x, y, null);
     }
     

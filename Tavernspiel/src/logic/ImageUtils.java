@@ -48,7 +48,7 @@ public class ImageUtils{
         }
         //if(i==null) return;
         BufferedImage buffer = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
-        Graphics bg = buffer.getGraphics();
+        Graphics2D bg = (Graphics2D) buffer.getGraphics();
         i.animation.animate(bg, 0, 0);
         if(!pred.test(i)) alpha(buffer);
         g.drawImage(scale(buffer, 3), x+(sqwidth-48)/2, y+(sqheight-48)/2, null);

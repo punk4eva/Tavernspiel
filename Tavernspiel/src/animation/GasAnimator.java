@@ -1,7 +1,7 @@
 
 package animation;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 /**
  *
@@ -16,7 +16,7 @@ public class GasAnimator implements GameObjectAnimator{
     }
 
     @Override
-    public void animate(Graphics g, int x, int y){
+    public void animate(Graphics2D g, int x, int y){
         animation.animate(g, x, y);
     }
 

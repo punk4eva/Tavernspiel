@@ -15,7 +15,7 @@ import exceptions.AreaCoordsOutOfBoundsException;
 import gui.Window;
 import items.Item;
 import java.awt.Dimension;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -366,7 +366,7 @@ public class Area implements Serializable{
      * @param focusX
      * @param focusY
      */
-    public void renderObjects(Graphics g, int focusX, int focusY){
+    public void renderObjects(Graphics2D g, int focusX, int focusY){
         synchronized(receptacles){
             receptacles.stream().forEach(r -> {
                 if(overlay.isVisible(r.x, r.y)){

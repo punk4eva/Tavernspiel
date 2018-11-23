@@ -5,9 +5,7 @@ import animation.Animation;
 import animation.TickedAnimation;
 import gui.Window;
 import gui.mainToolbox.Pacemaker;
-import java.awt.Graphics;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.awt.Graphics2D;
 import javax.swing.ImageIcon;
 import level.Location;
 import logic.ImageHandler;
@@ -75,7 +73,7 @@ public class WaterAnimation implements Animation, TickedAnimation{
      * @param y The top left y.
      */
     @Override
-    public void animate(Graphics g, int x, int y){
+    public void animate(Graphics2D g, int x, int y){
         recalc();
         g.drawImage(frames[currentFrame].getImage(), x, y, null);
     }

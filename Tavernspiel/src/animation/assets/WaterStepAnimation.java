@@ -5,7 +5,6 @@ import animation.DrawnAnimation;
 import gui.mainToolbox.Main;
 import gui.mainToolbox.MouseInterpreter;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 
 /**
@@ -27,7 +26,7 @@ public class WaterStepAnimation extends DrawnAnimation{
     }
 
     @Override
-    public void animate(Graphics g, int __x, int __y){
+    public void animate(Graphics2D g, int __x, int __y){
         recalc();
         g.setColor(COLOR);
         int offset = diameter/2;

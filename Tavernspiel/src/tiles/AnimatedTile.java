@@ -3,7 +3,7 @@ package tiles;
 
 import animation.Animation;
 import animation.assets.WaterAnimation;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import javax.swing.ImageIcon;
 import level.Location;
 
@@ -49,7 +49,7 @@ public class AnimatedTile extends Tile{
     }
     
     @Override
-    public void paint(Graphics g, int x, int y){
+    public void paint(Graphics2D g, int x, int y){
         animation.animate(g, x, y);
     }
 
