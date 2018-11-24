@@ -3,7 +3,7 @@ package animation;
 
 import gui.Window;
 import gui.mainToolbox.Pacemaker;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import javax.swing.ImageIcon;
 import listeners.AnimationListener;
 import logic.ImageUtils;
@@ -40,7 +40,7 @@ public abstract class FramedAnimation extends TrackableAnimation
      * @param y The top left y.
      */
     @Override
-    public void animate(Graphics g, int x, int y){
+    public void animate(Graphics2D g, int x, int y){
         recalc();
         g.drawImage(frames[currentFrame].getImage(), x, y, null);
     }

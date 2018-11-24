@@ -15,7 +15,11 @@
  */
 package items.equipment.weapons;
 
+import buffs.BuffBuilder;
+import creatureLogic.Attack;
+import creatureLogic.Attack.AttackType;
 import creatureLogic.Description;
+import creatures.Creature;
 import items.actions.ItemAction;
 import items.equipment.MythicalWeapon;
 
@@ -70,6 +74,24 @@ public class DragonWings extends MythicalWeapon{
     @Override
     public void xpChange(int xp, int level){
         currentHeroLevel = level;
+    }
+
+    @Override
+    public void updateModification(int lev){}
+
+    @Override
+    public boolean shouldActivate(){
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void onHit(Creature victim, Attack attack){
+        victim.addBuff(BuffBuilder.fire(level+5, victim.area.location));
+    }
+
+    @Override
+    public AttackType getAttackType(){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

@@ -15,7 +15,9 @@
  */
 package items.equipment.weapons;
 
+import creatureLogic.Attack;
 import creatureLogic.Description;
+import creatures.Creature;
 import items.equipment.MythicalWeapon;
 
 /**
@@ -24,8 +26,8 @@ import items.equipment.MythicalWeapon;
  */
 public class ElementalSkull extends MythicalWeapon{
 
-    public ElementalSkull(Description desc, int st, int lo, int up, int re, double ac, double sp, double bl){
-        super("Elemental Skull Chain", 112, 144, desc, st, lo, up, re, ac, sp, bl);
+    public ElementalSkull(){
+        super("Elemental Skull Chain", 112, 144, new Description("weapons", "Somehow, someone managed to bind a rare chaotic fire-frost elemental to a chain as a pet."), 23, 19, 56, 1, 2.2, 1.5, 0);
     }
 
     @Override
@@ -35,6 +37,26 @@ public class ElementalSkull extends MythicalWeapon{
 
     @Override
     public void xpChange(int xp, int level){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void updateModification(int lev){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean shouldActivate(){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void onHit(Creature victim, Attack attack){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public Attack.AttackType getAttackType(){
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     

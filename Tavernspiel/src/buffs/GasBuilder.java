@@ -7,7 +7,7 @@ import animation.GasAnimator;
 import blob.Blob;
 import creatureLogic.Description;
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import logic.Utils.Unfinished;
 
 /**
@@ -36,7 +36,7 @@ public abstract class GasBuilder{
         return new DrawnAnimation(-1, null){
             private final static long serialVersionUID = 209333;
             @Override
-            public void animate(Graphics g, int x, int y){
+            public void animate(Graphics2D g, int x, int y){
                 g.setColor(Color.WHITE);
                 g.fillOval(x+4, y+4, 8, 8);
             }

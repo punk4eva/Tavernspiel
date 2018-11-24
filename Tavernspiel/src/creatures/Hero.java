@@ -17,7 +17,7 @@ import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
 import gui.Window;
 import static gui.mainToolbox.MouseInterpreter.MOVE_RESOLUTION;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.LinkedList;
 import level.Area;
 import listeners.ScreenListener;
@@ -66,7 +66,7 @@ public class Hero extends Creature{
     }
     
     @Override
-    public void render(Graphics g, int focusX, int focusY){
+    public void render(Graphics2D g, int focusX, int focusY){
         int[] c = getCenter();
         if(moving==null) animator.animate(g, x*16+focusX, y*16+focusY);
         else{
@@ -118,7 +118,7 @@ public class Hero extends Creature{
      * Paints this Hero's Inventory and Equipment onto the given Graphics.
      * @param g
      */
-    public void paintInventory(Graphics g){
+    public void paintInventory(Graphics2D g){
         ((HeroInventory)inventory).paint(g, beginWidth, beginHeight, sqwidth, sqheight, padding, ((HeroInventory)inventory).manager.predicate);
         equipment.paint(g, beginWidth, beginHeight, sqwidth, sqheight, padding);
     }

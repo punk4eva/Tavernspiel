@@ -2,7 +2,7 @@
 package blob;
 
 
-import blob.ParticleEffect.Particle;
+import blob.ParticleAnimation.Particle;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.io.Serializable;

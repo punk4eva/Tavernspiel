@@ -3,7 +3,7 @@ package logic;
 
 import animation.GameObjectAnimator;
 import creatureLogic.Description;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.io.Serializable;
 import level.Area;
 
@@ -48,7 +48,7 @@ public abstract class GameObject implements Serializable{
      * @param focusX The x focus.
      * @param focusY The y focus.
      */
-    public abstract void render(Graphics g, int focusX, int focusY);
+    public abstract void render(Graphics2D g, int focusX, int focusY);
     
     /**
      * Animates the currently active animation.
@@ -56,7 +56,7 @@ public abstract class GameObject implements Serializable{
      * @param focusX
      * @param focusY
      */
-    public void standardAnimation(Graphics g, int focusX, int focusY){
+    public void standardAnimation(Graphics2D g, int focusX, int focusY){
         animator.animate(g, x*16+focusX, y*16+focusY);
     }
 

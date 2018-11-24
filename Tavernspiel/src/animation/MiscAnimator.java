@@ -4,7 +4,7 @@ package animation;
 import gui.mainToolbox.Main;
 import items.Item;
 import items.equipment.Wand;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.LinkedList;
 import java.util.List;
 import listeners.AnimationListener;
@@ -25,7 +25,7 @@ public class MiscAnimator implements AnimationListener{
         }
     }
     
-    public void animate(Graphics g, int fx, int fy){
+    public void animate(Graphics2D g, int fx, int fy){
         synchronized(current){
             current.removeIf(a -> a.done);
             current.stream().forEach(a -> a.animate(g, fx, fy));

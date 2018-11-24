@@ -199,7 +199,7 @@ public abstract class Main extends Canvas implements Runnable, Page{
     @Override
     public void paint(Graphics2D bsg){
         BufferedImage buffer = new BufferedImage((int)(((double)WIDTH)/zoom), (int)(((double)HEIGHT)/zoom), BufferedImage.TYPE_INT_ARGB);
-        Graphics g = buffer.getGraphics();
+        Graphics2D g = (Graphics2D) buffer.getGraphics();
         //@Unfinished
         TestUtil.setGraphics(g);
         
@@ -253,7 +253,7 @@ public abstract class Main extends Canvas implements Runnable, Page{
      * @param area The area to paint.
      * @param g The graphics to paint on.
      */
-    public void paintArea(Area area, Graphics g){
+    public void paintArea(Area area, Graphics2D g){
         g.setColor(ConstantFields.exploredColor);
         for(int y=focusY, maxY=focusY+area.dimension.height*16;y<maxY;y+=16){
             for(int x=focusX, maxX=focusX+area.dimension.width*16;x<maxX;x+=16){

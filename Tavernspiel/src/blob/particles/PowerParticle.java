@@ -1,8 +1,8 @@
 
 package blob.particles;
 
-import blob.ParticleEffect;
-import blob.ParticleEffect.Particle;
+import blob.ParticleAnimation;
+import blob.ParticleAnimation.Particle;
 import blob.TrailGenerator;
 import java.awt.Color;
 import java.awt.Rectangle;
@@ -16,12 +16,12 @@ public class PowerParticle extends Particle{
     
     private final double mult;
 
-    private PowerParticle(ParticleEffect e, Color col, Rectangle s, double ms, double f){
+    private PowerParticle(ParticleAnimation e, Color col, Rectangle s, double ms, double f){
         super(e, col, s, ms);
         mult = f;
     }
     
-    private PowerParticle(ParticleEffect e, Color col, Rectangle s, double ms, double f, TrailGenerator g){
+    private PowerParticle(ParticleAnimation e, Color col, Rectangle s, double ms, double f, TrailGenerator g){
         super(e, col, s, ms, g);
         mult = f;
     }
@@ -111,7 +111,7 @@ public class PowerParticle extends Particle{
     /**
      * The static default instance of a PowerParticle effect.
      */
-    public static ParticleEffect EFFECT = new ParticleEffect(1, 50, new Rectangle(128, 128, 48, 48), 
+    public static ParticleAnimation EFFECT = new ParticleAnimation(1, 50, new Rectangle(128, 128, 48, 48), 
                 new Rectangle(132, 132, 40, 40), new PowerParticle(Color.red, new Rectangle(8, 8), 5, 0.5));
     
 }

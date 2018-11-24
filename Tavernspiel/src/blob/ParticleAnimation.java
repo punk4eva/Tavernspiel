@@ -1,6 +1,7 @@
 
 package blob;
 
+import animation.TickedAnimation;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -13,11 +14,12 @@ import logic.Distribution;
  *
  * @author Adam Whittaker
  */
-public class ParticleEffect implements Serializable{
+public class ParticleAnimation implements TickedAnimation{
 
     private static final long serialVersionUID = -8216452115110348899L;
     
-    public void paint(Graphics2D g){
+    @Override
+    public void animate(Graphics2D g, int _x, int _y){
         tick++;
         if(tick>=intensity){
             tick = 0;
@@ -27,6 +29,11 @@ public class ParticleEffect implements Serializable{
         loaded.stream().forEach(p -> p.paint(g));
     }
     
+    @Override
+    public void setTicksPerFrame(double tpf){
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
     public int intensity;
     public int capacity;
     private int tick;
@@ -34,7 +41,7 @@ public class ParticleEffect implements Serializable{
     public Particle[] particleSet;
     public Rectangle startField, stopField;
     
-    public ParticleEffect(int i, int c, Rectangle sta, Rectangle sto, Particle... particles){
+    public ParticleAnimation(int i, int c, Rectangle sta, Rectangle sto, Particle... particles){
         particleSet = particles;
         capacity = c;
         startField = sta;
@@ -67,10 +74,10 @@ public class ParticleEffect implements Serializable{
         protected double velx=0, xchange=0, vely=0, ychange=0, maxSpeed;
         protected final Rectangle shape;
         private boolean expired = false;
-        public ParticleEffect effect;
+        public ParticleAnimation effect;
         protected TrailGenerator generator;
         
-        protected Particle(ParticleEffect e, Color col, Rectangle s, double ms){
+        protected Particle(ParticleAnimation e, Color col, Rectangle s, double ms){
             color = col;
             shape = s;
             effect = e;
@@ -83,7 +90,7 @@ public class ParticleEffect implements Serializable{
             maxSpeed = ms;
         }
         
-        protected Particle(ParticleEffect e, Color col, Rectangle s, double ms, TrailGenerator g){
+        protected Particle(ParticleAnimation e, Color col, Rectangle s, double ms, TrailGenerator g){
             color = col;
             shape = s;
             if(g!=null) generator = g.clone();
@@ -97,7 +104,7 @@ public class ParticleEffect implements Serializable{
             maxSpeed = ms;
         }
         
-        protected Particle(ParticleEffect e, Color col, Rectangle s, double ms, int i, int cap, float fade){
+        protected Particle(ParticleAnimation e, Color col, Rectangle s, double ms, int i, int cap, float fade){
             color = col;
             shape = s;
             effect = e;

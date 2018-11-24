@@ -14,7 +14,7 @@ import enchantments.WeaponEnchantment;
 import gui.Window;
 import gui.mainToolbox.MouseInterpreter;
 import static gui.mainToolbox.MouseInterpreter.MOVE_RESOLUTION;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Iterator;
@@ -196,7 +196,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
     }
 
     @Override
-    public void render(Graphics g, int focusX, int focusY){
+    public void render(Graphics2D g, int focusX, int focusY){
         if(moving==null) animator.animate(g, x*16+focusX, y*16+focusY);
         else{
             moving[0]++;

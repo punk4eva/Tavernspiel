@@ -1,7 +1,7 @@
 
 package animation;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import javax.swing.ImageIcon;
@@ -34,7 +34,7 @@ public class StillAnimation implements Animation{
     }
     
     @Override
-    public void animate(Graphics g, int x, int y){
+    public void animate(Graphics2D g, int x, int y){
         g.drawImage(image.getImage(), x, y, null);
     }
     

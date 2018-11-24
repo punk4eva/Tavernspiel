@@ -8,7 +8,7 @@ import gui.HUD;
 import gui.Viewable;
 import items.Item;
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayDeque;
 import java.util.Iterator;
@@ -43,7 +43,7 @@ public class GuiBase{
     }
     
     @Unfinished("Remove debug")
-    public void paintScreens(Graphics g){
+    public void paintScreens(Graphics2D g){
         g.setColor(Color.RED);
         screens.forEach((sc) -> {
             g.fill3DRect(sc.tlx, sc.tly, sc.brx-sc.tlx, sc.bry-sc.tly, true);
@@ -115,7 +115,7 @@ public class GuiBase{
      * Paints the GUI.
      * @param g The Graphics to paint on.
      */
-    public void paint(Graphics g){
+    public void paint(Graphics2D g){
         g.setColor(ConstantFields.textColor);
         g.setFont(ConstantFields.smallTextFont);
         int height = Main.HEIGHT*6/7;
