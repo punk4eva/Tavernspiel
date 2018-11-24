@@ -47,7 +47,7 @@ public class WandBuilder{
                 gem2 = ItemBuilder.shade(gem1), deco1 = 
                 new int[]{decoCol1.getRed(), decoCol1.getGreen(), decoCol1.getBlue()},
                 deco2 = new int[]{decoCol2.getRed(), decoCol2.getGreen(), decoCol2.getBlue()};
-        int[] pixel = new int[3];
+        int[] pixel = new int[4];
         for(int y=0;y<16;y++){
             for(int x=0;x<16;x++){
                 pixel = raster.getPixel(x, y, pixel);

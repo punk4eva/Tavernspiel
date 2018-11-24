@@ -36,7 +36,7 @@ public class RingProfile extends DescriptionBuilder{
         int[] bandColor = new int[]{band.getRed(), band.getGreen(), band.getBlue(), band.getAlpha()};
         int[] shadedBandColor = ItemBuilder.shade(bandColor);
         int[] brightenedBandColor = ItemBuilder.brighten(bandColor);
-        int[] pixel = new int[3];
+        int[] pixel = new int[4];
         for(int y=0;y<16;y++){
             for(int x=0;x<16;x++){
                 pixel = raster.getPixel(x, y, pixel);

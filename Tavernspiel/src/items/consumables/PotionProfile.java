@@ -60,7 +60,7 @@ public class PotionProfile extends DescriptionBuilder{
         WritableRaster raster = img.getRaster();
         int[] liquid = new int[]{liq.getRed(), liq.getGreen(), liq.getBlue()};
         int[] shadedLiquid = ItemBuilder.shade(liquid);
-        int[] pixel = new int[3];
+        int[] pixel = new int[4];
         for(int y=0;y<16;y++){
             for(int x=0;x<16;x++){
                 pixel = raster.getPixel(x, y, pixel);

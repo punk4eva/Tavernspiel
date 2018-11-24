@@ -7,6 +7,7 @@ import blob.TrailGenerator;
 import java.awt.Color;
 import java.awt.Rectangle;
 import logic.Distribution;
+import logic.Utils;
 
 /**
  *
@@ -97,8 +98,8 @@ public class PowerParticle extends Particle{
         }
         xchange += velx;
         ychange += vely;
-        x += Math.floor(xchange);
-        y += Math.floor(ychange);
+        x += Utils.floor(xchange);
+        y += Utils.floor(ychange);
         xchange %= 1.0;
         ychange %= 1.0;
     }

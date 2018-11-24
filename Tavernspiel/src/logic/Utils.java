@@ -71,6 +71,11 @@ public final class Utils{
         return ret.substring(0, ret.length()-1) + "}";
     }
     
+    public static int floor(double d){
+        if(d>=0) return (int) Math.floor(d);
+        else return (int)(Math.floor(d)+1);
+    }
+    
     /**
      * Checks if an rgb pixel equals another rgb pixel.
      * @param p The first pixel.
@@ -152,9 +157,7 @@ public final class Utils{
     //@Delete after debugging
     public static void main(String... args){
         //debugging
-        Location loc = Location.SHKODER_LOCATION;
-        String s = loc.name;
-        FileHandler.serialize((Supplier<ImageIcon> & Serializable)() -> Location.getChestIcon(s), "filetesting/serial.ser");
+        System.out.println(Math.floor(-4.5));
     }
     
 }

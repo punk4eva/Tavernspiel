@@ -6,12 +6,16 @@ import java.awt.Graphics2D;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * A GameObjectAnimator for a Gas.
+ * 
+ * @Unfinished Bad design: shouldn't depend on switch methods.
  */
 public class GasAnimator implements GameObjectAnimator{
     
-    private final Animation animation;
+    private final TrackableAnimation animation;
     
-    public GasAnimator(Animation a){
+    public GasAnimator(TrackableAnimation a){
         animation = a;
     }
 

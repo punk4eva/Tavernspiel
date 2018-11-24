@@ -15,10 +15,63 @@
  */
 package blob.particles;
 
+import blob.ParticleAnimation;
+import blob.ParticleAnimation.Particle;
+import blob.TrailGenerator;
+import java.awt.Color;
+import java.awt.Rectangle;
+import logic.Distribution;
+import logic.Utils;
+
 /**
  *
  * @author Adam Whittaker
  */
-public class FireParticle{
+public class FireParticle extends Particle{
+    
+    private final double courseCorrectionFactor = 0.01;
+    
+    public FireParticle(Color col, Rectangle s, double ms, TrailGenerator g){
+        super(col, s, ms, g);
+    }
+    
+    private FireParticle(ParticleAnimation e, Color col, Rectangle s, double ms, TrailGenerator g){
+        super(e, col, s, ms, g);
+        vely = -Distribution.r.nextDouble()*ms;
+        velx = 0.25*(Distribution.r.nextDouble()*ms - ms);
+    }
+
+    @Override
+    protected void motor(){
+        courseCorrection();
+        xchange += velx;
+        ychange += vely;
+        x += Utils.floor(xchange);
+        if(x<effect.stopField.x||x>effect.stopField.x+effect.stopField.width){
+            expired = true;
+            return;
+        }
+        y += Utils.floor(ychange);
+        xchange %= 1.0;
+        ychange %= 1.0;
+    }
+    
+    private void courseCorrection(){
+        if(desty<y){
+            if(vely-courseCorrectionFactor<-maxSpeed){
+                vely = -maxSpeed;
+            }else vely -= courseCorrectionFactor;
+        }else if(desty-3>y){
+            expired = true;
+        }
+    }
+
+    @Override
+    protected FireParticle clone(){
+        return new FireParticle(effect, color, shape, maxSpeed, generator);
+    }
+    
+    public static ParticleAnimation EFFECT = new ParticleAnimation(1, 12, new Rectangle(1, 12, 14, 4), 
+                new Rectangle(1, 0, 14, 8), new FireParticle(new Color(234,70,0), new Rectangle(1, 2), 1.0, new TrailGenerator(5.5F,3,5,2,3, 210,130,20)));
     
 }

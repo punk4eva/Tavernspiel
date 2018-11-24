@@ -3,20 +3,12 @@ package tiles;
 
 import tiles.assets.Chasm;
 import animation.GasAnimator;
-import animation.assets.WaterAnimation;
 import blob.Blob;
 import buffs.Buff;
 import buffs.BuffBuilder;
-import containers.Chest;
-import containers.Floor;
-import containers.Mimic;
-import containers.Receptacle;
-import containers.SkeletalRemains;
 import creatureLogic.Description;
-import items.Item;
 import level.Area;
 import level.Location;
-import logic.Distribution;
 import logic.Utils.Unfinished;
 
 /**
@@ -52,7 +44,7 @@ public class TrapBuilder{
     @Unfinished
     public static Blob getToxicGas(Location location, int x, int y){
         Buff b = BuffBuilder.toxicGas(location);           
-        GasAnimator a = new GasAnimator(new WaterAnimation(location, 0)); //@unfinished, placeholder
+        GasAnimator a = new GasAnimator(null); //@unfinished, placeholder
         return new Blob("Toxic Gas", new Description("gas", "A poisonous green vapour."), b, a, 7, x, y);
     }
     

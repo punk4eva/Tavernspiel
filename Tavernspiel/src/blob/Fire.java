@@ -2,6 +2,7 @@
 package blob;
 
 import animation.GasAnimator;
+import blob.particles.FireParticle;
 import buffs.BuffBuilder;
 import creatureLogic.Description;
 import java.io.IOException;
@@ -22,7 +23,8 @@ public class Fire extends Blob{
     private transient Location location;
     
     public Fire(GasAnimator a, Location loc, int x, int y, int d){
-        super("fire", new Description("naturals", "A fire is raging here"), BuffBuilder.fire(d, loc), a, Distribution.getRandomInt(2, 5),x,y);
+        super("fire", new Description("naturals", "A fire is raging here"), BuffBuilder.fire(d, loc), 
+                new GasAnimator(FireParticle.EFFECT), Distribution.getRandomInt(2, 5),x,y);
         depth = d;
         location = loc;
     }

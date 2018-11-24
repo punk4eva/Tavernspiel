@@ -199,7 +199,7 @@ public final class ItemBuilder{
         WritableRaster raster = img.getRaster();
         int[] preplace = new int[]{replace.getRed(), replace.getGreen(), replace.getBlue()};
         int[] pregex = new int[]{regex.getRed(), regex.getGreen(), regex.getBlue()};
-        int[] pixel = new int[3];
+        int[] pixel = new int[4];
         for(int y=0;y<16;y++){
             for(int x=0;x<16;x++){
                 pixel = raster.getPixel(x, y, pixel);

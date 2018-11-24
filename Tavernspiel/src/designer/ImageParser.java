@@ -79,7 +79,7 @@ public abstract class ImageParser{
         WritableRaster raster = bi.getRaster();
         int w = bi.getWidth(), h = bi.getHeight();
         TileSelection[][] ret = new TileSelection[h][w];
-        int[] pixel = new int[3];
+        int[] pixel = new int[4];
         for(int y=0;y<h;y++){
             for(int x=0;x<w;x++){
                 pixel = raster.getPixel(x, y, pixel);

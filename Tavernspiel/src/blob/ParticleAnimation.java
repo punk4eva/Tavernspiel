@@ -1,7 +1,8 @@
 
 package blob;
 
-import animation.TickedAnimation;
+import animation.TrackableAnimation;
+import gui.mainToolbox.Main;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -14,7 +15,7 @@ import logic.Distribution;
  *
  * @author Adam Whittaker
  */
-public class ParticleAnimation implements TickedAnimation{
+public class ParticleAnimation extends TrackableAnimation{
 
     private static final long serialVersionUID = -8216452115110348899L;
     
@@ -29,11 +30,6 @@ public class ParticleAnimation implements TickedAnimation{
         loaded.stream().forEach(p -> p.paint(g));
     }
     
-    @Override
-    public void setTicksPerFrame(double tpf){
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
     public int intensity;
     public int capacity;
     private int tick;
@@ -42,6 +38,7 @@ public class ParticleAnimation implements TickedAnimation{
     public Rectangle startField, stopField;
     
     public ParticleAnimation(int i, int c, Rectangle sta, Rectangle sto, Particle... particles){
+        super(Main.animator);
         particleSet = particles;
         capacity = c;
         startField = sta;
@@ -69,11 +66,11 @@ public class ParticleAnimation implements TickedAnimation{
     
     public static abstract class Particle implements Cloneable, Serializable{
         
-        protected final Color color;
+        protected Color color;
         protected int x, y, destx, desty;
         protected double velx=0, xchange=0, vely=0, ychange=0, maxSpeed;
         protected final Rectangle shape;
-        private boolean expired = false;
+        protected boolean expired = false;
         public ParticleAnimation effect;
         protected TrailGenerator generator;
         

@@ -32,7 +32,7 @@ public abstract class GasBuilder{
     }
     
     @Unfinished("Placeholder Animation")
-    private static Animation shadowmeldedAnimation(){
+    private static DrawnAnimation shadowmeldedAnimation(){
         return new DrawnAnimation(-1, null){
             private final static long serialVersionUID = 209333;
             @Override
