@@ -60,9 +60,10 @@ public class PotionProfile extends DescriptionBuilder{
         WritableRaster raster = img.getRaster();
         int[] liquid = new int[]{liq.getRed(), liq.getGreen(), liq.getBlue()};
         int[] shadedLiquid = ItemBuilder.shade(liquid);
+        int[] pixel = new int[3];
         for(int y=0;y<16;y++){
             for(int x=0;x<16;x++){
-                int[] pixel = raster.getPixel(x, y, (int[]) null);
+                pixel = raster.getPixel(x, y, pixel);
                 if(Utils.pixelColourEquals(pixel, liquidRegex)) raster.setPixel(x, y, liquid);
                 else if(Utils.pixelColourEquals(pixel, shadedLiquidRegex)) raster.setPixel(x, y, shadedLiquid);
             }
@@ -72,7 +73,7 @@ public class PotionProfile extends DescriptionBuilder{
         int[] fragmentRegex = new int[]{238,159,153};
         for(int y=0;y<16;y++){
             for(int x=0;x<16;x++){
-                if(Utils.pixelColourEquals(raster.getPixel(x, y, (int[]) null), fragmentRegex)) raster.setPixel(x, y, fragment);
+                if(Utils.pixelColourEquals(raster.getPixel(x, y, pixel), fragmentRegex)) raster.setPixel(x, y, fragment);
             }
         }
         return img;

@@ -36,9 +36,10 @@ public class RingProfile extends DescriptionBuilder{
         int[] bandColor = new int[]{band.getRed(), band.getGreen(), band.getBlue(), band.getAlpha()};
         int[] shadedBandColor = ItemBuilder.shade(bandColor);
         int[] brightenedBandColor = ItemBuilder.brighten(bandColor);
+        int[] pixel = new int[3];
         for(int y=0;y<16;y++){
             for(int x=0;x<16;x++){
-                int[] pixel = raster.getPixel(x, y, (int[]) null);
+                pixel = raster.getPixel(x, y, pixel);
                 if(Utils.pixelColourEquals(pixel, bandRegex)) raster.setPixel(x, y, bandColor);
                 else if(Utils.pixelColourEquals(pixel, shadedBandRegex)) raster.setPixel(x, y, shadedBandColor);
                 else if(Utils.pixelColourEquals(pixel, brightenedBandRegex)) raster.setPixel(x, y, brightenedBandColor);
@@ -49,7 +50,7 @@ public class RingProfile extends DescriptionBuilder{
         int[] shadedGemColor = new int[]{gem.getRed(), gem.getGreen(), gem.getBlue(), gem.getAlpha()};
         for(int y=0;y<16;y++){
             for(int x=0;x<16;x++){
-                int[] pixel = raster.getPixel(x, y, (int[]) null);
+                pixel = raster.getPixel(x, y, pixel);
                 if(Utils.pixelColourEquals(pixel, gemRegex)) raster.setPixel(x, y, gemColor);
                 else if(Utils.pixelColourEquals(pixel, shadedGemRegex)) raster.setPixel(x, y, shadedGemColor);
             }

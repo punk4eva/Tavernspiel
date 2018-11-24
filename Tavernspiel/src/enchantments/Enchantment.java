@@ -187,9 +187,10 @@ public abstract class Enchantment implements Serializable{
         WritableRaster raster = ret.getRaster();
         int[] hue1 = getHue1(i);
         int[] hue2 = getHue2(i);
+        int[] pixel = new int[3];
         for(int y=0;y<16;y++){
             for(int x=0;x<16;x++){
-                int[] pixel = raster.getPixel(x, y, (int[]) null);
+                pixel = raster.getPixel(x, y, pixel);
                 if(Utils.alphaColourEquals(pixel, hue1Regex)) raster.setPixel(x, y, hue1);
                 else if(Utils.alphaColourEquals(pixel, hue2Regex)) raster.setPixel(x, y, hue2);
             }

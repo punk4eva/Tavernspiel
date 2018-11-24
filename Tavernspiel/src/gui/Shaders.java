@@ -30,9 +30,10 @@ public class Shaders{
     public Shaders(Color col, double alphaDivisor){
         WritableRaster raster = shadows.getRaster();
         int R= col.getRed(), G=col.getGreen(), B=col.getBlue();
+        int[] pixel = new int[3];
         for(int y=0;y<shadows.getHeight();y++){
             for(int x=0;x<shadows.getWidth();x++){
-                int[] pixel = raster.getPixel(x, y, (int[]) null);
+                pixel = raster.getPixel(x, y, pixel);
                 pixel[0] = R;
                 pixel[1] = G;
                 pixel[2] = B;

@@ -47,9 +47,10 @@ public class WandBuilder{
                 gem2 = ItemBuilder.shade(gem1), deco1 = 
                 new int[]{decoCol1.getRed(), decoCol1.getGreen(), decoCol1.getBlue()},
                 deco2 = new int[]{decoCol2.getRed(), decoCol2.getGreen(), decoCol2.getBlue()};
+        int[] pixel = new int[3];
         for(int y=0;y<16;y++){
             for(int x=0;x<16;x++){
-                int[] pixel = raster.getPixel(x, y, (int[]) null);
+                pixel = raster.getPixel(x, y, pixel);
                 if(Utils.pixelColourEquals(pixel, wood1Regex)) raster.setPixel(x, y, wood1);
                 else if(Utils.pixelColourEquals(pixel, wood2Regex)) raster.setPixel(x, y, wood2);
                 else if(Utils.pixelColourEquals(pixel, gem1Regex)) raster.setPixel(x, y, gem1);

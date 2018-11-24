@@ -64,9 +64,10 @@ public class ImageUtils{
         grap.dispose();
         
         WritableRaster raster = ret.getRaster();
+        int[] pixel = new int[3];
         for(int y=0;y<16;y++){
             for(int x=16;x<32;x++){
-                int[] pixel = raster.getPixel(x-16, y, (int[]) null);
+                pixel = raster.getPixel(x-16, y, pixel);
                 if(pixel[3]!=0){
                     setTransparentAround(raster, x, y);
                     raster.setPixel(x, y, new int[]{11, 18, 1, 13}); //Mark the pixel wth a unique colour.
@@ -81,9 +82,10 @@ public class ImageUtils{
         BufferedImage ret = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
         
         WritableRaster raster = ret.getRaster(), imgRaster = img.getRaster();
+        int[] pixel = new int[3];
         for(int y=0;y<16;y++){
             for(int x=0;x<16;x++){
-                int alpha = imgRaster.getPixel(x, y, (int[])null)[3];
+                int alpha = imgRaster.getPixel(x, y, pixel)[3];
                 if(alpha<255&&alpha>0)
                     raster.setPixel(x, y, new int[]{0,0,0,160});
             }
@@ -95,9 +97,10 @@ public class ImageUtils{
     public static BufferedImage buildOverlay(BufferedImage img){
         BufferedImage ret = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
         WritableRaster retRaster = ret.getRaster(), imgRaster = img.getRaster();
+        int[] pixel = new int[3];
         for(int y=0;y<16;y++){
             for(int x=16;x<12;x++){
-                int[] pixel = imgRaster.getPixel(x-16, y, (int[]) null);
+                pixel = imgRaster.getPixel(x-16, y, pixel);
                 if(pixel[3]==255){
                     setTransparentAround(retRaster, x, y);
                     imgRaster.setPixel(x, y, new int[]{11, 18, 1, 13}); //Mark the pixel wth a unique colour.
@@ -112,10 +115,11 @@ public class ImageUtils{
     }
     
     private static void setTransparentAround(WritableRaster raster, int nx, int ny){
+        int[] pixel = new int[3];
         for(int y=ny-2;y<=ny+2;y++){
             for(int x=nx-2;x<=nx+2;x++){
                 try{
-                    int[] pixel = raster.getPixel(x-16, y, (int[]) null);
+                    pixel = raster.getPixel(x-16, y, pixel);
                     if(pixel[3]!=255){
                         raster.setPixel(x, y, new int[]{13, 1, 18, 11}); //Mark the pixel with unique colour. 
                     }
@@ -147,9 +151,10 @@ public class ImageUtils{
 
     public static Image fade(BufferedImage img, int newAlpha){
         WritableRaster raster = img.getRaster();
+        int[] pixel = new int[3];
         for(int y=0;y<img.getHeight();y++){
             for(int x=0;x<img.getWidth();x++){
-                int[] pixel = raster.getPixel(x, y, (int[]) null);
+                pixel = raster.getPixel(x, y, pixel);
                 pixel[3] = newAlpha;
                 raster.setPixel(x, y, pixel);
             }
@@ -172,9 +177,10 @@ public class ImageUtils{
         int w = icon.getIconWidth(), h = icon.getIconHeight();
         BufferedImage ret = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
         WritableRaster raster = ret.getRaster(), iconRaster = convertToBuffered(icon).getRaster();
+        int[] pixel = new int[3];
         for(int x=0;x<w;x++)
             for(int y=0;y<h;y++)
-                raster.setPixel(x, y, iconRaster.getPixel(w-1-x, y, (int[]) null));
+                raster.setPixel(x, y, iconRaster.getPixel(w-1-x, y, pixel));
         return new ImageIcon(ret);
     }
     
@@ -190,9 +196,10 @@ public class ImageUtils{
     
     public static void alpha(BufferedImage bi){
         WritableRaster raster = bi.getRaster();
+        int[] pixel = new int[3];
         for(int y=0;y<bi.getHeight();y++){
             for(int x=0;x<bi.getWidth();x++){
-                int[] pixel = raster.getPixel(x, y, (int[]) null);
+                pixel = raster.getPixel(x, y, pixel);
                 if(pixel[3]>10) pixel[3]-=10;
                 raster.setPixel(x, y, pixel);
             }
