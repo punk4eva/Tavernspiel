@@ -40,10 +40,10 @@ public class ImageUtils{
         boolean cursed = i.hasKnownCurse();
         boolean ided = i.isIdentified(h);
         if(cursed){
-            g.setColor(ConstantFields.cursedColour);
+            g.setColor(ConstantFields.cursedColor);
             g.fillRect(x+2, y+2, sqwidth-4, sqheight-4);
         }else if(!ided){
-            g.setColor(ConstantFields.unidentifiedColour);
+            g.setColor(ConstantFields.unidentifiedColor);
             g.fillRect(x+2, y+2, sqwidth-4, sqheight-4);
         }
         //if(i==null) return;

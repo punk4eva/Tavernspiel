@@ -35,8 +35,18 @@ public class FireParticle extends Particle{
         super(col, s, ms, g);
     }
     
+    public FireParticle(Color col, Rectangle s, double ms){
+        super(col, s, ms);
+    }
+    
     private FireParticle(ParticleAnimation e, Color col, Rectangle s, double ms, TrailGenerator g){
         super(e, col, s, ms, g);
+        vely = -Distribution.r.nextDouble()*ms;
+        velx = 0.25*(Distribution.r.nextDouble()*ms - ms);
+    }
+    
+    private FireParticle(ParticleAnimation e, Color col, Rectangle s, double ms){
+        super(e, col, s, ms);
         vely = -Distribution.r.nextDouble()*ms;
         velx = 0.25*(Distribution.r.nextDouble()*ms - ms);
     }
@@ -71,7 +81,24 @@ public class FireParticle extends Particle{
         return new FireParticle(effect, color, shape, maxSpeed, generator);
     }
     
-    public static ParticleAnimation EFFECT = new ParticleAnimation(1, 12, new Rectangle(1, 12, 14, 4), 
-                new Rectangle(1, 0, 14, 8), new FireParticle(new Color(234,70,0), new Rectangle(1, 2), 1.0, new TrailGenerator(5.5F,3,5,2,3, 210,130,20)));
+    public static class StaticFireParticle extends FireParticle{
+    
+        public StaticFireParticle(Color col){
+            super(col, new Rectangle(2, 3), 0);
+        }
+        
+        private StaticFireParticle(Color col, ParticleAnimation e){
+            super(e, col, new Rectangle(2, 3), 0);
+        }
+        
+        @Override
+        protected void motor(){}
+        
+        @Override
+        protected StaticFireParticle clone(){
+            return new StaticFireParticle(color, effect);
+        }
+        
+    }
     
 }

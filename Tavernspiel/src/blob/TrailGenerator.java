@@ -16,12 +16,12 @@ public class TrailGenerator implements Serializable{
 
     private static final long serialVersionUID = 463178L;
 
-    private final int width, height;
-    private int R, G, B, tick;
+    private final int width, height, R, G, B;
+    private int tick;
     public int intensity, capacity;
     public float fadespeed;
 
-    private ArrayList<Trail> trail = new ArrayList<>();
+    private final ArrayList<Trail> trail = new ArrayList<>();
 
     public void paint(Graphics2D g, int x, int y){
         tick++;
@@ -35,14 +35,14 @@ public class TrailGenerator implements Serializable{
         trail.stream().forEach(p -> p.paint(g));
     }
 
-    public TrailGenerator(float f, int... v){
+    public TrailGenerator(Color col, float f, int... v){
         intensity = v[0];
         capacity = v[1];
         width = v[2];
         height = v[3];
-        R = v[4];
-        G = v[5];
-        B = v[6];
+        R = col.getRed();
+        G = col.getGreen();
+        B = col.getBlue();
         fadespeed = f;
     }
     

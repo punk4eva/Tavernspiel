@@ -4,7 +4,6 @@ package gui;
 import gui.mainToolbox.Main;
 import ai.PlayerAI;
 import blob.ParticleAnimation;
-import blob.particles.FireParticle;
 import containers.HeroInventory;
 import creatureLogic.Attributes;
 import creatures.Hero;
@@ -13,7 +12,9 @@ import items.misc.Gold;
 import level.Area;
 import level.Dungeon;
 import level.Location;
+import logic.ConstantFields;
 import logic.FileHandler;
+import logic.GameSettings;
 import logic.Utils.Unfinished;
 
 /**
@@ -73,7 +74,7 @@ public final class Game extends Main{
         //game.save();
         //Game game = FileHandler.deserializeGame("filetesting/game.ser");
         System.out.println("Running");
-        ParticleAnimation a = FireParticle.EFFECT;
+        ParticleAnimation a = GameSettings.FIRE_SETTING.get(ConstantFields.fireColor, ConstantFields.fireTrailColor);
         a.setXY(100, 100);
         Main.animator.addAnimation(a);
         //game.currentArea.graph.navMesh = new NavigationMesh(game.currentArea.graph, game.currentArea);
