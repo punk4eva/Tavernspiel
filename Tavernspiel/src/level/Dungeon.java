@@ -41,7 +41,7 @@ public class Dungeon implements Serializable{
         stages[0].areas[0] = stages[0].areaBuilder.load(stages[0].location.roomDistrib, 0);
         depth = 1;
         stages[0].loadedLevel = 1;
-        g.currentArea = getArea();
+        g.setArea(getArea());
     }
     
     /**

@@ -55,7 +55,7 @@ public final class Game extends Main{
         dungeon = dun;
         dungeon.setGame(this);
         gui.addMessage("You are now in " + dungeon.getDepthClassifier() + ".");
-        currentArea = dungeon.currentArea;
+        setArea(dungeon.currentArea);
         player = currentArea.hero;
         gui.hero = player;
         currentArea.addHero(player, true);
@@ -82,11 +82,10 @@ public final class Game extends Main{
 
     @Unfinished("The sfx for newDepth.")
     public void updateArea(Area area){
-        currentArea = area;
+        setArea(area);
         gui.addMessage("You are now in " + dungeon.getDepthClassifier() + ".");
         soundSystem.playSFX("Misc/newDepth.wav"); //@unfinished
         soundSystem.playAbruptLoop(currentArea.location.feeling.backgroundMusicPath);
-        
     }
 
     /**

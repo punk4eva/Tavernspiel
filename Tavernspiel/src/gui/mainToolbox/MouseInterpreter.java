@@ -9,6 +9,7 @@ import java.awt.event.MouseWheelEvent;
 import static gui.mainToolbox.Main.HEIGHT;
 import static gui.mainToolbox.Main.WIDTH;
 import static gui.mainToolbox.Main.gui;
+import level.Area;
 import logic.Utils.Unfinished;
 
 /**
@@ -18,7 +19,7 @@ import logic.Utils.Unfinished;
 public class MouseInterpreter extends MouseAdapter{
     
     public volatile static int focusX=16, focusY=16;
-    private int xOfDrag=-1, yOfDrag=-1;
+    private int xOfDrag=-1, yOfDrag=-1, maxFX, maxFY, minFX, minFY;
     protected static double zoom = 1.0;
     public static final double MAX_ZOOM = 8.0, MIN_ZOOM = 0.512;
     public static final int MOVE_RESOLUTION = 4;
@@ -117,6 +118,17 @@ public class MouseInterpreter extends MouseAdapter{
     }
     
     /**
+     * Sets the focus bounds for a given Area.
+     * @param area The Area.
+     */
+    public void setFocusBounds(Area area){
+        minFX = Main.WIDTH - area.dimension.width*16-128;
+        minFY = Main.HEIGHT - area.dimension.height*16-128;
+        maxFX = 0;
+        maxFY = 0;
+    }
+    
+    /**
      * Returns the center coordinates of the screen.
      * @return
      */
@@ -137,12 +149,15 @@ public class MouseInterpreter extends MouseAdapter{
                 }
             }
         }else if(gui.hudClear()){
+            int tempx, tempy;
             if(xOfDrag == -1){
                 xOfDrag = me.getX() - focusX;
                 yOfDrag = me.getY() - focusY;        
             }
-            focusX = me.getX() - xOfDrag;
-            focusY = me.getY() - yOfDrag;
+            tempx = me.getX() - xOfDrag;
+            tempy = me.getY() - yOfDrag;
+            focusX = tempx>minFX ? (tempx<maxFX ? tempx : maxFX) : minFX;
+            focusY = tempy>minFY ? (tempy<maxFY ? tempy : maxFY) : minFY;
         }
     }
     

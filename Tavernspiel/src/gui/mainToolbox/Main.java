@@ -9,7 +9,6 @@ import gui.Viewable;
 import gui.Window;
 import java.awt.Canvas;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
@@ -64,7 +63,7 @@ public abstract class Main extends Canvas implements Runnable, Page{
     public final static MiscAnimator animator = new MiscAnimator();
     protected static final GuiBase gui = new GuiBase();
     protected MouseInterpreter mouse = new MouseInterpreter();
-    public volatile Area currentArea;
+    protected volatile Area currentArea;
     public volatile Hero player;
     
     /**
@@ -134,6 +133,15 @@ public abstract class Main extends Canvas implements Runnable, Page{
      */
     public void setDialogue(Dialogue dialogue){
         gui.setDialogue(dialogue);
+    }
+    
+    /**
+     * Sets the current Area.
+     * @param area The new Area.
+     */
+    public void setArea(Area area){
+        currentArea = area;
+        mouse.setFocusBounds(area);
     }
     
     /**
