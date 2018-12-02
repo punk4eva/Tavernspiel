@@ -20,26 +20,26 @@ public class ScrollProfile implements Serializable{
     
     private static final HashMap<String, Dimension> runeMap = new HashMap<>();
     static{
-        runeMap.put("GICH", new Dimension(0, 80));
-        runeMap.put("META", new Dimension(16, 80));
-        runeMap.put("ALIKI", new Dimension(32, 80));
-        runeMap.put("SIMA", new Dimension(48, 80));
-        runeMap.put("IRIGI", new Dimension(64, 80));
-        runeMap.put("TILACHA", new Dimension(80, 80));
-        runeMap.put("MIDI", new Dimension(96, 80));
-        runeMap.put("MOTI", new Dimension(112, 80));
-        runeMap.put("SMUDGE1", new Dimension(0, 96));
-        runeMap.put("SMUDGE2", new Dimension(16, 96));
-        runeMap.put("INEMA", new Dimension(32, 96));
-        runeMap.put("KORO", new Dimension(48, 96));
-        runeMap.put("BERI", new Dimension(64, 96));
-        runeMap.put("REDO", new Dimension(80, 96));
-        runeMap.put("SEMA", new Dimension(96, 96));
-        runeMap.put("BLANK", new Dimension(112, 96));
-        runeMap.put("FERESI", new Dimension(64, 176));
-        runeMap.put("MOKATI", new Dimension(80, 176));
-        runeMap.put("MAZORI", new Dimension(96, 176));
-        runeMap.put("HULUMI", new Dimension(112, 176));
+        runeMap.put("GICH", new Dimension(0, 176));
+        runeMap.put("META", new Dimension(16, 176));
+        runeMap.put("ALIKI", new Dimension(32, 176));
+        runeMap.put("SIMA", new Dimension(48, 176));
+        runeMap.put("IRIGI", new Dimension(64, 176));
+        runeMap.put("TILACHA", new Dimension(80, 176));
+        runeMap.put("MIDI", new Dimension(96, 176));
+        runeMap.put("MOTI", new Dimension(112, 176));
+        runeMap.put("SMUDGE1", new Dimension(0, 192));
+        runeMap.put("SMUDGE2", new Dimension(16, 192));
+        runeMap.put("INEMA", new Dimension(32, 192));
+        runeMap.put("KORO", new Dimension(48, 192));
+        runeMap.put("BERI", new Dimension(64, 192));
+        runeMap.put("REDO", new Dimension(80, 192));
+        runeMap.put("SEMA", new Dimension(96, 192));
+        runeMap.put("BLANK", new Dimension(112, 192));
+        runeMap.put("FERESI", new Dimension(64, 272));
+        runeMap.put("MOKATI", new Dimension(80, 272));
+        runeMap.put("MAZORI", new Dimension(96, 272));
+        runeMap.put("HULUMI", new Dimension(112, 272));
     }
     
     protected String unknownName;

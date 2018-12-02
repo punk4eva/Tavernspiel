@@ -122,10 +122,22 @@ public class MouseInterpreter extends MouseAdapter{
      * @param area The Area.
      */
     public void setFocusBounds(Area area){
-        minFX = Main.WIDTH - area.dimension.width*16-128;
-        minFY = Main.HEIGHT - area.dimension.height*16-128;
-        maxFX = 0;
-        maxFY = 0;
+        int temp = Main.WIDTH - 32 - (int)((area.dimension.width*16)*zoom);
+        if(temp > 16){
+            maxFX = temp;
+            minFX = 16;
+        }else{
+            maxFX = 16;
+            minFX = temp;
+        }
+        temp = Main.HEIGHT - 32 - (int)((area.dimension.height*16)*zoom);
+        if(temp > 16){
+            maxFY = temp;
+            minFY = 16;
+        }else{
+            maxFY = 16;
+            minFY = temp;
+        }
     }
     
     /**
@@ -176,6 +188,7 @@ public class MouseInterpreter extends MouseAdapter{
                 performanceStream.println("ZOOM: " + zoom);
             }
         }
+        setFocusBounds(Window.main.currentArea);
     }
     
 }

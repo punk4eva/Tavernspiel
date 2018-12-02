@@ -39,14 +39,14 @@ public class PotionProfile extends DescriptionBuilder{
     
     private static final HashMap<String, Dimension> unknownToDimension = new HashMap<>();
     static{
-        unknownToDimension.put("Potion in a pyramidal tube", new Dimension(0, 128));
-        unknownToDimension.put("Potion in a heart shaped tube", new Dimension(16, 128));
-        unknownToDimension.put("Potion in a star-shaped tube", new Dimension(32, 128));
-        unknownToDimension.put("Potion in a conical vial", new Dimension(48, 128));
-        unknownToDimension.put("Potion in a circular vial", new Dimension(64, 128));
-        unknownToDimension.put("Potion in a skull shaped bottle", new Dimension(80, 128));
-        unknownToDimension.put("Potion in a cubic bottle", new Dimension(96, 128));
-        unknownToDimension.put("Potion in a spherical jar", new Dimension(112, 128));
+        unknownToDimension.put("Potion in a pyramidal tube", new Dimension(0, 224));
+        unknownToDimension.put("Potion in a heart shaped tube", new Dimension(16, 224));
+        unknownToDimension.put("Potion in a star-shaped tube", new Dimension(32, 224));
+        unknownToDimension.put("Potion in a conical vial", new Dimension(48, 224));
+        unknownToDimension.put("Potion in a circular vial", new Dimension(64, 224));
+        unknownToDimension.put("Potion in a skull shaped bottle", new Dimension(80, 224));
+        unknownToDimension.put("Potion in a cubic bottle", new Dimension(96, 224));
+        unknownToDimension.put("Potion in a spherical jar", new Dimension(112, 224));
         /*bareProfileMap.put("Deep Sleep Potion", new PotionProfile(new Description("potions", "This depressant is said to ease stresses in the mind which puts the victime to sleep temporarily.|It is not strong enough to keep the victim from waking upon receiving damage, though."), Type.VERSATILE));
         bareProfileMap.put("Merchant's Potion", new PotionProfile(new Description("potions", "This unfinished potion must be brewed with an item and then drunk to receive gold. It works by reacting with the quaffer's stomach acid and teleporting gold from the creator of the potion into the quaffer's stomach, which is then vomited or excreted.|Potions of this kind were once outlawed because the merchants could easily cheat the buyers by not teleporting money into their stomachs and thiefs could reverse engineer the " +
         "seals to teleport into the Kyoukan bank. The potions are now only legally sold by the government and the transaction scroll is dissolved inside the potion to prevent robbery.|Perhaps you can exploit the teleportation magic in this potion."), Type.BENEFICIAL));
@@ -58,7 +58,7 @@ public class PotionProfile extends DescriptionBuilder{
     
     private static BufferedImage outfitImage(BufferedImage img, Color liq, Color frag){
         WritableRaster raster = img.getRaster();
-        int[] liquid = new int[]{liq.getRed(), liq.getGreen(), liq.getBlue()};
+        int[] liquid = new int[]{liq.getRed(), liq.getGreen(), liq.getBlue(), 0};
         int[] shadedLiquid = ItemBuilder.shade(liquid);
         int[] pixel = new int[4];
         for(int y=0;y<16;y++){
@@ -69,7 +69,7 @@ public class PotionProfile extends DescriptionBuilder{
             }
         }
         if(frag==null) return img;
-        int[] fragment = new int[]{frag.getRed(), frag.getGreen(), frag.getBlue()};
+        int[] fragment = new int[]{frag.getRed(), frag.getGreen(), frag.getBlue(), 0};
         int[] fragmentRegex = new int[]{238,159,153};
         for(int y=0;y<16;y++){
             for(int x=0;x<16;x++){
