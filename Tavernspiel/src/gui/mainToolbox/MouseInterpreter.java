@@ -141,7 +141,7 @@ public class MouseInterpreter extends MouseAdapter{
     }
     
     /**
-     * Returns the center coordinates of the screen.
+     * Returns the centre coordinates of the screen.
      * @return
      */
     public static int[] getCenter(){

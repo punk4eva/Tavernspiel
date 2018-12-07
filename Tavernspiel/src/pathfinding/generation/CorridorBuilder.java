@@ -141,7 +141,7 @@ public class CorridorBuilder{
         paths.stream().forEach((path) -> {
             buildCorridor(path);
         });
-        fix();
+        //fix();
         return corridors;
     }
     
