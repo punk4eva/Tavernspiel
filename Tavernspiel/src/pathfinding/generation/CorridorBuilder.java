@@ -141,7 +141,7 @@ public class CorridorBuilder{
         paths.stream().forEach((path) -> {
             buildCorridor(path);
         });
-        //fix();
+        fix();
         return corridors;
     }
     
@@ -216,7 +216,10 @@ public class CorridorBuilder{
         WanderingCorridorAlgorithm corSearch = new WanderingCorridorAlgorithm();
         search.checkedFloodfill(new Point(area.startCoords[0], area.startCoords[1]));
         for(Point p : area.graph.waypoints){
-            if(p.cameFrom==null) buildCorridor(corSearch.generatePath(waypoint, p));
+            if(p.cameFrom==null){
+                System.out.println("ERROR 0001");
+                buildCorridor(corSearch.generatePath(waypoint, p));
+            }
         }
     }
     

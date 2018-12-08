@@ -14,7 +14,9 @@ import level.Location;
  *
  * @author Adam Whittaker
  */
-public class ImageHandler{
+public final class ImageHandler{
+    
+    private ImageHandler(){}
     
     private static final HashMap<String, Dimension> map = new HashMap<>();
     private static final HashMap<String, Dimension> interiorMap = new HashMap<>();
@@ -91,17 +93,19 @@ public class ImageHandler{
         interiorMap.put("table", new Dimension(16, 48));
         interiorMap.put("bed0", new Dimension(32, 48));
         interiorMap.put("bed1", new Dimension(48, 48));
+        interiorMap.put("sarcophagus0", new Dimension(32, 48));
+        interiorMap.put("sarcophagus1", new Dimension(48, 48));
     }
     
     public final static void initializeIcons(Location loc){
         map.entrySet().forEach((entry) -> {
-            loc.tilemap.put(entry.getKey(), getImage(entry.getValue(), loc));
+            loc.tilemap.put(entry.getKey(), getImage(entry.getValue(), loc, 16, 16));
         });
     }
     
     public final static void initializeInteriorIcons(Location loc){
         interiorMap.entrySet().forEach((entry) -> {
-            loc.tilemap.put(entry.getKey(), getImage(entry.getValue(), loc));
+            loc.tilemap.put(entry.getKey(), getImage(entry.getValue(), loc, 16, 16));
         });
     }
     
@@ -111,7 +115,7 @@ public class ImageHandler{
      * @param loc The Location
      * @return
      */
-    private static ImageIcon getImage(Dimension dim, Location loc){
+    private static ImageIcon getImage(Dimension dim, Location loc, int w, int h){
         BufferedImage bi = new BufferedImage(
                 loc.tileset.getIconWidth(),
                 loc.tileset.getIconHeight(),
@@ -119,7 +123,7 @@ public class ImageHandler{
         Graphics g = bi.createGraphics();
         g.drawImage(loc.tileset.getImage(), 0, 0, null);
         g.dispose();
-        return new ImageIcon(bi.getSubimage(dim.width, dim.height, 16, 16));
+        return new ImageIcon(bi.getSubimage(dim.width, dim.height, w, h));
     }
     
     /**

@@ -408,18 +408,34 @@ public abstract class RoomBuilder{
                 Distribution.getRandomInt(7, 16)), loc, depth); 
         room.itemMap = ItemMap.kitchenItemMap;
         room.paintAndPave();
-        int x = Distribution.getRandomInt(2, room.dimension.width-3),
-                y = Distribution.getRandomInt(2, room.dimension.height-3);
-        room.map[y][x] = new AlchemyPot(loc);
-        circle(room, x, y, loc);
-        x = Distribution.getRandomInt(2, room.dimension.width-3);
-        y = Distribution.getRandomInt(2, room.dimension.height-3);
-        room.map[y][x] = new Tile("pedestal", loc, true, false, true);
-        circle(room, x, y, loc);
-        x = Distribution.getRandomInt(2, room.dimension.width-3);
-        y = Distribution.getRandomInt(2, room.dimension.height-3);
-        room.map[y][x] = new Tile("pedestal", loc, true, false, true);
-        circle(room, x, y, loc);
+        int x1,y1,x2,y2,x3,y3, attempts = 0;
+        do{
+            x1 = Distribution.getRandomInt(2, room.dimension.width-3);
+            y1 = Distribution.getRandomInt(2, room.dimension.height-3);
+            x2 = Distribution.getRandomInt(2, room.dimension.width-3);
+            y2 = Distribution.getRandomInt(2, room.dimension.height-3);
+            x3 = Distribution.getRandomInt(2, room.dimension.width-3);
+            y3 = Distribution.getRandomInt(2, room.dimension.height-3);
+            attempts++;
+            if(attempts>=40){
+                x3 = -1;
+                break;
+            }
+        }while(minDistance(x1,y1,x2,y2)<3 || minDistance(x2,y2,x3,y3)<3 || minDistance(x1,y1,x3,y3)<3);
+        if(x3==-1) do{
+            x1 = Distribution.getRandomInt(2, room.dimension.width-3);
+            y1 = Distribution.getRandomInt(2, room.dimension.height-3);
+            x2 = Distribution.getRandomInt(2, room.dimension.width-3);
+            y2 = Distribution.getRandomInt(2, room.dimension.height-3);
+        }while(minDistance(x1,y1,x2,y2)<3);
+        else{
+            room.map[y3][x3] = new Tile("pedestal", loc, true, false, true);
+            circle(room, x3, y3, loc);
+        }
+        room.map[y1][x1] = new AlchemyPot(loc);
+        circle(room, x1, y1, loc);
+        room.map[y2][x2] = new Tile("pedestal", loc, true, false, true);
+        circle(room, x2, y2, loc);
         room.addDoors();
         room.randomlyPlop();
         return room;
@@ -660,6 +676,10 @@ public abstract class RoomBuilder{
         room.map[y+1][x] = new CustomTile(loc, NEW);
         room.map[y+1][x+1] = new CustomTile(loc, NW);
         room.map[y][x+1] = new CustomTile(loc, NSW);
+    }
+    
+    private static int minDistance(int x, int y, int x1, int y1){
+        return Math.min(Math.abs(x-x1), Math.abs(y-y1));
     }
             
     

@@ -383,7 +383,7 @@ public class Area implements Serializable{
                 GameObject ob = iter.next();
                 if(overlay.isVisible(ob.x, ob.y)) ob.render(g, focusX, focusY);
             }
-            if(debugMode) graph.debugPaint(g, focusX, focusY, this);
+            //if(debugMode) graph.debugPaint(g, focusX, focusY, this);
         //}finally{
         //    objectLock.unlock();
         //}
