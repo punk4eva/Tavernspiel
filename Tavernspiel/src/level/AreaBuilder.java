@@ -1,7 +1,6 @@
 
 package level;
 
-import exceptions.AreaCoordsOutOfBoundsException;
 import gui.mainToolbox.Main;
 import items.Item;
 import java.awt.Dimension;
@@ -17,6 +16,9 @@ import logic.Distribution;
 import pathfinding.generation.CorridorBuilder;
 import pathfinding.Graph;
 import pathfinding.Point;
+import pathfinding.Waypoint;
+import tiles.assets.Barricade;
+import tiles.assets.Door;
 
 /**
  *
@@ -81,31 +83,21 @@ public class AreaBuilder implements Serializable{
             for(Point point : getMergeCoords(area, add, x, y)){
                 int[] c = getConjoiningCoords(area, add, point, x, y);
                 if(canBlit(area, add, c[0], c[1])){
-                    try{
-                        area.blitSafely(add, c[0], c[1]);
-                    }catch(AreaCoordsOutOfBoundsException e){}
+                    area.blitSafely(add, c[0], c[1]);
                     return;
                 }
             }
             attempts++;
         }
-        if(attempts>40){
-            System.err.println("Unable to blit the given area.");
-            area.debugMode = true;
-            //throw new IllegalStateException("Unable to blit the given area.");
-        }
-        try{
-            area.blit(add, x, y);
-        }catch(AreaCoordsOutOfBoundsException e){
-            e.printStackTrace(Main.exceptionStream);
-        }
+        area.blit(add, x, y);
     }
     
     private List<Point> getMergeCoords(Area area, Area add, int nx, int ny){
         List<Point> points = new LinkedList<>();
         for(int y=ny-2, yCheck=ny+2+add.dimension.height;y<yCheck;y++){
             for(int x=nx-2, xCheck=nx+2+add.dimension.width;x<xCheck;x++){
-                if(area.map[y][x]!=null&&area.map[y][x].equals("door")) points.add(new Point(x, y));
+                if(area.map[y][x]!=null&&area.map[y][x] instanceof Door 
+                        || area.map[y][x] instanceof Barricade) points.add(new Point(x, y));
             }
         }
         return points;

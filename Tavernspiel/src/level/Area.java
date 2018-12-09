@@ -11,7 +11,6 @@ import creatureLogic.VisibilityOverlay;
 import creatures.Creature;
 import creatures.Hero;
 import designer.AreaTemplate;
-import exceptions.AreaCoordsOutOfBoundsException;
 import gui.Window;
 import items.Item;
 import java.awt.Dimension;
@@ -33,8 +32,10 @@ import logic.Utils.Unfinished;
 import pathfinding.Graph;
 import tiles.assets.Grass;
 import tiles.Tile;
+import tiles.assets.Barricade;
 import tiles.assets.DepthEntrance;
 import tiles.assets.DepthExit;
+import tiles.assets.Door;
 import tiles.assets.Water;
 
 /**
@@ -80,20 +81,26 @@ public class Area implements Serializable{
     }
     
     /**
-     * Prints the given area onto this area.
+     * Prints the given area onto this area and replaces only non-treadable tiles.
      * @param area The area to print.
      * @param x1 The top left x.
      * @param y1 The top left y.
-     * @throws AreaCoordsOutOfBoundsException If it can't be fit in with the
-     * given coordinates.
      */
-    public void blit(Area area, int x1, int y1) throws AreaCoordsOutOfBoundsException{
+    public void blit(Area area, int x1, int y1){
         if(!withinBounds(x1, y1)||
                 !withinBounds(x1+area.dimension.width, y1+area.dimension.height))
-            throw new AreaCoordsOutOfBoundsException("Coords out of bounds.");
+            System.out.println("blit error v1");
         for(int y=y1;y<y1+area.dimension.height;y++){
             for(int x=x1;x<x1+area.dimension.width;x++){
-                map[y][x] = area.map[y-y1][x-x1];
+                if(map[y][x]==null) map[y][x] = area.map[y-y1][x-x1];
+                else if(!map[y][x].treadable&&area.map[y-y1][x-x1].treadable){
+                    if(!map[y][x].getClass().isAssignableFrom(Tile.class)){
+                        map[y][x] = area.map[y-y1][x-x1];
+                    }
+                }else if(area.map[y-y1][x-x1].getClass().isAssignableFrom(Tile.class)
+                        && !(area.map[y][x] instanceof Door) && !(area.map[y][x] instanceof Barricade)){
+                    map[y][x] = area.map[y-y1][x-x1];
+                }
             }
         }
         objects.addAll(area.objects.stream().map(ob -> {
@@ -123,16 +130,15 @@ public class Area implements Serializable{
      * @param area The area to print.
      * @param x1 The top left x.
      * @param y1 The top left y.
-     * @throws AreaCoordsOutOfBoundsException If it can't be fit in with the
-     * given coordinates.
      */
-    public void blitSafely(Area area, int x1, int y1) throws AreaCoordsOutOfBoundsException{
+    public void blitSafely(Area area, int x1, int y1){
         if(!withinBounds(x1, y1)||
                 !withinBounds(x1+area.dimension.width, y1+area.dimension.height))
-            throw new AreaCoordsOutOfBoundsException("Coords out of bounds.");
+            System.out.println("blit error v2");
         for(int y=y1;y<y1+area.dimension.height;y++){
             for(int x=x1;x<x1+area.dimension.width;x++){
                 if(map[y][x]==null) map[y][x] = area.map[y-y1][x-x1];
+                else throw new IllegalStateException("Safe blit failed.");
             }
         }
         objects.addAll(area.objects.stream().map(ob -> {
