@@ -121,6 +121,7 @@ public class MouseInterpreter extends MouseAdapter{
      * Sets the focus bounds for a given Area.
      * @param area The Area.
      */
+    @Unfinished("Might remove")
     public void setFocusBounds(Area area){
         int temp = Main.WIDTH - 32 - (int)((area.dimension.width*16)*zoom);
         if(temp > 16){
@@ -161,15 +162,17 @@ public class MouseInterpreter extends MouseAdapter{
                 }
             }
         }else if(gui.hudClear()){
-            int tempx, tempy;
             if(xOfDrag == -1){
                 xOfDrag = me.getX() - focusX;
                 yOfDrag = me.getY() - focusY;        
             }
+            /*int tempx, tempy;
             tempx = me.getX() - xOfDrag;
             tempy = me.getY() - yOfDrag;
             focusX = tempx>minFX ? (tempx<maxFX ? tempx : maxFX) : minFX;
-            focusY = tempy>minFY ? (tempy<maxFY ? tempy : maxFY) : minFY;
+            focusY = tempy>minFY ? (tempy<maxFY ? tempy : maxFY) : minFY;*/
+            focusX = me.getX() - xOfDrag;
+            focusY = me.getY() - yOfDrag;
         }
     }
     
