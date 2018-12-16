@@ -167,7 +167,7 @@ public class GuiBase{
     }
     
     /**
-     * Sets the state of the inventory.
+     * Sets the state of the inventory (changes predicate).
      * @param inv True if the inventory should be painted.
      */
     public void setInventoryActive(boolean inv){
@@ -178,7 +178,7 @@ public class GuiBase{
     }
     
     /**
-     * Sets the state of the inventory.
+     * Sets the state of the inventory (changes predicate).
      * @param inv True if the inventory should be painted.
      * @param pred Whether the Item should be selectable.
      */
@@ -189,10 +189,11 @@ public class GuiBase{
     }
     
     /**
-     * Toggles the whether or not to display the inventory.
+     * Toggles the whether or not to display the inventory (changes predicate).
      */
-    @Unfinished("Could be redundant")
     public void toggleInventory(){
+        ((HeroInventory)hero.inventory).manager.predicate = 
+                ConstantFields.truthPredicate;
         viewingInventory = !viewingInventory;
         resetScreens();
     }
