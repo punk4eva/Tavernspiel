@@ -227,10 +227,16 @@ public class Location{
     static{
         ImageHandler.initializeInteriorIcons(INDOOR_CAVES_LOCATION);
     }
+    public static final Location VILLAGE1_LOCATION = new Location(
+            "Village1", "village1Tileset", "shkoderWater", Region.SUDA);
+    static{
+        ImageHandler.initializeInteriorIcons(VILLAGE1_LOCATION);
+    }
     public static final HashMap<String, Location> locationMap = new HashMap<>();
     static{
         locationMap.put("Shkoder", SHKODER_LOCATION);
         locationMap.put("Indoor Caves", INDOOR_CAVES_LOCATION);
+        locationMap.put("Village1", VILLAGE1_LOCATION);
     }
     
 }

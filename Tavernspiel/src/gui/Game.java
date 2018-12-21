@@ -69,7 +69,9 @@ public final class Game extends Main{
     public static void main(String... args){
         Thread.currentThread().setName("Progenitor Thread");
         Game game = new Game();
-        game.currentArea.plop(Apparatus.getRandomMeleeWeapon(1, game.currentArea.location), game.player.x, game.player.y);
+        game.currentArea = Area.getPreloadedArea("preload/interiorTest.template");
+        game.player.setXY(game.currentArea.startCoords[0], game.currentArea.startCoords[1]);
+        /*game.currentArea.plop(Apparatus.getRandomMeleeWeapon(1, game.currentArea.location), game.player.x, game.player.y);
         game.currentArea.plop(new Gold(100), game.player.x+1, game.player.y);
         //game.save();
         //Game game = FileHandler.deserializeGame("filetesting/game.ser");
@@ -77,7 +79,7 @@ public final class Game extends Main{
         ParticleAnimation a = GameSettings.FIRE_SETTING.get(ConstantFields.fireColor, ConstantFields.fireTrailColor);
         a.setXY(100, 100);
         Main.animator.addAnimation(a);
-        //game.currentArea.graph.navMesh = new NavigationMesh(game.currentArea.graph, game.currentArea);
+        //game.currentArea.graph.navMesh = new NavigationMesh(game.currentArea.graph, game.currentArea);*/
     }
 
     @Unfinished("The sfx for newDepth.")

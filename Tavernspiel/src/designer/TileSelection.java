@@ -180,10 +180,30 @@ public class TileSelection implements Serializable, Cloneable{
     };
     
     public final static TileSelection wall(Location loc){
-        return new TileSelection("wall", false, false, false){ //depthexit
+        return new TileSelection("wall", false, false, false){
             @Override
             public Tile getTile(Location loc){
                 return Tile.wall(loc);
+            }
+        };
+    }
+    
+    public final static TileSelection door(Location loc){
+        return new TileSelection("door", false, false, false){
+            @Override
+            public Tile getTile(Location loc){
+                return new Door(loc);
+            }
+        };
+    }
+    
+    public final static TileSelection openDoor(Location loc){
+        return new TileSelection("opendoor", false, false, false){
+            @Override
+            public Tile getTile(Location loc){
+                Door d = new Door(loc);
+                d.open();
+                return d;
             }
         };
     }

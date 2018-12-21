@@ -355,7 +355,14 @@ public class Area implements Serializable{
      * @return
      */
     public static Area getPreloadedArea(String filepath){
-        return AreaTemplate.deserialize(filepath).toArea();
+        Area area = AreaTemplate.deserialize(filepath).toArea();
+        for(int y=0;y<area.dimension.height;y++){
+            for(int x=0;x<area.dimension.width;x++){
+                if(area.map[y][x] instanceof DepthExit) area.endCoords = new Integer[]{x, y};
+                else if(area.map[y][x] instanceof DepthEntrance) area.startCoords = new Integer[]{x, y};
+            }
+        }
+        return area;
     }
     
     /**

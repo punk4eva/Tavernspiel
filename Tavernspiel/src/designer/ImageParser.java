@@ -2,7 +2,6 @@
 package designer;
 
 import gui.Game;
-import items.misc.Key.KeyType;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.util.HashMap;
@@ -10,8 +9,6 @@ import java.util.function.Function;
 import javax.swing.ImageIcon;
 import level.Location;
 import logic.ImageUtils;
-import tiles.Tile;
-import tiles.assets.*;
 
 /**
  *
@@ -28,12 +25,8 @@ public abstract class ImageParser{
         colorMap.put("0,40,0", loc -> TileSelection.grass(loc, false));//lowgrass
         colorMap.put("20,20,80", loc -> new TileSelection("emptywell", true, false, true));//emptywell
         colorMap.put("120,120,120", loc -> new TileSelection("wall", false, false, false));//wall
-        colorMap.put("70,50,0", loc -> new TileSelection("door", true, true, false){ //closeddoor
-            @Override
-            public Tile getTile(Location loc){
-                return new Door(loc, false, loc.feeling.doorHideChance.chance(), KeyType.IRON);
-            }
-        });
+        colorMap.put("70,50,0", loc -> TileSelection.door(loc));
+        colorMap.put("50,140,0", loc -> TileSelection.openDoor(loc));
         colorMap.put("170,70,30", loc -> TileSelection.depthEntrance(loc));
         colorMap.put("170,30,70", loc -> TileSelection.depthExit(loc));
         colorMap.put("50,30,30", loc -> new TileSelection("embers", true, false, true));
@@ -61,6 +54,8 @@ public abstract class ImageParser{
         colorMap.put("255,255,100", loc -> TileSelection.trap(loc, "bear"));
         colorMap.put("200,200,200", loc -> TileSelection.trap(loc, "silver"));
         colorMap.put("150,90,40", loc -> new TileSelection("bookshelf", false, true, false));
+        colorMap.put("155,95,45", loc -> new TileSelection("table", true, true, true));
+        colorMap.put("70,80,90", loc -> new TileSelection("sign", false, false, false));
         colorMap.put("255,200,0", loc -> TileSelection.alchemyPot(loc));
         colorMap.put("200,100,100", loc -> TileSelection.bed("bed", loc, 0, 0));
         colorMap.put("200,150,150", loc -> TileSelection.bed("bed", loc, 1, 0));
@@ -102,9 +97,9 @@ public abstract class ImageParser{
     public static void main(String... args){
         Game game = new Game();
         System.err.println("Image parsing mode");
-        String filepath = "filetesting/tomb.png", savepath = "preload/tomb.template";
+        String filepath = "filetesting/interiorTestImage.png", savepath = "preload/interiorTest.template";
         BufferedImage bi = ImageUtils.convertToBuffered(new ImageIcon(filepath));
-        AreaTemplate t = parseImage(bi, Location.INDOOR_CAVES_LOCATION);
+        AreaTemplate t = parseImage(bi, Location.VILLAGE1_LOCATION);
         t.serialize(savepath);
     }
     

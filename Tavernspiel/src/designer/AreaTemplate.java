@@ -97,6 +97,7 @@ public class AreaTemplate implements Serializable{
     private void writeObject(ObjectOutputStream out) throws IOException{
         out.defaultWriteObject();
         out.writeObject(location.name);
+        System.out.println("LName: " + location.name);
     }
     
 }
