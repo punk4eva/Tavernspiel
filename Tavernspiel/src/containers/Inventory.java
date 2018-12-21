@@ -46,7 +46,7 @@ public class Inventory extends Receptacle{
      * @param depth
      * @return True if a matching key was found and removed.
      */
-    public boolean useKey(KeyType type, int depth){
+    public boolean pollKey(KeyType type, int depth){
         Key k;
         Iterator<Key> iter = keys.iterator();
         while(iter.hasNext()){

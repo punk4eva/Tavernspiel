@@ -44,7 +44,7 @@ public class LockedChest extends Chest{
     
     @Override
     public void interact(Creature c, Area area){
-        if(c.inventory.useKey(keyType, area.depth)){
+        if(c.inventory.pollKey(keyType, area.depth)){
             area.removeReceptacle(x, y);
             forEach((i) -> {
                 area.plop(i, x, y);

@@ -16,14 +16,14 @@ public class Key extends Item{
     public final KeyType type;
     
     public Key(int d){
-        super("Key", KeyType.NORMAL.description, 16, 16);
+        super("Key", KeyType.IRON.description, KeyType.IRON.x, 288);
         depth = d;
         actions = ItemAction.getDefaultActions();
-        type = KeyType.NORMAL;
+        type = KeyType.IRON;
     }
     
     public Key(int d, KeyType t){
-        super("Key", "KEY CONSTRUCTOR", 16, 16);
+        super("Key", "KEY CONSTRUCTOR ERROR", t.x, 288);
         depth = d;
         actions = ItemAction.getDefaultActions();
         type = t;
@@ -34,15 +34,18 @@ public class Key extends Item{
      * The type of Key.
      */
     public enum KeyType{
-        NORMAL("This is a bulk standard key that opens a lock."),
+        IRON("This is a bulk standard key that opens a lock.", 16),
         GOLDEN("This intricate key can open a lock with an equally intricate "
-                + "design."),
+                + "design.", 0),
         RED("This rare key is the pinnacle of craftsmanship and should probably"
-                + " open some serious lock.");
+                + " open some serious lock.", 32),
+        WOODEN("This unusually common house key has rotted and warped.", 48);
         
         public final String description;
-        private KeyType(String str){
+        private final int x;
+        private KeyType(String str, int x_){
             description = str;
+            x = x_;
         }
     }
     

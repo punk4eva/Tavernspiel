@@ -2,6 +2,7 @@
 package logic.mementoes;
 
 import java.io.Serializable;
+import java.util.LinkedList;
 import level.Location;
 import tiles.Tile;
 
@@ -18,6 +19,7 @@ public class AreaMemento implements Serializable{
     
     private final String locName;
     private final int[][] tileMap;
+    private final LinkedList<TileMemento> states = new LinkedList<>();
     
     /**
      * Creates an instance.
@@ -30,6 +32,7 @@ public class AreaMemento implements Serializable{
         for(int y=0;y<map.length;y++){
             for(int x=0;x<map[0].length;x++){
                 tileMap[y][x] = Tile.getID(map[y][x]);
+                if(tileMap[y][x]==-99) states.add(new TileMemento(x, y, (Serializable) map[y][x]));
             }
         }
     }
@@ -49,12 +52,30 @@ public class AreaMemento implements Serializable{
     public Tile[][] getMap(){
         Location loc = Location.locationMap.get(locName);
         Tile[][] map = new Tile[tileMap.length][tileMap[0].length];
+        states.forEach((tm) -> {
+            map[tm.y][tm.x] = (Tile)tm.tc;
+        });
         for(int y=0;y<map.length;y++){
             for(int x=0;x<map[0].length;x++){
-                map[y][x] = Tile.getTile(tileMap[y][x], loc);
+                if(map[y][x]==null) map[y][x] = Tile.getTile(tileMap[y][x], loc);
             }
         }
         return map;
+    }
+    
+    private static class TileMemento implements Serializable{
+        
+        private static final long serialVersionUID = 732194632137189L;
+        
+        int x, y;
+        Serializable tc;
+        
+        protected TileMemento(int x_, int y_, Serializable t){
+            x = x_;
+            y = y_;
+            t = tc;
+        }
+        
     }
     
 }

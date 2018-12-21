@@ -4,6 +4,7 @@ package level;
 import containers.PhysicalReceptacle;
 import items.Item;
 import items.ItemMap;
+import items.misc.Key.KeyType;
 import java.awt.Dimension;
 import java.util.List;
 import java.util.function.Predicate;
@@ -129,7 +130,7 @@ public class Room extends Area{
                 y = Distribution.getRandomInt(1, dimension.height-2);
                 x = (int) xDistrib.next();
             }
-            map[y][x] = new Door(location, true);
+            map[y][x] = new Door(location, true, false, KeyType.IRON);
             System.out.println("LOCKED");
             return;
         }

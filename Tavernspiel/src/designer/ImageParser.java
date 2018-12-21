@@ -2,6 +2,7 @@
 package designer;
 
 import gui.Game;
+import items.misc.Key.KeyType;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
 import java.util.HashMap;
@@ -30,7 +31,7 @@ public abstract class ImageParser{
         colorMap.put("70,50,0", loc -> new TileSelection("door", true, true, false){ //closeddoor
             @Override
             public Tile getTile(Location loc){
-                return new Door(loc, false, loc.feeling.doorHideChance.chance());
+                return new Door(loc, false, loc.feeling.doorHideChance.chance(), KeyType.IRON);
             }
         });
         colorMap.put("170,70,30", loc -> TileSelection.depthEntrance(loc));

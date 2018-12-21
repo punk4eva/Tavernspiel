@@ -17,7 +17,7 @@ import listeners.Interactable;
  */
 public class Tile{
     
-    public ImageIcon image;
+    public transient ImageIcon image;
     public String name;
     public boolean treadable;
     public boolean flammable;
@@ -78,16 +78,7 @@ public class Tile{
     
     public static int getID(Tile tile){
         if(tile==null) return -1;
-        if(tile instanceof Door){
-            if(((Door) tile).hidden) return 6;
-            if(((Door) tile).isOpen) return 7;
-        }
-        if(tile instanceof CustomTile){
-            int s = IDmap.size();
-            IDmap.put(""+((CustomTile)tile).loader, s);
-            tileMap.put(s, ((CustomTile)tile).loader);
-            return s;
-        }
+        if(tile instanceof Serializable) return -99;
         try{
             return IDmap.get(tile.name);
         }catch(NullPointerException e){
@@ -97,12 +88,6 @@ public class Tile{
     
     public static Tile getTile(int id, Location loc){
         if(id==-1) return null;
-        if(id==6) return new Door(loc, false, true);
-        if(id==7){
-            Door d = new Door(loc);
-            d.open();
-            return d;
-        }
         return tileMap.get(id).apply(loc);
     }
     
@@ -114,7 +99,6 @@ public class Tile{
         IDmap.put("lowgrass", 2);
         IDmap.put("emptywell", 3);
         IDmap.put("wall", 4);
-        IDmap.put("door", 5);
         IDmap.put("depthentrance", 8);
         IDmap.put("depthexit", 9);
         IDmap.put("embers", 10);
@@ -154,7 +138,6 @@ public class Tile{
         tileMap.put(8, (Serializable & Function<Location, Tile>)loc -> new DepthEntrance(loc));
         tileMap.put(9, (Serializable & Function<Location, Tile>)loc -> new DepthExit(loc));
         tileMap.put(10, (Serializable & Function<Location, Tile>)loc -> new Tile("embers", loc, true, false, true));
-        tileMap.put(11, (Serializable & Function<Location, Tile>)loc -> new Door(loc, true));
         tileMap.put(12, (Serializable & Function<Location, Tile>)loc -> new Tile("pedestal", loc, true, false, true));
         tileMap.put(13, (Serializable & Function<Location, Tile>)loc -> new Tile("specialwall", loc, false, false, false));
         tileMap.put(14, (Serializable & Function<Location, Tile>)loc -> new Barricade("barricade", loc));

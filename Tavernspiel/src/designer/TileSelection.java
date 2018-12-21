@@ -2,6 +2,7 @@
 package designer;
 
 import items.builders.ItemBuilder;
+import items.misc.Key.KeyType;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.io.Serializable;
@@ -168,7 +169,7 @@ public class TileSelection implements Serializable, Cloneable{
     final static TileSelection door = new TileSelection(new int[]{0}, new String[]{""}, new Color(80, 80, 0)){
         @Override
         public Door getTile(Location loc){
-            return new Door(loc, false, loc.feeling.doorHideChance.chance());
+            return new Door(loc, false, loc.feeling.doorHideChance.chance(), KeyType.IRON);
         }
         
         @Override
@@ -228,7 +229,7 @@ public class TileSelection implements Serializable, Cloneable{
         return new TileSelection("lockeddoor", true, false, false){ //depthexit
             @Override
             public Tile getTile(Location loc){
-                return new Door(loc, true);
+                return new Door(loc, true, false, KeyType.IRON);
             }
         };
     }

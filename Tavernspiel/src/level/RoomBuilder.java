@@ -11,10 +11,15 @@ import containers.SkeletalRemains;
 import items.Item;
 import items.ItemMap;
 import items.misc.Key;
+import items.misc.Key.KeyType;
 import java.awt.Dimension;
-import java.util.function.Function;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+import javax.swing.ImageIcon;
 import static level.Dungeon.potionBuilder;
 import logic.Distribution;
+import logic.ImageHandler;
 import logic.Utils.Unfinished;
 import pathfinding.generation.MazeBuilder;
 import tiles.*;
@@ -365,8 +370,8 @@ public abstract class RoomBuilder{
                     else if(x%mod==2) room.map[y][x] = new Tile("statue", loc, false, false, true);
                 }
             }
-            if(Distribution.chance(1, 2)) room.map[4][0] = new Door(loc, true);
-            else room.map[4][room.dimension.width-1] = new Door(loc, true);
+            if(Distribution.chance(1, 2)) room.map[4][0] = new Door(loc, true, true, KeyType.IRON);
+            else room.map[4][room.dimension.width-1] = new Door(loc, true, true, KeyType.IRON);
         }else{
             room = new Room(new Dimension(9, Distribution.getRandomInt(15, 26)),
                 loc, new Key(depth), new ItemMap());
@@ -382,8 +387,8 @@ public abstract class RoomBuilder{
                     else if(y%mod==2) room.map[y][x] = new Tile("statue", loc, false, false, true);
                 }
             }
-            if(Distribution.chance(1, 2)) room.map[0][4] = new Door(loc, true);
-            else room.map[room.dimension.height-1][4] = new Door(loc, true);
+            if(Distribution.chance(1, 2)) room.map[0][4] = new Door(loc, true, true, KeyType.IRON);
+            else room.map[room.dimension.height-1][4] = new Door(loc, true, true, KeyType.IRON);
         }
         return room;
     }
@@ -494,10 +499,10 @@ public abstract class RoomBuilder{
                 break;
         }
         switch(orient){
-            case 2: room.map[0][room.dimension.width/2] = new Door(loc, true); break;
-            case 3: room.map[room.dimension.height/2][room.dimension.width-1] = new Door(loc, true); break;
-            case 0: room.map[room.dimension.height-1][room.dimension.width/2] = new Door(loc, true); break;
-            case 1: room.map[room.dimension.height/2][0] = new Door(loc, true); break;
+            case 2: room.map[0][room.dimension.width/2] = new Door(loc, true, false, KeyType.IRON); break;
+            case 3: room.map[room.dimension.height/2][room.dimension.width-1] = new Door(loc, true, false, KeyType.IRON); break;
+            case 0: room.map[room.dimension.height-1][room.dimension.width/2] = new Door(loc, true, false, KeyType.IRON); break;
+            case 1: room.map[room.dimension.height/2][0] = new Door(loc, true, false, KeyType.IRON); break;
         }
         room.randomlyPlop(i -> room.map[i[1]][i[0]].equals("pedestal"));
         return room;
@@ -654,28 +659,33 @@ public abstract class RoomBuilder{
             case 3: room.map[room.dimension.height-2][room.dimension.width-2] = new DepthExit(loc, tomb(null)); break;
         }
         switch(Distribution.r.nextInt(4)){
-            case 0: if(room.dimension.width%2==0) room.map[0][room.dimension.width/2-1] = new Door(loc, true); 
-                else room.map[0][room.dimension.width/2] = new Door(loc, true); break;
-            case 1: if(room.dimension.width%2==0) room.map[room.dimension.height-1][room.dimension.width/2-1] = new Door(loc, true);
-                else room.map[room.dimension.height-1][room.dimension.width/2] = new Door(loc, true); break;
-            case 2: if(room.dimension.height%2==0) room.map[room.dimension.height/2-1][0] = new Door(loc, true); 
-                else room.map[room.dimension.height/2][0] = new Door(loc, true); break;
-            case 3: if(room.dimension.height%2==0) room.map[room.dimension.height/2-1][room.dimension.width-1] = new Door(loc, true); 
-                else room.map[room.dimension.height/2][room.dimension.width-1] = new Door(loc, true);break;
+            case 0: if(room.dimension.width%2==0) room.map[0][room.dimension.width/2-1] = new Door(loc, true, true, KeyType.IRON); 
+                else room.map[0][room.dimension.width/2] = new Door(loc, true, true, KeyType.IRON); break;
+            case 1: if(room.dimension.width%2==0) room.map[room.dimension.height-1][room.dimension.width/2-1] = new Door(loc, true, true, KeyType.IRON);
+                else room.map[room.dimension.height-1][room.dimension.width/2] = new Door(loc, true, true, KeyType.IRON); break;
+            case 2: if(room.dimension.height%2==0) room.map[room.dimension.height/2-1][0] = new Door(loc, true, true, KeyType.IRON); 
+                else room.map[room.dimension.height/2][0] = new Door(loc, true, true, KeyType.IRON); break;
+            case 3: if(room.dimension.height%2==0) room.map[room.dimension.height/2-1][room.dimension.width-1] = new Door(loc, true, true, KeyType.IRON); 
+                else room.map[room.dimension.height/2][room.dimension.width-1] = new Door(loc, true, true, KeyType.IRON);break;
         }
         room.randomlyPlop();
         return room;
     }
     
+    public static Room lottery1(Location loc, int depth, ItemMap... maps){
+        Room ret = new Room(new Dimension(13, 9), loc, new Key(depth), null);
+        return ret;
+    }
+    
     private static void circle(Room room, int x, int y, Location loc){
-        room.map[y-1][x-1] = new CustomTile(loc, ES);
-        room.map[y-1][x] = new CustomTile(loc, ESW);
-        room.map[y-1][x+1] = new CustomTile(loc, SW);
-        room.map[y][x-1] = new CustomTile(loc, NES);
-        room.map[y+1][x-1] = new CustomTile(loc, NE);
-        room.map[y+1][x] = new CustomTile(loc, NEW);
-        room.map[y+1][x+1] = new CustomTile(loc, NW);
-        room.map[y][x+1] = new CustomTile(loc, NSW);
+        room.map[y-1][x-1] = new ShadedTile("nw", loc);
+        room.map[y-1][x] = new ShadedTile("n", loc);
+        room.map[y-1][x+1] = new ShadedTile("ne", loc);
+        room.map[y][x-1] = new ShadedTile("w", loc);
+        room.map[y+1][x-1] = new ShadedTile("sw", loc);
+        room.map[y+1][x] = new ShadedTile("s", loc);
+        room.map[y+1][x+1] = new ShadedTile("es", loc);
+        room.map[y][x+1] = new ShadedTile("e", loc);
     }
     
     private static int minDistance(int x, int y, int x1, int y1){
@@ -706,45 +716,28 @@ public abstract class RoomBuilder{
         }
     }
     
-    private static final Function<Location, Tile> ES = (loc) -> {
-        Tile t = new Tile("specialnw", loc.getImage("specialfloor"), true, false, true);
-        t.image = CustomTile.addShaders(t.image, "nw", loc);
-        return t;
-    };
-    private static final Function<Location, Tile> ESW = (loc) -> {
-        Tile t = new Tile("specialn", loc.getImage("specialfloor"), true, false, true);
-        t.image = CustomTile.addShaders(t.image, "n", loc);
-        return t;
-    };
-    private static final Function<Location, Tile> SW = (loc) -> {
-        Tile t = new Tile("specialne", loc.getImage("specialfloor"), true, false, true);
-        t.image = CustomTile.addShaders(t.image, "ne", loc);
-        return t;
-    };
-    private static final Function<Location, Tile> NSW = (loc) -> {
-        Tile t = new Tile("speciale", loc.getImage("specialfloor"), true, false, true);
-        t.image = CustomTile.addShaders(t.image, "e", loc);
-        return t;
-    };
-    private static final Function<Location, Tile> NW = (loc) -> {
-        Tile t = new Tile("speciales", loc.getImage("specialfloor"), true, false, true);
-        t.image = CustomTile.addShaders(t.image, "es", loc);
-        return t;
-    };
-    private static final Function<Location, Tile> NEW = (loc) -> {
-        Tile t = new Tile("specials", loc.getImage("specialfloor"), true, false, true);
-        t.image = CustomTile.addShaders(t.image, "s", loc);
-        return t;
-    };
-    private static final Function<Location, Tile> NE = (loc) -> {
-        Tile t = new Tile("specialsw", loc.getImage("specialfloor"), true, false, true);
-        t.image = CustomTile.addShaders(t.image, "sw", loc);
-        return t;
-    };
-    private static final Function<Location, Tile> NES = (loc) -> {
-        Tile t = new Tile("specialw", loc.getImage("specialfloor"), true, false, true);
-        t.image = CustomTile.addShaders(t.image, "w", loc);
-        return t;
-    };
+    
+    private static final class ShadedTile extends Tile implements Serializable{
+        
+        String locName;
+        
+        ShadedTile(String name, Location loc){
+            super(name, addShaders(loc.getImage("specialfloor"), name, loc), true, false, true);
+            locName = loc.name;
+        }
+        
+        public static final ImageIcon addShaders(ImageIcon i, String shader, Location loc){
+            if(shader.equals("well") || shader.equals("alchemypot"))
+                return ImageHandler.combineIcons(i, loc.getImage(shader));
+            return ImageHandler.combineIcons(i, loc.getImage("shader" + shader));
+        }
+        
+        private void readObject(ObjectInputStream in) 
+                throws IOException, ClassNotFoundException{
+            Location loc = Location.locationMap.get(locName);
+            image = addShaders(loc.getImage("specialfloor"), name, loc);
+        }
+        
+    }
     
 }
