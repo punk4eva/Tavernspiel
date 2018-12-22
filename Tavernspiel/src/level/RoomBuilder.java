@@ -194,7 +194,7 @@ public abstract class RoomBuilder{
                 potionBuilder().flamePotion(ItemMap.storageItemMap), ItemMap.storageItemMap);
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
-                if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) room.map[y][x] = Tile.wall(loc);
+                if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) room.map[y][x] = Tile.wall(loc, x, y);
                 else room.map[y][x] = new Tile("specialfloor", loc, true, false, true);
             }
         }
@@ -263,7 +263,7 @@ public abstract class RoomBuilder{
         room.itemMap = ItemMap.gardenItemMap;
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
-                if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) room.map[y][x] = Tile.wall(location);
+                if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) room.map[y][x] = Tile.wall(location, x, y);
                 else{
                     if(y==1||x==1||y==room.dimension.height-2||x==room.dimension.width-2)
                         room.map[y][x] = new Grass(location, true);
@@ -337,7 +337,7 @@ public abstract class RoomBuilder{
         room.addDoors();
         for(int y=1;y<room.dimension.height-1;y++)
             for(int x=1;x<room.dimension.width-1;x++)
-                if(Distribution.chance(1, 7)) room.map[y][x] = Tile.wall(location);
+                if(Distribution.chance(1, 7)) room.map[y][x] = Tile.wall(location, x, y);
         room.checkDoors();
         room.randomlyPlop();
         return room;
@@ -454,7 +454,7 @@ public abstract class RoomBuilder{
         for(int y=0;y<room.dimension.height;y++)
             for(int x=0;x<room.dimension.width;x++)
                 if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) 
-                    room.map[y][x] = Tile.wall(loc);
+                    room.map[y][x] = Tile.wall(loc, x, y);
         switch(orient){
             case 0:
                 for(int x=1;x<room.dimension.width-1;x++)
@@ -533,7 +533,7 @@ public abstract class RoomBuilder{
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
                 if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) 
-                    room.map[y][x] = Tile.wall(loc);
+                    room.map[y][x] = Tile.wall(loc, x, y);
                 else if(Distribution.chance(1, 3)) room.map[y][x] = new Tile("embers", loc, true, false, true);
                 else room.map[y][x] = new Grass(loc, false);
             }
@@ -612,7 +612,7 @@ public abstract class RoomBuilder{
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
                 if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) 
-                    room.map[y][x] = Tile.wall(loc);
+                    room.map[y][x] = Tile.wall(loc, x, y);
                 else if(y>1&&y<room.dimension.height-2&&y%2==0&&x%mod!=0&&
                         x>1&&x<room.dimension.width-2) room.map[y][x] = new Tile("bookshelf", loc, false, true, false);
                 else room.map[y][x] = new Tile("specialfloor", loc, true, false, true);
@@ -631,7 +631,7 @@ public abstract class RoomBuilder{
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
                 if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) 
-                    room.map[y][x] = Tile.wall(loc);
+                    room.map[y][x] = Tile.wall(loc, x, y);
                 else room.map[y][x] = new Tile("specialfloor", loc, true, false, true);
             }
         }

@@ -24,14 +24,6 @@ public class Tile{
     public boolean transparent;
     public Interactable interactable;
     
-    public Tile(String n, ImageIcon ic){
-        image = ic;
-        name = n;
-        treadable = true;
-        flammable = false;
-        transparent = true;
-    }
-    
     public Tile(String n, ImageIcon ic, boolean t, boolean f, boolean tr){
         image = ic;
         name = n;
@@ -57,8 +49,8 @@ public class Tile{
         return str.compareToIgnoreCase(name)==0;
     }
     
-    public static Tile wall(Location loc){
-        if(loc.feeling.wallChance.chance()) return new Tile("specialwall", loc, false, false, false);
+    public static Tile wall(Location loc, int x, int y){
+        if(loc.feeling.wallChance.chance()) return new DecoratedWall(loc, x, y);
         return new Tile("wall", loc, false, false, false);
     }
     
@@ -139,7 +131,6 @@ public class Tile{
         tileMap.put(9, (Serializable & Function<Location, Tile>)loc -> new DepthExit(loc));
         tileMap.put(10, (Serializable & Function<Location, Tile>)loc -> new Tile("embers", loc, true, false, true));
         tileMap.put(12, (Serializable & Function<Location, Tile>)loc -> new Tile("pedestal", loc, true, false, true));
-        tileMap.put(13, (Serializable & Function<Location, Tile>)loc -> new Tile("specialwall", loc, false, false, false));
         tileMap.put(14, (Serializable & Function<Location, Tile>)loc -> new Barricade("barricade", loc));
         tileMap.put(15, (Serializable & Function<Location, Tile>)loc -> new Tile("specialfloor", loc, true, false, true));
         tileMap.put(16, (Serializable & Function<Location, Tile>)loc -> new Grass(loc, true));

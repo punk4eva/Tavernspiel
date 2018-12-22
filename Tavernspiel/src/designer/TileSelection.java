@@ -179,16 +179,25 @@ public class TileSelection implements Serializable, Cloneable{
         
     };
     
-    public final static TileSelection wall(Location loc){
+    public final static TileSelection wall(int x, int y){
         return new TileSelection("wall", false, false, false){
             @Override
             public Tile getTile(Location loc){
-                return Tile.wall(loc);
+                return Tile.wall(loc, x, y);
             }
         };
     }
     
-    public final static TileSelection door(Location loc){
+    public final static TileSelection specialWall(int x, int y){
+        return new TileSelection("specialwall", false, false, false){
+            @Override
+            public Tile getTile(Location loc){
+                return new DecoratedWall(loc, x, y);
+            }
+        };
+    }
+    
+    public final static TileSelection door(){
         return new TileSelection("door", false, false, false){
             @Override
             public Tile getTile(Location loc){
@@ -197,7 +206,7 @@ public class TileSelection implements Serializable, Cloneable{
         };
     }
     
-    public final static TileSelection openDoor(Location loc){
+    public final static TileSelection openDoor(){
         return new TileSelection("opendoor", false, false, false){
             @Override
             public Tile getTile(Location loc){
@@ -208,7 +217,7 @@ public class TileSelection implements Serializable, Cloneable{
         };
     }
     
-    public final static TileSelection floor(Location loc){
+    public final static TileSelection floor(){
         return new TileSelection("floor", true, false, true){ //depthexit
             @Override
             public Tile getTile(Location loc){
@@ -217,7 +226,7 @@ public class TileSelection implements Serializable, Cloneable{
         };
     }
     
-    public final static TileSelection depthExit(Location loc){
+    public final static TileSelection depthExit(){
         return new TileSelection("depthexit", true, false, true){ //depthexit
             @Override
             public Tile getTile(Location loc){
@@ -226,7 +235,7 @@ public class TileSelection implements Serializable, Cloneable{
         };
     }
     
-    public final static TileSelection depthExit(Location loc, boolean locked){
+    public final static TileSelection depthExit(boolean locked){
         return new TileSelection("depthexit", true, false, true){ //depthexit
             @Override
             public Tile getTile(Location loc){
@@ -236,7 +245,7 @@ public class TileSelection implements Serializable, Cloneable{
         };
     }
     
-    public final static TileSelection depthEntrance(Location loc){
+    public final static TileSelection depthEntrance(){
         return new TileSelection("depthentrance", true, false, true){ //depthexit
             @Override
             public Tile getTile(Location loc){
@@ -245,7 +254,7 @@ public class TileSelection implements Serializable, Cloneable{
         };
     }
     
-    public final static TileSelection lockedDoor(Location loc){
+    public final static TileSelection lockedDoor(){
         return new TileSelection("lockeddoor", true, false, false){ //depthexit
             @Override
             public Tile getTile(Location loc){
@@ -254,7 +263,7 @@ public class TileSelection implements Serializable, Cloneable{
         };
     }
     
-    public final static TileSelection alchemyPot(Location loc){
+    public final static TileSelection alchemyPot(){
         return new TileSelection("alchemypot", true, false, true){ //depthexit
             @Override
             public Tile getTile(Location loc){
@@ -263,7 +272,7 @@ public class TileSelection implements Serializable, Cloneable{
         };
     }
     
-    public final static TileSelection grass(Location loc, Boolean high){
+    public final static TileSelection grass(Boolean high){
         return new TileSelection("grass", true, true, true){ //depthexit
             @Override
             public Tile getTile(Location loc){
@@ -275,7 +284,7 @@ public class TileSelection implements Serializable, Cloneable{
         };
     }
     
-    public final static TileSelection trap(Location loc, String trapName){
+    public final static TileSelection trap(String trapName){
         return new TileSelection("trap", true, false, true){ //depthexit
             @Override
             public Tile getTile(Location loc){
@@ -284,7 +293,7 @@ public class TileSelection implements Serializable, Cloneable{
         };
     }
     
-    public final static TileSelection chasm(Location loc, String tileAbove){
+    public final static TileSelection chasm(String tileAbove){
         return new TileSelection("chasm", true, false, true){ //depthexit
             @Override
             public Tile getTile(Location loc){
@@ -293,7 +302,7 @@ public class TileSelection implements Serializable, Cloneable{
         };
     }
     
-    public final static TileSelection bed(String name, Location loc, int num, int rot){
+    public final static TileSelection bed(String name, int num, int rot){
         return new TileSelection("chasm", true, false, true){ //depthexit
             @Override
             public Tile getTile(Location loc){

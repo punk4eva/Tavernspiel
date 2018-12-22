@@ -6,7 +6,6 @@ import gui.mainToolbox.Main;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 import logic.Distribution;
@@ -16,11 +15,10 @@ import logic.Distribution;
  * @author Adam Whittaker
  */
 public class ParticleAnimation extends TrackableAnimation{
-
-    private static final long serialVersionUID = -8216452115110348899L;
     
     @Override
     public void animate(Graphics2D g, int _x, int _y){
+        setXY(_x+xOffset, _y+yOffset);
         tick++;
         if(tick>=intensity){
             tick = 0;
@@ -30,6 +28,7 @@ public class ParticleAnimation extends TrackableAnimation{
         loaded.stream().forEach(p -> p.paint(g));
     }
     
+    private final int xOffset, yOffset;
     public int intensity;
     public int capacity;
     private int tick;
@@ -37,6 +36,14 @@ public class ParticleAnimation extends TrackableAnimation{
     public Particle[] particleSet;
     public Rectangle startField, stopField;
     
+    /**
+     * Creates a Particle Animation.
+     * @param i intensity
+     * @param c capacity
+     * @param sta start field
+     * @param sto stop field
+     * @param particles particle set
+     */
     public ParticleAnimation(int i, int c, Rectangle sta, Rectangle sto, Particle... particles){
         super(Main.animator);
         particleSet = particles;
@@ -44,6 +51,13 @@ public class ParticleAnimation extends TrackableAnimation{
         startField = sta;
         stopField = sto;
         intensity = i;
+        if(sta!=null){
+            xOffset = sta.x;
+            yOffset = sta.y;
+        }else{
+            xOffset = 0;
+            yOffset = 0;
+        }
         for(Particle particle : particleSet) particle.effect = this;
     }
     
@@ -51,6 +65,10 @@ public class ParticleAnimation extends TrackableAnimation{
         return particleSet[Distribution.r.nextInt(particleSet.length)].clone();
     }
     
+    /**
+     * Returns a labeled HashMap of the particles in this animation.
+     * @return
+     */
     public HashMap<String, Particle> getParticleMap(){
         HashMap<String, Particle> ret = new HashMap<>();
         for(int n=0;n<particleSet.length;n++)
@@ -58,13 +76,18 @@ public class ParticleAnimation extends TrackableAnimation{
         return ret;
     }
     
+    /**
+     * Sets the x,y coordinates of the start/stop fields.
+     * @param x
+     * @param y
+     */
     public void setXY(int x, int y){
         int dx=x-startField.x, dy=y-startField.y;
         startField.setLocation(x, y);
         stopField.setLocation(stopField.x+dx, stopField.y+dy);
     }
     
-    public static abstract class Particle implements Cloneable, Serializable{
+    public static abstract class Particle implements Cloneable{
         
         protected Color color;
         protected int x, y, destx, desty;
@@ -177,6 +200,23 @@ public class ParticleAnimation extends TrackableAnimation{
         @Override
         protected abstract Particle clone();
                 
+    }
+    
+    /**
+     * The NullObject design pattern for ParticleAnimations.
+     */
+    public static class NullAnimation extends ParticleAnimation{
+    
+        public NullAnimation(){
+            super(0, 0, null, null);
+        }
+        
+        @Override
+        public void animate(Graphics2D g, int _x, int _y){}
+        
+        @Override
+        public void setXY(int x, int y){}
+    
     }
     
 }

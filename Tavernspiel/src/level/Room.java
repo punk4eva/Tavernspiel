@@ -108,7 +108,7 @@ public class Room extends Area{
         for(int y=0;y<dimension.height;y++){
             for(int x=0;x<dimension.width;x++){
                 if(y==0||x==0||y==dimension.height-1||x==dimension.width-1) 
-                    map[y][x] = Tile.wall(location);
+                    map[y][x] = Tile.wall(location, x, y);
                 else map[y][x] = Tile.floor(location);
             }
         }

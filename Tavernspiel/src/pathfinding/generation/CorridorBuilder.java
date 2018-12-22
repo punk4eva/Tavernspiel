@@ -111,20 +111,20 @@ public class CorridorBuilder{
         }
         if(hor){
             if(area.map[y][x-1]==null){
-                area.map[y][x-1] = Tile.wall(area.location);
+                area.map[y][x-1] = Tile.wall(area.location, x-1, y);
                 corridors[y][x-1] = true;
             }
             if(area.map[y][x+1]==null){
-                area.map[y][x+1] = Tile.wall(area.location);
+                area.map[y][x+1] = Tile.wall(area.location, x+1, y);
                 corridors[y][x+1] = true;
             }
         }else{
             if(area.map[y-1][x]==null){
-                area.map[y-1][x] = Tile.wall(area.location);
+                area.map[y-1][x] = Tile.wall(area.location, x, y-1);
                 corridors[y-1][x] = true;
             }
             if(area.map[y+1][x]==null){
-                area.map[y+1][x] = Tile.wall(area.location);
+                area.map[y+1][x] = Tile.wall(area.location, x, y+1);
                 corridors[y+1][x] = true;
             }
         }
@@ -173,37 +173,37 @@ public class CorridorBuilder{
     
     private void fillGaps(Point p, boolean hor){
         if(area.map[p.y+1][p.x+1]==null){
-            area.map[p.y+1][p.x+1] = Tile.wall(area.location);
+            area.map[p.y+1][p.x+1] = Tile.wall(area.location, p.x+1, p.y+1);
             corridors[p.y+1][1+p.x] = true;
         }
         if(area.map[p.y-1][p.x-1]==null){
-            area.map[p.y-1][p.x-1] = Tile.wall(area.location);
+            area.map[p.y-1][p.x-1] = Tile.wall(area.location, p.x-1, p.y-1);
             corridors[p.y-1][p.x-1] = true;
         }
         if(area.map[p.y-1][p.x+1]==null){
-            area.map[p.y-1][p.x+1] = Tile.wall(area.location);
+            area.map[p.y-1][p.x+1] = Tile.wall(area.location, p.x+1, p.y-1);
             corridors[p.y-1][1+p.x] = true;
         }
         if(area.map[p.y+1][p.x-1]==null){
-            area.map[p.y+1][p.x-1] = Tile.wall(area.location);
+            area.map[p.y+1][p.x-1] = Tile.wall(area.location, p.x-1, p.y+1);
             corridors[p.y+1][p.x-1] = true;
         }
         if(hor){
             if(area.map[p.y-1][p.x]==null){
-                area.map[p.y-1][p.x] = Tile.wall(area.location);
+                area.map[p.y-1][p.x] = Tile.wall(area.location, p.x, p.y-1);
                 corridors[p.y-1][p.x] = true;
             }
             if(area.map[p.y+1][p.x]==null){
-                area.map[p.y+1][p.x] = Tile.wall(area.location);
+                area.map[p.y+1][p.x] = Tile.wall(area.location, p.x, p.y+1);
                 corridors[p.y+1][p.x] = true;
             }
         }else{
             if(area.map[p.y][p.x-1]==null){
-                area.map[p.y][p.x-1] = Tile.wall(area.location);
+                area.map[p.y][p.x-1] = Tile.wall(area.location, p.x-1, p.y);
                 corridors[p.y][p.x-1] = true;
             }
             if(area.map[p.y][p.x+1]==null){
-                area.map[p.y][p.x+1] = Tile.wall(area.location);
+                area.map[p.y][p.x+1] = Tile.wall(area.location, p.x+1, p.y);
                 corridors[p.y][p.x+1] = true;
             }
         }

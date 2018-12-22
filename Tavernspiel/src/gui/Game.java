@@ -7,8 +7,6 @@ import blob.ParticleAnimation;
 import containers.HeroInventory;
 import creatureLogic.Attributes;
 import creatures.Hero;
-import items.Apparatus;
-import items.misc.Gold;
 import level.Area;
 import level.Dungeon;
 import level.Location;
@@ -69,14 +67,12 @@ public final class Game extends Main{
     public static void main(String... args){
         Thread.currentThread().setName("Progenitor Thread");
         Game game = new Game();
-        game.currentArea = Area.getPreloadedArea("preload/interiorTest.template");
+        game.currentArea = Area.getPreloadedArea("preload/tomb.template");
         game.player.setXY(game.currentArea.startCoords[0], game.currentArea.startCoords[1]);
-        /*game.currentArea.plop(Apparatus.getRandomMeleeWeapon(1, game.currentArea.location), game.player.x, game.player.y);
-        game.currentArea.plop(new Gold(100), game.player.x+1, game.player.y);
         //game.save();
         //Game game = FileHandler.deserializeGame("filetesting/game.ser");
-        System.out.println("Running");
-        ParticleAnimation a = GameSettings.FIRE_SETTING.get(ConstantFields.fireColor, ConstantFields.fireTrailColor);
+        /*System.out.println("Running");
+        ParticleAnimation a = GameSettings.TORCH_SETTING.get(ConstantFields.fireColor, ConstantFields.fireTrailColor);
         a.setXY(100, 100);
         Main.animator.addAnimation(a);
         //game.currentArea.graph.navMesh = new NavigationMesh(game.currentArea.graph, game.currentArea);*/

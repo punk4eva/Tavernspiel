@@ -1,8 +1,11 @@
 
 package level;
 
+import animation.Animation;
 import animation.assets.GrassAnimation;
+import blob.ParticleAnimation;
 import creatureLogic.CreatureDistribution;
+import gui.mainToolbox.MouseInterpreter;
 import items.builders.ItemBuilder;
 import items.equipment.HeldWeapon;
 import java.awt.image.BufferedImage;
@@ -11,6 +14,8 @@ import javax.swing.ImageIcon;
 import logic.Distribution;
 import logic.ImageHandler;
 import items.equipment.weapons.*;
+import logic.ConstantFields;
+import logic.GameSettings;
 
 /**
  *
@@ -18,7 +23,7 @@ import items.equipment.weapons.*;
  * 
  * This class stores all information for generating a Stage.
  */
-public class Location{
+public abstract class Location{
     
     public final String name;
     public final ImageIcon tileset;
@@ -204,10 +209,17 @@ public class Location{
         return ItemBuilder.getIcon(locationMap.get(loc).region.code*16, 0);
     }
     
+    public abstract Animation getWallAnimation(int x, int y);
+    
     
     
     public static final Location SHKODER_LOCATION = 
-            new Location("Shkoder", "shkoderTileset", "shkoderWater", Region.SUDA);
+            new Location("Shkoder", "shkoderTileset", "shkoderWater", Region.SUDA){
+        @Override
+        public Animation getWallAnimation(int x, int y){
+            return new ParticleAnimation.NullAnimation();
+        }
+    };
     static{
         ImageHandler.initializeIcons(SHKODER_LOCATION);
         SHKODER_LOCATION.lowGrass = new GrassAnimation(new int[][]{
@@ -223,12 +235,25 @@ public class Location{
         SHKODER_LOCATION.roomDistrib = new RoomDistribution(SHKODER_LOCATION, 3, 12);
     }
     public static final Location INDOOR_CAVES_LOCATION = new Location(
-            "Indoor Caves", "indoorCavesTileset", "shkoderWater", Region.SUDA);
+            "Indoor Caves", "indoorCavesTileset", "shkoderWater", Region.SUDA){
+        @Override
+        public Animation getWallAnimation(int x, int y){
+            return new ParticleAnimation.NullAnimation();
+        }
+    };
     static{
         ImageHandler.initializeInteriorIcons(INDOOR_CAVES_LOCATION);
     }
     public static final Location VILLAGE1_LOCATION = new Location(
-            "Village1", "village1Tileset", "shkoderWater", Region.SUDA);
+            "Village1", "village1Tileset", "shkoderWater", Region.SUDA){
+        @Override
+        public Animation getWallAnimation(int x, int y){
+            Integer[] c = MouseInterpreter.tileToPixel(x, y);
+            ParticleAnimation a = GameSettings.TORCH_SETTING.get(ConstantFields.fireColor, ConstantFields.fireTrailColor);
+            a.setXY(c[0]+6, c[1]+8);
+            return a;
+        }
+    };
     static{
         ImageHandler.initializeInteriorIcons(VILLAGE1_LOCATION);
     }

@@ -13,17 +13,7 @@ import level.Location;
  */
 public class AnimatedTile extends Tile{
     
-    public Animation animation;
-    
-    /**
-     * Creates an instance.
-     * @param tile The name of the Tile.
-     * @param an The Animation.
-     */
-    public AnimatedTile(String tile, Animation an){
-        super(tile, (ImageIcon) null);
-        animation = an;
-    }
+    public transient Animation animation;
     
     /**
      * Creates an instance.
@@ -44,7 +34,7 @@ public class AnimatedTile extends Tile{
      * @param x The offset.
      */
     public AnimatedTile(Location loc, int x){
-        super("water", (ImageIcon) null);
+        super("water", (ImageIcon) null, true, false, true);
         animation = new WaterAnimation(loc, x);
     }
     

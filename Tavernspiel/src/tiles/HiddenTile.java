@@ -46,14 +46,14 @@ public class HiddenTile extends Tile implements Serializable{
     }
     
     public HiddenTile(String realName, ImageIcon icon, Location loc, boolean hid, boolean reallyFlam, boolean reallyTread, boolean reallyTrans){
-        super(realName, icon);
+        super(realName, icon, false, false, false);
         realIcon = loc.getImage(realName);
         hidden = hid;
         reallyFlammable = reallyFlam;
         reallyTreadable = reallyTread;
         reallyTransparent = reallyTrans;
         if(!hid){
-            transparent = reallyTrans;
+            transparent = reallyTransparent;
             flammable = reallyFlammable;
             treadable = reallyTreadable; 
         }
@@ -69,7 +69,7 @@ public class HiddenTile extends Tile implements Serializable{
     }
     
     public HiddenTile(HiddenTile tile){
-        super(tile.name, tile.image);
+        super(tile.name, tile.image, false, false, false);
         reallyFlammable = tile.reallyFlammable;
         reallyTreadable = tile.reallyTreadable;
         hidden = tile.hidden;

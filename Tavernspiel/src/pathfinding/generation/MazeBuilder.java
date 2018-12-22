@@ -38,7 +38,7 @@ public class MazeBuilder{
         width = w;
         height = h;
         for(int cy=y;cy<height+y;cy++)
-            for(int cx=x;cx<width+x;cx++) area.map[cy][cx] = Tile.wall(area.location);
+            for(int cx=x;cx<width+x;cx++) area.map[cy][cx] = Tile.wall(area.location, cx, cy);
         if(area.graph==null) area.graph = new Graph(area, null);
         else area.graph.reset();
         int dx = Distribution.r.nextInt(area.dimension.width/2-2)*2+3,

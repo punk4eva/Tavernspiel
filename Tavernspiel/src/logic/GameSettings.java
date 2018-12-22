@@ -37,6 +37,7 @@ public class GameSettings implements Serializable{
     
     
     public static FireSetting FIRE_SETTING = FireSetting.MAX;
+    public static TorchSetting TORCH_SETTING = TorchSetting.STATIC;
     public static WaterSetting WATER_SETTING = WaterSetting.ANIMATED;
     public static VarianceSetting VARIANCE_SETTING = VarianceSetting.MAX;
     
@@ -56,6 +57,26 @@ public class GameSettings implements Serializable{
         
         private final BiFunction<Color, Color, ParticleAnimation> factory;
         FireSetting(BiFunction<Color, Color, ParticleAnimation> f){
+            factory = f;
+        }
+        public ParticleAnimation get(Color col, Color tCol){
+            return factory.apply(col, tCol);
+        }
+    }
+    
+    public static enum TorchSetting{
+        STATIC((col, tcol) -> new ParticleAnimation.NullAnimation()),
+        LOW((col, tcol) -> new ParticleAnimation(3, 3, new Rectangle(6, 4, 4, 3), 
+                new Rectangle(6, -4, 4, 3), new FireParticle(col, new Rectangle(1, 1), 0.5))),
+        MEDIUM((col, tcol) -> new ParticleAnimation(3, 5, new Rectangle(6, 4, 4, 3), 
+                new Rectangle(6, -4, 4, 3), new FireParticle(col, new Rectangle(1, 1), 0.5, new TrailGenerator(tcol, 14.5F,3,5,1,1)))),
+        HIGH((col, tcol) -> new ParticleAnimation(2, 9, new Rectangle(6, 4, 4, 3), 
+                new Rectangle(6, -4, 4, 3), new FireParticle(col, new Rectangle(1, 1), 1.0, new TrailGenerator(tcol, 13.5F,3,5,1,1)))),
+        MAX((col, tcol) -> new ParticleAnimation(1, 14, new Rectangle(6, 4, 4, 3), 
+                new Rectangle(6, -4, 4, 3), new FireParticle(col, new Rectangle(1, 1), 1.0, new TrailGenerator(tcol, 10.5F,3,5,1,1))));
+        
+        private final BiFunction<Color, Color, ParticleAnimation> factory;
+        TorchSetting(BiFunction<Color, Color, ParticleAnimation> f){
             factory = f;
         }
         public ParticleAnimation get(Color col, Color tCol){
