@@ -263,6 +263,7 @@ public abstract class Main extends Canvas implements Runnable, Page{
      */
     public void paintArea(Area area, Graphics2D g){
         g.setColor(ConstantFields.exploredColor);
+        //g.setTransform(AffineTransform.getQuadrantRotateInstance(area.orientation, focusX+area.dimension.width, focusY+area.dimension.height));
         for(int y=focusY, maxY=focusY+area.dimension.height*16;y<maxY;y+=16){
             for(int x=focusX, maxX=focusX+area.dimension.width*16;x<maxX;x+=16){
                 int tx = (x-focusX)/16, ty = (y-focusY)/16;

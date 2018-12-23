@@ -167,8 +167,8 @@ public class CorridorBuilder{
      * @return
      */
     protected boolean waypointReached(Waypoint wp){
-        return area.map[wp.y-1][wp.x]!=null&&area.map[wp.y-1][wp.x].treadable&&area.map[wp.y+1][wp.x]!=null&&area.map[wp.y+1][wp.x].treadable||
-                area.map[wp.y][wp.x-1]!=null&&area.map[wp.y][wp.x-1].treadable&&area.map[wp.y][wp.x+1]!=null&&area.map[wp.y][wp.x+1].treadable;
+        return (area.map[wp.y-1][wp.x]!=null&&area.map[wp.y-1][wp.x].treadable&&area.map[wp.y+1][wp.x]!=null&&area.map[wp.y+1][wp.x].treadable)||
+                (area.map[wp.y][wp.x-1]!=null&&area.map[wp.y][wp.x-1].treadable&&area.map[wp.y][wp.x+1]!=null&&area.map[wp.y][wp.x+1].treadable);
     }
     
     private void fillGaps(Point p, boolean hor){

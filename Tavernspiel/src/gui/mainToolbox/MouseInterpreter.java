@@ -148,6 +148,42 @@ public class MouseInterpreter extends MouseAdapter{
     public static int[] getCenter(){
         return new int[]{(int)((double)WIDTH/zoom/2d), (int)((double)HEIGHT/zoom/2d)};
     }
+    
+    /**
+     * Applies the re-centered quadrant rotate matrix to the given x,y coordinates.
+     * @param o The number of quadrants rotated.
+     * @param x
+     * @param y
+     * @param w The width
+     * @param h The height
+     * @return The x coordinate of the image.
+     */
+    public static int xOrient(int o, int x, int y, int w, int h){
+        switch(o){
+            case 0: return x;
+            case 1: return y;
+            case 2: return w-x-1;
+            default: return h-y-1;
+        }
+    }
+    
+    /**
+     * Applies the re-centered quadrant rotate matrix to the given x,y coordinates.
+     * @param o The number of quadrants rotated.
+     * @param x
+     * @param y
+     * @param w The width
+     * @param h The height
+     * @return The y coordinate of the image.
+     */
+    public static int yOrient(int o, int x, int y, int w, int h){
+        switch(o){
+            case 0: return y;
+            case 1: return w-x-1;
+            case 2: return h-y-1;
+            default: return x;
+        }
+    }
 
     @Override
     public void mouseDragged(MouseEvent me){

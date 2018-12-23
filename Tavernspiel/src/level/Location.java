@@ -34,6 +34,8 @@ public abstract class Location{
     public final HashMap<String, ImageIcon> tilemap = new HashMap<>();
     public int depth = 1;
     public final Region region;
+    //@Unfinished
+    public final ImageIcon backgroundImage = null;
     
     public GrassAnimation lowGrass;
     public GrassAnimation highGrass;

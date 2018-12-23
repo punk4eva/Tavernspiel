@@ -10,6 +10,7 @@ import creatures.Hero;
 import level.Area;
 import level.Dungeon;
 import level.Location;
+import level.RoomBuilder;
 import logic.ConstantFields;
 import logic.FileHandler;
 import logic.GameSettings;
@@ -67,8 +68,8 @@ public final class Game extends Main{
     public static void main(String... args){
         Thread.currentThread().setName("Progenitor Thread");
         Game game = new Game();
-        game.currentArea = Area.getPreloadedArea("preload/tomb.template");
-        game.player.setXY(game.currentArea.startCoords[0], game.currentArea.startCoords[1]);
+        //game.currentArea = RoomBuilder.lottery(Location.SHKODER_LOCATION, 0);
+        //game.player.setXY(1, 1);
         //game.save();
         //Game game = FileHandler.deserializeGame("filetesting/game.ser");
         /*System.out.println("Running");

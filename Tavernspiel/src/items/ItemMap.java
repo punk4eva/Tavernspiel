@@ -17,6 +17,7 @@ import logic.Utils.Unfinished;
  * 
  * This class represents the Item generation probabilities.
  */
+@Unfinished("ItemMaps non-reusable due to diminisher so rework needed.")
 public final class ItemMap{
     
     private final static Distribution STANDARD_TYPEDIST = new Distribution(new int[]{12,3,3,9,9}), //@Unfinished Add wand/ring spawn chances.
@@ -157,5 +158,17 @@ public final class ItemMap{
             STANDARD_NEXTCHANCE, STANDARD_DIMINISHER, STANDARD_POTIONDIST, 
             STANDARD_SCROLLDIST, STANDARD_VILEDIST, STANDARD_ARMORDIST, 
             STANDARD_RINGDIST, STANDARD_RINGTYPEDIST);
+    
+    @Unfinished
+    public static ItemMap[] lotteryItemMaps = new ItemMap[]{new ItemMap(STANDARD_TYPEDIST,
+            STANDARD_NEXTCHANCE, STANDARD_DIMINISHER, STANDARD_POTIONDIST, 
+            STANDARD_SCROLLDIST, STANDARD_VILEDIST, STANDARD_ARMORDIST, 
+            STANDARD_RINGDIST, STANDARD_RINGTYPEDIST), new ItemMap(STANDARD_TYPEDIST,
+            STANDARD_NEXTCHANCE, STANDARD_DIMINISHER, STANDARD_POTIONDIST, 
+            STANDARD_SCROLLDIST, STANDARD_VILEDIST, STANDARD_ARMORDIST, 
+            STANDARD_RINGDIST, STANDARD_RINGTYPEDIST), new ItemMap(STANDARD_TYPEDIST,
+            STANDARD_NEXTCHANCE, STANDARD_DIMINISHER, STANDARD_POTIONDIST, 
+            STANDARD_SCROLLDIST, STANDARD_VILEDIST, STANDARD_ARMORDIST, 
+            STANDARD_RINGDIST, STANDARD_RINGTYPEDIST)};
     
 }

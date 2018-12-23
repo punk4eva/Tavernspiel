@@ -1,18 +1,12 @@
 
 package logic;
 
-import creatureLogic.Attributes;
-import creatures.Hero;
 import gui.mainToolbox.Screen;
 import gui.utils.CComponent;
-import java.io.Serializable;
 import java.lang.annotation.Inherited;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Supplier;
-import javax.swing.ImageIcon;
-import level.Location;
 import static logic.Distribution.r;
 
 /**
@@ -27,6 +21,16 @@ public final class Utils{
         for(int i = ary.length - 1; i > 0; i--){
             int index = r.nextInt(i + 1);
             int a = ary[index];
+            ary[index] = ary[i];
+            ary[i] = a;
+        }
+        return ary;
+    }
+    
+    public static <T> T[] shuffle(T[] ary){
+        for(int i = ary.length - 1; i > 0; i--){
+            int index = r.nextInt(i + 1);
+            T a = ary[index];
             ary[index] = ary[i];
             ary[i] = a;
         }

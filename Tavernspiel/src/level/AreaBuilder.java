@@ -104,9 +104,17 @@ public class AreaBuilder implements Serializable{
     }
     
     private boolean canBlit(Area area, Area add, int nx, int ny){
+        int w, h;
+        if(add.orientation%2==0){
+            w = add.dimension.width;
+            h = add.dimension.height;
+        }else{
+            w = add.dimension.height;
+            h = add.dimension.width;
+        }
         try{
-            for(int y=ny-2, yCheck=ny+2+add.dimension.height;y<yCheck;y++){
-                for(int x=nx-2, xCheck=nx+2+add.dimension.width;x<xCheck;x++){
+            for(int y=ny-2, yCheck=ny+2+h;y<yCheck;y++){
+                for(int x=nx-2, xCheck=nx+2+w;x<xCheck;x++){
                     if(area.map[y][x]!=null) return false;
                 }
             }

@@ -64,7 +64,7 @@ public class Searcher implements Serializable{
             for(Direction dir : DIRECTIONS){
                 nx = p.x+dir.x;
                 ny = p.y+dir.y;
-                try{ if(area.map[ny][nx].treadable&&(!graph.map[ny][nx].checked||addCheck.check(p, graph.map[ny][nx]))){
+                try{ if((area.map[ny][nx].treadable||graph.map[ny][nx] instanceof Waypoint)&&(!graph.map[ny][nx].checked||addCheck.check(p, graph.map[ny][nx]))){
                     graph.map[ny][nx].checked = true;
                     graph.map[ny][nx].cameFrom = p;
                     graph.map[ny][nx].currentCost = p.currentCost + graph.map[ny][nx].movementCost;

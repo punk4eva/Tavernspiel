@@ -37,6 +37,8 @@ import tiles.assets.DepthEntrance;
 import tiles.assets.DepthExit;
 import tiles.assets.Door;
 import tiles.assets.Water;
+import static gui.mainToolbox.MouseInterpreter.xOrient;
+import static gui.mainToolbox.MouseInterpreter.yOrient;
 
 /**
  *
@@ -63,6 +65,7 @@ public class Area implements Serializable{
     public volatile Hero hero;
     public final VisibilityOverlay overlay;
     public transient ReentrantLock objectLock = new ReentrantLock();
+    public int orientation = 0;
     
     @Unfinished("Remove debug")
     public boolean debugMode = true;
@@ -87,40 +90,38 @@ public class Area implements Serializable{
      * @param y1 The top left y.
      */
     public void blit(Area area, int x1, int y1){
-        if(!withinBounds(x1, y1)||
-                !withinBounds(x1+area.dimension.width, y1+area.dimension.height))
-            System.out.println("blit error v1");
-        for(int y=y1;y<y1+area.dimension.height;y++){
-            for(int x=x1;x<x1+area.dimension.width;x++){
-                if(map[y][x]==null) map[y][x] = area.map[y-y1][x-x1];
-                else if(!map[y][x].treadable&&area.map[y-y1][x-x1].treadable){
-                    if(!map[y][x].getClass().isAssignableFrom(Tile.class)){
-                        map[y][x] = area.map[y-y1][x-x1];
-                    }
-                }else if(area.map[y-y1][x-x1].getClass().isAssignableFrom(Tile.class)
-                        && !(area.map[y][x] instanceof Door) && !(area.map[y][x] instanceof Barricade)){
-                    map[y][x] = area.map[y-y1][x-x1];
+        int o = getApparentOrientation(area), w = area.dimension.width, h = area.dimension.height;
+        for(int y=0;y<h;y++) for(int x=0;x<w;x++){
+            if(map[yOrient(o,x,y,w,h)+y1][xOrient(o,x,y,w,h)+x1]==null) map[yOrient(o,x,y,w,h)+y1][xOrient(o,x,y,w,h)+x1] = area.map[y][x];
+            else if(!map[yOrient(o,x,y,w,h)+y1][xOrient(o,x,y,w,h)+x1].treadable&&area.map[y][x].treadable){
+                if(!map[yOrient(o,x,y,w,h)+y1][xOrient(o,x,y,w,h)+x1].getClass().isAssignableFrom(Tile.class)){
+                    map[yOrient(o,x,y,w,h)+y1][xOrient(o,x,y,w,h)+x1] = area.map[y][x];
                 }
+            }else if(area.map[y][x].getClass().isAssignableFrom(Tile.class)
+                    && !(area.map[y][x] instanceof Door) && !(area.map[y][x] instanceof Barricade)){
+                map[yOrient(o,x,y,w,h)+y1][xOrient(o,x,y,w,h)+x1] = area.map[y][x];
             }
         }
         objects.addAll(area.objects.stream().map(ob -> {
-            ob.x += x1;
-            ob.y += y1;
+            int temp = y1 + yOrient(o,ob.x,ob.y,w,h);
+            ob.x = x1 + xOrient(o,ob.x,ob.y,w,h);
+            ob.y = temp;
             ob.setArea(this, true);
             return ob;
         }).collect(Collectors.toList()));
         receptacles.addAll(area.receptacles.stream().map(rec -> {
-            rec.x += x1;
-            rec.y += y1;
+            int temp = y1 + yOrient(o,rec.x,rec.y,w,h);
+            rec.x = x1 + xOrient(o,rec.x,rec.y,w,h);
+            rec.y = temp;
             if(rec instanceof Interactable) 
                 map[rec.y][rec.x].interactable = (Interactable) rec;
             return rec;
         }).collect(Collectors.toList()));
         if(area.startCoords!=null){
-            startCoords = new Integer[]{area.startCoords[0]+x1, area.startCoords[1]+y1};
+            startCoords = new Integer[]{xOrient(o,area.startCoords[0],area.startCoords[1],w,h)+x1, yOrient(o,area.startCoords[0],area.startCoords[1],w,h)+y1};
             ((DepthEntrance) map[startCoords[1]][startCoords[0]]).currentArea = this;
         }else if(area.endCoords!=null){
-            endCoords = new Integer[]{area.endCoords[0]+x1, area.endCoords[1]+y1};
+            endCoords = new Integer[]{xOrient(o,area.endCoords[0],area.endCoords[1],w,h)+x1, yOrient(o,area.endCoords[0],area.endCoords[1],w,h)+y1};
             ((DepthExit) map[endCoords[1]][endCoords[0]]).setArea(this);
         }
     }
@@ -132,13 +133,45 @@ public class Area implements Serializable{
      * @param y1 The top left y.
      */
     public void blitSafely(Area area, int x1, int y1){
-        if(!withinBounds(x1, y1)||
-                !withinBounds(x1+area.dimension.width, y1+area.dimension.height))
-            System.out.println("blit error v2");
+        int o = getApparentOrientation(area), w = area.dimension.width, h = area.dimension.height;
+        for(int y=0;y<h;y++) for(int x=0;x<w;x++){
+            if(map[yOrient(o,x,y,w,h)+y1][xOrient(o,x,y,w,h)+x1]==null) map[yOrient(o,x,y,w,h)+y1][xOrient(o,x,y,w,h)+x1] = area.map[y][x];
+            else throw new IllegalStateException("Safe blit failed.");
+        }
+        objects.addAll(area.objects.stream().map(ob -> {
+            int temp = y1 + yOrient(o,ob.x,ob.y,w,h);
+            ob.x = x1 + xOrient(o,ob.x,ob.y,w,h);
+            ob.y = temp;
+            ob.setArea(this, true);
+            return ob;
+        }).collect(Collectors.toList()));
+        receptacles.addAll(area.receptacles.stream().map(rec -> {
+            int temp = y1 + yOrient(o,rec.x,rec.y,w,h);
+            rec.x = x1 + xOrient(o,rec.x,rec.y,w,h);
+            rec.y = temp;
+            if(rec instanceof Interactable) 
+                map[rec.y][rec.x].interactable = (Interactable) rec;
+            return rec;
+        }).collect(Collectors.toList()));
+        if(area.startCoords!=null){
+            startCoords = new Integer[]{xOrient(o,area.startCoords[0],area.startCoords[1],w,h)+x1, yOrient(o,area.startCoords[0],area.startCoords[1],w,h)+y1};
+            ((DepthEntrance) map[startCoords[1]][startCoords[0]]).currentArea = this;
+        }else if(area.endCoords!=null){
+            endCoords = new Integer[]{xOrient(o,area.endCoords[0],area.endCoords[1],w,h)+x1, yOrient(o,area.endCoords[0],area.endCoords[1],w,h)+y1};
+            ((DepthExit) map[endCoords[1]][endCoords[0]]).setArea(this);
+        }
+    }
+    
+    /**
+     * Raw copies the given area onto this one.
+     * @param area
+     * @param x1
+     * @param y1
+     */
+    protected void blitDirty(Area area, int x1, int y1){
         for(int y=y1;y<y1+area.dimension.height;y++){
             for(int x=x1;x<x1+area.dimension.width;x++){
-                if(map[y][x]==null) map[y][x] = area.map[y-y1][x-x1];
-                else throw new IllegalStateException("Safe blit failed.");
+                map[y][x] = area.map[y-y1][x-x1];
             }
         }
         objects.addAll(area.objects.stream().map(ob -> {
@@ -154,13 +187,12 @@ public class Area implements Serializable{
                 map[rec.y][rec.x].interactable = (Interactable) rec;
             return rec;
         }).collect(Collectors.toList()));
-        if(area.startCoords!=null){
-            startCoords = new Integer[]{area.startCoords[0]+x1, area.startCoords[1]+y1};
-            ((DepthEntrance) map[startCoords[1]][startCoords[0]]).currentArea = this;
-        }else if(area.endCoords!=null){
-            endCoords = new Integer[]{area.endCoords[0]+x1, area.endCoords[1]+y1};
-            ((DepthExit) map[endCoords[1]][endCoords[0]]).setArea(this);
-        }
+    }
+    
+    private int getApparentOrientation(Area area){
+        int o = area.orientation - orientation;
+        if(o<0) return o+4;
+        return o;
     }
     
     /**
