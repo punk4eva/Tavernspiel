@@ -41,53 +41,44 @@ public abstract class RoomBuilder{
     
     public static Room standard(Location loc, int depth){
         Room ret = Room.genStandard(loc, depth);
-        ret.addDoors();
         ret.randomlyPlop();
         return ret;
     }
     
     public static Room standardLocked(Location loc, int depth){
         Room ret = Room.genStandard(loc, new Key(depth), ItemMap.standardItemMap);
-        ret.addDoors();
         ret.randomlyPlop();
         return ret;
     }
     
     public static Room itemless(Location loc, int depth){
-        Room ret = Room.genStandard(loc, depth);
-        ret.addDoors();
-        return ret;
+        return Room.genStandard(loc, depth);
     }
     
     public static Room lockedItemless(Location loc, int depth){
-        Room ret = Room.genStandard(loc, new Key(depth), new ItemMap());
-        ret.addDoors();
-        return ret;
+        return Room.genStandard(loc, new Key(depth), new ItemMap());
     }
     
     public static Room roomOfTraps(Location loc, Item item, int depth){
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
                 Distribution.getRandomInt(5, 10)), loc, depth);
-        room.orientation = Distribution.r.nextInt(4);
         room.paintAndPave();
         Trap trap = getRandomTrap(loc);
         trap.hidden = false;
-        for(int y = 2; y < room.dimension.height - 1; y++){
-            for(int x = 1; x < room.dimension.width - 1; x++){
+        for(int y = 2; y < room.dimension.height - 1; y++)
+            for(int x = 1; x < room.dimension.width - 1; x++)
                 room.map[y][x] = trap.copy(loc);
-            }
-        }
         if(Distribution.chance(1, 2)){
             room.addReceptacle(new Chest(loc.name, item, room.dimension.width/2, 1));
         }else room.addReceptacle(new Floor(item, room.dimension.width / 2, 1));
         room.map[room.dimension.height-1][room.dimension.width/2] = new Door(loc);
+        room.oriented = true;
         return room;
     }
     
     public static Room chasmVault(Location loc, Item item, int depth){
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
                 Distribution.getRandomInt(5, 10)), loc, depth);
-        room.orientation = Distribution.r.nextInt(4);
         room.paintAndPave();
         Tile pedestal = new Tile("pedestal", loc, true, false, true);
         for(int y = 1; y < room.dimension.height - 1; y++){
@@ -102,6 +93,7 @@ public abstract class RoomBuilder{
         room.addReceptacle(new Floor(item, room.dimension.width/2, 1));
         room.map[2][room.dimension.width/2] = new Chasm("floor", loc);
         room.map[room.dimension.height-1][room.dimension.width/2] = new Door(loc);
+        room.oriented = true;
         return room;
     }
     
@@ -115,8 +107,9 @@ public abstract class RoomBuilder{
                 else room.map[y][x] = new Tile("specialfloor", loc, true, false, true);
             }
         }
-        room.barricade();
+        room.map[room.dimension.height-1][Distribution.r.nextInt(room.dimension.width-2)+1] = new Barricade(loc);
         room.randomlyPlop();
+        room.oriented = true;
         return room;
     }
     
@@ -124,7 +117,6 @@ public abstract class RoomBuilder{
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
                 Distribution.getRandomInt(5, 16)), loc, depth);
         room.paintAndPave();
-        room.addDoors();
         switch(Distribution.getRandomInt(1, 3)){
             case 1:
                 room.map[room.dimension.height/2][room.dimension.width/2] =
@@ -146,7 +138,6 @@ public abstract class RoomBuilder{
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
                 Distribution.getRandomInt(5, 16)), loc, depth);
         room.paintAndPave();
-        room.addDoors();
         room.map[room.dimension.height/2][room.dimension.width/2] =
                         new DepthEntrance(loc);
         room.startCoords = new Integer[]{room.dimension.width/2, room.dimension.height/2};
@@ -158,7 +149,6 @@ public abstract class RoomBuilder{
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
                 Distribution.getRandomInt(5, 16)), loc, depth);
         room.paintAndPave();
-        room.addDoors();
         room.map[room.dimension.height/2][room.dimension.width/2] =
                         new DepthExit(loc);
         room.endCoords = new Integer[]{room.dimension.width/2, room.dimension.height/2};
@@ -189,7 +179,6 @@ public abstract class RoomBuilder{
                 }
             }
         }
-        room.addDoors(1);
         room.randomlyPlop();
         return room;
     } 
@@ -197,7 +186,6 @@ public abstract class RoomBuilder{
     public static Room floodedVault(Location loc, Item item, int depth){
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 10),
                 Distribution.getRandomInt(5, 10)), loc, -1);
-        room.orientation = Distribution.r.nextInt(4);
         room.paintAndPave();
         Tile pedestal = new Tile("pedestal", loc, true, false, true);
         for(int y = 1; y < room.dimension.height - 1; y++){
@@ -209,9 +197,11 @@ public abstract class RoomBuilder{
         if(Distribution.chance(1, 2)) room.addReceptacle(new Floor(item, room.dimension.width/2, 1));
         else room.addReceptacle(new Chest(loc.name, item, room.dimension.width/2, 1));
         room.map[room.dimension.height-1][room.dimension.width/2] = new Door(loc);
+        room.oriented = true;
         return room;
     }
     
+    @Unfinished("Doors")
     public static Room stalagnate(Location location, int depth){
         Room room = Room.genStandard(location, depth);
         room.addDoors();
@@ -223,6 +213,7 @@ public abstract class RoomBuilder{
         return room;
     }
     
+    @Unfinished("Doors")
     public static Room maze(Location loc, int depth){
         Room room = new Room(new Dimension(Distribution.r.nextInt(12)*2+9,
                 Distribution.r.nextInt(12)*2+9), loc, depth);
@@ -231,11 +222,11 @@ public abstract class RoomBuilder{
         return room;
     }
     
+    @Unfinished("Doors")
     public static Room grandExhibition(Location loc, Item item, int depth){
         int mod;
         Room room = new Room(new Dimension(Distribution.getRandomInt(15, 26), 
             9), loc, new Key(depth), new ItemMap());
-        room.orientation = Distribution.r.nextInt(2);
         if(room.dimension.width<18) mod = 4;
         else mod = 5;
         for(int y=0;y<9;y++){
@@ -263,7 +254,6 @@ public abstract class RoomBuilder{
             room.map[y][x] = new Tile("specialstatue", loc, false, false, true);
             circle(room, x, y, loc);
         }
-        room.addDoors();
         room.randomlyPlop();
         return room;
     }
@@ -301,7 +291,6 @@ public abstract class RoomBuilder{
         circle(room, x1, y1, loc);
         room.map[y2][x2] = new Tile("pedestal", loc, true, false, true);
         circle(room, x2, y2, loc);
-        room.addDoors();
         room.randomlyPlop();
         return room;
     }
@@ -310,7 +299,6 @@ public abstract class RoomBuilder{
         Room room = new Room(new Dimension(Distribution.getRandomInt(7, 14), 
                 Distribution.getRandomInt(7, 14)), loc, new Key(depth), 
                 ItemMap.laboratoryItemMap);
-        room.orientation = Distribution.r.nextInt(4);
         for(int y=0;y<room.dimension.height;y++)
             for(int x=0;x<room.dimension.width;x++)
                 if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) 
@@ -323,7 +311,9 @@ public abstract class RoomBuilder{
             room.map[y][room.dimension.width-2] = new Tile("pedestal", loc, true, false, true);
         }
         room.map[room.dimension.height-2][1] = new AlchemyPot(loc);
+        room.map[room.dimension.height-1][room.dimension.width/2] = new Door(loc, true, false, KeyType.IRON);
         room.randomlyPlop(i -> room.map[i[1]][i[0]].equals("pedestal"));
+        room.oriented = true;
         return room;
     }
     
@@ -341,7 +331,6 @@ public abstract class RoomBuilder{
         room.map[y+1][x] = new Tile("embers", loc, true, false, true);
         room.map[y+1][x+1] = new Tile("embers", loc, true, false, true);
         room.map[y][x+1] = new Tile("embers", loc, true, false, true);
-        room.addDoors();
         room.randomlyPlop();
         return room;
     }
@@ -357,11 +346,11 @@ public abstract class RoomBuilder{
                 else room.map[y][x] = new Grass(loc, false);
             }
         }
-        room.addDoors();
         room.randomlyPlop();
         return room;
     }
     
+    @Unfinished("Doors")
     public static Room altar(Location loc, Item item, int depth){
         System.err.println("altar");
         int d = Distribution.getRandomInt(5, 17);
@@ -437,8 +426,6 @@ public abstract class RoomBuilder{
                 else room.map[y][x] = new Tile("specialfloor", loc, true, false, true);
             }
         }
-        room.orientation = Distribution.r.nextInt(2);
-        room.addDoors();
         room.randomlyPlop();
         return room;
     }
@@ -478,29 +465,20 @@ public abstract class RoomBuilder{
             case 2: room.map[room.dimension.height-2][1] = new DepthExit(loc, tomb(null)); break;
             case 3: room.map[room.dimension.height-2][room.dimension.width-2] = new DepthExit(loc, tomb(null)); break;
         }
-        switch(Distribution.r.nextInt(4)){
-            case 0: if(room.dimension.width%2==0) room.map[0][room.dimension.width/2-1] = new Door(loc, true, true, KeyType.IRON); 
-                else room.map[0][room.dimension.width/2] = new Door(loc, true, true, KeyType.IRON); break;
-            case 1: if(room.dimension.width%2==0) room.map[room.dimension.height-1][room.dimension.width/2-1] = new Door(loc, true, true, KeyType.IRON);
-                else room.map[room.dimension.height-1][room.dimension.width/2] = new Door(loc, true, true, KeyType.IRON); break;
-            case 2: if(room.dimension.height%2==0) room.map[room.dimension.height/2-1][0] = new Door(loc, true, true, KeyType.IRON); 
-                else room.map[room.dimension.height/2][0] = new Door(loc, true, true, KeyType.IRON); break;
-            case 3: if(room.dimension.height%2==0) room.map[room.dimension.height/2-1][room.dimension.width-1] = new Door(loc, true, true, KeyType.IRON); 
-                else room.map[room.dimension.height/2][room.dimension.width-1] = new Door(loc, true, true, KeyType.IRON);break;
-        }
+        if(room.dimension.width%2==0) room.map[room.dimension.height-1][room.dimension.width/2-1] = new Door(loc, true, true, KeyType.IRON); 
+            else room.map[room.dimension.height-1][room.dimension.width/2] = new Door(loc, true, true, KeyType.IRON);
+        room.oriented = true;
         room.randomlyPlop();
         return room;
     }
     
     public static Room lottery(Location loc, int depth){
-        System.out.println("LOTTERY");
         if(Distribution.r.nextDouble()<0.5) return lottery1(loc, depth, ItemMap.lotteryItemMaps);
         else return lottery2(loc, depth, ItemMap.lotteryItemMaps);
     }
     
     private static Room lottery1(Location loc, int depth, ItemMap[] maps){
         Room ret = new Room(new Dimension(13, 9), loc, new Key(depth), null);
-        ret.orientation = Distribution.r.nextInt(4);
         maps = Utils.shuffle(maps);
         Room r0 = new Room(new Dimension(5, 9), loc, null, maps[0]);
         r0.paintAndPave();
@@ -522,12 +500,12 @@ public abstract class RoomBuilder{
         ret.map[8][7] = Tile.wall(loc, 7, 8);
         ret.map[8][6] = new Door(loc, true, Distribution.r.nextDouble()<0.5, KeyType.IRON);
         ret.plop(new Key(depth, KeyType.WOODEN), 6, 6);
+        ret.oriented = true;
         return ret;
     }
     
     private static Room lottery2(Location loc, int depth, ItemMap[] maps){
         Room ret = new Room(new Dimension(13, 9), loc, new Key(depth), null);
-        ret.orientation = Distribution.r.nextInt(4);
         maps = Utils.shuffle(maps);
         for(int x=0;x<ret.dimension.width;x++){
             for(int y=5;y<ret.dimension.height;y++){
@@ -536,6 +514,7 @@ public abstract class RoomBuilder{
                 else ret.map[y][x] = Tile.floor(loc);
             }
         }
+        ret.oriented = true;
         Room r0 = new Room(new Dimension(5, 5), loc, null, maps[0]);
         r0.paintAndPave();
         r0.map[4][2] = new Door(loc, true, false, KeyType.WOODEN);

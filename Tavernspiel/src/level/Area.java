@@ -51,7 +51,7 @@ public class Area implements Serializable{
     private final static long serialVersionUID = 2049197;
     
     public transient Tile[][] map;
-    public final Dimension dimension;
+    public Dimension dimension;
     public transient Location location;
     public Integer[] startCoords, endCoords;
     public final int depth;
@@ -169,20 +169,20 @@ public class Area implements Serializable{
      * @param y1
      */
     protected void blitDirty(Area area, int x1, int y1){
-        for(int y=y1;y<y1+area.dimension.height;y++){
-            for(int x=x1;x<x1+area.dimension.width;x++){
-                map[y][x] = area.map[y-y1][x-x1];
-            }
-        }
+        int o = getApparentOrientation(area), w = area.dimension.width, h = area.dimension.height;
+        for(int y=0;y<h;y++) for(int x=0;x<w;x++)
+            map[yOrient(o,x,y,w,h)+y1][xOrient(o,x,y,w,h)+x1] = area.map[y][x];
         objects.addAll(area.objects.stream().map(ob -> {
-            ob.x += x1;
-            ob.y += y1;
+            int temp = y1 + yOrient(o,ob.x,ob.y,w,h);
+            ob.x = x1 + xOrient(o,ob.x,ob.y,w,h);
+            ob.y = temp;
             ob.setArea(this, true);
             return ob;
         }).collect(Collectors.toList()));
         receptacles.addAll(area.receptacles.stream().map(rec -> {
-            rec.x += x1;
-            rec.y += y1;
+            int temp = y1 + yOrient(o,rec.x,rec.y,w,h);
+            rec.x = x1 + xOrient(o,rec.x,rec.y,w,h);
+            rec.y = temp;
             if(rec instanceof Interactable) 
                 map[rec.y][rec.x].interactable = (Interactable) rec;
             return rec;

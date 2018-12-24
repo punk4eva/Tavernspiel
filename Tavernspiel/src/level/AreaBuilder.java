@@ -16,7 +16,6 @@ import logic.Distribution;
 import pathfinding.generation.CorridorBuilder;
 import pathfinding.Graph;
 import pathfinding.Point;
-import pathfinding.Waypoint;
 import tiles.assets.Barricade;
 import tiles.assets.Door;
 

@@ -26,6 +26,7 @@ public class Room extends Area{
     public boolean locked;
     public ItemMap itemMap;
     public Item key;
+    protected transient boolean oriented = false;
     
     /**
      * Creates a new instance.
@@ -155,28 +156,6 @@ public class Room extends Area{
                     numDoors--;
                     map[y][x] = new Door(location);
                 }else failed++;
-            }
-        }
-    }
-    
-    /**
-     * Adds a single barricade.
-     */
-    protected void barricade(){
-        Distribution yDistrib = new Distribution(new double[]{0, dimension.height-1});
-        Distribution xDistrib = new Distribution(new double[]{0, dimension.width-1});
-        while(true){
-            int x, y;
-            if(Distribution.chance(1, 2)){
-                x = Distribution.getRandomInt(1, dimension.width-2);
-                y = (int) yDistrib.next();
-            }else{
-                y = Distribution.getRandomInt(1, dimension.height-2);
-                x = (int) xDistrib.next();
-            }
-            if(map[y][x].equals("wall")||map[y][x].equals("specialwall")){
-                map[y][x] = new Barricade(location);
-                return;
             }
         }
     }

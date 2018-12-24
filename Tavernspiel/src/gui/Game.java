@@ -7,10 +7,12 @@ import blob.ParticleAnimation;
 import containers.HeroInventory;
 import creatureLogic.Attributes;
 import creatures.Hero;
+import java.awt.Dimension;
 import level.Area;
 import level.Dungeon;
 import level.Location;
 import level.RoomBuilder;
+import level.RoomStructure.Hallway;
 import logic.ConstantFields;
 import logic.FileHandler;
 import logic.GameSettings;
@@ -68,8 +70,15 @@ public final class Game extends Main{
     public static void main(String... args){
         Thread.currentThread().setName("Progenitor Thread");
         Game game = new Game();
-        //game.currentArea = RoomBuilder.lottery(Location.SHKODER_LOCATION, 0);
-        //game.player.setXY(1, 1);
+        /*Hallway h = new Hallway(Location.SHKODER_LOCATION, 3);
+        h.add(RoomBuilder.lottery(Location.SHKODER_LOCATION, 0));
+        h.add(RoomBuilder.burntGarden(Location.SHKODER_LOCATION, 0));
+        h.add(RoomBuilder.laboratory(Location.SHKODER_LOCATION, 0));
+        h.add(RoomBuilder.itemless(Location.SHKODER_LOCATION, 0));
+        h.add(RoomBuilder.magicWellRoom(Location.SHKODER_LOCATION, 0));
+        h.generate();
+        game.currentArea = h;
+        game.player.setXY(3, 16);*/
         //game.save();
         //Game game = FileHandler.deserializeGame("filetesting/game.ser");
         /*System.out.println("Running");
