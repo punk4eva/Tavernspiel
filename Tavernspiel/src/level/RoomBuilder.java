@@ -23,6 +23,7 @@ import logic.ImageHandler;
 import logic.Utils;
 import logic.Utils.Unfinished;
 import pathfinding.generation.MazeBuilder;
+import pathfinding.generation.MazeBuilder.Maze;
 import tiles.*;
 
 /**
@@ -35,8 +36,10 @@ public abstract class RoomBuilder{
     
     private RoomBuilder(){}
     
+    public static interface PreDoored{}
     
-    private static final String[] TRAPCOLOURS = new String[]{
+    
+    private static final String[] TRAPCOLORS = new String[]{
         "blue", "silver", "green", "bear", "red", "yellow", "orange", "purple"}; 
     
     public static Room standard(Location loc, int depth){
@@ -201,46 +204,39 @@ public abstract class RoomBuilder{
         return room;
     }
     
-    @Unfinished("Doors")
     public static Room stalagnate(Location location, int depth){
-        Room room = Room.genStandard(location, depth);
-        room.addDoors();
-        for(int y=1;y<room.dimension.height-1;y++)
-            for(int x=1;x<room.dimension.width-1;x++)
-                if(Distribution.chance(1, 7)) room.map[y][x] = Tile.wall(location, x, y);
-        room.checkDoors();
+        Room room = new Stalagnate(location, depth);
         room.randomlyPlop();
         return room;
     }
-    
-    @Unfinished("Doors")
+
     public static Room maze(Location loc, int depth){
-        Room room = new Room(new Dimension(Distribution.r.nextInt(12)*2+9,
+        Maze room = new Maze(new Dimension(Distribution.r.nextInt(12)*2+9,
                 Distribution.r.nextInt(12)*2+9), loc, depth);
         new MazeBuilder(room, 0, 0, room.dimension.width, room.dimension.height);
         room.randomlyPlop();
         return room;
     }
     
-    @Unfinished("Doors")
     public static Room grandExhibition(Location loc, Item item, int depth){
         int mod;
-        Room room = new Room(new Dimension(Distribution.getRandomInt(15, 26), 
-            9), loc, new Key(depth), new ItemMap());
-        if(room.dimension.width<18) mod = 4;
+        Room room = new Room(new Dimension(9, Distribution.getRandomInt(15, 26)),
+            loc, new Key(depth), new ItemMap());
+        if(room.dimension.height<18) mod = 4;
         else mod = 5;
-        for(int y=0;y<9;y++){
-            for(int x=0;x<room.dimension.width;x++){
-                if(y==0||x==0||y==8||x==room.dimension.width-1) 
-                    room.map[y][x] = new Tile("wall", loc, false, false, false);
-                else if(y==1||y==7||x==1||x==room.dimension.width-2) 
-                    room.map[y][x] = new Tile("floor", loc, true, false, true);
-                else if(y==4||x%mod==0) room.map[y][x] = new Tile("specialfloor", loc, true, false, true);
-                else if(x%mod==2) room.map[y][x] = new Tile("statue", loc, false, false, true);
+        for(int y=0;y<room.dimension.height;y++){
+            for(int x=0;x<9;x++){
+                if(y==0||x==0||y==room.dimension.height-1||x==8) 
+                    room.map[y][x] = Tile.wall(loc, x, y);
+                else if(y==1||y==room.dimension.height-2||x==1||x==7) 
+                    room.map[y][x] = Tile.floor(loc);
+                else if(x==4||y%mod==0) room.map[y][x] = new Tile("specialfloor", loc, true, false, true);
+                else if(y%mod==2) room.map[y][x] = new Tile("specialstatue", loc, false, false, true);
+                else room.map[y][x] = Tile.floor(loc);
             }
         }
-        if(Distribution.chance(1, 2)) room.map[4][0] = new Door(loc, true, true, KeyType.IRON);
-        else room.map[4][room.dimension.width-1] = new Door(loc, true, true, KeyType.IRON);
+        room.map[room.dimension.height-1][4] = new Door(loc, true, Distribution.chance(1,2), KeyType.IRON);
+        room.oriented = true;
         return room;
     }
     
@@ -350,63 +346,8 @@ public abstract class RoomBuilder{
         return room;
     }
     
-    @Unfinished("Doors")
     public static Room altar(Location loc, Item item, int depth){
-        System.err.println("altar");
-        int d = Distribution.getRandomInt(5, 17);
-        Room room = new Room(new Dimension(d, d), loc, depth);
-        room.paintAndPave();
-        d/=2;
-        if(d<5){
-            room.map[d][d] = new Tile("pedestal", loc, true, false, true);
-            if(item!=null) room.addReceptacle(new Floor(item, d/2, d/2));
-            for(int y=1;y<d;y++) room.map[y][d] = new Tile("specialfloor", loc, true, false, true);
-            for(int y=d+1;y<room.dimension.height-1;y++) room.map[y][d] = new Tile("specialfloor", loc, true, false, true);
-            for(int x=1;x<d;x++) room.map[d][x] = new Tile("specialfloor", loc, true, false, true);
-            for(int x=d+1;x<room.dimension.width-1;x++) room.map[d][x] = new Tile("specialfloor", loc, true, false, true);
-        }else{
-            room.map[d][d] = new Tile("pedestal", loc, true, false, true);
-            room.map[d+1][d] = new Tile("pedestal", loc, true, false, true);
-            room.map[d][d+1] = new Tile("pedestal", loc, true, false, true);
-            room.map[d+1][d+1] = new Tile("pedestal", loc, true, false, true);
-            if(item!=null) room.addReceptacle(new Floor(item, d/2, d/2));
-            for(int y=1;y<d;y++){
-                room.map[y][d] = new Tile("specialfloor", loc, true, false, true);
-                room.map[y][d+1] = new Tile("specialfloor", loc, true, false, true);
-            }
-            for(int y=d+2;y<room.dimension.height-1;y++){
-                room.map[y][d] = new Tile("specialfloor", loc, true, false, true);
-                room.map[y][d+1] = new Tile("specialfloor", loc, true, false, true);
-            }
-            for(int x=1;x<d;x++){
-                room.map[d][x] = new Tile("specialfloor", loc, true, false, true);
-                room.map[d+1][x] = new Tile("specialfloor", loc, true, false, true);
-            }
-            for(int x=d+2;x<room.dimension.width-1;x++){
-                room.map[d][x] = new Tile("specialfloor", loc, true, false, true);
-                room.map[d+1][x] = new Tile("specialfloor", loc, true, false, true);
-            }
-        }
-        boolean doors = true;
-        while(doors){
-            if(Distribution.chance(1, 3)){
-                room.map[0][d] = new Door(loc);
-                doors = false;
-            }
-            if(Distribution.chance(1, 3)){
-                room.map[room.dimension.height-1][d] = new Door(loc);
-                doors = false;
-            }
-            if(Distribution.chance(1, 3)){
-                room.map[d][0] = new Door(loc);
-                doors = false;
-            }
-            if(Distribution.chance(1, 3)){
-                room.map[d][room.dimension.width-1] = new Door(loc);
-                doors = false;
-            }
-        }
-        return room;
+        return new Altar(Distribution.getRandomInt(5, 17), loc, depth, item);
     }
     
     public static Room library(Location loc, int depth){
@@ -552,13 +493,13 @@ public abstract class RoomBuilder{
             
     
     public static Trap getRandomTrap(Location loc){
-        String tr = TRAPCOLOURS[Distribution.getRandomInt(0, TRAPCOLOURS.length-1)];
+        String tr = TRAPCOLORS[Distribution.getRandomInt(0, TRAPCOLORS.length-1)];
         return TrapBuilder.getTrap(tr, loc);
     }
     
     public static Tile getRandomTrapOrChasm(Area area, int x, int y){
         if(Distribution.chance(9, 10)){
-            String tr = TRAPCOLOURS[Distribution.getRandomInt(0, TRAPCOLOURS.length)] + "trap";
+            String tr = TRAPCOLORS[Distribution.getRandomInt(0, TRAPCOLORS.length)] + "trap";
             return TrapBuilder.getTrap(tr, area.location);
         }else{
             return new Chasm(area, x, y);
@@ -596,6 +537,77 @@ public abstract class RoomBuilder{
             image = addShaders(loc.getImage("specialfloor"), name, loc);
         }
         
+    }
+    
+    private final static class Altar extends Room{
+        
+        private transient int d;
+    
+        public Altar(int d_, Location loc, int depth, Item item){
+            super(new Dimension(d_, d_), loc, depth);
+            paintAndPave();
+            if(d_%2==1){
+                d = d_/2;
+                map[d][d] = new Tile("pedestal", loc, true, false, true);
+                if(item!=null) addReceptacle(new Floor(item, d/2, d/2));
+                for(int y=1;y<d;y++) map[y][d] = new Tile("specialfloor", loc, true, false, true);
+                for(int y=d+1;y<dimension.height-1;y++) map[y][d] = new Tile("specialfloor", loc, true, false, true);
+                for(int x=1;x<d;x++) map[d][x] = new Tile("specialfloor", loc, true, false, true);
+                for(int x=d+1;x<dimension.width-1;x++) map[d][x] = new Tile("specialfloor", loc, true, false, true);
+            }else{
+                d = d_/2;
+                map[d][d] = new Tile("pedestal", loc, true, false, true);
+                map[d-1][d] = new Tile("pedestal", loc, true, false, true);
+                map[d][d-1] = new Tile("pedestal", loc, true, false, true);
+                map[d-1][d-1] = new Tile("pedestal", loc, true, false, true);
+                if(item!=null) addReceptacle(new Floor(item, d/2, d/2));
+                for(int y=1;y<d-1;y++){
+                    map[y][d] = new Tile("specialfloor", loc, true, false, true);
+                    map[y][d-1] = new Tile("specialfloor", loc, true, false, true);
+                }
+                for(int y=d+1;y<dimension.height-1;y++){
+                    map[y][d] = new Tile("specialfloor", loc, true, false, true);
+                    map[y][d-1] = new Tile("specialfloor", loc, true, false, true);
+                }
+                for(int x=1;x<d-1;x++){
+                    map[d][x] = new Tile("specialfloor", loc, true, false, true);
+                    map[d-1][x] = new Tile("specialfloor", loc, true, false, true);
+                }
+                for(int x=d+1;x<dimension.width-1;x++){
+                    map[d][x] = new Tile("specialfloor", loc, true, false, true);
+                    map[d-1][x] = new Tile("specialfloor", loc, true, false, true);
+                }
+            }
+        }
+        
+        @Override
+        public void addDoors(int... doors){
+            map[0][d] = new Door(location);
+            map[dimension.height-1][d] = new Door(location);
+            map[d][0] = new Door(location);
+            map[d][dimension.width-1] = new Door(location);
+        }
+        
+    }
+    
+    private final static class Stalagnate extends Room implements PreDoored{
+    
+        public Stalagnate(Location loc, int depth){
+            super(new Dimension(Distribution.getRandomInt(4, 16),
+                Distribution.getRandomInt(4, 16)), loc, depth);
+            paintAndPave();
+            for(int y=1;y<dimension.height-1;y++)
+                for(int x=1;x<dimension.width-1;x++)
+                    if(Distribution.chance(1, 7)) map[y][x] = Tile.wall(location, x, y);   
+            super.addDoors();
+            checkDoors();
+        }
+        
+        @Override
+        public void addDoors(int... doorssss){
+            //throw new IllegalStateException("NO");
+        }
+    
     }
     
 }

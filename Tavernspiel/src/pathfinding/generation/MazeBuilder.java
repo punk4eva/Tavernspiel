@@ -1,9 +1,13 @@
 
 package pathfinding.generation;
 
+import java.awt.Dimension;
 import java.util.LinkedList;
 import java.util.List;
 import level.Area;
+import level.Location;
+import level.Room;
+import level.RoomBuilder.PreDoored;
 import logic.Distribution;
 import pathfinding.Graph;
 import pathfinding.Point;
@@ -122,6 +126,19 @@ public class MazeBuilder{
     
     private boolean onEdge(int x, int y){
         return TLX==x||x==TLX+width-1||TLY==y||y==TLY+height-1;
+    }
+    
+    public static class Maze extends Room implements PreDoored{
+    
+        public Maze(Dimension dim, Location loc, int depth){
+            super(dim, loc, depth);
+        }
+        
+        @Override
+        public void addDoors(int... doorssss){
+            //throw new IllegalStateException("NO");
+        }
+    
     }
     
 }

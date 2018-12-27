@@ -20,7 +20,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import static logic.Distribution.r;
+import level.RoomBuilder.PreDoored;
+import logic.Distribution;
+import pathfinding.Graph;
 import tiles.Tile;
 import tiles.assets.Door;
 
@@ -32,23 +34,20 @@ public abstract class RoomStructure extends Area{
     
     protected List<Room> rooms = new LinkedList<>();
     
-    public RoomStructure(Dimension dim, Location loc){
+    public RoomStructure(Dimension dim, Location loc, List<Room> list){
         super(dim, loc);
+        rooms = list;
     }
     
     public abstract void generate();
-    
-    public void add(Room r){
-        rooms.add(r);
-    }
     
     public static class Hallway extends RoomStructure{
         
         private final List<Room> rooms1 = new LinkedList<>();
         private final int width;
 
-        public Hallway(Location loc, int w){
-            super(new Dimension(1, 1), loc);
+        public Hallway(Location loc, int w, List<Room> list){
+            super(new Dimension(1, 1), loc, list);
             width = w;
         }
 
@@ -117,20 +116,77 @@ public abstract class RoomStructure extends Area{
     
     public static class Cave extends RoomStructure{
 
-        public Cave(Dimension dim, Location loc){
-            super(dim, loc);
+        public Cave(Location loc, List<Room> list){
+            super(new Dimension(list.stream().map((r) -> Math.max(r.dimension.width, r.dimension.height)+1).reduce(1, Integer::sum)+3, 
+                    list.stream().map((r) -> Math.max(r.dimension.width, r.dimension.height)+1).reduce(1, Integer::sum)+3), loc, list);
+            graph = new Graph(this, null);
         }
 
         @Override
         public void generate(){
+            rooms.sort((r, r1) -> new Integer(r1.dimension.width*r1.dimension.height).compareTo(r.dimension.width*r.dimension.height));
+            Dimension d;
+            Integer n = 0;
+            int i;
+            Integer[][] coords = new Integer[rooms.size()][2];
+            while(n<rooms.size()){
+                d = rooms.get(n).dimension;
+                for(i=0;i<10;i++){
+                    Integer[] point = generatePoint(d);
+                    if(spaceFree(point, d)){
+                        mark(point, d, n, coords);
+                        n++;
+                        break;
+                    }
+                }
+                if(i>9){
+                    n--;
+                    unmark(coords[n], d, n, coords);
+                }
+            }
+            Room r;
+            for(i=0;i<rooms.size();i++){
+                r = rooms.get(i);
+                r.orientation = Distribution.r.nextInt(4);
+                if(!(r.oriented||r instanceof PreDoored)) r.addDoors();
+                blitDirty(r, coords[i][0], coords[i][1]);
+                if(i==0) startCoords = new Integer[]{coords[i][0]+1, coords[i][0]+1};
+            }
+        }
+        
+        private Integer[] generatePoint(Dimension d){
+            return new Integer[]{3+Distribution.r.nextInt(dimension.width-12-d.width),
+                3+Distribution.r.nextInt(dimension.height-12-d.height)};
+        }
+        
+        private boolean spaceFree(Integer[] c, Dimension d){
+            for(int x=c[0]-1;x<c[0]+d.width+1;x++)
+                if(graph.map[c[1]-1][x].isCorridor||graph.map[c[1]+d.height+1][x].isCorridor) return false;
+            for(int y=c[1];y<c[1]+d.height;y++)
+                if(graph.map[y][c[0]-1].isCorridor||graph.map[y][c[0]+d.width+1].isCorridor) return false;
+            return true;
+        }
+        
+        private void mark(Integer[] c, Dimension d, Integer n, Integer[][] coords){
+            coords[n] = c;
+            for(int x=c[0]-1;x<c[0]+d.width+1;x++)
+                for(int y=c[1]-1;y<c[1]+d.height+1;y++)
+                    graph.map[y][x].isCorridor = true;
+        }
+        
+        private void unmark(Integer[] c, Dimension d, Integer n, Integer[][] coords){
+            for(int x=c[0]-1;x<c[0]+d.width+1;x++)
+                for(int y=c[1]-1;y<c[1]+d.height+1;y++)
+                    graph.map[y][x].isCorridor = false;
+            coords[n] = null;
         }
         
     }
     
     public static class Complex extends RoomStructure{
 
-        public Complex(Dimension dim, Location loc){
-            super(dim, loc);
+        public Complex(Dimension dim, Location loc, List<Room> list){
+            super(dim, loc, list);
         }
 
         @Override

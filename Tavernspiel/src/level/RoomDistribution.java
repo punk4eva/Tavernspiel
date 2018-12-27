@@ -114,6 +114,7 @@ public class RoomDistribution{
         roomAlgs.add((loc, d) -> RoomBuilder.kitchen(loc, d));
         roomAlgs.add((loc, d) -> RoomBuilder.secretLibrary(loc, d));
         roomAlgs.add((loc, d) -> RoomBuilder.lottery(loc, d));
+        roomAlgs.add((loc, d) -> RoomBuilder.altar(loc, null, d));
         
         itemRoomAlgs.add((loc, d, i) -> RoomBuilder.floodedVault(loc, i, d));
         itemRoomAlgs.add((loc, d, i) -> RoomBuilder.chasmVault(loc, i, d));
