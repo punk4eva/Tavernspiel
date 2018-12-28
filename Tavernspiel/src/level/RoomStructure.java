@@ -32,7 +32,7 @@ import tiles.assets.Door;
  */
 public abstract class RoomStructure extends Area{
     
-    protected List<Room> rooms = new LinkedList<>();
+    protected List<Room> rooms;
     
     public RoomStructure(Dimension dim, Location loc, List<Room> list){
         super(dim, loc);
@@ -117,20 +117,22 @@ public abstract class RoomStructure extends Area{
     public static class Cave extends RoomStructure{
 
         public Cave(Location loc, List<Room> list){
-            super(new Dimension(list.stream().map((r) -> Math.max(r.dimension.width, r.dimension.height)+1).reduce(1, Integer::sum)+3, 
-                    list.stream().map((r) -> Math.max(r.dimension.width, r.dimension.height)+1).reduce(1, Integer::sum)+3), loc, list);
+            super(new Dimension(60, 60), loc, list);
             graph = new Graph(this, null);
         }
 
         @Override
         public void generate(){
             rooms.sort((r, r1) -> new Integer(r1.dimension.width*r1.dimension.height).compareTo(r.dimension.width*r.dimension.height));
+            rooms.stream().forEach(r -> {
+                r.orientation = Distribution.r.nextInt(4);
+            });
             Dimension d;
             Integer n = 0;
             int i;
             Integer[][] coords = new Integer[rooms.size()][2];
             while(n<rooms.size()){
-                d = rooms.get(n).dimension;
+                d = getDimension(rooms.get(n));
                 for(i=0;i<10;i++){
                     Integer[] point = generatePoint(d);
                     if(spaceFree(point, d)){
@@ -147,11 +149,15 @@ public abstract class RoomStructure extends Area{
             Room r;
             for(i=0;i<rooms.size();i++){
                 r = rooms.get(i);
-                r.orientation = Distribution.r.nextInt(4);
                 if(!(r.oriented||r instanceof PreDoored)) r.addDoors();
                 blitDirty(r, coords[i][0], coords[i][1]);
                 if(i==0) startCoords = new Integer[]{coords[i][0]+1, coords[i][0]+1};
             }
+        }
+        
+        private Dimension getDimension(Room r){
+            if(r.orientation%2==0) return r.dimension;
+            else return new Dimension(r.dimension.height, r.dimension.width);
         }
         
         private Integer[] generatePoint(Dimension d){
@@ -191,6 +197,7 @@ public abstract class RoomStructure extends Area{
 
         @Override
         public void generate(){
+            
         }
         
     }

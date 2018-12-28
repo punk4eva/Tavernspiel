@@ -20,7 +20,7 @@ import static pathfinding.Searcher.DIRECTIONS;
  *
  * @author Adam Whittaker
  */
-public class CorridorBuilder{
+public class WanderingCorridorBuilder{
     
     private final Area area;
     private final boolean[][] corridors;
@@ -97,7 +97,7 @@ public class CorridorBuilder{
      * Creates a new instance.
      * @param a The Area.
      */
-    public CorridorBuilder(Area a){
+    public WanderingCorridorBuilder(Area a){
         area = a;
         corridors = new boolean[a.dimension.height][a.dimension.width];
         if(area.graph==null) area.graph = new Graph(area, null);

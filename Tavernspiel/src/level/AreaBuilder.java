@@ -13,7 +13,7 @@ import java.util.List;
 import level.RoomDistribution.MakeRoom;
 import logic.ConstantFields;
 import logic.Distribution;
-import pathfinding.generation.CorridorBuilder;
+import pathfinding.generation.WanderingCorridorBuilder;
 import pathfinding.Graph;
 import pathfinding.Point;
 import tiles.assets.Barricade;
@@ -65,7 +65,7 @@ public class AreaBuilder implements Serializable{
         Area area = new Area(new Dimension(80, 80), location);
         List<Room> rooms = roomDist.generate(forcedItems, forcedRooms, depth, location.feeling);
         rooms.stream().forEach(r -> selectAndBlit(area, r));
-        boolean[][] corridors = new CorridorBuilder(area).build();
+        boolean[][] corridors = new WanderingCorridorBuilder(area).build();
         area.addDeco();
         area.graph = new Graph(area, corridors);
         Main.addMessage(ConstantFields.interestColor, location.feeling.description);

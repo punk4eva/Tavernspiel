@@ -65,7 +65,7 @@ public class Tile{
     }
     
     public boolean isFloor(){
-        return name.equals("floor")||name.equals("decofloor");
+        return name.endsWith("floor");
     }
     
     public static int getID(Tile tile){
