@@ -189,6 +189,19 @@ public abstract class RoomStructure extends Area{
         
     }
     
+    public static class Labyrinth extends RoomStructure{
+
+        public Labyrinth(Location loc, List<Room> list){
+            super(new Dimension(60, 60), loc, list);
+        }
+
+        @Override
+        public void generate(){
+            
+        }
+    
+    }
+    
     public static class Complex extends RoomStructure{
 
         public Complex(Dimension dim, Location loc, List<Room> list){

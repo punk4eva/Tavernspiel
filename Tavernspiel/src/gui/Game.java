@@ -81,7 +81,7 @@ public final class Game extends Main{
         RoomStructure r = new RoomStructure.Cave(Location.SHKODER_LOCATION, h);
         r.generate();*/
         //game.currentArea = new AreaGrower(new Dimension(80,80), Location.SHKODER_LOCATION, 0.375,  3,9,  4,9,  4, true).simulate();
-        game.currentArea = new DrunkenCorridorBuilder(new Dimension(80, 80), Location.SHKODER_LOCATION, 2, 80, 100.0).build();
+        game.currentArea = new DrunkenCorridorBuilder(new Dimension(80, 80), Location.SHKODER_LOCATION, 4, 160, 5.0, 0.25).build();
         //game.player.setXY(game.currentArea.startCoords[0], game.currentArea.startCoords[1]);
         //game.save();
         //Game game = FileHandler.deserializeGame("filetesting/game.ser");

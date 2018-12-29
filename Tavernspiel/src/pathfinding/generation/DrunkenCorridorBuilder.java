@@ -19,6 +19,7 @@ import java.awt.Dimension;
 import java.util.LinkedList;
 import level.Area;
 import level.Location;
+import logic.Distribution;
 import static logic.Distribution.r;
 import pathfinding.Graph;
 import pathfinding.Point;
@@ -36,33 +37,39 @@ public class DrunkenCorridorBuilder{
     
     private final int stepSize;
     private int iterNum;
-    private final double gaussianQuotient;
+    private final double gaussianQuotient, splitChance;
     
-    public DrunkenCorridorBuilder(Dimension dim, Location loc, int sD, int it, double gQ){
+    public DrunkenCorridorBuilder(Dimension dim, Location loc, int sD, int it, double gQ, double sC){
         area = new Area(dim, loc);
         area.graph = graph = new Graph(area, null);
         stepSize = sD;
         iterNum = it;
         gaussianQuotient = gQ;
+        splitChance = sC;
     }
     
     public Area build(){
-        Point p = graph.map[r.nextInt(area.dimension.height/2)+area.dimension.height/4][r.nextInt(area.dimension.width/2)+area.dimension.width/4];
-        p.isCorridor = true;
-        while(iterNum>=0){
+        Point z = graph.map[r.nextInt(area.dimension.height/2)+area.dimension.height/4][r.nextInt(area.dimension.width/2)+area.dimension.width/4], p;
+        z.isCorridor = true;
+        LinkedList<Point> branches = new LinkedList<>();
+        branches.add(z);
+        while(!branches.isEmpty()){
+            p = branches.remove(Distribution.r.nextInt(branches.size()));
             LinkedList<Point> possible = new LinkedList<>();
             for(Direction dir : Point.Direction.values()){ try{
                 Point np = graph.map[stepSize*dir.y+p.y][stepSize*dir.x+p.x];
                 if(!np.isCorridor) possible.add(np);
             }catch(ArrayIndexOutOfBoundsException e){}}
             if(possible.isEmpty()){
-                p = p.cameFrom;
+                if(p.cameFrom!=null) branches.add(p.cameFrom);
             }else{
                 Point np = decidePoint(possible);
                 np.cameFrom = p;
                 np.isCorridor = true;
-                p = np;
+                branches.add(np);
                 iterNum--;
+                if(iterNum<0) break;
+                if(Distribution.r.nextDouble()<splitChance) branches.add(p);
             }
         }
         buildCorridors();
@@ -112,7 +119,7 @@ public class DrunkenCorridorBuilder{
         double rand = r.nextDouble()*scores[scores.length-1];
         for(int n=0;n<scores.length;n++)
             if(rand<scores[n]) return points.get(n);
-        throw new IllegalStateException("BOI");
+        throw new IllegalStateException("No more space to build corridors.");
     }
     
     private double score(Point p){
