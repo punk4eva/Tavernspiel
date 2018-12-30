@@ -72,16 +72,16 @@ public final class Game extends Main{
     public static void main(String... args){
         Thread.currentThread().setName("Progenitor Thread");
         Game game = new Game();
-        /*List<Room> h = new LinkedList<>();
+        List<Room> h = new LinkedList<>();
         h.add(RoomBuilder.lottery(Location.SHKODER_LOCATION, 0));
         h.add(RoomBuilder.burntGarden(Location.SHKODER_LOCATION, 0));
         h.add(RoomBuilder.laboratory(Location.SHKODER_LOCATION, 0));
         h.add(RoomBuilder.itemless(Location.SHKODER_LOCATION, 0));
         h.add(RoomBuilder.magicWellRoom(Location.SHKODER_LOCATION, 0));
-        RoomStructure r = new RoomStructure.Cave(Location.SHKODER_LOCATION, h);
-        r.generate();*/
+        RoomStructure r = new RoomStructure.Labyrinth(Location.SHKODER_LOCATION, h);
+        r.generate();
+        game.currentArea = r;
         //game.currentArea = new AreaGrower(new Dimension(80,80), Location.SHKODER_LOCATION, 0.375,  3,9,  4,9,  4, true).simulate();
-        game.currentArea = new DrunkenCorridorBuilder(new Dimension(80, 80), Location.SHKODER_LOCATION, 4, 160, 5.0, 0.25).build();
         //game.player.setXY(game.currentArea.startCoords[0], game.currentArea.startCoords[1]);
         //game.save();
         //Game game = FileHandler.deserializeGame("filetesting/game.ser");

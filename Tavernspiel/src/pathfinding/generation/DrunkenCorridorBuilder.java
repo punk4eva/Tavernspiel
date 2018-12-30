@@ -58,7 +58,8 @@ public class DrunkenCorridorBuilder{
             LinkedList<Point> possible = new LinkedList<>();
             for(Direction dir : Point.Direction.values()){ try{
                 Point np = graph.map[stepSize*dir.y+p.y][stepSize*dir.x+p.x];
-                if(!np.isCorridor) possible.add(np);
+                if(!np.isCorridor&&np.x>0&&np.x<area.dimension.width-1
+                        &&np.y>0&&np.y<area.dimension.height-1) possible.add(np);
             }catch(ArrayIndexOutOfBoundsException e){}}
             if(possible.isEmpty()){
                 if(p.cameFrom!=null) branches.add(p.cameFrom);
@@ -84,6 +85,7 @@ public class DrunkenCorridorBuilder{
                 if(p.cameFrom!=null) extendCorridor(p, p.cameFrom);
             }
         }
+        //fillDeadEnds();
     }
     
     private void extendCorridor(Point a, Point b){
@@ -109,6 +111,10 @@ public class DrunkenCorridorBuilder{
         area.map[p.y-1][p.x+1] = Tile.wall(area.location, p.y-1, p.x+1);
         area.map[p.y+1][p.x-1] = Tile.wall(area.location, p.y+1, p.x-1);
         area.map[p.y+1][p.x+1] = Tile.wall(area.location, p.y+1, p.x+1);
+        if(area.map[p.y-1][p.x]==null) area.map[p.y-1][p.x] = Tile.wall(area.location, p.y-1, p.x);
+        if(area.map[p.y+1][p.x]==null) area.map[p.y+1][p.x] = Tile.wall(area.location, p.y+1, p.x);
+        if(area.map[p.y][p.x-1]==null) area.map[p.y][p.x-1] = Tile.wall(area.location, p.y, p.x-1);
+        if(area.map[p.y][p.x+1]==null) area.map[p.y][p.x+1] = Tile.wall(area.location, p.y, p.x+1);
     }
     
     private Point decidePoint(LinkedList<Point> points){
@@ -118,12 +124,22 @@ public class DrunkenCorridorBuilder{
             scores[n] = scores[n-1] + score(points.get(n));
         double rand = r.nextDouble()*scores[scores.length-1];
         for(int n=0;n<scores.length;n++)
-            if(rand<scores[n]) return points.get(n);
+            if(rand<=scores[n]) return points.get(n);
         throw new IllegalStateException("No more space to build corridors.");
     }
     
     private double score(Point p){
         return Math.pow(Math.E, -(Math.pow(p.x-area.dimension.width/2, 2)+Math.pow(p.y-area.dimension.height/2, 2))/gaussianQuotient);
     }
+    
+    /*private void fillDeadEnds(){
+        for(int y=0;y<area.dimension.height;y++){
+            for(int x=0;x<area.dimension.width;x++){ try{
+                if(area.map[y][x]==null&&(!area.map[y-1][x].treadable&&!area.map[y+1][x].treadable||
+                        !area.map[y][x-1].treadable&&!area.map[y][x+1].treadable))
+                    area.map[y][x] = Tile.wall(area.location, x, y);
+            }catch(NullPointerException | ArrayIndexOutOfBoundsException e){}}
+        }
+    }*/
     
 }

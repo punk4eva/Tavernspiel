@@ -23,6 +23,7 @@ import java.util.List;
 import level.RoomBuilder.PreDoored;
 import logic.Distribution;
 import pathfinding.Graph;
+import pathfinding.generation.DrunkenCorridorBuilder;
 import tiles.Tile;
 import tiles.assets.Door;
 
@@ -151,21 +152,20 @@ public abstract class RoomStructure extends Area{
                 r = rooms.get(i);
                 if(!(r.oriented||r instanceof PreDoored)) r.addDoors();
                 blitDirty(r, coords[i][0], coords[i][1]);
-                if(i==0) startCoords = new Integer[]{coords[i][0]+1, coords[i][0]+1};
             }
         }
         
-        private Dimension getDimension(Room r){
+        protected Dimension getDimension(Room r){
             if(r.orientation%2==0) return r.dimension;
             else return new Dimension(r.dimension.height, r.dimension.width);
         }
         
-        private Integer[] generatePoint(Dimension d){
+        protected Integer[] generatePoint(Dimension d){
             return new Integer[]{3+Distribution.r.nextInt(dimension.width-12-d.width),
                 3+Distribution.r.nextInt(dimension.height-12-d.height)};
         }
         
-        private boolean spaceFree(Integer[] c, Dimension d){
+        protected boolean spaceFree(Integer[] c, Dimension d){
             for(int x=c[0]-1;x<c[0]+d.width+1;x++)
                 if(graph.map[c[1]-1][x].isCorridor||graph.map[c[1]+d.height+1][x].isCorridor) return false;
             for(int y=c[1];y<c[1]+d.height;y++)
@@ -173,14 +173,14 @@ public abstract class RoomStructure extends Area{
             return true;
         }
         
-        private void mark(Integer[] c, Dimension d, Integer n, Integer[][] coords){
+        protected void mark(Integer[] c, Dimension d, Integer n, Integer[][] coords){
             coords[n] = c;
             for(int x=c[0]-1;x<c[0]+d.width+1;x++)
                 for(int y=c[1]-1;y<c[1]+d.height+1;y++)
                     graph.map[y][x].isCorridor = true;
         }
         
-        private void unmark(Integer[] c, Dimension d, Integer n, Integer[][] coords){
+        protected void unmark(Integer[] c, Dimension d, Integer n, Integer[][] coords){
             for(int x=c[0]-1;x<c[0]+d.width+1;x++)
                 for(int y=c[1]-1;y<c[1]+d.height+1;y++)
                     graph.map[y][x].isCorridor = false;
@@ -189,15 +189,106 @@ public abstract class RoomStructure extends Area{
         
     }
     
-    public static class Labyrinth extends RoomStructure{
+    public static class Labyrinth extends Cave{
+        
+        private transient DrunkenCorridorBuilder dcb;
 
         public Labyrinth(Location loc, List<Room> list){
-            super(new Dimension(60, 60), loc, list);
+            super(loc, list);
+            dcb = new DrunkenCorridorBuilder(new Dimension(60,60), loc, 2, 500, 10.0, 0.25);
         }
 
         @Override
         public void generate(){
-            
+            map = dcb.build().map;
+            Room r;
+            Integer[][] coords = planRooms();
+            for(int i=0;i<rooms.size();i++){
+                r = rooms.get(i);
+                blitDirty(r, coords[i][0], coords[i][1]);
+                if(r.oriented||r instanceof PreDoored){
+                    if(r.orientation%2==0)
+                        doorifySpecial(coords[i][0], coords[i][1], r.dimension.width, r.dimension.height);
+                    else doorifySpecial(coords[i][0], coords[i][1], r.dimension.height, r.dimension.width);
+                }else{
+                    if(r.orientation%2==0)
+                        doorify(coords[i][0], coords[i][1], r.dimension.width, r.dimension.height);
+                    else doorify(coords[i][0], coords[i][1], r.dimension.height, r.dimension.width);
+                }
+            }
+        }
+        
+        private Integer[][] planRooms(){
+            rooms.sort((r, r1) -> new Integer(r1.dimension.width*r1.dimension.height).compareTo(r.dimension.width*r.dimension.height));
+            rooms.stream().forEach(r -> {
+                r.orientation = Distribution.r.nextInt(4);
+            });
+            Dimension d;
+            Integer n = 0;
+            int i;
+            Integer[][] coords = new Integer[rooms.size()][2];
+            while(n<rooms.size()){
+                d = getDimension(rooms.get(n));
+                for(i=0;i<10;i++){
+                    Integer[] point = generatePoint(d, rooms.get(n));
+                    if(spaceFree(point, d)){
+                        mark(point, d, n, coords);
+                        n++;
+                        break;
+                    }
+                }
+                if(i>9){
+                    n--;
+                    unmark(coords[n], d, n, coords);
+                }
+            }
+            return coords;
+        }
+        
+        private void doorify(int _x, int _y, int w, int h){
+            for(int x=_x+1;x<_x+w-1;x++){
+                try{
+                    if(map[_y-1][x].treadable) map[_y][x] = new Door(location);
+                }catch(NullPointerException | ArrayIndexOutOfBoundsException e){}
+                try{
+                    if(map[_y+h+1][x].treadable) map[_y][x] = new Door(location);
+                }catch(NullPointerException | ArrayIndexOutOfBoundsException e){}
+            }
+            for(int y=_y+1;y<_y+h-1;y++){
+                try{
+                    if(map[y][_x-1].treadable) map[_y][_x] = new Door(location);
+                }catch(NullPointerException | ArrayIndexOutOfBoundsException e){}
+                try{
+                    if(map[y][_x+w+1].treadable) map[_y][_x] = new Door(location);
+                }catch(NullPointerException | ArrayIndexOutOfBoundsException e){}
+            }
+        }
+        
+        private void doorifySpecial(int _x, int _y, int w, int h){
+            for(int x=_x+1;x<_x+w-1;x++){
+                try{
+                    if(map[_y-1][x].treadable) map[_y][x] = Tile.floor(location);
+                }catch(NullPointerException | ArrayIndexOutOfBoundsException e){}
+                try{
+                    if(map[_y+h+1][x].treadable) map[_y][x] = Tile.floor(location);
+                }catch(NullPointerException | ArrayIndexOutOfBoundsException e){}
+            }
+            for(int y=_y+1;y<_y+h-1;y++){
+                try{
+                    if(map[y][_x-1].treadable) map[_y][_x] = Tile.floor(location);
+                }catch(NullPointerException | ArrayIndexOutOfBoundsException e){}
+                try{
+                    if(map[y][_x+w+1].treadable) map[_y][_x] = Tile.floor(location);
+                }catch(NullPointerException | ArrayIndexOutOfBoundsException e){}
+            }
+        }
+
+        protected Integer[] generatePoint(Dimension d, Room r){
+            if(r.oriented||r instanceof PreDoored)
+                return new Integer[]{6+Distribution.r.nextInt(dimension.width-12-d.width),
+                6+Distribution.r.nextInt(dimension.height-12-d.height)};
+            else return new Integer[]{Distribution.r.nextInt(dimension.width-d.width),
+                Distribution.r.nextInt(dimension.height-d.height)};
         }
     
     }
