@@ -159,12 +159,16 @@ public class Point implements Serializable{
      * @param area
      */
     public void paint(Graphics g, int _x, int _y, Area area){
-        if(cameFrom==null && this instanceof Waypoint) g.setColor(Color.WHITE);
+        /*if(cameFrom==null && this instanceof Waypoint) g.setColor(Color.WHITE);
         else if(this instanceof Waypoint) g.setColor(Color.BLUE);
         else if(cameFrom==null) g.setColor(Color.BLACK);
         else if(checked==null) g.setColor(Color.RED);
         else g.setColor(Color.YELLOW);
-        g.fillOval(_x+4, _y+4, 8, 8);
+        g.fillOval(_x+4, _y+4, 8, 8);*/
+        if(isCorridor){
+            g.setColor(Color.BLUE);
+            g.fillOval(_x+4, _y+4, 8, 8);
+        }
     }
     
 }

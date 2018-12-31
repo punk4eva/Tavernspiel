@@ -78,7 +78,7 @@ public final class Game extends Main{
         h.add(RoomBuilder.laboratory(Location.SHKODER_LOCATION, 0));
         h.add(RoomBuilder.itemless(Location.SHKODER_LOCATION, 0));
         h.add(RoomBuilder.magicWellRoom(Location.SHKODER_LOCATION, 0));
-        RoomStructure r = new RoomStructure.Labyrinth(Location.SHKODER_LOCATION, h);
+        RoomStructure r = new RoomStructure.Cavern(Location.SHKODER_LOCATION, h, true);
         r.generate();
         game.currentArea = r;
         //game.currentArea = new AreaGrower(new Dimension(80,80), Location.SHKODER_LOCATION, 0.375,  3,9,  4,9,  4, true).simulate();

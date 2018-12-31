@@ -22,7 +22,10 @@ import java.util.LinkedList;
 import java.util.List;
 import level.RoomBuilder.PreDoored;
 import logic.Distribution;
+import pathfinding.AreaGrower;
 import pathfinding.Graph;
+import pathfinding.Point;
+import pathfinding.Searcher;
 import pathfinding.generation.DrunkenCorridorBuilder;
 import tiles.Tile;
 import tiles.assets.Door;
@@ -206,7 +209,7 @@ public abstract class RoomStructure extends Area{
             for(int i=0;i<rooms.size();i++){
                 r = rooms.get(i);
                 blitDirty(r, coords[i][0], coords[i][1]);
-                if(r.oriented||r instanceof PreDoored){
+                /*if(r.oriented||r instanceof PreDoored){
                     if(r.orientation%2==0)
                         doorifySpecial(coords[i][0], coords[i][1], r.dimension.width, r.dimension.height);
                     else doorifySpecial(coords[i][0], coords[i][1], r.dimension.height, r.dimension.width);
@@ -214,7 +217,7 @@ public abstract class RoomStructure extends Area{
                     if(r.orientation%2==0)
                         doorify(coords[i][0], coords[i][1], r.dimension.width, r.dimension.height);
                     else doorify(coords[i][0], coords[i][1], r.dimension.height, r.dimension.width);
-                }
+                }*/
             }
         }
         
@@ -289,6 +292,89 @@ public abstract class RoomStructure extends Area{
                 6+Distribution.r.nextInt(dimension.height-12-d.height)};
             else return new Integer[]{Distribution.r.nextInt(dimension.width-d.width),
                 Distribution.r.nextInt(dimension.height-d.height)};
+        }
+    
+    }
+    
+    public static class Cavern extends Cave{
+        
+        private transient AreaGrower ag;
+        private transient boolean paths;
+
+        public Cavern(Location loc, List<Room> list, boolean p){
+            super(loc, list);
+            ag = new AreaGrower(dimension, loc, 0.375,  3,9,  4,9,  4, true);
+            paths = p;
+        }
+
+        @Override
+        public void generate(){
+            map = ag.simulate().map;
+            rooms.sort((r, r1) -> new Integer(r1.dimension.width*r1.dimension.height).compareTo(r.dimension.width*r.dimension.height));
+            rooms.stream().forEach(r -> {
+                r.orientation = Distribution.r.nextInt(4);
+            });
+            Dimension d;
+            Integer n = 0;
+            int i;
+            Integer[][] coords = new Integer[rooms.size()][2];
+            while(n<rooms.size()){
+                d = getDimension(rooms.get(n));
+                for(i=0;i<10;i++){
+                    Integer[] point = generatePoint(d);
+                    if(spaceFree(point, d)){
+                        mark(point, d, n, coords);
+                        n++;
+                        break;
+                    }
+                }
+                if(i>9){
+                    n--;
+                    unmark(coords[n], d, n, coords);
+                }
+            }
+            Room r;
+            for(i=0;i<rooms.size();i++){
+                r = rooms.get(i);
+                if(!(r.oriented||r instanceof PreDoored)) r.addDoors();
+                blitDirty(r, coords[i][0], coords[i][1]);
+                d = getDimension(r);
+                shaveBufferMarks(coords[i][0], coords[i][1], d.width, d.height);
+            }
+            Point centre = getFreePoint();
+            graph.recalculateWaypoints(this);
+            Searcher searcher = new Searcher(graph, this);
+            searcher.structuredFloodfill(centre);
+            buildPaths();
+        }
+        
+        private Point getFreePoint(){
+            while(true){
+                Integer[] c = new Integer[]{3+Distribution.r.nextInt(dimension.width-12),
+                        3+Distribution.r.nextInt(dimension.height-12)};
+                if(!graph.map[c[1]][c[0]].isCorridor) return graph.map[c[1]][c[0]];
+            }
+        }
+        
+        private void shaveBufferMarks(int _x, int _y, int w, int h){
+            for(int x=_x-1;x<_x+w+1;x++){
+                graph.map[_y-1][x].isCorridor = false;
+                graph.map[_y+h][x].isCorridor = false;
+            }
+            for(int y=_y;y<_y+h;y++){
+                graph.map[y][_x-1].isCorridor = false;
+                graph.map[y][_x+w].isCorridor = false;
+            }
+        }
+        
+        private void buildPaths(){
+            for(Point p : graph.waypoints){
+                while(p.cameFrom!=null){
+                    p = p.cameFrom;
+                    if(paths) map[p.y][p.x] = new Tile("specialfloor", location, true, false, true);
+                    else map[p.y][p.x] = Tile.floor(location);
+                }
+            }
         }
     
     }

@@ -75,6 +75,30 @@ public class Searcher implements Serializable{
     }
     
     /**
+     * Flood fills the Searcher's graph using a breadth first search and avoids
+     * corridors.
+     * @param start The starting point.
+     */
+    public void structuredFloodfill(Point start){
+        graph.reset();
+        frontier.clear();
+        start.isCorridor = true;
+        frontier.add(start);
+        int nx, ny;
+        while(!frontier.isEmpty()){
+            Point p = frontier.poll();
+            for(Direction dir : DIRECTIONS){
+                nx = p.x+dir.x;
+                ny = p.y+dir.y;
+                try{ if(graph.map[ny][nx].cameFrom==null&&!graph.map[ny][nx].isCorridor){
+                    graph.map[ny][nx].cameFrom = p;
+                    frontier.add(graph.map[ny][nx]);
+                }}catch(ArrayIndexOutOfBoundsException | NullPointerException e){}
+            }
+        }
+    }
+    
+    /**
      * Flood fills the Searcher's graph using a breadth first search prioritizing
      * based on the Searcher's comparator in PriorityQueue.
      * @param start The starting point.

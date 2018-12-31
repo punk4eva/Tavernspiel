@@ -50,6 +50,20 @@ public class Graph implements Serializable{
     }
     
     /**
+     * Recalculates what WayPoints there are on the area.
+     * @param area
+     */
+    public void recalculateWaypoints(Area area){
+        LinkedList<Waypoint> wps = new LinkedList<>();
+        for(int y=0;y<map.length;y++) for(int x=0;x<map[0].length;x++)
+            if(area.map[y][x]!=null&&(area.map[y][x] instanceof Door || area.map[y][x] instanceof Barricade)){
+                map[y][x] = new Waypoint(x, y);
+                wps.add((Waypoint)map[y][x]);
+            }
+        waypoints = wps.toArray(new Waypoint[wps.size()]);
+    }
+    
+    /**
      * Returns the closest WayPoint to the given coordinates.
      * @param x
      * @param y
