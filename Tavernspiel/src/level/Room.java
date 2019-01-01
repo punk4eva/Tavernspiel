@@ -9,9 +9,10 @@ import java.awt.Dimension;
 import java.util.List;
 import java.util.function.Predicate;
 import logic.Distribution;
-import tiles.assets.Barricade;
+import logic.Utils.Unfinished;
 import tiles.assets.Door;
 import tiles.Tile;
+import tiles.assets.Barricade;
 
 /**
  *
@@ -119,6 +120,7 @@ public class Room extends Area{
      * What do you think?
      * @param doorNum The number of doors (random if left blank).
      */
+    @Unfinished("May be more efficient to handle locked doors separately.")
     protected void addDoors(int... doorNum){
         Distribution yDistrib = new Distribution(new double[]{0, dimension.height-1});
         Distribution xDistrib = new Distribution(new double[]{0, dimension.width-1});
@@ -253,6 +255,48 @@ public class Room extends Area{
      */
     public PhysicalReceptacle getReceptacle(){
         return receptacles.get(0);
+    }
+    
+    /**
+     * Finds the coordinates of the first door found.
+     * (For use with oriented rooms)
+     * @return
+     */
+    public Integer[] findDoor(){
+        int x=1;
+        for(;x<dimension.width-1;x++)
+            if(map[0][x] instanceof Door || map[0][x] instanceof Barricade) break;
+        switch(orientation){
+            case 0: return new Integer[]{x, dimension.height-1};
+            case 1: return new Integer[]{dimension.height-1, x};
+            case 2: return new Integer[]{x, 0};
+            default: return new Integer[]{0, x};
+        }
+    }
+    
+    /**
+     * Adds doors to the room so that they are compatible with the Labyrinth 
+     * generation algorithm.
+     */
+    protected void addLabyrinthDoors(){
+        Distribution yDistrib = new Distribution(new double[]{0, dimension.height-1});
+        Distribution xDistrib = new Distribution(new double[]{0, dimension.width-1});
+        int numDoors = (int)new Distribution(new double[]{1,2,3,4,5,6},
+                new int[]{3,4,6,4,2,1}).next();
+        while(numDoors>0){
+            int x, y;
+            if(Distribution.chance(1, 2)){
+                x = 1 + Distribution.r.nextInt(Math.floorDiv(dimension.width-1, 2))*2;
+                y = (int) yDistrib.next();
+            }else{
+                y = 1 + Distribution.r.nextInt(Math.floorDiv(dimension.height-1, 2))*2;
+                x = (int) xDistrib.next();
+            }
+            if(map[y][x].equals("wall")||map[y][x].equals("specialwall")){
+                numDoors--;
+                map[y][x] = new Door(location);
+            }
+        }
     }
     
 }

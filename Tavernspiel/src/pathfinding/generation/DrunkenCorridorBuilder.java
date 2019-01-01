@@ -15,16 +15,16 @@
  */
 package pathfinding.generation;
 
-import java.awt.Dimension;
 import java.util.LinkedList;
 import level.Area;
-import level.Location;
 import logic.Distribution;
 import static logic.Distribution.r;
 import pathfinding.Graph;
 import pathfinding.Point;
 import pathfinding.Point.Direction;
 import tiles.Tile;
+import tiles.assets.Barricade;
+import tiles.assets.Door;
 
 /**
  *
@@ -38,18 +38,23 @@ public class DrunkenCorridorBuilder{
     private final int stepSize;
     private int iterNum;
     private final double gaussianQuotient, splitChance;
+    private int[] coords;
     
-    public DrunkenCorridorBuilder(Dimension dim, Location loc, int sD, int it, double gQ, double sC){
-        area = new Area(dim, loc);
-        area.graph = graph = new Graph(area, null);
+    public DrunkenCorridorBuilder(Area _area, int sD, int it, double gQ, double sC, int... c){
+        area = _area;
+        if(area.graph==null) area.graph = graph = new Graph(area, null);
+        else graph = area.graph;
         stepSize = sD;
         iterNum = it;
         gaussianQuotient = gQ;
         splitChance = sC;
+        coords = c;
     }
     
     public Area build(){
-        Point z = graph.map[r.nextInt(area.dimension.height/2)+area.dimension.height/4][r.nextInt(area.dimension.width/2)+area.dimension.width/4], p;
+        Point z, p;
+        if(coords==null) z = graph.map[r.nextInt(area.dimension.height/2)+area.dimension.height/4][r.nextInt(area.dimension.width/2)+area.dimension.width/4];
+        else z = graph.map[coords[1]][coords[0]];
         z.isCorridor = true;
         LinkedList<Point> branches = new LinkedList<>();
         branches.add(z);
@@ -132,14 +137,52 @@ public class DrunkenCorridorBuilder{
         return Math.pow(Math.E, -(Math.pow(p.x-area.dimension.width/2, 2)+Math.pow(p.y-area.dimension.height/2, 2))/gaussianQuotient);
     }
     
-    /*private void fillDeadEnds(){
-        for(int y=0;y<area.dimension.height;y++){
-            for(int x=0;x<area.dimension.width;x++){ try{
-                if(area.map[y][x]==null&&(!area.map[y-1][x].treadable&&!area.map[y+1][x].treadable||
-                        !area.map[y][x-1].treadable&&!area.map[y][x+1].treadable))
-                    area.map[y][x] = Tile.wall(area.location, x, y);
-            }catch(NullPointerException | ArrayIndexOutOfBoundsException e){}}
+    public void fillExistingArea(){
+        Point p, z = graph.map[coords[1]][coords[0]];
+        z.isCorridor = true;
+        LinkedList<Point> branches = new LinkedList<>();
+        branches.add(z);
+        while(!branches.isEmpty()){
+            p = branches.remove(Distribution.r.nextInt(branches.size()));
+            LinkedList<Point> possible = new LinkedList<>();
+            for(Direction dir : Point.Direction.values()){ try{
+                Point np = graph.map[stepSize*dir.y+p.y][stepSize*dir.x+p.x];
+                np = getStructuralPoint(np, p); 
+                if(np!=null) possible.add(np);
+            }catch(ArrayIndexOutOfBoundsException e){}}
+            if(possible.isEmpty()){
+                if(p.cameFrom!=null) branches.add(p.cameFrom);
+            }else{
+                Point np = decidePoint(possible);
+                np.cameFrom = p;
+                np.isCorridor = true;
+                branches.add(np);
+                iterNum--;
+                if(iterNum<0) break;
+                if(Distribution.r.nextDouble()<splitChance) branches.add(p);
+            }
         }
-    }*/
+        buildCorridors();
+    }
+    
+    private Point getStructuralPoint(Point p, Point came){
+        if(((p.x <= 0 || p.x >= area.dimension.width-1) || p.y <= 0)||p.y>=area.dimension.height-1) return null;
+        if(!p.isCorridor) return p;
+        return getDoorIntercept(p, came);
+    }
+    
+    private Point getDoorIntercept(Point a, Point b){
+        if(a.x!=b.x) for(int x=Math.min(a.x, b.x);x<=Math.max(a.x, b.x);x++)
+            if(area.map[a.y][x] instanceof Door || area.map[a.y][x] instanceof Barricade){
+                if(b.x>a.x) return graph.map[a.y][x+1];
+                return graph.map[a.y][x-1];
+            }
+        else for(int y=Math.min(a.y, b.y);y<=Math.max(a.y, b.y);y++)
+            if(area.map[y][a.x] instanceof Door || area.map[y][a.x] instanceof Barricade){
+                if(b.y>a.y) return graph.map[y+1][a.x];
+                return graph.map[y-1][a.x];
+            }
+        return null;
+    }
     
 }

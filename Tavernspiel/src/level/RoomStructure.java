@@ -45,6 +45,17 @@ public abstract class RoomStructure extends Area{
     
     public abstract void generate();
     
+    protected void shaveBufferMarks(int _x, int _y, int w, int h){
+            for(int x=_x-1;x<_x+w+1;x++){
+                graph.map[_y-1][x].isCorridor = false;
+                graph.map[_y+h][x].isCorridor = false;
+            }
+            for(int y=_y;y<_y+h;y++){
+                graph.map[y][_x-1].isCorridor = false;
+                graph.map[y][_x+w].isCorridor = false;
+            }
+        }
+    
     public static class Hallway extends RoomStructure{
         
         private final List<Room> rooms1 = new LinkedList<>();
@@ -198,27 +209,22 @@ public abstract class RoomStructure extends Area{
 
         public Labyrinth(Location loc, List<Room> list){
             super(loc, list);
-            dcb = new DrunkenCorridorBuilder(new Dimension(60,60), loc, 2, 500, 10.0, 0.25);
+            dcb = new DrunkenCorridorBuilder(this, 4, 500, 10.0, 0.25, 1,1);
         }
 
         @Override
         public void generate(){
-            map = dcb.build().map;
             Room r;
+            Dimension d;
             Integer[][] coords = planRooms();
             for(int i=0;i<rooms.size();i++){
                 r = rooms.get(i);
+                if(!(r.oriented || r instanceof PreDoored)) r.addLabyrinthDoors();
                 blitDirty(r, coords[i][0], coords[i][1]);
-                /*if(r.oriented||r instanceof PreDoored){
-                    if(r.orientation%2==0)
-                        doorifySpecial(coords[i][0], coords[i][1], r.dimension.width, r.dimension.height);
-                    else doorifySpecial(coords[i][0], coords[i][1], r.dimension.height, r.dimension.width);
-                }else{
-                    if(r.orientation%2==0)
-                        doorify(coords[i][0], coords[i][1], r.dimension.width, r.dimension.height);
-                    else doorify(coords[i][0], coords[i][1], r.dimension.height, r.dimension.width);
-                }*/
+                d = getDimension(r);
+                shaveBufferMarks(coords[i][0], coords[i][1], d.width, d.height);
             }
+            dcb.fillExistingArea();
         }
         
         private Integer[][] planRooms(){
@@ -247,51 +253,22 @@ public abstract class RoomStructure extends Area{
             }
             return coords;
         }
-        
-        private void doorify(int _x, int _y, int w, int h){
-            for(int x=_x+1;x<_x+w-1;x++){
-                try{
-                    if(map[_y-1][x].treadable) map[_y][x] = new Door(location);
-                }catch(NullPointerException | ArrayIndexOutOfBoundsException e){}
-                try{
-                    if(map[_y+h+1][x].treadable) map[_y][x] = new Door(location);
-                }catch(NullPointerException | ArrayIndexOutOfBoundsException e){}
-            }
-            for(int y=_y+1;y<_y+h-1;y++){
-                try{
-                    if(map[y][_x-1].treadable) map[_y][_x] = new Door(location);
-                }catch(NullPointerException | ArrayIndexOutOfBoundsException e){}
-                try{
-                    if(map[y][_x+w+1].treadable) map[_y][_x] = new Door(location);
-                }catch(NullPointerException | ArrayIndexOutOfBoundsException e){}
-            }
-        }
-        
-        private void doorifySpecial(int _x, int _y, int w, int h){
-            for(int x=_x+1;x<_x+w-1;x++){
-                try{
-                    if(map[_y-1][x].treadable) map[_y][x] = Tile.floor(location);
-                }catch(NullPointerException | ArrayIndexOutOfBoundsException e){}
-                try{
-                    if(map[_y+h+1][x].treadable) map[_y][x] = Tile.floor(location);
-                }catch(NullPointerException | ArrayIndexOutOfBoundsException e){}
-            }
-            for(int y=_y+1;y<_y+h-1;y++){
-                try{
-                    if(map[y][_x-1].treadable) map[_y][_x] = Tile.floor(location);
-                }catch(NullPointerException | ArrayIndexOutOfBoundsException e){}
-                try{
-                    if(map[y][_x+w+1].treadable) map[_y][_x] = Tile.floor(location);
-                }catch(NullPointerException | ArrayIndexOutOfBoundsException e){}
-            }
-        }
 
         protected Integer[] generatePoint(Dimension d, Room r){
-            if(r.oriented||r instanceof PreDoored)
-                return new Integer[]{6+Distribution.r.nextInt(dimension.width-12-d.width),
-                6+Distribution.r.nextInt(dimension.height-12-d.height)};
-            else return new Integer[]{Distribution.r.nextInt(dimension.width-d.width),
-                Distribution.r.nextInt(dimension.height-d.height)};
+            if(r.oriented||r instanceof PreDoored) return generateSpecialPoint(d, r);
+            else return new Integer[]{2+Distribution.r.nextInt((dimension.width-d.width-3)/2)*2,
+                    2+Distribution.r.nextInt((dimension.height-d.height-3)/2)*2};
+        }
+        
+        protected Integer[] generateSpecialPoint(Dimension d, Room r){
+            Integer[] door = r.findDoor();
+            if(r.orientation%2==0){
+                return new Integer[]{3+Distribution.r.nextInt((dimension.width-12-d.width)/2)*2+door[0]%2,
+                    3+Distribution.r.nextInt((dimension.height-12-d.height)/2)*2+d.height%2};
+            }else{
+                return new Integer[]{3+Distribution.r.nextInt((dimension.width-12-d.width)/2)*2+d.width%2,
+                    3+Distribution.r.nextInt((dimension.height-12-d.height)/2)*2+door[1]%2}; 
+            }
         }
     
     }
@@ -353,17 +330,6 @@ public abstract class RoomStructure extends Area{
                 Integer[] c = new Integer[]{3+Distribution.r.nextInt(dimension.width-12),
                         3+Distribution.r.nextInt(dimension.height-12)};
                 if(!graph.map[c[1]][c[0]].isCorridor) return graph.map[c[1]][c[0]];
-            }
-        }
-        
-        private void shaveBufferMarks(int _x, int _y, int w, int h){
-            for(int x=_x-1;x<_x+w+1;x++){
-                graph.map[_y-1][x].isCorridor = false;
-                graph.map[_y+h][x].isCorridor = false;
-            }
-            for(int y=_y;y<_y+h;y++){
-                graph.map[y][_x-1].isCorridor = false;
-                graph.map[y][_x+w].isCorridor = false;
             }
         }
         
