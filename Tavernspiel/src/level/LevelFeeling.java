@@ -3,6 +3,7 @@ package level;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Function;
 import level.RoomDistribution.MakeRoom;
 import logic.Distribution;
 
@@ -20,8 +21,9 @@ public final class LevelFeeling{
     public final List<MakeRoom> forcedRooms;
     public final boolean waterBeforeGrass;
     public final int difficulty, visibility;
+    public final Function<List<Room>, RoomStructure> structure;
     
-    private LevelFeeling(String desc, String bgp, Distribution room, Distribution itRoom,
+    private LevelFeeling(String desc, String bgp, Function<List<Room>, RoomStructure> struct, Distribution room, Distribution itRoom,
             Distribution trapVis, Distribution trap, Distribution wC,
             Distribution gC, Distribution guc, Distribution wallCh,
             Distribution floorCh, Distribution dhc, Distribution recDist,
@@ -47,6 +49,7 @@ public final class LevelFeeling{
         wandWoodChance = wandWC;
         visibility = vis;
         receptacleDist = recDist;
+        structure = struct;
     }
     
     public static final Distribution feelingDist = new Distribution(new int[]{11,3,3,1,2});
@@ -65,7 +68,7 @@ public final class LevelFeeling{
     
     
     public static final LevelFeeling STANDARD = new LevelFeeling(null,
-            "Cyanoshrooms.wav",
+            "Cyanoshrooms.wav", null,
             new Distribution(new int[]{20,11,13,3,1,5,6,13,10,4,2,3,3,1,2,3}), 
             new Distribution(new int[]{1,4,6,2}), new Distribution(1, 5),
             new Distribution(1, 35), new Distribution(1, 25),
@@ -75,7 +78,7 @@ public final class LevelFeeling{
             new Distribution(new int[]{}), new Distribution(new int[]{}), 
             true, 1, 6);
     public static final LevelFeeling GRASS = new LevelFeeling(
-            "Thick vegetation hides your surroundings...", "Cyanoshrooms.wav",
+            "Thick vegetation hides your surroundings...", "Cyanoshrooms.wav", null,
             new Distribution(new int[]{16,8,12,6,1,6,7,11,12,8,3,4,4,2,3,1}), 
             new Distribution(new int[]{1,5,7,1}), new Distribution(2, 9),
             new Distribution(1, 30), new Distribution(1, 28),
@@ -85,7 +88,7 @@ public final class LevelFeeling{
             new Distribution(new int[]{}), new Distribution(new int[]{}), 
             false, 1, 5);
     public static final LevelFeeling WATER = new LevelFeeling(
-            "Your feet feel wet...", "Cyanoshrooms.wav",
+            "Your feet feel wet...", "Cyanoshrooms.wav", null,
             new Distribution(new int[]{22,12,12,1,1,4,5,14,8,2,3,2,2,1,1,4}), 
             new Distribution(new int[]{2,3,5,3}), new Distribution(1, 6),
             new Distribution(1, 38), new Distribution(1, 16),
@@ -96,7 +99,7 @@ public final class LevelFeeling{
             true, 1, 6);
     public static final LevelFeeling BURIED_CITY = new LevelFeeling(
             "This looks like the ruins of an ancient civilization...",
-            "Cyanoshrooms.wav",
+            "Cyanoshrooms.wav", null,
             new Distribution(new int[]{13,6,4,6,2,8,11,20,12,5,6,9,9,3,5,2}), 
             new Distribution(new int[]{1,1,1,6}), new Distribution(1, 20),
             new Distribution(1, 27), new Distribution(1, 27),
@@ -106,7 +109,7 @@ public final class LevelFeeling{
             new Distribution(new int[]{}), new Distribution(new int[]{}), 
             false, 1, 6);
     public static final LevelFeeling BURNED = new LevelFeeling(
-            "The smell of ash wafts into your nose...", "Cyanoshrooms.wav",
+            "The smell of ash wafts into your nose...", "Cyanoshrooms.wav", null,
             new Distribution(new int[]{21,12,15,1,1,5,3,13,13,12,1,1,1,1,2,1}), 
             new Distribution(new int[]{1,4,4,2}), new Distribution(2, 9),
             new Distribution(1, 40), new Distribution(1, 32),

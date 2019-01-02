@@ -22,11 +22,12 @@ import java.util.LinkedList;
 import java.util.List;
 import level.RoomBuilder.PreDoored;
 import logic.Distribution;
-import pathfinding.AreaGrower;
+import pathfinding.generation.AreaGrower;
 import pathfinding.Graph;
 import pathfinding.Point;
 import pathfinding.Searcher;
 import pathfinding.generation.DrunkenCorridorBuilder;
+import pathfinding.generation.SpiderCorridorBuilder;
 import tiles.Tile;
 import tiles.assets.Door;
 
@@ -131,8 +132,8 @@ public abstract class RoomStructure extends Area{
     
     public static class Cave extends RoomStructure{
 
-        public Cave(Location loc, List<Room> list){
-            super(new Dimension(60, 60), loc, list);
+        public Cave(Dimension dim, Location loc, List<Room> list){
+            super(dim, loc, list);
             graph = new Graph(this, null);
         }
 
@@ -148,7 +149,7 @@ public abstract class RoomStructure extends Area{
             Integer[][] coords = new Integer[rooms.size()][2];
             while(n<rooms.size()){
                 d = getDimension(rooms.get(n));
-                for(i=0;i<10;i++){
+                for(i=0;i<15;i++){
                     Integer[] point = generatePoint(d);
                     if(spaceFree(point, d)){
                         mark(point, d, n, coords);
@@ -208,7 +209,7 @@ public abstract class RoomStructure extends Area{
         private transient DrunkenCorridorBuilder dcb;
 
         public Labyrinth(Location loc, List<Room> list){
-            super(loc, list);
+            super(new Dimension(60,60), loc, list);
             dcb = new DrunkenCorridorBuilder(this, 4, 500, 10.0, 0.25, 1,1);
         }
 
@@ -279,7 +280,7 @@ public abstract class RoomStructure extends Area{
         private transient boolean paths;
 
         public Cavern(Location loc, List<Room> list, boolean p){
-            super(loc, list);
+            super(new Dimension(60,60), loc, list);
             ag = new AreaGrower(dimension, loc, 0.375,  3,9,  4,9,  4, true);
             paths = p;
         }
@@ -341,6 +342,25 @@ public abstract class RoomStructure extends Area{
                     else map[p.y][p.x] = Tile.floor(location);
                 }
             }
+        }
+    
+    }
+    
+    public static class SpiderCorridor extends Cave{
+        
+        private transient SpiderCorridorBuilder scb;
+        public transient boolean[][] corridors;
+
+        public SpiderCorridor(Dimension dim, Location loc, List<Room> list, int windyness, boolean decayActive){
+            super(dim, loc, list);
+            scb = new SpiderCorridorBuilder(this, windyness, decayActive);
+        }
+
+        @Override
+        public void generate(){
+            super.generate();
+            graph.recalculateWaypoints(this);
+            corridors = scb.build();
         }
     
     }

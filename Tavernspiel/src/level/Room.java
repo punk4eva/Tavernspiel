@@ -120,23 +120,9 @@ public class Room extends Area{
      * What do you think?
      * @param doorNum The number of doors (random if left blank).
      */
-    @Unfinished("May be more efficient to handle locked doors separately.")
     protected void addDoors(int... doorNum){
         Distribution yDistrib = new Distribution(new double[]{0, dimension.height-1});
         Distribution xDistrib = new Distribution(new double[]{0, dimension.width-1});
-        if(locked){
-            int x, y;
-            if(Distribution.chance(1, 2)){
-                x = Distribution.getRandomInt(1, dimension.width-2);
-                y = (int) yDistrib.next();
-            }else{
-                y = Distribution.getRandomInt(1, dimension.height-2);
-                x = (int) xDistrib.next();
-            }
-            map[y][x] = new Door(location, true, false, KeyType.IRON);
-            System.out.println("LOCKED");
-            return;
-        }
         int numDoors = doorNum.length==0 ? (int)new Distribution(new double[]{1,2,3,4,5,6},
                 new int[]{3,4,6,4,2,1}).next() : doorNum[0];
         int failed = 0;
@@ -160,6 +146,18 @@ public class Room extends Area{
                 }else failed++;
             }
         }
+    }
+    
+    protected void addLockedDoor(){
+        int x, y;
+        if(Distribution.chance(1, 2)){
+            x = Distribution.getRandomInt(1, dimension.width-2);
+            y = (int) new Distribution(new double[]{0, dimension.height-1}).next();
+        }else{
+            y = Distribution.getRandomInt(1, dimension.height-2);
+            x = (int) new Distribution(new double[]{0, dimension.width-1}).next();
+        }
+        map[y][x] = new Door(location, true, false, KeyType.IRON);
     }
     
     /**

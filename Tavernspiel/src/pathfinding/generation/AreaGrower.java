@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package pathfinding;
+package pathfinding.generation;
 
 import java.awt.Dimension;
 import level.Area;
 import level.Location;
 import logic.Distribution;
+import pathfinding.Graph;
+import pathfinding.Point;
 import tiles.Tile;
 
 /**

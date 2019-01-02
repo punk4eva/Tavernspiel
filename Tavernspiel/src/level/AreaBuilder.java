@@ -16,6 +16,7 @@ import logic.Distribution;
 import pathfinding.generation.WanderingCorridorBuilder;
 import pathfinding.Graph;
 import pathfinding.Point;
+import pathfinding.generation.SpiderCorridorBuilder;
 import tiles.assets.Barricade;
 import tiles.assets.Door;
 
@@ -62,12 +63,13 @@ public class AreaBuilder implements Serializable{
     protected Area load(RoomDistribution roomDist, int depth){
         location.feeling = LevelFeeling.getRandomFeeling();
         location.depth = depth;
-        Area area = new Area(new Dimension(80, 80), location);
         List<Room> rooms = roomDist.generate(forcedItems, forcedRooms, depth, location.feeling);
-        rooms.stream().forEach(r -> selectAndBlit(area, r));
-        boolean[][] corridors = new WanderingCorridorBuilder(area).build();
+        RoomStructure area;
+        if(location.feeling.structure==null) area = location.structure.apply(rooms);
+        else area = location.feeling.structure.apply(rooms);
+        area.generate();
         area.addDeco();
-        area.graph = new Graph(area, corridors);
+        area.graph = new Graph(area, null);
         Main.addMessage(ConstantFields.interestColor, location.feeling.description);
         
         return area;

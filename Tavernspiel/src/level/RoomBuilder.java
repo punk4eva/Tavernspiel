@@ -50,6 +50,8 @@ public abstract class RoomBuilder{
     
     public static Room standardLocked(Location loc, int depth){
         Room ret = Room.genStandard(loc, new Key(depth), ItemMap.standardItemMap);
+        ret.map[ret.dimension.height-1][Distribution.r.nextInt(ret.dimension.width-2)+1] = new Door(loc, true, false, KeyType.IRON);
+        ret.oriented = true;
         ret.randomlyPlop();
         return ret;
     }
@@ -476,6 +478,7 @@ public abstract class RoomBuilder{
         return ret;
     }
     
+    @Unfinished("Handle orientation")
     private static void circle(Room room, int x, int y, Location loc){
         room.map[y-1][x-1] = new ShadedTile("nw", loc);
         room.map[y-1][x] = new ShadedTile("n", loc);

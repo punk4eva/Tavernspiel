@@ -187,6 +187,13 @@ public class Area implements Serializable{
                 map[rec.y][rec.x].interactable = (Interactable) rec;
             return rec;
         }).collect(Collectors.toList()));
+        if(area.startCoords!=null){
+            startCoords = new Integer[]{xOrient(o,area.startCoords[0],area.startCoords[1],w,h)+x1, yOrient(o,area.startCoords[0],area.startCoords[1],w,h)+y1};
+            ((DepthEntrance) map[startCoords[1]][startCoords[0]]).currentArea = this;
+        }else if(area.endCoords!=null){
+            endCoords = new Integer[]{xOrient(o,area.endCoords[0],area.endCoords[1],w,h)+x1, yOrient(o,area.endCoords[0],area.endCoords[1],w,h)+y1};
+            ((DepthExit) map[endCoords[1]][endCoords[0]]).setArea(this);
+        }
     }
     
     private int getApparentOrientation(Area area){
