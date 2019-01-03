@@ -58,7 +58,6 @@ public class RoomDistribution{
         List<Item> leftovers = new LinkedList<>();
         forcedRooms.stream().map((m) -> m.make(location, depth)).forEach((r) -> {
             forcedItems.removeAll(r.items());
-            if(!r.oriented) r.addDoors();
             rooms.add(r);
             if(r.locked) leftovers.add(r.key);
         });
@@ -66,14 +65,12 @@ public class RoomDistribution{
         leftovers.clear();
         forcedItems.stream().map((i) -> populateForcedItems(i, depth, itemRoomAlgs, feeling.itemRoomDist)).forEach((r) -> {
             if(r.locked) leftovers.add(r.key);
-            if(!r.oriented) r.addDoors();
             rooms.add(r);
         });
         int freeRooms = 0;
         for(roomNum -= rooms.size();roomNum>0;roomNum--){
             Room r = roomAlgs.get((int)feeling.roomDist.next()).make(location, depth);
             if(r.locked) leftovers.add(r.key);
-            if(!r.oriented) r.addDoors();
             rooms.add(0, r);
             freeRooms++;
         }
@@ -86,7 +83,6 @@ public class RoomDistribution{
                 r = roomAlgs.get((int)feeling.roomDist.next()).make(location, depth);
             }while(r.locked);
             r.randomlyPlop(leftovers);
-            if(!r.oriented) r.addDoors();
             rooms.add(r);
         }
         return rooms;
