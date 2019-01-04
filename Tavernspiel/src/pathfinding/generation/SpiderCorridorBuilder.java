@@ -163,7 +163,12 @@ public class SpiderCorridorBuilder{
      */
     public boolean[][] build(){
         SpiderCorridorAlgorithm sca = new SpiderCorridorAlgorithm(windyness);
-        sca.checkedFloodfill(getFreePoint());
+        Point p = getFreePoint();
+        sca.checkedFloodfill(p);
+        if(area.map[p.y-1][p.x-1]==null) area.map[p.y-1][p.x-1] = Tile.wall(area.location, p.x-1, p.y-1);
+        if(area.map[p.y-1][p.x+1]==null) area.map[p.y-1][p.x+1] = Tile.wall(area.location, p.x+1, p.y-1);
+        if(area.map[p.y+1][p.x-1]==null) area.map[p.y+1][p.x-1] = Tile.wall(area.location, p.x-1, p.y+1);
+        if(area.map[p.y+1][p.x+1]==null) area.map[p.y+1][p.x+1] = Tile.wall(area.location, p.x+1, p.y+1);
         for(Waypoint w : area.graph.waypoints) buildCorridor(w);
         if(decayActive) growCavities();
         return corridors;

@@ -164,7 +164,6 @@ public class ImageUtils{
     
     public static BufferedImage convertToBuffered(ImageIcon image){
         Image img = image.getImage();
-        if(img instanceof BufferedImage) return (BufferedImage) img;
         BufferedImage bi = new BufferedImage(image.getIconWidth(), image.getIconHeight(),
             BufferedImage.TYPE_INT_ARGB);
         Graphics g = bi.createGraphics();

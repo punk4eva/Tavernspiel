@@ -9,7 +9,6 @@ import java.awt.Dimension;
 import java.util.List;
 import java.util.function.Predicate;
 import logic.Distribution;
-import logic.Utils.Unfinished;
 import tiles.assets.Door;
 import tiles.Tile;
 import tiles.assets.Barricade;

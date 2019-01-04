@@ -39,6 +39,7 @@ import tiles.assets.Door;
 import tiles.assets.Water;
 import static gui.mainToolbox.MouseInterpreter.xOrient;
 import static gui.mainToolbox.MouseInterpreter.yOrient;
+import listeners.RotatableTile;
 
 /**
  *
@@ -170,8 +171,10 @@ public class Area implements Serializable{
      */
     protected void blitDirty(Area area, int x1, int y1){
         int o = getApparentOrientation(area), w = area.dimension.width, h = area.dimension.height;
-        for(int y=0;y<h;y++) for(int x=0;x<w;x++)
+        for(int y=0;y<h;y++) for(int x=0;x<w;x++){
             map[yOrient(o,x,y,w,h)+y1][xOrient(o,x,y,w,h)+x1] = area.map[y][x];
+            if(area.map[y][x] instanceof RotatableTile) ((RotatableTile) area.map[y][x]).rotateImage(o);
+        }
         objects.addAll(area.objects.stream().map(ob -> {
             int temp = y1 + yOrient(o,ob.x,ob.y,w,h);
             ob.x = x1 + xOrient(o,ob.x,ob.y,w,h);

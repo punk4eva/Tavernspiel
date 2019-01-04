@@ -10,6 +10,7 @@ import java.io.ObjectInputStream;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
 import level.Location;
+import listeners.RotatableTile;
 import listeners.StepListener;
 import logic.ImageUtils;
 import tiles.Tile;
@@ -18,7 +19,7 @@ import tiles.Tile;
  *
  * @author Adam Whittaker
  */
-public class Bed extends Tile implements StepListener, Serializable{
+public class Bed extends Tile implements StepListener, RotatableTile, Serializable{
     
     private final int rotation;
     private final String locName;
@@ -27,14 +28,16 @@ public class Bed extends Tile implements StepListener, Serializable{
         super(na+num, loc, true, true, true);
         locName = loc.name;
         rotation = rot;
-        rotate();
+        rotateImage(rotation);
     }
     
-    private void rotate(){
+    @Override
+    public final void rotateImage(int q){
         BufferedImage ret = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = (Graphics2D) ret.getGraphics();
-        AffineTransform t = AffineTransform.getQuadrantRotateInstance(rotation);
-        g.drawRenderedImage(ImageUtils.convertToBuffered(image), t);
+        AffineTransform t = AffineTransform.getQuadrantRotateInstance(q);
+        g.transform(t);
+        g.drawImage(image.getImage(), t, null);
         image = new ImageIcon(ret);
     }
 
@@ -48,7 +51,7 @@ public class Bed extends Tile implements StepListener, Serializable{
             throws IOException, ClassNotFoundException{
         in.defaultReadObject();
         image = Location.locationMap.get(locName).getImage(name);
-        rotate();
+        rotateImage(rotation);
     }
     
 }

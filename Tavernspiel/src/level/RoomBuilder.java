@@ -13,13 +13,18 @@ import items.ItemMap;
 import items.misc.Key;
 import items.misc.Key.KeyType;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import javax.swing.ImageIcon;
 import static level.Dungeon.potionBuilder;
+import listeners.RotatableTile;
 import logic.Distribution;
 import logic.ImageHandler;
+import logic.ImageUtils;
 import logic.Utils;
 import logic.Utils.Unfinished;
 import pathfinding.generation.MazeBuilder;
@@ -275,13 +280,16 @@ public abstract class RoomBuilder{
                 break;
             }
         }while(minDistance(x1,y1,x2,y2)<3 || minDistance(x2,y2,x3,y3)<3 || minDistance(x1,y1,x3,y3)<3);
-        if(x3==-1) do{
-            x1 = Distribution.getRandomInt(2, room.dimension.width-3);
-            y1 = Distribution.getRandomInt(2, room.dimension.height-3);
-            x2 = Distribution.getRandomInt(2, room.dimension.width-3);
-            y2 = Distribution.getRandomInt(2, room.dimension.height-3);
-        }while(minDistance(x1,y1,x2,y2)<3);
-        else{
+        if(x3==-1){
+            attempts=0;
+            do{
+                x1 = Distribution.getRandomInt(2, room.dimension.width-3);
+                y1 = Distribution.getRandomInt(2, room.dimension.height-3);
+                x2 = Distribution.getRandomInt(2, room.dimension.width-3);
+                y2 = Distribution.getRandomInt(2, room.dimension.height-3);
+                attempts++;
+            }while(minDistance(x1,y1,x2,y2)<2&&attempts<40);
+        }else{
             room.map[y3][x3] = new Tile("pedestal", loc, true, false, true);
             circle(room, x3, y3, loc);
         }
@@ -519,7 +527,7 @@ public abstract class RoomBuilder{
     }
     
     
-    private static final class ShadedTile extends Tile implements Serializable{
+    private static final class ShadedTile extends Tile implements RotatableTile, Serializable{
         
         String locName;
         
@@ -538,6 +546,16 @@ public abstract class RoomBuilder{
                 throws IOException, ClassNotFoundException{
             Location loc = Location.locationMap.get(locName);
             image = addShaders(loc.getImage("specialfloor"), name, loc);
+        }
+
+        @Override
+        public void rotateImage(int r){
+            BufferedImage ret = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g = (Graphics2D) ret.getGraphics();
+            AffineTransform t = AffineTransform.getQuadrantRotateInstance(r);
+            g.transform(t);
+            g.drawImage(image.getImage(), t, null);
+            image = new ImageIcon(ret);
         }
         
     }
