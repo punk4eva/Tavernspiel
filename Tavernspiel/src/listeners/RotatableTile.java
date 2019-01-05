@@ -15,10 +15,6 @@
  */
 package listeners;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.WritableRaster;
-import javax.swing.ImageIcon;
-
 /**
  *
  * @author Adam Whittaker

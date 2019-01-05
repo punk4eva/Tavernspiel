@@ -24,7 +24,6 @@ import static level.Dungeon.potionBuilder;
 import listeners.RotatableTile;
 import logic.Distribution;
 import logic.ImageHandler;
-import logic.ImageUtils;
 import logic.Utils;
 import logic.Utils.Unfinished;
 import pathfinding.generation.MazeBuilder;
@@ -552,7 +551,7 @@ public abstract class RoomBuilder{
         public void rotateImage(int r){
             BufferedImage ret = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
             Graphics2D g = (Graphics2D) ret.getGraphics();
-            AffineTransform t = AffineTransform.getQuadrantRotateInstance(r);
+            AffineTransform t = AffineTransform.getRotateInstance(-r*Math.PI/4d, 8, 8);
             g.transform(t);
             g.drawImage(image.getImage(), t, null);
             image = new ImageIcon(ret);

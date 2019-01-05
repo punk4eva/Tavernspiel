@@ -12,7 +12,6 @@ import javax.swing.ImageIcon;
 import level.Location;
 import listeners.RotatableTile;
 import listeners.StepListener;
-import logic.ImageUtils;
 import tiles.Tile;
 
 /**
@@ -35,7 +34,7 @@ public class Bed extends Tile implements StepListener, RotatableTile, Serializab
     public final void rotateImage(int q){
         BufferedImage ret = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = (Graphics2D) ret.getGraphics();
-        AffineTransform t = AffineTransform.getQuadrantRotateInstance(q);
+        AffineTransform t = AffineTransform.getRotateInstance(-q*Math.PI/4d, 8, 8);
         g.transform(t);
         g.drawImage(image.getImage(), t, null);
         image = new ImageIcon(ret);
