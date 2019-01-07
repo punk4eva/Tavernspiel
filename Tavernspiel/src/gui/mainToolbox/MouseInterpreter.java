@@ -199,16 +199,16 @@ public class MouseInterpreter extends MouseAdapter{
             }
         }else if(gui.hudClear()){
             if(xOfDrag == -1){
-                xOfDrag = me.getX() - focusX;
-                yOfDrag = me.getY() - focusY;        
+                xOfDrag = (int)((double)me.getX()/zoom) - focusX;
+                yOfDrag = (int)((double)me.getY()/zoom) - focusY;        
             }
             /*int tempx, tempy;
             tempx = me.getX() - xOfDrag;
             tempy = me.getY() - yOfDrag;
             focusX = tempx>minFX ? (tempx<maxFX ? tempx : maxFX) : minFX;
             focusY = tempy>minFY ? (tempy<maxFY ? tempy : maxFY) : minFY;*/
-            focusX = me.getX() - xOfDrag;
-            focusY = me.getY() - yOfDrag;
+            focusX = (int)((double)me.getX()/zoom) - xOfDrag;
+            focusY = (int)((double)me.getY()/zoom) - yOfDrag;
         }
     }
     

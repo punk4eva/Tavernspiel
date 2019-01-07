@@ -37,6 +37,18 @@ public class AreaGrower{
     private int iterNum;
     private final boolean aliveEdges;
     
+    /**
+     * Creates a new instance.
+     * @param dim The Dimension of the Area.
+     * @param loc The Location of the Area.
+     * @param sC The chance for a tile to start alive.
+     * @param miL The starvation limit (inclusive).
+     * @param maL The overpopulation limit (inclusive).
+     * @param bMi The lower birth limit (inclusive).
+     * @param bMa The upper birth limit (inclusive).
+     * @param it The amount of iteration.
+     * @param aE Whether to treat edges as alive.
+     */
     public AreaGrower(Dimension dim, Location loc, double sC, int miL, int maL, int bMi, int bMa, int it, boolean aE){
         area = new Area(dim, loc);
         area.graph = graph = new Graph(area, null);
