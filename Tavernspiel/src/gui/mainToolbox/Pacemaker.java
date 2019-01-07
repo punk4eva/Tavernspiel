@@ -25,7 +25,7 @@ public class Pacemaker implements Runnable{
     public Pacemaker(Main m){
         main = m;
         renderThread = new Thread(this, "Render Thread");
-        setDelay(1000L/60L);
+        setDelay(1000L/1000L);
     }
     
     public void start(){

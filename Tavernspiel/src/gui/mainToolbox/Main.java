@@ -163,7 +163,7 @@ public abstract class Main extends Canvas implements Runnable, Page{
     }
     
     /**
-     * Sets the focus directly (top-left rather than center).
+     * Sets the focus directly (top-left rather than centre).
      * @param x The x pixel
      * @param y The y pixel
      */
@@ -255,6 +255,7 @@ public abstract class Main extends Canvas implements Runnable, Page{
         }
     }
         
+    private transient int fx, fy;
     /**
      * Paints the given area on the given graphics.
      * @thread render
@@ -262,11 +263,13 @@ public abstract class Main extends Canvas implements Runnable, Page{
      * @param g The graphics to paint on.
      */
     public void paintArea(Area area, Graphics2D g){
+        fx = focusX;
+        fy = focusY;
         g.setColor(ConstantFields.exploredColor);
         //g.setTransform(AffineTransform.getQuadrantRotateInstance(area.orientation, focusX+area.dimension.width, focusY+area.dimension.height));
-        for(int y=focusY, maxY=focusY+area.dimension.height*16;y<maxY;y+=16){
-            for(int x=focusX, maxX=focusX+area.dimension.width*16;x<maxX;x+=16){
-                int tx = (x-focusX)/16, ty = (y-focusY)/16;
+        for(int y=fy, maxY=fy+area.dimension.height*16;y<maxY;y+=16){
+            for(int x=fx, maxX=fx+area.dimension.width*16;x<maxX;x+=16){
+                int tx = (x-fx)/16, ty = (y-fy)/16;
                 try{
                     if(x<0||y<0||x*zoom>WIDTH||y*zoom>HEIGHT) continue;
                     if(area.debugMode){
