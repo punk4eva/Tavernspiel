@@ -25,7 +25,7 @@ public class PageFlipper{
     public PageFlipper(Main m){
         main = m;
         cursor = Toolkit.getDefaultToolkit().createCustomCursor(
-            new ImageIcon("C:\\Users\\Adam\\Documents\\NetBeansProjects\\Tavernspiel\\Tavernspiel\\Tavernspiel\\graphics\\tilesets\\sink.png").getImage(), new Point(0, 0), "NORMAL CURSOR");
+            new ImageIcon("graphics\\gui\\cursors\\neutralCursor.png").getImage(), new Point(0, 0), "NEUTRAL CURSOR");
         m.setCursor(cursor);
     }
     
