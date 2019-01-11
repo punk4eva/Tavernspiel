@@ -47,7 +47,7 @@ public abstract class Main extends Canvas implements Runnable, Page{
             performanceStream = new PrintStream(new File("log/performance.txt"));
         }catch(FileNotFoundException e){
             System.err.println("PrintStream failed.");
-        }
+        }        
     }
 
     protected volatile boolean running = false;

@@ -2,6 +2,10 @@
 package gui.mainToolbox;
 
 import gui.pages.LoadingPage;
+import java.awt.Cursor;
+import java.awt.Point;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -12,6 +16,7 @@ import gui.pages.LoadingPage;
 public class PageFlipper{
     
     private final Main main;
+    private Cursor cursor;
     
     /**
      * Creates an instance.
@@ -19,6 +24,9 @@ public class PageFlipper{
      */
     public PageFlipper(Main m){
         main = m;
+        cursor = Toolkit.getDefaultToolkit().createCustomCursor(
+            new ImageIcon("C:\\Users\\Adam\\Documents\\NetBeansProjects\\Tavernspiel\\Tavernspiel\\Tavernspiel\\graphics\\tilesets\\sink.png").getImage(), new Point(0, 0), "NORMAL CURSOR");
+        m.setCursor(cursor);
     }
     
     /**
