@@ -31,6 +31,7 @@ import javax.swing.ImageIcon;
 import logic.ConstantFields;
 import logic.ImageUtils;
 import logic.Utils.Unfinished;
+import static gui.mainToolbox.MouseInterpreter.zoom;
 
 /**
  *
@@ -80,7 +81,7 @@ public class Hero extends Creature{
             }else{
                 moving[1] += moving[5];
                 moving[2] += moving[6];
-                Window.main.setDirectFocus(focusX-(int)moving[5], focusY-(int)moving[6]);
+                Window.main.setDirectFocus(focusX-(int)((double)moving[5]/zoom), focusY-(int)((double)moving[6]/zoom));
                 animator.animate(g, c[0], c[1]);
             }
         }

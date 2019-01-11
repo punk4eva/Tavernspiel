@@ -20,7 +20,7 @@ public class MouseInterpreter extends MouseAdapter{
     
     public volatile static int focusX=16, focusY=16;
     private int xOfDrag=-1, yOfDrag=-1, maxFX, maxFY, minFX, minFY;
-    protected static double zoom = 1.0;
+    public static double zoom = 1.0;
     public static final double MAX_ZOOM = 8.0, MIN_ZOOM = 0.512;
     public static final int MOVE_RESOLUTION = 4;
     
