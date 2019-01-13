@@ -83,8 +83,8 @@ public class MouseInterpreter extends MouseAdapter{
      * @param ty The y coordinate of the click.
      * @return An int array representing the on-screen coordinates.
      */
-    public static Integer[] tileToPixel(double tx, double ty){
-        return new Integer[]{(int)((16D*tx+8D+focusX)*zoom), (int)((16D*ty+8D+focusY)*zoom)};
+    public static Integer[] tileToPixel(int tx, int ty){
+        return new Integer[]{16*tx+8+focusX, 16*ty+8+focusY};
     }
     
     /**
@@ -108,7 +108,7 @@ public class MouseInterpreter extends MouseAdapter{
     }
     
     /**
-     * Sets the focus directly (top-left rather than center).
+     * Sets the focus directly (top-left rather than centre).
      * @param x The x pixel
      * @param y The y pixel
      */
