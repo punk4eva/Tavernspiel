@@ -1,6 +1,3 @@
 Inventory Dialogue Bug
 graphics fix
-Lag bug
 item spritesheet work
-Jitter bug
-Blit bug
