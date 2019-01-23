@@ -1,7 +1,10 @@
 
 package creatureLogic;
 
+import ai.PlayerAI;
 import creatures.Creature;
+import creatures.Hero;
+import dialogues.ItemDialogue;
 import gui.Window;
 import items.Item;
 import items.actions.ItemAction;
@@ -63,6 +66,58 @@ public abstract class Action implements Runnable{
         @Override
         public void run(){
             action.act(item, creature, x, y, slot, data);
+        }
+    
+    }
+    
+    /*public static class DialogueAction extends Action{
+        
+        private final Item item;
+        private final Hero hero;
+        private final int x, y, slot;
+        private final Object[] data;
+        
+        /**
+         *
+         * @param _i
+         * @param c
+         * @param _x
+         * @param _y
+         * @param _slot
+         * @param _data
+         */
+        /*public DialogueAction(Item _i, Hero c, int _x, int _y, int _slot, Object... _data){
+            item = _i;
+            hero = c;
+            x = _x;
+            y = _y;
+            slot = _slot;
+            data = _data;
+        }
+
+        @Override
+        public void run(){
+            ItemAction act = new ItemDialogue(item, hero.expertise).next();
+            turns = act.turnMult*hero.attributes.speed;
+            act.act(item, hero, x, y, slot, data);
+        }
+    
+    }*/
+    
+    public static class MoveAction extends Action{
+        
+        private final Integer[] dir;
+        private final Hero hero;
+        
+        public MoveAction(Hero h, Integer[] m){
+            dir = m;
+            hero = h;
+        }
+
+        @Override
+        public void run(){
+            ((PlayerAI)hero.attributes.ai).animateMotion(hero.x+dir[0], hero.y+dir[1]);
+            hero.changeAnimation("stand");
         }
     
     }

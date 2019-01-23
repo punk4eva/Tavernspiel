@@ -2,6 +2,8 @@
 package dialogues;
 
 import gui.Game;
+import gui.Window;
+import gui.mainToolbox.Screen;
 
 /**
  *
@@ -13,14 +15,11 @@ public class PauseMenu extends Dialogue{
     public PauseMenu(){
         super("PAUSE", "offCase", false, "Resume", "How to play", "Options", "Exit to menu");
     }
-    
-    /**
-     * Pauses the given Game.
-     * @param game The Game to pause.
-     */
-    public void next(Game game){
-        String ret = super.action(game).getName();
-        switch(ret){
+
+    @Override
+    public void screenClicked(Screen.ScreenEvent name){
+        Game game = (Game) Window.main;
+        switch(name.getName()){
             case "Options":
                 new OptionsMenu().next(game);
                 break;
@@ -33,4 +32,5 @@ public class PauseMenu extends Dialogue{
                 break;
         }
     }
+    
 }

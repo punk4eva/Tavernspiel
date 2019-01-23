@@ -3,6 +3,7 @@ package ai;
 
 import containers.PhysicalReceptacle;
 import creatureLogic.Action;
+import creatureLogic.Action.MoveAction;
 import creatureLogic.VisibilityOverlay;
 import creatures.Creature;
 import creatures.Hero;
@@ -42,9 +43,19 @@ public final class PlayerAI extends AITemplate implements KeyListener{
     public void turn(Creature c, Area area){
         if(nextAction!=null){
             nextAction.run();
-            nextAction.turns-=hero.attributes.speed;
-            if(nextAction.turns>0) hero.turndelta -= nextAction.turns;
-            else skipping += nextAction.turns;
+            if(nextAction.turns>=hero.attributes.speed){
+                nextAction.turns -= hero.attributes.speed;
+                if(nextAction.turns<=hero.turndelta){
+                    hero.turndelta -= nextAction.turns;
+                    unfinished = false;
+                }else{
+                    skipping += nextAction.turns - hero.turndelta;
+                    hero.turndelta = 0;
+                }
+            }else{
+                hero.turndelta += hero.attributes.speed - nextAction.turns;
+                unfinished = false;
+            }
             nextAction = null;
         }else if(skipping>0){
             skipping-=hero.attributes.speed;
@@ -67,15 +78,9 @@ public final class PlayerAI extends AITemplate implements KeyListener{
             currentPath.next();
         }
         Point next = currentPath.next();
-        BASEACTIONS.smootheRaw(hero, next.x, next.y);
-        waiting = true;
-        //hero.area.objectLock.unlock();
-        try{
-            while(waiting) wait();
-            //hero.area.objectLock.lock();
-        }catch(InterruptedException e){}
-        System.out.println("DONE WAITING");
-        BASEACTIONS.moveRaw(c, next.x, next.y);
+        
+        animateMotion(next.x, next.y);
+        
         if(!currentPath.hasNext()){
             currentPath = null;
             unfinished = false;
@@ -83,6 +88,18 @@ public final class PlayerAI extends AITemplate implements KeyListener{
             PhysicalReceptacle r = c.area.getReceptacle(next.x, next.y); 
             if(r!=null) r.interact(c, c.area);
         }else Window.main.addTurnsPassed(hero.attributes.speed);
+    }
+    
+    public synchronized void animateMotion(int x, int y){
+        BASEACTIONS.smootheRaw(hero, x, y);
+        waiting = true;
+        //hero.area.objectLock.unlock();
+        try{
+            while(waiting) wait();
+            //hero.area.objectLock.lock();
+        }catch(InterruptedException e){}
+        System.out.println("DONE WAITING");
+        BASEACTIONS.moveRaw(hero, x, y);
     }
     
     /**
@@ -109,6 +126,14 @@ public final class PlayerAI extends AITemplate implements KeyListener{
         notify();
     }
     
+    /**
+     * Notifies the turn thread that there is an action.
+     * @deprecated AWT-only
+     */
+    public void alertAction(){
+        Window.main.setTurnsPassed(nextAction.turns);
+    }
+    
     
     
     @Override
@@ -128,7 +153,9 @@ public final class PlayerAI extends AITemplate implements KeyListener{
             return;
         }else return;
         if(BASEACTIONS.canMove(hero, m)&&!hero.animatingMotion()){
-            hero.area.click(hero.x+m[0], hero.y+m[1]);
+            nextAction = new MoveAction(hero, m);
+            unfinished = true;
+            Window.main.setTurnsPassed(nextAction.turns);
         }
     }
 

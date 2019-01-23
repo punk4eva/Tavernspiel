@@ -19,19 +19,19 @@ import logic.ImageUtils;
 public class PassiveCreature extends Creature{
     
     public final String[] speechOptions;
-    public final boolean killable;
+    public final boolean mortal;
     
     public PassiveCreature(String name, boolean k, String... spo){
         super(name, new Description("creatures", ""), new Attributes(new PassiveAI(),1,1,1,1,0.025,20,10,0), 
                 new CreatureAnimator(ImageUtils.convertToBuffered(new ImageIcon("graphics/spritesheets/tree.png")), new String[]{"stand", "move", "attack", "die"}, new int[]{2, 4, 8, 5}));
         speechOptions = spo;
-        killable = k;
+        mortal = k;
     }
     
     @Override
     public void takeDamage(Attack attack){
         if(attack instanceof CreatureAttack && ((CreatureAttack)attack).attacker instanceof Hero){// new NPCSpeech(speechOptions[rand.nextInt(speechOptions.length)]).activate(Window.main);
-        }else if(killable){
+        }else if(mortal){
             attributes.hp -= attack.damage;
             if(attributes.hp<=0){
                 if(inventory.contains("ankh")){

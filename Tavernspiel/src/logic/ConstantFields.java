@@ -22,7 +22,7 @@ public interface ConstantFields{
     //misc text colors
     public static final Color textColor = Color.YELLOW;
     public static final Color backColor = Color.GRAY;
-    public static final Color frontColor = Color.MAGENTA;
+    public static final Color frontColor = new Color(140, 12, 63);
     public static final Font textFont = new Font(Font.SERIF, Font.PLAIN, 18);
     public static final Font smallTextFont = new Font(Font.SERIF, Font.PLAIN, 15);
     //fog of war colors

@@ -1,8 +1,6 @@
 
 package containers;
 
-import ai.PlayerAI;
-import creatureLogic.Action.ActionOnItem;
 import creatureLogic.QuickSlot;
 import creatures.Hero;
 import dialogues.ItemDialogue;
@@ -12,8 +10,6 @@ import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
 import items.Item;
 import java.awt.Graphics;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -39,7 +35,7 @@ public class HeroInventory extends Inventory{
     public final List<Screen> screens;
     public final Hero owner;
     public final QuickSlot quickslot;
-    public transient InventoryManager manager = new InventoryManager();
+    public InventoryManager manager = new InventoryManager();
     
     /**
      * Creates a new instance.
@@ -130,7 +126,7 @@ public class HeroInventory extends Inventory{
      */
     public class InventoryManager implements ScreenListener{
 
-        public ScreenListener hijacker;
+        public transient ScreenListener hijacker;
         public Predicate<Item> predicate = ConstantFields.truthPredicate;
         
         @Override
@@ -147,20 +143,18 @@ public class HeroInventory extends Inventory{
                     new MoneyDialogue(amountOfMoney).next();
                 else{
                     Item i = get(slot);
-                    if(i!=null&&predicate.test(i)) ((PlayerAI)owner.attributes.ai)
-                            .nextAction = new ActionOnItem(
-                                    new ItemDialogue(i, owner.expertise).next(),
-                                    i, owner, -1, -1, -1);
+                    if(i!=null&&predicate.test(i)) new ItemDialogue(i, owner, Integer.parseInt(slot)).next();
                 }
             }
         }
     
     }
     
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException{
+    //@Unfinished remove
+    /*private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException{
         in.defaultReadObject();
         manager = new InventoryManager();
         screens.forEach(s -> s.changeScreenListener(manager));
-    }
+    }*/
     
 }

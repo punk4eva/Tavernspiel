@@ -4,6 +4,7 @@ package dialogues;
 import gui.Game;
 import gui.mainToolbox.Main;
 import gui.Window;
+import gui.mainToolbox.Screen;
 
 /**
  *
@@ -23,10 +24,16 @@ public class ExceptionDialogue extends Dialogue{
     /**
      * Decides how to proceed at the given exception.
      */
+    @Override
     public synchronized void next(){
+        super.next();
         exception.printStackTrace(Main.exceptionStream);
+    }
+
+    @Override
+    public void screenClicked(Screen.ScreenEvent sc){
         Game game = (Game) Window.main;
-        switch(super.action(game).getName()){
+        switch(sc.getName()){
             case "abort":
                 game.save();
                 System.exit(-1);

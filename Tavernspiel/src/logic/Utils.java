@@ -1,12 +1,19 @@
 
 package logic;
 
+import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
 import gui.utils.CComponent;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.lang.annotation.Inherited;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import static logic.Distribution.r;
 
 /**
@@ -50,6 +57,14 @@ public final class Utils{
     private static int aboveAssist(double d, double inter){
         if((d-Math.floor(d))<inter) return (int)Math.floor(d);
         return (int)Math.ceil(d);
+    }
+
+    public static ImageIcon getBGI(String bgiPath){
+        ImageIcon img = new ImageIcon(bgiPath);
+        BufferedImage bi = new BufferedImage(Main.WIDTH, Main.HEIGHT, BufferedImage.TYPE_INT_RGB); //note no alpha
+        Graphics g = bi.createGraphics();
+        g.drawImage(img.getImage(), 0, 0, Main.WIDTH, Main.HEIGHT, null);
+        return new ImageIcon(bi);
     }
     
     private Utils(){}

@@ -6,6 +6,7 @@ import ai.PlayerAI;
 import containers.HeroInventory;
 import creatureLogic.Attributes;
 import creatures.Hero;
+import items.Apparatus;
 import java.awt.Dimension;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,8 +18,6 @@ import level.RoomBuilder;
 import level.RoomStructure;
 import logic.FileHandler;
 import logic.Utils.Unfinished;
-import pathfinding.generation.AreaGrower;
-import pathfinding.generation.DrunkenCorridorBuilder;
 
 /**
  *
@@ -81,6 +80,7 @@ public final class Game extends Main{
         RoomStructure r = new RoomStructure.SpiderCorridor(new Dimension(80, 80), Location.SHKODER_LOCATION, h);
         r.generate();
         game.currentArea = r;*/
+        game.currentArea.plop(Apparatus.getRandomMeleeWeapon(0, Location.SHKODER_LOCATION), game.player.x, game.player.y);
         //game.currentArea = new AreaGrower(new Dimension(80,80), Location.SHKODER_LOCATION, 0.375,  3,9,  4,9,  4, true).simulate();
         //game.player.setXY(game.currentArea.startCoords[0], game.currentArea.startCoords[1]);
         //game.save();

@@ -12,6 +12,8 @@ import creatures.Creature;
 import creatures.Hero;
 import designer.AreaTemplate;
 import gui.Window;
+import static gui.mainToolbox.Main.HEIGHT;
+import static gui.mainToolbox.Main.WIDTH;
 import items.Item;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -39,7 +41,10 @@ import tiles.assets.Door;
 import tiles.assets.Water;
 import static gui.mainToolbox.MouseInterpreter.xOrient;
 import static gui.mainToolbox.MouseInterpreter.yOrient;
+import static gui.mainToolbox.MouseInterpreter.zoom;
+import java.awt.Image;
 import listeners.RotatableTile;
+import logic.ConstantFields;
 
 /**
  *
@@ -69,7 +74,7 @@ public class Area implements Serializable{
     public int orientation = 0;
     
     @Unfinished("Remove debug")
-    public boolean debugMode = true;
+    public boolean debugMode = false;
     
     /**
      * Creates a new instance.
@@ -519,12 +524,45 @@ public class Area implements Serializable{
                     .interact(hero, hero.area, hero.x, hero.y);
     }
     
+    
+    /**
+     * Paints the given area on the given graphics.
+     * @thread render
+     * @param fx The focusX
+     * @param fy The focusY
+     * @param g The graphics to paint on.
+     */
+    public void paint(Graphics2D g, int fx, int fy){
+        g.setColor(ConstantFields.exploredColor);
+        for(int y=fy, maxY=fy+dimension.height*16;y<maxY;y+=16){
+            for(int x=fx, maxX=fx+dimension.width*16;x<maxX;x+=16){
+                int tx = (x-fx)/16, ty = (y-fy)/16;
+                try{
+                    if(x<0||y<0||x*zoom>WIDTH||y*zoom>HEIGHT) continue;
+                    if(debugMode){
+                        if(map[ty][tx]!=null) map[ty][tx].paint(g, x, y);
+                    }else{                  
+                        Image shade, exShade;
+                        if(overlay.isUnexplored(tx, ty)) continue;
+                        else shade = VisibilityOverlay.unexploredFog.getShadow(overlay.map, tx, ty, 0, true);
+                        if(map[ty][tx]!=null) map[ty][tx].paint(g, x, y);
+                        
+                        if(!overlay.isExplored(tx, ty))
+                            exShade = VisibilityOverlay.exploredFog.getShadow(overlay.map, tx, ty, 1, false);
+                        else exShade = VisibilityOverlay.exploredFog.getFullShader();
+                        if(exShade!=null) g.drawImage(exShade, x, y, null);
+                        if(shade!=null) g.drawImage(shade, x, y, null);
+                    }
+                }catch(ArrayIndexOutOfBoundsException e){/*Skip frame*/}
+            }
+        }
+    }
         
     
     /**
      * Generates water.
      */
-    private void water(){
+    private void generateWater(){
         for(int y=1;y<dimension.height-1;y++){
             for(int x=1;x<dimension.width-1;x++){
                 if(map[y][x]!=null&&map[y][x].equals("floor")&&location.feeling.waterGenChance.chance()){
@@ -551,7 +589,7 @@ public class Area implements Serializable{
     /**
      * Generates grass.
      */
-    private void grass(){
+    private void generateGrass(){
         for(int y=1;y<dimension.height-1;y++){
             for(int x=1;x<dimension.width-1;x++){
                 if(map[y][x]!=null&&map[y][x].equals("floor")&&location.feeling.grassGenChance.chance()){
@@ -638,11 +676,11 @@ public class Area implements Serializable{
      */
     public void addDeco(){
         if(location.feeling.waterBeforeGrass){
-            water();
-            grass();
+            generateWater();
+            generateGrass();
         }else{
-            grass();
-            water();
+            generateGrass();
+            generateWater();
         }
         addWaterShaders();
     }

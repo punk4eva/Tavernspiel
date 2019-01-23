@@ -2,7 +2,7 @@
 package dialogues;
 
 import buffs.Buff;
-import gui.Window;
+import gui.mainToolbox.Screen;
 
 /**
  *
@@ -16,9 +16,10 @@ public class BuffDialogue extends Dialogue{
         super(b.name, "offClick");
         buff = b;
     }
-    
-    public void next(){
-        action(Window.main);
+
+    @Override
+    public void screenClicked(Screen.ScreenEvent sc){
+        checkDeactivate(sc);
     }
     
 }

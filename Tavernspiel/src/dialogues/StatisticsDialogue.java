@@ -2,7 +2,7 @@
 package dialogues;
 
 import creatures.Hero;
-import gui.Window;
+import gui.mainToolbox.Screen;
 
 /**
  *
@@ -16,9 +16,10 @@ public class StatisticsDialogue extends Dialogue{
         super("Statistics", "offClick");
         hero = player;
     }
-    
-    public void next(){
-        action(Window.main);
+
+    @Override
+    public void screenClicked(Screen.ScreenEvent name){
+        checkDeactivate(name);
     }
     
 }

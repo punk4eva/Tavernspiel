@@ -2,7 +2,6 @@
 package gui.mainToolbox;
 
 import animation.MiscAnimator;
-import creatureLogic.VisibilityOverlay;
 import creatures.Hero;
 import dialogues.Dialogue;
 import gui.Viewable;
@@ -10,7 +9,6 @@ import gui.Window;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -18,7 +16,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import level.Area;
-import logic.ConstantFields;
 import logic.SoundHandler;
 import static gui.mainToolbox.MouseInterpreter.*;
 import gui.pages.Page;
@@ -211,15 +208,14 @@ public abstract class Main extends Canvas implements Runnable, Page{
         //@Unfinished
         TestUtil.setGraphics(g);
         
-        g.setColor(Color.black);
-        g.fillRect(0, 0, (int)(((double)WIDTH)/zoom), (int)(((double)HEIGHT)/zoom));
-        paintArea(currentArea, g);
+        currentArea.paint(g, focusX, focusY);
         currentArea.renderObjects(g, focusX, focusY);
         animator.animate(g, focusX, focusY);
         AffineTransform at = AffineTransform.getScaleInstance(zoom, zoom);
+        bsg.drawImage(currentArea.location.backgroundImage.getImage(), 0, 0, null);
         bsg.drawRenderedImage(buffer, at);
         gui.paint(bsg);
-        //@Unfinished
+        //@Unfinished debug
         //gui.paintScreens(bsg);
         
         g.dispose();
@@ -252,42 +248,6 @@ public abstract class Main extends Canvas implements Runnable, Page{
             running = false;
         }catch(InterruptedException e){
             e.printStackTrace(exceptionStream);
-        }
-    }
-        
-    private transient int fx, fy;
-    /**
-     * Paints the given area on the given graphics.
-     * @thread render
-     * @param area The area to paint.
-     * @param g The graphics to paint on.
-     */
-    public void paintArea(Area area, Graphics2D g){
-        fx = focusX;
-        fy = focusY;
-        g.setColor(ConstantFields.exploredColor);
-        //g.setTransform(AffineTransform.getQuadrantRotateInstance(area.orientation, focusX+area.dimension.width, focusY+area.dimension.height));
-        for(int y=fy, maxY=fy+area.dimension.height*16;y<maxY;y+=16){
-            for(int x=fx, maxX=fx+area.dimension.width*16;x<maxX;x+=16){
-                int tx = (x-fx)/16, ty = (y-fy)/16;
-                try{
-                    if(x<0||y<0||x*zoom>WIDTH||y*zoom>HEIGHT) continue;
-                    if(area.debugMode){
-                        if(area.map[ty][tx]!=null) area.map[ty][tx].paint(g, x, y);
-                    }else{                  
-                        Image shade, exShade;
-                        if(area.overlay.isUnexplored(tx, ty)) continue;
-                        else shade = VisibilityOverlay.unexploredFog.getShadow(area.overlay.map, tx, ty, 0, true);
-                        if(area.map[ty][tx]!=null) area.map[ty][tx].paint(g, x, y);
-                        
-                        if(!area.overlay.isExplored(tx, ty))
-                            exShade = VisibilityOverlay.exploredFog.getShadow(area.overlay.map, tx, ty, 1, false);
-                        else exShade = VisibilityOverlay.exploredFog.getFullShader();
-                        if(exShade!=null) g.drawImage(exShade, x, y, null);
-                        if(shade!=null) g.drawImage(shade, x, y, null);
-                    }
-                }catch(ArrayIndexOutOfBoundsException e){/*Skip frame*/}
-            }
         }
     }
     

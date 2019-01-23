@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.function.Function;
 import logic.ConstantFields;
 import logic.GameSettings;
+import logic.Utils;
 
 /**
  *
@@ -37,8 +38,8 @@ public abstract class Location{
     public int depth = 1;
     public final Region region;
     public final Function<List<Room>, RoomStructure> structure;
-    //@Unfinished
-    public final ImageIcon backgroundImage = null;
+
+    public final ImageIcon backgroundImage;
     
     public GrassAnimation lowGrass;
     public GrassAnimation highGrass;
@@ -47,7 +48,7 @@ public abstract class Location{
         KIRI(0, new Distribution(new int[]{})),
         KYOU(1, new Distribution(new int[]{})),
         SUDA(2, new Distribution(new int[]{10, 10, 12, 8, 6, 1, 2, 2})),
-        HURI(3, new Distribution(new int[]{}));
+        HURI(3, new Distribution(new int[]{8, 9, 10, 11, 6, 2, 1, 1}));
         
         final int code;
         final Distribution weaponRarities;
@@ -61,16 +62,18 @@ public abstract class Location{
      * Creates a new instance.
      * @param n The name.
      * @param tiles The tileset.
+     * @param bgiPath The path to the background image.
      * @param water The water gen. chance.
      * @param r The Region.
      * @param struct The room generation algorithm.
      */
-    public Location(String n, String tiles, String water, Region r, Function<List<Room>, RoomStructure> struct){
+    public Location(String n, String tiles, String bgiPath, String water, Region r, Function<List<Room>, RoomStructure> struct){
         name = n;
         waterImage = new ImageIcon("graphics/tilesets/"+water+".png");
         tileset = new ImageIcon("graphics/tilesets/"+tiles+".png");
         region = r;
         structure = struct;
+        backgroundImage = Utils.getBGI("graphics/background/"+bgiPath+".png");
     }
     
     
@@ -80,8 +83,8 @@ public abstract class Location{
      * @return
      */
     public HeldWeapon getRandomWeapon(){
-        switch(region.code){
-            case 0: switch((int)region.weaponRarities.next()){
+        switch(region){
+            case KIRI: switch((int)region.weaponRarities.next()){
                 case 0:
                 case 1:
                 case 2:
@@ -91,7 +94,7 @@ public abstract class Location{
                 case 6:
                 default:
             }
-            case 1: switch((int)region.weaponRarities.next()){
+            case KYOU: switch((int)region.weaponRarities.next()){
                 case 0:
                 case 1:
                 case 2:
@@ -101,7 +104,7 @@ public abstract class Location{
                 case 6:
                 default:
             }
-            case 2: switch((int)region.weaponRarities.next()){
+            case SUDA: switch((int)region.weaponRarities.next()){
                 case 0: return new Nunchaku();
                 case 1: return new Kama();
                 case 2: return new Tanto();
@@ -111,7 +114,7 @@ public abstract class Location{
                 case 6: return new Naginata();
                 default: return new Kusarigama();
             }
-            case 3: switch((int)region.weaponRarities.next()){
+            case HURI: switch((int)region.weaponRarities.next()){
                 case 0: return new Catnails();
                 case 1: return new CounterHammer();
                 case 2: return new Ulysses();
@@ -121,7 +124,7 @@ public abstract class Location{
                 case 6: return new GreatestSword();
                 default: return new FateScythe();
             }
-            default: return null;
+            default: throw new IllegalStateException("Invalid region");
         }
     }
     
@@ -175,7 +178,7 @@ public abstract class Location{
     
     
     public static final Location SHKODER_LOCATION = 
-            new Location("Shkoder", "shkoderTileset", "shkoderWater", Region.SUDA, (list) -> new RoomStructure.SpiderCorridor(new Dimension(80, 80), Location.SHKODER_LOCATION, list, 15, true)){
+            new Location("Shkoder", "shkoderTileset", "shkoderBackground", "shkoderWater", Region.HURI, (list) -> new RoomStructure.SpiderCorridor(new Dimension(80, 80), Location.SHKODER_LOCATION, list, 15, true)){
         @Override
         public Animation getWallAnimation(int x, int y){
             return new ParticleAnimation.NullAnimation();
@@ -196,7 +199,7 @@ public abstract class Location{
         SHKODER_LOCATION.roomDistrib = new RoomDistribution(SHKODER_LOCATION, 3, 12);
     }
     public static final Location INDOOR_CAVES_LOCATION = new Location(
-            "Indoor Caves", "indoorCavesTileset", "shkoderWater", Region.SUDA, null){
+            "Indoor Caves", "indoorCavesTileset", null, "shkoderWater", Region.SUDA, null){
         @Override
         public Animation getWallAnimation(int x, int y){
             return new ParticleAnimation.NullAnimation();
@@ -206,7 +209,7 @@ public abstract class Location{
         ImageHandler.initializeInteriorIcons(INDOOR_CAVES_LOCATION);
     }
     public static final Location VILLAGE1_LOCATION = new Location(
-            "Village1", "village1Tileset", "shkoderWater", Region.SUDA, null){
+            "Village1", "village1Tileset", null, "shkoderWater", Region.SUDA, null){
         @Override
         public Animation getWallAnimation(int x, int y){
             Integer[] c = MouseInterpreter.tileToPixel(x, y);
@@ -218,6 +221,8 @@ public abstract class Location{
     static{
         ImageHandler.initializeInteriorIcons(VILLAGE1_LOCATION);
     }
+    
+    
     public static final HashMap<String, Location> locationMap = new HashMap<>();
     static{
         locationMap.put("Shkoder", SHKODER_LOCATION);

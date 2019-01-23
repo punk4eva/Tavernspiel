@@ -43,12 +43,14 @@ public class MouseInterpreter extends MouseAdapter{
                 break;
             }
         }
-        if(notClicked){if(gui.hudClear()){
-            Integer[] p = pixelToTile(x, y);
-            if(Window.main.currentArea.tileFree(p[0], p[1])) Window.main.currentArea.click(p[0], p[1]);
-        }else{
-            gui.dialogue.clickedOff();
-        }}
+        if(notClicked){
+            if(gui.hudClear()){
+                Integer[] p = pixelToTile(x, y);
+                if(Window.main.currentArea.tileFree(p[0], p[1])) Window.main.currentArea.click(p[0], p[1]);
+            }else{
+                gui.dialogue.clickedOff();
+            }
+        }
     }
     @Override
     public void mouseReleased(MouseEvent me){

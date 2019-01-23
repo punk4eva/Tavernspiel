@@ -2,8 +2,7 @@
 package containers;
 
 import creatures.Hero;
-import dialogues.UnequipAmuletDialogue;
-import gui.Window;
+import dialogues.Dialogue;
 import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
 import items.Apparatus;
@@ -101,10 +100,10 @@ public class Equipment implements Serializable{
     /**
      * Equips a piece of equipment and returns what was displaced.
      * @param app The apparatus to equip.
-     * @param choiceOfAmulet The choice of amulet to remove should it come to it.
+     * @param choice The choice of amulet to remove should it come to it.
      * @return The apparatus that was displaced, null if nothing.
      */
-    public Apparatus equip(Apparatus app, int... choiceOfAmulet){
+    public Apparatus equip(Apparatus app, int... choice){
         if(app.durability<=0){
             Main.addMessage(ConstantFields.interestColor, "You cannot equip a "
                     + "broken item.");
@@ -144,11 +143,7 @@ public class Equipment implements Serializable{
             amulet2 = app;
             return null;
         }
-        int choice;
-        if(choiceOfAmulet.length==0)
-            choice = new UnequipAmuletDialogue(amulet1, amulet2).next(Window.main);
-        else choice = choiceOfAmulet[0];
-        if(choice==0){
+        if(choice[0]==0){
             ret = amulet1;
             amulet1 = app;
         }else{
@@ -240,5 +235,74 @@ public class Equipment implements Serializable{
         unequip(app);
         heroOwner.area.plop(app, heroOwner.x, heroOwner.y);
     }
+    
+    public class EquipApparatusDialogue extends Dialogue{
+
+        private final String opA;
+        public Apparatus reject, app;
+
+        /**
+         * Creates a new instance.
+         * @param a
+         */
+        public EquipApparatusDialogue(Apparatus a){
+            super("You can only wear two misc. items at a time, which do you want to"
+                    + "unequip?", (String) null, ((Apparatus) amulet1).toString(4), 
+                    ((Apparatus) amulet2).toString(4));
+            opA = ((Apparatus) amulet1).toString(4);
+            app = a;
+        }
+
+        @Override
+        public void next(){
+            if(app.durability<=0){
+                Main.addMessage(ConstantFields.interestColor, "You cannot equip a "
+                        + "broken item.");
+            }else{
+                app.setToEquipped(Equipment.this);
+                if(app instanceof HeldWeapon){
+                    reject = weapon;
+                    if(reject!=null) reject.setToUnequipped();
+                    weapon = (HeldWeapon) app;
+                }else if(app instanceof Helmet){
+                    reject = helmet;
+                    if(reject!=null) reject.setToUnequipped();
+                    helmet = (Helmet) app;
+                }else if(app instanceof Chestplate){
+                    reject = chestplate;
+                    if(reject!=null) reject.setToUnequipped();
+                    chestplate = (Chestplate) app;
+                }else if(app instanceof Leggings){
+                    reject = leggings;
+                    if(reject!=null) reject.setToUnequipped();
+                    leggings = (Leggings) app;
+                }else if(app instanceof Boots){
+                    reject = boots;
+                    if(reject!=null) reject.setToUnequipped();
+                    boots = (Boots) app;
+                }else if(amulet1==null){
+                    amulet1 = app;
+                }else if(amulet2==null){
+                    amulet2 = app;
+                }else{
+                    super.next();
+                }
+            }
+        }
+
+        @Override
+        public void screenClicked(Screen.ScreenEvent sc){
+            checkDeactivate(sc);
+            if(sc.getName()==null||sc.getName().equals("offCase")) app.setToUnequipped();
+            else if(sc.getName().equals(opA)){
+                reject = amulet1;
+                amulet1 = app;
+            }else{
+                reject = amulet2;
+                amulet2 = app;
+            }
+        }
+
+}
     
 }

@@ -17,6 +17,8 @@ public class TurnThread extends Thread{
 
     private volatile double turnsPassed = 0;
     
+    //private volatile boolean screensActive;
+    
     @Unfinished("Remove debugging")
     private boolean sleeping;
 
@@ -30,7 +32,7 @@ public class TurnThread extends Thread{
             sleeping = true;
             System.out.println("THREAD SLEEPING");
             try{
-                while(turnsPassed==0) this.wait();
+                while(turnsPassed==0/*&&!screensActive*/) this.wait();
             }catch(InterruptedException e){}
             System.out.println("THREAD AWOKEN");
             sleeping = false;
@@ -57,6 +59,7 @@ public class TurnThread extends Thread{
      * Wakes up the turn thread to run for a set amount of turns.
      * @param t The amount of turns expended.
      * @deprecated DANGEROUS: Only to be called by the key receiving AWT-thread.
+     * @unfinished unnecessary catch.
      */
     public synchronized void setTurnsPassed(double t){
         if(sleeping||((PlayerAI)Window.main.player.attributes.ai).unfinished){
@@ -73,5 +76,14 @@ public class TurnThread extends Thread{
         gameTurns += t;
         turnsPassed += t;
     }
+    
+    /*public synchronized void setScreensActive(boolean sc){
+        if(screensActive&&!sc){
+            screensActive = false;
+            notify();
+        }else if(!screensActive&&sc){
+            screensActive = true;
+        }
+    }*/
         
 }

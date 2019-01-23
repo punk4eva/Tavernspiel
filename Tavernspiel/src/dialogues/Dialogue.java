@@ -1,6 +1,7 @@
 
 package dialogues;
 
+import gui.Window;
 import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
 import gui.mainToolbox.Screen.ScreenEvent;
@@ -12,7 +13,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.Semaphore;
 import listeners.ScreenListener;
 import logic.ConstantFields;
 import logic.ImageUtils;
@@ -24,18 +24,16 @@ import logic.Utils;
  * 
  * An Option Dialogue.
  */
-public class Dialogue implements ScreenListener, KeyListener{
+public abstract class Dialogue implements ScreenListener, KeyListener{
     
     final String question;
     final CComponent[] options;
-    private ScreenEvent clickedScreen;
     private final List<Screen> screens;
     private final ScreenEvent offCase;
     private int height = -1;
     private final int padding = 8;
     private final int heightOfQuestion;
     private boolean clickOffable = true;
-    private final Semaphore semaphore = new Semaphore(0);
     
     /**
      * Creates a new Dialogue with the given options.
@@ -100,15 +98,8 @@ public class Dialogue implements ScreenListener, KeyListener{
         ImageUtils.drawString(g, question, 2*padding+beginWidth, beginHeight+2*padding);
     }
     
-    private void activate(Main main){
-        main.setDialogue(this);
-        screens.forEach((sc) -> {
-            if(sc instanceof CSlider.CSliderHandle) main.addDraggable(sc);
-        });
-    }
-    
-    private void deactivate(Main main){
-        main.setDialogue(null);
+    private void deactivate(){
+        Window.main.setDialogue(null);
     }
     
     /**
@@ -116,29 +107,23 @@ public class Dialogue implements ScreenListener, KeyListener{
      * @param main The MainClass to draw on.
      * @return The ScreenEvent that happened.
      */
-    public synchronized ScreenEvent action(Main main){
-        activate(main);
-        try{
-            semaphore.acquire();
-        }catch(InterruptedException ex){
-            ex.printStackTrace(Main.exceptionStream);
-        }
-        deactivate(main);
-        return clickedScreen;
+    public synchronized void next(){
+        Window.main.setDialogue(this);
+        screens.forEach((sc) -> {
+            if(sc instanceof CSlider.CSliderHandle) Window.main.addDraggable(sc);
+        });
     }
 
-    @Override
-    public void screenClicked(ScreenEvent sce){
-        clickedScreen = sce;
-        semaphore.release();
+    public void checkDeactivate(ScreenEvent sce){
+        if(!sce.equals(offCase)||clickOffable) deactivate();
     }
     
     /**
      * Notifies this Dialogue that the user clicked away.
      */
     public void clickedOff(){
-        clickedScreen = offCase;
-        if(clickOffable) semaphore.release();
+        screenClicked(offCase);
+        //if(clickOffable) semaphore.release();
     }
 
     private CButton[] getButtons(String[] strs){
@@ -174,11 +159,6 @@ public class Dialogue implements ScreenListener, KeyListener{
     @Override
     public void keyPressed(KeyEvent ke){}
     @Override
-    public synchronized void keyReleased(KeyEvent ke){
-        if(ke.getKeyCode()==KeyEvent.VK_ENTER){
-            clickedScreen = new ScreenEvent(options);
-            semaphore.release();
-        }
-    }
+    public void keyReleased(KeyEvent ke){}
     
 }

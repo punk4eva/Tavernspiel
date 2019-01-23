@@ -1,7 +1,7 @@
 
 package dialogues;
 
-import gui.Window;
+import gui.mainToolbox.Screen;
 
 /**
  *
@@ -9,19 +9,14 @@ import gui.Window;
  */
 public class MoneyDialogue extends Dialogue{
     
-    private static boolean online = false;
-    
     public MoneyDialogue(int amount){
         super("A pile of " + amount + " gold coins.\n\nGold is a "
                 + "precious resource and can be used to buy items." , "offCase");
     }
-    
-    public void next(){
-        if(!online){
-            online = true;
-            action(Window.main);
-            online = false;
-        }
+
+    @Override
+    public void screenClicked(Screen.ScreenEvent name){
+        checkDeactivate(name);
     }
     
 }
