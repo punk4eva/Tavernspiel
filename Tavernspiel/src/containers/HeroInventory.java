@@ -8,6 +8,7 @@ import dialogues.MoneyDialogue;
 import gui.Window;
 import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
+import items.Apparatus;
 import items.Item;
 import java.awt.Graphics;
 import java.util.LinkedList;
@@ -33,7 +34,6 @@ public class HeroInventory extends Inventory{
     private final static long serialVersionUID = 20432178497L;
     
     public final List<Screen> screens;
-    public final Hero owner;
     public final QuickSlot quickslot;
     public InventoryManager manager = new InventoryManager();
     
@@ -42,9 +42,8 @@ public class HeroInventory extends Inventory{
      * @param hero The owner.
      */
     public HeroInventory(Hero hero){
-        super();
+        super(hero);
         screens = getScreens();
-        owner = hero;
         quickslot = new QuickSlot(hero, this);
     }
     
@@ -87,7 +86,7 @@ public class HeroInventory extends Inventory{
             for(x=0;x<6&&n<size();x++){
                 ImageUtils.paintItemSquare(g, beginWidth+x*(padding+sqwidth), 
                         beginHeight+y*(padding+sqheight),
-                        sqwidth, sqheight, get(n), owner, pred);
+                        sqwidth, sqheight, get(n), (Hero) owner, pred);
                 n++;
             }
         }
@@ -143,18 +142,14 @@ public class HeroInventory extends Inventory{
                     new MoneyDialogue(amountOfMoney).next();
                 else{
                     Item i = get(slot);
-                    if(i!=null&&predicate.test(i)) new ItemDialogue(i, owner, Integer.parseInt(slot)).next();
+                    int sl;
+                    if(slot.startsWith("e")) sl = -10;
+                    else sl = Integer.parseInt(slot);
+                    if(i!=null&&predicate.test(i)) new ItemDialogue(i, (Hero)owner, sl).next();
                 }
             }
         }
     
     }
-    
-    //@Unfinished remove
-    /*private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException{
-        in.defaultReadObject();
-        manager = new InventoryManager();
-        screens.forEach(s -> s.changeScreenListener(manager));
-    }*/
     
 }

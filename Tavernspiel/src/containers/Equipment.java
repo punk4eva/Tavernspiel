@@ -159,15 +159,15 @@ public class Equipment implements Serializable{
      * @return
      */
     public Apparatus unequip(Apparatus app){
-        Apparatus i;
+        Apparatus i = null;
         if(app.equals(weapon)){ i = weapon; weapon = null;}
         else if(app.equals(amulet1)){ i = amulet1; amulet1 = null;}
         else if(app.equals(amulet2)){ i = amulet2; amulet2 = null;}
         else if(app.equals(helmet)){ i = helmet; helmet = null;}
         else if(app.equals(chestplate)){ i = chestplate; chestplate = null;}
         else if(app.equals(leggings)){ i = leggings; leggings = null;}
-        else{ i = boots; boots = null;}
-        i.setToUnequipped();
+        else if(app.equals(boots)){ i = boots; boots = null;}
+        if(i!=null) i.setToUnequipped();
         return i;
     }
 

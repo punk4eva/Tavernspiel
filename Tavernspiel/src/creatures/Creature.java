@@ -68,7 +68,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
     public Creature(String n, Description desc, Attributes atb, CreatureAnimator an){
         super(n, desc, an);
         attributes = atb;
-        inventory = new Inventory();
+        inventory = new Inventory(this);
         FOV = new FieldOfView(x, y, 6);
     }
     

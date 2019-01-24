@@ -36,9 +36,9 @@ public class LocationViewable implements Viewable, ScreenListener{
         listener = sl;
         int bw = Main.WIDTH/2-72, bh = Main.HEIGHT-64;
         screens = new LinkedList<>();
-        screens.add(new Screen("locationPopupX", bw+108, bh+8, 24, 24, listener));
-        screens.add(new Screen("locationPopup", bw, bh, 144, 48, listener));
-        screens.add(new Screen("backLocation", 0, 0, Main.WIDTH, Main.HEIGHT, listener));
+        screens.add(new Screen("locationPopupX", bw+108, bh+8, 24, 24, this));
+        screens.add(new Screen("locationPopup", bw, bh, 144, 48, this));
+        screens.add(new Screen("backLocation", 0, 0, Main.WIDTH, Main.HEIGHT, this));
     }
 
     @Override
@@ -62,6 +62,7 @@ public class LocationViewable implements Viewable, ScreenListener{
      * Changes the data.
      * @param l The ScreenListener
      * @param mes The message to display.
+     * @param a
      * @param c The predicate determining whether a tile is clickable.
      */
     public void setData(ScreenListener l, String mes, Creature a, ClickPredicate... c){
