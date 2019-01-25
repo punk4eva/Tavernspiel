@@ -4,11 +4,10 @@ package designer;
 import blob.ParticleAnimation;
 import blob.ParticleAnimation.Particle;
 import blob.particles.PowerParticle;
-import logic.FileHandler;
+import gui.Window;
 import gui.mainToolbox.Main;
 import static gui.mainToolbox.Main.HEIGHT;
 import static gui.mainToolbox.Main.WIDTH;
-import gui.Window;
 import gui.mainToolbox.MouseInterpreter;
 import items.builders.ItemBuilder;
 import java.awt.Color;
@@ -22,6 +21,7 @@ import java.awt.image.BufferStrategy;
 import java.util.HashMap;
 import java.util.Scanner;
 import javax.swing.SwingUtilities;
+import logic.FileHandler;
 
 /**
  *

@@ -148,7 +148,7 @@ public abstract class Dialogue implements ScreenListener, KeyListener{
     
     private List<Screen> convertCComponents(CComponent[] ary){
         LinkedList<Screen> lst = new LinkedList<>();
-        for(CComponent cc : ary) lst.add((CButton)cc);
+        for(CComponent cc : ary) lst.add((Screen)cc);
         lst.add(new Screen("blank click", Main.WIDTH/3, (Main.HEIGHT-height)/2, Main.WIDTH/3, height, this));
         lst.add(new Screen("/exit", 0, 0, Main.WIDTH, Main.HEIGHT, this));
         return lst;

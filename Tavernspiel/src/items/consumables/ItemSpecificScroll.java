@@ -3,9 +3,9 @@ package items.consumables;
 
 import creatures.Creature;
 import creatures.Hero;
+import gui.Window;
 import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
-import gui.Window;
 import items.Item;
 import java.io.IOException;
 import java.io.ObjectInputStream;

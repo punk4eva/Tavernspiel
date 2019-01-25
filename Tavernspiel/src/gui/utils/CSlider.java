@@ -74,7 +74,7 @@ public class CSlider implements CComponent, ScreenListener{
         }
         
         private int getX(){
-            int rounded = Utils.roundToClosest(12+tlx-TLX, (BRX-TLX)/(numberSlots), 1.0-0.05*(double)numberSlots);
+            int rounded = Utils.roundToClosest(12+tlx-TLX, (BRX-TLX)/(numberSlots), 1.0-0.05*numberSlots);
             return rounded+TLX-12;
         }
         

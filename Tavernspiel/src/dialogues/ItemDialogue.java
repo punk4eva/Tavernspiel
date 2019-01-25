@@ -3,7 +3,6 @@ package dialogues;
 
 import ai.PlayerAI;
 import creatureLogic.Action.ActionOnItem;
-import creatureLogic.Expertise;
 import creatures.Hero;
 import gui.Window;
 import gui.mainToolbox.Screen.ScreenEvent;

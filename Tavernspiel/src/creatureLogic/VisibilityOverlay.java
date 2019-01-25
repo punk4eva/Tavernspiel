@@ -21,7 +21,7 @@ public class VisibilityOverlay extends FieldOfView{
     public final int[][] map;
     public static final Shaders unexploredFog = new Shaders();
     public static final Shaders exploredFog = new Shaders(ConstantFields.exploredColor, 
-            255.0/(double)ConstantFields.exploredColor.getAlpha());
+            255.0/ConstantFields.exploredColor.getAlpha());
 
     /**
      * Creates a new instance.

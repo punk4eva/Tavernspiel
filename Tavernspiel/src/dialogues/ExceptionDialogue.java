@@ -2,8 +2,8 @@
 package dialogues;
 
 import gui.Game;
-import gui.mainToolbox.Main;
 import gui.Window;
+import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
 
 /**

@@ -6,13 +6,10 @@ import gui.mainToolbox.Screen;
 import gui.utils.CComponent;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.lang.annotation.Inherited;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import static logic.Distribution.r;
 
@@ -51,7 +48,7 @@ public final class Utils{
     }
     
     public static int roundToClosest(float d, int increment, double intersection){
-        return aboveAssist(d/(float)increment, intersection)*increment;
+        return aboveAssist(d/increment, intersection)*increment;
     }
     
     private static int aboveAssist(double d, double inter){

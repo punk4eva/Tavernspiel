@@ -16,7 +16,7 @@
 package logic;
 
 import blob.ParticleAnimation;
-import blob.TrailGenerator;
+import blob.ParticleTrailGenerator;
 import blob.particles.FireParticle;
 import blob.particles.FireParticle.StaticFireParticle;
 import java.awt.Color;
@@ -49,11 +49,11 @@ public class GameSettings implements Serializable{
         LOW((col, tcol) -> new ParticleAnimation(3, 7, new Rectangle(1, 12, 14, 4), 
                 new Rectangle(1, 0, 14, 8), new FireParticle(col, new Rectangle(2, 3), 0.5))),
         MEDIUM((col, tcol) -> new ParticleAnimation(3, 9, new Rectangle(1, 12, 14, 4), 
-                new Rectangle(1, 0, 14, 8), new FireParticle(col, new Rectangle(2, 3), 0.5, new TrailGenerator(tcol, 14.5F,3,5,1,2)))),
+                new Rectangle(1, 0, 14, 8), new FireParticle(col, new Rectangle(2, 3), 0.5, new ParticleTrailGenerator(tcol, 14.5F,3,5,1,2)))),
         HIGH((col, tcol) -> new ParticleAnimation(2, 13, new Rectangle(1, 12, 14, 4), 
-                new Rectangle(1, 0, 14, 8), new FireParticle(col, new Rectangle(1, 2), 1.0, new TrailGenerator(tcol, 13.5F,3,5,2,3)))),
+                new Rectangle(1, 0, 14, 8), new FireParticle(col, new Rectangle(1, 2), 1.0, new ParticleTrailGenerator(tcol, 13.5F,3,5,2,3)))),
         MAX((col, tcol) -> new ParticleAnimation(1, 20, new Rectangle(1, 12, 14, 4), 
-                new Rectangle(1, 0, 14, 8), new FireParticle(col, new Rectangle(1, 2), 1.0, new TrailGenerator(tcol, 10.5F,3,5,2,3))));
+                new Rectangle(1, 0, 14, 8), new FireParticle(col, new Rectangle(1, 2), 1.0, new ParticleTrailGenerator(tcol, 10.5F,3,5,2,3))));
         
         private final BiFunction<Color, Color, ParticleAnimation> factory;
         FireSetting(BiFunction<Color, Color, ParticleAnimation> f){
@@ -69,11 +69,11 @@ public class GameSettings implements Serializable{
         LOW((col, tcol) -> new ParticleAnimation(3, 3, new Rectangle(6, 4, 4, 3), 
                 new Rectangle(6, -4, 4, 3), new FireParticle(col, new Rectangle(1, 1), 0.5))),
         MEDIUM((col, tcol) -> new ParticleAnimation(3, 5, new Rectangle(6, 4, 4, 3), 
-                new Rectangle(6, -4, 4, 3), new FireParticle(col, new Rectangle(1, 1), 0.5, new TrailGenerator(tcol, 14.5F,3,5,1,1)))),
+                new Rectangle(6, -4, 4, 3), new FireParticle(col, new Rectangle(1, 1), 0.5, new ParticleTrailGenerator(tcol, 14.5F,3,5,1,1)))),
         HIGH((col, tcol) -> new ParticleAnimation(2, 9, new Rectangle(6, 4, 4, 3), 
-                new Rectangle(6, -4, 4, 3), new FireParticle(col, new Rectangle(1, 1), 1.0, new TrailGenerator(tcol, 13.5F,3,5,1,1)))),
+                new Rectangle(6, -4, 4, 3), new FireParticle(col, new Rectangle(1, 1), 1.0, new ParticleTrailGenerator(tcol, 13.5F,3,5,1,1)))),
         MAX((col, tcol) -> new ParticleAnimation(1, 14, new Rectangle(6, 4, 4, 3), 
-                new Rectangle(6, -4, 4, 3), new FireParticle(col, new Rectangle(1, 1), 1.0, new TrailGenerator(tcol, 10.5F,3,5,1,1))));
+                new Rectangle(6, -4, 4, 3), new FireParticle(col, new Rectangle(1, 1), 1.0, new ParticleTrailGenerator(tcol, 10.5F,3,5,1,1))));
         
         private final BiFunction<Color, Color, ParticleAnimation> factory;
         TorchSetting(BiFunction<Color, Color, ParticleAnimation> f){

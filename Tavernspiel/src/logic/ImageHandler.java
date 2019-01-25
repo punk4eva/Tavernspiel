@@ -97,13 +97,13 @@ public final class ImageHandler{
         interiorMap.put("sarcophagus1", new Dimension(48, 48));
     }
     
-    public final static void initializeIcons(Location loc){
+    public static void initializeIcons(Location loc){
         map.entrySet().forEach((entry) -> {
             loc.tilemap.put(entry.getKey(), getImage(entry.getValue(), loc, 16, 16));
         });
     }
     
-    public final static void initializeInteriorIcons(Location loc){
+    public static void initializeInteriorIcons(Location loc){
         interiorMap.entrySet().forEach((entry) -> {
             loc.tilemap.put(entry.getKey(), getImage(entry.getValue(), loc, 16, 16));
         });

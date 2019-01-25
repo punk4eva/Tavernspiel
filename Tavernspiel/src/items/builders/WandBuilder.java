@@ -3,7 +3,6 @@ package items.builders;
 
 import static items.builders.DescriptionBuilder.word;
 import static items.builders.ItemBuilder.getColor;
-import static logic.ImageUtils.convertToBuffered;
 import items.equipment.Wand;
 import items.equipment.WandPower;
 import java.awt.Color;
@@ -15,6 +14,7 @@ import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 import level.Location;
 import logic.Distribution;
+import static logic.ImageUtils.convertToBuffered;
 import logic.Utils;
 
 /**

@@ -10,7 +10,6 @@ import items.equipment.Wand;
 import java.io.Serializable;
 import java.util.function.Supplier;
 import javax.swing.ImageIcon;
-import level.Dungeon;
 import logic.ConstantFields;
 
 /**

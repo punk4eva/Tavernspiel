@@ -1,9 +1,9 @@
 
 package items;
 
-import items.actions.ItemAction;
 import creatureLogic.Description;
 import creatures.Creature;
+import items.actions.ItemAction;
 import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 

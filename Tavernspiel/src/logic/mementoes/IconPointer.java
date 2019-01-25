@@ -15,7 +15,7 @@ public class IconPointer implements Serializable{
     
     private static final long serialVersionUID = 53267198;
     
-    private String pointer;
+    private final String pointer;
     
     /**
      * Creates an instance.

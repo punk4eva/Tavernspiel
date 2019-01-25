@@ -4,9 +4,9 @@ package tiles.assets;
 import animation.assets.WaterAnimation;
 import creatures.Creature;
 import level.Area;
-import tiles.AnimatedTile;
 import level.Location;
 import listeners.Interactable;
+import tiles.AnimatedTile;
 
 /**
  *

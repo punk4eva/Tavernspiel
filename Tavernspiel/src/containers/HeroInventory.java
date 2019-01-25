@@ -8,7 +8,6 @@ import dialogues.MoneyDialogue;
 import gui.Window;
 import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
-import items.Apparatus;
 import items.Item;
 import java.awt.Graphics;
 import java.util.LinkedList;

@@ -1,10 +1,10 @@
 
 package designer;
 
+import gui.Window;
 import gui.mainToolbox.Main;
 import static gui.mainToolbox.Main.HEIGHT;
 import static gui.mainToolbox.Main.WIDTH;
-import gui.Window;
 import gui.mainToolbox.MouseInterpreter;
 import static gui.mainToolbox.MouseInterpreter.focusX;
 import static gui.mainToolbox.MouseInterpreter.focusY;

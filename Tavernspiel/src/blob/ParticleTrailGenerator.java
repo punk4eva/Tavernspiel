@@ -11,8 +11,10 @@ import java.util.ArrayList;
 /**
  *
  * @author Adam
+ * 
+ * This class generates a trail for a particle.
  */
-public class TrailGenerator implements Serializable{
+public class ParticleTrailGenerator implements Serializable{
 
     private static final long serialVersionUID = 463178L;
 
@@ -35,7 +37,7 @@ public class TrailGenerator implements Serializable{
         trail.stream().forEach(p -> p.paint(g));
     }
 
-    public TrailGenerator(Color col, float f, int... v){
+    public ParticleTrailGenerator(Color col, float f, int... v){
         intensity = v[0];
         capacity = v[1];
         width = v[2];
@@ -46,7 +48,7 @@ public class TrailGenerator implements Serializable{
         fadespeed = f;
     }
     
-    public TrailGenerator(Particle p, int i, int c, float f){
+    public ParticleTrailGenerator(Particle p, int i, int c, float f){
         width = p.shape.width;
         height = p.shape.height;
         R = p.color.getRed();
@@ -57,7 +59,7 @@ public class TrailGenerator implements Serializable{
         fadespeed = f;
     }
     
-    private TrailGenerator(TrailGenerator g){
+    private ParticleTrailGenerator(ParticleTrailGenerator g){
         width = g.width;
         height = g.height;
         R = g.R;
@@ -69,8 +71,8 @@ public class TrailGenerator implements Serializable{
     }
     
     @Override
-    public TrailGenerator clone(){
-        return new TrailGenerator(this);
+    public ParticleTrailGenerator clone(){
+        return new ParticleTrailGenerator(this);
     }
 
     private class Trail implements Serializable{
@@ -92,7 +94,7 @@ public class TrailGenerator implements Serializable{
             G = v[5];
             B = v[6];
             fadespeed = (int) Math.floor(f);
-            fadedelta = f - (float)fadespeed;
+            fadedelta = f - fadespeed;
         }
 
         int decrementAlpha(){

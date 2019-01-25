@@ -8,9 +8,9 @@ import java.awt.Graphics;
 import java.io.Serializable;
 import level.Location;
 import logic.Distribution;
-import tiles.assets.*;
 import tiles.Tile;
 import tiles.TrapBuilder;
+import tiles.assets.*;
 
 /**
  *

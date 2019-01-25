@@ -3,7 +3,7 @@ package blob.particles;
 
 import blob.ParticleAnimation;
 import blob.ParticleAnimation.Particle;
-import blob.TrailGenerator;
+import blob.ParticleTrailGenerator;
 import java.awt.Color;
 import java.awt.Rectangle;
 import logic.Distribution;
@@ -12,6 +12,8 @@ import logic.Utils;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class represents a particle with circular motion.
  */
 public class PowerParticle extends Particle{
     
@@ -22,7 +24,7 @@ public class PowerParticle extends Particle{
         mult = f;
     }
     
-    private PowerParticle(ParticleAnimation e, Color col, Rectangle s, double ms, double f, TrailGenerator g){
+    private PowerParticle(ParticleAnimation e, Color col, Rectangle s, double ms, double f, ParticleTrailGenerator g){
         super(e, col, s, ms, g);
         mult = f;
     }
@@ -47,7 +49,7 @@ public class PowerParticle extends Particle{
      * @param ms The maximum speed of the particle.
      * @param g The TrailGenerator.
      */
-    public PowerParticle(Color col, Rectangle s, double ms, double f, TrailGenerator g){
+    public PowerParticle(Color col, Rectangle s, double ms, double f, ParticleTrailGenerator g){
         super(col, s, ms, g);
         mult = f;
     }

@@ -38,7 +38,7 @@ public class DrunkenCorridorBuilder{
     private final int stepSize;
     private int iterNum;
     private final double gaussianQuotient, splitChance;
-    private int[] coords;
+    private final int[] coords;
     
     public DrunkenCorridorBuilder(Area _area, int sD, int it, double gQ, double sC, int... c){
         area = _area;

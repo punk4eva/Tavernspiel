@@ -35,8 +35,8 @@ public abstract class Armor extends Apparatus{
         blockDistrib = d;
     }
     
-    private double quality;
-    private Distribution blockDistrib;
+    private final double quality;
+    private final Distribution blockDistrib;
     
     @Override
     public void upgrade(){

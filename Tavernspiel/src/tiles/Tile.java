@@ -1,7 +1,6 @@
 
 package tiles;
 
-import tiles.assets.*;
 import java.awt.Graphics2D;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -10,6 +9,7 @@ import javax.swing.ImageIcon;
 import level.Location;
 import level.RoomBuilder;
 import listeners.Interactable;
+import tiles.assets.*;
 
 /**
  *

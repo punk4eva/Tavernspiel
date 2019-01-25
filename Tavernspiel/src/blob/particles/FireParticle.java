@@ -17,7 +17,7 @@ package blob.particles;
 
 import blob.ParticleAnimation;
 import blob.ParticleAnimation.Particle;
-import blob.TrailGenerator;
+import blob.ParticleTrailGenerator;
 import java.awt.Color;
 import java.awt.Rectangle;
 import logic.Distribution;
@@ -26,12 +26,14 @@ import logic.Utils;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class represents a particle of fire.
  */
 public class FireParticle extends Particle{
     
     private final double courseCorrectionFactor = 0.01;
     
-    public FireParticle(Color col, Rectangle s, double ms, TrailGenerator g){
+    public FireParticle(Color col, Rectangle s, double ms, ParticleTrailGenerator g){
         super(col, s, ms, g);
     }
     
@@ -39,7 +41,7 @@ public class FireParticle extends Particle{
         super(col, s, ms);
     }
     
-    private FireParticle(ParticleAnimation e, Color col, Rectangle s, double ms, TrailGenerator g){
+    private FireParticle(ParticleAnimation e, Color col, Rectangle s, double ms, ParticleTrailGenerator g){
         super(e, col, s, ms, g);
         vely = -Distribution.r.nextDouble()*ms;
         velx = 0.25*(Distribution.r.nextDouble()*ms - ms);
@@ -81,6 +83,9 @@ public class FireParticle extends Particle{
         return new FireParticle(effect, color, shape, maxSpeed, generator);
     }
     
+    /**
+     * This class represents the lowest graphics fire.
+     */
     public static class StaticFireParticle extends FireParticle{
     
         public StaticFireParticle(Color col){

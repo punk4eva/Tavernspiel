@@ -11,8 +11,8 @@ import logic.GameObject;
 /**
  *
  * @author Adam Whittaker
- 
- This class represents PotpourriPotpourri.
+ *
+ * This class models the behaviour of a spreading blob.
  */
 public class Blob extends GameObject{
     

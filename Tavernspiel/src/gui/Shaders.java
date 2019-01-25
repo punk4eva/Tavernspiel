@@ -37,7 +37,7 @@ public class Shaders{
                 pixel[0] = R;
                 pixel[1] = G;
                 pixel[2] = B;
-                pixel[3] = (int)((double)pixel[3]/alphaDivisor);
+                pixel[3] = (int)(pixel[3]/alphaDivisor);
                 raster.setPixel(x, y, pixel);
             }
         }

@@ -12,9 +12,9 @@ import pathfinding.Path;
 import pathfinding.Point;
 import pathfinding.PriorityQueue;
 import pathfinding.Searcher;
+import static pathfinding.Searcher.DIRECTIONS;
 import pathfinding.Waypoint;
 import tiles.Tile;
-import static pathfinding.Searcher.DIRECTIONS;
 
 /**
  *

@@ -1,10 +1,10 @@
 
 package creatureLogic;
 
-import logic.FileHandler;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
+import logic.FileHandler;
 
 /**
  *
@@ -54,7 +54,7 @@ public class PlayData implements Serializable{
      * @return A String representation.
      */
     public String successRate(){
-        return (((double) gamesWon)/((double) gamesPlayed) * 100) + "%";
+        return (gamesWon/((double) gamesPlayed) * 100) + "%";
     }
     
     /**

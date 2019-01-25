@@ -1,7 +1,6 @@
 
 package buffs;
 
-import animation.Animation;
 import animation.DrawnAnimation;
 import animation.GasAnimator;
 import blob.Blob;

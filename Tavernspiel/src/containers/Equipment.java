@@ -247,9 +247,9 @@ public class Equipment implements Serializable{
          */
         public EquipApparatusDialogue(Apparatus a){
             super("You can only wear two misc. items at a time, which do you want to"
-                    + "unequip?", (String) null, ((Apparatus) amulet1).toString(4), 
-                    ((Apparatus) amulet2).toString(4));
-            opA = ((Apparatus) amulet1).toString(4);
+                    + "unequip?", (String) null, amulet1.toString(4), 
+                    amulet2.toString(4));
+            opA = amulet1.toString(4);
             app = a;
         }
 

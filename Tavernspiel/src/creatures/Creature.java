@@ -105,8 +105,8 @@ public class Creature extends GameObject implements Comparable<Creature>{
     public void smootheXY(int nx, int ny){
         Integer[] c = MouseInterpreter.tileToPixel(x, y), c2 = 
                 MouseInterpreter.tileToPixel(nx, ny);
-        double dx = ((double)c2[0]-(double)c[0])/(double)MOVE_RESOLUTION,
-                dy = ((double)c2[1]-(double)c[1])/(double)MOVE_RESOLUTION;
+        double dx = (c2[0]-(double)c[0])/MOVE_RESOLUTION,
+                dy = (c2[1]-(double)c[1])/MOVE_RESOLUTION;
         moving = new double[]{0, c[0], c[1], c2[0], c2[1], dx, dy, nx, ny};
     }
     

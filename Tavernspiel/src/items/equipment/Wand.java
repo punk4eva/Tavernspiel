@@ -4,16 +4,16 @@ package items.equipment;
 import creatureLogic.Description;
 import creatures.Creature;
 import creatures.Hero;
+import static gui.LocationViewable.LOCATION_SELECT;
+import gui.Window;
 import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
-import gui.Window;
 import items.builders.WandBuilder;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.function.Supplier;
 import javax.swing.ImageIcon;
 import listeners.ScreenListener;
-import static gui.LocationViewable.LOCATION_SELECT;
 
 /**
  *
@@ -26,7 +26,7 @@ public class Wand extends RangedWeapon implements ScreenListener{
     private final static long serialVersionUID = 8628773459L;
     
     private transient Hero hero;
-    private String wandPowerName;
+    private final String wandPowerName;
     public transient WandPower wandPower;
     
     /**

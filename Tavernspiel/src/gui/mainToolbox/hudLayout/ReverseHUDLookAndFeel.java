@@ -82,7 +82,7 @@ public class ReverseHUDLookAndFeel implements HUDStrategy{
         g.fill3DRect(0, Game.HEIGHT - 300, 70, 40, true);
         
         g.setColor(Color.red);
-        g.fill3DRect(70, 5, (int) ((double)Window.main.player.attributes.hp/(double)(Window.main.player.attributes.maxhp) * 200), 10, true);
+        g.fill3DRect(70, 5, (int) (Window.main.player.attributes.hp/(double)(Window.main.player.attributes.maxhp) * 200), 10, true);
         
         int x = 29, y = 77;
         for(Buff b : hero.buffs){

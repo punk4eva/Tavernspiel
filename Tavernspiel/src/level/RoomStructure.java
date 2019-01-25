@@ -22,10 +22,10 @@ import java.util.LinkedList;
 import java.util.List;
 import level.RoomBuilder.PreDoored;
 import logic.Distribution;
-import pathfinding.generation.AreaGrower;
 import pathfinding.Graph;
 import pathfinding.Point;
 import pathfinding.Searcher;
+import pathfinding.generation.AreaGrower;
 import pathfinding.generation.DrunkenCorridorBuilder;
 import pathfinding.generation.SpiderCorridorBuilder;
 import tiles.Tile;
@@ -206,7 +206,7 @@ public abstract class RoomStructure extends Area{
     
     public static class Labyrinth extends Cave{
         
-        private transient DrunkenCorridorBuilder dcb;
+        private final transient DrunkenCorridorBuilder dcb;
 
         public Labyrinth(Location loc, List<Room> list){
             super(new Dimension(60,60), loc, list);
@@ -276,8 +276,8 @@ public abstract class RoomStructure extends Area{
     
     public static class Cavern extends Cave{
         
-        private transient AreaGrower ag;
-        private transient boolean paths;
+        private final transient AreaGrower ag;
+        private final transient boolean paths;
 
         public Cavern(Location loc, List<Room> list, boolean p){
             super(new Dimension(60,60), loc, list);
@@ -348,7 +348,7 @@ public abstract class RoomStructure extends Area{
     
     public static class SpiderCorridor extends Cave{
         
-        private transient SpiderCorridorBuilder scb;
+        private final transient SpiderCorridorBuilder scb;
         public transient boolean[][] corridors;
 
         public SpiderCorridor(Dimension dim, Location loc, List<Room> list, int windyness, boolean decayActive){

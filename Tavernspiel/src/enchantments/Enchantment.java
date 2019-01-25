@@ -154,8 +154,7 @@ public abstract class Enchantment implements Serializable{
         if(context.code==affinity.code) level *= 0.4+Distribution.r.nextDouble()*0.6;
         else if(context.code+affinity.code==0) level *= 0.1 + 0.75 * Distribution.r.nextDouble();
         else level *= 0.2+Distribution.r.nextDouble()*0.8;
-        if(level<0.1) return true;
-        return false;
+        return level<0.1;
     }
     
     /**

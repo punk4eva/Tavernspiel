@@ -6,24 +6,24 @@ import creatures.Hero;
 import dialogues.Dialogue;
 import gui.Viewable;
 import gui.Window;
+import static gui.mainToolbox.MouseInterpreter.*;
+import gui.pages.Page;
+import items.Item;
 import java.awt.Canvas;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Toolkit;
+import java.awt.event.KeyListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
+import java.util.function.Predicate;
 import level.Area;
 import logic.SoundHandler;
-import static gui.mainToolbox.MouseInterpreter.*;
-import gui.pages.Page;
-import items.Item;
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.awt.event.KeyListener;
-import java.util.function.Predicate;
 import testUtilities.TestUtil;
 
 
@@ -203,7 +203,7 @@ public abstract class Main extends Canvas implements Runnable, Page{
     
     @Override
     public void paint(Graphics2D bsg){
-        BufferedImage buffer = new BufferedImage((int)(((double)WIDTH)/zoom), (int)(((double)HEIGHT)/zoom), BufferedImage.TYPE_INT_ARGB);
+        BufferedImage buffer = new BufferedImage((int)(WIDTH/zoom), (int)(HEIGHT/zoom), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g = (Graphics2D) buffer.getGraphics();
         //@Unfinished
         TestUtil.setGraphics(g);

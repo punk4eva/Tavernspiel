@@ -54,7 +54,7 @@ public final class LevelFeeling{
     
     public static final Distribution feelingDist = new Distribution(new int[]{11,3,3,1,2});
     
-    public static final LevelFeeling getRandomFeeling(){
+    public static LevelFeeling getRandomFeeling(){
         switch((int)feelingDist.next()){
             case 0: return STANDARD;
             case 1: return GRASS;

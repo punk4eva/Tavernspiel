@@ -7,8 +7,8 @@ import creatureLogic.EnClass;
 import creatures.Creature;
 import creatures.Hero;
 import dialogues.StatisticsDialogue;
-import gui.mainToolbox.Main;
 import gui.Window;
+import gui.mainToolbox.Main;
 import items.Item;
 import level.Area;
 import logic.ConstantFields;
@@ -66,24 +66,7 @@ public class AIPlayerActions extends AIBaseActions{
             Main.addMessage(ConstantFields.badColor, "Your pack is too full for the " +
                     i.toString(3));
         }else Main.soundSystem.playSFX("pickUp.wav");
-    }   
-
-    /**
-     * Handles throwing Items.
-     * @param h The Hero
-     * @param item The Item
-     */
-    /*public void throwItem(Hero h, Item item){
-        LOCATION_SELECT.changeListener((ScreenListener) (Screen.ScreenEvent sc) -> {
-            System.out.println(sc.getName());
-            switch(sc.getName()){
-                case "backLocation": throwItem(h, item, sc.x, sc.y);
-                case "locationPopupX": Window.main.removeViewable();
-                    break;
-            }
-        });
-        Window.main.setViewable(LOCATION_SELECT);
-    }*/
+    }
     
     /**
      * Interacts with this Tile.

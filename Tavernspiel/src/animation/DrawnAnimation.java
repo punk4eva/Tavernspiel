@@ -10,6 +10,7 @@ import listeners.AnimationListener;
  * @author Adam Whittaker
  * 
  * Represents an Animation that has been drawn.
+ * @Unfinished Might be redundant.
  */
 public abstract class DrawnAnimation extends TrackableAnimation 
         implements TickedAnimation{
@@ -34,6 +35,9 @@ public abstract class DrawnAnimation extends TrackableAnimation
         maxTicks = 1;
     }
     
+    /**
+     * Updates the current tick number.
+     */
     protected void recalc(){
         currentTicks += ticksPerFrame;
         if(currentTicks>maxTicks){

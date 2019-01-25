@@ -31,7 +31,7 @@ public class WaterStepAnimation extends DrawnAnimation{
         g.setColor(COLOR);
         int offset = diameter/2;
         Integer c[] = MouseInterpreter.tileToPixel(x, y);
-        ((Graphics2D)g).drawOval(c[0]-offset, c[1]-offset, diameter, diameter);
+        g.drawOval(c[0]-offset, c[1]-offset, diameter, diameter);
     }
     
     @Override

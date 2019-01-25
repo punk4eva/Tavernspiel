@@ -23,8 +23,8 @@ import logic.ConstantFields;
 import logic.Distribution;
 import logic.Utils.Unfinished;
 import pathfinding.Point;
-import tiles.assets.Door;
 import tiles.HiddenTile;
+import tiles.assets.Door;
 import tiles.assets.Water;
 
 /**

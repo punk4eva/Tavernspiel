@@ -19,12 +19,22 @@ public class MiscAnimator implements AnimationListener{
     
     public final List<TrackableAnimation> current = new LinkedList<>();
     
+    /**
+     * Adds an animation to the list of animations currently displayed.
+     * @param a
+     */
     public void addAnimation(TrackableAnimation a){
         synchronized(current){
             current.add(a);
         }
     }
     
+    /**
+     * Paints the current list of animations on the Canvas.
+     * @param g
+     * @param fx
+     * @param fy
+     */
     public void animate(Graphics2D g, int fx, int fy){
         synchronized(current){
             current.removeIf(a -> a.done);

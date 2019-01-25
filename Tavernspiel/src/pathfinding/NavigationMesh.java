@@ -23,7 +23,6 @@ import java.util.LinkedList;
 import java.util.Objects;
 import level.Area;
 import pathfinding.Point.Direction;
-import tiles.assets.Door;
 
 /**
  *

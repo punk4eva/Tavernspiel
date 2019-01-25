@@ -1,13 +1,13 @@
 
 package items;
 
-import items.actions.ItemAction;
 import animation.LoadableStillAnimation;
 import containers.Equipment;
 import creatureLogic.Description;
 import enchantments.Enchantment;
 import enchantments.Enchantment.EnchantmentAffinity;
 import gui.mainToolbox.Main;
+import items.actions.ItemAction;
 import items.equipment.Boots;
 import items.equipment.Chestplate;
 import items.equipment.HeldWeapon;

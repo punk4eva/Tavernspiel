@@ -2,9 +2,10 @@ package items.consumables;
 
 import creatures.Creature;
 import creatures.Hero;
+import static gui.LocationViewable.LOCATION_SELECT;
+import gui.Window;
 import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen.ScreenEvent;
-import gui.Window;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.concurrent.BrokenBarrierException;
@@ -12,7 +13,6 @@ import java.util.concurrent.CyclicBarrier;
 import level.Area;
 import listeners.ScreenListener;
 import logic.Utils.Catch;
-import static gui.LocationViewable.LOCATION_SELECT;
 
 /**
  *

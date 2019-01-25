@@ -13,25 +13,25 @@ import creatureLogic.EnClass;
 import creatureLogic.EnClass.EnSubclass;
 import creatureLogic.Expertise;
 import gui.Game;
-import gui.mainToolbox.Main;
-import gui.mainToolbox.Screen;
 import gui.Window;
+import gui.mainToolbox.Main;
 import static gui.mainToolbox.MouseInterpreter.MOVE_RESOLUTION;
+import static gui.mainToolbox.MouseInterpreter.getCenter;
+import static gui.mainToolbox.MouseInterpreter.zoom;
+import gui.mainToolbox.Screen;
 import java.awt.Graphics2D;
 import java.util.LinkedList;
+import javax.swing.ImageIcon;
 import level.Area;
 import listeners.ScreenListener;
+import logic.ConstantFields;
 import static logic.ConstantFields.beginHeight;
 import static logic.ConstantFields.beginWidth;
 import static logic.ConstantFields.padding;
 import static logic.ConstantFields.sqheight;
 import static logic.ConstantFields.sqwidth;
-import static gui.mainToolbox.MouseInterpreter.getCenter;
-import javax.swing.ImageIcon;
-import logic.ConstantFields;
 import logic.ImageUtils;
 import logic.Utils.Unfinished;
-import static gui.mainToolbox.MouseInterpreter.zoom;
 
 /**
  *
@@ -81,7 +81,7 @@ public class Hero extends Creature{
             }else{
                 moving[1] += moving[5];
                 moving[2] += moving[6];
-                Window.main.setDirectFocus(focusX-(int)((double)moving[5]/zoom), focusY-(int)((double)moving[6]/zoom));
+                Window.main.setDirectFocus(focusX-(int)(moving[5]/zoom), focusY-(int)(moving[6]/zoom));
                 animator.animate(g, c[0], c[1]);
             }
         }

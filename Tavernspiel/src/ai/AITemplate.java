@@ -41,6 +41,10 @@ public abstract class AITemplate implements Serializable{
         }
     }
     
+    /**
+     * Follows the current path.
+     * @param c The Creature.
+     */
     public void decideAndMove(Creature c){
         if(currentPath==null){
             currentPath = c.area.graph.searcher.findExpressRoute(new Point(c.x, c.y), new Point(destinationx, destinationy)).iterator();

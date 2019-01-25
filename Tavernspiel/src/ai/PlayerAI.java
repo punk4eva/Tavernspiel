@@ -90,6 +90,12 @@ public final class PlayerAI extends AITemplate implements KeyListener{
         }else Window.main.addTurnsPassed(hero.attributes.speed);
     }
     
+    /**
+     * Tells the render thread to animate motion, then pauses the turn thread 
+     * until the animation is done, then updates the x,y coordinates.
+     * @param x
+     * @param y
+     */
     public synchronized void animateMotion(int x, int y){
         BASEACTIONS.smootheRaw(hero, x, y);
         waiting = true;

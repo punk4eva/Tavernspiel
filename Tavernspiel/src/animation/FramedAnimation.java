@@ -82,7 +82,7 @@ public abstract class FramedAnimation extends TrackableAnimation
         return ret;
     }
     
-    public abstract FramedAnimation mirror();
+    abstract FramedAnimation mirror();
     
     /**
      * Sets the speed of this Animation.

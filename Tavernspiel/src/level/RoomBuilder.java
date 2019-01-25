@@ -1,7 +1,6 @@
 
 package level;
 
-import tiles.assets.*;
 import buffs.GasBuilder;
 import containers.Chest;
 import containers.Floor;
@@ -29,6 +28,7 @@ import logic.Utils.Unfinished;
 import pathfinding.generation.MazeBuilder;
 import pathfinding.generation.MazeBuilder.Maze;
 import tiles.*;
+import tiles.assets.*;
 
 /**
  *
@@ -535,7 +535,7 @@ public abstract class RoomBuilder{
             locName = loc.name;
         }
         
-        public static final ImageIcon addShaders(ImageIcon i, String shader, Location loc){
+        public static ImageIcon addShaders(ImageIcon i, String shader, Location loc){
             if(shader.equals("well") || shader.equals("alchemypot"))
                 return ImageHandler.combineIcons(i, loc.getImage(shader));
             return ImageHandler.combineIcons(i, loc.getImage("shader" + shader));
@@ -561,9 +561,9 @@ public abstract class RoomBuilder{
     
     private final static class Altar extends Room{
         
-        private transient int d;
+        private final transient int d;
     
-        public Altar(int d_, Location loc, int depth, Item item){
+        Altar(int d_, Location loc, int depth, Item item){
             super(new Dimension(d_, d_), loc, depth);
             paintAndPave();
             if(d_%2==1){
@@ -612,7 +612,7 @@ public abstract class RoomBuilder{
     
     private final static class Stalagnate extends Room implements PreDoored{
     
-        public Stalagnate(Location loc, int depth){
+        Stalagnate(Location loc, int depth){
             super(new Dimension(Distribution.getRandomInt(4, 16),
                 Distribution.getRandomInt(4, 16)), loc, depth);
             paintAndPave();

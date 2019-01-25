@@ -1,7 +1,6 @@
 
 package tiles;
 
-import tiles.assets.Chasm;
 import animation.GasAnimator;
 import blob.Blob;
 import buffs.Buff;
@@ -10,6 +9,7 @@ import creatureLogic.Description;
 import level.Area;
 import level.Location;
 import logic.Utils.Unfinished;
+import tiles.assets.Chasm;
 
 /**
  *

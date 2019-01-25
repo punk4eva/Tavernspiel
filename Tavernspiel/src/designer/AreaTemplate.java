@@ -1,7 +1,6 @@
 
 package designer;
 
-import logic.FileHandler;
 import java.awt.Dimension;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -9,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import level.Area;
 import level.Location;
+import logic.FileHandler;
 
 /**
  *

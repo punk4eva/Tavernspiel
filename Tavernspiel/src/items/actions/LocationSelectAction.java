@@ -18,11 +18,11 @@ package items.actions;
 import creatures.Creature;
 import creatures.Hero;
 import gui.LocationViewable.ClickPredicate;
+import static gui.LocationViewable.LOCATION_SELECT;
 import gui.Window;
 import gui.mainToolbox.Screen.ScreenEvent;
 import items.Item;
 import listeners.ScreenListener;
-import static gui.LocationViewable.LOCATION_SELECT;
 
 /**
  *
@@ -48,13 +48,13 @@ public abstract class LocationSelectAction extends ItemAction{
     @Override
     public void act(Item i, Creature c, int slot, Object... data){
         if(c instanceof Hero){
-            LOCATION_SELECT.setData((ScreenListener) (ScreenEvent sc) -> {
+            LOCATION_SELECT.setData((ScreenEvent sc) -> {
                 System.out.println(sc.getName());
                 switch(sc.getName()){
                     case "backLocation": 
                         act(i, c, sc.x, sc.y, slot, data);
                     case "locationPopupX": Window.main.removeViewable();
-                        break;
+                    break;
                 }
             }, locationMessage, c, predicate);
             Window.main.setViewable(LOCATION_SELECT);

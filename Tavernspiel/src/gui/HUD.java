@@ -1,14 +1,14 @@
 package gui;
 
-import gui.mainToolbox.Screen;
-import gui.mainToolbox.Screen.ScreenEvent;
-import java.awt.Graphics;
-import java.util.List;
-import listeners.ScreenListener;
 import creatureLogic.QuickSlot;
 import dialogues.BuffDialogue;
 import gui.mainToolbox.HUDStrategy;
+import gui.mainToolbox.Screen;
+import gui.mainToolbox.Screen.ScreenEvent;
 import gui.mainToolbox.hudLayout.DefaultHUDLookAndFeel;
+import java.awt.Graphics;
+import java.util.List;
+import listeners.ScreenListener;
 
 /**
  *

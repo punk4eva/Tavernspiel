@@ -1,21 +1,15 @@
 
 package gui;
 
-import gui.mainToolbox.Main;
 import ai.PlayerAI;
 import containers.HeroInventory;
 import creatureLogic.Attributes;
 import creatures.Hero;
+import gui.mainToolbox.Main;
 import items.Apparatus;
-import java.awt.Dimension;
-import java.util.LinkedList;
-import java.util.List;
 import level.Area;
 import level.Dungeon;
 import level.Location;
-import level.Room;
-import level.RoomBuilder;
-import level.RoomStructure;
 import logic.FileHandler;
 import logic.Utils.Unfinished;
 

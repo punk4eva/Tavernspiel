@@ -1,7 +1,6 @@
 
 package level;
 
-import logic.mementoes.AreaMemento;
 import ai.PlayerAI;
 import blob.Blob;
 import containers.Floor;
@@ -14,9 +13,13 @@ import designer.AreaTemplate;
 import gui.Window;
 import static gui.mainToolbox.Main.HEIGHT;
 import static gui.mainToolbox.Main.WIDTH;
+import static gui.mainToolbox.MouseInterpreter.xOrient;
+import static gui.mainToolbox.MouseInterpreter.yOrient;
+import static gui.mainToolbox.MouseInterpreter.zoom;
 import items.Item;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -28,23 +31,20 @@ import java.util.ListIterator;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 import listeners.Interactable;
+import listeners.RotatableTile;
+import logic.ConstantFields;
 import logic.Distribution;
 import logic.GameObject;
 import logic.Utils.Unfinished;
+import logic.mementoes.AreaMemento;
 import pathfinding.Graph;
-import tiles.assets.Grass;
 import tiles.Tile;
 import tiles.assets.Barricade;
 import tiles.assets.DepthEntrance;
 import tiles.assets.DepthExit;
 import tiles.assets.Door;
+import tiles.assets.Grass;
 import tiles.assets.Water;
-import static gui.mainToolbox.MouseInterpreter.xOrient;
-import static gui.mainToolbox.MouseInterpreter.yOrient;
-import static gui.mainToolbox.MouseInterpreter.zoom;
-import java.awt.Image;
-import listeners.RotatableTile;
-import logic.ConstantFields;
 
 /**
  *
@@ -120,7 +120,7 @@ public class Area implements Serializable{
             rec.x = x1 + xOrient(o,rec.x,rec.y,w,h);
             rec.y = temp;
             if(rec instanceof Interactable) 
-                map[rec.y][rec.x].interactable = (Interactable) rec;
+                map[rec.y][rec.x].interactable = rec;
             return rec;
         }).collect(Collectors.toList()));
         if(area.startCoords!=null){
@@ -156,7 +156,7 @@ public class Area implements Serializable{
             rec.x = x1 + xOrient(o,rec.x,rec.y,w,h);
             rec.y = temp;
             if(rec instanceof Interactable) 
-                map[rec.y][rec.x].interactable = (Interactable) rec;
+                map[rec.y][rec.x].interactable = rec;
             return rec;
         }).collect(Collectors.toList()));
         if(area.startCoords!=null){
@@ -192,7 +192,7 @@ public class Area implements Serializable{
             rec.x = x1 + xOrient(o,rec.x,rec.y,w,h);
             rec.y = temp;
             if(rec instanceof Interactable) 
-                map[rec.y][rec.x].interactable = (Interactable) rec;
+                map[rec.y][rec.x].interactable = rec;
             return rec;
         }).collect(Collectors.toList()));
         if(area.startCoords!=null){
@@ -266,7 +266,7 @@ public class Area implements Serializable{
      */
     public void addReceptacle(PhysicalReceptacle rec){
         if(rec instanceof Interactable) 
-            map[rec.y][rec.x].interactable = (Interactable) rec;
+            map[rec.y][rec.x].interactable = rec;
         receptacles.add(rec);
     }
     
@@ -329,7 +329,7 @@ public class Area implements Serializable{
     public void replaceHeap(int x, int y, PhysicalReceptacle rec){
         receptacles.remove(getReceptacle(x, y));
         if(rec instanceof Interactable) 
-                map[y][x].interactable = (Interactable) rec;
+                map[y][x].interactable = rec;
         receptacles.add(rec);
     }
     

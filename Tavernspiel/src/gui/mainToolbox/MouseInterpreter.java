@@ -2,13 +2,13 @@
 package gui.mainToolbox;
 
 import gui.Window;
+import static gui.mainToolbox.Main.HEIGHT;
+import static gui.mainToolbox.Main.WIDTH;
+import static gui.mainToolbox.Main.gui;
 import static gui.mainToolbox.Main.performanceStream;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import static gui.mainToolbox.Main.HEIGHT;
-import static gui.mainToolbox.Main.WIDTH;
-import static gui.mainToolbox.Main.gui;
 import level.Area;
 import logic.Utils.Unfinished;
 
@@ -105,8 +105,8 @@ public class MouseInterpreter extends MouseAdapter{
      * @param y
      */
     public void setPixelFocus(int x, int y){
-        focusX = (int)((double)WIDTH/zoom/2d) - x;
-        focusY = (int)((double)HEIGHT/zoom/2d) - y;
+        focusX = (int)(WIDTH/zoom/2d) - x;
+        focusY = (int)(HEIGHT/zoom/2d) - y;
     }
     
     /**
@@ -148,7 +148,7 @@ public class MouseInterpreter extends MouseAdapter{
      * @return
      */
     public static int[] getCenter(){
-        return new int[]{(int)((double)WIDTH/zoom/2d), (int)((double)HEIGHT/zoom/2d)};
+        return new int[]{(int)(WIDTH/zoom/2d), (int)(HEIGHT/zoom/2d)};
     }
     
     /**
@@ -201,16 +201,16 @@ public class MouseInterpreter extends MouseAdapter{
             }
         }else if(gui.hudClear()){
             if(xOfDrag == -1){
-                xOfDrag = (int)((double)me.getX()/zoom) - focusX;
-                yOfDrag = (int)((double)me.getY()/zoom) - focusY;        
+                xOfDrag = (int)(me.getX()/zoom) - focusX;
+                yOfDrag = (int)(me.getY()/zoom) - focusY;        
             }
             /*int tempx, tempy;
             tempx = me.getX() - xOfDrag;
             tempy = me.getY() - yOfDrag;
             focusX = tempx>minFX ? (tempx<maxFX ? tempx : maxFX) : minFX;
             focusY = tempy>minFY ? (tempy<maxFY ? tempy : maxFY) : minFY;*/
-            focusX = (int)((double)me.getX()/zoom) - xOfDrag;
-            focusY = (int)((double)me.getY()/zoom) - yOfDrag;
+            focusX = (int)(me.getX()/zoom) - xOfDrag;
+            focusY = (int)(me.getY()/zoom) - yOfDrag;
         }
     }
     

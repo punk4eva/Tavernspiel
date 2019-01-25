@@ -13,6 +13,8 @@ import logic.Distribution;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class handles the animation for a Particle effect.
  */
 public class ParticleAnimation extends TrackableAnimation{
     
@@ -87,6 +89,9 @@ public class ParticleAnimation extends TrackableAnimation{
         stopField.setLocation(stopField.x+dx, stopField.y+dy);
     }
     
+    /**
+     * This class models a singular particle.
+     */
     public static abstract class Particle implements Cloneable{
         
         protected Color color;
@@ -95,7 +100,7 @@ public class ParticleAnimation extends TrackableAnimation{
         protected final Rectangle shape;
         protected boolean expired = false;
         public ParticleAnimation effect;
-        protected TrailGenerator generator;
+        protected ParticleTrailGenerator generator;
         
         protected Particle(ParticleAnimation e, Color col, Rectangle s, double ms){
             color = col;
@@ -110,7 +115,7 @@ public class ParticleAnimation extends TrackableAnimation{
             maxSpeed = ms;
         }
         
-        protected Particle(ParticleAnimation e, Color col, Rectangle s, double ms, TrailGenerator g){
+        protected Particle(ParticleAnimation e, Color col, Rectangle s, double ms, ParticleTrailGenerator g){
             color = col;
             shape = s;
             if(g!=null) generator = g.clone();
@@ -135,7 +140,7 @@ public class ParticleAnimation extends TrackableAnimation{
             destx = c[0];
             desty = c[1];
             maxSpeed = ms;
-            generator = new TrailGenerator(this, i, cap, fade);
+            generator = new ParticleTrailGenerator(this, i, cap, fade);
         }
         
         protected Particle(Color col, Rectangle s, double ms){
@@ -144,7 +149,7 @@ public class ParticleAnimation extends TrackableAnimation{
             maxSpeed = ms;
         }
         
-        protected Particle(Color col, Rectangle s, double ms, TrailGenerator g){
+        protected Particle(Color col, Rectangle s, double ms, ParticleTrailGenerator g){
             color = col;
             shape = s;
             maxSpeed = ms;
@@ -155,7 +160,7 @@ public class ParticleAnimation extends TrackableAnimation{
             color = col;
             shape = s;
             maxSpeed = ms;
-            generator = new TrailGenerator(this, i, c, f);
+            generator = new ParticleTrailGenerator(this, i, c, f);
         }
         
         protected Particle(Particle p){

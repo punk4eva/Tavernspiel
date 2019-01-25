@@ -8,16 +8,16 @@ import creatureLogic.CreatureDistribution;
 import gui.mainToolbox.MouseInterpreter;
 import items.builders.ItemBuilder;
 import items.equipment.HeldWeapon;
-import java.util.HashMap;
-import javax.swing.ImageIcon;
-import logic.Distribution;
-import logic.ImageHandler;
 import items.equipment.weapons.*;
 import java.awt.Dimension;
+import java.util.HashMap;
 import java.util.List;
 import java.util.function.Function;
+import javax.swing.ImageIcon;
 import logic.ConstantFields;
+import logic.Distribution;
 import logic.GameSettings;
+import logic.ImageHandler;
 import logic.Utils;
 
 /**

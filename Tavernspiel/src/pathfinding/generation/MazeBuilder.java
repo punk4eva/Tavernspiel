@@ -12,8 +12,8 @@ import logic.Distribution;
 import pathfinding.Graph;
 import pathfinding.Point;
 import pathfinding.Searcher;
-import tiles.assets.Door;
 import tiles.Tile;
+import tiles.assets.Door;
 
 /**
  *

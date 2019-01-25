@@ -3,8 +3,8 @@ package containers;
 
 import creatures.Creature;
 import items.Apparatus;
-import items.misc.Gold;
 import items.Item;
+import items.misc.Gold;
 import items.misc.Key;
 import items.misc.Key.KeyType;
 import java.util.Iterator;

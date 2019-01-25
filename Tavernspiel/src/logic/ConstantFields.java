@@ -52,8 +52,8 @@ public interface ConstantFields{
     public final static int padding = 8,
         beginWidth = Main.WIDTH/9,
         beginHeight = Main.HEIGHT/9,
-        sqwidth = (int)(((double)Main.WIDTH*(7.0/9.0)-7*padding)/6.0),
-        sqheight = (int)(((double)Main.HEIGHT*(7.0/9.0)-6*padding)/5.0);
+        sqwidth = (int)((Main.WIDTH*(7.0/9.0)-7*padding)/6.0),
+        sqheight = (int)((Main.HEIGHT*(7.0/9.0)-6*padding)/5.0);
     //predicates
     public static final Predicate<Item> truthPredicate = t -> true;
     

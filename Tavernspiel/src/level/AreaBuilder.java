@@ -3,7 +3,6 @@ package level;
 
 import gui.mainToolbox.Main;
 import items.Item;
-import java.awt.Dimension;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -12,13 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import level.RoomDistribution.MakeRoom;
 import logic.ConstantFields;
-import logic.Distribution;
-import pathfinding.generation.WanderingCorridorBuilder;
 import pathfinding.Graph;
-import pathfinding.Point;
-import pathfinding.generation.SpiderCorridorBuilder;
-import tiles.assets.Barricade;
-import tiles.assets.Door;
 
 /**
  *

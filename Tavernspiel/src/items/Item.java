@@ -1,12 +1,12 @@
 
 package items;
 
-import items.actions.ItemAction;
-import items.builders.ItemBuilder;
 import animation.Animation;
 import animation.LoadableStillAnimation;
 import creatureLogic.Description;
 import creatures.Creature;
+import items.actions.ItemAction;
+import items.builders.ItemBuilder;
 import java.io.Serializable;
 import java.util.function.Supplier;
 import javax.swing.ImageIcon;
