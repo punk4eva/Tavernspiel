@@ -23,6 +23,7 @@ public class Inventory extends Receptacle{
     public int amountOfMoney = 0;
     public final Creature owner;
     private final LinkedList<Key> keys = new LinkedList<>();
+    public Equipment equipment;
     
     /**
      * Creates a new instance for a Creature.
@@ -31,17 +32,56 @@ public class Inventory extends Receptacle{
     public Inventory(Creature c){
         super(18);
         owner = c;
+        equipment = new Equipment();
     }
     
+    /**
+     * Creates a new instance with a specific Equipment.
+     * @param c
+     * @param eq
+     */
+    public Inventory(Creature c, Equipment eq){
+        super(18);
+        owner = c;
+        equipment = eq;
+    }
+    
+    /**
+     * Sets the amount of money in this Inventory.
+     * @param amount
+     */
     public void setMoneyAmount(int amount){
         amountOfMoney = amount;
+    }
+    
+    /**
+     * Gets an Item from the specified slot.
+     * @param slot The identification string of the slot.
+     * @return The Item in that slot or null if it doesn't exist.
+     */
+    public Item get(String slot){
+        if(slot.startsWith("e")){
+            switch(slot){
+                case "e0": return equipment.weapon;
+                case "e1": return equipment.amulet1;
+                case "e2": return equipment.amulet2;
+                case "e3": return equipment.helmet; 
+                case "e4": return equipment.chestplate; 
+                case "e5": return equipment.leggings; 
+                case "e6": return equipment.boots; 
+            }
+        }else{
+            int s = Integer.parseInt(slot);
+            if(s<size()) return get(s);
+        }
+        return null;
     }
     
     @Override
     public boolean remove(Object i){
         if(!super.remove(i)){
             try{
-                owner.equipment.unequip((Apparatus)i);
+                equipment.unequip((Apparatus)i);
                 return true;
             }catch(ClassCastException e){
                 return false;

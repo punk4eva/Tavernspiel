@@ -11,6 +11,9 @@ import listeners.Interactable;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class represents Receptacles that have a physical existence, i.e: not
+ * just Inventory.
  */
 public abstract class PhysicalReceptacle extends Receptacle implements Interactable{
     

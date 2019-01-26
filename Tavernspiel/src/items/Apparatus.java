@@ -4,6 +4,8 @@ package items;
 import animation.LoadableStillAnimation;
 import containers.Equipment;
 import creatureLogic.Description;
+import creatures.Creature;
+import creatures.Hero;
 import enchantments.Enchantment;
 import enchantments.Enchantment.EnchantmentAffinity;
 import gui.mainToolbox.Main;
@@ -28,7 +30,7 @@ public abstract class Apparatus extends Item{
     
     private final static long serialVersionUID = 308217;
     
-    protected Equipment equipment;
+    protected Creature owner;
     public int durability;
     public int maxDurability;
     public double level = 0;
@@ -67,6 +69,9 @@ public abstract class Apparatus extends Item{
         imageLoader = lo;
     }
     
+    /**
+     * Handles the state change that happens when this Apparatus is used.
+     */
     public void use(){
         if(usesTillIdentify>0){
             usesTillIdentify--;
@@ -76,9 +81,12 @@ public abstract class Apparatus extends Item{
         else durability--;
     }
     
+    /**
+     * Breaks this Apparatus down.
+     */
     public void breakDown(){
-        Main.addMessage(ConstantFields.badColor, "Your " + name + " has broken.");
-        equipment.plop(this);
+        if(owner instanceof Hero) Main.addMessage(ConstantFields.badColor, "Your " + name + " has broken.");
+        owner.inventory.equipment.plop(this, owner);
     }
     
     /**
@@ -86,6 +94,9 @@ public abstract class Apparatus extends Item{
      */
     public abstract void upgrade();
     
+    /**
+     * Tests if the Enchantment will survive the upgrade.
+     */
     public void testEnchantment(){
         if(enchantment!=null && (level>11 || Distribution.chance(1, 12-level))){
             if(enchantment.penalize(EnchantmentAffinity.OFFENSIVE)){
@@ -111,16 +122,16 @@ public abstract class Apparatus extends Item{
      */
     public void setToUnequipped(){
         actions[2] = ItemAction.EQUIP;
-        equipment = null;
+        owner = null;
     }
     
     /**
      * Sets the ItemActions to equipped status.
-     * @param eq
+     * @param c The owner.
      */
-    public void setToEquipped(Equipment eq){
+    public void setToEquipped(Creature c){
         actions[2] = ItemAction.UNEQUIP;
-        equipment = eq;
+        owner = c;
     }
     
     @Override

@@ -9,7 +9,6 @@ import java.util.LinkedList;
  * @author Adam Whittaker
  * 
  * Handles storage of items.
- * 
  */
 public abstract class Receptacle extends LinkedList<Item>{
     

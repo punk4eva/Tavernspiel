@@ -69,26 +69,26 @@ public abstract class ItemSpecificScroll extends Scroll implements ScreenListene
                 Window.main.setInventoryActive(false);
                 used = false;
                 break;
-            case "Weapon": if(hero.equipment.weapon!=null){
-                used = use(hero, hero.equipment.weapon);
+            case "Weapon": if(hero.inventory.equipment.weapon!=null){
+                used = use(hero, hero.inventory.equipment.weapon);
             } break;
-            case "Helmet": if(hero.equipment.helmet!=null){
-                used = use(hero, hero.equipment.helmet);
+            case "Helmet": if(hero.inventory.equipment.helmet!=null){
+                used = use(hero, hero.inventory.equipment.helmet);
             } break;
-            case "Chestplate": if(hero.equipment.chestplate!=null){
-                used = use(hero, hero.equipment.chestplate);
+            case "Chestplate": if(hero.inventory.equipment.chestplate!=null){
+                used = use(hero, hero.inventory.equipment.chestplate);
             } break;
-            case "Leggings": if(hero.equipment.leggings!=null){
-                used = use(hero, hero.equipment.leggings);
+            case "Leggings": if(hero.inventory.equipment.leggings!=null){
+                used = use(hero, hero.inventory.equipment.leggings);
             } break;
-            case "Boots": if(hero.equipment.boots!=null){
-                used = use(hero, hero.equipment.boots);
+            case "Boots": if(hero.inventory.equipment.boots!=null){
+                used = use(hero, hero.inventory.equipment.boots);
             } break;
-            case "Amulet1": if(hero.equipment.amulet1!=null){
-                used = use(hero, hero.equipment.amulet1);
+            case "Amulet1": if(hero.inventory.equipment.amulet1!=null){
+                used = use(hero, hero.inventory.equipment.amulet1);
             } break;
-            case "Amulet2": if(hero.equipment.amulet2!=null){
-                used = use(hero, hero.equipment.amulet2);
+            case "Amulet2": if(hero.inventory.equipment.amulet2!=null){
+                used = use(hero, hero.inventory.equipment.amulet2);
             } break;
             default: try{
                 int n = Integer.parseInt(sc.getName());

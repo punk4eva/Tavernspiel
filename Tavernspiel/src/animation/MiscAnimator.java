@@ -1,6 +1,7 @@
 
 package animation;
 
+import animation.assets.ThrowAnimation;
 import gui.mainToolbox.Main;
 import items.Item;
 import items.equipment.Wand;
@@ -42,10 +43,32 @@ public class MiscAnimator implements AnimationListener{
         }
     }
     
+    /**
+     * Animates an Item throw.
+     * @param i The Item
+     * @param fx The starting x
+     * @param fy The starting y
+     * @param tx The dest x
+     * @param ty The dest y
+     */
+    public void drawItemThrow(Item i, int fx, int fy, int tx, int ty){
+        ThrowAnimation an = new ThrowAnimation(i, fx, fy, tx, ty, this); 
+        addAnimation(an);
+        captureTurnThread(an);
+    }
     
-    @Unfinished
-    public void throwItem(int x, int y, Item i, int x0, int y0){
-        //queue.add(new Animation(Window.main));
+    /**
+     * Tells the TurnThread to wait until the given Animation is over.
+     * @param a
+     */
+    private void captureTurnThread(TrackableAnimation a){
+        synchronized(a){
+            while(!a.done){
+                try{
+                    a.wait();
+                }catch(InterruptedException e){}
+            }
+        }
     }
     
     /**
@@ -78,6 +101,10 @@ public class MiscAnimator implements AnimationListener{
     }
 
     @Override
-    public void animationDone(Animation a){}
+    public void animationDone(Animation a){
+        synchronized(a){
+            a.notify();
+        }
+    }
     
 }

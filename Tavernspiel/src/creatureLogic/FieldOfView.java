@@ -69,7 +69,7 @@ public class FieldOfView implements Serializable{
         while(!runners.isEmpty()){
             runners.removeIf(r -> r.fuel==0);
             runners.stream().forEach(r -> {
-                Integer[] c = r.run(area);
+                Integer[] c = r.see(area);
                 visible.add(c);
             });
         }
@@ -99,11 +99,26 @@ public class FieldOfView implements Serializable{
         }
         
         /**
-         * Moves forward one tile.
+         * Creates a new instance.
+         * @param _x The x of the viewer. 
+         * @param _y The y of the viewer.
+         * @param tx The destination x.
+         * @param ty The destination y.
+         */
+        public LightRay(int _x, int _y, int tx, int ty){
+            x = _x;
+            y = _y;
+            fuel = (int) Math.ceil(Math.sqrt(Math.pow(x-tx, 2)+Math.pow(y-ty, 2)));
+            ix = (tx-x)/(double)fuel;
+            iy = (ty-y)/(double)fuel;
+        }
+        
+        /**
+         * Moves forward one tile as a ray of light.
          * @param area The Area the LightRay is located in.
          * @return The new coordinates of the LightRay.
          */
-        public Integer[] run(Area area){
+        public Integer[] see(Area area){
             fuel--;
             dx+=ix;
             dy+=iy;
@@ -122,6 +137,38 @@ public class FieldOfView implements Serializable{
                 dy++;
             }
             if(!area.map[y][x].transparent) fuel = 0;
+            return new Integer[]{x, y};
+        }
+        
+        /**
+         * Moves forward one tile as a physical object.
+         * @param area The Area the LightRay is located in.
+         * @return The new coordinates of the LightRay.
+         */
+        public Integer[] physical(Area area){
+            Integer[] prev = new Integer[]{x, y};
+            while(fuel>0){
+                fuel--;
+                dx+=ix;
+                dy+=iy;
+                if(dx>=1){
+                    dx--;
+                    x++;
+                }else if(dx<=-1){
+                    x--;
+                    dx++;
+                }
+                if(dy>=1){
+                    dy--;
+                    y++;
+                }else if(dy<=-1){
+                    y--;
+                    dy++;
+                }
+                if(!area.map[y][x].treadable) return prev;
+                if(!area.map[y][x].transparent) fuel = 0;
+                prev = new Integer[]{x, y};
+            }
             return new Integer[]{x, y};
         }
         

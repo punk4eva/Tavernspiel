@@ -309,11 +309,11 @@ public class Area implements Serializable{
         //@unfinished
         try{
             getReceptacle(c.x, c.y).addAll(c.inventory);
-            getReceptacle(c.x, c.y).addAll(c.equipment);
+            getReceptacle(c.x, c.y).addAll(c.inventory.equipment);
         }catch(NullPointerException e){
             Floor floor = new Floor(c.x, c.y);
             floor.addAll(c.inventory);
-            floor.addAll(c.equipment);
+            floor.addAll(c.inventory.equipment);
             addReceptacle(floor);
         }
         objects.remove(c);

@@ -1,6 +1,7 @@
 
 package containers;
 
+import creatures.Creature;
 import creatures.Hero;
 import dialogues.Dialogue;
 import gui.mainToolbox.Main;
@@ -12,19 +13,9 @@ import items.equipment.HeldWeapon;
 import items.equipment.Helmet;
 import items.equipment.Leggings;
 import items.equipment.MeleeWeapon;
-import java.awt.Graphics;
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
 import logic.ConstantFields;
-import static logic.ConstantFields.beginHeight;
-import static logic.ConstantFields.beginWidth;
-import static logic.ConstantFields.padding;
-import static logic.ConstantFields.sqheight;
-import static logic.ConstantFields.sqwidth;
-import static logic.ConstantFields.truthPredicate;
 import logic.Distribution;
-import logic.ImageUtils;
 
 /**
  *
@@ -36,24 +27,12 @@ public class Equipment implements Serializable{
     
     private final static long serialVersionUID = 11121437;
     
-    public final List<Screen> screens;
-    public final Hero heroOwner;
     public HeldWeapon weapon;
     public Apparatus amulet1, amulet2;
     public Helmet helmet;
     public Chestplate chestplate;
     public Leggings leggings;
     public Boots boots;
-    
-    
-    /**
-     * Creates a new instance
-     * @param hero The owner.
-     */
-    public Equipment(Hero hero){
-        screens = getScreens((HeroInventory)hero.inventory);
-        heroOwner = hero;
-    }
     
     /**
      * Returns the raw damage number of the current Weapon or a strength
@@ -99,18 +78,19 @@ public class Equipment implements Serializable{
     
     /**
      * Equips a piece of equipment and returns what was displaced.
+     * @param c The equipper.
      * @param app The apparatus to equip.
      * @param choice The choice of amulet to remove should it come to it.
      * @return The apparatus that was displaced, null if nothing.
      */
-    public Apparatus equip(Apparatus app, int... choice){
+    public Apparatus equip(Creature c, Apparatus app, int... choice){
         if(app.durability<=0){
             Main.addMessage(ConstantFields.interestColor, "You cannot equip a "
                     + "broken item.");
             return null;
         }
         Apparatus ret;
-        app.setToEquipped(this);
+        app.setToEquipped(c);
         if(app instanceof HeldWeapon){
             ret = weapon;
             if(ret!=null) ret.setToUnequipped();
@@ -170,47 +150,6 @@ public class Equipment implements Serializable{
         if(i!=null) i.setToUnequipped();
         return i;
     }
-
-    /**
-     * Paints this object onto the given graphics.
-     * @param g The graphics to draw on.
-     * @param beginWidth The width to begin drawing at.
-     * @param beginHeight The height to begin drawing at.
-     * @param sqwidth The width of item squares.
-     * @param sqheight The height of item squares.
-     * @param padding The length of padding.
-     */
-    public void paint(Graphics g, int beginWidth, int beginHeight, int sqwidth, int sqheight, int padding){
-        if(weapon!=null) ImageUtils.paintItemSquare(g, beginWidth+padding, beginHeight+padding, sqwidth, sqheight, weapon, heroOwner, truthPredicate);
-        else ImageUtils.paintOutline(g, beginWidth+padding, beginHeight+padding, sqwidth, sqheight, ConstantFields.weaponOutline);
-        if(helmet!=null) ImageUtils.paintItemSquare(g, beginWidth+2*padding+sqwidth, beginHeight+padding, sqwidth, sqheight, helmet, heroOwner, truthPredicate);
-        else ImageUtils.paintOutline(g, beginWidth+2*padding+sqwidth, beginHeight+padding, sqwidth, sqheight, ImageUtils.scaledHelmetOutline);
-        if(chestplate!=null) ImageUtils.paintItemSquare(g, beginWidth+3*padding+2*sqwidth, beginHeight+padding, sqwidth, sqheight, chestplate, heroOwner, truthPredicate);
-        else ImageUtils.paintOutline(g, beginWidth+3*padding+2*sqwidth, beginHeight+padding, sqwidth, sqheight, ImageUtils.scaledChestplateOutline);
-        if(leggings!=null) ImageUtils.paintItemSquare(g, beginWidth+4*padding+3*sqwidth, beginHeight+padding, sqwidth, sqheight, leggings, heroOwner, truthPredicate);
-        else ImageUtils.paintOutline(g, beginWidth+4*padding+3*sqwidth, beginHeight+padding, sqwidth, sqheight, ImageUtils.scaledLeggingsOutline);
-        if(boots!=null) ImageUtils.paintItemSquare(g, beginWidth+5*padding+4*sqwidth, beginHeight+padding, sqwidth, sqheight, boots, heroOwner, truthPredicate);
-        else ImageUtils.paintOutline(g, beginWidth+5*padding+4*sqwidth, beginHeight+padding, sqwidth, sqheight, ImageUtils.scaledBootsOutline);
-        
-        if(amulet1!=null) ImageUtils.paintItemSquare(g, beginWidth+padding, beginHeight+2*padding+sqheight, sqwidth, sqheight, amulet1, heroOwner, truthPredicate);
-        else ImageUtils.paintOutline(g, beginWidth+padding, beginHeight+2*padding+sqheight, sqwidth, sqheight, ConstantFields.amuletOutline);
-        if(amulet2!=null) ImageUtils.paintItemSquare(g, beginWidth+2*padding+sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight, amulet2, heroOwner, truthPredicate);
-        else ImageUtils.paintOutline(g, beginWidth+2*padding+sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight, ConstantFields.amuletOutline);
-    }
-    
-    private List<Screen> getScreens(HeroInventory inv){
-        if(screens!=null) return screens;
-        List<Screen> ret = new LinkedList<>();
-        ret.add(new Screen("e0", beginWidth+padding, beginHeight+padding, sqwidth, sqheight, inv.manager));
-        ret.add(new Screen("e3", beginWidth+2*padding+sqwidth, beginHeight+padding, sqwidth, sqheight, inv.manager));
-        ret.add(new Screen("e4", beginWidth+3*padding+2*sqwidth, beginHeight+padding, sqwidth, sqheight, inv.manager));
-        ret.add(new Screen("e5", beginWidth+4*padding+3*sqwidth, beginHeight+padding, sqwidth, sqheight, inv.manager));
-        ret.add(new Screen("e6", beginWidth+5*padding+4*sqwidth, beginHeight+padding, sqwidth, sqheight, inv.manager));
-
-        ret.add(new Screen("e1", beginWidth+padding, beginHeight+2*padding+sqheight, sqwidth, sqheight, inv.manager));
-        ret.add(new Screen("e2", beginWidth+2*padding+sqwidth, beginHeight+2*padding+sqheight, sqwidth, sqheight, inv.manager));
-        return ret;
-    }
     
     /**
      * Returns a random type of armour based on their respective rarities.
@@ -230,27 +169,34 @@ public class Equipment implements Serializable{
     /**
      * Removes the Apparatus and plops it on the ground.
      * @param app
+     * @param owner
      */
-    public void plop(Apparatus app){
+    public void plop(Apparatus app, Creature owner){
         unequip(app);
-        heroOwner.area.plop(app, heroOwner.x, heroOwner.y);
+        owner.area.plop(app, owner.x, owner.y);
     }
     
+    /**
+     * This class handles the I/O of equipping of an Apparatus by a Hero.
+     */
     public class EquipApparatusDialogue extends Dialogue{
 
         private final String opA;
         public Apparatus reject, app;
+        public Hero hero;
 
         /**
          * Creates a new instance.
+         * @param h
          * @param a
          */
-        public EquipApparatusDialogue(Apparatus a){
+        public EquipApparatusDialogue(Hero h, Apparatus a){
             super("You can only wear two misc. items at a time, which do you want to"
                     + "unequip?", (String) null, amulet1.toString(4), 
                     amulet2.toString(4));
             opA = amulet1.toString(4);
             app = a;
+            hero = h;
         }
 
         @Override
@@ -259,7 +205,7 @@ public class Equipment implements Serializable{
                 Main.addMessage(ConstantFields.interestColor, "You cannot equip a "
                         + "broken item.");
             }else{
-                app.setToEquipped(Equipment.this);
+                app.setToEquipped(hero);
                 if(app instanceof HeldWeapon){
                     reject = weapon;
                     if(reject!=null) reject.setToUnequipped();

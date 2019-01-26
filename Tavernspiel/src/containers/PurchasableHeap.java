@@ -6,6 +6,8 @@ import items.Item;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class represents a stash of Items that can be purchased.
  */
 public class PurchasableHeap extends Floor{
     
@@ -26,6 +28,11 @@ public class PurchasableHeap extends Floor{
         price = p;
     }
     
+    /**
+     * Creates an instance.
+     * @param r
+     * @param p
+     */
     public PurchasableHeap(PhysicalReceptacle r, int p){
         super(r, r.x, r.y);
         price = p;

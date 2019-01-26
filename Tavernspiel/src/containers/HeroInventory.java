@@ -41,9 +41,10 @@ public class HeroInventory extends Inventory{
      * @param hero The owner.
      */
     public HeroInventory(Hero hero){
-        super(hero);
-        screens = getScreens();
+        super(hero, new HeroEquipment(hero)); 
         quickslot = new QuickSlot(hero, this);
+        screens = getScreens();
+        ((HeroEquipment) equipment).screens = ((HeroEquipment) equipment).getScreens(this);
     }
     
     private List<Screen> getScreens(){
@@ -99,24 +100,6 @@ public class HeroInventory extends Inventory{
                         sqwidth, sqheight, true);
             }
         }
-    }
-    
-    public Item get(String slot){
-        if(slot.startsWith("e")){
-            switch(slot){
-                case "e0": return owner.equipment.weapon;
-                case "e1": return owner.equipment.amulet1;
-                case "e2": return owner.equipment.amulet2;
-                case "e3": return owner.equipment.helmet; 
-                case "e4": return owner.equipment.chestplate; 
-                case "e5": return owner.equipment.leggings; 
-                case "e6": return owner.equipment.boots; 
-            }
-        }else{
-            int s = Integer.parseInt(slot);
-            if(s<size()) return get(s);
-        }
-        return null;
     }
     
     /**

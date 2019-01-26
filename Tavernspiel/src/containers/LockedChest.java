@@ -12,7 +12,6 @@ import level.Area;
 import level.Location;
 import logic.Distribution;
 import logic.SoundHandler;
-import logic.Utils.Catch;
 import pathfinding.Point.ExtendedDirection;
 
 /**
@@ -60,7 +59,6 @@ public class LockedChest extends Chest{
      * @param area
      * @param i
      */
-    @Catch("Line 4")
     public static void replop(int x, int y, Area area, Item i){
         LinkedList<ExtendedDirection> list = new LinkedList<>();
         for(ExtendedDirection dir : ExtendedDirection.values())

@@ -3,7 +3,6 @@ package creatures;
 
 import animation.CreatureAnimator;
 import buffs.Buff;
-import containers.Equipment;
 import containers.Inventory;
 import creatureLogic.Attack;
 import creatureLogic.Attack.CreatureAttack;
@@ -32,7 +31,6 @@ import logic.GameObject;
  */
 public class Creature extends GameObject implements Comparable<Creature>{
     
-    public Equipment equipment;
     public Inventory inventory;
     public volatile Attributes attributes;
     public FieldOfView FOV;
@@ -44,15 +42,13 @@ public class Creature extends GameObject implements Comparable<Creature>{
      * Creates a new instance.
      * @param n The name.
      * @param desc The description.
-     * @param eq The equipment.
      * @param inv The inventory.
      * @param atb The attributes.
      * @param an The Animator.
      */
-    public Creature(String n, Description desc, Equipment eq, Inventory inv, 
+    public Creature(String n, Description desc, Inventory inv, 
             Attributes atb, CreatureAnimator an){
         super(n, desc, an);
-        equipment = eq;
         inventory = inv;
         attributes = atb;
         FOV = new FieldOfView(x, y, 6);
@@ -230,7 +226,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
      * @return The next hit damage.
      */
     public double nextHit(){
-        return equipment.nextHit(attributes.strength);
+        return inventory.equipment.nextHit(attributes.strength);
     }
     
     @Override
@@ -251,15 +247,15 @@ public class Creature extends GameObject implements Comparable<Creature>{
      * @return
      */
     public Attack nextAttack(){
-        int stDif = equipment.strengthDifference(attributes.strength);
+        int stDif = inventory.equipment.strengthDifference(attributes.strength);
         if(stDif<0) return new CreatureAttack(this, "unfinished", 
-                (int)(equipment.nextHit(attributes.strength)/Math.pow(1.5, 0-stDif)), 
-                attributes.accuracy*equipment.getWeaponAccuracy()/Math.pow(1.5, 0-stDif), 
-                ((WeaponEnchantment)equipment.weapon.enchantment));
+                (int)(inventory.equipment.nextHit(attributes.strength)/Math.pow(1.5, 0-stDif)), 
+                attributes.accuracy*inventory.equipment.getWeaponAccuracy()/Math.pow(1.5, 0-stDif), 
+                ((WeaponEnchantment)inventory.equipment.weapon.enchantment));
         return new CreatureAttack(this, "unfinished",
-                equipment.nextHit(attributes.strength), 
-                attributes.accuracy*equipment.getWeaponAccuracy(), 
-                 ((WeaponEnchantment)equipment.weapon.enchantment));
+                inventory.equipment.nextHit(attributes.strength), 
+                attributes.accuracy*inventory.equipment.getWeaponAccuracy(), 
+                 ((WeaponEnchantment)inventory.equipment.weapon.enchantment));
     }
     
     

@@ -3,7 +3,7 @@ package creatures;
 
 import ai.PlayerAI;
 import animation.CreatureAnimator;
-import containers.Equipment;
+import containers.HeroEquipment;
 import containers.HeroInventory;
 import creatureLogic.Attack;
 import creatureLogic.Attributes;
@@ -58,11 +58,10 @@ public class Hero extends Creature{
                 new CreatureAnimator(ImageUtils.convertToBuffered(new ImageIcon("graphics/spritesheets/tree.png")),
                 new String[]{"stand", "move", "attack", "die"}, new int[]{2, 4, 8, 5}));
         inventory = new HeroInventory(this);
-        equipment = new Equipment(this);
         attributes.ai = new PlayerAI(this);
         try{data = new DeathData(this);}catch(Exception e){}
         //scrollBuilder = new ScrollBuilder(this);
-        screens.addAll(equipment.screens);
+        screens.addAll(((HeroEquipment)inventory.equipment).screens);
         screens.addAll(((HeroInventory)inventory).screens);
     }
     
@@ -121,7 +120,7 @@ public class Hero extends Creature{
      */
     public void paintInventory(Graphics2D g){
         ((HeroInventory)inventory).paint(g, beginWidth, beginHeight, sqwidth, sqheight, padding, ((HeroInventory)inventory).manager.predicate);
-        equipment.paint(g, beginWidth, beginHeight, sqwidth, sqheight, padding);
+        ((HeroEquipment)inventory.equipment).paint(g, beginWidth, beginHeight, sqwidth, sqheight, padding);
     }
 
     /**

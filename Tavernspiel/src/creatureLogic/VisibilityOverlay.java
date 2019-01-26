@@ -52,7 +52,7 @@ public class VisibilityOverlay extends FieldOfView{
         while(!runners.isEmpty()){
             runners.removeIf(r -> r.fuel==0);
             runners.stream().forEach(r -> {
-                Integer[] c = r.run(area);
+                Integer[] c = r.see(area);
                 map[c[1]][c[0]] = 2;
             });
         }

@@ -12,6 +12,8 @@ import level.Location;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class represents remains of past creatures.
  */
 public class SkeletalRemains extends Chest{
     

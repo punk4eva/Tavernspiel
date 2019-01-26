@@ -8,6 +8,7 @@ import animation.assets.WaterStepAnimation;
 import containers.Floor;
 import containers.PurchasableHeap;
 import creatureLogic.Attack.CreatureAttack;
+import creatureLogic.FieldOfView.LightRay;
 import creatures.Creature;
 import creatures.Hero;
 import gui.mainToolbox.Main;
@@ -21,7 +22,6 @@ import level.Area;
 import listeners.StepListener;
 import logic.ConstantFields;
 import logic.Distribution;
-import logic.Utils.Unfinished;
 import pathfinding.Point;
 import tiles.HiddenTile;
 import tiles.assets.Door;
@@ -41,13 +41,13 @@ public class AIBaseActions implements Serializable{
     public interface calcAccuracy{
         double calc(Creature c);
     }
-    public static calcAccuracy accuracyCalculation = (Serializable & calcAccuracy) c -> c.attributes.accuracy * (c.equipment.weapon instanceof MeleeWeapon ? 1 : ((MeleeWeapon)c.equipment.weapon).accuracy);
-    public void resetAccuracyCalculation(){accuracyCalculation = c -> c.attributes.accuracy * (c.equipment.weapon instanceof MeleeWeapon ? 1 : ((MeleeWeapon)c.equipment.weapon).accuracy);}
+    public static calcAccuracy accuracyCalculation = (Serializable & calcAccuracy) c -> c.attributes.accuracy * (c.inventory.equipment.weapon instanceof MeleeWeapon ? 1 : ((MeleeWeapon)c.inventory.equipment.weapon).accuracy);
+    public void resetAccuracyCalculation(){accuracyCalculation = c -> c.attributes.accuracy * (c.inventory.equipment.weapon instanceof MeleeWeapon ? 1 : ((MeleeWeapon)c.inventory.equipment.weapon).accuracy);}
     public interface calcDexterity{
         double calc(Creature c);
     }
-    public calcDexterity dexterityCalculation = (Serializable & calcDexterity) c -> c.attributes.dexterity / (c.equipment.strengthDifference(c.attributes.strength)<0 ? Math.pow(1.5, c.equipment.strengthDifference(c.attributes.strength)) : 1);
-    public void resetDexterityCalculation(){accuracyCalculation = c -> c.attributes.dexterity / (c.equipment.strengthDifference(c.attributes.strength)<0 ? Math.pow(1.5, c.equipment.strengthDifference(c.attributes.strength)) : 1);}
+    public calcDexterity dexterityCalculation = (Serializable & calcDexterity) c -> c.attributes.dexterity / (c.inventory.equipment.strengthDifference(c.attributes.strength)<0 ? Math.pow(1.5, c.inventory.equipment.strengthDifference(c.attributes.strength)) : 1);
+    public void resetDexterityCalculation(){accuracyCalculation = c -> c.attributes.dexterity / (c.inventory.equipment.strengthDifference(c.attributes.strength)<0 ? Math.pow(1.5, c.inventory.equipment.strengthDifference(c.attributes.strength)) : 1);}
     
 
     
@@ -205,7 +205,7 @@ public class AIBaseActions implements Serializable{
      * @param choiceOfAmulet The choice of amulet to replace.
      */
     public void equip(Creature c, Apparatus eq, int slot, int... choiceOfAmulet){
-        Apparatus reject = c.equipment.equip(eq, choiceOfAmulet);
+        Apparatus reject = c.inventory.equipment.equip(c, eq, choiceOfAmulet);
         c.inventory.remove(slot);
         if(reject!=null) c.inventory.add(slot, reject);
     }
@@ -216,7 +216,7 @@ public class AIBaseActions implements Serializable{
      * @param item
      */
     public void unequip(Creature c, Item item){
-        Apparatus reject = c.equipment.unequip((Apparatus)item);
+        Apparatus reject = c.inventory.equipment.unequip((Apparatus)item);
         if(!c.inventory.add(reject)){
             c.area.plop(reject, c.x, c.y);
             Main.addMessage(ConstantFields.badColor, "Your pack is too full for the " +
@@ -255,11 +255,11 @@ public class AIBaseActions implements Serializable{
      * @param x
      * @param y
      */
-    @Unfinished("Check Treadable")
     public void throwItem(Creature c, Item i, int x, int y){
         c.inventory.remove(i);
-        Main.animator.throwItem(c.x, c.y, i, x, y);
-        c.area.plop(i, x, y);
+        Integer[] co = calculateThrowingDestination(c, x, y);
+        Main.animator.drawItemThrow(i, c.x, c.y, co[0], co[1]);
+        c.area.plop(i, co[0], co[1]);
     }
     
     /**
@@ -318,6 +318,17 @@ public class AIBaseActions implements Serializable{
             area.map[y][x].interactable.interact(c, area);
             c.attributes.ai.skipping += turns*c.attributes.speed;
         }
+    }
+    
+    /**
+     * Calculates the landing point of a thrown object.
+     * @param c The thrower.
+     * @param x The dest x
+     * @param y The dest y
+     * @return The landing coordinates.
+     */
+    protected Integer[] calculateThrowingDestination(Creature c, int x, int y){
+        return new LightRay(c.x, c.y, x, y).physical(c.area);
     }
     
 }

@@ -63,4 +63,9 @@ public class Chest extends PhysicalReceptacle{
         return 1;
     }
     
+    @Override
+    public final boolean add(Item i){
+        return super.add(i);
+    }
+    
 }

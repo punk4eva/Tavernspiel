@@ -16,8 +16,8 @@
 package items.equipment;
 
 import buffs.Buff;
-import containers.Equipment;
 import creatureLogic.Description;
+import creatures.Creature;
 import items.actions.ItemAction;
 import listeners.ScreenItem;
 import listeners.XPListener;
@@ -52,14 +52,14 @@ public abstract class MythicalWeapon extends ModifiedWeapon implements ScreenIte
     
     @Override
     public void setToUnequipped(){
-        equipment.heroOwner.attributes.xpListener = null;
+        owner.attributes.xpListener = null;
         super.setToUnequipped();
     }
     
     @Override
-    public void setToEquipped(Equipment eq){
-        super.setToEquipped(eq);
-        equipment.heroOwner.attributes.xpListener = this;
+    public void setToEquipped(Creature c){
+        super.setToEquipped(c);
+        owner.attributes.xpListener = this;
     }
     
 }
