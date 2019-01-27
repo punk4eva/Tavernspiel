@@ -20,6 +20,8 @@ public class CreatureDistribution implements Serializable{
     protected final int[] chances;
 
     /**
+     * @param out
+     * @param cha
      * @see Distribution.new
      */
     public CreatureDistribution(Creature[] out, int[] cha){

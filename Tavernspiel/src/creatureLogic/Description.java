@@ -2,6 +2,7 @@
 package creatureLogic;
 
 import java.io.Serializable;
+import logic.Utils.Unfinished;
 
 /**
  *
@@ -9,6 +10,7 @@ import java.io.Serializable;
  * 
  * A layered description that is accessible to different levels based on expertise.
  */
+@Unfinished("Redo and find uses of '|'")
 public class Description implements Serializable{
     
     private final static long serialVersionUID = -56677412;

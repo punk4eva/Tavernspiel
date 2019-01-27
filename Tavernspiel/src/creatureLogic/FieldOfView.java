@@ -11,6 +11,8 @@ import level.Area;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * Stores which tiles can be seen by a Creature.
  */
 public class FieldOfView implements Serializable{
     

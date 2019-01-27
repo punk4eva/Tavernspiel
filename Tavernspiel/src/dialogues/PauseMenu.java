@@ -21,7 +21,7 @@ public class PauseMenu extends Dialogue{
         Game game = (Game) Window.main;
         switch(name.getName()){
             case "Options":
-                new OptionsMenu().next(game);
+                new SettingsMenu().next(game);
                 break;
             case "How to play":
                 new InstructionsMenu().next(game);

@@ -10,7 +10,7 @@ import gui.mainToolbox.Screen;
  *
  * @author Adam Whittaker
  * 
- * A dialogue to catch exceptions at runtime.
+ * A dialogue to catch exceptions at run-time.
  */
 public class ExceptionDialogue extends Dialogue{
     

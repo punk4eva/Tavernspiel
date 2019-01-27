@@ -21,6 +21,7 @@ import java.util.LinkedList;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import logic.GameObject;
+import logic.Utils.Unfinished;
 
 /**
  * 
@@ -29,6 +30,8 @@ import logic.GameObject;
  * Base Creature that all others inherit from.
  * The implementation of Comparable is for determining whether an enemy is likely to win in a fight.
  */
+@Unfinished("Might remove comparable implementation since it relies on AI too "
+        + "much.")
 public class Creature extends GameObject implements Comparable<Creature>{
     
     public Inventory inventory;

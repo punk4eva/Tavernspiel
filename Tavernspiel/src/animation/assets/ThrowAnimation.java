@@ -24,14 +24,14 @@ import listeners.AnimationListener;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class handles the animation of throwing an Item.
  */
 public class ThrowAnimation extends DrawnAnimation{
     
     private final Item item;
     private int x, y;
     private final int toX, toY, fX, fY;
-    //private final double dx, dy;
-    //private double xChange, yChange;
     
     private static final int DURATION = 360;
 
@@ -40,26 +40,14 @@ public class ThrowAnimation extends DrawnAnimation{
         item = i;
         x = fX = fx*16;
         y = fY = fy*16;
-        toX = 16*tx;
-        toY = 16*ty;
+        toX = 16*tx-fX;
+        toY = 16*ty-fY;
     }
 
     @Override
     public void animate(Graphics2D g, int focusx, int focusy){
-        /*xChange+=dx;
-        yChange+=dy;
-        if(Math.abs(xChange)>=1){
-        if(xChange>0) x += Math.floor(xChange);
-        else x += Math.ceil(xChange);
-        xChange %= 1;
-        }
-        if(Math.abs(yChange)>=1){
-        if(yChange>0) x += Math.floor(yChange);
-        else y += Math.ceil(yChange);
-        yChange %= 1;
-        }*/
-        x = (int)((toX-fX)*(currentTicks/maxTicks))+fX;
-        y = (int)((toY-fY)*(currentTicks/maxTicks))+fY;
+        x = (int)(toX*(currentTicks/maxTicks))+fX;
+        y = (int)(toY*(currentTicks/maxTicks))+fY;
         item.animation.animate(g, x+focusx, y+focusy);
         recalc();
     }

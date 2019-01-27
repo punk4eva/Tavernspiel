@@ -6,6 +6,8 @@ import gui.mainToolbox.Screen;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class is the variant of ItemDialogue for money.
  */
 public class MoneyDialogue extends Dialogue{
     

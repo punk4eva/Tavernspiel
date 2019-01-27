@@ -1,6 +1,5 @@
 package creatures.passives;
 
-import ai.intelligence.IntelligentAI1;
 import animation.CreatureAnimator;
 import creatureLogic.Attack;
 import creatureLogic.Attack.CreatureAttack;
@@ -9,20 +8,21 @@ import creatureLogic.Description;
 import creatures.Creature;
 import creatures.Hero;
 import javax.swing.ImageIcon;
-import level.Area;
 import logic.ImageUtils;
 
 /**
  *
- * @author Charlie Hands
+ * @author Charlie Hands and Adam Whittaker
+ * 
+ * This is the base class for all passive-type NPCs.
  */
 public class PassiveCreature extends Creature{
     
     public final String[] speechOptions;
     public final boolean mortal;
     
-    public PassiveCreature(String name, boolean k, String... spo){
-        super(name, new Description("creatures", ""), new Attributes(new PassiveAI(),1,1,1,1,0.025,20,10,0), 
+    public PassiveCreature(String name, Attributes ab, boolean k, String... spo){
+        super(name, new Description("creatures", ""), ab, 
                 new CreatureAnimator(ImageUtils.convertToBuffered(new ImageIcon("graphics/spritesheets/tree.png")), new String[]{"stand", "move", "attack", "die"}, new int[]{2, 4, 8, 5}));
         speechOptions = spo;
         mortal = k;
@@ -43,15 +43,6 @@ public class PassiveCreature extends Creature{
                 }
             }
         }
-    }
-    
-    private static class PassiveAI extends IntelligentAI1{
-        
-        @Override
-        public void turn(Creature c, Area area){
-            throw new UnsupportedOperationException("Turn not initialized.");
-        }
-        
     }
     
 }

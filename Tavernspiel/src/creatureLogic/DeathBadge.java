@@ -10,6 +10,8 @@ import logic.Utils.Unfinished;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * A badge whose success criteria transcend the death of the player.
  */
 public class DeathBadge extends Badge{
     

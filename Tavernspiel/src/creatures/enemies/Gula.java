@@ -23,9 +23,9 @@ public class Gula extends Creature{
      */
     public Gula(int level){
         super("Gula", new Description("creatures", "Gula are gluttonous creatures, and nothing will sate their appetite.",
-                "They are commonly summoned by sages as part of a war effort, and can be extremely dangerous to " +
-                "unarmed opponents, although their main function is resource gathering. This Gula is probably a remenant of a past war.")
-                , new Attributes(new IntelligentAI3(), 1, 1, 0.8+0.05*level, 1,
+                "They were commonly summoned by sages as part of a war effort, and can be extremely dangerous to " +
+                "unarmed opponents even though their main function is resource gathering. This Gula is probably a remenant of a past war."),
+                new Attributes(new IntelligentAI3(), 1, 1, 0.8+0.05*level, 1,
                 0.025, 8+2*level, 7, 1+level/2), 
                 new CreatureAnimator(ImageUtils.convertToBuffered(new ImageIcon("graphics/spritesheets/tree.png")),
                 new String[]{"stand", "move", "attack", "die"}, new int[]{2, 4, 8, 5}));

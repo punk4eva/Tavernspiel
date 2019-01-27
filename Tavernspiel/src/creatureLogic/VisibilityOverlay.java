@@ -10,6 +10,8 @@ import logic.ConstantFields;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * The Hero version of FieldOfView which handles the Fog Of War.
  */
 public class VisibilityOverlay extends FieldOfView{
     

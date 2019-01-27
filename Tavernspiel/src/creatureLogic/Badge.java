@@ -11,6 +11,8 @@ import logic.Utils;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class models the behaviour of "achievements".
  */
 public class Badge implements Serializable{
     

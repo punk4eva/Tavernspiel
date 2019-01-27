@@ -97,9 +97,9 @@ public class Attack{
          */
         public CreatureAttack(Creature c, String dm, double d, double acc, AttackType t, boolean m){
             super(d, dm, t, m);
+            if(magic) acc *= 2;
             attacker = c;
             accuracy = acc;
-            if(magic) acc *= 2;
             enchantment = null;
         }
         

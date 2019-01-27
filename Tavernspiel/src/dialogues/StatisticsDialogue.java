@@ -7,6 +7,8 @@ import gui.mainToolbox.Screen;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class opens the statistics info pop-up for the Hero.
  */
 public class StatisticsDialogue extends Dialogue{
     

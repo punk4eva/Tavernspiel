@@ -114,6 +114,11 @@ public abstract class Dialogue implements ScreenListener, KeyListener{
         });
     }
 
+    /**
+     * Checks to see if the given ScreenEvent would cause the Dialogue to
+     * deactivate and deactivates it if necessary.
+     * @param sce
+     */
     public void checkDeactivate(ScreenEvent sce){
         if(!sce.equals(offCase)||clickOffable) deactivate();
     }

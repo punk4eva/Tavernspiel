@@ -8,7 +8,7 @@ import logic.Utils.Unfinished;
  *
  * @author Adam Whittaker
  */
-@Unfinished
+@Unfinished("More work needed and might replace with superior non-class system.")
 public enum EnClass{
     
     //AITemplate ait, double sp, double atksp, double dex, double acc, double reg, int mhp, int stg, int xp, Resistance... rst

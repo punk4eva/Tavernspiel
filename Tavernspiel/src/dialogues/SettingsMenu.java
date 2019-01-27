@@ -7,8 +7,10 @@ import logic.Utils.Unfinished;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class opens the settings menu.
  */
-public class OptionsMenu{
+public class SettingsMenu{
     
     /**
      * Opens the Options menu in the given Game.

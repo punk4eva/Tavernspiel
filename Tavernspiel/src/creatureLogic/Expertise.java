@@ -7,7 +7,7 @@ import java.io.Serializable;
  *
  * @author Adam Whittaker
  * 
- * Represents the knowledge of the Hero
+ * Represents the knowledge of the Hero.
  */
 public class Expertise implements Serializable{
     

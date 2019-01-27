@@ -33,6 +33,10 @@ public abstract class Action implements Runnable{
         turns = t;
     }
     
+    /**
+     * This class encapsulates all the information needed to execute an 
+     * ItemAction.
+     */
     public static class ActionOnItem extends Action{
         
         private final ItemAction action;
@@ -69,6 +73,9 @@ public abstract class Action implements Runnable{
     
     }
     
+    /**
+     * This class allows handles the action of movement.
+     */
     public static class MoveAction extends Action{
         
         private final Integer[] dir;
