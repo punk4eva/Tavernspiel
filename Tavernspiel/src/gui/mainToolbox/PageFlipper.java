@@ -6,6 +6,7 @@ import java.awt.Cursor;
 import java.awt.Point;
 import java.awt.Toolkit;
 import javax.swing.ImageIcon;
+import logic.Utils.Unfinished;
 
 /**
  *
@@ -13,6 +14,7 @@ import javax.swing.ImageIcon;
  * 
  * This class controls which page to display on-screen.
  */
+@Unfinished("Integrate into the game")
 public class PageFlipper{
     
     private final Main main;

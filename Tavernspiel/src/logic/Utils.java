@@ -80,12 +80,6 @@ public final class Utils{
         for(int i : ary) if(i == key) return true;
         return false;
     }
-
-    public static String toFileString(int[] ary){
-        String ret = "{";
-        for(int i : ary) ret += i + "*";
-        return ret.substring(0, ret.length()-1) + "}";
-    }
     
     public static int floor(double d){
         if(d>=0) return (int) Math.floor(d);

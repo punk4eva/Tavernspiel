@@ -9,6 +9,8 @@ import javax.swing.JFrame;
 /**
  *
  * @author Charlie Hands and Adam Whittaker
+ * 
+ * The actual Window onto which everything is painted.
  */
 public class Window extends Canvas{
     

@@ -8,7 +8,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.WritableRaster;
@@ -190,7 +189,7 @@ public class ImageUtils{
     }
     
     public static int getStringHeight(){
-        return (int)Math.ceil(ConstantFields.textFont.getLineMetrics("Example", new FontRenderContext(new AffineTransform(), true, true)).getHeight());
+        return (int)Math.ceil(ConstantFields.textFont.getLineMetrics("Example", ConstantFields.frc).getHeight());
     }
     
     public static void alpha(BufferedImage bi){

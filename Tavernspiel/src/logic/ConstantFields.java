@@ -7,6 +7,8 @@ import static items.builders.ItemBuilder.getIcon;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Image;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.AffineTransform;
 import java.util.function.Predicate;
 import javax.swing.ImageIcon;
 
@@ -19,7 +21,9 @@ public interface ConstantFields{
     //inventory colors
     public static final Color unidentifiedColor = new Color(129, 35, 160, 80);
     public static final Color cursedColor = new Color(210, 0, 0, 40);
-    //misc text colors
+    //misc text constants
+    public static final FontRenderContext frc = new FontRenderContext(new AffineTransform(), true, true);
+    
     public static final Color textColor = Color.YELLOW;
     public static final Color backColor = Color.GRAY;
     public static final Color frontColor = new Color(140, 12, 63);

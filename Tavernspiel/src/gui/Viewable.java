@@ -8,6 +8,8 @@ import java.util.List;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * A pop-up or other Object that can be put on the Canvas and clicked on.
  */
 public interface Viewable{
     List<Screen> getScreens();

@@ -11,6 +11,8 @@ import logic.Distribution;
 /**
  *
  * @author Adam Whittaker and Charlie Hands
+ * 
+ * The Page that offers hints and tips while the Game is loading.
  */
 public class LoadingPage implements Page{
     

@@ -9,6 +9,10 @@ import java.util.concurrent.LinkedBlockingDeque;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * Runs KeyEvents in order to have more control over them.
+ * 
+ * @Unfinished May be pointless.
  */
 public class KeyProcessor extends Thread implements KeyListener{
     

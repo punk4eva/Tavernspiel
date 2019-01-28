@@ -11,7 +11,7 @@ import listeners.ScreenListener;
  * @author Adam Whittaker
  * 
  * An Object that represents the region where something can be clicked, and tells
- * the ScreenListener
+ * the ScreenListener.
  */
 public class Screen implements Serializable{
     
@@ -139,14 +139,14 @@ public class Screen implements Serializable{
      * Resets the size and coordinates of this Screen.
      * @param tx the top left x
      * @param ty the top left y
-     * @param bx the bottom right x
-     * @param by the bottom right y
+     * @param w The width
+     * @param h The height
      */
-    public void reposition(int tx, int ty, int bx, int by){
+    public void reposition(int tx, int ty, int w, int h){
         tlx = tx;
         tly = ty;
-        brx = bx;
-        bry = by;
+        brx = tx+w;
+        bry = ty+h;
     }
     
 }

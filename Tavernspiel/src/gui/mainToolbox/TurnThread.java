@@ -17,8 +17,6 @@ public class TurnThread extends Thread{
 
     private volatile double turnsPassed = 0;
     
-    //private volatile boolean screensActive;
-    
     @Unfinished("Remove debugging")
     private boolean sleeping;
 
@@ -76,14 +74,5 @@ public class TurnThread extends Thread{
         gameTurns += t;
         turnsPassed += t;
     }
-    
-    /*public synchronized void setScreensActive(boolean sc){
-        if(screensActive&&!sc){
-            screensActive = false;
-            notify();
-        }else if(!screensActive&&sc){
-            screensActive = true;
-        }
-    }*/
         
 }

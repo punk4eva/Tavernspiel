@@ -15,7 +15,10 @@ import logic.Utils.Unfinished;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * Handles Mouse input.
  */
+@Unfinished("Could combine with KeyProcessor")
 public class MouseInterpreter extends MouseAdapter{
     
     public volatile static int focusX=16, focusY=16;

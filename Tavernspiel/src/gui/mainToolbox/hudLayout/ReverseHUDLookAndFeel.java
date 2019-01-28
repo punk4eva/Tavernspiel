@@ -18,7 +18,9 @@ import logic.ImageUtils;
 
 /**
  *
- * @author charl
+ * @author Charlie Hands and Adam Whittaker
+ * 
+ * A reverse HUD layout. Buttons and Action Icons are on the left.
  */
 public class ReverseHUDLookAndFeel implements HUDStrategy{
     

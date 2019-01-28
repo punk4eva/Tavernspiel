@@ -24,12 +24,16 @@ import java.io.PrintStream;
 import java.util.function.Predicate;
 import level.Area;
 import logic.SoundHandler;
+import logic.Utils.Unfinished;
 import testUtilities.TestUtil;
 
 
 /**
  *
  * @author Adam Whittaker
+ * 
+ * The kernel of the game. Manages threads and controls access to different 
+ * managers such as the GuiBase.
  */
 public abstract class Main extends Canvas implements Runnable, Page{
     
@@ -104,6 +108,9 @@ public abstract class Main extends Canvas implements Runnable, Page{
         gui.addDraggable(scs);
     }
     
+    /**
+     * Removes the top Viewable from the display.
+     */
     public void removeViewable(){
         gui.removeViewable();
     }
@@ -168,10 +175,19 @@ public abstract class Main extends Canvas implements Runnable, Page{
         mouse.setDirectFocus(x, y);
     }
     
+    /**
+     * Adds a flavor text message to the display.
+     * @param col The color of the text.
+     * @param str The message.
+     */
     public static void addMessage(Color col, String str){
         gui.addMessage(col, str);
     }
     
+    /**
+     * Adds a yellow flavor text message to the display.
+     * @param str
+     */
     public static void addMessage(String str){
         gui.addMessage(str);
     }
@@ -251,18 +267,34 @@ public abstract class Main extends Canvas implements Runnable, Page{
         }
     }
     
+    /**
+     * Toggles the Inventory active state.
+     */
+    @Unfinished("May be unnecessary")
     public void toggleInventory(){
         gui.toggleInventory();
     }
     
+    /**
+     * Sets the Inventory active state.
+     * @param i Whether to paint the Inventory.
+     */
     public void setInventoryActive(boolean i){
         gui.setInventoryActive(i);
     }
     
+    /**
+     * Sets the Inventory active state.
+     * @param i Whether to paint the Inventory.
+     * @param pred What Items are "selectable".
+     */
     public void setInventoryActive(boolean i, Predicate<Item> pred){
         gui.setInventoryActive(i, pred);
     }
     
+    /**
+     * Resets the active Screens of the GUI.
+     */
     protected final void resetGUIScreens(){
         gui.resetScreens();
     }

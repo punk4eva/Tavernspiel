@@ -7,6 +7,7 @@ import gui.mainToolbox.Screen;
 import gui.mainToolbox.Screen.ScreenEvent;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.util.LinkedList;
 import java.util.List;
 import listeners.ScreenListener;
@@ -27,6 +28,7 @@ public class LocationViewable implements Viewable, ScreenListener{
     private Creature creature;
     private ClickPredicate clickPredicate;
     protected final List<Screen> screens;
+    private int messageWidth, bw, bh = Main.HEIGHT-96;
 
     /**
      * Creates a new instance.
@@ -34,10 +36,9 @@ public class LocationViewable implements Viewable, ScreenListener{
      */
     public LocationViewable(ScreenListener sl){
         listener = sl;
-        int bw = Main.WIDTH/2-72, bh = Main.HEIGHT-64;
         screens = new LinkedList<>();
-        screens.add(new Screen("locationPopupX", bw+108, bh+8, 24, 24, this));
-        screens.add(new Screen("locationPopup", bw, bh, 144, 48, this));
+        screens.add(new Screen("locationPopupX", -1, -1, 1, 1, this));
+        screens.add(new Screen("locationPopup", -1, -1, 1, 1, this));
         screens.add(new Screen("backLocation", 0, 0, Main.WIDTH, Main.HEIGHT, this));
     }
 
@@ -48,14 +49,13 @@ public class LocationViewable implements Viewable, ScreenListener{
 
     @Override
     public void paint(Graphics g){
-        int bw = Main.WIDTH/2-72, bh = Main.HEIGHT-64;
         g.setColor(new Color(230, 20, 20, 164));
-        g.fill3DRect(bw, bh, 144, 48, false);
+        g.fill3DRect(bw, bh, messageWidth+32, 40, false);
         g.setColor(new Color(230, 25, 25));
-        g.fill3DRect(bw+108, bh+8, 24, 24, true);
+        g.fill3DRect(bw+messageWidth, bh+8, 24, 24, true);
         g.setColor(ConstantFields.plainColor);
-        g.drawString(message, bw+8, bh+20);
-        g.drawString("X", bw+116, bh+20);
+        g.drawString(message, bw+8, bh+24);
+        g.drawString("X", bw+messageWidth+6, bh+24);
     }
     
     /**
@@ -69,7 +69,17 @@ public class LocationViewable implements Viewable, ScreenListener{
         listener = l;
         creature = a;
         message = mes;
+        recalibrateScreens();
         if(c.length!=0) clickPredicate = c[0];
+    }
+    
+    private void recalibrateScreens(){
+        Rectangle rec = ConstantFields.textFont.getStringBounds(message, ConstantFields.frc).getBounds();
+        messageWidth = rec.width+16;
+        bw = Main.WIDTH/2-messageWidth/2-16;
+        Screen sc1 = screens.get(1), sc0 = screens.get(0);
+        sc1.reposition(bw, bh, messageWidth+32, 48);
+        sc0.reposition(bw+messageWidth, bh+8, 24, 24);
     }
 
     @Override
@@ -77,7 +87,17 @@ public class LocationViewable implements Viewable, ScreenListener{
         if(clickPredicate==null||clickPredicate.test(creature, sc.x, sc.y)) listener.screenClicked(sc);
     }
     
+    /**
+     * The predicate which determines which tiles can be clicked on.
+     */
     public static interface ClickPredicate{
+        /**
+         * Returns whether the given tiles can be clicked on.
+         * @param c The clicker.
+         * @param x The x that was clicked on.
+         * @param y The y that was clicked on.
+         * @return
+         */
         public boolean test(Creature c, int x, int y);
     }
 

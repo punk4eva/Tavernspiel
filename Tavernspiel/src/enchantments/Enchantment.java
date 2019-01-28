@@ -38,6 +38,9 @@ public abstract class Enchantment implements Serializable{
     private final static int[] hue1Regex = new int[]{11, 18, 1, 13}, 
         hue2Regex = new int[]{13, 1, 18, 11};
     
+    /**
+     * The "spiritual type" of enchantment.
+     */
     public enum EnchantmentAffinity{
         OFFENSIVE(-1), DEFENSIVE(1), HEALING(2), SACRIFICIAL(-2), FOCUS(-3), MIND(3), NULL(4);
         
@@ -150,6 +153,11 @@ public abstract class Enchantment implements Serializable{
      */
     public abstract void update(int lev);
     
+    /**
+     * Penalizes the level of this Enchantment randomly.
+     * @param context The context of the penalty.
+     * @return Whether the level is now "very low" (below 0.1).
+     */
     public boolean penalize(EnchantmentAffinity context){
         if(context.code==affinity.code) level *= 0.4+Distribution.r.nextDouble()*0.6;
         else if(context.code+affinity.code==0) level *= 0.1 + 0.75 * Distribution.r.nextDouble();
@@ -211,6 +219,11 @@ public abstract class Enchantment implements Serializable{
         return new SerialAnimation(icons, 10);
     }
     
+    /**
+     * The standard probability function determining whether the Enchantment
+     * should activate or not.
+     * @return true if it should activate.
+     */
     protected boolean shouldActivate(){
         return 0.45*Math.pow(level, 2.28)+0.05>Distribution.r.nextDouble();
     }

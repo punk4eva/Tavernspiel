@@ -7,7 +7,6 @@ Fix Description
 Rework DescriptionBuilder
 Fix potion and scroll descriptions/images.
 Add investigate function
-Fix LocationSelect rendering
 Add wand particles
 Add fire spreading
 Add more creature ideas

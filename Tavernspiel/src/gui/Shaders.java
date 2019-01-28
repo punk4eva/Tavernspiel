@@ -10,6 +10,8 @@ import javax.swing.ImageIcon;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * Handles deciding how to shade the Fog Of War.
  */
 public class Shaders{
 

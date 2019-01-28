@@ -20,6 +20,8 @@ import logic.ImageUtils;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * The default HUD layout. Buttons and Action Icons are on the right.
  */
 public class DefaultHUDLookAndFeel implements HUDStrategy{
     

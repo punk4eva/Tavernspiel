@@ -5,7 +5,7 @@ import dialogues.BuffDialogue;
 import gui.mainToolbox.HUDStrategy;
 import gui.mainToolbox.Screen;
 import gui.mainToolbox.Screen.ScreenEvent;
-import gui.mainToolbox.hudLayout.DefaultHUDLookAndFeel;
+import gui.mainToolbox.hudLayout.*;
 import java.awt.Graphics;
 import java.util.List;
 import listeners.ScreenListener;
@@ -27,7 +27,7 @@ public class HUD implements Viewable, ScreenListener{
      */
     public HUD(QuickSlot q){
         quickslot = q;
-        strategy = new DefaultHUDLookAndFeel(this);
+        strategy = new ReverseHUDLookAndFeel(this);
     }
     
     /**

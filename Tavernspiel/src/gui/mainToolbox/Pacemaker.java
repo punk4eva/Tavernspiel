@@ -28,18 +28,33 @@ public class Pacemaker implements Runnable{
         setDelay(1000L/60L);
     }
     
+    /**
+     * Starts rendering.
+     */
     public void start(){
         renderThread.start();
     }
     
+    /**
+     * Stops rendering.
+     * @throws InterruptedException If joining the renderThread failed.
+     */
     public void stop() throws InterruptedException{
         renderThread.join();
     }
     
+    /**
+     * Gets the current time between frames.
+     * @return
+     */
     public long getDelay(){
         return delay;
     }
     
+    /**
+     * Sets the time between frames.
+     * @param d
+     */
     public final void setDelay(long d){
         delay = d;
         updateDelay(d);

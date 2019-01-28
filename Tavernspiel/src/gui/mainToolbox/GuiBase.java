@@ -21,6 +21,8 @@ import logic.Utils.Unfinished;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * Manages the GUI.
  */
 public class GuiBase{
 
