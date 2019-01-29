@@ -7,6 +7,8 @@ import items.Item;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This action represents drinking a consumable.
  */
 public class DrinkAction extends ItemAction{
 

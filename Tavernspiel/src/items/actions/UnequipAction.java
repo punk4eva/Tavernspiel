@@ -7,6 +7,8 @@ import items.Item;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This action represents unequipping an Apparatus.
  */
 public class UnequipAction extends ItemAction{
 

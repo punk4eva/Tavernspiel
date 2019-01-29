@@ -8,6 +8,8 @@ import items.Item;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This action represents equipping an Apparatus.
  */
 public class EquipAction extends ItemAction{
 

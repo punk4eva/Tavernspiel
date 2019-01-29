@@ -10,6 +10,8 @@ import javax.swing.ImageIcon;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * Represents an Item that can be consumed. E.g: scroll, potion, food.
  */
 public abstract class Consumable extends Item implements Usable{
     

@@ -17,13 +17,13 @@ package items.actions.special;
 
 import creatures.Creature;
 import items.Item;
-import items.actions.LocationSelectAction;
+import items.actions.LocationItemAction;
 
 /**
  *
  * @author Adam Whittaker
  */
-public class DragonSliceAction extends LocationSelectAction{
+public class DragonSliceAction extends LocationItemAction{
 
     public DragonSliceAction(){
         super("SLICE", 1.2, "Select a creature to slice.", (c, x, y) -> {

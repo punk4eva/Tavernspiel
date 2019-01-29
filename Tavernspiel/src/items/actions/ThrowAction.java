@@ -8,7 +8,7 @@ import items.Item;
  *
  * @author Adam Whittaker
  */
-public class ThrowAction extends LocationSelectAction{
+public class ThrowAction extends LocationItemAction{
     
     protected ThrowAction(){
         super("THROW", "Select a tile to throw to.", null);

@@ -17,13 +17,13 @@ package items.actions.special;
 
 import creatures.Creature;
 import items.Item;
-import items.actions.LocationSelectAction;
+import items.actions.LocationItemAction;
 
 /**
  *
  * @author Adam Whittaker
  */
-public class DragonFlameAction extends LocationSelectAction{
+public class DragonFlameAction extends LocationItemAction{
 
     public DragonFlameAction(){
         super("BREATHE", "Select a tile to shoot at.", null);

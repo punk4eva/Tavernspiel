@@ -16,7 +16,7 @@ import logic.Utils.Unfinished;
  *
  * @author Adam Whittaker
  * 
- * Base class which handles items.
+ * Base class which represents items.
  */
 public class Item implements Serializable{
     
@@ -234,6 +234,9 @@ public class Item implements Serializable{
         return identified;
     }
     
+    /**
+     * Sets this Item to the identified state.
+     */
     public void identify(){
         identified = true;
     }

@@ -11,7 +11,7 @@ import java.io.Serializable;
  *
  * @author Adam Whittaker
  * 
- * This class represents the actions that an Item can take.
+ * This class represents the actions that an Item can perform.
  */
 public abstract class ItemAction implements Serializable{
     

@@ -76,6 +76,11 @@ public final class ItemMap{
         ringTypeDist = null;
     }
     
+    /**
+     * Generates a list of Items that are to be plopped in the world.
+     * @param loc
+     * @return
+     */
     public List<Item> genList(Location loc){
         List<Item> ret = new LinkedList<>();
         while(hasNext()){

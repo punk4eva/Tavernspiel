@@ -22,24 +22,25 @@ import static gui.LocationViewable.LOCATION_SELECT;
 import gui.Window;
 import gui.mainToolbox.Screen.ScreenEvent;
 import items.Item;
-import listeners.ScreenListener;
 
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This action requires locational information.
  */
-public abstract class LocationSelectAction extends ItemAction{
+public abstract class LocationItemAction extends ItemAction{
     
     private final String locationMessage;
     private final ClickPredicate predicate; 
 
-    public LocationSelectAction(String str, double tM, String locMessage, ClickPredicate p){
+    public LocationItemAction(String str, double tM, String locMessage, ClickPredicate p){
         super(str, tM);
         locationMessage = locMessage;
         predicate = p;
     }
     
-    public LocationSelectAction(String str, String locMessage, ClickPredicate p){
+    public LocationItemAction(String str, String locMessage, ClickPredicate p){
         super(str);
         locationMessage = locMessage;
         predicate = p;

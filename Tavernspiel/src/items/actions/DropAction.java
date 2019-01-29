@@ -7,6 +7,8 @@ import items.Item;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This action represents dropping an Item.
  */
 public class DropAction extends ItemAction{
 

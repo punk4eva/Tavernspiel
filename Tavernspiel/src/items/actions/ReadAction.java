@@ -7,6 +7,8 @@ import items.Item;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This action represents reading a consumable.
  */
 public class ReadAction extends ItemAction{
 

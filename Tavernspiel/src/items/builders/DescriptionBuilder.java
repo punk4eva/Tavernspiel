@@ -44,7 +44,7 @@ public abstract class DescriptionBuilder implements Serializable{
     public static final String[] stopper = {"cork", "rubber", "wooden", "glass"};
     public static final String[] texture = {"FRAGMENT_PLACEHOLDER", "FLAKE_PLACEHOLDER", "is frothy", "is bubbly", "is gelatinous",
         "is thick", "is effervescent", "is creamy"};
-    public static final String[] sLike = {"perfume", "rotten eggs", "freshly cut grass", "burnt plastic", "ash", "a corpse", "some exotic plant",
+    public static final String[] smellLike = {"perfume", "rotten eggs", "freshly cut grass", "burnt plastic", "ash", "a corpse", "some exotic plant",
         "some eccentric plant", "petrichor"};
     public static final String[] food = {"chocolate", "a strawberry", "an orange",
         "a squid", "the summer", "the winter", "valentine's chocolate", "fire",
@@ -62,6 +62,8 @@ public abstract class DescriptionBuilder implements Serializable{
         "The container has lots of cracks.", "The stopper is in the shape of a skull.", "The stopper is in the shape of a heart.",
         "There is a label stuck on one side.",
         "There are strange engravings on the container."};
+    public static final String[] appearance = {"hideous", "beautiful", "bleak", "pathetic", "wonderful", "dumb", "cute", "curious", "dreamy",
+        "radiant", "dazzling", "mischievous"};
 
     public static String word(String[] ary){
         return ary[Distribution.r.nextInt(ary.length)];
@@ -85,7 +87,7 @@ public abstract class DescriptionBuilder implements Serializable{
         int n = Distribution.r.nextInt(smell.length);
         switch (n){
             case 0: return "like " + word(wood);
-            case 1: return "like " + word(sLike);
+            case 1: return "like " + word(smellLike);
             case 2: return "like " + word(food);
         }
         return smell[n];

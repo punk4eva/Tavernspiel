@@ -25,6 +25,8 @@ import logic.Utils.Unfinished;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * Represents an Item that can be equipped.
  */
 public abstract class Apparatus extends Item{
     
