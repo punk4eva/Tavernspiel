@@ -132,21 +132,39 @@ public class Point implements Serializable{
         return prev.x==next.x;
     }
     
-    
-    public void reset(){
+    /**
+     * Resets The pathfinding aspects of this Point.
+     */
+    public void resetPathfinding(){
         if(checked!=null) checked = false;
         cameFrom = null;
         currentCost = Integer.MAX_VALUE;
     }
     
+    /**
+     * Gets the Manhattan distance from another Point.
+     * @param p
+     * @return
+     */
     public int getOMDistance(Point p){
         return Math.max(Math.abs(x-p.x), Math.abs(y-p.y));
     }
     
+    /**
+     * Gets the Manhattan distance from other coordinates.
+     * @param x1
+     * @param y1
+     * @return
+     */
     public int getOMDistance(int x1, int y1){
         return Math.max(Math.abs(x-x1), Math.abs(y-y1));
     }
     
+    /**
+     * Tests if the two Points are equal by their coordinates.
+     * @param p
+     * @return
+     */
     public boolean equals(Point p){
         return x==p.x&&y==p.y;
     }

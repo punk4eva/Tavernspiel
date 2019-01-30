@@ -23,8 +23,8 @@ public class Bed extends Tile implements StepListener, RotatableTile, Serializab
     private final int rotation;
     private final String locName;
 
-    public Bed(String na, Location loc, int num, int rot){
-        super(na+num, loc, true, true, true);
+    public Bed(String na, String desc, Location loc, int num, int rot){
+        super(na+num, desc, loc, true, true, true);
         locName = loc.name;
         rotation = rot;
         rotateImage(rotation);
@@ -49,7 +49,7 @@ public class Bed extends Tile implements StepListener, RotatableTile, Serializab
     private void readObject(ObjectInputStream in) 
             throws IOException, ClassNotFoundException{
         in.defaultReadObject();
-        image = Location.locationMap.get(locName).getImage(name);
+        image = Location.LOCATION_MAP.get(locName).getImage(name);
         rotateImage(rotation);
     }
     

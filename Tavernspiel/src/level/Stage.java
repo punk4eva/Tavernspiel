@@ -64,7 +64,7 @@ public class Stage implements Serializable{
     private void readObject(ObjectInputStream in) 
             throws IOException, ClassNotFoundException{
         in.defaultReadObject();
-        location = Location.locationMap.get((String) in.readObject());
+        location = Location.LOCATION_MAP.get((String) in.readObject());
     }
     
     private void writeObject(ObjectOutputStream out) 

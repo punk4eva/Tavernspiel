@@ -41,7 +41,7 @@ public class StillAnimation implements Animation{
     private void readObject(ObjectInputStream in) 
             throws IOException, ClassNotFoundException{
         in.defaultReadObject();
-        image = pointer.getIcon(Location.locationMap.get(loc));
+        image = pointer.getIcon(Location.LOCATION_MAP.get(loc));
     }
     
 }

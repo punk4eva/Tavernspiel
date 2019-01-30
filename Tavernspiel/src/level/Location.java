@@ -44,6 +44,9 @@ public abstract class Location{
     public GrassAnimation lowGrass;
     public GrassAnimation highGrass;
     
+    public String specialFloorDesc,
+            decoFloorDesc;
+    
     public enum Region{
         KIRI(0, new Distribution(new int[]{})),
         KYOU(1, new Distribution(new int[]{})),
@@ -143,7 +146,7 @@ public abstract class Location{
      * @return
      */
     public static ImageIcon getChestIcon(String loc){
-        return ItemBuilder.getIcon(locationMap.get(loc).region.code*16, 16);
+        return ItemBuilder.getIcon(LOCATION_MAP.get(loc).region.code*16, 16);
     }
     
     /**
@@ -152,7 +155,7 @@ public abstract class Location{
      * @return
      */
     public static ImageIcon getLockedChestIcon(String loc){
-        return ItemBuilder.getIcon(locationMap.get(loc).region.code*16+64, 16);
+        return ItemBuilder.getIcon(LOCATION_MAP.get(loc).region.code*16+64, 16);
     }
     
     /**
@@ -161,7 +164,7 @@ public abstract class Location{
      * @return
      */
     public static ImageIcon getSkeletalRemainsIcon(String loc){
-        return ItemBuilder.getIcon(locationMap.get(loc).region.code*16+64, 0);
+        return ItemBuilder.getIcon(LOCATION_MAP.get(loc).region.code*16+64, 0);
     }
     
     /**
@@ -170,7 +173,7 @@ public abstract class Location{
      * @return
      */
     public static ImageIcon getCrystalChestIcon(String loc){
-        return ItemBuilder.getIcon(locationMap.get(loc).region.code*16, 0);
+        return ItemBuilder.getIcon(LOCATION_MAP.get(loc).region.code*16, 0);
     }
     
     public abstract Animation getWallAnimation(int x, int y);
@@ -197,6 +200,8 @@ public abstract class Location{
         }, "highgrass", SHKODER_LOCATION, 57, 177, 249, 
                 40, 100, 190, 210, 190, 254);
         SHKODER_LOCATION.roomDistrib = new RoomDistribution(SHKODER_LOCATION, 3, 12);
+        SHKODER_LOCATION.specialFloorDesc = "The floor is nicely paved with floorboards.";
+        SHKODER_LOCATION.decoFloorDesc = "The broken remains of somebody lie here.";
     }
     public static final Location INDOOR_CAVES_LOCATION = new Location(
             "Indoor Caves", "indoorCavesTileset", null, "shkoderWater", Region.SUDA, null){
@@ -223,11 +228,11 @@ public abstract class Location{
     }
     
     
-    public static final HashMap<String, Location> locationMap = new HashMap<>();
+    public static final HashMap<String, Location> LOCATION_MAP = new HashMap<>();
     static{
-        locationMap.put("Shkoder", SHKODER_LOCATION);
-        locationMap.put("Indoor Caves", INDOOR_CAVES_LOCATION);
-        locationMap.put("Village1", VILLAGE1_LOCATION);
+        LOCATION_MAP.put("Shkoder", SHKODER_LOCATION);
+        LOCATION_MAP.put("Indoor Caves", INDOOR_CAVES_LOCATION);
+        LOCATION_MAP.put("Village1", VILLAGE1_LOCATION);
     }
     
 }

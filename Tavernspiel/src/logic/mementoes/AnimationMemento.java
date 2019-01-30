@@ -41,7 +41,7 @@ public class AnimationMemento implements Serializable{
      */
     public final ImageIcon[] getIcons(){
         if(pointers==null) return null;
-        Location location = Location.locationMap.get(loc);
+        Location location = Location.LOCATION_MAP.get(loc);
         ImageIcon ret[] = new ImageIcon[pointers.length];
         for(int n=0;n<pointers.length;n++)
             ret[n] = pointers[n].getIcon(location);

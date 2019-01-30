@@ -19,7 +19,7 @@ public class DepthEntrance extends Tile implements StepListener{
     public Area previousArea, currentArea;
     
     public DepthEntrance(Location loc){
-        super("depthentrance", loc, true, false, true);
+        super("depthentrance", "This is the way to the upper level.", loc, true, false, true);
     }
 
     @Override

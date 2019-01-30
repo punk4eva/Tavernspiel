@@ -50,7 +50,7 @@ public abstract class DescriptionBuilder implements Serializable{
         "some eccentric plant", "petrichor"};
     public static final String[] food = {"chocolate", "a strawberry", "an orange",
         "a squid", "the summer", "the winter", "valentine's chocolate", "fire",
-        "wine", "chicken"};
+        "wine", "chicken", "dirt"};
     public static final String[] taste = {"FOOD_PLACEHOLDER", "spicy", "bitter", 
         "sweet", "divine", "vile", "foul", "impure", "horrible", "ok",
         "wonderful", "sour", "stale", "bland"};

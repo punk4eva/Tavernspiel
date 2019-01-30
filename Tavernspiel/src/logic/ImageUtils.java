@@ -20,6 +20,8 @@ import javax.swing.ImageIcon;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * A class of static image manipulation utility methods.
  */
 public class ImageUtils{
     

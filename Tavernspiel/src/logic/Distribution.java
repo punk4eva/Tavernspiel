@@ -138,6 +138,13 @@ public class Distribution implements Serializable{
         return new Distribution(output, chances);
     }
     
+    /**
+     * Returns a value from a subsection of this Distribution, with the same 
+     * relative chances.
+     * @param s The start of the subsection (inclusive). 
+     * @param t The end of the subsection (exclusive).
+     * @return
+     */
     public double nextFromRange(int s, int t){
         int start;
         if(s==0) start=0;
@@ -145,8 +152,8 @@ public class Distribution implements Serializable{
         int[] c = new int[t-s];
         double[] o = new double[t-s];
         for(int n=s;n<t;n++){
-            o[n] = outputs[n];
-            c[n] = chances[n]-start;
+            o[n] = outputs[n-s];
+            c[n] = chances[n-s]-start;
         }
         return new Distribution(o, c).next();
     }

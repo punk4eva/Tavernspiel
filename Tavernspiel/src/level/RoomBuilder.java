@@ -3,7 +3,7 @@ package level;
 
 import buffs.GasBuilder;
 import containers.Chest;
-import containers.Floor;
+import containers.FloorCrate;
 import containers.Mimic;
 import containers.PhysicalCrate;
 import containers.SkeletalRemains;
@@ -29,6 +29,7 @@ import pathfinding.generation.MazeBuilder;
 import pathfinding.generation.MazeBuilder.Maze;
 import tiles.*;
 import tiles.assets.*;
+import static tiles.assets.Barricade.*;
 
 /**
  *
@@ -79,7 +80,7 @@ public abstract class RoomBuilder{
                 room.map[y][x] = trap.copy(loc);
         if(Distribution.chance(1, 2)){
             room.addReceptacle(new Chest(loc.name, item, room.dimension.width/2, 1));
-        }else room.addReceptacle(new Floor(item, room.dimension.width / 2, 1));
+        }else room.addReceptacle(new FloorCrate(item, room.dimension.width / 2, 1));
         room.map[room.dimension.height-1][room.dimension.width/2] = new Door(loc);
         room.oriented = true;
         return room;
@@ -89,7 +90,7 @@ public abstract class RoomBuilder{
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 16),
                 Distribution.getRandomInt(5, 10)), loc, depth);
         room.paintAndPave();
-        Tile pedestal = new Tile("pedestal", loc, true, false, true);
+        Tile pedestal = new Pedestal(loc);
         for(int y = 1; y < room.dimension.height - 1; y++){
             if(y==1) for(int x = 1; x < room.dimension.width - 1; x++){
                 room.map[y][x] = new Chasm("wall", loc);
@@ -99,7 +100,7 @@ public abstract class RoomBuilder{
             }
         }
         room.map[1][room.dimension.width/2] = pedestal;
-        room.addReceptacle(new Floor(item, room.dimension.width/2, 1));
+        room.addReceptacle(new FloorCrate(item, room.dimension.width/2, 1));
         room.map[2][room.dimension.width/2] = new Chasm("floor", loc);
         room.map[room.dimension.height-1][room.dimension.width/2] = new Door(loc);
         room.oriented = true;
@@ -113,7 +114,7 @@ public abstract class RoomBuilder{
         for(int y=0;y<room.dimension.height;y++){
             for(int x=0;x<room.dimension.width;x++){
                 if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) room.map[y][x] = Tile.wall(loc, x, y);
-                else room.map[y][x] = new Tile("specialfloor", loc, true, false, true);
+                else room.map[y][x] = new SpecialFloor(loc);
             }
         }
         room.map[room.dimension.height-1][Distribution.r.nextInt(room.dimension.width-2)+1] = new Barricade(loc);
@@ -167,7 +168,7 @@ public abstract class RoomBuilder{
     
     public static Area tomb(Item i){
         Area tomb = Area.getPreloadedArea("preload/tomb.template");
-        if(i!=null) tomb.addReceptacle(new Floor(i, 10, 3));
+        if(i!=null) tomb.addReceptacle(new FloorCrate(i, 10, 3));
         tomb.startCoords = new Integer[]{10, 21};
         return tomb;
     }
@@ -196,14 +197,14 @@ public abstract class RoomBuilder{
         Room room = new Room(new Dimension(Distribution.getRandomInt(5, 10),
                 Distribution.getRandomInt(5, 10)), loc, -1);
         room.paintAndPave();
-        Tile pedestal = new Tile("pedestal", loc, true, false, true);
+        Tile pedestal = new Pedestal(loc);
         for(int y = 1; y < room.dimension.height - 1; y++){
             for(int x = 1; x < room.dimension.width - 1; x++){
                 room.map[y][x] = new Water(loc, x%2);
             }
         }
         room.map[1][room.dimension.width/2] = pedestal;
-        if(Distribution.chance(1, 2)) room.addReceptacle(new Floor(item, room.dimension.width/2, 1));
+        if(Distribution.chance(1, 2)) room.addReceptacle(new FloorCrate(item, room.dimension.width/2, 1));
         else room.addReceptacle(new Chest(loc.name, item, room.dimension.width/2, 1));
         room.map[room.dimension.height-1][room.dimension.width/2] = new Door(loc);
         room.oriented = true;
@@ -236,8 +237,8 @@ public abstract class RoomBuilder{
                     room.map[y][x] = Tile.wall(loc, x, y);
                 else if(y==1||y==room.dimension.height-2||x==1||x==7) 
                     room.map[y][x] = Tile.floor(loc);
-                else if(x==4||y%mod==0) room.map[y][x] = new Tile("specialfloor", loc, true, false, true);
-                else if(y%mod==2) room.map[y][x] = new Tile("specialstatue", loc, false, false, true);
+                else if(x==4||y%mod==0) room.map[y][x] = new SpecialFloor(loc);
+                else if(y%mod==2) room.map[y][x] = new Statue(loc, true);
                 else room.map[y][x] = Tile.floor(loc);
             }
         }
@@ -251,9 +252,9 @@ public abstract class RoomBuilder{
                 Distribution.getRandomInt(7, 16)), loc, depth);
         room.paintAndPave();
         int x = room.dimension.width/2, y = room.dimension.height/2;
-        if(Distribution.chance(1, 2)) room.map[y][x] = new Tile("statue", loc, false, false, true);
+        if(Distribution.chance(1, 2)) room.map[y][x] = new Statue(loc, false);
         else{
-            room.map[y][x] = new Tile("specialstatue", loc, false, false, true);
+            room.map[y][x] = new Statue(loc, true);
             circle(room, x, y, loc);
         }
         room.randomlyPlop();
@@ -289,12 +290,12 @@ public abstract class RoomBuilder{
                 attempts++;
             }while(minDistance(x1,y1,x2,y2)<2&&attempts<40);
         }else{
-            room.map[y3][x3] = new Tile("pedestal", loc, true, false, true);
+            room.map[y3][x3] = new Pedestal(loc);
             circle(room, x3, y3, loc);
         }
         room.map[y1][x1] = new AlchemyPot(loc);
         circle(room, x1, y1, loc);
-        room.map[y2][x2] = new Tile("pedestal", loc, true, false, true);
+        room.map[y2][x2] = new Pedestal(loc);
         circle(room, x2, y2, loc);
         room.randomlyPlop();
         return room;
@@ -309,15 +310,15 @@ public abstract class RoomBuilder{
                 if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) 
                     room.map[y][x] = Tile.wall(loc, x, y);
         for(int x=1;x<room.dimension.width-1;x++)
-            room.map[1][x] = new Tile("bookshelf", loc, false, true, false);
+            room.map[1][x] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
         for(int y=2;y<room.dimension.height-1;y++){
             for(int x=1;x<room.dimension.width-2;x++)
-                room.map[y][x] = new Tile("specialfloor", loc, true, false, true);
-            room.map[y][room.dimension.width-2] = new Tile("pedestal", loc, true, false, true);
+                room.map[y][x] = new SpecialFloor(loc);
+            room.map[y][room.dimension.width-2] = new Pedestal(loc);
         }
         room.map[room.dimension.height-2][1] = new AlchemyPot(loc);
         room.map[room.dimension.height-1][room.dimension.width/2] = new Door(loc, true, false, KeyType.IRON);
-        room.randomlyPlop(i -> room.map[i[1]][i[0]].equals("pedestal"));
+        room.randomlyPlop(i -> room.map[i[1]][i[0]] instanceof Pedestal);
         room.oriented = true;
         return room;
     }
@@ -327,15 +328,15 @@ public abstract class RoomBuilder{
                 Distribution.getRandomInt(7, 16)), loc, depth);
         room.paintAndPave();
         int x = room.dimension.width/2, y = room.dimension.height/2;
-        room.map[y][x] = new Tile("barricade", loc, false, true, false);
-        room.map[y-1][x-1] = new Tile("embers", loc, true, false, true);
-        room.map[y-1][x] = new Tile("embers", loc, true, false, true);
-        room.map[y-1][x+1] = new Tile("embers", loc, true, false, true);
-        room.map[y][x-1] = new Tile("embers", loc, true, false, true);
-        room.map[y+1][x-1] = new Tile("embers", loc, true, false, true);
-        room.map[y+1][x] = new Tile("embers", loc, true, false, true);
-        room.map[y+1][x+1] = new Tile("embers", loc, true, false, true);
-        room.map[y][x+1] = new Tile("embers", loc, true, false, true);
+        room.map[y][x] = new Tile("barricade", BARRICADE_DESC, loc, false, true, false);
+        room.map[y-1][x-1] = new Embers(loc);
+        room.map[y-1][x] = new Embers(loc);
+        room.map[y-1][x+1] = new Embers(loc);
+        room.map[y][x-1] = new Embers(loc);
+        room.map[y+1][x-1] = new Embers(loc);
+        room.map[y+1][x] = new Embers(loc);
+        room.map[y+1][x+1] = new Embers(loc);
+        room.map[y][x+1] = new Embers(loc);
         room.randomlyPlop();
         return room;
     }
@@ -347,7 +348,7 @@ public abstract class RoomBuilder{
             for(int x=0;x<room.dimension.width;x++){
                 if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) 
                     room.map[y][x] = Tile.wall(loc, x, y);
-                else if(Distribution.chance(1, 3)) room.map[y][x] = new Tile("embers", loc, true, false, true);
+                else if(Distribution.chance(1, 3)) room.map[y][x] = new Embers(loc);
                 else room.map[y][x] = new Grass(loc, false);
             }
         }
@@ -372,8 +373,8 @@ public abstract class RoomBuilder{
                 if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) 
                     room.map[y][x] = Tile.wall(loc, x, y);
                 else if(y>1&&y<room.dimension.height-2&&y%2==0&&x%mod!=0&&
-                        x>1&&x<room.dimension.width-2) room.map[y][x] = new Tile("bookshelf", loc, false, true, false);
-                else room.map[y][x] = new Tile("specialfloor", loc, true, false, true);
+                        x>1&&x<room.dimension.width-2) room.map[y][x] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
+                else room.map[y][x] = new SpecialFloor(loc);
             }
         }
         room.randomlyPlop();
@@ -389,25 +390,25 @@ public abstract class RoomBuilder{
             for(int x=0;x<room.dimension.width;x++){
                 if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) 
                     room.map[y][x] = Tile.wall(loc, x, y);
-                else room.map[y][x] = new Tile("specialfloor", loc, true, false, true);
+                else room.map[y][x] = new SpecialFloor(loc);
             }
         }
-        for(int x=dx;x<2*dx;x++) room.map[dy][x] = new Tile("bookshelf", loc, false, true, false);
-        for(int x=3*dx;x<4*dx;x++) room.map[dy][x] = new Tile("bookshelf", loc, false, true, false);
-        for(int x=1;x<dx+1;x++) room.map[2*dy][x] = new Tile("bookshelf", loc, false, true, false);
-        for(int x=4*dx;x<room.dimension.width-1;x++) room.map[2*dy][x] = new Tile("bookshelf", loc, false, true, false);
-        for(int x=dx;x<2*dx;x++) room.map[4*dy][x] = new Tile("bookshelf", loc, false, true, false);
-        for(int x=3*dx;x<4*dx;x++) room.map[4*dy][x] = new Tile("bookshelf", loc, false, true, false);
-        for(int x=1;x<dx;x++) room.map[3*dy][x] = new Tile("bookshelf", loc, false, true, false);
-        for(int x=4*dx;x<room.dimension.width-1;x++) room.map[3*dy][x] = new Tile("bookshelf", loc, false, true, false);
-        for(int y=dy;y<2*dy;y++) room.map[y][4*dx] = new Tile("bookshelf", loc, false, true, false);
-        for(int y=3*dy;y<4*dy+1;y++) room.map[y][4*dx] = new Tile("bookshelf", loc, false, true, false);
-        for(int y=1;y<dy+1;y++) room.map[y][2*dx] = new Tile("bookshelf", loc, false, true, false);
-        for(int y=4*dy;y<room.dimension.height-1;y++) room.map[y][2*dx] = new Tile("bookshelf", loc, false, true, false);
-        for(int y=dy;y<2*dy;y++) room.map[y][dx] = new Tile("bookshelf", loc, false, true, false);
-        for(int y=3*dy;y<4*dy;y++) room.map[y][dx] = new Tile("bookshelf", loc, false, true, false);
-        for(int y=1;y<dy;y++) room.map[y][3*dx] = new Tile("bookshelf", loc, false, true, false);
-        for(int y=4*dy;y<room.dimension.height-1;y++) room.map[y][3*dx] = new Tile("bookshelf", loc, false, true, false);
+        for(int x=dx;x<2*dx;x++) room.map[dy][x] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
+        for(int x=3*dx;x<4*dx;x++) room.map[dy][x] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
+        for(int x=1;x<dx+1;x++) room.map[2*dy][x] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
+        for(int x=4*dx;x<room.dimension.width-1;x++) room.map[2*dy][x] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
+        for(int x=dx;x<2*dx;x++) room.map[4*dy][x] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
+        for(int x=3*dx;x<4*dx;x++) room.map[4*dy][x] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
+        for(int x=1;x<dx;x++) room.map[3*dy][x] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
+        for(int x=4*dx;x<room.dimension.width-1;x++) room.map[3*dy][x] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
+        for(int y=dy;y<2*dy;y++) room.map[y][4*dx] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
+        for(int y=3*dy;y<4*dy+1;y++) room.map[y][4*dx] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
+        for(int y=1;y<dy+1;y++) room.map[y][2*dx] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
+        for(int y=4*dy;y<room.dimension.height-1;y++) room.map[y][2*dx] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
+        for(int y=dy;y<2*dy;y++) room.map[y][dx] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
+        for(int y=3*dy;y<4*dy;y++) room.map[y][dx] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
+        for(int y=1;y<dy;y++) room.map[y][3*dx] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
+        for(int y=4*dy;y<room.dimension.height-1;y++) room.map[y][3*dx] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
         
         switch(Distribution.r.nextInt(4)){
             case 0: room.map[1][1] = new DepthExit(loc, tomb(null)); break;
@@ -521,7 +522,7 @@ public abstract class RoomBuilder{
      */
     public static PhysicalCrate getRandomCrate(Location loc, Item i, int x, int y){  
         switch((int) loc.feeling.receptacleDist.next()){
-            case 0: return new Floor(i, x, y);
+            case 0: return new FloorCrate(i, x, y);
             case 1: return new Chest(loc.name, i, x, y);
             case 2: return new Mimic(loc.name, i, x, y);
             default: return new SkeletalRemains(loc.name, i, x, y);
@@ -534,7 +535,7 @@ public abstract class RoomBuilder{
         String locName;
         
         ShadedTile(String name, Location loc){
-            super(name, addShaders(loc.getImage("specialfloor"), name, loc), true, false, true);
+            super(name, "The ground merges seemlessly with the floorboards.", addShaders(loc.getImage("specialfloor"), name, loc), true, false, true);
             locName = loc.name;
         }
         
@@ -546,7 +547,7 @@ public abstract class RoomBuilder{
         
         private void readObject(ObjectInputStream in) 
                 throws IOException, ClassNotFoundException{
-            Location loc = Location.locationMap.get(locName);
+            Location loc = Location.LOCATION_MAP.get(locName);
             image = addShaders(loc.getImage("specialfloor"), name, loc);
         }
 
@@ -571,34 +572,34 @@ public abstract class RoomBuilder{
             paintAndPave();
             if(d_%2==1){
                 d = d_/2;
-                map[d][d] = new Tile("pedestal", loc, true, false, true);
-                if(item!=null) addReceptacle(new Floor(item, d/2, d/2));
-                for(int y=1;y<d;y++) map[y][d] = new Tile("specialfloor", loc, true, false, true);
-                for(int y=d+1;y<dimension.height-1;y++) map[y][d] = new Tile("specialfloor", loc, true, false, true);
-                for(int x=1;x<d;x++) map[d][x] = new Tile("specialfloor", loc, true, false, true);
-                for(int x=d+1;x<dimension.width-1;x++) map[d][x] = new Tile("specialfloor", loc, true, false, true);
+                map[d][d] = new Pedestal(loc);
+                if(item!=null) addReceptacle(new FloorCrate(item, d/2, d/2));
+                for(int y=1;y<d;y++) map[y][d] = new SpecialFloor(loc);
+                for(int y=d+1;y<dimension.height-1;y++) map[y][d] = new SpecialFloor(loc);
+                for(int x=1;x<d;x++) map[d][x] = new SpecialFloor(loc);
+                for(int x=d+1;x<dimension.width-1;x++) map[d][x] = new SpecialFloor(loc);
             }else{
                 d = d_/2;
-                map[d][d] = new Tile("pedestal", loc, true, false, true);
-                map[d-1][d] = new Tile("pedestal", loc, true, false, true);
-                map[d][d-1] = new Tile("pedestal", loc, true, false, true);
-                map[d-1][d-1] = new Tile("pedestal", loc, true, false, true);
-                if(item!=null) addReceptacle(new Floor(item, d/2, d/2));
+                map[d][d] = new Pedestal(loc);
+                map[d-1][d] = new Pedestal(loc);
+                map[d][d-1] = new Pedestal(loc);
+                map[d-1][d-1] = new Pedestal(loc);
+                if(item!=null) addReceptacle(new FloorCrate(item, d/2, d/2));
                 for(int y=1;y<d-1;y++){
-                    map[y][d] = new Tile("specialfloor", loc, true, false, true);
-                    map[y][d-1] = new Tile("specialfloor", loc, true, false, true);
+                    map[y][d] = new SpecialFloor(loc);
+                    map[y][d-1] = new SpecialFloor(loc);
                 }
                 for(int y=d+1;y<dimension.height-1;y++){
-                    map[y][d] = new Tile("specialfloor", loc, true, false, true);
-                    map[y][d-1] = new Tile("specialfloor", loc, true, false, true);
+                    map[y][d] = new SpecialFloor(loc);
+                    map[y][d-1] = new SpecialFloor(loc);
                 }
                 for(int x=1;x<d-1;x++){
-                    map[d][x] = new Tile("specialfloor", loc, true, false, true);
-                    map[d-1][x] = new Tile("specialfloor", loc, true, false, true);
+                    map[d][x] = new SpecialFloor(loc);
+                    map[d-1][x] = new SpecialFloor(loc);
                 }
                 for(int x=d+1;x<dimension.width-1;x++){
-                    map[d][x] = new Tile("specialfloor", loc, true, false, true);
-                    map[d-1][x] = new Tile("specialfloor", loc, true, false, true);
+                    map[d][x] = new SpecialFloor(loc);
+                    map[d-1][x] = new SpecialFloor(loc);
                 }
             }
         }

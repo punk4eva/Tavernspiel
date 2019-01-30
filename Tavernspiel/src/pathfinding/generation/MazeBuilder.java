@@ -128,6 +128,9 @@ public class MazeBuilder{
         return TLX==x||x==TLX+width-1||TLY==y||y==TLY+height-1;
     }
     
+    /**
+     * This class represents a Maze Room.
+     */
     public static class Maze extends Room implements PreDoored{
     
         public Maze(Dimension dim, Location loc, int depth){

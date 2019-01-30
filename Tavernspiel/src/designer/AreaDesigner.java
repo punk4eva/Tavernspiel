@@ -117,7 +117,7 @@ public class AreaDesigner extends Main{
      */
     void tile(String str){
         String[] p = str.split(", ");
-        brush = new TileSelection(p[0], p[1]);
+        brush = new TileSelection(p[0], p[1], p[2]);
     }
     
     /**
@@ -238,7 +238,7 @@ public class AreaDesigner extends Main{
     public static Location pollLocation(){
         System.out.println("What is the name of the location?");
         String name = new Scanner(System.in).nextLine();
-        Location loc = Location.locationMap.get(name);
+        Location loc = Location.LOCATION_MAP.get(name);
         if(loc==null) throw new IllegalStateException("Invalid name: " + name);
         return loc;
     }

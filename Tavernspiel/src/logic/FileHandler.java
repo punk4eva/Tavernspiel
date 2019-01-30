@@ -20,7 +20,7 @@ import tiles.Tile;
  *
  * @author Adam Whittaker
  * 
- * Handles IO
+ * Handles File IO
  */
 public final class FileHandler{
     
@@ -75,6 +75,10 @@ public final class FileHandler{
         return "EXCEPTION";
     }
     
+    /**
+     * Serializes the Game
+     * @param game
+     */
     public static void serializeGame(Game game){
         try(ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(game.savePath))){
             output.writeObject(Tile.IDmap);
@@ -87,6 +91,11 @@ public final class FileHandler{
         }
     }
     
+    /**
+     * Loads a Game object from the given filepath.
+     * @param filepath
+     * @return
+     */
     public static Game deserializeGame(String filepath){
         try(ObjectInputStream in = new ObjectInputStream(new FileInputStream(filepath))){
             Tile.IDmap = (HashMap<String, Integer>) in.readObject();

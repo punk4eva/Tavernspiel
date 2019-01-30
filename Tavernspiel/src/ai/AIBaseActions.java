@@ -5,7 +5,7 @@ import ai.intelligence.IntelligentAI1;
 import ai.intelligence.IntelligentAI1.EnState;
 import animation.CreatureAnimator;
 import animation.assets.WaterStepAnimation;
-import containers.Floor;
+import containers.FloorCrate;
 import containers.PurchasableHeap;
 import creatureLogic.Attack.CreatureAttack;
 import creatureLogic.FieldOfView.LightRay;
@@ -117,8 +117,8 @@ public class AIBaseActions implements Serializable{
     public void buy(Creature c, PurchasableHeap heap, Area area){
         if(c.inventory.amountOfMoney>=heap.price){
             c.inventory.push(heap.pop());
-            area.replaceHeap(heap.x, heap.y, new Floor(heap.x, heap.y));
-                area.replaceHeap(heap.x, heap.y, new Floor(heap.get(0), heap.x, heap.y));
+            area.replaceHeap(heap.x, heap.y, new FloorCrate(heap.x, heap.y));
+                area.replaceHeap(heap.x, heap.y, new FloorCrate(heap.get(0), heap.x, heap.y));
             c.inventory.setMoneyAmount(c.inventory.amountOfMoney-heap.price);
         }
     }
@@ -241,7 +241,7 @@ public class AIBaseActions implements Serializable{
      * @param r
      * @throws NullPointerException if there is no Receptacle.
      */
-    public void pickUp(Creature c, Floor r){
+    public void pickUp(Creature c, FloorCrate r){
         Item i = r.pickUp(c.area);
         if(!c.inventory.add(i)){
             c.area.plop(i, c.x, c.y);

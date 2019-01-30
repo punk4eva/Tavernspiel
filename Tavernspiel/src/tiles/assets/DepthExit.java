@@ -19,7 +19,7 @@ public class DepthExit extends Tile implements StepListener{
     public Area currentArea, nextArea;
     
     public DepthExit(Location loc, Area... nA){
-        super("depthexit", loc, true, false, true);
+        super("depthexit", "This is the way down to a lower level.", loc, true, false, true);
         if(nA.length!=0) nextArea = nA[0];
     }
     

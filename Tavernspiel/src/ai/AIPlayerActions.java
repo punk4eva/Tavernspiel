@@ -1,7 +1,7 @@
 
 package ai;
 
-import containers.Floor;
+import containers.FloorCrate;
 import creatureLogic.Attack.CreatureAttack;
 import creatureLogic.EnClass;
 import creatures.Creature;
@@ -59,7 +59,7 @@ public class AIPlayerActions extends AIBaseActions{
      */
     @Override
     @Unfinished("Add 'pickup' sound effect")
-    public void pickUp(Creature c, Floor r){
+    public void pickUp(Creature c, FloorCrate r){
         Item i = r.pickUp(c.area);
         if(!c.inventory.add(i)){
             c.area.plop(i, c.x, c.y);

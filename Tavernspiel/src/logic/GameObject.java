@@ -11,6 +11,7 @@ import level.Area;
  *
  * @author Adam Whittaker
  * 
+ * The base class for all Entities that can exist in a game.
  * @TOPLEVEL
  */
 public abstract class GameObject implements Serializable{

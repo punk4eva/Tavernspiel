@@ -9,7 +9,7 @@ import items.Item;
  * 
  * This class represents a stash of Items that can be purchased.
  */
-public class PurchasableHeap extends Floor{
+public class PurchasableHeap extends FloorCrate{
     
     private final static long serialVersionUID = 23721674337L;
     

@@ -22,7 +22,7 @@ public class Grass extends AnimatedTile implements StepListener{
      * @param t Whether the Grass is tall or not.
      */
     public Grass(Location loc, boolean t){
-        super(t ? "highgrass" : "lowgrass", null, true, true, !t);
+        super(t ? "highgrass" : "lowgrass", t ? "The vegetation is so high you can't see past!" : "This is vegetation.", null, true, true, !t);
         tall = t;
         animation = tall ? loc.highGrass : loc.lowGrass;
         lowGrass = loc.lowGrass;

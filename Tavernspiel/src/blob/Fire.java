@@ -53,7 +53,7 @@ public class Fire extends Blob{
     private void readObject(ObjectInputStream in) 
             throws IOException, ClassNotFoundException{
         in.defaultReadObject();
-        location = Location.locationMap.get((String) in.readObject());
+        location = Location.LOCATION_MAP.get((String) in.readObject());
     }
     
 }

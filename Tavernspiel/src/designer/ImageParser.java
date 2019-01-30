@@ -20,25 +20,25 @@ public abstract class ImageParser{
     private static final HashMap<String, BiFunction<Location, Integer[], TileSelection>> colorMap = new HashMap<>();
     static{
         colorMap.put("255,255,255", (loc, c) -> null); //void
-        colorMap.put("40,40,40", (loc, c) -> new TileSelection("floor", true, false, true));//floor
+        colorMap.put("40,40,40", (loc, c) -> new TileSelection("floor", "UNFINISHED", true, false, true));//floor
         colorMap.put("0,40,0", (loc, c) -> TileSelection.grass(false));//lowgrass
-        colorMap.put("20,20,80", (loc, c) -> new TileSelection("emptywell", true, false, true));//emptywell
-        colorMap.put("120,120,120", (loc, c) -> new TileSelection("wall", false, false, false));//wall
+        colorMap.put("20,20,80", (loc, c) -> new TileSelection("emptywell", "UNFINISHED", true, false, true));//emptywell
+        colorMap.put("120,120,120", (loc, c) -> new TileSelection("wall", "UNFINISHED", false, false, false));//wall
         colorMap.put("70,50,0", (loc, c) -> TileSelection.door());
         colorMap.put("50,140,0", (loc, c) -> TileSelection.openDoor());
         colorMap.put("170,70,30", (loc, c) -> TileSelection.depthEntrance());
         colorMap.put("170,30,70", (loc, c) -> TileSelection.depthExit());
-        colorMap.put("50,30,30", (loc, c) -> new TileSelection("embers", true, false, true));
+        colorMap.put("50,30,30", (loc, c) -> new TileSelection("embers", "UNFINISHED", true, false, true));
         colorMap.put("140,50,0", (loc, c) -> TileSelection.lockedDoor());
-        colorMap.put("200,170,190", (loc, c) -> new TileSelection("pedestal", true, false, true));
+        colorMap.put("200,170,190", (loc, c) -> new TileSelection("pedestal", "UNFINISHED", true, false, true));
         colorMap.put("150,120,120", (loc, c) -> TileSelection.specialWall(c[0], c[1]));
-        colorMap.put("110,90,40", (loc, c) -> new TileSelection("barricade", false, true, false));
-        colorMap.put("80,40,40", (loc, c) -> new TileSelection("specialfloor", true, false, true));
+        colorMap.put("110,90,40", (loc, c) -> new TileSelection("barricade", "UNFINISHED", false, true, false));
+        colorMap.put("80,40,40", (loc, c) -> new TileSelection("specialfloor", "UNFINISHED", true, false, true));
         colorMap.put("0,80,0", (loc, c) -> TileSelection.grass(true));
         colorMap.put("0,255,0", (loc, c) -> TileSelection.trap("green"));
         colorMap.put("255,120,0", (loc, c) -> TileSelection.trap("orange"));
         colorMap.put("255,255,0", (loc, c) -> TileSelection.trap("yellow"));
-        colorMap.put("40,80,40", (loc, c) -> new TileSelection("decofloor", true, false, true));
+        colorMap.put("40,80,40", (loc, c) -> new TileSelection("decofloor", "UNFINISHED", true, false, true));
         colorMap.put("170,60,140", (loc, c) -> TileSelection.depthExit(true));
         colorMap.put("170,120,140", (loc, c) -> TileSelection.depthExit(false));
         colorMap.put("255,0,255", (loc, c) -> TileSelection.trap("purple"));
@@ -48,13 +48,13 @@ public abstract class ImageParser{
         colorMap.put("0,0,255", (loc, c) -> TileSelection.trap("blue"));
         //@Unfinished
         //colorMap.put("well", 28);
-        colorMap.put("120,150,120", (loc, c) -> new TileSelection("statue", false, false, true));
-        colorMap.put("150,150,120", (loc, c) -> new TileSelection("specialstatue", false, false, true));
+        colorMap.put("120,150,120", (loc, c) -> new TileSelection("statue", "UNFINISHED", false, false, true));
+        colorMap.put("150,150,120", (loc, c) -> new TileSelection("specialstatue", "UNFINISHED", false, false, true));
         colorMap.put("255,255,100", (loc, c) -> TileSelection.trap("bear"));
         colorMap.put("200,200,200", (loc, c) -> TileSelection.trap("silver"));
-        colorMap.put("150,90,40", (loc, c) -> new TileSelection("bookshelf", false, true, false));
-        colorMap.put("155,95,45", (loc, c) -> new TileSelection("table", true, true, true));
-        colorMap.put("70,80,90", (loc, c) -> new TileSelection("sign", false, false, false));
+        colorMap.put("150,90,40", (loc, c) -> new TileSelection("bookshelf", "UNFINISHED", false, true, false));
+        colorMap.put("155,95,45", (loc, c) -> new TileSelection("table", "UNFINISHED", true, true, true));
+        colorMap.put("70,80,90", (loc, c) -> new TileSelection("sign", "UNFINISHED", false, false, false));
         colorMap.put("255,200,0", (loc, c) -> TileSelection.alchemyPot());
         colorMap.put("200,100,100", (loc, c) -> TileSelection.bed("bed", 0, 0));
         colorMap.put("200,150,150", (loc, c) -> TileSelection.bed("bed", 1, 0));

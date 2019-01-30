@@ -115,7 +115,7 @@ public class GrassAnimation extends DrawnAnimation{
     private void readObject(ObjectInputStream in) 
             throws IOException, ClassNotFoundException{
         in.defaultReadObject();
-        icon = pointer.getIcon(Location.locationMap.get(loc));
+        icon = pointer.getIcon(Location.LOCATION_MAP.get(loc));
     }
 
 }

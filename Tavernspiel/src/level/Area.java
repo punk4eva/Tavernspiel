@@ -3,7 +3,7 @@ package level;
 
 import ai.PlayerAI;
 import blob.Blob;
-import containers.Floor;
+import containers.FloorCrate;
 import containers.LockedChest;
 import containers.PhysicalCrate;
 import creatureLogic.VisibilityOverlay;
@@ -43,6 +43,7 @@ import tiles.assets.Barricade;
 import tiles.assets.DepthEntrance;
 import tiles.assets.DepthExit;
 import tiles.assets.Door;
+import tiles.assets.Embers;
 import tiles.assets.Grass;
 import tiles.assets.Water;
 
@@ -226,7 +227,7 @@ public class Area implements Serializable{
      * @param y The y of the Tile.
      */
     public void burn(int x, int y){
-        map[y][x] = new Tile("embers", location, true, false, true);
+        map[y][x] = new Embers(location);
         PhysicalCrate r = getReceptacle(x, y);
         if(r != null){
             r.removeIf(item -> item.flammable);
@@ -311,7 +312,7 @@ public class Area implements Serializable{
             getReceptacle(c.x, c.y).addAll(c.inventory);
             getReceptacle(c.x, c.y).addAll(c.inventory.equipment);
         }catch(NullPointerException e){
-            Floor floor = new Floor(c.x, c.y);
+            FloorCrate floor = new FloorCrate(c.x, c.y);
             floor.addAll(c.inventory);
             floor.addAll(c.inventory.equipment);
             addReceptacle(floor);
@@ -493,7 +494,7 @@ public class Area implements Serializable{
      */
     public void plop(Item i, int x, int y){
         PhysicalCrate r = getReceptacle(x, y);
-        if(r==null) addReceptacle(new Floor(i, x, y));
+        if(r==null) addReceptacle(new FloorCrate(i, x, y));
         else if(r instanceof LockedChest) LockedChest.replop(x, y, this, i);
         else r.add(i);
     }
@@ -616,7 +617,7 @@ public class Area implements Serializable{
             for(int x=1;x<dimension.width-1;x++){
                 if(map[y][x]!=null&&map[y][x].equals("lowgrass")&&location.feeling.grassUpgradeChance.chance()){
                     if(location.feeling.equals(LevelFeeling.BURNED))
-                        map[y][x] = new Tile("embers", location, true, false, true);
+                        map[y][x] = new Embers(location);
                     else map[y][x] = new Grass(location, true);
                 }
             }

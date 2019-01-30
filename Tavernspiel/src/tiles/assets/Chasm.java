@@ -18,15 +18,15 @@ public class Chasm extends Tile implements StepListener{
     private boolean isPitroom = false;
     
     public Chasm(String tileAbove, Location loc){
-        super(tileAbove.equals("void") ? "void" : tileAbove + "cutoff", loc, true, false, true);
+        super(tileAbove.equals("void") ? "void" : tileAbove + "cutoff", "This is a very deep hole.", loc, true, false, true);
     }
     
     public Chasm(Area area, int x, int y){
-        super(area.map[y-1][x].name + "cutoff", area.location, true, false, true);
+        super(area.map[y-1][x].name + "cutoff", "This is a very deep hole.", area.location, true, false, true);
     }
     
     public Chasm(Area area, int x, int y, boolean pit){
-        super(area.map[y-1][x].name + "cutoff", area.location, true, false, true);
+        super(area.map[y-1][x].name + "cutoff", "This is a very deep hole.", area.location, true, false, true);
         isPitroom = pit;
     }
     

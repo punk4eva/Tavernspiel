@@ -27,7 +27,7 @@ public class HUD implements Viewable, ScreenListener{
      */
     public HUD(QuickSlot q){
         quickslot = q;
-        strategy = new ReverseHUDLookAndFeel(this);
+        strategy = new DefaultHUDLookAndFeel(this);
     }
     
     /**

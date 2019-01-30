@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import level.Area;
 import logic.Distribution;
+import logic.Utils.Unfinished;
 import pathfinding.Graph;
 import pathfinding.Path;
 import pathfinding.Point;
@@ -19,7 +20,11 @@ import tiles.Tile;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * Builds corridors into a preexisting Area using the Wandering corridor 
+ * algorithm.
  */
+@Unfinished("Fix or Delete")
 public class WanderingCorridorBuilder{
     
     private final Area area;

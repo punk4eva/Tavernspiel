@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 steelr.
+ * Copyright 2018 Adam Whittaker.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,12 +22,16 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Objects;
 import level.Area;
+import logic.Utils.Unfinished;
 import pathfinding.Point.Direction;
 
 /**
  *
- * @author steelr
+ * @author Adam Whittaker
+ * 
+ * This class holds the NavMesh of a map for easy pathfinding.
  */
+@Unfinished("Might remove as may be inefficient. Need to debug.")
 public class NavigationMesh implements Serializable{
     
     private static final long serialVersionUID = 462317L;
@@ -38,7 +42,7 @@ public class NavigationMesh implements Serializable{
     private final boolean[][] found;
     
     /**
-     *  Creates a new instance.
+     * Creates a new instance.
      * @param graph Requires Searcher, Waypoints and map.
      * @param area
      */
@@ -132,6 +136,12 @@ public class NavigationMesh implements Serializable{
         }
     }
     
+    /**
+     * A paint method for debugging purposes.
+     * @param g
+     * @param focusX
+     * @param focusY
+     */
     public void debugPaint(Graphics g, int focusX, int focusY){
     
     }

@@ -9,6 +9,8 @@ import java.io.IOException;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * Stores the control settings for the game.
  */
 public class KeyMapping{
     

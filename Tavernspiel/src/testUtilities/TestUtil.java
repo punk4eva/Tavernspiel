@@ -12,6 +12,8 @@ import logic.Utils.Unfinished;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * A utility class of static debug methods.
  */
 @Unfinished("Remove later")
 public class TestUtil{

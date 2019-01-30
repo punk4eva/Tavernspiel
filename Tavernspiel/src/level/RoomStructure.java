@@ -30,6 +30,7 @@ import pathfinding.generation.DrunkenCorridorBuilder;
 import pathfinding.generation.SpiderCorridorBuilder;
 import tiles.Tile;
 import tiles.assets.Door;
+import tiles.assets.SpecialFloor;
 
 /**
  *
@@ -133,7 +134,7 @@ public abstract class RoomStructure extends Area{
             map[h+width/2][length] = new Door(location);
             for(int y=h;y<h+width;y++)
                 for(int x=1;x<length;x++)
-                    map[y][x] = new Tile("specialfloor", location, true, false, true);
+                    map[y][x] = new SpecialFloor(location);
             
         }
         
@@ -356,7 +357,7 @@ public abstract class RoomStructure extends Area{
             for(Point p : graph.waypoints){
                 while(p.cameFrom!=null){
                     p = p.cameFrom;
-                    if(paths) map[p.y][p.x] = new Tile("specialfloor", location, true, false, true);
+                    if(paths) map[p.y][p.x] = new SpecialFloor(location);
                     else map[p.y][p.x] = Tile.floor(location);
                 }
             }

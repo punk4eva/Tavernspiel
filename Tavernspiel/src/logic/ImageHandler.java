@@ -13,6 +13,8 @@ import level.Location;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * Handles tileset interpretation.
  */
 public final class ImageHandler{
     
@@ -97,12 +99,20 @@ public final class ImageHandler{
         interiorMap.put("sarcophagus1", new Dimension(48, 48));
     }
     
+    /**
+     * Initializes the Icons for a Location.
+     * @param loc
+     */
     public static void initializeIcons(Location loc){
         map.entrySet().forEach((entry) -> {
             loc.tilemap.put(entry.getKey(), getImage(entry.getValue(), loc, 16, 16));
         });
     }
     
+    /**
+     * Initializes the Icons for an Interior Location.
+     * @param loc
+     */
     public static void initializeInteriorIcons(Location loc){
         interiorMap.entrySet().forEach((entry) -> {
             loc.tilemap.put(entry.getKey(), getImage(entry.getValue(), loc, 16, 16));

@@ -27,6 +27,8 @@ import java.util.function.BiFunction;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class stores the settings of the Game.
  */
 public class GameSettings implements Serializable{
     
@@ -41,8 +43,9 @@ public class GameSettings implements Serializable{
     public static WaterSetting WATER_SETTING = WaterSetting.ANIMATED;
     public static VarianceSetting VARIANCE_SETTING = VarianceSetting.MAX;
     
-    
-    
+    /**
+     * The setting for Fire quality.
+     */
     public static enum FireSetting{
         STATIC((col, tcol) -> new ParticleAnimation(3, 6, new Rectangle(1, 1, 14, 14), 
                 new Rectangle(-2, -2, 1, 1), new StaticFireParticle(col))),
@@ -64,6 +67,9 @@ public class GameSettings implements Serializable{
         }
     }
     
+    /**
+     * The setting for Torch quality.
+     */
     public static enum TorchSetting{
         STATIC((col, tcol) -> new ParticleAnimation.NullAnimation()),
         LOW((col, tcol) -> new ParticleAnimation(3, 3, new Rectangle(6, 4, 4, 3), 
@@ -84,11 +90,17 @@ public class GameSettings implements Serializable{
         }
     }
     
+    /**
+     * The setting for Water quality.
+     */
     public static enum WaterSetting{
         STATIC,
         ANIMATED;
     }
     
+    /**
+     * The setting for Tile variance.
+     */
     public static enum VarianceSetting{
         OFF,
         SPECIAL_ONLY,

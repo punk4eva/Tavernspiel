@@ -32,7 +32,7 @@ public class DecoratedWall extends AnimatedTile implements Serializable{
     private final String locName;
     
     public DecoratedWall(Location loc, int _x, int _y){
-        super("specialwall", loc.getWallAnimation(_x, _y), false, false, false);
+        super("specialwall", "This is a wall.", loc.getWallAnimation(_x, _y), false, false, false);
         image = loc.getImage("specialwall");
         locName = loc.name;
         if(locName.startsWith("v")) System.out.println("village wall");
@@ -49,7 +49,7 @@ public class DecoratedWall extends AnimatedTile implements Serializable{
     private void readObject(ObjectInputStream in) 
             throws IOException, ClassNotFoundException{
         in.defaultReadObject();
-        Location loc = Location.locationMap.get(locName);
+        Location loc = Location.LOCATION_MAP.get(locName);
         image = loc.getImage("specialwall");
         animation = loc.getWallAnimation(x, y);
     }

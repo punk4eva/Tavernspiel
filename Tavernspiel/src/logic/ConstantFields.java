@@ -15,6 +15,8 @@ import javax.swing.ImageIcon;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * A library of constants to be used throughout the project.
  */
 public interface ConstantFields{
     

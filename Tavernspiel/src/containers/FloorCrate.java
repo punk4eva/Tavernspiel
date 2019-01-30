@@ -13,7 +13,7 @@ import level.Area;
  * 
  * This class represents items on the ground.
  */
-public class Floor extends PhysicalCrate{
+public class FloorCrate extends PhysicalCrate{
     
     private final static long serialVersionUID = 2890391007L;
     
@@ -22,7 +22,7 @@ public class Floor extends PhysicalCrate{
      * @param x
      * @param y
      */
-    public Floor(int x, int y){
+    public FloorCrate(int x, int y){
         super(null, "There is nothing interesting here.", x, y);
     }
     
@@ -32,7 +32,7 @@ public class Floor extends PhysicalCrate{
      * @param x
      * @param y
      */
-    public Floor(Item i, int x, int y){
+    public FloorCrate(Item i, int x, int y){
         super(null, "You shouldn't be reading this.", x, y);
         push(i);
     }
@@ -43,7 +43,7 @@ public class Floor extends PhysicalCrate{
      * @param x
      * @param y
      */
-    public Floor(Crate r, int x, int y){
+    public FloorCrate(Crate r, int x, int y){
         super(null, "You shouldn't be reading this.", x, y);
         addAll(r);
         description = isEmpty() ? new Description("tile", "There is nothing interesting here.") : 
@@ -58,7 +58,7 @@ public class Floor extends PhysicalCrate{
      * @param x
      * @param y
      */
-    public Floor(ArrayList<Item> ary, int x, int y){
+    public FloorCrate(ArrayList<Item> ary, int x, int y){
         super(null, "You shouldn't be reading this.", x, y);
         addAll(ary);
         description = isEmpty() ? new Description("tile", "There is nothing interesting here.") :

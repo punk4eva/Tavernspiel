@@ -7,19 +7,21 @@ import listeners.StepListener;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * A Tile that activates a secret power when stepped on.
  */
 public abstract class Trap extends HiddenTile implements StepListener{
     
     public boolean reusable = false;
     public boolean used = false;
     
-    public Trap(String tile, Location loc){
-        super("floor", true, false, true, tile, loc, 
+    public Trap(String tile, String desc, Location loc){
+        super("floor", desc, true, false, true, tile, loc, 
                 loc.feeling.trapVisibleChance.chance(), false, true, true);
     }
     
-    public Trap(String tile, Location loc, boolean re){
-        super("floor", true, false, true, tile, loc, 
+    public Trap(String tile, String desc, Location loc, boolean re){
+        super("floor", desc, true, false, true, tile, loc, 
                 loc.feeling.trapVisibleChance.chance(), false, true, true);
         reusable = re;
     }

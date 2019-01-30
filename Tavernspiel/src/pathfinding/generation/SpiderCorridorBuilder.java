@@ -30,6 +30,8 @@ import tiles.assets.Door;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * Builds corridors using the spider corridor algorithm.
  */
 public class SpiderCorridorBuilder{
     

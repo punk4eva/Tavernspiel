@@ -29,6 +29,8 @@ import tiles.assets.Door;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * Builds a maze using a modified drunken walk algorithm.
  */
 public class DrunkenCorridorBuilder{
     
@@ -51,6 +53,10 @@ public class DrunkenCorridorBuilder{
         coords = c;
     }
     
+    /**
+     * Generates a Labyrinth from scratch.
+     * @return
+     */
     public Area build(){
         Point z, p;
         if(coords==null) z = graph.map[r.nextInt(area.dimension.height/2)+area.dimension.height/4][r.nextInt(area.dimension.width/2)+area.dimension.width/4];
@@ -137,6 +143,9 @@ public class DrunkenCorridorBuilder{
         return Math.pow(Math.E, -(Math.pow(p.x-area.dimension.width/2, 2)+Math.pow(p.y-area.dimension.height/2, 2))/gaussianQuotient);
     }
     
+    /**
+     * Fills an existing Area with a labyrinth.
+     */
     public void fillExistingArea(){
         Point p, z = graph.map[coords[1]][coords[0]];
         z.isCorridor = true;

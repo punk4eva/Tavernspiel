@@ -26,6 +26,8 @@ import tiles.Tile;
 /**
  *
  * @author punk4eva
+ * 
+ * This class uses cellular automata to grow Areas.
  */
 public class AreaGrower{
     
@@ -115,6 +117,10 @@ public class AreaGrower{
     
 }
     
+    /**
+     * Runs the cellular automata and generates an Area.
+     * @return
+     */
     public Area simulate(){
         initialize();
         for(;iterNum>0;iterNum--) iterate();

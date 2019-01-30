@@ -1,6 +1,7 @@
 
 package tiles;
 
+import creatureLogic.Description;
 import java.awt.Graphics2D;
 import java.io.Serializable;
 import java.util.HashMap;
@@ -14,30 +15,35 @@ import tiles.assets.*;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * The building block of Areas.
  */
 public class Tile{
     
     public transient ImageIcon image;
+    public Description description;
     public String name;
     public boolean treadable;
     public boolean flammable;
     public boolean transparent;
     public Interactable interactable;
     
-    public Tile(String n, ImageIcon ic, boolean t, boolean f, boolean tr){
+    public Tile(String n, String desc, ImageIcon ic, boolean t, boolean f, boolean tr){
         image = ic;
         name = n;
         treadable = t;
         flammable = f;
         transparent = tr;
+        description = new Description("tiles", desc);
     }
     
-    public Tile(String tile, Location loc, boolean t, boolean f, boolean tr){
+    public Tile(String tile, String desc, Location loc, boolean t, boolean f, boolean tr){
         image = loc.getImage(tile);
         name = tile;
         treadable = t;
         flammable = f;
         transparent = tr;
+        description = new Description("tiles", desc);
     }
     
     /**
@@ -49,25 +55,52 @@ public class Tile{
         return str.compareToIgnoreCase(name)==0;
     }
     
+    /**
+     * Creates a Wall.
+     * @param loc
+     * @param x
+     * @param y
+     * @return
+     */
     public static Tile wall(Location loc, int x, int y){
         if(loc.feeling.wallChance.chance()) return new DecoratedWall(loc, x, y);
-        return new Tile("wall", loc, false, false, false);
+        return new Wall(loc);
     }
     
+    /**
+     * Creates a Floor.
+     * @param loc
+     * @return
+     */
     public static Tile floor(Location loc){
         if(loc.feeling.trapChance.chance()) return RoomBuilder.getRandomTrap(loc);
-        if(loc.feeling.floorChance.chance()) return new Tile("decofloor", loc, true, false, true);
-        return new Tile("floor", loc, true, false, true);
+        if(loc.feeling.floorChance.chance()) return new DecoratedFloor(loc);
+        return new Floor(loc);
     }
     
+    /**
+     * Paints this tile on the given pixel coordinates.
+     * @param g
+     * @param x
+     * @param y
+     */
     public void paint(Graphics2D g, int x, int y){
         g.drawImage(image.getImage(), x, y, null);
     }
     
+    /**
+     * Checks whether this tile is a floor.
+     * @return
+     */
     public boolean isFloor(){
         return name.endsWith("floor");
     }
     
+    /**
+     * Returns the ID of the Tile.
+     * @param tile
+     * @return
+     */
     public static int getID(Tile tile){
         if(tile==null) return -1;
         if(tile instanceof Serializable) return -99;
@@ -78,6 +111,12 @@ public class Tile{
         }
     }
     
+    /**
+     * Creates a Tile from the ID and Location.
+     * @param id
+     * @param loc
+     * @return
+     */
     public static Tile getTile(int id, Location loc){
         if(id==-1) return null;
         return tileMap.get(id).apply(loc);
@@ -122,22 +161,22 @@ public class Tile{
         IDmap.put("wallcutoff", 37);
         IDmap.put("brokencutoff", 38);
         tileMap.put(0, (Serializable & Function<Location, Tile>)loc -> new Chasm("void", loc));
-        tileMap.put(1, (Serializable & Function<Location, Tile>)loc -> new Tile("floor", loc, true, false, true));
+        tileMap.put(1, (Serializable & Function<Location, Tile>)loc -> new Floor(loc));
         tileMap.put(2, (Serializable & Function<Location, Tile>)loc -> new Grass(loc, false));
-        tileMap.put(3, (Serializable & Function<Location, Tile>)loc -> new Tile("emptywell", loc, true, false, true));
-        tileMap.put(4, (Serializable & Function<Location, Tile>)loc -> new Tile("wall", loc, false, false, false));
+        tileMap.put(3, (Serializable & Function<Location, Tile>)loc -> new Tile("emptywell", "Unfortunately, there is no more water in this well.", loc, true, false, true));
+        tileMap.put(4, (Serializable & Function<Location, Tile>)loc -> new Wall(loc));
         tileMap.put(5, (Serializable & Function<Location, Tile>)loc -> new Door(loc));
         tileMap.put(8, (Serializable & Function<Location, Tile>)loc -> new DepthEntrance(loc));
         tileMap.put(9, (Serializable & Function<Location, Tile>)loc -> new DepthExit(loc));
-        tileMap.put(10, (Serializable & Function<Location, Tile>)loc -> new Tile("embers", loc, true, false, true));
-        tileMap.put(12, (Serializable & Function<Location, Tile>)loc -> new Tile("pedestal", loc, true, false, true));
+        tileMap.put(10, (Serializable & Function<Location, Tile>)loc -> new Embers(loc));
+        tileMap.put(12, (Serializable & Function<Location, Tile>)loc -> new Pedestal(loc));
         tileMap.put(14, (Serializable & Function<Location, Tile>)loc -> new Barricade("barricade", loc));
-        tileMap.put(15, (Serializable & Function<Location, Tile>)loc -> new Tile("specialfloor", loc, true, false, true));
+        tileMap.put(15, (Serializable & Function<Location, Tile>)loc -> new SpecialFloor(loc));
         tileMap.put(16, (Serializable & Function<Location, Tile>)loc -> new Grass(loc, true));
         tileMap.put(17, (Serializable & Function<Location, Tile>)loc -> TrapBuilder.getTrap("green", loc));
         tileMap.put(18, (Serializable & Function<Location, Tile>)loc -> TrapBuilder.getTrap("orange", loc));
         tileMap.put(19, (Serializable & Function<Location, Tile>)loc -> TrapBuilder.getTrap("yellow", loc));
-        tileMap.put(21, (Serializable & Function<Location, Tile>)loc -> new Tile("decofloor", loc, true, false, true));
+        tileMap.put(21, (Serializable & Function<Location, Tile>)loc -> new DecoratedFloor(loc));
         //@Unfinished LockedDepthExit
         //tileMap.put(22, );
         //tileMap.put(23, );
@@ -148,8 +187,8 @@ public class Tile{
         tileMap.put(27, (Serializable & Function<Location, Tile>)loc -> TrapBuilder.getTrap("blue", loc));
         //@Unfinished well
         //tileMap.put(28, );
-        tileMap.put(29, (Serializable & Function<Location, Tile>)loc -> new Tile("statue", loc, false, false, true));
-        tileMap.put(30, (Serializable & Function<Location, Tile>)loc -> new Tile("specialstatue", loc, false, false, true));
+        tileMap.put(29, (Serializable & Function<Location, Tile>)loc -> new Statue(loc, false));
+        tileMap.put(30, (Serializable & Function<Location, Tile>)loc -> new Statue(loc, true));
         tileMap.put(31, (Serializable & Function<Location, Tile>)loc -> TrapBuilder.getTrap("bear", loc));
         tileMap.put(32, (Serializable & Function<Location, Tile>)loc -> TrapBuilder.getTrap("silver", loc));
         tileMap.put(33, (Serializable & Function<Location, Tile>)loc -> new Barricade("bookshelf", loc));

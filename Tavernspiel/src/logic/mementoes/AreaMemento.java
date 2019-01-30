@@ -42,7 +42,7 @@ public class AreaMemento implements Serializable{
      * @return
      */
     public Location getLocation(){
-        return Location.locationMap.get(locName);
+        return Location.LOCATION_MAP.get(locName);
     }
     
     /**
@@ -50,7 +50,7 @@ public class AreaMemento implements Serializable{
      * @return
      */
     public Tile[][] getMap(){
-        Location loc = Location.locationMap.get(locName);
+        Location loc = Location.LOCATION_MAP.get(locName);
         Tile[][] map = new Tile[tileMap.length][tileMap[0].length];
         states.forEach((tm) -> {
             map[tm.y][tm.x] = (Tile)tm.tc;

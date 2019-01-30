@@ -103,7 +103,7 @@ public class Graph implements Serializable{
      */
     public void reset(){
         for(Point[] row : map)
-            for(int x = 0; x<map[0].length; x++) row[x].reset();
+            for(int x = 0; x<map[0].length; x++) row[x].resetPathfinding();
     }
     
     /**

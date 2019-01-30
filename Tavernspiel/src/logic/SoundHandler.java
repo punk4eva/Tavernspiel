@@ -16,6 +16,8 @@ import javax.sound.sampled.UnsupportedAudioFileException;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * Handles SFX and song playing.
  */
 public class SoundHandler{
     
@@ -23,6 +25,10 @@ public class SoundHandler{
     private boolean currentLoop0 = false;
     private Thread SFXThread;
 
+    /**
+     * Plays SFX.
+     * @param path
+     */
     public void playSFX(String path){
         File file = new File("sound/" + path);
         if(SFXThread!=null) SFXThread.interrupt();
@@ -130,7 +136,7 @@ public class SoundHandler{
         else backgroundMusicLoop1.gainControl.setValue(Window.musicVolume);
     }
     
-    public static class MusicThread extends Thread implements LineListener{
+    private static class MusicThread extends Thread implements LineListener{
         
         private final String filepath;
         private final Clip clip;

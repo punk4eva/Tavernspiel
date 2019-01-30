@@ -25,6 +25,7 @@ public class TileSelection implements Serializable, Cloneable{
     
     final Distribution distrib;
     final String[] tiles;
+    final String[] desc;
     final boolean[] treadible;
     final boolean[] flammable;
     final boolean[] transparent;
@@ -35,11 +36,13 @@ public class TileSelection implements Serializable, Cloneable{
      * Creates an instance.
      * @param chances The chances of each tile being selected.
      * @param t The names of the tiles.
+     * @param d The descriptions of the tiles.
      * @param col The color to represent them with.
      */
-    public TileSelection(int[] chances, String[] t, Color col){
+    public TileSelection(int[] chances, String[] t, String[] d, Color col){
         distrib = new Distribution(chances);
         tiles = t;
+        desc = d;
         color = col;
         treadible = new boolean[t.length];
         flammable = new boolean[t.length];
@@ -50,15 +53,17 @@ public class TileSelection implements Serializable, Cloneable{
     /**
      * Creates an instance of a single tile.
      * @param tile The name of the tile.
+     * @param d The descriptions of the tiles.
      * @param col The color to represent them with.
      */
-    public TileSelection(String tile, String col){
+    public TileSelection(String tile, String d, String col){
         distrib = new Distribution(new int[]{1});
         tiles = new String[]{tile};
         color = ItemBuilder.getColor(col);
         treadible = new boolean[1];
         flammable = new boolean[1];
         transparent = new boolean[1];
+        desc = new String[]{d};
         initialize();
     }
     
@@ -66,13 +71,15 @@ public class TileSelection implements Serializable, Cloneable{
      * Creates an instance.
      * @param dist The chances of each tile being selected.
      * @param t The names of the tiles
+     * @param d The descriptions of the tiles.
      * @param col The color to represent them with.
      * @param b Whether this TileSelection is a boundary.
      */
-    public TileSelection(Distribution dist, String[] t, Color col, boolean b){
+    public TileSelection(Distribution dist, String[] t, String[] d, Color col, boolean b){
         distrib = dist;
         tiles = t;
         color = col;
+        desc = d;
         boundary = b;
         treadible = new boolean[t.length];
         transparent = new boolean[t.length];
@@ -80,17 +87,19 @@ public class TileSelection implements Serializable, Cloneable{
         initialize();
     }
     
-    protected TileSelection(String tile, boolean tre, boolean fl, boolean tra){
+    protected TileSelection(String tile, String d, boolean tre, boolean fl, boolean tra){
         distrib = new Distribution(new int[]{1});
         tiles = new String[]{tile};
         color = null;
+        desc = new String[]{d};
         treadible = new boolean[]{tre};
         flammable = new boolean[]{fl};
         transparent = new boolean[]{tra};
     }
     
-    protected TileSelection(Distribution dist, String[] tile, boolean[] tre, boolean[] fl, boolean[] tra){
+    protected TileSelection(Distribution dist, String[] tile, String[] d, boolean[] tre, boolean[] fl, boolean[] tra){
         distrib = dist;
+        desc = d;
         tiles = tile;
         color = null;
         treadible = tre;
@@ -105,7 +114,7 @@ public class TileSelection implements Serializable, Cloneable{
      */
     public Tile getTile(Location loc){
         int n = (int)distrib.next();
-        return new Tile(tiles[n], loc, treadible[n], flammable[n], transparent[n]);
+        return new Tile(tiles[n], desc[n], loc, treadible[n], flammable[n], transparent[n]);
     }
     
     /**
@@ -125,14 +134,15 @@ public class TileSelection implements Serializable, Cloneable{
     
     static TileSelection parse(String command){
         String tls[] = command.split("|");
-        String[] tiles = new String[tls.length-1];
+        String[] tiles = new String[tls.length-1], desc = new String[tls.length-1];
         int chances[] = new int[tls.length-1];
         for(int n=0;n<tls.length-1;n++){
             String[] p = tls[n].split(", ");
             tiles[n] = p[0];
-            chances[n] = Integer.parseInt(p[1]);
+            desc[n] = p[1];
+            chances[n] = Integer.parseInt(p[2]);
         }
-        return new TileSelection(chances, tiles, ItemBuilder.getColor(tls[tls.length-1]));
+        return new TileSelection(chances, tiles, desc, ItemBuilder.getColor(tls[tls.length-1]));
     }
     
     static TileSelection select(String str){
@@ -160,13 +170,13 @@ public class TileSelection implements Serializable, Cloneable{
     
     @Override
     public TileSelection clone(){
-        return new TileSelection(distrib, tiles, color, boundary);
+        return new TileSelection(distrib, tiles, desc, color, boundary);
     }
     
     //@Unfinished Rework needed.
-    final static TileSelection wall = new TileSelection(new int[]{1, 9}, new String[]{"specialwall", "wall"}, Color.DARK_GRAY);
-    final static TileSelection floor = new TileSelection(new int[]{1, 9}, new String[]{"decofloor", "floor"}, Color.GRAY);
-    final static TileSelection door = new TileSelection(new int[]{0}, new String[]{""}, new Color(80, 80, 0)){
+    final static TileSelection wall = new TileSelection(new int[]{1, 9}, new String[]{"specialwall", "wall"}, new String[]{}, Color.DARK_GRAY);
+    final static TileSelection floor = new TileSelection(new int[]{1, 9}, new String[]{"decofloor", "floor"}, new String[]{}, Color.GRAY);
+    final static TileSelection door = new TileSelection(new int[]{0}, new String[]{""}, new String[]{}, new Color(80, 80, 0)){
         @Override
         public Door getTile(Location loc){
             return new Door(loc, false, loc.feeling.doorHideChance.chance(), KeyType.IRON);
@@ -180,7 +190,7 @@ public class TileSelection implements Serializable, Cloneable{
     };
     
     public final static TileSelection wall(int x, int y){
-        return new TileSelection("wall", false, false, false){
+        return new TileSelection("wall", "UNFINISHED", false, false, false){
             @Override
             public Tile getTile(Location loc){
                 return Tile.wall(loc, x, y);
@@ -189,7 +199,7 @@ public class TileSelection implements Serializable, Cloneable{
     }
     
     public final static TileSelection specialWall(int x, int y){
-        return new TileSelection("specialwall", false, false, false){
+        return new TileSelection("specialwall", "UNFINISHED", false, false, false){
             @Override
             public Tile getTile(Location loc){
                 return new DecoratedWall(loc, x, y);
@@ -198,7 +208,7 @@ public class TileSelection implements Serializable, Cloneable{
     }
     
     public final static TileSelection door(){
-        return new TileSelection("door", false, false, false){
+        return new TileSelection("door", "UNFINISHED", false, false, false){
             @Override
             public Tile getTile(Location loc){
                 return new Door(loc);
@@ -207,7 +217,7 @@ public class TileSelection implements Serializable, Cloneable{
     }
     
     public final static TileSelection openDoor(){
-        return new TileSelection("opendoor", false, false, false){
+        return new TileSelection("opendoor", "UNFINISHED", false, false, false){
             @Override
             public Tile getTile(Location loc){
                 Door d = new Door(loc);
@@ -218,7 +228,7 @@ public class TileSelection implements Serializable, Cloneable{
     }
     
     public final static TileSelection floor(){
-        return new TileSelection("floor", true, false, true){ //depthexit
+        return new TileSelection("floor", "UNFINISHED", true, false, true){ //depthexit
             @Override
             public Tile getTile(Location loc){
                 return Tile.floor(loc);
@@ -227,7 +237,7 @@ public class TileSelection implements Serializable, Cloneable{
     }
     
     public final static TileSelection depthExit(){
-        return new TileSelection("depthexit", true, false, true){ //depthexit
+        return new TileSelection("depthexit", "UNFINISHED", true, false, true){ //depthexit
             @Override
             public Tile getTile(Location loc){
                 return new DepthExit(loc);
@@ -236,7 +246,7 @@ public class TileSelection implements Serializable, Cloneable{
     }
     
     public final static TileSelection depthExit(boolean locked){
-        return new TileSelection("depthexit", true, false, true){ //depthexit
+        return new TileSelection("depthexit", "UNFINISHED", true, false, true){ //depthexit
             @Override
             public Tile getTile(Location loc){
                 //return new DepthExit(loc);
@@ -246,7 +256,7 @@ public class TileSelection implements Serializable, Cloneable{
     }
     
     public final static TileSelection depthEntrance(){
-        return new TileSelection("depthentrance", true, false, true){ //depthexit
+        return new TileSelection("depthentrance", "UNFINISHED", true, false, true){ //depthexit
             @Override
             public Tile getTile(Location loc){
                 return new DepthEntrance(loc);
@@ -255,7 +265,7 @@ public class TileSelection implements Serializable, Cloneable{
     }
     
     public final static TileSelection lockedDoor(){
-        return new TileSelection("lockeddoor", true, false, false){ //depthexit
+        return new TileSelection("lockeddoor", "UNFINISHED", true, false, false){ //depthexit
             @Override
             public Tile getTile(Location loc){
                 return new Door(loc, true, false, KeyType.IRON);
@@ -264,7 +274,7 @@ public class TileSelection implements Serializable, Cloneable{
     }
     
     public final static TileSelection alchemyPot(){
-        return new TileSelection("alchemypot", true, false, true){ //depthexit
+        return new TileSelection("alchemypot", "UNFINISHED", true, false, true){ //depthexit
             @Override
             public Tile getTile(Location loc){
                 return new AlchemyPot(loc);
@@ -273,7 +283,7 @@ public class TileSelection implements Serializable, Cloneable{
     }
     
     public final static TileSelection grass(Boolean high){
-        return new TileSelection("grass", true, true, true){ //depthexit
+        return new TileSelection("grass", "UNFINISHED", true, true, true){ //depthexit
             @Override
             public Tile getTile(Location loc){
                 if(high!=null) return new Grass(loc, high);
@@ -285,7 +295,7 @@ public class TileSelection implements Serializable, Cloneable{
     }
     
     public final static TileSelection trap(String trapName){
-        return new TileSelection("trap", true, false, true){ //depthexit
+        return new TileSelection("trap", "UNFINISHED", true, false, true){ //depthexit
             @Override
             public Tile getTile(Location loc){
                 return TrapBuilder.getTrap(trapName, loc);
@@ -294,7 +304,7 @@ public class TileSelection implements Serializable, Cloneable{
     }
     
     public final static TileSelection chasm(String tileAbove){
-        return new TileSelection("chasm", true, false, true){ //depthexit
+        return new TileSelection("chasm", "UNFINISHED", true, false, true){ //depthexit
             @Override
             public Tile getTile(Location loc){
                 return new Chasm(tileAbove, loc);
@@ -303,10 +313,10 @@ public class TileSelection implements Serializable, Cloneable{
     }
     
     public final static TileSelection bed(String name, int num, int rot){
-        return new TileSelection("chasm", true, false, true){ //depthexit
+        return new TileSelection("chasm", "UNFINISHED", true, false, true){ //depthexit
             @Override
             public Tile getTile(Location loc){
-                return new Bed(name, loc, num, rot);
+                return new Bed(name, "UNFINISHED", loc, num, rot);
             }
         };
     }

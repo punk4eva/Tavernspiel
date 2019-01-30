@@ -10,6 +10,8 @@ import level.Location;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * A Tile that needs to be Animated.
  */
 public class AnimatedTile extends Tile{
     
@@ -18,13 +20,14 @@ public class AnimatedTile extends Tile{
     /**
      * Creates an instance.
      * @param tile The name of the Tile.
+     * @param desc The description.
      * @param an The Animation.
      * @param t The treadability.
      * @param tr The transparency.
      * @param f The flammability.
      */
-    public AnimatedTile(String tile, Animation an, boolean t, boolean f, boolean tr){
-        super(tile, (ImageIcon) null, t, f, tr);
+    public AnimatedTile(String tile, String desc, Animation an, boolean t, boolean f, boolean tr){
+        super(tile, desc, (ImageIcon) null, t, f, tr);
         animation = an;
     }
     
@@ -34,7 +37,7 @@ public class AnimatedTile extends Tile{
      * @param x The offset.
      */
     public AnimatedTile(Location loc, int x){
-        super("water", (ImageIcon) null, true, false, true);
+        super("water", "This is murky water.", (ImageIcon) null, true, false, true);
         animation = new WaterAnimation(loc, x);
     }
     
