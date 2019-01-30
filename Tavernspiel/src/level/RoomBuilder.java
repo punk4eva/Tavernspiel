@@ -5,7 +5,7 @@ import buffs.GasBuilder;
 import containers.Chest;
 import containers.Floor;
 import containers.Mimic;
-import containers.PhysicalReceptacle;
+import containers.PhysicalCrate;
 import containers.SkeletalRemains;
 import items.Item;
 import items.ItemMap;
@@ -485,7 +485,6 @@ public abstract class RoomBuilder{
         return ret;
     }
     
-    @Unfinished("Handle orientation")
     private static void circle(Room room, int x, int y, Location loc){
         room.map[y-1][x-1] = new ShadedTile("nw", loc);
         room.map[y-1][x] = new ShadedTile("n", loc);
@@ -501,22 +500,26 @@ public abstract class RoomBuilder{
         return Math.min(Math.abs(x-x1), Math.abs(y-y1));
     }
             
-    
+    /**
+     * Returns a random Trap.
+     * @param loc
+     * @return
+     */
     public static Trap getRandomTrap(Location loc){
         String tr = TRAPCOLORS[Distribution.getRandomInt(0, TRAPCOLORS.length-1)];
         return TrapBuilder.getTrap(tr, loc);
     }
     
-    public static Tile getRandomTrapOrChasm(Area area, int x, int y){
-        if(Distribution.chance(9, 10)){
-            String tr = TRAPCOLORS[Distribution.getRandomInt(0, TRAPCOLORS.length)] + "trap";
-            return TrapBuilder.getTrap(tr, area.location);
-        }else{
-            return new Chasm(area, x, y);
-        }
-    }
-    
-    public static PhysicalReceptacle getRandomReceptacle(Location loc, Item i, int x, int y){  
+    /**
+     * Generates a random Crate with the given Item on the given 
+     * coordinates.
+     * @param loc
+     * @param i
+     * @param x
+     * @param y
+     * @return
+     */
+    public static PhysicalCrate getRandomCrate(Location loc, Item i, int x, int y){  
         switch((int) loc.feeling.receptacleDist.next()){
             case 0: return new Floor(i, x, y);
             case 1: return new Chest(loc.name, i, x, y);

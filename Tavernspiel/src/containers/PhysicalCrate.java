@@ -15,7 +15,7 @@ import listeners.Interactable;
  * This class represents Receptacles that have a physical existence, i.e: not
  * just Inventory.
  */
-public abstract class PhysicalReceptacle extends Receptacle implements Interactable{
+public abstract class PhysicalCrate extends Crate implements Interactable{
     
     public Description description;
     public int x, y; 
@@ -29,7 +29,7 @@ public abstract class PhysicalReceptacle extends Receptacle implements Interacta
      * @param xc The x coord.
      * @param yc The y coord.
      */
-    public PhysicalReceptacle(Supplier<ImageIcon> l, String desc, int xc, int yc){
+    public PhysicalCrate(Supplier<ImageIcon> l, String desc, int xc, int yc){
         description = Description.parseDescription("receptacle", desc);
         x = xc;
         y = yc;
@@ -45,7 +45,7 @@ public abstract class PhysicalReceptacle extends Receptacle implements Interacta
      * @param xc The x coord.
      * @param yc The y coord.
      */
-    public PhysicalReceptacle(Supplier<ImageIcon> l, int cap, String desc, int xc, int yc){
+    public PhysicalCrate(Supplier<ImageIcon> l, int cap, String desc, int xc, int yc){
         description = Description.parseDescription("receptacle", desc);
         capacity = cap;
         x = xc;

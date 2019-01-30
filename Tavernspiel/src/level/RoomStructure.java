@@ -34,6 +34,8 @@ import tiles.assets.Door;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class generates patterns in Rooms.
  */
 public abstract class RoomStructure extends Area{
     
@@ -44,9 +46,12 @@ public abstract class RoomStructure extends Area{
         rooms = list;
     }
     
+    /**
+     * Generates the room.
+     */
     public abstract void generate();
     
-    protected void shaveBufferMarks(int _x, int _y, int w, int h){
+    void shaveBufferMarks(int _x, int _y, int w, int h){
             for(int x=_x-1;x<_x+w+1;x++){
                 graph.map[_y-1][x].isCorridor = false;
                 graph.map[_y+h][x].isCorridor = false;
@@ -57,6 +62,10 @@ public abstract class RoomStructure extends Area{
             }
         }
     
+    /**
+     * A Hallway sub-structure. Cannot function independently.
+     * Max 6 Rooms.
+     */
     public static class Hallway extends RoomStructure{
         
         private final List<Room> rooms1 = new LinkedList<>();
@@ -130,9 +139,12 @@ public abstract class RoomStructure extends Area{
         
     }
     
-    public static class Cave extends RoomStructure{
+    /**
+     * An algorithm that randomly places rooms.
+     */
+    private abstract static class RoomPlacer extends RoomStructure{
 
-        public Cave(Dimension dim, Location loc, List<Room> list){
+        public RoomPlacer(Dimension dim, Location loc, List<Room> list){
             super(dim, loc, list);
             graph = new Graph(this, null);
         }
@@ -204,7 +216,10 @@ public abstract class RoomStructure extends Area{
         
     }
     
-    public static class Labyrinth extends Cave{
+    /**
+     * A Labyrinth of Rooms.
+     */
+    public static class Labyrinth extends RoomPlacer{
         
         private final transient DrunkenCorridorBuilder dcb;
 
@@ -274,7 +289,10 @@ public abstract class RoomStructure extends Area{
     
     }
     
-    public static class Cavern extends Cave{
+    /**
+     * A cellular-automata generated Cavern.
+     */
+    public static class Cavern extends RoomPlacer{
         
         private final transient AreaGrower ag;
         private final transient boolean paths;
@@ -346,7 +364,10 @@ public abstract class RoomStructure extends Area{
     
     }
     
-    public static class SpiderCorridor extends Cave{
+    /**
+     * A Spider web-like corridor generation algorithm.
+     */
+    public static class SpiderCorridor extends RoomPlacer{
         
         private final transient SpiderCorridorBuilder scb;
         public transient boolean[][] corridors;
@@ -365,6 +386,9 @@ public abstract class RoomStructure extends Area{
     
     }
     
+    /**
+     * A compact box-like assortment of Rooms.
+     */
     public static class Complex extends RoomStructure{
 
         public Complex(Dimension dim, Location loc, List<Room> list){

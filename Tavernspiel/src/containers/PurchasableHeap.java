@@ -33,7 +33,7 @@ public class PurchasableHeap extends Floor{
      * @param r
      * @param p
      */
-    public PurchasableHeap(PhysicalReceptacle r, int p){
+    public PurchasableHeap(PhysicalCrate r, int p){
         super(r, r.x, r.y);
         price = p;
     }

@@ -16,7 +16,7 @@ import java.util.LinkedList;
  * 
  * This class represents a creature's inventory.
  */
-public class Inventory extends Receptacle{
+public class Inventory extends Crate{
     
     private final static long serialVersionUID = 1782937;
 

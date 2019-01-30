@@ -36,6 +36,11 @@ public class Dungeon implements Serializable{
         stages = new Stage[5];
     }
     
+    /**
+     * A post-instantiation initializer.
+     * @param g
+     * @param loc
+     */
     public final void initialize(Game g, Location loc){
         stages[0] = new Stage(loc, 5, new String[]{"the upper level of the caves", "the lower level of the caves"}, null);
         stages[0].areas[0] = stages[0].areaBuilder.load(stages[0].location.roomDistrib, 0);

@@ -35,7 +35,7 @@ public class CustomScroll extends LocationSpecificScroll{
     
     public void absorb(Wand wand){
         mimic = wand;
-        animation = new LoadableStillAnimation((Serializable & Supplier<ImageIcon>)() -> ScrollProfile.getSmudgeIcon());
+        animation = new LoadableStillAnimation(ScrollProfile.getSmudgeIconSupplier());
         Main.addMessage(ConstantFields.interestColor, "Your scroll has absorbed some magic.");
     }
     

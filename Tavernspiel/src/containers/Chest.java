@@ -14,7 +14,7 @@ import logic.SoundHandler;
  *
  * @author Adam Whittaker
  */
-public class Chest extends PhysicalReceptacle{
+public class Chest extends PhysicalCrate{
     
     private final static long serialVersionUID = 8590327;
     

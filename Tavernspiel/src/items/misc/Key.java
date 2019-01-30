@@ -7,6 +7,8 @@ import items.actions.ItemAction;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class represents a Key to a Door, Chest, etc.
  */
 public class Key extends Item{
     

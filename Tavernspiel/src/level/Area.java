@@ -5,7 +5,7 @@ import ai.PlayerAI;
 import blob.Blob;
 import containers.Floor;
 import containers.LockedChest;
-import containers.PhysicalReceptacle;
+import containers.PhysicalCrate;
 import creatureLogic.VisibilityOverlay;
 import creatures.Creature;
 import creatures.Hero;
@@ -50,7 +50,7 @@ import tiles.assets.Water;
  *
  * @author Adam Whittaker
  * 
- * This class represents an Area.
+ * This class represents an Area where the game can be in.
  */
 public class Area implements Serializable{
     
@@ -65,7 +65,7 @@ public class Area implements Serializable{
     //private final List<GameObject> objects = (List<GameObject>)(Object)Collections.synchronizedList(new LinkedList<>());
     //protected final List<Receptacle> receptacles = (List<Receptacle>)(Object)Collections.synchronizedList(new LinkedList<>());
     private final List<GameObject> objects = new LinkedList<>();
-    protected final List<PhysicalReceptacle> receptacles = new LinkedList<>();
+    protected final List<PhysicalCrate> receptacles = new LinkedList<>();
 
     public Graph graph = null;
     public volatile Hero hero;
@@ -227,7 +227,7 @@ public class Area implements Serializable{
      */
     public void burn(int x, int y){
         map[y][x] = new Tile("embers", location, true, false, true);
-        PhysicalReceptacle r = getReceptacle(x, y);
+        PhysicalCrate r = getReceptacle(x, y);
         if(r != null){
             r.removeIf(item -> item.flammable);
             removeReceptacle(r);
@@ -250,9 +250,9 @@ public class Area implements Serializable{
      * @param y The y coordinate.
      * @return The receptacle if it exists, null if not.
      */
-    public PhysicalReceptacle getReceptacle(int x, int y){
+    public PhysicalCrate getReceptacle(int x, int y){
         for(int n=0;n<receptacles.size();n++){
-            PhysicalReceptacle temp = receptacles.get(n);
+            PhysicalCrate temp = receptacles.get(n);
             if(temp.x==x&&temp.y==y){
                 return temp;
             }
@@ -264,7 +264,7 @@ public class Area implements Serializable{
      * Adds a Receptacle to this Area.
      * @param rec
      */
-    public void addReceptacle(PhysicalReceptacle rec){
+    public void addReceptacle(PhysicalCrate rec){
         if(rec instanceof Interactable) 
             map[rec.y][rec.x].interactable = rec;
         receptacles.add(rec);
@@ -278,8 +278,8 @@ public class Area implements Serializable{
      * coords.
      */
     public void removeReceptacle(int x, int y){
-        PhysicalReceptacle r;
-        Iterator<PhysicalReceptacle> iter = receptacles.iterator();
+        PhysicalCrate r;
+        Iterator<PhysicalCrate> iter = receptacles.iterator();
         while(iter.hasNext()){
             r = iter.next();
             if(r.x==x&&r.y==y){
@@ -295,7 +295,7 @@ public class Area implements Serializable{
      * Removes the given Receptacle.
      * @param r
      */
-    public void removeReceptacle(PhysicalReceptacle r){
+    public void removeReceptacle(PhysicalCrate r){
         receptacles.remove(r);
         map[r.y][r.x].interactable = null;
     }
@@ -326,7 +326,7 @@ public class Area implements Serializable{
      * @param y The x of the Receptacle.
      * @param rec The new Receptacle.
      */
-    public void replaceHeap(int x, int y, PhysicalReceptacle rec){
+    public void replaceHeap(int x, int y, PhysicalCrate rec){
         receptacles.remove(getReceptacle(x, y));
         if(rec instanceof Interactable) 
                 map[y][x].interactable = rec;
@@ -492,7 +492,7 @@ public class Area implements Serializable{
      * @param y
      */
     public void plop(Item i, int x, int y){
-        PhysicalReceptacle r = getReceptacle(x, y);
+        PhysicalCrate r = getReceptacle(x, y);
         if(r==null) addReceptacle(new Floor(i, x, y));
         else if(r instanceof LockedChest) LockedChest.replop(x, y, this, i);
         else r.add(i);

@@ -20,6 +20,8 @@ import logic.Utils;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class builds Wands.
  */
 public class WandBuilder{
     
@@ -62,6 +64,11 @@ public class WandBuilder{
         return new ImageIcon(img);
     }
     
+    /**
+     * Generates a "Wand Profile" for an Attack Wand.
+     * @param woodDistrib The distribution for wood chance.
+     * @return 0: String description; 1: ImageIcon image.
+     */
     public static Object[] getAttackInfo(Distribution woodDistrib){
         Object ret[] = new Object[2];
         String deco1 = word(DescriptionBuilder.color), 
@@ -78,6 +85,11 @@ public class WandBuilder{
         return ret;
     }
     
+    /**
+     * Generates a "Wand Profile" for an Elongated Wand.
+     * @param woodDistrib The distribution for wood chance.
+     * @return 0: String description; 1: ImageIcon image.
+     */
     public static Object[] getElongatedInfo(Distribution woodDistrib){
         Object ret[] = new Object[2];
         String deco1 = word(DescriptionBuilder.color), 
@@ -94,6 +106,11 @@ public class WandBuilder{
         return ret;
     }
     
+    /**
+     * Generates a "Wand Profile" for a Standard Wand.
+     * @param woodDistrib The distribution for wood chance.
+     * @return 0: String description; 1: ImageIcon image.
+     */
     public static Object[] getStandardInfo(Distribution woodDistrib){
         Object ret[] = new Object[2];
         String deco1 = word(DescriptionBuilder.color), 
@@ -109,6 +126,11 @@ public class WandBuilder{
         return ret;
     }
     
+    /**
+     * Generates a "Wand Profile" for an Eye Wand.
+     * @param woodDistrib The distribution for wood chance.
+     * @return 0: String description; 1: ImageIcon image.
+     */
     public static Object[] getEyeInfo(Distribution woodDistrib){
         Object ret[] = new Object[2];
         String deco1 = word(DescriptionBuilder.color), 
@@ -124,6 +146,11 @@ public class WandBuilder{
         return ret;
     }
     
+    /**
+     * Generates a "Wand Profile" for a Skull Wand.
+     * @param woodDistrib The distribution for wood chance.
+     * @return 0: String description; 1: ImageIcon image.
+     */
     public static Object[] getSkullInfo(Distribution woodDistrib){
         Object ret[] = new Object[2];
         String deco1 = word(DescriptionBuilder.color), 
@@ -139,6 +166,11 @@ public class WandBuilder{
         return ret;
     }
     
+    /**
+     * Generates a "Wand Profile" for a Sword Wand.
+     * @param woodDistrib The distribution for wood chance.
+     * @return 0: String description; 1: ImageIcon image.
+     */
     public static Object[] getSwordInfo(Distribution woodDistrib){
         Object ret[] = new Object[2];
         String deco1 = word(DescriptionBuilder.color), 
@@ -155,6 +187,11 @@ public class WandBuilder{
         return ret;
     }
     
+    /**
+     * Generates a "Wand Profile" for a Thin Wand.
+     * @param woodDistrib The distribution for wood chance.
+     * @return 0: String description; 1: ImageIcon image.
+     */
     public static Object[] getThinInfo(Distribution woodDistrib){
         Object ret[] = new Object[2];
         String deco1 = word(DescriptionBuilder.color), 
@@ -170,6 +207,11 @@ public class WandBuilder{
         return ret;
     }
     
+    /**
+     * Generates a "Wand Profile" for a Twig Wand.
+     * @param woodDistrib The distribution for wood chance.
+     * @return 0: String description; 1: ImageIcon image.
+     */
     public static Object[] getTwigInfo(Distribution woodDistrib){
         Object ret[] = new Object[2];
         String deco1 = word(DescriptionBuilder.color), 
@@ -186,10 +228,20 @@ public class WandBuilder{
         return ret;
     }
     
+    /**
+     * Generates a random Wand power.
+     * @param wandTypeChance The chance for each type of wand to be selected.
+     * @return
+     */
     public static String getRandomWandType(Distribution wandTypeChance){
         return powerNames[(int)wandTypeChance.next()];
     }
     
+    /**
+     * Generates a new random Wand.
+     * @param loc
+     * @return
+     */
     public static Wand getRandomWand(Location loc){
         throw new UnsupportedOperationException();
     }

@@ -18,6 +18,8 @@ package listeners;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * An Object that needs to know about changes in XP of a Creature.
  */
 public interface XPListener{
     public void xpChange(int xp, int level);

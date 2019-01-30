@@ -13,7 +13,7 @@ import level.Area;
  * 
  * This class represents items on the ground.
  */
-public class Floor extends PhysicalReceptacle{
+public class Floor extends PhysicalCrate{
     
     private final static long serialVersionUID = 2890391007L;
     
@@ -43,7 +43,7 @@ public class Floor extends PhysicalReceptacle{
      * @param x
      * @param y
      */
-    public Floor(Receptacle r, int x, int y){
+    public Floor(Crate r, int x, int y){
         super(null, "You shouldn't be reading this.", x, y);
         addAll(r);
         description = isEmpty() ? new Description("tile", "There is nothing interesting here.") : 

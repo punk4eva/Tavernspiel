@@ -13,6 +13,8 @@ import logic.Distribution;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class generates and stores information about a Scroll.
  */
 public class ScrollProfile implements Serializable{
     
@@ -59,7 +61,11 @@ public class ScrollProfile implements Serializable{
     
     private ScrollProfile(){}
     
-    public static ScrollProfile getCustomProfile(){
+    /**
+     * Generates the profile for a Blank scroll.
+     * @return
+     */
+    public static ScrollProfile getBlankScrollProfile(){
         ScrollProfile sp = new ScrollProfile();
         sp.unknownName = "Blank Scroll";
         sp.description = "";
@@ -69,21 +75,25 @@ public class ScrollProfile implements Serializable{
         return sp;
     }
     
-    public static ScrollProfile getSmudgeProfile(){
+    /**
+     * Generates the profile for a smudged scroll.
+     * @return
+     */
+    public static ScrollProfile getSmudgedScrollProfile(){
         ScrollProfile sp = new ScrollProfile();
         sp.unknownName = "Smudged Scroll";
         sp.description = "";
-        if(Distribution.chance(1, 2)) 
-            sp.loader = (Serializable & Supplier<ImageIcon>) () -> 
-                    ItemBuilder.getIcon(0, 96);
-        else sp.loader = (Serializable & Supplier<ImageIcon>) () -> 
-                    ItemBuilder.getIcon(16, 96);
+        sp.loader = getSmudgeIconSupplier();
         return sp;
     }
     
-    public static ImageIcon getSmudgeIcon(){
-        if(Distribution.chance(1, 2)) return ItemBuilder.getIcon(0, 96);
-        else return ItemBuilder.getIcon(16, 96);
+    /**
+     * Returns a Supplier for one of the smudged scroll icons.
+     * @return
+     */
+    public static Supplier<ImageIcon> getSmudgeIconSupplier(){
+        if(Distribution.chance(1, 2)) return (Serializable & Supplier<ImageIcon>) () -> ItemBuilder.getIcon(0, 96);
+        else return (Serializable & Supplier<ImageIcon>) () -> ItemBuilder.getIcon(16, 96);
     }
     
 }

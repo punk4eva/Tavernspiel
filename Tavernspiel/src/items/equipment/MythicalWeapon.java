@@ -25,6 +25,8 @@ import listeners.XPListener;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class represents a Weapon that grows in quality with XP.
  */
 public abstract class MythicalWeapon extends ModifiedWeapon implements ScreenItem, XPListener{
     

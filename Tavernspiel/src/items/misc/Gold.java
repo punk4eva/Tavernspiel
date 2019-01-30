@@ -13,6 +13,8 @@ import static logic.Distribution.r;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class represents Gold (currency).
  */
 public class Gold extends Item{
     
@@ -35,6 +37,11 @@ public class Gold extends Item{
         else return ItemBuilder.getIcon(112, 160);
     }
     
+    /**
+     * Generates a random quantity of Gold.
+     * @param level The scale on which Gold should be generated.
+     * @return
+     */
     public static Gold getGoldQuantity(int level){
         switch(level){
             case 0: return new Gold(r.nextInt(10));

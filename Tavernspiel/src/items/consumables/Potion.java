@@ -12,7 +12,7 @@ import logic.ConstantFields;
  *
  * @author Adam Whittaker
  * 
- * This class models the Potion Class.
+ * This class models a Potion.
  */
 public abstract class Potion extends Consumable{
     

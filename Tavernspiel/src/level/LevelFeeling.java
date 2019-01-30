@@ -10,6 +10,8 @@ import logic.Distribution;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class represents an ethos that an Area should be generated in.
  */
 public final class LevelFeeling{
     

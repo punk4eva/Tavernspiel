@@ -10,7 +10,7 @@ import java.util.LinkedList;
  * 
  * Handles storage of items.
  */
-public abstract class Receptacle extends LinkedList<Item>{
+public abstract class Crate extends LinkedList<Item>{
     
     private final static long serialVersionUID = -1893808300;
     
@@ -19,13 +19,13 @@ public abstract class Receptacle extends LinkedList<Item>{
     /**
      * Creates a new instance.
      */
-    public Receptacle(){}
+    public Crate(){}
     
     /**
      * Creates a new instance with the given capacity.
      * @param cap
      */
-    public Receptacle(int cap){
+    public Crate(int cap){
         capacity = cap;
     }
     

@@ -124,7 +124,7 @@ public class Distribution implements Serializable{
     }
     
     /**
-     * Returns a Distribution with an equal liklihood t select the given numbers.
+     * Returns a Distribution with an equal likelihood t select the given numbers.
      * @param length The length of the distribution.
      * @return A Distribution of given length with outputs ranging from 0 - length-1.
      */

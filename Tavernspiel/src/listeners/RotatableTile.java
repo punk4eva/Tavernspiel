@@ -18,6 +18,8 @@ package listeners;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * A Tile that needs to be rotated.
  */
 public interface RotatableTile{
     public void rotateImage(int r);

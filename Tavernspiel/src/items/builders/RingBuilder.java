@@ -10,6 +10,8 @@ import logic.Distribution;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class builds Rings.
  */
 public class RingBuilder implements Serializable{
     

@@ -1,7 +1,7 @@
 
 package level;
 
-import containers.PhysicalReceptacle;
+import containers.PhysicalCrate;
 import items.Item;
 import items.ItemMap;
 import items.misc.Key.KeyType;
@@ -147,6 +147,9 @@ public class Room extends Area{
         }
     }
     
+    /**
+     * Adds a locked door to this Room.
+     */
     protected void addLockedDoor(){
         int x, y;
         if(Distribution.chance(1, 2)){
@@ -172,7 +175,7 @@ public class Room extends Area{
             }while(!isTreadable(x, y));
             if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
             else{
-                addReceptacle(RoomBuilder.getRandomReceptacle(location, item, x, y));
+                addReceptacle(RoomBuilder.getRandomCrate(location, item, x, y));
             }
         });
     }
@@ -189,7 +192,7 @@ public class Room extends Area{
             }while(!isTreadable(x, y));
             if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
             else{
-                addReceptacle(RoomBuilder.getRandomReceptacle(location, item, x, y));
+                addReceptacle(RoomBuilder.getRandomCrate(location, item, x, y));
             }
         });
     }
@@ -207,7 +210,7 @@ public class Room extends Area{
             }while(!pred.test(new Integer[]{x, y}));
             if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
             else{
-                addReceptacle(RoomBuilder.getRandomReceptacle(location, item, x, y));
+                addReceptacle(RoomBuilder.getRandomCrate(location, item, x, y));
             }
         });
     }
@@ -224,7 +227,7 @@ public class Room extends Area{
         }while(!isTreadable(x, y));
         if(getReceptacle(x, y)!=null) getReceptacle(x, y).push(item);
         else{
-            addReceptacle(RoomBuilder.getRandomReceptacle(location, item, x, y));
+            addReceptacle(RoomBuilder.getRandomCrate(location, item, x, y));
         }
     }
     
@@ -250,7 +253,7 @@ public class Room extends Area{
      * Gets the receptacle of this room (only to be used if there is one receptacle).
      * @return The Receptacle.
      */
-    public PhysicalReceptacle getReceptacle(){
+    public PhysicalCrate getReceptacle(){
         return receptacles.get(0);
     }
     

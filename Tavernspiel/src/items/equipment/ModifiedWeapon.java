@@ -23,6 +23,9 @@ import creatures.Creature;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class represents a Melee Weapon that possesses specific non-enchantment 
+ * traits.
  */
 public abstract class ModifiedWeapon extends MeleeWeapon{
 

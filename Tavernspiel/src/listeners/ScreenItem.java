@@ -18,6 +18,8 @@ package listeners;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * An Item that can change its Dialogue options.
  */
 public interface ScreenItem{
     public boolean onOpeningDialogue();

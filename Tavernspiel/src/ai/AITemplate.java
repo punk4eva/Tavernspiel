@@ -1,7 +1,7 @@
 
 package ai;
 
-import containers.PhysicalReceptacle;
+import containers.PhysicalCrate;
 import creatures.Creature;
 import java.io.Serializable;
 import java.util.Iterator;
@@ -59,7 +59,7 @@ public abstract class AITemplate implements Serializable{
         if(!currentPath.hasNext()){
             currentPath = null;
             c.changeAnimation("stand");
-            PhysicalReceptacle r = c.area.getReceptacle(c.x, c.y); 
+            PhysicalCrate r = c.area.getReceptacle(c.x, c.y); 
             if(r!=null) r.interact(c, c.area);
         }
     }

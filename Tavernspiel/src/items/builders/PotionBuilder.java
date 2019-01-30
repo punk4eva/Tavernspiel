@@ -13,6 +13,8 @@ import logic.Utils.Unfinished;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class builds Potions.
  */
 public class PotionBuilder implements Serializable{
     
@@ -22,6 +24,10 @@ public class PotionBuilder implements Serializable{
         idMap.put("Flame Potion", false);
     }
     
+    /**
+     * Identifies the given Potion.
+     * @param p
+     */
     public static void identify(Potion p){
         idMap.put(p.name, true);
     }

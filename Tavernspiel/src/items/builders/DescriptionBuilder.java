@@ -7,6 +7,8 @@ import logic.Distribution;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class helps to procedurally generate descriptions for things.
  */
 public abstract class DescriptionBuilder implements Serializable{
     

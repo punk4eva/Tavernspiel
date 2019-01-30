@@ -7,6 +7,8 @@ import logic.Formula;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class represents a power that a Wand has.
  */
 public class WandPower{
     

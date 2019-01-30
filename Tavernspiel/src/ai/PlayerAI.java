@@ -1,7 +1,7 @@
 
 package ai;
 
-import containers.PhysicalReceptacle;
+import containers.PhysicalCrate;
 import creatureLogic.Action;
 import creatureLogic.Action.MoveAction;
 import creatureLogic.VisibilityOverlay;
@@ -85,7 +85,7 @@ public final class PlayerAI extends AITemplate implements KeyListener{
             currentPath = null;
             unfinished = false;
             c.changeAnimation("stand");
-            PhysicalReceptacle r = c.area.getReceptacle(next.x, next.y); 
+            PhysicalCrate r = c.area.getReceptacle(next.x, next.y); 
             if(r!=null) r.interact(c, c.area);
         }else Window.main.addTurnsPassed(hero.attributes.speed);
     }

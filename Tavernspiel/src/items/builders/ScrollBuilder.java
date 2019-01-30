@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.LinkedList;
 import logic.Distribution;
+import logic.Utils.Unfinished;
 
 /**
  *
@@ -50,6 +51,11 @@ public class ScrollBuilder implements Serializable{
         scrollMap.get(rune).identified = true;
     }
     
+    /**
+     * Checks whether the given scroll is identified.
+     * @param scroll
+     * @return
+     */
     public boolean isIdentified(String scroll){
         ScrollProfile sp = scrollMap.get(scroll);
         return sp!=null&&sp.identified;
@@ -146,9 +152,15 @@ public class ScrollBuilder implements Serializable{
     }
     
     public CustomScroll custom(){
-        return new CustomScroll(ScrollProfile.getCustomProfile());
+        return new CustomScroll(ScrollProfile.getBlankScrollProfile());
     }
     
+    /**
+     * Generates a random scroll.
+     * @param scrollDist
+     * @return
+     */
+    @Unfinished("Remove print check.")
     public Scroll getRandomScroll(Distribution scrollDist){
         int i = (int)scrollDist.next();
         System.out.println("Scroll: " + i);
@@ -174,6 +186,11 @@ public class ScrollBuilder implements Serializable{
         throw new IllegalStateException("Scroll Distribution Error");
     }
     
+    /**
+     * Generates a random benevolent scroll.
+     * @param scrollDist
+     * @return
+     */
     public Scroll getRandomPositiveScroll(Distribution scrollDist){
         switch((int)scrollDist.nextFromRange(0, 9)){
             case 0: return wonder(scrollDist);
@@ -188,6 +205,11 @@ public class ScrollBuilder implements Serializable{
         }
     }
     
+    /**
+     * Generates a random malevolent scroll.
+     * @param scrollDist
+     * @return
+     */
     public Scroll getRandomNegativeScroll(Distribution scrollDist){
         throw new UnsupportedOperationException("@Unfinished");
     }

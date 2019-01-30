@@ -18,6 +18,8 @@ import logic.Utils;
 /**
  *
  * @author Adam Whittaker
+ * 
+ * This class generates and stores information about a Potion.
  */
 public class PotionProfile extends DescriptionBuilder{
     
