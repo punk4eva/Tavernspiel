@@ -25,7 +25,7 @@ import logic.Distribution;
  * 
  * This class procedurally generates the descriptions of tiles.
  */
-public class TileDescriptionBuilder extends DescriptionBuilder{
+public final class TileDescriptionBuilder extends DescriptionBuilder{
     
     private static final Distribution DESCRIPTION_CHANCE = new Distribution(1,5);
     
@@ -79,11 +79,11 @@ public class TileDescriptionBuilder extends DescriptionBuilder{
     }
     
     public static String grassDesc(){
-        throw new UnsupportedOperationException();
+        return "UNFINISHED";
     }
     
     public static String depthDesc(){
-        throw new UnsupportedOperationException();
+        return "UNFINISHED";
     }
     
     public static void augmentDescription(Tile t){

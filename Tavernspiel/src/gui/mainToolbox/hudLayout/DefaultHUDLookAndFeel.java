@@ -33,8 +33,8 @@ public class DefaultHUDLookAndFeel implements HUDStrategy{
         quickslot = hud.quickslot;
         hero = quickslot.hero;
         screens.add(new Screen("Player",5,5,60,60,hud));
-        screens.add(new Screen("Wait",Game.WIDTH - 50, Game.HEIGHT - 73, 40, 40,hud));
-        screens.add(new Screen("Search",Game.WIDTH - 95, Game.HEIGHT - 73, 40, 40,hud));
+        screens.add(new Screen("Search",Game.WIDTH - 50, Game.HEIGHT - 73, 40, 40,hud));
+        screens.add(new Screen("Wait",Game.WIDTH - 95, Game.HEIGHT - 73, 40, 40,hud));
         screens.add(new Screen("Inventory",Game.WIDTH - 140, Game.HEIGHT - 73, 40, 40,hud));
         screens.add(new Screen("QuickAttack",Game.WIDTH - 70, Game.HEIGHT - 250, 70, 40,hud));
         screens.add(new Screen("QuickPickup",Game.WIDTH - 70, Game.HEIGHT - 300, 70, 40,hud));

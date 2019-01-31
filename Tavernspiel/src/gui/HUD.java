@@ -2,6 +2,8 @@ package gui;
 
 import creatureLogic.QuickSlot;
 import dialogues.BuffDialogue;
+import dialogues.TileDescriptionDialogue;
+import static gui.LocationViewable.LOCATION_SELECT;
 import gui.mainToolbox.HUDStrategy;
 import gui.mainToolbox.Screen;
 import gui.mainToolbox.Screen.ScreenEvent;
@@ -49,16 +51,22 @@ public class HUD implements Viewable, ScreenListener{
     }
 
     @Override
-    public void screenClicked(ScreenEvent name){
-        switch(name.getName()){
+    public void screenClicked(ScreenEvent screen){
+        LOCATION_SELECT.setData((sc) -> {
+            Window.main.removeViewable();
+            new TileDescriptionDialogue(quickslot.hero.area.map[sc.y][sc.x], quickslot.hero).next();
+        }, "Investigate", null);
+        switch(screen.getName()){
             case "Inventory": 
                 Window.main.toggleInventory();
                 return;
             case "Wait": Window.main.player.attributes.ai.paralyze(1.0);
                 return;
+            case "Search": Window.main.setViewable(LOCATION_SELECT);
+                return;
         }
-        if(name.getName().startsWith("buff: "))
-            new BuffDialogue(quickslot.hero.getBuff(name.getName().substring(6))).next();
+        if(screen.getName().startsWith("buff: "))
+            new BuffDialogue(quickslot.hero.getBuff(screen.getName().substring(6))).next();
     }    
     
 }

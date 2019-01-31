@@ -35,6 +35,7 @@ public class Tile{
         flammable = f;
         transparent = tr;
         description = new Description("tiles", desc);
+        TileDescriptionBuilder.augmentDescription(this);
     }
     
     public Tile(String tile, String desc, Location loc, boolean t, boolean f, boolean tr){
@@ -44,6 +45,7 @@ public class Tile{
         flammable = f;
         transparent = tr;
         description = new Description("tiles", desc);
+        TileDescriptionBuilder.augmentDescription(this);
     }
     
     /**

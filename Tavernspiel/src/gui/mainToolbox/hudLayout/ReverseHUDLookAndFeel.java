@@ -36,8 +36,8 @@ public class ReverseHUDLookAndFeel implements HUDStrategy{
         quickslot = hud.quickslot;
         hero = quickslot.hero;
         screens.add(new Screen("Player",5,5,60,60,hud));
-        screens.add(new Screen("Wait",5, Game.HEIGHT - 73, 40, 40,hud));
-        screens.add(new Screen("Search",50, Game.HEIGHT - 73, 40, 40,hud));
+        screens.add(new Screen("Search",5, Game.HEIGHT - 73, 40, 40,hud));
+        screens.add(new Screen("Wait",50, Game.HEIGHT - 73, 40, 40,hud));
         screens.add(new Screen("Inventory",95, Game.HEIGHT - 73, 40, 40,hud));
         screens.add(new Screen("QuickAttack",0, Game.HEIGHT - 250, 70, 40,hud));
         screens.add(new Screen("QuickPickup",0, Game.HEIGHT - 300, 70, 40,hud));
