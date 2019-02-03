@@ -26,7 +26,7 @@ import tiles.Tile;
 public class SpecialFloor extends Tile{
 
     public SpecialFloor(Location loc){
-        super("specialfloor", loc.specialFloorDesc, loc, true, false, true);
+        super("specialfloor", loc, true, false, true);
     }
 
 }

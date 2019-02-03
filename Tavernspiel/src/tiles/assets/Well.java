@@ -19,7 +19,7 @@ public class Well extends AnimatedTile implements Interactable{
     protected String type;
     
     public Well(String ty, Location loc){
-        super("well", getDescription(ty), new WaterAnimation("well", loc, 0), true, false, true);
+        super(loc, "well", new WaterAnimation("well", loc, 0), true, false, true);
         type = ty;
     }
 
@@ -33,7 +33,7 @@ public class Well extends AnimatedTile implements Interactable{
         return 1.0;
     }
     
-    private static String getDescription(String ty){
+    public static String getDescription(String ty){
         return "UNFINISHED";
     }
     

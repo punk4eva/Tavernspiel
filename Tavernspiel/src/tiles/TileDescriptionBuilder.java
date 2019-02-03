@@ -16,7 +16,9 @@
 
 package tiles;
 
+import creatureLogic.Description;
 import items.builders.DescriptionBuilder;
+import level.Location;
 import logic.Distribution;
 
 /**
@@ -42,15 +44,20 @@ public final class TileDescriptionBuilder extends DescriptionBuilder{
         "You think you see what looks like a hidden trap.", "There are a lot of bloodstains on this floor.",
         "A corpse of some small critter is lying here.", "Some insects are attempting to make a burrow here.",
         "There is some shattered glass here.", "You can see the muddy footprints of some creature.",
-        "This floor could us some cleaning.", "This floor looks rather good for where you found it."};
+        "This floor could us some cleaning.", "It looks in rather good repair for where you found it."};
+    private static final String[] GRASS = {"DISEASE_PLACEHOLDER","SUBSTANCE_PLACEHOLDER","TOXIN_PLACEHOLDER","PROTRUSION_PLACEHOLDER",
+        "For a moment, you thought you could see something hiding in the grass.","Insects are buzzing around here.", 
+        "The edges of each blade of grass glisten sharply with tiny droplets of condensation.","It has withered dry.",
+        "You can only dream of being as healthy as this grass.", "A few small critters have made their nest here.",
+        "Magic percolates through all nature."};
     
-    public static String waterDesc(){
+    private static String waterDesc(){
         int r = Distribution.r.nextInt(WATER.length);
         if(r==0) return "You can almost see your " + word(appearance) + " reflection from over here!";
         return WATER[r];
     }
     
-    public static String wallDesc(){
+    private static String wallDesc(){
         int r = Distribution.r.nextInt(WALL.length);
         switch (r){
             case 0:
@@ -64,7 +71,7 @@ public final class TileDescriptionBuilder extends DescriptionBuilder{
         }
     }
     
-    public static String floorDesc(){
+    private static String floorDesc(){
         int r = Distribution.r.nextInt(FLOOR.length);
         switch (r){
             case 0:
@@ -78,23 +85,37 @@ public final class TileDescriptionBuilder extends DescriptionBuilder{
         }
     }
     
-    public static String grassDesc(){
-        return "UNFINISHED";
-    }
-    
-    public static String depthDesc(){
-        return "UNFINISHED";
-    }
-    
-    public static void augmentDescription(Tile t){
-        if(DESCRIPTION_CHANCE.chance()){
-            t.description.layers[0] += "\n\n";
-            if(t.name.contains("water")) t.description.layers[0] += waterDesc();
-            else if(t.name.contains("floor")) t.description.layers[0] += floorDesc();
-            else if(t.name.contains("wall")) t.description.layers[0] += wallDesc();
-            else if(t.name.contains("grass")) t.description.layers[0] += grassDesc();
-            else if(t.name.contains("depth")) t.description.layers[0] += depthDesc();
+    private static String grassDesc(){
+        int r = Distribution.r.nextInt(GRASS.length);
+        switch (r){
+            case 0:
+                return "There are a lot of diseased, " + word(color) + " patches on this vegetation.";
+            case 1:
+                return "It is producing a " + word(viscosity) + " substance.";
+            case 2:
+                return "This plant is emenating a toxin which smells " + smellWord();
+            case 3: 
+                return "You can see " + word(shape) + " protrusions all around the plant.";
+            default:
+                return GRASS[r];
         }
+    }
+    
+    private static String depthDesc(){
+        return "UNFINISHED";
+    }
+    
+    public static Description getDescription(String name, Location loc){
+        String ret = loc.getBaseDescription(name);
+        if(DESCRIPTION_CHANCE.chance()){
+            ret += "\n\n";
+            if(name.contains("water")) ret += waterDesc();
+            else if(name.contains("floor")) ret += floorDesc();
+            else if(name.contains("wall")) ret += wallDesc();
+            else if(name.contains("grass")) ret += grassDesc();
+            else if(name.contains("depth")) ret += depthDesc();
+        }
+        return new Description("tiles", ret);
     }
     
 }

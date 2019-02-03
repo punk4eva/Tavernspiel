@@ -15,14 +15,12 @@ public abstract class Trap extends HiddenTile implements StepListener{
     public boolean reusable = false;
     public boolean used = false;
     
-    public Trap(String tile, String desc, Location loc){
-        super("floor", desc, true, false, true, tile, loc, 
-                loc.feeling.trapVisibleChance.chance(), false, true, true);
+    public Trap(String tile, Location loc){
+        super(loc, !loc.feeling.trapVisibleChance.chance(), "floor", true, false, true, tile, true, false, true);
     }
     
-    public Trap(String tile, String desc, Location loc, boolean re){
-        super("floor", desc, true, false, true, tile, loc, 
-                loc.feeling.trapVisibleChance.chance(), false, true, true);
+    public Trap(String tile, Location loc, boolean re){
+        super(loc, !loc.feeling.trapVisibleChance.chance(), "floor", true, false, true, tile, true, false, true);
         reusable = re;
     }
     

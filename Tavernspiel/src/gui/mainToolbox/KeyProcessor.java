@@ -17,12 +17,26 @@ import java.util.concurrent.LinkedBlockingDeque;
 public class KeyProcessor extends Thread implements KeyListener{
     
     private final LinkedBlockingDeque<Runnable> queue = new LinkedBlockingDeque<>();
-    protected KeyListener listener;
+    protected KeyListener listener, playerAI;
     
     public KeyProcessor(){
         super("Key Processor");
     }
     
+    /**
+     * Sends KeyEvents to the given listener instead of the playerAI.
+     * @param l
+     */
+    public void hijackKeyListener(KeyListener l){
+        listener = l;
+    }
+           
+    /**
+     * Sends KeyEvents to the playerAI.
+     */
+    public void activateMovementInput(){
+        listener = playerAI;
+    }
     
     @Override
     public void run(){

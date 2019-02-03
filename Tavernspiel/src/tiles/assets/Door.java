@@ -27,7 +27,7 @@ public class Door extends HiddenTile implements StepListener, Interactable{
     private final int depth;
     
     public Door(Location loc){
-        super("door", getDescription(false), loc, true, true, false);
+        super(loc, loc.feeling.doorHideChance.chance(), "wall", false, false, false, "door", true, true, false);
         open = loc.getImage("opendoor");
         closed = loc.getImage("closeddoor");
         locked = loc.getImage("lockeddoor");
@@ -36,10 +36,7 @@ public class Door extends HiddenTile implements StepListener, Interactable{
     }
     
     public Door(Location loc, boolean lock, boolean hid, KeyType k){
-        super("door", getDescription(lock), hid ? 
-                loc.getImage("wall") : lock ?
-                loc.getImage("lockeddoor") :
-                loc.getImage("closeddoor"), loc, hid, !lock, !lock, false);
+        super(loc, hid, "wall", false, false, false, lock ? "lockeddoor" : "door", !lock, !lock, false);
         if(lock) isLocked = true;
         open = loc.getImage("opendoor");
         closed = loc.getImage("closeddoor");

@@ -1,12 +1,8 @@
 Item spritesheet work
 Fix area generation bug
 Complete layering system
-Add KeyInput to Dialogue
 Increase Dialogue rendering capabilities. (May need to separate standard dialogue rendering from dialogue function)
-Fix Description
-Rework DescriptionBuilder
-Fix potion and scroll descriptions/images.
-Add investigate function
+Fix potion and scroll descriptions/images
 Add wand particles
 Add fire spreading
 Add more creature ideas

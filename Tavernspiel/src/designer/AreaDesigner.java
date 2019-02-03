@@ -117,7 +117,7 @@ public class AreaDesigner extends Main{
      */
     void tile(String str){
         String[] p = str.split(", ");
-        brush = new TileSelection(p[0], p[1], p[2]);
+        brush = new TileSelection(p[0], p[1]);
     }
     
     /**

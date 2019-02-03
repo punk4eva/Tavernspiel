@@ -28,24 +28,23 @@ public class Tile{
     public boolean transparent;
     public Interactable interactable;
     
-    public Tile(String n, String desc, ImageIcon ic, boolean t, boolean f, boolean tr){
+    public Tile(String n, ImageIcon ic, boolean t, boolean f, boolean tr){
         image = ic;
         name = n;
         treadable = t;
         flammable = f;
         transparent = tr;
-        description = new Description("tiles", desc);
-        TileDescriptionBuilder.augmentDescription(this);
     }
     
-    public Tile(String tile, String desc, Location loc, boolean t, boolean f, boolean tr){
+    public Tile(){}
+    
+    public Tile(String tile, Location loc, boolean t, boolean f, boolean tr){
         image = loc.getImage(tile);
         name = tile;
         treadable = t;
         flammable = f;
         transparent = tr;
-        description = new Description("tiles", desc);
-        TileDescriptionBuilder.augmentDescription(this);
+        description = TileDescriptionBuilder.getDescription(name, loc);
     }
     
     /**
@@ -165,7 +164,7 @@ public class Tile{
         tileMap.put(0, (Serializable & Function<Location, Tile>)loc -> new Chasm("void", loc));
         tileMap.put(1, (Serializable & Function<Location, Tile>)loc -> new Floor(loc));
         tileMap.put(2, (Serializable & Function<Location, Tile>)loc -> new Grass(loc, false));
-        tileMap.put(3, (Serializable & Function<Location, Tile>)loc -> new Tile("emptywell", "Unfortunately, there is no more water in this well.", loc, true, false, true));
+        tileMap.put(3, (Serializable & Function<Location, Tile>)loc -> new Tile("emptywell", loc, true, false, true));
         tileMap.put(4, (Serializable & Function<Location, Tile>)loc -> new Wall(loc));
         tileMap.put(5, (Serializable & Function<Location, Tile>)loc -> new Door(loc));
         tileMap.put(8, (Serializable & Function<Location, Tile>)loc -> new DepthEntrance(loc));

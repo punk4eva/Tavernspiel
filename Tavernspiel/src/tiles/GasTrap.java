@@ -15,8 +15,8 @@ public class GasTrap extends Trap{
 
     private Blob gas;
     
-    public GasTrap(String tile, String desc, Location loc, Blob b){
-        super(tile, desc, loc);
+    public GasTrap(String tile, Location loc, Blob b){
+        super(tile, loc);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class GasTrap extends Trap{
 
     @Override
     public Trap copy(Location loc){
-        return new GasTrap(name, description.layers[0], loc, gas);
+        return new GasTrap(name, loc, gas);
     }
     
 }

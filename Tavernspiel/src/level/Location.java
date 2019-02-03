@@ -19,6 +19,8 @@ import logic.Distribution;
 import logic.GameSettings;
 import logic.ImageHandler;
 import logic.Utils;
+import tiles.Tile;
+import tiles.assets.Well;
 
 /**
  *
@@ -44,8 +46,7 @@ public abstract class Location{
     public GrassAnimation lowGrass;
     public GrassAnimation highGrass;
     
-    public String specialFloorDesc,
-            decoFloorDesc;
+    private final HashMap<String, String> descriptionMap = new HashMap<>();
     
     public enum Region{
         KIRI(0, new Distribution(new int[]{})),
@@ -176,7 +177,24 @@ public abstract class Location{
         return ItemBuilder.getIcon(LOCATION_MAP.get(loc).region.code*16, 0);
     }
     
+    /**
+     * Gets the Animation for the decorated wall if there is any.
+     * @param x The x coordinate of the wall.
+     * @param y The y coordinate of the wall.
+     * @return
+     */
     public abstract Animation getWallAnimation(int x, int y);
+    
+    /**
+     * Returns the bare-bones description of the given Tile from the description
+     * map.
+     * @param str The Tile's name.
+     * @return
+     */
+    public String getBaseDescription(String str){
+        if(str.endsWith("well")) return Well.getDescription(str.substring(0, str.length()-4));
+        return descriptionMap.get(str);
+    }
     
     
     
@@ -200,8 +218,41 @@ public abstract class Location{
         }, "highgrass", SHKODER_LOCATION, 57, 177, 249, 
                 40, 100, 190, 210, 190, 254);
         SHKODER_LOCATION.roomDistrib = new RoomDistribution(SHKODER_LOCATION, 3, 12);
-        SHKODER_LOCATION.specialFloorDesc = "The floor is nicely paved with floorboards.";
-        SHKODER_LOCATION.decoFloorDesc = "The broken remains of somebody lie here.";
+        SHKODER_LOCATION.descriptionMap.put("void", "This is your typical bottomless pit.");
+        SHKODER_LOCATION.descriptionMap.put("chasm","It would probably hurt if you fell down there.");
+        SHKODER_LOCATION.descriptionMap.put("floor","This is the floor.");
+        SHKODER_LOCATION.descriptionMap.put("lowgrass","Civilization in the caves used to make bioluminescent grass rare, but now it has begun reclaiming the land.");
+        SHKODER_LOCATION.descriptionMap.put("highgrass","The grass is so high you can't see past!");
+        SHKODER_LOCATION.descriptionMap.put("emptywell","Unfortunately, there is no more water in this well.");
+        SHKODER_LOCATION.descriptionMap.put("wall","This is the wall of the cave.");
+        SHKODER_LOCATION.descriptionMap.put("closeddoor","This is a door.");
+        SHKODER_LOCATION.descriptionMap.put("door","This is a door.");
+        SHKODER_LOCATION.descriptionMap.put("opendoor","This is an open door.");
+        SHKODER_LOCATION.descriptionMap.put("depthentrance","This stairway leads to a higher level of the cave ruins.");
+        SHKODER_LOCATION.descriptionMap.put("depthexit","These steps lead downwards to a deeper level of Shkoder.");
+        SHKODER_LOCATION.descriptionMap.put("embers","Whatever was here has turned to ash.");
+        SHKODER_LOCATION.descriptionMap.put("lockeddoor","This door is locked and you'll need a key to unlock it.");
+        SHKODER_LOCATION.descriptionMap.put("pedestal","This is a fancy-looking piece of architecture from Shkoder's better days.");
+        SHKODER_LOCATION.descriptionMap.put("specialwall","Although this ore is faintly glowing, it's sheer abundance made it almost worthless and as such, veins like these were commonly left unmined to serve as decoration.");
+        SHKODER_LOCATION.descriptionMap.put("barricade","This is an old, dusty barricade of dry wood.");
+        SHKODER_LOCATION.descriptionMap.put("bookshelf","This is a shelf full of unorganised books.");
+        SHKODER_LOCATION.descriptionMap.put("specialfloor","The floor is nicely paved with floorboards.");
+        SHKODER_LOCATION.descriptionMap.put("greentrap","");
+        SHKODER_LOCATION.descriptionMap.put("offtrap","This trap has been triggered and will not activate anymore.");
+        SHKODER_LOCATION.descriptionMap.put("orangetrap","");
+        SHKODER_LOCATION.descriptionMap.put("yellowtrap","");
+        SHKODER_LOCATION.descriptionMap.put("purpletrap","");
+        SHKODER_LOCATION.descriptionMap.put("redtrap","");
+        SHKODER_LOCATION.descriptionMap.put("bluetrap","");
+        SHKODER_LOCATION.descriptionMap.put("beartrap","");
+        SHKODER_LOCATION.descriptionMap.put("silvertrap","");
+        SHKODER_LOCATION.descriptionMap.put("decofloor","The broken, buried remains of a resident of the mines lies here.");
+        SHKODER_LOCATION.descriptionMap.put("lockeddepthexit","This entrance is heavily barred and probably requires some serious key action to open.");
+        SHKODER_LOCATION.descriptionMap.put("unlockeddepthexit","Somehow, you found the key for this important-looking barrier and now it is open.");
+        SHKODER_LOCATION.descriptionMap.put("sign","Try as you might, you cannot read the text from here.");
+        SHKODER_LOCATION.descriptionMap.put("statue","A statue of some deity, king or hero.");
+        SHKODER_LOCATION.descriptionMap.put("specialstatue","A statue of some deity, king or hero.");
+        SHKODER_LOCATION.descriptionMap.put("alchemypot","This looks like the sort of cauldron that wizards use for brewing potions and other magical items.");
     }
     public static final Location INDOOR_CAVES_LOCATION = new Location(
             "Indoor Caves", "indoorCavesTileset", null, "shkoderWater", Region.SUDA, null){

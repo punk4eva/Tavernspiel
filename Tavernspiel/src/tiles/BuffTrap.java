@@ -15,8 +15,8 @@ public class BuffTrap extends Trap{
     
     private final Buff buff;
 
-    public BuffTrap(String tile, String desc, Location loc, Buff b){
-        super(tile, desc, loc);
+    public BuffTrap(String tile, Location loc, Buff b){
+        super(tile, loc);
         buff = b;
     }
     
@@ -32,7 +32,7 @@ public class BuffTrap extends Trap{
 
     @Override
     public BuffTrap copy(Location loc){
-        return new BuffTrap(name, description.layers[0], loc, buff);
+        return new BuffTrap(name, loc, buff);
     }
     
 }

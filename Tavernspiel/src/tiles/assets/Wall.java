@@ -26,7 +26,7 @@ import tiles.Tile;
 public class Wall extends Tile{
     
     public Wall(Location loc){
-        super("wall", "This is a wall.", loc, false, false, false);
+        super("wall", loc, false, false, false);
     }
     
 }

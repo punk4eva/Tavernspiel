@@ -72,41 +72,41 @@ public class TrapBuilder{
     
     @Unfinished("Placeholder")
     private static Trap greenTrap(Location loc){
-        return new BuffTrap("greentrap", "UNFINISHED", loc, BuffBuilder.poison(loc.depth));
+        return new BuffTrap("greentrap", loc, BuffBuilder.poison(loc.depth));
     }
 
     @Unfinished("Placeholder")
     private static Trap orangeTrap(Location loc){
-        return new BuffTrap("orangetrap", "UNFINISHED", loc, BuffBuilder.poison(loc.depth));
+        return new BuffTrap("orangetrap", loc, BuffBuilder.poison(loc.depth));
     }
 
     @Unfinished("Placeholder")
     private static Trap yellowTrap(Location loc){
-        return new BuffTrap("yellowtrap", "UNFINISHED", loc, BuffBuilder.poison(loc.depth));
+        return new BuffTrap("yellowtrap", loc, BuffBuilder.poison(loc.depth));
     }
 
     private static Trap purpleTrap(Location loc){
-        return new BuffTrap("purpletrap", "UNFINISHED", loc, BuffBuilder.poison(loc.depth));
+        return new BuffTrap("purpletrap", loc, BuffBuilder.poison(loc.depth));
     }
 
     @Unfinished("Placeholder")
     private static Trap redTrap(Location loc){
-        return new BuffTrap("redtrap", "UNFINISHED", loc, BuffBuilder.poison(loc.depth));
+        return new BuffTrap("redtrap", loc, BuffBuilder.poison(loc.depth));
     }
 
     @Unfinished("Placeholder")
     private static Trap blueTrap(Location loc){
-        return new BuffTrap("bluetrap", "UNFINISHED", loc, BuffBuilder.poison(loc.depth));
+        return new BuffTrap("bluetrap", loc, BuffBuilder.poison(loc.depth));
     }
 
     @Unfinished("Placeholder")
     private static Trap bearTrap(Location loc){
-        return new BuffTrap("beartrap", "UNFINISHED", loc, BuffBuilder.poison(loc.depth));
+        return new BuffTrap("beartrap", loc, BuffBuilder.poison(loc.depth));
     }
 
     @Unfinished("Placeholder")
     private static Trap silverTrap(Location loc){
-        return new BuffTrap("silvertrap", "UNFINISHED", loc, BuffBuilder.poison(loc.depth));
+        return new BuffTrap("silvertrap", loc, BuffBuilder.poison(loc.depth));
     }
     
 }

@@ -137,6 +137,8 @@ public abstract class Main extends Canvas implements Runnable, Page{
      */
     public void setDialogue(Dialogue dialogue){
         gui.setDialogue(dialogue);
+        if(dialogue==null) keyProcessor.activateMovementInput();
+        else keyProcessor.hijackKeyListener(dialogue);
     }
     
     /**
@@ -302,6 +304,7 @@ public abstract class Main extends Canvas implements Runnable, Page{
     @Override
     public void addKeyListener(KeyListener k){
         keyProcessor.listener = k;
+        keyProcessor.playerAI = k;
     }
     
 }

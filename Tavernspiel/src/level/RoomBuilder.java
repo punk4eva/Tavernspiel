@@ -7,6 +7,7 @@ import containers.FloorCrate;
 import containers.Mimic;
 import containers.PhysicalCrate;
 import containers.SkeletalRemains;
+import creatureLogic.Description;
 import items.Item;
 import items.ItemMap;
 import items.misc.Key;
@@ -29,7 +30,6 @@ import pathfinding.generation.MazeBuilder;
 import pathfinding.generation.MazeBuilder.Maze;
 import tiles.*;
 import tiles.assets.*;
-import static tiles.assets.Barricade.*;
 
 /**
  *
@@ -310,7 +310,7 @@ public abstract class RoomBuilder{
                 if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) 
                     room.map[y][x] = Tile.wall(loc, x, y);
         for(int x=1;x<room.dimension.width-1;x++)
-            room.map[1][x] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
+            room.map[1][x] = new Tile("bookshelf", loc, false, true, false);
         for(int y=2;y<room.dimension.height-1;y++){
             for(int x=1;x<room.dimension.width-2;x++)
                 room.map[y][x] = new SpecialFloor(loc);
@@ -328,7 +328,7 @@ public abstract class RoomBuilder{
                 Distribution.getRandomInt(7, 16)), loc, depth);
         room.paintAndPave();
         int x = room.dimension.width/2, y = room.dimension.height/2;
-        room.map[y][x] = new Tile("barricade", BARRICADE_DESC, loc, false, true, false);
+        room.map[y][x] = new Tile("barricade",loc, false, true, false);
         room.map[y-1][x-1] = new Embers(loc);
         room.map[y-1][x] = new Embers(loc);
         room.map[y-1][x+1] = new Embers(loc);
@@ -373,7 +373,7 @@ public abstract class RoomBuilder{
                 if(y==0||x==0||y==room.dimension.height-1||x==room.dimension.width-1) 
                     room.map[y][x] = Tile.wall(loc, x, y);
                 else if(y>1&&y<room.dimension.height-2&&y%2==0&&x%mod!=0&&
-                        x>1&&x<room.dimension.width-2) room.map[y][x] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
+                        x>1&&x<room.dimension.width-2) room.map[y][x] = new Tile("bookshelf", loc, false, true, false);
                 else room.map[y][x] = new SpecialFloor(loc);
             }
         }
@@ -393,22 +393,22 @@ public abstract class RoomBuilder{
                 else room.map[y][x] = new SpecialFloor(loc);
             }
         }
-        for(int x=dx;x<2*dx;x++) room.map[dy][x] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
-        for(int x=3*dx;x<4*dx;x++) room.map[dy][x] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
-        for(int x=1;x<dx+1;x++) room.map[2*dy][x] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
-        for(int x=4*dx;x<room.dimension.width-1;x++) room.map[2*dy][x] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
-        for(int x=dx;x<2*dx;x++) room.map[4*dy][x] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
-        for(int x=3*dx;x<4*dx;x++) room.map[4*dy][x] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
-        for(int x=1;x<dx;x++) room.map[3*dy][x] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
-        for(int x=4*dx;x<room.dimension.width-1;x++) room.map[3*dy][x] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
-        for(int y=dy;y<2*dy;y++) room.map[y][4*dx] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
-        for(int y=3*dy;y<4*dy+1;y++) room.map[y][4*dx] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
-        for(int y=1;y<dy+1;y++) room.map[y][2*dx] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
-        for(int y=4*dy;y<room.dimension.height-1;y++) room.map[y][2*dx] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
-        for(int y=dy;y<2*dy;y++) room.map[y][dx] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
-        for(int y=3*dy;y<4*dy;y++) room.map[y][dx] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
-        for(int y=1;y<dy;y++) room.map[y][3*dx] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
-        for(int y=4*dy;y<room.dimension.height-1;y++) room.map[y][3*dx] = new Tile("bookshelf", BOOKSHELF_DESC, loc, false, true, false);
+        for(int x=dx;x<2*dx;x++) room.map[dy][x] = new Tile("bookshelf", loc, false, true, false);
+        for(int x=3*dx;x<4*dx;x++) room.map[dy][x] = new Tile("bookshelf",  loc, false, true, false);
+        for(int x=1;x<dx+1;x++) room.map[2*dy][x] = new Tile("bookshelf", loc, false, true, false);
+        for(int x=4*dx;x<room.dimension.width-1;x++) room.map[2*dy][x] = new Tile("bookshelf", loc, false, true, false);
+        for(int x=dx;x<2*dx;x++) room.map[4*dy][x] = new Tile("bookshelf", loc, false, true, false);
+        for(int x=3*dx;x<4*dx;x++) room.map[4*dy][x] = new Tile("bookshelf", loc, false, true, false);
+        for(int x=1;x<dx;x++) room.map[3*dy][x] = new Tile("bookshelf",  loc, false, true, false);
+        for(int x=4*dx;x<room.dimension.width-1;x++) room.map[3*dy][x] = new Tile("bookshelf", loc, false, true, false);
+        for(int y=dy;y<2*dy;y++) room.map[y][4*dx] = new Tile("bookshelf", loc, false, true, false);
+        for(int y=3*dy;y<4*dy+1;y++) room.map[y][4*dx] = new Tile("bookshelf", loc, false, true, false);
+        for(int y=1;y<dy+1;y++) room.map[y][2*dx] = new Tile("bookshelf", loc, false, true, false);
+        for(int y=4*dy;y<room.dimension.height-1;y++) room.map[y][2*dx] = new Tile("bookshelf", loc, false, true, false);
+        for(int y=dy;y<2*dy;y++) room.map[y][dx] = new Tile("bookshelf", loc, false, true, false);
+        for(int y=3*dy;y<4*dy;y++) room.map[y][dx] = new Tile("bookshelf", loc, false, true, false);
+        for(int y=1;y<dy;y++) room.map[y][3*dx] = new Tile("bookshelf", loc, false, true, false);
+        for(int y=4*dy;y<room.dimension.height-1;y++) room.map[y][3*dx] = new Tile("bookshelf", loc, false, true, false);
         
         switch(Distribution.r.nextInt(4)){
             case 0: room.map[1][1] = new DepthExit(loc, tomb(null)); break;
@@ -534,9 +534,14 @@ public abstract class RoomBuilder{
         
         String locName;
         
-        ShadedTile(String name, Location loc){
-            super(name, "The ground merges seemlessly with the floorboards.", addShaders(loc.getImage("specialfloor"), name, loc), true, false, true);
+        ShadedTile(String n, Location loc){
+            name = n;
+            image = addShaders(loc.getImage("specialfloor"), name, loc);
+            transparent = true;
+            flammable = false;
+            treadable = true;
             locName = loc.name;
+            description = new Description("tiles", "The ground merges seemlessly with the floorboards.");
         }
         
         public static ImageIcon addShaders(ImageIcon i, String shader, Location loc){

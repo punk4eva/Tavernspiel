@@ -104,8 +104,6 @@ public abstract class Dialogue implements ScreenListener, KeyListener{
     
     /**
      * Activates this Dialogue.
-     * @param main The MainClass to draw on.
-     * @return The ScreenEvent that happened.
      */
     public synchronized void next(){
         Window.main.setDialogue(this);

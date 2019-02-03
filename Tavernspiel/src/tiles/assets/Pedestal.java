@@ -26,7 +26,7 @@ import tiles.Tile;
 public class Pedestal extends Tile{
 
     public Pedestal(Location loc){
-        super("pedestal", "This is a rather religious-looking pedestal.", loc, true, false, true);
+        super("pedestal", loc, true, false, true);
     }
 
 }

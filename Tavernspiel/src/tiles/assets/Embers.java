@@ -26,7 +26,7 @@ import tiles.Tile;
 public class Embers extends Tile{
 
     public Embers(Location loc){
-        super("embers", "Whatever used to be here has turned to ash.", loc, true, false, true);
+        super("embers", loc, true, false, true);
     }
 
 }

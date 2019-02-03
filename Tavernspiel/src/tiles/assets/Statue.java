@@ -26,7 +26,7 @@ import tiles.Tile;
 public class Statue extends Tile{
 
     public Statue(Location loc, boolean sp){
-        super(sp ? "specialstatue" : "statue", "This is a statue.", loc, false, false, true);
+        super(sp ? "specialstatue" : "statue", loc, false, false, true);
     }
 
 }

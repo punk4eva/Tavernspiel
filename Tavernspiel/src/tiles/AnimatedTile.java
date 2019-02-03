@@ -19,16 +19,17 @@ public class AnimatedTile extends Tile{
     
     /**
      * Creates an instance.
+     * @param loc The Location.
      * @param tile The name of the Tile.
-     * @param desc The description.
      * @param an The Animation.
      * @param t The treadability.
      * @param tr The transparency.
      * @param f The flammability.
      */
-    public AnimatedTile(String tile, String desc, Animation an, boolean t, boolean f, boolean tr){
-        super(tile, desc, (ImageIcon) null, t, f, tr);
+    public AnimatedTile(Location loc, String tile, Animation an, boolean t, boolean f, boolean tr){
+        super(tile, (ImageIcon) null, t, f, tr);
         animation = an;
+        description = TileDescriptionBuilder.getDescription(name, loc);
     }
     
     /**
@@ -37,8 +38,9 @@ public class AnimatedTile extends Tile{
      * @param x The offset.
      */
     public AnimatedTile(Location loc, int x){
-        super("water", "This is murky water.", (ImageIcon) null, true, false, true);
+        super("water", (ImageIcon) null, true, false, true);
         animation = new WaterAnimation(loc, x);
+        description = TileDescriptionBuilder.getDescription(name, loc);
     }
     
     @Override

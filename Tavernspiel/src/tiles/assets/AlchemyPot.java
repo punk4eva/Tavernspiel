@@ -17,7 +17,7 @@ import tiles.AnimatedTile;
 public class AlchemyPot extends AnimatedTile implements Interactable{
     
     public AlchemyPot(Location loc){
-        super("alchemypot", "This looks like the sort of cauldron that wizards use for brewing potions and other magical items.", 
+        super(loc, "alchemypot", 
                 new WaterAnimation("alchemypot", loc, 0), true, false, true);
         interactable = this;
     }
