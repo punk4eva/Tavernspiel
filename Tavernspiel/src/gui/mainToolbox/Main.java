@@ -3,7 +3,7 @@ package gui.mainToolbox;
 
 import animation.MiscAnimator;
 import creatures.Hero;
-import dialogues.Dialogue;
+import dialogues.DialogueBase;
 import gui.Viewable;
 import gui.Window;
 import static gui.mainToolbox.MouseInterpreter.*;
@@ -135,7 +135,7 @@ public abstract class Main extends Canvas implements Runnable, Page{
      * Changes the current Dialogue.
      * @param dialogue The new Dialogue.
      */
-    public void setDialogue(Dialogue dialogue){
+    public void setDialogue(DialogueBase dialogue){
         gui.setDialogue(dialogue);
         if(dialogue==null) keyProcessor.activateMovementInput();
         else keyProcessor.hijackKeyListener(dialogue);

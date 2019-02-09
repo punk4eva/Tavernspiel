@@ -10,11 +10,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.function.Function;
 import level.Dungeon;
-import level.Location;
-import tiles.Tile;
 
 /**
  *
@@ -81,8 +77,6 @@ public final class FileHandler{
      */
     public static void serializeGame(Game game){
         try(ObjectOutputStream output = new ObjectOutputStream(new FileOutputStream(game.savePath))){
-            output.writeObject(Tile.IDmap);
-            output.writeObject(Tile.tileMap);
             output.writeObject(game.dungeon);
             KeyMapping.saveState();
         }catch(IOException e){
@@ -98,10 +92,9 @@ public final class FileHandler{
      */
     public static Game deserializeGame(String filepath){
         try(ObjectInputStream in = new ObjectInputStream(new FileInputStream(filepath))){
-            Tile.IDmap = (HashMap<String, Integer>) in.readObject();
-            Tile.tileMap = (HashMap<Integer, Function<Location, Tile>>) in.readObject();
+            Dungeon d = (Dungeon) in.readObject();
             KeyMapping.retrieveState();
-            return new Game((Dungeon)in.readObject());
+            return new Game(d);
         }catch(IOException | ClassNotFoundException e){
             e.printStackTrace();
             new ExceptionDialogue(e).next();

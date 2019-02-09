@@ -50,6 +50,7 @@ public final class TileDescriptionBuilder extends DescriptionBuilder{
         "The edges of each blade of grass glisten sharply with tiny droplets of condensation.","It has withered dry.",
         "You can only dream of being as healthy as this grass.", "A few small critters have made their nest here.",
         "Magic percolates through all nature."};
+    private static final String[] DEPTH = {};
     
     private static String waterDesc(){
         int r = Distribution.r.nextInt(WATER.length);

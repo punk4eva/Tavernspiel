@@ -20,6 +20,8 @@ import static logic.Distribution.r;
  * Holds miscellaneous static-access utility methods.
  */
 public final class Utils{
+    
+    private static final int LINE_LENGTH = 85;
 
     public static int[] shuffle(int[] ary){
         for(int i = ary.length - 1; i > 0; i--){
@@ -113,13 +115,17 @@ public final class Utils{
         for(char c : str.toCharArray()) if(c=='\n') count++;
         return count;
     }
+    //@Unfinished
+    private static int getLineLength(){
+        return 1;
+    }
     
-    public static String lineFormat(String string, int lineLength){
+    public static String lineFormat(String string){
         String ret = "";
         for(String str : string.split("\n")){
             int counter = -1;
             for(String word : str.split(" ")){
-                if(word.length()+counter>=lineLength){
+                if(word.length()+counter>=LINE_LENGTH){
                     counter = word.length();
                     ret += "\n"+ word;
                 }else{

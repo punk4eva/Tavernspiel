@@ -123,8 +123,8 @@ public class Tile{
         return tileMap.get(id).apply(loc);
     }
     
-    public static HashMap<String, Integer> IDmap = new HashMap<>();
-    public static HashMap<Integer, Function<Location, Tile>> tileMap = new HashMap<>();
+    private static HashMap<String, Integer> IDmap = new HashMap<>();
+    private static HashMap<Integer, Function<Location, Tile>> tileMap = new HashMap<>();
     static{
         IDmap.put("void", 0);
         IDmap.put("floor", 1);

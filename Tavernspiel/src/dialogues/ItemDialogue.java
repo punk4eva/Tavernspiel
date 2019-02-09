@@ -25,22 +25,22 @@ public class ItemDialogue extends Dialogue{
     
     /**
      * Creates a new instance.
-     * @param item The item to display.
+     * @param i The item to display.
      * @param h The Hero.
-     * @param s
-     * @Unfinished Bad coding!
+     * @param s The slot.
+     * @Unfinished Bad coding! (Perhaps do a dialogue).
      */
-    public ItemDialogue(Item item, Hero h, int s){
-        super(((item instanceof ScreenItem && ((ScreenItem)item).onOpeningDialogue() ? "" : "") + item.name + "\n\n" + item.description.getDescription(h.expertise)), 
-                (String) null, ItemAction.toStringArray(item.actions));
-        this.item = item;
+    public ItemDialogue(Item i, Hero h, int s){
+        super(((i instanceof ScreenItem && ((ScreenItem)i).onOpeningDialogue() ? "" : "") + i.name + "\n\n" + i.description.getDescription(h.expertise)), 
+                true, ItemAction.toStringArray(i.actions));
+        item = i;
         hero = h;
         slot = s;
     }
 
     @Override
     public void screenClicked(ScreenEvent sc){
-        checkDeactivate(sc);
+        deactivate();
         for(ItemAction action : item.actions) if(action.name.equals(sc.getName())){
             Window.main.setInventoryActive(false);
             ((PlayerAI)hero.attributes.ai).nextAction = new ActionOnItem(action, item, hero, -1, -1, slot);

@@ -29,12 +29,10 @@ import tiles.Tile;
 public class TileDescriptionDialogue extends Dialogue{
 
     public TileDescriptionDialogue(Tile tile, Hero hero){
-        super(tile.description.getDescription(hero.expertise), "offCase");
+        super(tile.description.getDescription(hero.expertise), true, new String[]{});
     }
 
     @Override
-    public void screenClicked(ScreenEvent name){
-        checkDeactivate(name);
-    }
+    public void screenClicked(ScreenEvent name){}
 
 }

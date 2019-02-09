@@ -13,6 +13,7 @@ import gui.mainToolbox.PageFlipper;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.image.BufferStrategy;
@@ -175,7 +176,7 @@ public class AreaDesigner extends Main{
             this.createBufferStrategy(4);
             return;
         }
-        Graphics g = bs.getDrawGraphics();
+        Graphics2D g = (Graphics2D) bs.getDrawGraphics();
         g.setColor(Color.black);
         g.fillRect(0, 0, WIDTH, HEIGHT);
         paintAreaTemplate(area, g);

@@ -32,7 +32,7 @@ public class MouseInterpreter extends MouseAdapter{
     public void mouseClicked(MouseEvent me){
         boolean notClicked = true;
         int x = me.getX(), y = me.getY();
-        for(Screen sc : gui.screens){ //Used for-each instead of stream because of "break".
+        for(Screen sc : gui.screens){
             if(sc.withinBounds(x, y)){
                 if(sc.name.equals("blank click")){
                     System.err.println("blank click");

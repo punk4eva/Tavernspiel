@@ -192,8 +192,8 @@ public class Equipment implements Serializable{
          */
         public EquipApparatusDialogue(Hero h, Apparatus a){
             super("You can only wear two misc. items at a time, which do you want to"
-                    + "unequip?", (String) null, amulet1.toString(4), 
-                    amulet2.toString(4));
+                    + "unequip?", true, new String[]{amulet1.toString(4), 
+                    amulet2.toString(4)});
             opA = amulet1.toString(4);
             app = a;
             hero = h;
@@ -238,9 +238,8 @@ public class Equipment implements Serializable{
 
         @Override
         public void screenClicked(Screen.ScreenEvent sc){
-            checkDeactivate(sc);
-            if(sc.getName()==null||sc.getName().equals("offCase")) app.setToUnequipped();
-            else if(sc.getName().equals(opA)){
+            deactivate();
+            if(sc.getName().equals(opA)){
                 reject = amulet1;
                 amulet1 = app;
             }else{
@@ -248,7 +247,13 @@ public class Equipment implements Serializable{
                 amulet2 = app;
             }
         }
+        
+        @Override
+        protected void deactivate(){
+            super.deactivate();
+            app.setToUnequipped();
+        }
 
-}
+    }
     
 }

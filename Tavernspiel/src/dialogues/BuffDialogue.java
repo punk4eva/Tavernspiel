@@ -16,13 +16,12 @@ public class BuffDialogue extends Dialogue{
     private final Buff buff;
     
     public BuffDialogue(Buff b){
-        super(b.name, "offClick");
+        super(b.name, true, new String[]{});
         buff = b;
     }
 
     @Override
     public void screenClicked(Screen.ScreenEvent sc){
-        checkDeactivate(sc);
     }
     
 }

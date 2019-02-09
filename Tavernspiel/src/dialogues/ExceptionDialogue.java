@@ -17,7 +17,7 @@ public class ExceptionDialogue extends Dialogue{
     private final Exception exception;
     
     public ExceptionDialogue(Exception ex){
-        super(ex.toString().toUpperCase() + ": " + ex.getMessage(), null, false, "abort", "restart", "fail");
+        super(ex.toString().toUpperCase() + ": " + ex.getMessage(), false, new String[]{"abort", "restart", "fail"});
         exception = ex;
     }
     

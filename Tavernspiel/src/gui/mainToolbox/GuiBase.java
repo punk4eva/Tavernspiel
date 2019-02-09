@@ -3,7 +3,7 @@ package gui.mainToolbox;
 
 import containers.HeroInventory;
 import creatures.Hero;
-import dialogues.Dialogue;
+import dialogues.DialogueBase;
 import gui.HUD;
 import gui.Viewable;
 import items.Item;
@@ -32,7 +32,7 @@ public class GuiBase{
     protected Screen lastDragged;
     public HUD hud;
     public Hero hero;
-    public volatile Dialogue dialogue = null;
+    public volatile DialogueBase dialogue = null;
     public volatile Viewable viewable;
     protected ArrayDeque<SimpleEntry<Color, String>> queue = new ArrayDeque<>();
     
@@ -140,7 +140,7 @@ public class GuiBase{
      * Sets the Dialogue.
      * @param d
      */
-    public void setDialogue(Dialogue d){
+    public void setDialogue(DialogueBase d){
         dialogue = d;
         resetScreens();
     }

@@ -13,7 +13,7 @@ import gui.mainToolbox.Screen;
 public class PauseMenu extends Dialogue{
     
     public PauseMenu(){
-        super("PAUSE", "offCase", false, "Resume", "How to play", "Options", "Exit to menu");
+        super("PAUSE", false, new String[]{"Resume", "How to play", "Options", "Exit to menu"});
     }
 
     @Override
