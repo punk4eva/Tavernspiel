@@ -1,8 +1,8 @@
 package gui;
 
 import creatureLogic.QuickSlot;
-import dialogues.BuffDialogue;
-import dialogues.TileDescriptionDialogue;
+import dialogues.assets.BuffDialogue;
+import dialogues.assets.TileDescriptionDialogue;
 import static gui.LocationViewable.LOCATION_SELECT;
 import gui.mainToolbox.HUDStrategy;
 import gui.mainToolbox.Screen;
@@ -66,7 +66,7 @@ public class HUD implements Viewable, ScreenListener{
                 return;
         }
         if(screen.getName().startsWith("buff: "))
-            new BuffDialogue(quickslot.hero.getBuff(screen.getName().substring(6))).next();
+            new BuffDialogue(quickslot.hero.getBuff(screen.getName().substring(6)), quickslot.hero).next();
     }    
     
 }

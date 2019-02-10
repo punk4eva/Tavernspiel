@@ -3,8 +3,8 @@ package containers;
 
 import creatureLogic.QuickSlot;
 import creatures.Hero;
-import dialogues.ItemDialogue;
-import dialogues.MoneyDialogue;
+import dialogues.assets.ItemDialogue;
+import dialogues.assets.MoneyDialogue;
 import gui.Window;
 import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;

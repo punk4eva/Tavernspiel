@@ -1,7 +1,7 @@
 
 package logic;
 
-import dialogues.ExceptionDialogue;
+import dialogues.assets.ExceptionDialogue;
 import gui.Game;
 import java.io.File;
 import java.io.FileInputStream;

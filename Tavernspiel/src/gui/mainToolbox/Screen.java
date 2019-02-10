@@ -124,6 +124,13 @@ public class Screen implements Serializable{
     public void wasClicked(MouseEvent me){
         listener.screenClicked(new ScreenEvent(this, me));
     }
+    
+    /**
+     * Alerts the ScreenListener of a click.
+     */
+    public void wasClicked(){
+        listener.screenClicked(new ScreenEvent(name));
+    } 
 
     /**
      * Checks whether the given coordinates are within bounds of the Screen.

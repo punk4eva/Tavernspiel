@@ -1,6 +1,7 @@
 
-package dialogues;
+package dialogues.assets;
 
+import dialogues.ButtonDialogue;
 import gui.Game;
 import gui.Window;
 import gui.mainToolbox.Main;
@@ -12,12 +13,12 @@ import gui.mainToolbox.Screen;
  * 
  * A dialogue to catch exceptions at run-time.
  */
-public class ExceptionDialogue extends Dialogue{
+public class ExceptionDialogue extends ButtonDialogue{
     
     private final Exception exception;
     
     public ExceptionDialogue(Exception ex){
-        super(ex.toString().toUpperCase() + ": " + ex.getMessage(), false, new String[]{"abort", "restart", "fail"});
+        super(false, null, "ERROR DETECTED", ex.toString().toUpperCase() + ": " + ex.getMessage(), new String[]{"abort", "restart", "fail"});
         exception = ex;
     }
     

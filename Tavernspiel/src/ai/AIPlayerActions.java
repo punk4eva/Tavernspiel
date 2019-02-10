@@ -6,7 +6,7 @@ import creatureLogic.Attack.CreatureAttack;
 import creatureLogic.EnClass;
 import creatures.Creature;
 import creatures.Hero;
-import dialogues.StatisticsDialogue;
+import dialogues.assets.StatisticsDialogue;
 import gui.Window;
 import gui.mainToolbox.Main;
 import items.Item;

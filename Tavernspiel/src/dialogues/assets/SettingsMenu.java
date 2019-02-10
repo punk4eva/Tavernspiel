@@ -1,5 +1,5 @@
 
-package dialogues;
+package dialogues.assets;
 
 import gui.Game;
 import logic.Utils.Unfinished;

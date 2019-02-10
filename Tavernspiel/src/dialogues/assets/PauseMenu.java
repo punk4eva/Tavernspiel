@@ -1,19 +1,20 @@
 
-package dialogues;
+package dialogues.assets;
 
+import dialogues.ButtonDialogue;
+import dialogues.assets.SettingsMenu;
 import gui.Game;
 import gui.Window;
 import gui.mainToolbox.Screen;
 
 /**
  *
- * @author Charlie Hands
- * @author Adam Whittaker
+ * @author Charlie Hands and Adam Whittaker
  */
-public class PauseMenu extends Dialogue{
+public class PauseMenu extends ButtonDialogue{
     
     public PauseMenu(){
-        super("PAUSE", false, new String[]{"Resume", "How to play", "Options", "Exit to menu"});
+        super(false, null, "PAUSE", "", new String[]{"Resume", "How to play", "Options", "Exit to menu"});
     }
 
     @Override

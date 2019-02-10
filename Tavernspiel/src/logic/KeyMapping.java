@@ -21,8 +21,8 @@ public class KeyMapping{
     public static char GO_DOWN = 's';
     public static char GO_LEFT = 'a';
     public static char GO_RIGHT = 'd';
-    public static char INTERACT = 'f';
-    public static char TOGGLE_INVENTORY = 'e';
+    public static char INTERACT = 'e';
+    public static char TOGGLE_INVENTORY = 'f';
     
     //Key Pressed
     public static int ESCAPE = KeyEvent.VK_ESCAPE;

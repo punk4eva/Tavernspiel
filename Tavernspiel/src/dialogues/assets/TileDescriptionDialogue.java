@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package dialogues;
+package dialogues.assets;
 
 import creatures.Hero;
-import gui.mainToolbox.Screen.ScreenEvent;
+import dialogues.TextDialogue;
 import tiles.Tile;
 
 /**
@@ -26,13 +26,10 @@ import tiles.Tile;
  * 
  * This class controls the pop-up for the Description of a Tile.
  */
-public class TileDescriptionDialogue extends Dialogue{
+public class TileDescriptionDialogue extends TextDialogue{
 
     public TileDescriptionDialogue(Tile tile, Hero hero){
-        super(tile.description.getDescription(hero.expertise), true, new String[]{});
+        super(tile.image, tile.name, tile.description.getDescription(hero.expertise));
     }
-
-    @Override
-    public void screenClicked(ScreenEvent name){}
 
 }

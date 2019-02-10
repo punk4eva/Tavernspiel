@@ -3,7 +3,7 @@ package containers;
 
 import creatures.Creature;
 import creatures.Hero;
-import dialogues.Dialogue;
+import dialogues.ButtonDialogue;
 import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
 import items.Apparatus;
@@ -179,7 +179,7 @@ public class Equipment implements Serializable{
     /**
      * This class handles the I/O of equipping of an Apparatus by a Hero.
      */
-    public class EquipApparatusDialogue extends Dialogue{
+    public class EquipApparatusDialogue extends ButtonDialogue{
 
         private final String opA;
         public Apparatus reject, app;
@@ -191,8 +191,8 @@ public class Equipment implements Serializable{
          * @param a
          */
         public EquipApparatusDialogue(Hero h, Apparatus a){
-            super("You can only wear two misc. items at a time, which do you want to"
-                    + "unequip?", true, new String[]{amulet1.toString(4), 
+            super(true, null, "", "You can only wear two misc. items at a time, which do you want to"
+                    + "unequip?", new String[]{amulet1.toString(4), 
                     amulet2.toString(4)});
             opA = amulet1.toString(4);
             app = a;

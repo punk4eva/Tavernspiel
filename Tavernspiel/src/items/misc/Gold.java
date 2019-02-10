@@ -19,6 +19,15 @@ import static logic.Distribution.r;
 public class Gold extends Item{
     
     private final static long serialVersionUID = 12314567L;
+    private final static ImageIcon GOLD1 = ItemBuilder.getIcon(0, 160),
+            GOLD2 = ItemBuilder.getIcon(16, 160), 
+            GOLD3 = ItemBuilder.getIcon(32, 160),
+            GOLD4 = ItemBuilder.getIcon(48, 160),
+            GOLD5 = ItemBuilder.getIcon(64, 160),
+            GOLD6 = ItemBuilder.getIcon(80, 160),
+            GOLD7 = ItemBuilder.getIcon(96, 160),
+            GOLD8 = ItemBuilder.getIcon(112, 160);
+    
     
     public Gold(int quantity){
         super("Gold", new Description("gold", "This is a pile of " + quantity + 
@@ -26,15 +35,15 @@ public class Gold extends Item{
         actions = new ItemAction[]{};
     }
     
-    private static ImageIcon getIcon(int q){
-        if(q<10) return ItemBuilder.getIcon(0, 160);
-        else if(q<30) return ItemBuilder.getIcon(16, 160);
-        else if(q<100) return ItemBuilder.getIcon(32, 160);
-        else if(q<300) return ItemBuilder.getIcon(48, 160);
-        else if(q<500) return ItemBuilder.getIcon(64, 160);
-        else if(q<1000) return ItemBuilder.getIcon(80, 160);
-        else if(q<1600) return ItemBuilder.getIcon(96, 160);
-        else return ItemBuilder.getIcon(112, 160);
+    public static ImageIcon getIcon(int q){
+        if(q<10) return GOLD1;
+        else if(q<30) return GOLD2;
+        else if(q<100) return GOLD3;
+        else if(q<300) return GOLD4;
+        else if(q<500) return GOLD5;
+        else if(q<1000) return GOLD6;
+        else if(q<1600) return GOLD7;
+        else return GOLD8;
     }
     
     /**

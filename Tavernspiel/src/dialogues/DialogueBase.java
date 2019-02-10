@@ -25,7 +25,6 @@ import java.awt.Graphics2D;
 import java.awt.event.KeyListener;
 import java.util.List;
 import listeners.ScreenListener;
-import logic.Utils;
 
 /**
  *
@@ -35,21 +34,18 @@ import logic.Utils;
  */
 public abstract class DialogueBase implements ScreenListener, KeyListener{
 
-    final String question;
     List<Screen> screens;
-    private final boolean clickOffable;
+    final boolean clickOffable;
     public int width, height, sx, sy;
     
     public static final int PADDING = 8;
     public static final ScreenEvent OFF_CASE = new ScreenEvent("offCase");
     
     /**
-     * Creates a new Dialogue with the given options.
-     * @param quest The question.
+     * Creates a new Dialogue.
      * @param click Sets whether the user can click away.
      */
-    public DialogueBase(String quest, boolean click){
-        question = quest;
+    public DialogueBase(boolean click){
         clickOffable = click;
     }
     

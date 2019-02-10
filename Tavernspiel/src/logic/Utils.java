@@ -21,7 +21,7 @@ import static logic.Distribution.r;
  */
 public final class Utils{
     
-    private static final int LINE_LENGTH = 85;
+    private static final int LINE_LENGTH = 80;
 
     public static int[] shuffle(int[] ary){
         for(int i = ary.length - 1; i > 0; i--){
