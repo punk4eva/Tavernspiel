@@ -152,13 +152,15 @@ public abstract class RoomStructure extends Area{
 
         @Override
         public void generate(){
+            //sorts rooms based on area
             rooms.sort((r, r1) -> new Integer(r1.dimension.width*r1.dimension.height).compareTo(r.dimension.width*r.dimension.height));
+            //Chooses a random orientation for each room.
             rooms.stream().forEach(r -> {
                 r.orientation = Distribution.r.nextInt(4);
             });
-            Dimension d;
-            Integer n = 0;
-            int i;
+            Dimension d; //dimension of the room
+            Integer n = 0; //the index of the room
+            int i; //incrementing variable
             Integer[][] coords = new Integer[rooms.size()][2];
             while(n<rooms.size()){
                 d = getDimension(rooms.get(n));
@@ -170,7 +172,7 @@ public abstract class RoomStructure extends Area{
                         break;
                     }
                 }
-                if(i>9){
+                if(i==15){
                     n--;
                     unmark(coords[n], d, n, coords);
                 }
@@ -381,8 +383,11 @@ public abstract class RoomStructure extends Area{
         @Override
         public void generate(){
             super.generate();
+            System.out.println("Ran super()");
             graph.recalculateWaypoints(this);
+            System.out.println("Recalculated Waypoints");
             corridors = scb.build();
+            System.out.println("Built corridors");
         }
     
     }

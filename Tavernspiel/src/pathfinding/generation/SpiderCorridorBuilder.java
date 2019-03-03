@@ -23,6 +23,7 @@ import pathfinding.PriorityQueue;
 import pathfinding.Searcher;
 import static pathfinding.Searcher.DIRECTIONS;
 import pathfinding.Waypoint;
+import tiles.HiddenTile;
 import tiles.Tile;
 import tiles.assets.Barricade;
 import tiles.assets.Door;
@@ -44,7 +45,7 @@ public class SpiderCorridorBuilder{
         
         SpiderCorridorAlgorithm(int windyness){
             super(area.graph, area);
-            addCheck = (from, to) -> /*to.currentCost > from.currentCost + to.movementCost &&*/ to.checked==null || !to.checked;
+            addCheck = (from, to) -> /*to.currentCost > from.currentCost + to.movementCost &&*/ to.cameFrom==null&&(to.checked==null||!to.checked);
             frontier = new PriorityQueue<>(p -> Distribution.r.nextInt(windyness) +  p.currentCost);
         }
         
@@ -55,18 +56,22 @@ public class SpiderCorridorBuilder{
             start.currentCost = 0;
             frontier.add(start);
             start.checked = true;
+            start.cameFrom = start;
             int nx, ny;
+            System.out.println("Starting floodfill");
             while(!frontier.isEmpty()){
                 Point p = frontier.poll();
                 for(Point.Direction dir : DIRECTIONS){
                     nx = p.x+dir.x;
                     ny = p.y+dir.y;
                     if(area.withinBounds(nx-1, ny-1)&&area.withinBounds(nx+1, ny+1)){
-                        if((area.map[ny][nx]==null&&addCheck.check(p, graph.map[ny][nx]))||area.map[ny][nx] instanceof Door||area.map[ny][nx] instanceof Barricade){
+                        if(area.map[ny][nx]==null&&addCheck.check(p, graph.map[ny][nx])){
                             graph.map[ny][nx].checked = true;
                             graph.map[ny][nx].cameFrom = p;
-                            graph.map[ny][nx].currentCost = p.currentCost + graph.map[ny][nx].movementCost;
                             frontier.add(graph.map[ny][nx]);
+                        }else if(area.map[ny][nx] instanceof Door||area.map[ny][nx] instanceof Barricade){
+                            graph.map[ny][nx].checked = true;
+                            graph.map[ny][nx].cameFrom = p;
                         }
                     }
                 }
@@ -138,7 +143,7 @@ public class SpiderCorridorBuilder{
     }
     
     private boolean canDecayWall(int x, int y){
-        if(area.map[y][x] == null || !area.map[y][x].name.endsWith("wall") || area.graph.map[y][x].checked == null||!area.graph.map[y][x].checked) return false;
+        if(area.map[y][x] == null || !area.map[y][x].name.endsWith("wall") || area.graph.map[y][x].checked == null||!area.graph.map[y][x].checked||area.map[y][x] instanceof HiddenTile) return false;
         int floors = 0;
         if(area.map[y-1][x-1]==null) return false;
         if(area.map[y-1][x-1].treadable) floors++;
@@ -166,7 +171,9 @@ public class SpiderCorridorBuilder{
     public boolean[][] build(){
         SpiderCorridorAlgorithm sca = new SpiderCorridorAlgorithm(windyness);
         Point p = getFreePoint();
+        System.out.println("About to build...");
         sca.checkedFloodfill(p);
+        System.out.println("Built");
         if(area.map[p.y-1][p.x-1]==null) area.map[p.y-1][p.x-1] = Tile.wall(area.location, p.x-1, p.y-1);
         if(area.map[p.y-1][p.x+1]==null) area.map[p.y-1][p.x+1] = Tile.wall(area.location, p.x+1, p.y-1);
         if(area.map[p.y+1][p.x-1]==null) area.map[p.y+1][p.x-1] = Tile.wall(area.location, p.x-1, p.y+1);
@@ -182,7 +189,7 @@ public class SpiderCorridorBuilder{
      */
     private void buildCorridor(Point p){
         Point np, pp = null;
-        while(p.cameFrom!=null){
+        while(p.cameFrom!=p&&p.cameFrom!=null){
             np = p.cameFrom;
             extend(pp, p, np);
             pp = p;

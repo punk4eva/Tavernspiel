@@ -67,8 +67,10 @@ public final class ItemBuilder{
      * @return A shaded int array representing a pixel.
      */
     public static int[] shade(int[] pixel){
-        for(int n=0;n<3;n++) pixel[n] = pixel[n]<26 ? 0 : pixel[n]-25;
-        return pixel;
+        int p[] = new int[4];
+        for(int n=0;n<3;n++) p[n] = pixel[n]<26 ? 0 : pixel[n]-25;
+        p[3] = pixel[3];
+        return p;
     }
     
     /**

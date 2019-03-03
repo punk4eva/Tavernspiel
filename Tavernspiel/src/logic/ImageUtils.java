@@ -4,6 +4,7 @@ package logic;
 import creatures.Hero;
 import items.Item;
 import items.builders.ItemBuilder;
+import items.misc.Gold;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -54,7 +55,7 @@ public class ImageUtils{
         if(!pred.test(i)) alpha(buffer);
         g.drawImage(scale(buffer, 3), x+(sqwidth-48)/2, y+(sqheight-48)/2, null);
         g.setColor(Color.white);
-        if(i.quantity!=1) g.drawString(""+i.quantity, x+4, y+10);
+        if(i.quantity!=1) g.drawString(""+i.quantity, x+4, y+20);
     }
     
     public static void addImageOverlay(String filepath) throws IOException{
@@ -136,10 +137,14 @@ public class ImageUtils{
             g.drawImage(scaledGoldOutline, x+(sqwidth-48)/2,
                     y+(sqheight-48)/2, null);
         }else{
-            g.drawImage(scaledGold, 
-                    x+(sqwidth-48)/2, y+(sqheight-48)/2, null);
+            //g.drawImage(scaledGold, 
+            //        x+(sqwidth-48)/2, y+(sqheight-48)/2, null);
+            BufferedImage buffer = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D bg = (Graphics2D) buffer.getGraphics();
+            bg.drawImage(Gold.getIcon(amountOfMoney).getImage(), 0, 0, null);
+            g.drawImage(scale(buffer, 3), x+(sqwidth-48)/2, y+(sqheight-48)/2, null);
             g.setColor(Color.white);
-            g.drawString(""+amountOfMoney, x+4, y+10);
+            g.drawString(""+amountOfMoney, x+4, y+20);
         }
     }
     

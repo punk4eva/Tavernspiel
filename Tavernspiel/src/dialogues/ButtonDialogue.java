@@ -74,12 +74,13 @@ public abstract class ButtonDialogue extends TextDialogue{
         if(selectedButton==-1){
             if(k==KeyMapping.GO_UP) selectedButton = options.length-1;
             else if(k==KeyMapping.GO_DOWN) selectedButton = 0;
+            else return;
             options[selectedButton].setSelected(true);
         }else{
             if(k==KeyMapping.INTERACT){
                 options[selectedButton].wasClicked();
                 return;
-            }
+            }else if(k==KeyMapping.GO_UP&&k==KeyMapping.GO_DOWN) return;
             options[selectedButton].setSelected(false);
             if(k==KeyMapping.GO_UP) selectedButton = (options.length+selectedButton-1)%options.length;
             else if(k==KeyMapping.GO_DOWN) selectedButton = (selectedButton+1)%options.length;
