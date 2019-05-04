@@ -27,6 +27,9 @@ public class Dungeon implements Serializable{
     private final PotionBuilder potionBuilder = new PotionBuilder();
     private final RingBuilder ringBuilder = new RingBuilder();
     
+    //@Unfinished debugging
+    private static final boolean INTERIOR_TESTING = true;
+    
     /**
      * Creates a new instance.
      * @param g The Game.
@@ -38,17 +41,15 @@ public class Dungeon implements Serializable{
     
     /**
      * A post-instantiation initializer.
-     * @param g
      * @param loc
      */
-    public final void initialize(Game g, Location loc){
+    public final void initialize(Location loc){
         stages[0] = new Stage(loc, 5, new String[]{"the upper level of the caves", "the lower level of the caves"}, null);
-        System.out.println("Created Stage");
-        stages[0].areas[0] = stages[0].areaBuilder.load(stages[0].location.roomDistrib, 0);
-        System.out.println("Created Area");
+        if(INTERIOR_TESTING) stages[0].areas[0] = Area.getPreloadedArea("preload\\interiorTest.template", Location.CASTLE1_LOCATION);
+        else stages[0].areas[0] = stages[0].areaBuilder.load(stages[0].location.roomDistrib, 0);
         depth = 1;
         stages[0].loadedLevel = 1;
-        g.setArea(getArea());
+        game.setArea(getArea());
     }
     
     /**

@@ -277,6 +277,19 @@ public abstract class Location{
     static{
         ImageHandler.initializeInteriorIcons(VILLAGE1_LOCATION);
     }
+    public static final Location CASTLE1_LOCATION = new Location(
+            "Castle1", "castle1Tileset", null, "shkoderWater", Region.SUDA, null){
+        @Override
+        public Animation getWallAnimation(int x, int y){
+            Integer[] c = MouseInterpreter.tileToPixel(x, y);
+            ParticleAnimation a = GameSettings.TORCH_SETTING.get(ConstantFields.fireColor, ConstantFields.fireTrailColor);
+            a.setXY(c[0]+6, c[1]+8);
+            return a;
+        }
+    };
+    static{
+        ImageHandler.initializeInteriorIcons(CASTLE1_LOCATION);
+    }
     
     
     public static final HashMap<String, Location> LOCATION_MAP = new HashMap<>();

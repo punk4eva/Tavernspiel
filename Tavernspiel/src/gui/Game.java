@@ -36,13 +36,10 @@ public final class Game extends Main{
     public Game(){
         window = new Window(WIDTH, HEIGHT, "Tavernspiel", this);
         dungeon = new Dungeon(this);
-        System.out.println("Created Dungeon");
-        dungeon.initialize(this, Location.SHKODER_LOCATION);
-        System.out.println("Initialized Dungeon");
+        dungeon.initialize(Location.SHKODER_LOCATION);
         gui.addMessage("You are now in " + dungeon.getDepthClassifier() + ".");
         player = new Hero(new Attributes());
         gui.hero = player;
-        System.out.println("Created Hero");
         currentArea.addHero(player, true);
         addKeyListener((PlayerAI) player.attributes.ai);
         gui.hud = new HUD(((HeroInventory)player.inventory).quickslot);
@@ -83,10 +80,12 @@ public final class Game extends Main{
         RoomStructure r = new RoomStructure.SpiderCorridor(new Dimension(80, 80), Location.SHKODER_LOCATION, h);
         r.generate();
         game.currentArea = r;*/
-        game.currentArea.plop(Apparatus.getRandomMeleeWeapon(0, Location.SHKODER_LOCATION), game.player.x, game.player.y);
+        
+        /*game.currentArea.plop(Apparatus.getRandomMeleeWeapon(0, Location.SHKODER_LOCATION), game.player.x, game.player.y);
         game.currentArea.plop(Gold.getGoldQuantity(2), game.player.x-1, game.player.y);
         game.currentArea.plop(potionBuilder().getRandomPotion(new Distribution(new int[]{}),ItemMap.standardItemMap), game.player.x, game.player.y+1);
-        game.currentArea.plop(scrollBuilder().getRandomScroll(ItemMap.standardItemMap.scrollDist), game.player.x, game.player.y-1);
+        game.currentArea.plop(scrollBuilder().getRandomScroll(ItemMap.standardItemMap.scrollDist), game.player.x, game.player.y-1);*/
+        
         //game.currentArea = new AreaGrower(new Dimension(80,80), Location.SHKODER_LOCATION, 0.375,  3,9,  4,9,  4, true).simulate();
         //game.player.setXY(game.currentArea.startCoords[0], game.currentArea.startCoords[1]);
         //game.save();

@@ -62,11 +62,8 @@ public class Area implements Serializable{
     public transient Location location;
     public Integer[] startCoords, endCoords;
     public final int depth;
-    //@Delete
-    //private final List<GameObject> objects = (List<GameObject>)(Object)Collections.synchronizedList(new LinkedList<>());
-    //protected final List<Receptacle> receptacles = (List<Receptacle>)(Object)Collections.synchronizedList(new LinkedList<>());
     private final List<GameObject> objects = new LinkedList<>();
-    protected final List<PhysicalCrate> receptacles = new LinkedList<>();
+    protected final List<PhysicalCrate> crates = new LinkedList<>();
 
     public Graph graph = null;
     public volatile Hero hero;
@@ -75,7 +72,7 @@ public class Area implements Serializable{
     public int orientation = 0;
     
     @Unfinished("Remove debug")
-    public boolean debugMode = false;
+    public boolean debugMode = true;
     
     /**
      * Creates a new instance.
@@ -116,7 +113,7 @@ public class Area implements Serializable{
             ob.setArea(this, true);
             return ob;
         }).collect(Collectors.toList()));
-        receptacles.addAll(area.receptacles.stream().map(rec -> {
+        crates.addAll(area.crates.stream().map(rec -> {
             int temp = y1 + yOrient(o,rec.x,rec.y,w,h);
             rec.x = x1 + xOrient(o,rec.x,rec.y,w,h);
             rec.y = temp;
@@ -152,7 +149,7 @@ public class Area implements Serializable{
             ob.setArea(this, true);
             return ob;
         }).collect(Collectors.toList()));
-        receptacles.addAll(area.receptacles.stream().map(rec -> {
+        crates.addAll(area.crates.stream().map(rec -> {
             int temp = y1 + yOrient(o,rec.x,rec.y,w,h);
             rec.x = x1 + xOrient(o,rec.x,rec.y,w,h);
             rec.y = temp;
@@ -188,7 +185,7 @@ public class Area implements Serializable{
             ob.setArea(this, true);
             return ob;
         }).collect(Collectors.toList()));
-        receptacles.addAll(area.receptacles.stream().map(rec -> {
+        crates.addAll(area.crates.stream().map(rec -> {
             int temp = y1 + yOrient(o,rec.x,rec.y,w,h);
             rec.x = x1 + xOrient(o,rec.x,rec.y,w,h);
             rec.y = temp;
@@ -252,8 +249,8 @@ public class Area implements Serializable{
      * @return The receptacle if it exists, null if not.
      */
     public PhysicalCrate getReceptacle(int x, int y){
-        for(int n=0;n<receptacles.size();n++){
-            PhysicalCrate temp = receptacles.get(n);
+        for(int n=0;n<crates.size();n++){
+            PhysicalCrate temp = crates.get(n);
             if(temp.x==x&&temp.y==y){
                 return temp;
             }
@@ -268,7 +265,7 @@ public class Area implements Serializable{
     public void addReceptacle(PhysicalCrate rec){
         if(rec instanceof Interactable) 
             map[rec.y][rec.x].interactable = rec;
-        receptacles.add(rec);
+        crates.add(rec);
     }
     
     /**
@@ -280,7 +277,7 @@ public class Area implements Serializable{
      */
     public void removeReceptacle(int x, int y){
         PhysicalCrate r;
-        Iterator<PhysicalCrate> iter = receptacles.iterator();
+        Iterator<PhysicalCrate> iter = crates.iterator();
         while(iter.hasNext()){
             r = iter.next();
             if(r.x==x&&r.y==y){
@@ -297,7 +294,7 @@ public class Area implements Serializable{
      * @param r
      */
     public void removeReceptacle(PhysicalCrate r){
-        receptacles.remove(r);
+        crates.remove(r);
         map[r.y][r.x].interactable = null;
     }
     
@@ -328,10 +325,10 @@ public class Area implements Serializable{
      * @param rec The new Receptacle.
      */
     public void replaceHeap(int x, int y, PhysicalCrate rec){
-        receptacles.remove(getReceptacle(x, y));
+        crates.remove(getReceptacle(x, y));
         if(rec instanceof Interactable) 
                 map[y][x].interactable = rec;
-        receptacles.add(rec);
+        crates.add(rec);
     }
     
     /**
@@ -384,7 +381,7 @@ public class Area implements Serializable{
         break;
         }
         return stood&&map[y][x].treadable;*/
-        return graph.tileFree(x, y);
+        return graph.tileFree(x, y)&&map[y][x].treadable;
     }
     
     /**
@@ -400,16 +397,19 @@ public class Area implements Serializable{
     /**
      * Deserializes an AreaTemplate and generates an Area from it.
      * @param filepath The filepath of the AreaTemplate.
+     * @param loc Specifies a Location to be used, otherwise the Location the
+     *      template was serialized with will be used.
      * @return
      */
-    public static Area getPreloadedArea(String filepath){
-        Area area = AreaTemplate.deserialize(filepath).toArea();
+    public static Area getPreloadedArea(String filepath, Location... loc){
+        Area area = AreaTemplate.deserialize(filepath).toArea(loc);
         for(int y=0;y<area.dimension.height;y++){
             for(int x=0;x<area.dimension.width;x++){
                 if(area.map[y][x] instanceof DepthExit) area.endCoords = new Integer[]{x, y};
                 else if(area.map[y][x] instanceof DepthEntrance) area.startCoords = new Integer[]{x, y};
             }
         }
+        area.graph = new Graph(area, null);
         return area;
     }
     
@@ -428,8 +428,8 @@ public class Area implements Serializable{
      * @param focusY
      */
     public void renderObjects(Graphics2D g, int focusX, int focusY){
-        synchronized(receptacles){
-            receptacles.stream().forEach(r -> {
+        synchronized(crates){
+            crates.stream().forEach(r -> {
                 if(overlay.isVisible(r.x, r.y)){
                     if(r.icon!=null) g.drawImage(r.icon.getImage(), r.x*16+focusX, r.y*16+focusY, null);
                     else if(!r.isEmpty()) r.peek().animation.animate(g, r.x*16+focusX, r.y*16+focusY);
@@ -504,7 +504,7 @@ public class Area implements Serializable{
      * @return
      */
     public List<Item> items(){
-        return receptacles.stream().collect(LinkedList<Item>::new, 
+        return crates.stream().collect(LinkedList<Item>::new, 
                 (lst, receptacle) -> lst.addAll(receptacle),
                 (lst, lst2) -> lst.addAll(lst2));
     }
@@ -557,6 +557,7 @@ public class Area implements Serializable{
                 }catch(ArrayIndexOutOfBoundsException e){/*Skip frame*/}
             }
         }
+        if(debugMode) graph.debugPaint(g, fx, fy, this);
     }
         
     

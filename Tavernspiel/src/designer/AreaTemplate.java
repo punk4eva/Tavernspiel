@@ -63,14 +63,17 @@ public class AreaTemplate implements Serializable{
     
     /**
      * Converts this AreaTemplate into an Area.
+     * @param loca Specifies a Location to be used, otherwise the Location the
+     *      template was serialized with will be used.
      * @return
      */
-    public Area toArea(){
-        Area area = new Area(new Dimension(map[0].length, map.length), location);
+    public Area toArea(Location... loca){
+        Location loc = loca.length==0 ? location : loca[0];
+        Area area = new Area(new Dimension(map[0].length, map.length), loc);
         for(int y=0;y<map.length;y++){
             for(int x=0;x<map[0].length;x++){
                 if(map[y][x]!=null){
-                    area.map[y][x] = map[y][x].getTile(location);
+                    area.map[y][x] = map[y][x].getTile(loc);
                     if(map[y][x].boundary) area.map[y][x].treadable = false;
                 }
             }

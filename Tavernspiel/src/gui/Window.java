@@ -2,7 +2,6 @@ package gui;
 
 import gui.mainToolbox.Main;
 import gui.mainToolbox.PageFlipper;
-import java.awt.Canvas;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 
@@ -12,7 +11,7 @@ import javax.swing.JFrame;
  * 
  * The actual Window onto which everything is painted.
  */
-public class Window extends Canvas{
+public class Window{
     
     public static Main main;
     protected JFrame frame;

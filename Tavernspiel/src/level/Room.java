@@ -254,7 +254,7 @@ public class Room extends Area{
      * @return The Receptacle.
      */
     public PhysicalCrate getReceptacle(){
-        return receptacles.get(0);
+        return crates.get(0);
     }
     
     /**

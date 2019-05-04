@@ -183,10 +183,10 @@ public class Point implements Serializable{
         else if(checked==null) g.setColor(Color.RED);
         else g.setColor(Color.YELLOW);
         g.fillOval(_x+4, _y+4, 8, 8);*/
-        if(isCorridor){
+        /*if(isCorridor){
             g.setColor(Color.BLUE);
             g.fillOval(_x+4, _y+4, 8, 8);
-        }
+        }*/
     }
     
 }

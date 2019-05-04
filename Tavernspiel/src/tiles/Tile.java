@@ -86,7 +86,11 @@ public class Tile{
      * @param y
      */
     public void paint(Graphics2D g, int x, int y){
-        g.drawImage(image.getImage(), x, y, null);
+        try{
+            g.drawImage(image.getImage(), x, y, null);
+        }catch(NullPointerException e){
+            System.err.println("Tilename " + name);
+        }
     }
     
     /**

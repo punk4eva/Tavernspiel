@@ -39,7 +39,7 @@ public class GameSettings implements Serializable{
     
     
     public static FireSetting FIRE_SETTING = FireSetting.MAX;
-    public static TorchSetting TORCH_SETTING = TorchSetting.STATIC;
+    public static TorchSetting TORCH_SETTING = TorchSetting.MAX;
     public static WaterSetting WATER_SETTING = WaterSetting.ANIMATED;
     public static VarianceSetting VARIANCE_SETTING = VarianceSetting.MAX;
     
