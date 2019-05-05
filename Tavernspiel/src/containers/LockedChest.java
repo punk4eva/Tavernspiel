@@ -64,7 +64,7 @@ public class LockedChest extends Chest{
         for(ExtendedDirection dir : ExtendedDirection.values())
             if(area.map[y+dir.y][x+dir.x].treadable) list.add(dir);
         if(list.isEmpty()) throw new IllegalStateException("Illegal replop() context");
-        ExtendedDirection dir = list.get(Distribution.r.nextInt(list.size()));
+        ExtendedDirection dir = list.get(Distribution.R.nextInt(list.size()));
         area.plop(i, x+dir.x, y+dir.y);
     }
     

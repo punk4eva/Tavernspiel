@@ -73,7 +73,7 @@ public class WanderingCorridorBuilder{
         }
         
         List<Path> generatePaths(List<Waypoint> points, List<Path> carry){
-            int s = Distribution.r.nextInt(points.size()),
+            int s = Distribution.R.nextInt(points.size()),
                     e = Distribution.getRandomInt(0, points.size(), s);
             Waypoint start = points.get(s);
             setDestination(points.remove(e));

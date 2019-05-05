@@ -45,8 +45,8 @@ public class MazeBuilder{
             for(int cx=x;cx<width+x;cx++) area.map[cy][cx] = Tile.wall(area.location, cx, cy);
         if(area.graph==null) area.graph = new Graph(area, null);
         else area.graph.reset();
-        int dx = Distribution.r.nextInt(area.dimension.width/2-2)*2+3,
-                dy = Distribution.r.nextInt(area.dimension.height/2-2)*2+3;
+        int dx = Distribution.R.nextInt(area.dimension.width/2-2)*2+3,
+                dy = Distribution.R.nextInt(area.dimension.height/2-2)*2+3;
         new MazeAlgorithm().checkedFloodfill(area.graph.map[dy][dx]);
         area.graph = new Graph(area, null);
     }
@@ -95,7 +95,7 @@ public class MazeBuilder{
             else if(onEdge(p.x-1, p.y)&&graph.map[p.y][p.x-1].checked==null) points.add(graph.map[p.y][p.x-1]);
             if(withinBounds(p.x+2, p.y)&&(graph.map[p.y][p.x+2].checked==null||!graph.map[p.y][p.x+2].checked)) points.add(graph.map[p.y][p.x+2]);
             else if(onEdge(p.x+1, p.y)&&graph.map[p.y][p.x+1].checked==null) points.add(graph.map[p.y][p.x+1]);
-            return points.isEmpty()? null : points.get(Distribution.r.nextInt(points.size()));
+            return points.isEmpty()? null : points.get(Distribution.R.nextInt(points.size()));
         }
         
     }

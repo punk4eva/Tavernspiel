@@ -14,14 +14,12 @@ import creatures.Hero;
 import gui.mainToolbox.Main;
 import items.Apparatus;
 import items.Item;
-import items.equipment.MeleeWeapon;
 import items.equipment.Wand;
 import java.io.Serializable;
 import java.util.LinkedList;
 import level.Area;
 import listeners.StepListener;
 import logic.ConstantFields;
-import logic.Distribution;
 import pathfinding.Point;
 import tiles.HiddenTile;
 import tiles.assets.Door;
@@ -35,21 +33,7 @@ import tiles.assets.Water;
  */
 public class AIBaseActions implements Serializable{
     
-    private final static long serialVersionUID = 1749300132;
-    
-    //Calculations for things.
-    public interface calcAccuracy{
-        double calc(Creature c);
-    }
-    public static calcAccuracy accuracyCalculation = (Serializable & calcAccuracy) c -> c.attributes.accuracy * (c.inventory.equipment.weapon instanceof MeleeWeapon ? 1 : ((MeleeWeapon)c.inventory.equipment.weapon).accuracy);
-    public void resetAccuracyCalculation(){accuracyCalculation = c -> c.attributes.accuracy * (c.inventory.equipment.weapon instanceof MeleeWeapon ? 1 : ((MeleeWeapon)c.inventory.equipment.weapon).accuracy);}
-    public interface calcDexterity{
-        double calc(Creature c);
-    }
-    public calcDexterity dexterityCalculation = (Serializable & calcDexterity) c -> c.attributes.dexterity / (c.inventory.equipment.strengthDifference(c.attributes.strength)<0 ? Math.pow(1.5, c.inventory.equipment.strengthDifference(c.attributes.strength)) : 1);
-    public void resetDexterityCalculation(){accuracyCalculation = c -> c.attributes.dexterity / (c.inventory.equipment.strengthDifference(c.attributes.strength)<0 ? Math.pow(1.5, c.inventory.equipment.strengthDifference(c.attributes.strength)) : 1);}
-    
-
+    private final static long serialVersionUID = 1749300132; 
     
     /**
      * Moves a creature in the given direction.
@@ -171,18 +155,8 @@ public class AIBaseActions implements Serializable{
      */
     public void attack(CreatureAttack attack, Creature attacked){
         if(successfulHit(attack, attacked)){
-            attacked.takeDamage(attack); 
+            attacked.attributes.health.hit(attack, attacked);
         }
-    }
-    
-    /**
-     * When a creature attacks a Hero.
-     * @param attack
-     * @param attacked
-     */
-    public void attack(CreatureAttack attack, Hero attacked){
-        if(AIPlayerActions.successfulHit(attack, attacked))
-            attacked.takeDamage(attack);
     }
     
     /**
@@ -192,9 +166,7 @@ public class AIBaseActions implements Serializable{
      * @return true if is was, false if not.
      */
     public boolean successfulHit(CreatureAttack attack, Creature attacked){
-        double attackedDexterity = dexterityCalculation.calc(attacked);
-        return Distribution.randomDouble(0, attack.accuracy) >=
-                Distribution.randomDouble(0, attackedDexterity);
+        return attack.attacker.attributes.health.accuracy.next() >= attacked.attributes.health.evasion.next();
     }
     
     /**
@@ -316,7 +288,7 @@ public class AIBaseActions implements Serializable{
         if(area.map[y][x].interactable!=null){
             double turns = area.map[y][x].interactable.interactTurns();
             area.map[y][x].interactable.interact(c, area);
-            c.attributes.ai.skipping += turns*c.attributes.speed;
+            c.attributes.ai.skipping += turns*c.attributes.health.walkSpeed;
         }
     }
     

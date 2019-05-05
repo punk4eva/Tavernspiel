@@ -26,7 +26,7 @@ public class LoadingPage implements Page{
             "There are rumours of the existance of an axe made of the wings of a dragon."};
 
     public LoadingPage(){
-        rand = Distribution.r.nextInt(TIPS.length);
+        rand = Distribution.R.nextInt(TIPS.length);
     }
     
     @Override

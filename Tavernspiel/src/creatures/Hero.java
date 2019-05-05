@@ -9,8 +9,6 @@ import creatureLogic.Attack;
 import creatureLogic.Attributes;
 import creatureLogic.DeathData;
 import creatureLogic.Description;
-import creatureLogic.EnClass;
-import creatureLogic.EnClass.EnSubclass;
 import creatureLogic.Expertise;
 import gui.Game;
 import gui.Window;
@@ -45,8 +43,8 @@ public class Hero extends Creature{
     public int hunger = 100;
     public DeathData data;
     public Expertise expertise = new Expertise();
-    public EnClass job = EnClass.NoClass;
-    public EnSubclass subclass = null; //Null if no subclass selected.
+    //public EnClass job = EnClass.NoClass; @Unfinished might remove
+    //public EnSubclass subclass = null; //Null if no subclass selected.
     
     /**
      * Creates a new Hero.
@@ -93,7 +91,7 @@ public class Hero extends Creature{
         focus();
     }
     
-    @Override
+    /*@Override @Unfinished replace with trauma system
     public void takeDamage(Attack attack){
         attributes.hp -= attack.damage;
         if(attributes.hp<=0){
@@ -101,7 +99,7 @@ public class Hero extends Creature{
                 throw new UnsupportedOperationException("Not supported yet!");
             }else die(attack);
         }
-    }
+    }*/
     
     /**
      * Killed by a Creature.
@@ -110,7 +108,7 @@ public class Hero extends Creature{
     public void die(Attack attack){
         animator.switchTo("die");
         area.lifeTaken(this);
-        Main.addMessage(ConstantFields.badColor, attack.deathMessage);
+        Main.addMessage(ConstantFields.badColor, attack.name);
         ((Game)Window.main).endGame();
     }
     

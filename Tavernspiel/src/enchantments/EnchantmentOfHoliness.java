@@ -40,7 +40,7 @@ public final class EnchantmentOfHoliness extends WeaponEnchantment{
     @Override
     public void onHit(Creature victim, Attack attack){
         if(shouldActivate()){
-            victim.takeDamage(new Attack(Distribution.r.nextInt(5+(int)(35D*level*level)), attack.deathMessage, AttackType.HOLY));
+            //victim.takeDamage(new Attack(Distribution.r.nextInt(5+(int)(35D*level*level)), attack.deathMessage, AttackType.HOLY)); @Unfinished rework for trauma system.
         }
     }
     

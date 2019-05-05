@@ -4,7 +4,7 @@ package creatureLogic;
 import creatures.Creature;
 import java.io.Serializable;
 import logic.Distribution;
-import static logic.Distribution.r;
+import static logic.Distribution.R;
 
 /**
  *
@@ -35,7 +35,7 @@ public class CreatureDistribution implements Serializable{
      * @return An output from the array.
      */
     public Creature next(){
-        return creatures[chanceToInt(r.nextInt(chances[chances.length-1])+1)];
+        return creatures[chanceToInt(R.nextInt(chances[chances.length-1])+1)];
     }
     
     /**

@@ -70,7 +70,7 @@ public class ScrollBuilder implements Serializable{
         ScrollProfile sp = scrollMap.get(name);
         if(sp==null){
             sp = new ScrollProfile(
-                    runes.remove(Distribution.r.nextInt(runes.size())));
+                    runes.remove(Distribution.R.nextInt(runes.size())));
             scrollMap.put(name, sp);
         }
         return sp;

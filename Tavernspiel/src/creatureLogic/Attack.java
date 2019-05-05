@@ -1,8 +1,11 @@
 
 package creatureLogic;
 
+import buffs.Injury;
+import buffs.Injury.EnBodyPart;
 import creatures.Creature;
 import enchantments.WeaponEnchantment;
+import logic.Distribution.NormalProb;
 
 /**
  *
@@ -12,10 +15,11 @@ import enchantments.WeaponEnchantment;
  */
 public class Attack{
     
-    public double damage;
+    public NormalProb damage;
+    public final Injury injury; //null if no injury
     public final boolean magic;
     public final AttackType type;
-    public String deathMessage;
+    public String name;
     
     /**
      * The type of attack.
@@ -27,40 +31,50 @@ public class Attack{
     /**
      * Creates a new instance.
      * @param d The damage.
-     * @param dm The message to display if the Hero is killed by this Attack.
+     * @param dm The name of this Attack.
+     * @param inj The Injury.
      */
-    public Attack(double d, String dm){
+    public Attack(NormalProb d, String dm, Injury inj){
         damage = d;
+        injury = inj;
         type = AttackType.PHYSICAL;
         magic = false;
-        deathMessage = dm;
+        name = dm;
+        injury.bodyPart = Injury.getRandomBodyPart();
     }
     
     /**
      * Creates a new instance.
      * @param d The damage.
-     * @param dm The message to display if the Hero is killed by this Attack.
+     * @param dm The name of this Attack.
      * @param t The type of attack.
+     * @param inj The Injury.
      */
-    public Attack(double d, String dm, AttackType t){
+    public Attack(NormalProb d, String dm, AttackType t, Injury inj){
         damage = d;
         type = t;
+        injury = inj;
         magic = false;
-        deathMessage = dm;
+        name = dm;
+        injury.bodyPart = Injury.getRandomBodyPart();
     }
     
     /**
      * Creates a new instance.
      * @param d The damage.
-     * @param dm The message to display if the Hero is killed by this Attack.
+     * @param dm The name of this Attack.
      * @param t The type of attack.
      * @param m Whether the Attack is magical.
+     * @param b The body part.
+     * @param inj The Injury.
      */
-    public Attack(double d, String dm, AttackType t, boolean m){
+    public Attack(NormalProb d, String dm, AttackType t, boolean m, Injury inj, EnBodyPart b){
         damage = d;
         type = t;
-        deathMessage = dm;
+        name = dm;
         magic = m;
+        injury = inj;
+        injury.bodyPart = b;
     }
     
     /**
@@ -69,35 +83,36 @@ public class Attack{
     public static class CreatureAttack extends Attack{
         
         public final Creature attacker;
-        public final double accuracy;
+        public final NormalProb accuracy;
         public final WeaponEnchantment enchantment;
 
         /**
          * Creates a new instance.
-         * @param c The attacker.
-         * @param d The damage.
-         * @param dm The message to display if the Hero is killed by this Attack.
+         * @param c The attacker.S
+         * @param dm The name of this Attack.
          * @param acc The accuracy of the attack.
+         * @param inj The Injury.
          */
-        public CreatureAttack(Creature c, String dm, double d, double acc){
-            super(d, dm);
+        public CreatureAttack(Creature c, String dm, NormalProb acc, Injury inj){
+            super(c.attributes.health.attack, dm, inj);
             attacker = c;
             accuracy = acc;
             enchantment = null;
+            injury.bodyPart = Injury.getRandomBodyPart();
         }
         
         /**
          * Creates a new instance.
          * @param c The attacker.
-         * @param d The damage.
-         * @param dm The message to display if the Hero is killed by this Attack.
+         * @param dm The name of this Attack.
          * @param acc The accuracy of the attack.
          * @param t The type of attack.
          * @param m Whether the Attack is magical.
+         * @param b The body part.
+         * @param inj The Injury.
          */
-        public CreatureAttack(Creature c, String dm, double d, double acc, AttackType t, boolean m){
-            super(d, dm, t, m);
-            if(magic) acc *= 2;
+        public CreatureAttack(Creature c, String dm, NormalProb acc, AttackType t, boolean m, Injury inj, EnBodyPart b){
+            super(c.attributes.health.attack, dm, t, m, inj, b);
             attacker = c;
             accuracy = acc;
             enchantment = null;
@@ -106,14 +121,16 @@ public class Attack{
         /**
          * Creates a new instance.
          * @param c The attacker.
-         * @param d The damage.
-         * @param dm The message to display if the Hero is killed by this Attack.
+         * @param dm The name of this Attack.
          * @param acc The accuracy of the attack.
          * @param w The Enchantment on the weapon.
+         * @param b The body part.
+         * @param inj The Injury.
          */
-        public CreatureAttack(Creature c, String dm, double d, double acc, WeaponEnchantment w){
-            super(d, dm, w.attackType);
+        public CreatureAttack(Creature c, String dm, NormalProb acc, WeaponEnchantment w, Injury inj, EnBodyPart b){
+            super(c.attributes.health.attack, dm, w.attackType, inj);
             attacker = c;
+            injury.bodyPart = b;
             accuracy = acc;
             enchantment = w;
         }

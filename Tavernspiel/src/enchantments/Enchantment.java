@@ -159,9 +159,9 @@ public abstract class Enchantment implements Serializable{
      * @return Whether the level is now "very low" (below 0.1).
      */
     public boolean penalize(EnchantmentAffinity context){
-        if(context.code==affinity.code) level *= 0.4+Distribution.r.nextDouble()*0.6;
-        else if(context.code+affinity.code==0) level *= 0.1 + 0.75 * Distribution.r.nextDouble();
-        else level *= 0.2+Distribution.r.nextDouble()*0.8;
+        if(context.code==affinity.code) level *= 0.4+Distribution.R.nextDouble()*0.6;
+        else if(context.code+affinity.code==0) level *= 0.1 + 0.75 * Distribution.R.nextDouble();
+        else level *= 0.2+Distribution.R.nextDouble()*0.8;
         return level<0.1;
     }
     
@@ -225,7 +225,7 @@ public abstract class Enchantment implements Serializable{
      * @return true if it should activate.
      */
     protected boolean shouldActivate(){
-        return 0.45*Math.pow(level, 2.28)+0.05>Distribution.r.nextDouble();
+        return 0.45*Math.pow(level, 2.28)+0.05>Distribution.R.nextDouble();
     }
     
 }

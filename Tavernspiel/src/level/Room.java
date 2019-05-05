@@ -286,10 +286,10 @@ public class Room extends Area{
         while(numDoors>0){
             int x, y;
             if(Distribution.chance(1, 2)){
-                x = 1 + Distribution.r.nextInt(Math.floorDiv(dimension.width-1, 2))*2;
+                x = 1 + Distribution.R.nextInt(Math.floorDiv(dimension.width-1, 2))*2;
                 y = (int) yDistrib.next();
             }else{
-                y = 1 + Distribution.r.nextInt(Math.floorDiv(dimension.height-1, 2))*2;
+                y = 1 + Distribution.R.nextInt(Math.floorDiv(dimension.height-1, 2))*2;
                 x = (int) xDistrib.next();
             }
             if(map[y][x].equals("wall")||map[y][x].equals("specialwall")){

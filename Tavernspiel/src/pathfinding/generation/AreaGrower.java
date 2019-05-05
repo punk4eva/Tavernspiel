@@ -65,7 +65,7 @@ public class AreaGrower{
     
     private void initialize(){
         for(int x=0;x<graph.map[0].length;x++) for(Point[] row : graph.map){
-            if(Distribution.r.nextDouble()<startChance)
+            if(Distribution.R.nextDouble()<startChance)
                 row[x].isCorridor = true;
         }
     }

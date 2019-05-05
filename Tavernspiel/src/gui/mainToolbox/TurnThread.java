@@ -47,9 +47,9 @@ public class TurnThread extends Thread{
      */
     private void turn(){
         gameTurns += turnsPassed;
-        for(;turnsPassed>=Window.main.player.attributes.speed;
-                turnsPassed-=Window.main.player.attributes.speed) 
-            Window.main.currentArea.turn(Window.main.player.attributes.speed);
+        for(;turnsPassed>=Window.main.player.attributes.health.walkSpeed;
+                turnsPassed-=Window.main.player.attributes.health.walkSpeed) 
+            Window.main.currentArea.turn(Window.main.player.attributes.health.walkSpeed);
         if(turnsPassed!=0) Window.main.currentArea.turn(turnsPassed);
     }
         

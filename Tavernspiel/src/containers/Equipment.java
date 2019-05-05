@@ -1,6 +1,7 @@
 
 package containers;
 
+import buffs.Injury.EnBodyPart;
 import creatures.Creature;
 import creatures.Hero;
 import dialogues.ButtonDialogue;
@@ -16,6 +17,7 @@ import items.equipment.MeleeWeapon;
 import java.io.Serializable;
 import logic.ConstantFields;
 import logic.Distribution;
+import logic.Distribution.NormalProb;
 
 /**
  *
@@ -34,6 +36,24 @@ public class Equipment implements Serializable{
     public Leggings leggings;
     public Boots boots;
     
+    public final NormalProb chestDefense = new NormalProb(2, 1.5), legDefense = new NormalProb(1, 1.5), headDefense = new NormalProb(0,0.75), footDefense = new NormalProb(1,1); 
+    
+    /**
+     * Returns the defence attribute relevant to the place that is being hit.
+     * @param part The attacked body part.
+     * @return
+     */
+    public NormalProb getDefense(EnBodyPart part){
+        switch(part){
+            case NON_DOMINANT_ARM: case DOMINANT_ARM: case STOMACH: case CHEST:
+                return chestDefense;
+            case LEG: return legDefense;
+            case HEAD: return headDefense;
+            case FOOT: return footDefense;
+        }
+        throw new IllegalArgumentException();
+    }
+    
     /**
      * Returns the raw damage number of the current Weapon or a strength
      * substitute if no Weapon is equipped.
@@ -44,7 +64,7 @@ public class Equipment implements Serializable{
         try{
             return weapon.damageDistrib.nextInt();
         }catch(Exception e){
-            return Distribution.r.nextInt((int)strength);
+            return Distribution.R.nextInt((int)strength);
         }
     }
     

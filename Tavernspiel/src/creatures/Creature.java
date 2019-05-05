@@ -113,7 +113,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
      * Handles attacks. 
      * @param attack The attack.
      */
-    public void takeDamage(Attack attack){
+    /*public void takeDamage(Attack attack){ @Unfinished replace with trauma system
         attributes.hp -= attack.damage;
         if(attributes.hp<=0){
             if(inventory.contains("ankh")){
@@ -124,7 +124,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
                 die();
             }
         }
-    }
+    }*/
     
     /**
      * Checks whether this Creature is currently in a smooth-move animation.
@@ -187,7 +187,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
 
     @Override
     public void turn(double delta){
-        for(delta+=turndelta;delta>=attributes.speed;delta-=attributes.speed){
+        for(delta+=turndelta;delta>=attributes.health.walkSpeed;delta-=attributes.health.walkSpeed){
             attributes.ai.turn(this, area);
             decrementBuffs(1.0);
         }
@@ -249,7 +249,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
      * Generates the next Attack object of this Creature.
      * @return
      */
-    public Attack nextAttack(){
+    /*public Attack nextAttack(){ @Unfinished replace with trauma system
         int stDif = inventory.equipment.strengthDifference(attributes.strength);
         if(stDif<0) return new CreatureAttack(this, "unfinished", 
                 (int)(inventory.equipment.nextHit(attributes.strength)/Math.pow(1.5, 0-stDif)), 
@@ -259,7 +259,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
                 inventory.equipment.nextHit(attributes.strength), 
                 attributes.accuracy*inventory.equipment.getWeaponAccuracy(), 
                  ((WeaponEnchantment)inventory.equipment.weapon.enchantment));
-    }
+    }*/
     
     
     

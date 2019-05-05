@@ -90,7 +90,7 @@ public abstract class WeaponEnchantment extends Enchantment{
     }
     
     private static double getLevel(){
-        return 1.0/(1.9*(0.38+Distribution.r.nextDouble())) - 0.38;
+        return 1.0/(1.9*(0.38+Distribution.R.nextDouble())) - 0.38;
     }
     
     /**

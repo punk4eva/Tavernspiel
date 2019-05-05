@@ -53,13 +53,13 @@ public final class TileDescriptionBuilder extends DescriptionBuilder{
     private static final String[] DEPTH = {};
     
     private static String waterDesc(){
-        int r = Distribution.r.nextInt(WATER.length);
+        int r = Distribution.R.nextInt(WATER.length);
         if(r==0) return "You can almost see your " + word(appearance) + " reflection from over here!";
         return WATER[r];
     }
     
     private static String wallDesc(){
-        int r = Distribution.r.nextInt(WALL.length);
+        int r = Distribution.R.nextInt(WALL.length);
         switch (r){
             case 0:
                 return "There is a " + word(color) + " liquid dripping from " + word(appearance) + " pores in the wall.";
@@ -73,7 +73,7 @@ public final class TileDescriptionBuilder extends DescriptionBuilder{
     }
     
     private static String floorDesc(){
-        int r = Distribution.r.nextInt(FLOOR.length);
+        int r = Distribution.R.nextInt(FLOOR.length);
         switch (r){
             case 0:
                 return "There are dim remains of " + word(shape) + " ritual markings on the floor.";
@@ -87,7 +87,7 @@ public final class TileDescriptionBuilder extends DescriptionBuilder{
     }
     
     private static String grassDesc(){
-        int r = Distribution.r.nextInt(GRASS.length);
+        int r = Distribution.R.nextInt(GRASS.length);
         switch (r){
             case 0:
                 return "There are a lot of diseased, " + word(color) + " patches on this vegetation.";

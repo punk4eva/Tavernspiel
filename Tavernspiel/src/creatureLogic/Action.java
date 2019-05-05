@@ -22,7 +22,7 @@ public abstract class Action implements Runnable{
      * Creates a new instance defaulting to one hero speed turn.
      */
     public Action(){
-        this(Window.main.player.attributes.speed);
+        this(Window.main.player.attributes.health.walkSpeed);
     }
     
     /**
@@ -63,7 +63,7 @@ public abstract class Action implements Runnable{
             y = _y;
             slot = _slot;
             data = _data;
-            turns = creature.attributes.speed*action.turnMult;
+            turns = creature.attributes.health.miscSpeed*action.turnMult;
         }
 
         @Override

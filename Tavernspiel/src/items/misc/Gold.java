@@ -8,7 +8,7 @@ import items.builders.ItemBuilder;
 import java.io.Serializable;
 import java.util.function.Supplier;
 import javax.swing.ImageIcon;
-import static logic.Distribution.r;
+import static logic.Distribution.R;
 
 /**
  *
@@ -53,14 +53,14 @@ public class Gold extends Item{
      */
     public static Gold getGoldQuantity(int level){
         switch(level){
-            case 0: return new Gold(r.nextInt(10));
-            case 1: return new Gold(r.nextInt(20)+10);
-            case 2: return new Gold(r.nextInt(70)+30);
-            case 3: return new Gold(r.nextInt(200)+100);
-            case 4: return new Gold(r.nextInt(200)+300);
-            case 5: return new Gold(r.nextInt(500)+500);
-            case 6: return new Gold(r.nextInt(600)+1000);
-            case 7: return new Gold(r.nextInt(2000)+1600);
+            case 0: return new Gold(R.nextInt(10));
+            case 1: return new Gold(R.nextInt(20)+10);
+            case 2: return new Gold(R.nextInt(70)+30);
+            case 3: return new Gold(R.nextInt(200)+100);
+            case 4: return new Gold(R.nextInt(200)+300);
+            case 5: return new Gold(R.nextInt(500)+500);
+            case 6: return new Gold(R.nextInt(600)+1000);
+            case 7: return new Gold(R.nextInt(2000)+1600);
             default: throw new 
                 IllegalStateException("Invalid Gold quantity: " + level);
         }

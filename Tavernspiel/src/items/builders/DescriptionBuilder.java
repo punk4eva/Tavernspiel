@@ -68,11 +68,11 @@ public abstract class DescriptionBuilder implements Serializable{
         "radiant", "dazzling", "mischievous"};
 
     public static String word(String[] ary){
-        return ary[Distribution.r.nextInt(ary.length)];
+        return ary[Distribution.R.nextInt(ary.length)];
     }
 
     protected static String[] textureWord(){
-        int n = Distribution.r.nextInt(texture.length);
+        int n = Distribution.R.nextInt(texture.length);
         if(n==0){
             String word = word(color);
             return new String[]{"contains " + word(colorMod) + word + " coloured" + word(shapeMod) + " "
@@ -86,7 +86,7 @@ public abstract class DescriptionBuilder implements Serializable{
     }
 
     protected static String smellWord(){
-        int n = Distribution.r.nextInt(smell.length);
+        int n = Distribution.R.nextInt(smell.length);
         switch (n){
             case 0: return "like " + word(wood);
             case 1: return "like " + word(smellLike);
@@ -96,7 +96,7 @@ public abstract class DescriptionBuilder implements Serializable{
     }
 
     protected static String tasteWord(){
-        int n = Distribution.r.nextInt(taste.length);
+        int n = Distribution.R.nextInt(taste.length);
         if(n==0) return "like " + word(food);
         return smell[n];
     }

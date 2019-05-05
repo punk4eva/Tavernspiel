@@ -28,7 +28,7 @@ public class PassiveCreature extends Creature{
         mortal = k;
     }
     
-    @Override
+    /*@Override //@Unfinished replace with trauma system
     public void takeDamage(Attack attack){
         if(attack instanceof CreatureAttack && ((CreatureAttack)attack).attacker instanceof Hero){// new NPCSpeech(speechOptions[rand.nextInt(speechOptions.length)]).activate(Window.main);
         }else if(mortal){
@@ -43,6 +43,6 @@ public class PassiveCreature extends Creature{
                 }
             }
         }
-    }
+    }*/
     
 }

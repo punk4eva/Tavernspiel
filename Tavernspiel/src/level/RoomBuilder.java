@@ -55,7 +55,7 @@ public abstract class RoomBuilder{
     
     public static Room standardLocked(Location loc, int depth){
         Room ret = Room.genStandard(loc, new Key(depth), ItemMap.standardItemMap);
-        ret.map[ret.dimension.height-1][Distribution.r.nextInt(ret.dimension.width-2)+1] = new Door(loc, true, false, KeyType.IRON);
+        ret.map[ret.dimension.height-1][Distribution.R.nextInt(ret.dimension.width-2)+1] = new Door(loc, true, false, KeyType.IRON);
         ret.oriented = true;
         ret.randomlyPlop();
         return ret;
@@ -117,7 +117,7 @@ public abstract class RoomBuilder{
                 else room.map[y][x] = new SpecialFloor(loc);
             }
         }
-        room.map[room.dimension.height-1][Distribution.r.nextInt(room.dimension.width-2)+1] = new Barricade(loc);
+        room.map[room.dimension.height-1][Distribution.R.nextInt(room.dimension.width-2)+1] = new Barricade(loc);
         room.randomlyPlop();
         room.oriented = true;
         return room;
@@ -218,8 +218,8 @@ public abstract class RoomBuilder{
     }
 
     public static Room maze(Location loc, int depth){
-        Maze room = new Maze(new Dimension(Distribution.r.nextInt(12)*2+9,
-                Distribution.r.nextInt(12)*2+9), loc, depth);
+        Maze room = new Maze(new Dimension(Distribution.R.nextInt(12)*2+9,
+                Distribution.R.nextInt(12)*2+9), loc, depth);
         new MazeBuilder(room, 0, 0, room.dimension.width, room.dimension.height);
         room.randomlyPlop();
         return room;
@@ -410,7 +410,7 @@ public abstract class RoomBuilder{
         for(int y=1;y<dy;y++) room.map[y][3*dx] = new Tile("bookshelf", loc, false, true, false);
         for(int y=4*dy;y<room.dimension.height-1;y++) room.map[y][3*dx] = new Tile("bookshelf", loc, false, true, false);
         
-        switch(Distribution.r.nextInt(4)){
+        switch(Distribution.R.nextInt(4)){
             case 0: room.map[1][1] = new DepthExit(loc, tomb(null)); break;
             case 1: room.map[1][room.dimension.width-2] = new DepthExit(loc, tomb(null)); break;
             case 2: room.map[room.dimension.height-2][1] = new DepthExit(loc, tomb(null)); break;
@@ -424,7 +424,7 @@ public abstract class RoomBuilder{
     }
     
     public static Room lottery(Location loc, int depth){
-        if(Distribution.r.nextDouble()<0.5) return lottery1(loc, depth, ItemMap.lotteryItemMaps);
+        if(Distribution.R.nextDouble()<0.5) return lottery1(loc, depth, ItemMap.lotteryItemMaps);
         else return lottery2(loc, depth, ItemMap.lotteryItemMaps);
     }
     
@@ -449,7 +449,7 @@ public abstract class RoomBuilder{
         for(int x=5;x<8;x++) for(int y=5;y<8;y++) ret.map[y][x] = Tile.floor(loc);
         ret.map[8][5] = Tile.wall(loc, 5, 8);
         ret.map[8][7] = Tile.wall(loc, 7, 8);
-        ret.map[8][6] = new Door(loc, true, Distribution.r.nextDouble()<0.5, KeyType.IRON);
+        ret.map[8][6] = new Door(loc, true, Distribution.R.nextDouble()<0.5, KeyType.IRON);
         ret.plop(new Key(depth, KeyType.WOODEN), 6, 6);
         ret.oriented = true;
         return ret;
@@ -481,7 +481,7 @@ public abstract class RoomBuilder{
         ret.blitDirty(r0, 0, 0);
         ret.blitDirty(r1, 4, 0);
         ret.blitDirty(r2, 8, 0);
-        ret.map[8][6] = new Door(loc, true, Distribution.r.nextDouble()<0.5, KeyType.IRON);
+        ret.map[8][6] = new Door(loc, true, Distribution.R.nextDouble()<0.5, KeyType.IRON);
         ret.plop(new Key(depth, KeyType.WOODEN), 6, 6);
         return ret;
     }

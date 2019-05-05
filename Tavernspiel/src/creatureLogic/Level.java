@@ -14,30 +14,10 @@ public class Level implements Serializable{
     
     private final static long serialVersionUID = 73313124;
     
-    public int level = 1;
+    public int level = 0;
     public int xp = 0;
     public int xpReq = 20;
-    public Formula xpFormula;
-    public Formula speedFormula;
-    public Formula attackSpeedFormula;
-    public Formula dexterityFormula;
-    public Formula hpFormula;
-    public Formula regenSpeedFormula;
-    public Formula strengthFormula;
-    
-    private void levelUp(Attributes atb){
-        level++;
-        int prevHp = atb.maxhp;
-        xpReq = (int)xpFormula.get(level);
-        atb.update(
-            attackSpeedFormula.get(level),
-            dexterityFormula.get(level),
-            regenSpeedFormula.get(level),
-            (int)hpFormula.get(level),
-            (int)strengthFormula.get(level),
-            speedFormula.get(level));
-        atb.setHp(atb.maxhp - prevHp);
-    }
+    public Formula xpFormula = new Formula(5, 10);
 
     /**
      * Gains the given amount of experience.
@@ -47,8 +27,9 @@ public class Level implements Serializable{
     public void gainXP(int e, Attributes atb){
         xp += e;
         while(xp>=xpReq){
-            levelUp(atb);
-             xp -= xpReq;
+            level++;
+            xpReq = (int)xpFormula.get(level);
+            xp -= xpReq;
         }
     }
     

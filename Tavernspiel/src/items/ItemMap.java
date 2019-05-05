@@ -115,7 +115,7 @@ public final class ItemMap{
     }
     
     private boolean hasNext(){
-        boolean ret = nextChance>Distribution.r.nextDouble();
+        boolean ret = nextChance>Distribution.R.nextDouble();
         nextChance *= diminisher;
         return ret;
     }

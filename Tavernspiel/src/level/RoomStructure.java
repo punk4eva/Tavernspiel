@@ -156,7 +156,7 @@ public abstract class RoomStructure extends Area{
             rooms.sort((r, r1) -> new Integer(r1.dimension.width*r1.dimension.height).compareTo(r.dimension.width*r.dimension.height));
             //Chooses a random orientation for each room.
             rooms.stream().forEach(r -> {
-                r.orientation = Distribution.r.nextInt(4);
+                r.orientation = Distribution.R.nextInt(4);
             });
             Dimension d; //dimension of the room
             Integer n = 0; //the index of the room
@@ -191,8 +191,8 @@ public abstract class RoomStructure extends Area{
         }
         
         protected Integer[] generatePoint(Dimension d){
-            return new Integer[]{3+Distribution.r.nextInt(dimension.width-12-d.width),
-                3+Distribution.r.nextInt(dimension.height-12-d.height)};
+            return new Integer[]{3+Distribution.R.nextInt(dimension.width-12-d.width),
+                3+Distribution.R.nextInt(dimension.height-12-d.height)};
         }
         
         protected boolean spaceFree(Integer[] c, Dimension d){
@@ -249,7 +249,7 @@ public abstract class RoomStructure extends Area{
         private Integer[][] planRooms(){
             rooms.sort((r, r1) -> new Integer(r1.dimension.width*r1.dimension.height).compareTo(r.dimension.width*r.dimension.height));
             rooms.stream().forEach(r -> {
-                r.orientation = Distribution.r.nextInt(4);
+                r.orientation = Distribution.R.nextInt(4);
             });
             Dimension d;
             Integer n = 0;
@@ -275,18 +275,18 @@ public abstract class RoomStructure extends Area{
 
         protected Integer[] generatePoint(Dimension d, Room r){
             if(r.oriented||r instanceof PreDoored) return generateSpecialPoint(d, r);
-            else return new Integer[]{2+Distribution.r.nextInt((dimension.width-d.width-3)/2)*2,
-                    2+Distribution.r.nextInt((dimension.height-d.height-3)/2)*2};
+            else return new Integer[]{2+Distribution.R.nextInt((dimension.width-d.width-3)/2)*2,
+                    2+Distribution.R.nextInt((dimension.height-d.height-3)/2)*2};
         }
         
         protected Integer[] generateSpecialPoint(Dimension d, Room r){
             Integer[] door = r.findDoor();
             if(r.orientation%2==0){
-                return new Integer[]{3+Distribution.r.nextInt((dimension.width-12-d.width)/2)*2+door[0]%2,
-                    3+Distribution.r.nextInt((dimension.height-12-d.height)/2)*2+d.height%2};
+                return new Integer[]{3+Distribution.R.nextInt((dimension.width-12-d.width)/2)*2+door[0]%2,
+                    3+Distribution.R.nextInt((dimension.height-12-d.height)/2)*2+d.height%2};
             }else{
-                return new Integer[]{3+Distribution.r.nextInt((dimension.width-12-d.width)/2)*2+d.width%2,
-                    3+Distribution.r.nextInt((dimension.height-12-d.height)/2)*2+door[1]%2}; 
+                return new Integer[]{3+Distribution.R.nextInt((dimension.width-12-d.width)/2)*2+d.width%2,
+                    3+Distribution.R.nextInt((dimension.height-12-d.height)/2)*2+door[1]%2}; 
             }
         }
     
@@ -311,7 +311,7 @@ public abstract class RoomStructure extends Area{
             map = ag.simulate().map;
             rooms.sort((r, r1) -> new Integer(r1.dimension.width*r1.dimension.height).compareTo(r.dimension.width*r.dimension.height));
             rooms.stream().forEach(r -> {
-                r.orientation = Distribution.r.nextInt(4);
+                r.orientation = Distribution.R.nextInt(4);
             });
             Dimension d;
             Integer n = 0;
@@ -349,8 +349,8 @@ public abstract class RoomStructure extends Area{
         
         private Point getFreePoint(){
             while(true){
-                Integer[] c = new Integer[]{3+Distribution.r.nextInt(dimension.width-12),
-                        3+Distribution.r.nextInt(dimension.height-12)};
+                Integer[] c = new Integer[]{3+Distribution.R.nextInt(dimension.width-12),
+                        3+Distribution.R.nextInt(dimension.height-12)};
                 if(!graph.map[c[1]][c[0]].isCorridor) return graph.map[c[1]][c[0]];
             }
         }

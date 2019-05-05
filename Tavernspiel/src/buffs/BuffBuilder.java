@@ -7,8 +7,8 @@ import creatureLogic.Description;
 import creatures.Creature;
 import java.util.Iterator;
 import level.Location;
-import static logic.Distribution.r;
 import logic.Utils.Unfinished;
+import static logic.Distribution.R;
 
 /**
  *
@@ -37,10 +37,10 @@ public final class BuffBuilder{
             public void start(Creature c){}
             @Override
             public void turn(Creature c, Iterator iter){
-                c.takeDamage(new Attack(
+                /*c.takeDamage(new Attack(
                         (r.nextInt(4)+1)*loc.feeling.difficulty,
                         FIRE_MESSAGES[r.nextInt(FIRE_MESSAGES.length)],
-                        AttackType.FIRE));
+                        AttackType.FIRE));*/
             }
             @Override
             public void end(Creature c){}
@@ -55,7 +55,7 @@ public final class BuffBuilder{
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
-    public static Buff enraged(){
+    /*public static Buff enraged(){
         return new Buff("enraged", new Description("buffs", "You are angry!")){
             
             double mult, oSpeed, oAttack;
@@ -81,7 +81,7 @@ public final class BuffBuilder{
             }
         
         };
-    }
+    }*/
     
     public static Buff exhausted(double duration){
         throw new UnsupportedOperationException("Not supported yet.");
@@ -91,7 +91,7 @@ public final class BuffBuilder{
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
-    public static Buff beserk(){
+    /*public static Buff beserk(){
         return new Buff("beserk", new Description("buffs", "You have gone insane!")){
             @Override
             public void start(Creature c){
@@ -106,21 +106,21 @@ public final class BuffBuilder{
                 c.attributes.attackSpeed /= 2;
             }
         };
-    }
+    }*/
     
     public static Buff shadowmelded(){
         return new Buff("shadowmelded", new Description("buffs", "You are "
                 + "shrouded in a cleansing mist of dew")){
             @Override
             public void start(Creature c){
-                c.attributes.regen *= 1.1;
+                c.attributes.health.regen *= 1.1;
                 c.attributes.invisible = true;
             }
             @Override
             public void turn(Creature c, Iterator iter){}
             @Override
             public void end(Creature c){
-                c.attributes.regen /= 1.1;
+                c.attributes.health.regen /= 1.1;
             }
         };
     }
@@ -139,6 +139,7 @@ public final class BuffBuilder{
         };
     }
     
+    @Unfinished("Redo damage")
     public static Buff bleeding(double damage){
         return new Buff("bleeding", new Description("buffs", "You are losing blood.")){
             double currentDamage = damage;
@@ -146,11 +147,11 @@ public final class BuffBuilder{
             public void start(Creature c){}
             @Override
             public void turn(Creature c, Iterator iter){
-                c.takeDamage(new Attack(currentDamage, 
+                /*c.takeDamage(new Attack(currentDamage, 
                         BLEEDING_MESSAGES[r.nextInt(BLEEDING_MESSAGES.length)], 
                         AttackType.BLEEDING));
                 currentDamage *= r.nextDouble();
-                if(currentDamage<1) iter.remove();
+                if(currentDamage<1) iter.remove();*/
             }
             @Override
             public void end(Creature c){}
@@ -189,6 +190,7 @@ public final class BuffBuilder{
         };
     }
     
+    @Unfinished("Redo damage")
     public static Buff poison(double _damage){
         return new Buff("poison", new Description("buffs", "You feel very ill.")){
             double damage = _damage;
@@ -197,14 +199,14 @@ public final class BuffBuilder{
             public void start(Creature c){}
             @Override
             public void turn(Creature c, Iterator iter){
-                c.takeDamage(new Attack(damage, 
+                /*c.takeDamage(new Attack(damage, 
                         POISON_MESSAGES[r.nextInt(POISON_MESSAGES.length)], 
                         AttackType.POISON));
                 if(turns==0){
                     turns = 2;
                     damage--;
                 }else turns--;
-                if(damage==0) iter.remove();
+                if(damage==0) iter.remove();*/
             }
             @Override
             public void end(Creature c){}
@@ -218,10 +220,10 @@ public final class BuffBuilder{
             public void start(Creature c){}
             @Override
             public void turn(Creature c, Iterator iter){
-                c.takeDamage(new Attack(
+                /*c.takeDamage(new Attack(
                         (r.nextInt(4)+1)*loc.feeling.difficulty,
                         TOXICGAS_MESSAGES[r.nextInt(TOXICGAS_MESSAGES.length)],
-                        AttackType.POISON));
+                        AttackType.POISON));*/
             }
             @Override
             public void end(Creature c){}

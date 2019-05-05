@@ -53,7 +53,7 @@ public class RoomDistribution{
      * @return
      */
     public List<Room> generate(List<Item> forcedItems, List<MakeRoom> forcedRooms, int depth, LevelFeeling feeling){
-        int roomNum = Distribution.r.nextInt(upper-lower)+lower;
+        int roomNum = Distribution.R.nextInt(upper-lower)+lower;
         List<Room> rooms = new LinkedList<>();
         List<Item> leftovers = new LinkedList<>();
         forcedRooms.stream().map((m) -> m.make(location, depth)).forEach((r) -> {
@@ -76,7 +76,7 @@ public class RoomDistribution{
         }
         if(freeRooms!=0){
             for(Item i : leftovers)
-                rooms.get(Distribution.r.nextInt(freeRooms)).randomlyPlop(i);
+                rooms.get(Distribution.R.nextInt(freeRooms)).randomlyPlop(i);
         }else if(!leftovers.isEmpty()){
             Room r;
             do{

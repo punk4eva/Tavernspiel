@@ -520,7 +520,7 @@ public class Area implements Serializable{
         if(hero.x!=x||hero.y!=y){
             ((PlayerAI)hero.attributes.ai).unfinished = true;
             hero.attributes.ai.setDestination(x, y);
-            Window.main.setTurnsPassed(hero.attributes.speed);
+            Window.main.setTurnsPassed(hero.attributes.health.walkSpeed);
         }else hero.attributes.ai.BASEACTIONS
                     .interact(hero, hero.area, hero.x, hero.y);
     }

@@ -43,14 +43,14 @@ public class FireParticle extends Particle{
     
     private FireParticle(ParticleAnimation e, Color col, Rectangle s, double ms, ParticleTrailGenerator g){
         super(e, col, s, ms, g);
-        vely = -Distribution.r.nextDouble()*ms;
-        velx = 0.25*(Distribution.r.nextDouble()*ms - ms);
+        vely = -Distribution.R.nextDouble()*ms;
+        velx = 0.25*(Distribution.R.nextDouble()*ms - ms);
     }
     
     private FireParticle(ParticleAnimation e, Color col, Rectangle s, double ms){
         super(e, col, s, ms);
-        vely = -Distribution.r.nextDouble()*ms;
-        velx = 0.25*(Distribution.r.nextDouble()*ms - ms);
+        vely = -Distribution.R.nextDouble()*ms;
+        velx = 0.25*(Distribution.R.nextDouble()*ms - ms);
     }
 
     @Override

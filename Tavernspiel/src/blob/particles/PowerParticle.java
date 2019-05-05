@@ -71,7 +71,7 @@ public class PowerParticle extends Particle{
 
     @Override
     protected void motor(){
-        double factor = Distribution.r.nextDouble() * mult;
+        double factor = Distribution.R.nextDouble() * mult;
         if(desty < y && vely > -maxSpeed){
             if(vely - factor < -maxSpeed){
                 vely = -maxSpeed;

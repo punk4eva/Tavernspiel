@@ -46,7 +46,7 @@ public class SpiderCorridorBuilder{
         SpiderCorridorAlgorithm(int windyness){
             super(area.graph, area);
             addCheck = (from, to) -> /*to.currentCost > from.currentCost + to.movementCost &&*/ to.cameFrom==null&&(to.checked==null||!to.checked);
-            frontier = new PriorityQueue<>(p -> Distribution.r.nextInt(windyness) +  p.currentCost);
+            frontier = new PriorityQueue<>(p -> Distribution.R.nextInt(windyness) +  p.currentCost);
         }
         
         @Override

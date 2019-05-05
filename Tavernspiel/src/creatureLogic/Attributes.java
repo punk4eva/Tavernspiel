@@ -4,6 +4,7 @@ package creatureLogic;
 import ai.AITemplate;
 import java.io.Serializable;
 import listeners.XPListener;
+import logic.Distribution.NormalProb;
 
 /**
  * 
@@ -16,16 +17,9 @@ public class Attributes implements Serializable{
     private final static long serialVersionUID = -1895856777;
     
     public AITemplate ai;
-    public double speed = 1;
-    public double attackSpeed = 1;
-    public double dexterity = 1;
-    public double accuracy = 1;
-    public double regen = 0.025;
-    public int maxhp;
-    public int hp;
-    public double attackMult = 1.0;
-    protected Resistance[] resistances;
+    protected Resistance[] resistances; //@Unfinished might remove
     public double strength = 10;
+    public WellBeing health;
     public Level level;
     public int xpOnDeath = 0;
     public boolean invisible = false;
@@ -35,8 +29,7 @@ public class Attributes implements Serializable{
      * Creates a new instance.
      */
     public Attributes(){
-        hp = 20;
-        maxhp = 20;
+        health = new WellBeing();
     }
     
     /**
@@ -44,26 +37,21 @@ public class Attributes implements Serializable{
      * @param ait The AITemplate.
      * @param sp The speed.
      * @param atksp The attack speed.
-     * @param dex The dexterity.
      * @param acc The accuracy.
      * @param reg The regeneration speed.
-     * @param mhp The maximum hp.
-     * @param stg The strength.
+     * @param str The strength.
+     * @param ev The evasion curve.
      * @param xp The xp obtained by the killer on death.
+     * @param att The attack curve.
+     * @param tra The trauma curve.
      * @param rst The array of Resistances.
      */
-    public Attributes(AITemplate ait, double sp, double atksp, double dex, double acc, double reg, int mhp, double stg, int xp, Resistance... rst){
-        speed = sp;
+    public Attributes(AITemplate ait, double reg, double str, double sp, double atksp, int xp, NormalProb ev, NormalProb acc, NormalProb att, NormalProb tra, Resistance... rst){
         ai = ait;
         resistances = rst;
-        maxhp = mhp;
-        attackSpeed = atksp;
-        dexterity = dex;
-        accuracy = acc;
-        regen = reg;
-        hp = mhp;
-        strength = stg;
+        strength = str;
         xpOnDeath = xp;
+        health = new WellBeing(reg, sp, sp, atksp, ev, acc, att, tra);
     }
     
     /**
@@ -74,22 +62,16 @@ public class Attributes implements Serializable{
      * @param mxhp The new maximum hp.
      * @param st The new strength.
      * @param sp The new speed.
+     * 
+     * @Unfinished May remove
      */
-    public void update(double atksp, double dex, double regen, int mxhp, double st, double sp){
+    /*public void update(double atksp, double dex, double regen, int mxhp, double st, double sp){
         attackSpeed = atksp;
         dexterity = dex;
         this.regen = regen;
         maxhp = mxhp;
         strength = st;
         speed = sp;
-    }
-    
-    /**
-     * sets the hp value.
-     * @param h The new hp.
-     */
-    public void setHp(int h){
-        hp = h;
-    }
+    }*/
     
 }

@@ -15,15 +15,12 @@ import javax.swing.ImageIcon;
  * 
  * The Buffs that creatures can experience.
  */
-public abstract class Buff implements Serializable{
+public abstract class Buff extends StatusAbnormality{
     
     private final static long serialVersionUID = 20231407;
     
-    public final String name;
-    public final Description description;
     public double duration = 1000000;
-    public boolean visible = true, markedForEnd = false;
-    public transient ImageIcon icon, smallIcon;
+    public boolean markedForEnd = false;
     
     /**
      * Creates a new Buff with the given name.
@@ -31,10 +28,7 @@ public abstract class Buff implements Serializable{
      * @param desc The Description.
      */
     public Buff(String n, Description desc){
-        name = n;
-        description = desc;
-        icon = new ImageIcon("graphics/gui/buffIcons/"+name+".png");
-        smallIcon = new ImageIcon("graphics/gui/buffIcons/"+name+"Small.png");
+        super(n, desc);
     }
     
     /**
@@ -44,10 +38,7 @@ public abstract class Buff implements Serializable{
      * @param d The duration.
      */
     public Buff(String n, Description desc, double d){
-        name = n;
-        description = desc;
-        icon = new ImageIcon("graphics/gui/buffIcons/"+name+".png");
-        smallIcon = new ImageIcon("graphics/gui/buffIcons/"+name+"Small.png");
+        super(n, desc);
         duration = d;
     }
     
@@ -59,10 +50,7 @@ public abstract class Buff implements Serializable{
      * @param v Whether the Buff is visible.
      */
     public Buff(String n, Description desc, double d, boolean v){
-        name = n;
-        description = desc;
-        icon = new ImageIcon("graphics/gui/buffIcons/"+name+".png");
-        smallIcon = new ImageIcon("graphics/gui/buffIcons/"+name+"Small.png");
+        super(n, desc);
         duration = d;
         visible = v;
     }

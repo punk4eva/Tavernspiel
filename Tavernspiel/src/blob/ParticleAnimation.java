@@ -64,7 +64,7 @@ public class ParticleAnimation extends TrackableAnimation{
     }
     
     private Particle createParticle(){
-        return particleSet[Distribution.r.nextInt(particleSet.length)].clone();
+        return particleSet[Distribution.R.nextInt(particleSet.length)].clone();
     }
     
     /**
@@ -179,15 +179,15 @@ public class ParticleAnimation extends TrackableAnimation{
         
         private int[] getStartCoords(){
             return new int[]{
-                Distribution.r.nextInt(effect.startField.width) + effect.startField.x,
-                Distribution.r.nextInt(effect.startField.height) + effect.startField.y,
+                Distribution.R.nextInt(effect.startField.width) + effect.startField.x,
+                Distribution.R.nextInt(effect.startField.height) + effect.startField.y,
             };
         }
 
         private int[] getStopCoords(){
             return new int[]{
-                Distribution.r.nextInt(effect.stopField.width) + effect.stopField.x,
-                Distribution.r.nextInt(effect.stopField.height) + effect.stopField.y,
+                Distribution.R.nextInt(effect.stopField.width) + effect.stopField.x,
+                Distribution.R.nextInt(effect.stopField.height) + effect.stopField.y,
             };
         }
         

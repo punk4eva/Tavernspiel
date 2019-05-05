@@ -43,8 +43,8 @@ public final class PlayerAI extends AITemplate implements KeyListener{
     public void turn(Creature c, Area area){
         if(nextAction!=null){
             nextAction.run();
-            if(nextAction.turns>=hero.attributes.speed){
-                nextAction.turns -= hero.attributes.speed;
+            if(nextAction.turns>=hero.attributes.health.walkSpeed){
+                nextAction.turns -= hero.attributes.health.walkSpeed;
                 if(nextAction.turns<=hero.turndelta){
                     hero.turndelta -= nextAction.turns;
                     unfinished = false;
@@ -53,12 +53,12 @@ public final class PlayerAI extends AITemplate implements KeyListener{
                     hero.turndelta = 0;
                 }
             }else{
-                hero.turndelta += hero.attributes.speed - nextAction.turns;
+                hero.turndelta += hero.attributes.health.walkSpeed - nextAction.turns;
                 unfinished = false;
             }
             nextAction = null;
         }else if(skipping>0){
-            skipping-=hero.attributes.speed;
+            skipping-=hero.attributes.health.walkSpeed;
             if(skipping<=0){
                 unfinished = false;
                 skipping = 0;
@@ -87,7 +87,7 @@ public final class PlayerAI extends AITemplate implements KeyListener{
             c.changeAnimation("stand");
             PhysicalCrate r = c.area.getReceptacle(next.x, next.y); 
             if(r!=null) r.interact(c, c.area);
-        }else Window.main.addTurnsPassed(hero.attributes.speed);
+        }else Window.main.addTurnsPassed(hero.attributes.health.walkSpeed);
     }
     
     /**

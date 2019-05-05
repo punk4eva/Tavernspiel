@@ -38,7 +38,7 @@ public abstract class Apparatus extends Item{
     public double level = 0;
     public Enchantment enchantment;
     public double strength = -1;
-    public int usesTillIdentify = 10 + Distribution.r.nextInt(21);
+    public int usesTillIdentify = 10 + Distribution.R.nextInt(21);
     private final Supplier<ImageIcon> imageLoader;
     
     /**
@@ -162,7 +162,7 @@ public abstract class Apparatus extends Item{
      */
     @Unfinished("Flesh out generation algorithm using depth and hero")
     public static Apparatus getRandomArmour(Distribution armorDist){
-        switch(Distribution.r.nextInt(4)){
+        switch(Distribution.R.nextInt(4)){
             case 0: return Helmet.getArmour(Equipment.getArmourType(armorDist));
             case 1: return Chestplate.getArmour(Equipment.getArmourType(armorDist));
             case 2: return Leggings.getArmour(Equipment.getArmourType(armorDist));

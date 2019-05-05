@@ -17,7 +17,7 @@ public class Distribution implements Serializable{
     
     protected double[] outputs;
     protected int[] chances;
-    public transient static final Random r = new Random();
+    public transient static final Random R = new Random();
     
     /**
      * Creates a new instance.
@@ -67,7 +67,7 @@ public class Distribution implements Serializable{
      * @return An output from the array.
      */
     public double next(){
-        return outputs[chanceToInt(r.nextInt(chances[chances.length-1])+1)];
+        return outputs[chanceToInt(R.nextInt(chances[chances.length-1])+1)];
     }
     
     /**
@@ -76,7 +76,7 @@ public class Distribution implements Serializable{
      * of this object.
      */
     public int nextInt(){
-        return r.nextInt((int)(outputs[1]-outputs[0])) + (int)outputs[0];
+        return R.nextInt((int)(outputs[1]-outputs[0])) + (int)outputs[0];
     }
     
     /**
@@ -110,7 +110,31 @@ public class Distribution implements Serializable{
      * @return A random integer.
      */
     public static int getRandomInt(int lo, int up){
-        return r.nextInt(1+up-lo)+lo;
+        return R.nextInt(1+up-lo)+lo;
+    }
+    
+    /**
+     * Generates a normally distributed double with the given mean and standard
+     * deviation.
+     * @param mean
+     * @param sDev
+     * @return
+     */
+    public static double getGaussian(double mean, double sDev){
+        return mean + sDev*R.nextGaussian();
+    }
+    
+    /**
+     * Returns a normally distributed double above 0.
+     * @param mean
+     * @param sDev
+     * @return
+     */
+    public static double getGaussianA(double mean, double sDev){
+        double ret;
+        do ret = getGaussian(mean, sDev);
+        while(ret<0);
+        return ret;
     }
     
     /**
@@ -120,7 +144,7 @@ public class Distribution implements Serializable{
      * @return A random double.
      */
     public static double getRandomInclusiveDouble(double lo, double up){
-        return r.nextDouble() * (up-lo) + lo;
+        return R.nextDouble() * (up-lo) + lo;
     }
     
     /**
@@ -182,7 +206,7 @@ public class Distribution implements Serializable{
      * chance.
      */
     public static boolean chance(double chance, double in){
-        return r.nextDouble()*in<chance;
+        return R.nextDouble()*in<chance;
     }
     
     /**
@@ -191,7 +215,7 @@ public class Distribution implements Serializable{
      * output[0].
      */
     public boolean chance(){
-        return r.nextDouble()*outputs[1]<outputs[0];
+        return R.nextDouble()*outputs[1]<outputs[0];
     }
     
     /**
@@ -219,7 +243,7 @@ public class Distribution implements Serializable{
      * @return
      */
     public static double randomDouble(double low, double up){
-        return r.nextDouble() * (up-low) + low;
+        return R.nextDouble() * (up-low) + low;
     }
     
     /**
@@ -240,7 +264,57 @@ public class Distribution implements Serializable{
             if(notpresent) lst.add(n);
         }
         if(lst.isEmpty()) return Integer.MIN_VALUE;
-        return lst.get(r.nextInt(lst.size()));
+        return lst.get(R.nextInt(lst.size()));
+    }
+    
+    /**
+     * This class captures a normal distribution with an adjustable mean and
+     * standard deviation.
+     */
+    public static class NormalProb implements Serializable{
+        
+        private static final long serialVersionUID = 56734892217432L;
+        
+        public double mean, sDev;
+        
+        /**
+         * Constructs a normal distribution with the given mean and standard
+         * deviation.
+         * @param m
+         * @param s
+         */
+        public NormalProb(double m, double s){
+            mean = m;
+            sDev = s;
+        }
+        
+        /**
+         * Returns a normally distributed double above 0.
+         * @return
+         */
+        public double next(){
+            return Distribution.getGaussianA(mean, sDev);
+        }
+        
+        /**
+         * Returns a normally distributed double above 0 with mean and sDev 
+         * modifiers.
+         * @param m The addition to the mean.
+         * @param s The multiplication of the sDev.
+         * @return
+         */
+        public double next(double m, double s){
+            return getGaussianA(mean+m, sDev*s);
+        }
+        
+        /**
+         * Returns true if the Gaussian was above 0.
+         * @return
+         */
+        public boolean check(){
+            return getGaussian(mean, sDev)>0;
+        }
+        
     }
     
 }

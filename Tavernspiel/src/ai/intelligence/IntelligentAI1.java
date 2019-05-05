@@ -22,7 +22,7 @@ public class IntelligentAI1 extends AITemplate{
     @Unfinished
     public void turn(Creature c, Area area){
         if(skipping>0){
-            skipping-=c.attributes.speed;
+            skipping-=c.attributes.health.walkSpeed;
             if(skipping<0){
                 skipping = 0;
             }

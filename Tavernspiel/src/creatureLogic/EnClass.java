@@ -8,12 +8,12 @@ import logic.Utils.Unfinished;
  *
  * @author Adam Whittaker
  */
-@Unfinished("More work needed and might replace with superior non-class system.")
+@Unfinished("Need to finalize trauma system first and might replace with superior non-class system.")
 public enum EnClass{
     
     //AITemplate ait, double sp, double atksp, double dex, double acc, double reg, int mhp, int stg, int xp, Resistance... rst
     
-    NoClass (new Expertise(), new Attributes()),
+    /*NoClass (new Expertise(), new Attributes()),
     Warrior (new Expertise(1,0,0,2,1,0,0), new Attributes(null,1,1.05,1.1,1,0.025,20,10,0), new EnSubclass[]{EnSubclass.Berserker, EnSubclass.Gladiator, EnSubclass.Marauder}),
     Mage (new Expertise(0,1,2,0,0,2,1), new Attributes(null,1,1,1,1.05,0.025,20,10,0), new EnSubclass[]{EnSubclass.Battlemage, EnSubclass.Warlock, EnSubclass.Augur}),
     Rogue (new Expertise(1,1,1,1,1,0,2), new Attributes(null,1,1,1.05,1,0.025,20,10,0), new EnSubclass[]{EnSubclass.Freerunner, EnSubclass.Assassin, EnSubclass.Scoundrel}),
@@ -36,7 +36,7 @@ public enum EnClass{
     /**
      * The hero's subclass.
      */
-    public enum EnSubclass{
+    /*public enum EnSubclass{
         Berserker (new Expertise(1,0,0,0,0,0,0), new Attributes(null,1,1.1,1,1,0.025,20,10,0), "Not finished"), 
         Gladiator (new Expertise(0,0,0,0,1,0,0), new Attributes(null,1,1.05,1,1,0.025,20,10,0), "Not finished"),
         Marauder (new Expertise(0,0,0,0,1,0,0), new Attributes(null,1,1.05,1,1,0.025,20,10,0), "Not finished"),
@@ -69,6 +69,6 @@ public enum EnClass{
             description = desc;
             attributes = atb;
         }
-    }
+    }*/
     
 }

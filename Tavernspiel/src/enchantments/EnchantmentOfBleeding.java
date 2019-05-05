@@ -1,7 +1,6 @@
 
 package enchantments;
 
-import buffs.BuffBuilder;
 import creatureLogic.Attack;
 import creatureLogic.Description;
 import creatures.Creature;
@@ -49,7 +48,7 @@ public final class EnchantmentOfBleeding extends WeaponEnchantment{
     @Override
     public void onHit(Creature victim, Attack attack){
         if(shouldActivate()){
-            victim.addBuff(BuffBuilder.bleeding(level*0.6*attack.damage));
+            //victim.addBuff(BuffBuilder.bleeding(level*0.6*attack.damage));
         }
     }
     

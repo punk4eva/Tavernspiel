@@ -11,7 +11,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.ImageIcon;
-import static logic.Distribution.r;
+import logic.Distribution.NormalProb;
+import static logic.Distribution.R;
 
 /**
  *
@@ -25,7 +26,7 @@ public final class Utils{
 
     public static int[] shuffle(int[] ary){
         for(int i = ary.length - 1; i > 0; i--){
-            int index = r.nextInt(i + 1);
+            int index = R.nextInt(i + 1);
             int a = ary[index];
             ary[index] = ary[i];
             ary[i] = a;
@@ -35,7 +36,7 @@ public final class Utils{
     
     public static <T> T[] shuffle(T[] ary){
         for(int i = ary.length - 1; i > 0; i--){
-            int index = r.nextInt(i + 1);
+            int index = R.nextInt(i + 1);
             T a = ary[index];
             ary[index] = ary[i];
             ary[i] = a;
@@ -170,10 +171,24 @@ public final class Utils{
         for(String str : strs) System.out.println(str.hashCode());
     }
     
+    public static double monteCarloNormalDist(double mean, double sDev){
+        NormalProb dist = new NormalProb(mean, sDev);
+        double total = 0, trials = 1000000;
+        for(int n=0;n<trials;n++) if(dist.check()) total++; 
+        return total / trials;
+    }
+    
+    public static double productOfDistributions(double mean, double sDev, double dec){
+        double total = 1;
+        for(double n=1;n<=2;n++) total *= monteCarloNormalDist(mean-n*dec, sDev);
+        return total;
+    }
+    
     //@Delete after debugging
     public static void main(String... args){
         //debugging
-        System.out.println(Math.floor(-4.5));
+        //System.out.println(monteCarloNormalDist(0.5, 1.8));
+        //System.out.println(productOfDistributions(7, 2, 1));
     }
     
 }

@@ -10,7 +10,6 @@ import gui.HUD;
 import gui.Window;
 import gui.mainToolbox.HUDStrategy;
 import gui.mainToolbox.Screen;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.util.LinkedList;
 import java.util.List;
@@ -81,8 +80,8 @@ public class DefaultHUDLookAndFeel implements HUDStrategy{
         g.fill3DRect(Game.WIDTH - 70, Game.HEIGHT - 250, 70, 40, true);
         g.fill3DRect(Game.WIDTH - 70, Game.HEIGHT - 300, 70, 40, true);
         
-        g.setColor(Color.red);
-        g.fill3DRect(70, 5, (int) (Window.main.player.attributes.hp/(double)(Window.main.player.attributes.maxhp) * 200), 10, true);
+        /*g.setColor(Color.red); //Unfinished replace or remove
+        g.fill3DRect(70, 5, (int) (Window.main.player.attributes.hp/(double)(Window.main.player.attributes.maxhp) * 200), 10, true);*/
         
         int x = 29, y = 77;
         for(Buff b : hero.buffs){
