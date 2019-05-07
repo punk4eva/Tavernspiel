@@ -30,7 +30,7 @@ public abstract class StatusAbnormality implements Serializable{
     
     private final static long serialVersionUID = 20274531407L;
     
-    public final String name;
+    public String name;
     public final Description description;
     public boolean visible = true;
     public transient ImageIcon icon, smallIcon;

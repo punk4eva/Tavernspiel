@@ -130,7 +130,7 @@ public class Distribution implements Serializable{
      * @param sDev
      * @return
      */
-    public static double getGaussianA(double mean, double sDev){
+    public static double getGaussianAboveZero(double mean, double sDev){
         double ret;
         do ret = getGaussian(mean, sDev);
         while(ret<0);
@@ -293,7 +293,7 @@ public class Distribution implements Serializable{
          * @return
          */
         public double next(){
-            return Distribution.getGaussianA(mean, sDev);
+            return Distribution.getGaussianAboveZero(mean, sDev);
         }
         
         /**
@@ -304,7 +304,7 @@ public class Distribution implements Serializable{
          * @return
          */
         public double next(double m, double s){
-            return getGaussianA(mean+m, sDev*s);
+            return getGaussianAboveZero(mean+m, sDev*s);
         }
         
         /**

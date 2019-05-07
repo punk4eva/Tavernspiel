@@ -1,6 +1,8 @@
 
 package items.builders;
 
+import static buffs.Injury.HealingInjury.injuryText;
+import creatureLogic.Description;
 import java.io.Serializable;
 import logic.Distribution;
 
@@ -27,11 +29,14 @@ public abstract class DescriptionBuilder implements Serializable{
         "purple", "boysenberry", "ochre", "maroon", "lavender", 
         "lilac", "sugar brown", "coffee", "scarlet", "crimson", "salmon", 
         "metallic", "mint", "saffron", "eggplant", "firebrick", "flame", "white wine"};
+    public static final String[] redCol = {"black", "ruby", "amaranth red", "rusty", "maroon", "cherry", "scarlet", "crimson", "firy"};
     public static final String[] colorMod = {"dark ", "bright ", "clear ", "",
         "crystal clear ", "dull ", "vibrant ", "glowing ", "murderous ", "curious "};
     public static final String[] temp = {" warm", " cold", " hot", " lukewarm",
         "n ice cold", " chilly", "n icy", " bitterly cold", " torrid",
         " blazing hot"};
+    public static final String[] tempB = {"warm", "cold", "hot", "lukewarm",
+        "ice cold", "chilly", "icy", "bitterly cold", "torrid", "blazing hot"};
     public static final String[] wood = {"red mogle wood", "hurian titan wood", 
         "hurian goddess wood", "pinkheart wood", "spireling wood", 
         "spickle wood", "master mogle wood", "schmetterhaus wood", 
@@ -46,6 +51,8 @@ public abstract class DescriptionBuilder implements Serializable{
     public static final String[] stopper = {"cork", "rubber", "wooden", "glass"};
     public static final String[] texture = {"FRAGMENT_PLACEHOLDER", "FLAKE_PLACEHOLDER", "is frothy", "is bubbly", "is gelatinous",
         "is thick", "is effervescent", "is creamy"};
+    public static final String[] textureB = {"frothy", "bubbly", "gelatinous",
+        "thick", "creamy"};
     public static final String[] smellLike = {"perfume", "rotten eggs", "freshly cut grass", "burnt plastic", "ash", "a corpse", "some exotic plant",
         "some eccentric plant", "petrichor"};
     public static final String[] food = {"chocolate", "a strawberry", "an orange",
@@ -99,6 +106,39 @@ public abstract class DescriptionBuilder implements Serializable{
         int n = Distribution.R.nextInt(taste.length);
         if(n==0) return "like " + word(food);
         return smell[n];
+    }
+    
+    protected static String replace(String str){
+        for(int n=0;n<str.length()-3;n++){
+            if(str.charAt(n)=='*' && str.charAt(n+3)=='*'){
+                String rep = null;
+                switch (str.substring(n+1, n+3)){
+                    case "te": rep = word(tempB);
+                        break;
+                    case "sh": rep = word(shape);
+                        break;
+                    case "sm": rep = smellWord();
+                        break;
+                    case "tx": rep = word(textureB);
+                        break;
+                    case "cm": rep = word(colorMod);
+                        break;
+                    case "cr": rep = word(redCol);
+                        break;
+                    case "ap": rep = word(appearance);
+                        break;
+                }
+                if(rep!=null){
+                    str = str.substring(0, n) + rep + str.substring(n+4);
+                    n += rep.length()-1;
+                }
+            }
+        }
+        return str;
+    }
+    
+    public static String getInjuryDescription(String[] ary, int lvl){
+        return replace(word(ary)) + " " + injuryText(lvl);
     }
 
     protected DescriptionBuilder(){}
