@@ -10,7 +10,6 @@ import containers.PurchasableHeap;
 import creatureLogic.Attack.CreatureAttack;
 import creatureLogic.FieldOfView.LightRay;
 import creatures.Creature;
-import creatures.Hero;
 import gui.mainToolbox.Main;
 import items.Apparatus;
 import items.Item;

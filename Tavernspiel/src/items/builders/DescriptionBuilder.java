@@ -2,7 +2,6 @@
 package items.builders;
 
 import static buffs.Injury.HealingInjury.injuryText;
-import creatureLogic.Description;
 import java.io.Serializable;
 import logic.Distribution;
 
@@ -64,7 +63,7 @@ public abstract class DescriptionBuilder implements Serializable{
     public static final String[] smell = {"WOOD_PLACEHOLDER", "SLIKE_PLACEHOLDER", 
         "FOOD_PLACEHOLDER", "sweet", "aromatic", "refreshing", "pungent", "fetid",
         "unpleasant", "malodorous", "funky", "funny", "musty", "rancid", "old",
-        "fragrant", "foul", "healthy", "unhealthy", "putrid"};
+        "fragrant", "foul", "healthy", "unhealthy", "putrid", "hideous"};
     public static final String[] viscosity = {"viscous", "runny", "thick", "syrupy",
         "slimy", "gooey", "watery", "thin"};
     public static final String[] decoration = {"The container is mildly cracked.",

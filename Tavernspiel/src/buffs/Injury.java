@@ -33,6 +33,7 @@ public abstract class Injury extends StatusAbnormality{
     public int level;
     public EnBodyPart bodyPart;
     public final String baseName;
+    public String source;
     
     public final static Distribution BODY_DISTRIBUTION = new Distribution(new int[]{5,3,3,7,7,1,1});
     
@@ -222,6 +223,14 @@ public abstract class Injury extends StatusAbnormality{
      */
     public void decideLevel(double dam){
         setLevel((int)Math.floorDiv((int)dam, 3));
+    }
+    
+    /**
+     * Sets the source of the Injury.
+     * @param src
+     */
+    public void setSource(String src){
+        source = src;
     }
 
 }

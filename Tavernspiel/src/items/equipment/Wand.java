@@ -1,13 +1,15 @@
 
 package items.equipment;
 
+import blob.ParticleAnimation;
 import creatureLogic.Description;
 import creatures.Creature;
 import creatures.Hero;
 import static gui.LocationViewable.LOCATION_SELECT;
 import gui.Window;
 import gui.mainToolbox.Main;
-import gui.mainToolbox.Screen;
+import gui.mainToolbox.Screen.ScreenEvent;
+import items.builders.WandAnimationBuilder;
 import items.builders.WandBuilder;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -28,6 +30,7 @@ public class Wand extends RangedWeapon implements ScreenListener{
     private transient Hero hero;
     private final String wandPowerName;
     public transient WandPower wandPower;
+    public final ParticleAnimation shotAnimation;
     
     /**
      * Semi-initializes an instance.
@@ -41,6 +44,7 @@ public class Wand extends RangedWeapon implements ScreenListener{
         description.type = "wands";
         wandPowerName = name;
         wandPower = WandBuilder.powerMap.get(wandPowerName);
+        shotAnimation = WandAnimationBuilder.getRandWandAnimation();
     }
     
     /**
@@ -65,7 +69,7 @@ public class Wand extends RangedWeapon implements ScreenListener{
     }
 
     @Override
-    public void screenClicked(Screen.ScreenEvent sc){
+    public void screenClicked(ScreenEvent sc){
         switch(sc.getName()){
             case "backLocation":
                 fire(hero, sc.x, sc.y);

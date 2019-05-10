@@ -2,6 +2,8 @@
 package items.builders;
 
 import items.Item;
+import static items.builders.DescriptionBuilder.color;
+import static items.builders.DescriptionBuilder.word;
 import items.consumables.Potion;
 import items.consumables.Scroll;
 import items.equipment.Ring;
@@ -191,13 +193,21 @@ public final class ItemBuilder{
     }
     
     /**
+     * Generates a random color from the palette.
+     * @return
+     */
+    public static Color getRandomColor(){
+        return getColor(word(color));
+    }
+    
+    /**
      * Replaces the given regex on the given image with the given colour.
      * @param img The image.
-     * @param replace The replacement colour.
-     * @param regex The regex colour.
+     * @param replace The replacement color.
+     * @param regex The regex color.
      * @return The altered image.
      */
-    public static BufferedImage replaceColour(BufferedImage img, Color replace, Color regex){
+    public static BufferedImage replaceColor(BufferedImage img, Color replace, Color regex){
         WritableRaster raster = img.getRaster();
         int[] preplace = new int[]{replace.getRed(), replace.getGreen(), replace.getBlue()};
         int[] pregex = new int[]{regex.getRed(), regex.getGreen(), regex.getBlue()};

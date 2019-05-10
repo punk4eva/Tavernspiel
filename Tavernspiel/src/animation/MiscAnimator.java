@@ -81,7 +81,9 @@ public class MiscAnimator implements AnimationListener{
      */
     @Unfinished
     public void drawWandArc(Wand wand, int x, int y, int destx, int desty){
-        throw new UnsupportedOperationException("Not supported yet.");
+        wand.shotAnimation.setXY(x, y);
+        wand.shotAnimation.moveStopField(destx, desty);
+        addAnimation(wand.shotAnimation);
     }
 
     /**

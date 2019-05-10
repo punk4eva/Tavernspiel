@@ -18,18 +18,6 @@ import logic.Distribution;
  */
 public class ParticleAnimation extends TrackableAnimation{
     
-    @Override
-    public void animate(Graphics2D g, int _x, int _y){
-        setXY(_x+xOffset, _y+yOffset);
-        tick++;
-        if(tick>=intensity){
-            tick = 0;
-            if(loaded.size()<capacity) loaded.add(createParticle());
-        }
-        loaded.removeIf(p -> p.expired);
-        loaded.stream().forEach(p -> p.paint(g));
-    }
-    
     private final int xOffset, yOffset;
     public int intensity;
     public int capacity;
@@ -37,6 +25,7 @@ public class ParticleAnimation extends TrackableAnimation{
     private LinkedList<Particle> loaded = new LinkedList<>();
     public Particle[] particleSet;
     public Rectangle startField, stopField;
+    private long millis = -1, startTime = -1;
     
     /**
      * Creates a Particle Animation.
@@ -63,12 +52,44 @@ public class ParticleAnimation extends TrackableAnimation{
         for(Particle particle : particleSet) particle.effect = this;
     }
     
+    private boolean track(){
+        if(millis!=-1){
+            if(startTime==-1) startTime = System.currentTimeMillis();
+            else if(startTime+millis<System.currentTimeMillis()) return true;
+        }
+        return false;
+    }
+    
+    @Override
+    public void animate(Graphics2D g, int _x, int _y){
+        setXY(_x+xOffset, _y+yOffset);
+        tick++;
+        boolean tr = track();
+        if(tr) loaded.removeIf(p -> p.expired);
+        else if(tick>=intensity){
+            tick = 0;
+            if(loaded.size()<capacity) loaded.add(createParticle());
+        }
+        loaded.stream().forEach(p -> {
+            if(p.expired&&!tr) p.recycle();
+            else p.paint(g);
+        });
+    }
+    
     private Particle createParticle(){
         return particleSet[Distribution.R.nextInt(particleSet.length)].clone();
     }
     
     /**
-     * Returns a labeled HashMap of the particles in this animation.
+     * Sets the millisecond duration of this ParticleAnimation.
+     * @param m
+     */
+    public void setMillis(long m){
+        millis = m;
+    }
+    
+    /**
+     * Returns a labelled HashMap of the particles in this animation.
      * @return
      */
     public HashMap<String, Particle> getParticleMap(){
@@ -87,6 +108,15 @@ public class ParticleAnimation extends TrackableAnimation{
         int dx=x-startField.x, dy=y-startField.y;
         startField.setLocation(x, y);
         stopField.setLocation(stopField.x+dx, stopField.y+dy);
+    }
+    
+    /**
+     * Sets the x,y coordinates of the stop field only.
+     * @param x
+     * @param y
+     */
+    public void moveStopField(int x, int y){
+        stopField.setLocation(x, y);
     }
     
     /**
@@ -198,6 +228,18 @@ public class ParticleAnimation extends TrackableAnimation{
             g.fill(shape);
             if(generator!=null) generator.paint(g, x, y);
             if(Math.abs(destx-x)<6&&Math.abs(desty-y)<6) expired = true;
+        }
+        
+        private void recycle(){
+            int[] c = getStartCoords();
+            x = c[0];
+            y = c[1];
+            c = getStopCoords();
+            destx = c[0];
+            desty = c[1];
+            expired = false;
+            velx = 0;
+            vely = 0;
         }
         
         protected abstract void motor();

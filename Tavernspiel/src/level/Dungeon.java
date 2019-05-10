@@ -28,7 +28,7 @@ public class Dungeon implements Serializable{
     private final RingBuilder ringBuilder = new RingBuilder();
     
     //@Unfinished debugging
-    private static final boolean INTERIOR_TESTING = true;
+    private static final boolean INTERIOR_TESTING = false;
     
     /**
      * Creates a new instance.
