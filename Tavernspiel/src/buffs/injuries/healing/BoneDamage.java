@@ -36,11 +36,13 @@ public class BoneDamage extends HealingInjury{
 
     public BoneDamage(Description desc, double[] p, int lvl){
         super("Bone Damage", desc, p);
+        uncauterizable = true;
         level = lvl;
     }
     
     public BoneDamage(){
         super("Bone Damage");
+        uncauterizable = true;
     }
 
     @Override
@@ -67,6 +69,7 @@ public class BoneDamage extends HealingInjury{
         attLoss = getGaussianAboveZero(0.2*level, 0.2);
         spLoss = getGaussianAboveZero(0.3*level, 0.4);
         atspLoss = getGaussianAboveZero(0.2*level, 0.2);
+        healingNum = getGaussianAboveZero(5*level, 3.5);
     }
     
 }

@@ -66,6 +66,7 @@ public class PunctureWound extends HealingInjury{
         attLoss = getGaussianAboveZero(0.2*level, 0.2);
         spLoss = getGaussianAboveZero(0.2*level, 0.2);
         atspLoss = getGaussianAboveZero(0.3*level, 0.4);
+        healingNum = getGaussianAboveZero(5*level, 3.5);
     }
     
 }

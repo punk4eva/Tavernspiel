@@ -1,14 +1,13 @@
 
 package buffs;
 
-import creatureLogic.Attack;
-import creatureLogic.Attack.AttackType;
 import creatureLogic.Description;
 import creatures.Creature;
 import java.util.Iterator;
 import level.Location;
-import logic.Utils.Unfinished;
 import static logic.Distribution.R;
+import static logic.Distribution.getGaussianAboveZero;
+import logic.Utils.Unfinished;
 
 /**
  *
@@ -30,20 +29,28 @@ public final class BuffBuilder{
                 "The gas melted your insides..."};
     
     
-    @Unfinished("Redo damage")
     public static Buff fire(double duration, Location loc){
         return new Buff("fire", new Description("buffs", "You are on fire!"), duration){
+            double ev;
             @Override
-            public void start(Creature c){}
-            @Override
-            public void turn(Creature c, Iterator iter){
-                /*c.takeDamage(new Attack(
-                        (r.nextInt(4)+1)*loc.feeling.difficulty,
-                        FIRE_MESSAGES[r.nextInt(FIRE_MESSAGES.length)],
-                        AttackType.FIRE));*/
+            public void start(Creature c){
+                c.attributes.health.trauma.mean -= 0.33;
+                ev = getGaussianAboveZero(0.3, 0.4);
+                c.attributes.health.evasion.mean -= ev;
             }
             @Override
-            public void end(Creature c){}
+            public void turn(Creature c, Iterator iter){
+                if(c.area.map[c.y][c.x].name.contains("water")) iter.remove();
+                else{
+                    c.attributes.health.cauterizeCheck();
+                    c.attributes.health.addMinorTrauma(1 + 4*R.nextDouble(), name);
+                }
+            }
+            @Override
+            public void end(Creature c){
+                c.attributes.health.trauma.mean += 0.33;
+                c.attributes.health.evasion.mean += ev;
+            }
         };
     }
     
@@ -108,6 +115,7 @@ public final class BuffBuilder{
         };
     }*/
     
+    @Unfinished("Too close to PD")
     public static Buff shadowmelded(){
         return new Buff("shadowmelded", new Description("buffs", "You are "
                 + "shrouded in a cleansing mist of dew")){

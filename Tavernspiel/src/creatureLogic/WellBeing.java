@@ -18,6 +18,7 @@ package creatureLogic;
 
 import buffs.Injury;
 import buffs.Injury.*;
+import buffs.injuries.healing.Incapacitation;
 import creatureLogic.Attack.CreatureAttack;
 import creatures.Creature;
 import java.io.Serializable;
@@ -25,6 +26,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import logic.Distribution.NormalProb;
+import static logic.Distribution.R;
 import logic.Utils.Unfinished;
 
 /**
@@ -125,6 +127,25 @@ public class WellBeing implements Serializable{
             }
         }
     }
+    
+    /**
+     * Checks all injuries to be cauterized.
+     */
+    public void cauterizeCheck(){
+        injuries.healing.stream().filter((inj) -> (R.nextDouble()<0.25)).forEach((inj) -> {
+            inj.cauterize(this);
+        });
+    }
+    
+    /**
+     * Checks if the minor trauma limit is above the trauma cap.
+     * @param tr
+     * @param cause
+     */
+    public void addMinorTrauma(double tr, String cause){
+        injuries.minorTrauma += tr;
+        injuries.checkMinorTrauma(cause);
+    }
 
     /**
      * This class manages all Injuries that the Creature has sustained.
@@ -133,7 +154,8 @@ public class WellBeing implements Serializable{
 
         private static final long serialVersionUID = 56734892217432L;
         
-        public double minorTrauma = 0; //Capped at 35
+        public double minorTraumaLimit = 35;
+        private double minorTrauma = 0;
         public final List<PermanentInjury> permanent = new LinkedList<>();
         public final List<HealingInjury> healing = new LinkedList<>();
         
@@ -238,6 +260,13 @@ public class WellBeing implements Serializable{
         public boolean checkHealingValidity(HealingInjury inj){
             return !permanent.stream().anyMatch(i -> i.bodyPart.equals(inj.bodyPart)
                     && ((PermanentInjury)i).injuryVito);
+        }
+        
+        private void checkMinorTrauma(String cause){
+            if(minorTrauma>minorTraumaLimit){
+                minorTrauma = minorTraumaLimit * 0.5;
+                addInjury(new Incapacitation(minorTraumaLimit, cause));
+            }
         }
         
     }

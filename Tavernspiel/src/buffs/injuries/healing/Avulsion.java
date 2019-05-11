@@ -30,7 +30,7 @@ public class Avulsion extends HealingInjury{
     private static final String[] SHALLOW_DESC = {"The skin here has been torn off, and *sh* pieces of it still hang around the edges. The wound feels *te* and smells *sm*.",
             "The skin is bleeding a *tx* *cm**cr* blood and it looks *ap*."};
     private static final String[] SIGNIFICANT_DESC = {"The skin and some flesh in this region is gone, and blood is flowing slowly from the wound. It smells *sm*, which is sure to attract many flies."};
-    private static final String[] SEVERE_DESC = {"The skin and flesh has been completely ripped off down to the *ap* bpne."};
+    private static final String[] SEVERE_DESC = {"The skin and flesh has been completely ripped off down to the *ap* bone."};
 
     public Avulsion(Description desc, double[] p, int lvl){
         super("Avulsion", desc, p);
@@ -65,6 +65,7 @@ public class Avulsion extends HealingInjury{
         attLoss = getGaussianAboveZero(0.3*level, 0.4);
         spLoss = getGaussianAboveZero(0.2*level, 0.2);
         atspLoss = getGaussianAboveZero(0.2*level, 0.2);
+        healingNum = getGaussianAboveZero(5*level, 3.5);
     }
 
 }

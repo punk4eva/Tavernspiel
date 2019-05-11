@@ -1,6 +1,5 @@
 Item spritesheet work
 Fix area generation bug
 Complete layering system
-Add wand particles
 Add fire spreading
 Add more creature ideas

@@ -1,6 +1,7 @@
 
 package items.builders;
 
+import buffs.Injury;
 import static buffs.Injury.HealingInjury.injuryText;
 import java.io.Serializable;
 import logic.Distribution;
@@ -75,6 +76,10 @@ public abstract class DescriptionBuilder implements Serializable{
 
     public static String word(String[] ary){
         return ary[Distribution.R.nextInt(ary.length)];
+    }
+    
+    public static String bodyPartWord(){
+        return Injury.getRandomBodyPart().agnomen;
     }
 
     protected static String[] textureWord(){

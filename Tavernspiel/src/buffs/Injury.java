@@ -20,6 +20,7 @@ import static buffs.Injury.EnBodyPart.*;
 import creatureLogic.Description;
 import creatureLogic.WellBeing;
 import logic.Distribution;
+import static logic.Distribution.R;
 
 /**
  *
@@ -110,6 +111,8 @@ public abstract class Injury extends StatusAbnormality{
     public abstract static class HealingInjury extends Injury{
         
         public double healingNum;
+        private boolean cauterized = false;
+        protected boolean uncauterizable = false;
         
         public HealingInjury(String n, Description desc, double[] p){
             super(n, desc, p);
@@ -119,6 +122,10 @@ public abstract class Injury extends StatusAbnormality{
             super(n, new Description("Injury", ""));
         }
         
+        /**
+         * Downgrades this Injury the lower level.
+         * @return
+         */
         public abstract HealingInjury downgradeInjury();
         
         /**
@@ -143,7 +150,21 @@ public abstract class Injury extends StatusAbnormality{
             switch(level){
                 case 1: return "Although this injury is not as serious as could be, it is not to be taken lightly.";
                 case 2: return "This injury is not life-threatening yet, but it could be if combined with other injuries.";
-                default: return "A serious, life-threatening injury such as this one should be dealt with as soon as possible.";
+                default: return "A serious, life-threatening condition such as this one should be dealt with as soon as possible.";
+            }
+        }
+
+        /**
+         * Cauterizes this Injury.
+         * @param w The WellBeing belonging to this Injury.
+         */
+        public void cauterize(WellBeing w){
+            if(!cauterized&&!uncauterizable){
+                cauterized = true;
+                healingNum *= (0.65+0.2*R.nextDouble());
+                double t = traumaLevel;
+                traumaLevel *= (0.4 + 0.4*R.nextDouble());
+                w.trauma.mean += traumaLevel - t;
             }
         }
         
@@ -174,6 +195,7 @@ public abstract class Injury extends StatusAbnormality{
         w.attack.mean -= attLoss;
         w.trauma.mean -= traumaLevel;
         w.walkSpeed += spLoss;
+        w.attackSpeed += atspLoss;
         w.checkTrauma();
         addAction(w);
     }
@@ -188,6 +210,7 @@ public abstract class Injury extends StatusAbnormality{
         w.attack.mean += attLoss;
         w.walkSpeed -= spLoss;
         w.trauma.mean += traumaLevel;
+        w.attackSpeed -= atspLoss;
         removeAction(w);
     }
     
