@@ -94,8 +94,25 @@ public final class BuffBuilder{
         throw new UnsupportedOperationException("Not supported yet.");
     }
     
-    public static Buff slowness(double duration){
-        throw new UnsupportedOperationException("Not supported yet.");
+    public static Buff slowness(double spLoss, double duration){
+        return new Buff("slowness", new Description("buffs", "Your muscles are slow to respond!"), duration){
+            @Override
+            public void start(Creature c){
+                c.attributes.health.walkSpeed += spLoss;
+                c.attributes.health.miscSpeed += spLoss;
+                c.attributes.health.attackSpeed += spLoss;
+                c.attributes.health.regen += 0.05;
+            }
+            @Override
+            public void turn(Creature c, Iterator iter){}
+            @Override
+            public void end(Creature c){
+                c.attributes.health.walkSpeed -= spLoss;
+                c.attributes.health.miscSpeed -= spLoss;
+                c.attributes.health.attackSpeed -= spLoss;
+                c.attributes.health.regen -= 0.05;
+            }
+        };
     }
     
     /*public static Buff beserk(){
@@ -147,38 +164,49 @@ public final class BuffBuilder{
         };
     }
     
-    @Unfinished("Redo damage")
     public static Buff bleeding(double damage){
         return new Buff("bleeding", new Description("buffs", "You are losing blood.")){
-            double currentDamage = damage;
+            double currentDamage = damage, att;
             @Override
-            public void start(Creature c){}
-            @Override
-            public void turn(Creature c, Iterator iter){
-                /*c.takeDamage(new Attack(currentDamage, 
-                        BLEEDING_MESSAGES[r.nextInt(BLEEDING_MESSAGES.length)], 
-                        AttackType.BLEEDING));
-                currentDamage *= r.nextDouble();
-                if(currentDamage<1) iter.remove();*/
+            public void start(Creature c){
+                c.attributes.health.trauma.mean -= 0.2;
+                att = getGaussianAboveZero(0.3, 0.4);
+                c.attributes.health.attack.mean -= att;
             }
             @Override
-            public void end(Creature c){}
+            public void turn(Creature c, Iterator iter){
+                c.buffs.forEach(p -> {
+                    if(p.name.contains("poison")) p.duration--;
+                });
+                c.attributes.health.addMinorTrauma(currentDamage, name);
+                currentDamage *= R.nextDouble();
+                if(currentDamage<1) iter.remove();
+            }
+            @Override
+            public void end(Creature c){
+                c.attributes.health.trauma.mean += 0.2;
+                c.attributes.health.attack.mean += att;
+            }
         };
     }
     
     public static Buff blindness(double duration){
-        return new Buff("blind", new Description("buffs", "You can't see!"), duration){
+        return new Buff("blindness", new Description("buffs", "You can't see!"), duration){
             int v;
+            double acc;
             @Override
             public void start(Creature c){
                 v = c.FOV.range;
                 c.FOV.range = 1;
+                acc = getGaussianAboveZero(0.3, 0.4);
+                c.attributes.health.attack.mean -= acc;
             }
             @Override
             public void turn(Creature c, Iterator iter){}
             @Override
             public void end(Creature c){
                 c.FOV.range = v;
+                c.attributes.health.attack.mean += acc;
             }
         };
     }
@@ -193,48 +221,52 @@ public final class BuffBuilder{
             public void turn(Creature c, Iterator iter){}
             @Override
             public void end(Creature c){
-                c.attributes.ai.restrained = true;
+                c.attributes.ai.restrained = false;
             }
         };
     }
     
-    @Unfinished("Redo damage")
     public static Buff poison(double _damage){
-        return new Buff("poison", new Description("buffs", "You feel very ill.")){
-            double damage = _damage;
-            int turns = 2;
+        return new Buff("poison", new Description("buffs", "You feel very ill."), _damage){
+            double atsp;
             @Override
-            public void start(Creature c){}
+            public void start(Creature c){
+                c.attributes.health.trauma.mean -= 0.4;
+                atsp = getGaussianAboveZero(0.1, 0.05);
+                c.attributes.health.attackSpeed -= atsp;
+                c.attributes.health.injurySavingThrow.mean += 1;
+            }
             @Override
             public void turn(Creature c, Iterator iter){
-                /*c.takeDamage(new Attack(damage, 
-                        POISON_MESSAGES[r.nextInt(POISON_MESSAGES.length)], 
-                        AttackType.POISON));
-                if(turns==0){
-                    turns = 2;
-                    damage--;
-                }else turns--;
-                if(damage==0) iter.remove();*/
+                c.attributes.health.addMinorTrauma(duration/3, name);
             }
             @Override
-            public void end(Creature c){}
+            public void end(Creature c){
+                c.attributes.health.trauma.mean += 0.4;
+                c.attributes.health.attackSpeed += atsp;
+                c.attributes.health.injurySavingThrow.mean -= 1;
+            }
         };
     }
     
-    @Unfinished("Redo damage")
     public static Buff toxicGas(Location loc){
         return new Buff("toxic gas", new Description("buffs", "You are choking!")){
+            double sp;
             @Override
-            public void start(Creature c){}
-            @Override
-            public void turn(Creature c, Iterator iter){
-                /*c.takeDamage(new Attack(
-                        (r.nextInt(4)+1)*loc.feeling.difficulty,
-                        TOXICGAS_MESSAGES[r.nextInt(TOXICGAS_MESSAGES.length)],
-                        AttackType.POISON));*/
+            public void start(Creature c){
+                c.attributes.health.trauma.mean -= 0.3;
+                sp = getGaussianAboveZero(0.1, 0.05);
+                c.attributes.health.walkSpeed -= sp;
             }
             @Override
-            public void end(Creature c){}
+            public void turn(Creature c, Iterator iter){
+                c.attributes.health.addMinorTrauma((R.nextDouble()*3+1)*loc.feeling.difficulty, name);
+            }
+            @Override
+            public void end(Creature c){
+                c.attributes.health.trauma.mean += 0.3;
+                c.attributes.health.walkSpeed += sp;
+            }
         };
     }
     

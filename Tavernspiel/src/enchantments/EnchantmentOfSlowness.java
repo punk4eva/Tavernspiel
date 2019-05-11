@@ -49,7 +49,7 @@ public final class EnchantmentOfSlowness extends WeaponEnchantment{
     @Override
     public void onHit(Creature victim, Attack attack){
         if(shouldActivate()){
-            victim.addBuff(BuffBuilder.slowness(27*level*level+3));
+            victim.addBuff(BuffBuilder.slowness(2.5*level, 27*level*level+3));
         }
     }
     

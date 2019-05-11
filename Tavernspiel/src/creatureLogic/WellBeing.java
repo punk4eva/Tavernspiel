@@ -119,7 +119,7 @@ public class WellBeing implements Serializable{
     public void hit(CreatureAttack atk, Creature owner){
         double dam = atk.damage.next() - owner.inventory.equipment.getDefense(atk.injury.bodyPart).next();
         if(dam>0){
-            injuries.minorTrauma += dam;
+            addMinorTrauma(dam, atk.name);
             dam -= injurySavingThrow.next();
             if(dam>0){
                 atk.injury.decideLevel(dam);

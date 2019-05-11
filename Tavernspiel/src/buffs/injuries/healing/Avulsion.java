@@ -63,8 +63,8 @@ public class Avulsion extends HealingInjury{
         evLoss = getGaussianAboveZero(0.2*level, 0.2);
         accLoss = getGaussianAboveZero(0.2*level, 0.2);
         attLoss = getGaussianAboveZero(0.3*level, 0.4);
-        spLoss = getGaussianAboveZero(0.2*level, 0.2);
-        atspLoss = getGaussianAboveZero(0.2*level, 0.2);
+        spLoss = getGaussianAboveZero(0.03*level, 0.02);
+        atspLoss = getGaussianAboveZero(0.03*level, 0.02);
         healingNum = getGaussianAboveZero(5*level, 3.5);
     }
 

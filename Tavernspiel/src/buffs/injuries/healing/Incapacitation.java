@@ -38,8 +38,8 @@ public class Incapacitation extends HealingInjury{
         evLoss = getGaussianAboveZero(0.25, 0.3);
         accLoss = getGaussianAboveZero(0.25, 0.3);
         attLoss = getGaussianAboveZero(0.25, 0.3);
-        spLoss = getGaussianAboveZero(0.25, 0.3);
-        atspLoss = getGaussianAboveZero(0.25, 0.3);
+        spLoss = getGaussianAboveZero(0.05, 0.03);
+        atspLoss = getGaussianAboveZero(0.05, 0.03);
         uncauterizable = true;
         switch(name){
             case "fire": evLoss += 0.2;
@@ -47,10 +47,17 @@ public class Incapacitation extends HealingInjury{
                         + DescriptionBuilder.bodyPartWord() + ", making your joints worse and reducing your evasion. "
                         + "You are plagued by a persistent smoke-cough from the fire.";
                 break;
-            case "poison": atspLoss += 0.2;
+            case "poison": atspLoss += 0.05;
                 description.layers[0] += "The remenants of the poison have made your muscles sluggish.";
                 break;
-            
+            case "bleeding": attLoss += 0.15;
+                description.layers[0] += "The wounds are worryingly close to major blood vessels from "
+                        + "which you have once bled profusely, and the loss of blood has left you faint."; 
+                break;
+            case "toxic gas": spLoss += 0.08;
+                description.layers[0] += "Your lungs are heavily damaged from toxic gas, making you struggle "
+                        + "with every inhale and wheeze with every exhale.";
+                break;
         }
     }
 
