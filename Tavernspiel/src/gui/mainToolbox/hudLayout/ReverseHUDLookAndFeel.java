@@ -34,22 +34,7 @@ public class ReverseHUDLookAndFeel implements HUDStrategy{
     public ReverseHUDLookAndFeel(HUD hud){
         quickslot = hud.quickslot;
         hero = quickslot.hero;
-        screens.add(new Screen("Player",5,5,60,60,hud));
-        screens.add(new Screen("Search",5, Game.HEIGHT - 73, 40, 40,hud));
-        screens.add(new Screen("Wait",50, Game.HEIGHT - 73, 40, 40,hud));
-        screens.add(new Screen("Inventory",95, Game.HEIGHT - 73, 40, 40,hud));
-        screens.add(new Screen("QuickAttack",0, Game.HEIGHT - 250, 70, 40,hud));
-        screens.add(new Screen("QuickPickup",0, Game.HEIGHT - 300, 70, 40,hud));
-        
-        for(int i = 0; i < quickslot.length(); i++) 
-            screens.add(new Screen("QuickSlot:" + i, Game.WIDTH/2 - i * 45, Game.HEIGHT - 73, 40, 40, quickslot));
-        
-        int x = 29, y = 77;
-        for(Buff b : hero.buffs){
-            screens.add(new Screen("buff: " + b.name, x, y, 12, 12, hud));
-            y += 16;
-        }
-        
+        resetBuffScreens(hud);
     }
     
     @Override
@@ -62,7 +47,7 @@ public class ReverseHUDLookAndFeel implements HUDStrategy{
         g.setColor(ConstantFields.backColor);
         g.fillRect(5, 5, 60, 60);
         g.drawImage(((CreatureAnimator)Window.main.player.animator).active.getCurrentIcon().getImage().getScaledInstance(60, 60, 0),5,2,null);
-        g.fillRect(70,5,200,10);
+        //g.fillRect(70,5,200,10); Unfinished replace or remove
         
         for(int i = 0; i < quickslot.length(); i++){
             g.fill3DRect(Game.WIDTH/2 - i * 45, Game.HEIGHT - 73, 40, 40, true);
@@ -82,12 +67,33 @@ public class ReverseHUDLookAndFeel implements HUDStrategy{
         g.fill3DRect(0, Game.HEIGHT - 250, 70, 40, true);
         g.fill3DRect(0, Game.HEIGHT - 300, 70, 40, true);
         
-        /*g.setColor(Color.red); //Unfinished replace or remove
+        /*g.setColor(Color.red); Unfinished replace or remove
         g.fill3DRect(70, 5, (int) (Window.main.player.attributes.hp/(double)(Window.main.player.attributes.maxhp) * 200), 10, true);*/
         
         int x = 29, y = 77;
         for(Buff b : hero.buffs){
             g.drawImage(b.smallIcon.getImage(), x, y, null);
+            x += 16;
+        }
+    }
+
+    @Override
+    public final void resetBuffScreens(HUD hud){
+        screens.clear();
+        
+        screens.add(new Screen("Player",5,5,60,60,hud));
+        screens.add(new Screen("Search",5, Game.HEIGHT - 73, 40, 40,hud));
+        screens.add(new Screen("Wait",50, Game.HEIGHT - 73, 40, 40,hud));
+        screens.add(new Screen("Inventory",95, Game.HEIGHT - 73, 40, 40,hud));
+        screens.add(new Screen("QuickAttack",0, Game.HEIGHT - 250, 70, 40,hud));
+        screens.add(new Screen("QuickPickup",0, Game.HEIGHT - 300, 70, 40,hud));
+        
+        for(int i = 0; i < quickslot.length(); i++) 
+            screens.add(new Screen("QuickSlot:" + i, Game.WIDTH/2 - i * 45, Game.HEIGHT - 73, 40, 40, quickslot));
+        
+        int x = 29, y = 77;
+        for(Buff b : hero.buffs){
+            screens.add(new Screen("buff: " + b.name, x, y, 12, 12, hud));
             x += 16;
         }
     }

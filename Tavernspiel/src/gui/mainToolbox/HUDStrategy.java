@@ -1,6 +1,7 @@
 
 package gui.mainToolbox;
 
+import gui.HUD;
 import java.awt.Graphics;
 import java.util.List;
 
@@ -13,4 +14,5 @@ import java.util.List;
 public interface HUDStrategy{
     public List<Screen> getScreens();
     public void paint(Graphics g);
+    public void resetBuffScreens(HUD hud);
 }

@@ -297,7 +297,7 @@ public abstract class Main extends Canvas implements Runnable, Page{
     /**
      * Resets the active Screens of the GUI.
      */
-    protected final void resetGUIScreens(){
+    public final void resetGUIScreens(){
         gui.resetScreens();
     }
     

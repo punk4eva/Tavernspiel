@@ -235,6 +235,7 @@ public final class BuffBuilder{
                 atsp = getGaussianAboveZero(0.1, 0.05);
                 c.attributes.health.attackSpeed -= atsp;
                 c.attributes.health.injurySavingThrow.mean += 1;
+                System.out.println("start");
             }
             @Override
             public void turn(Creature c, Iterator iter){
@@ -245,6 +246,7 @@ public final class BuffBuilder{
                 c.attributes.health.trauma.mean += 0.4;
                 c.attributes.health.attackSpeed += atsp;
                 c.attributes.health.injurySavingThrow.mean -= 1;
+                System.out.println("end: " + c.attributes.health.injurySavingThrow.mean);
             }
         };
     }

@@ -44,6 +44,13 @@ public class HUD implements Viewable, ScreenListener{
     public List<Screen> getScreens(){
         return strategy.getScreens();
     }
+    
+    /**
+     * Resets the screens of the HUD when a Buff is reset. 
+     */
+    public void resetBuffScreens(){
+        strategy.resetBuffScreens(this);
+    }
 
     @Override
     public void paint(Graphics g){
@@ -52,17 +59,19 @@ public class HUD implements Viewable, ScreenListener{
 
     @Override
     public void screenClicked(ScreenEvent screen){
-        LOCATION_SELECT.setData((sc) -> {
-            Window.main.removeViewable();
-            new TileDescriptionDialogue(quickslot.hero.area.map[sc.y][sc.x], quickslot.hero).next();
-        }, "Investigate", null);
         switch(screen.getName()){
             case "Inventory": 
                 Window.main.toggleInventory();
                 return;
             case "Wait": Window.main.player.attributes.ai.paralyze(1.0);
                 return;
-            case "Search": Window.main.setViewable(LOCATION_SELECT);
+            case "Search":
+                LOCATION_SELECT.setData((sc) -> {
+                    if(quickslot.hero.area.map[sc.y][sc.x]==null) return;
+                    Window.main.removeViewable();
+                    new TileDescriptionDialogue(quickslot.hero.area.map[sc.y][sc.x], quickslot.hero).next();
+                }, "Investigate", null);
+                Window.main.setViewable(LOCATION_SELECT);
                 return;
         }
         if(screen.getName().startsWith("buff: "))

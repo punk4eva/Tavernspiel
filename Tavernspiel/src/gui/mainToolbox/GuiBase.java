@@ -64,6 +64,7 @@ public class GuiBase{
      * Updates the list of active screens.
      */
     protected void resetScreens(){
+        hud.resetBuffScreens();
         if(viewable!=null) screens = viewable.getScreens();
         else if(dialogue!=null) screens = dialogue.getScreens();
         else if(viewingInventory) screens = hero.getInventoryScreens();

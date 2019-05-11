@@ -23,7 +23,7 @@ public class BuffTrap extends Trap{
     @Override
     public void steppedOn(Creature c){
         if(used) return;
-        c.buffs.add(buff);
+        c.addBuff(buff);
         if(!reusable){
             used = true;
             image = c.area.location.getImage("offtrap");

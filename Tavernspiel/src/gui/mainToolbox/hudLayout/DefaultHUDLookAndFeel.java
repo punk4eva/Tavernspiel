@@ -31,6 +31,13 @@ public class DefaultHUDLookAndFeel implements HUDStrategy{
     public DefaultHUDLookAndFeel(HUD hud){
         quickslot = hud.quickslot;
         hero = quickslot.hero;
+        resetBuffScreens(hud);
+    }
+    
+    @Override
+    public final void resetBuffScreens(HUD hud){
+        screens.clear();
+        
         screens.add(new Screen("Player",5,5,60,60,hud));
         screens.add(new Screen("Search",Game.WIDTH - 50, Game.HEIGHT - 73, 40, 40,hud));
         screens.add(new Screen("Wait",Game.WIDTH - 95, Game.HEIGHT - 73, 40, 40,hud));
@@ -44,9 +51,8 @@ public class DefaultHUDLookAndFeel implements HUDStrategy{
         int x = 29, y = 77;
         for(Buff b : hero.buffs){
             screens.add(new Screen("buff: " + b.name, x, y, 12, 12, hud));
-            y += 16;
+            x += 16;
         }
-        
     }
 
     @Override
@@ -59,7 +65,7 @@ public class DefaultHUDLookAndFeel implements HUDStrategy{
         g.setColor(ConstantFields.backColor);
         g.fillRect(5, 5, 60, 60);
         g.drawImage(((CreatureAnimator)Window.main.player.animator).active.getCurrentIcon().getImage().getScaledInstance(60, 60, 0),5,2,null);
-        g.fillRect(70,5,200,10);
+        //g.fillRect(70,5,200,10); Unfinished replace or remove
         
         for(int i = 0; i < quickslot.length(); i++){
             try{
@@ -72,7 +78,7 @@ public class DefaultHUDLookAndFeel implements HUDStrategy{
         g.fill3DRect(Game.WIDTH - 50, Game.HEIGHT - 73, 40, 40, true);
         g.drawImage(ConstantFields.eyeButtonImg, Game.WIDTH - 50, Game.HEIGHT - 70, null);
         g.fill3DRect(Game.WIDTH - 95, Game.HEIGHT - 73, 40, 40, true);
-        g.drawImage(ConstantFields.waitButtonImg,Game.WIDTH - 95, Game.HEIGHT - 74,null);
+        g.drawImage(ConstantFields.waitButtonImg,Game.WIDTH - 95, Game.HEIGHT - 74, null);
         g.fill3DRect(Game.WIDTH - 140, Game.HEIGHT - 73, 40, 40, true);
         g.drawImage(ConstantFields.inventoryButtonImage,Game.WIDTH - 140, Game.HEIGHT - 73, 40, 40,null);
         

@@ -102,7 +102,6 @@ public abstract class Buff extends StatusAbnormality{
     /**
      * What the Buff does at the end.
      * @param c The victim
-     * @param iter The iterator of buffs.
      */
     public abstract void end(Creature c);
     

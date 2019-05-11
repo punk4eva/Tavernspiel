@@ -72,6 +72,7 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
         switch(sc.getName()){
             case "backLocation":
                 if(hero==null||area==null) new RuntimeException("hero/area uninitialized in LocationSpecificScroll.screenClicked()!").printStackTrace(Main.exceptionStream);
+                if(area.map[sc.y][sc.x]==null) return;
                 used = use(hero, sc.x, sc.y);
             case "locationPopupX":
                 Window.main.removeViewable();

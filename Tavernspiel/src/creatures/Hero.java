@@ -101,6 +101,13 @@ public class Hero extends Creature{
         }
     }*/
     
+    @Override
+    public void turn(double delta){
+        int buffNum = buffs.size();
+        super.turn(delta);
+        if(buffNum!=buffs.size()) Window.main.resetGUIScreens();
+    }
+    
     /**
      * Killed by a Creature.
      * @param attack The killer attack.

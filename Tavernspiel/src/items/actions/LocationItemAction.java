@@ -55,7 +55,7 @@ public abstract class LocationItemAction extends ItemAction{
                     case "backLocation": 
                         act(i, c, sc.x, sc.y, slot, data);
                     case "locationPopupX": Window.main.removeViewable();
-                    break;
+                        break;
                 }
             }, locationMessage, c, predicate);
             Window.main.setViewable(LOCATION_SELECT);

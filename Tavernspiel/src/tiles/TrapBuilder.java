@@ -72,41 +72,41 @@ public class TrapBuilder{
     
     @Unfinished("Placeholder")
     private static Trap greenTrap(Location loc){
-        return new BuffTrap("greentrap", loc, BuffBuilder.poison(loc.depth));
+        return new BuffTrap("greentrap", loc, BuffBuilder.poison(3+loc.depth*0.5));
     }
 
     @Unfinished("Placeholder")
     private static Trap orangeTrap(Location loc){
-        return new BuffTrap("orangetrap", loc, BuffBuilder.poison(loc.depth));
+        return new BuffTrap("orangetrap", loc, BuffBuilder.poison(3+loc.depth*0.5));
     }
 
     @Unfinished("Placeholder")
     private static Trap yellowTrap(Location loc){
-        return new BuffTrap("yellowtrap", loc, BuffBuilder.poison(loc.depth));
+        return new BuffTrap("yellowtrap", loc, BuffBuilder.poison(3+loc.depth*0.5));
     }
 
     private static Trap purpleTrap(Location loc){
-        return new BuffTrap("purpletrap", loc, BuffBuilder.poison(loc.depth));
+        return new BuffTrap("purpletrap", loc, BuffBuilder.poison(3+loc.depth*0.5));
     }
 
     @Unfinished("Placeholder")
     private static Trap redTrap(Location loc){
-        return new BuffTrap("redtrap", loc, BuffBuilder.poison(loc.depth));
+        return new BuffTrap("redtrap", loc, BuffBuilder.poison(3+loc.depth*0.5));
     }
 
     @Unfinished("Placeholder")
     private static Trap blueTrap(Location loc){
-        return new BuffTrap("bluetrap", loc, BuffBuilder.poison(loc.depth));
+        return new BuffTrap("bluetrap", loc, BuffBuilder.poison(3+loc.depth*0.5));
     }
 
     @Unfinished("Placeholder")
     private static Trap bearTrap(Location loc){
-        return new BuffTrap("beartrap", loc, BuffBuilder.poison(loc.depth));
+        return new BuffTrap("beartrap", loc, BuffBuilder.poison(3+loc.depth*0.5));
     }
 
     @Unfinished("Placeholder")
     private static Trap silverTrap(Location loc){
-        return new BuffTrap("silvertrap", loc, BuffBuilder.poison(loc.depth));
+        return new BuffTrap("silvertrap", loc, BuffBuilder.poison(3+loc.depth*0.5));
     }
     
 }
