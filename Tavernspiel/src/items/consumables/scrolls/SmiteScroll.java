@@ -3,7 +3,7 @@ package items.consumables.scrolls;
 
 import creatures.Creature;
 import items.consumables.LocationSpecificScroll;
-import items.consumables.ScrollProfile;
+import items.builders.ScrollBuilder.ScrollRecord;
 
 /**
  *
@@ -11,7 +11,7 @@ import items.consumables.ScrollProfile;
  */
 public class SmiteScroll extends LocationSpecificScroll{
 
-    public SmiteScroll(ScrollProfile sp){
+    public SmiteScroll(ScrollRecord sp){
         super("Scroll of Smite", "Even the most mute of wizards can bring about magical destruction with this battle scroll.", sp);
     }
 

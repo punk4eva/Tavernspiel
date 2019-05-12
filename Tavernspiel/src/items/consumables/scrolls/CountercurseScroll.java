@@ -3,8 +3,8 @@ package items.consumables.scrolls;
 
 import creatures.Creature;
 import items.Item;
+import items.builders.ScrollBuilder.ScrollRecord;
 import items.consumables.ItemSpecificScroll;
-import items.consumables.ScrollProfile;
 
 /**
  *
@@ -12,7 +12,7 @@ import items.consumables.ScrollProfile;
  */
 public class CountercurseScroll extends ItemSpecificScroll{
 
-    public CountercurseScroll(ScrollProfile sp){
+    public CountercurseScroll(ScrollRecord sp){
         super("Scroll of Countercurse", "The strong unbinding magic stored in this parchment can dispell malevolant effects and cleanse all except the most powerfull curses on items or creatures.", sp);
     }
 

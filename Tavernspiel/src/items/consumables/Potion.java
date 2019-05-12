@@ -1,10 +1,12 @@
 
 package items.consumables;
 
+import creatureLogic.Description;
 import creatures.Creature;
 import gui.mainToolbox.Main;
 import items.Consumable;
 import items.actions.ItemAction;
+import items.builders.DescriptionBuilder;
 import items.builders.PotionBuilder;
 import logic.ConstantFields;
 
@@ -27,11 +29,14 @@ public abstract class Potion extends Consumable{
     /**
      * Creates a new instance.
      * @param n The name.
+     * @param desc The description of what the potion does.
      * @param pp The PotionProfile.
      * @param t The type of Potion.
      */
-    public Potion(String n, PotionProfile pp, Type t){
-        super(n, pp.unknownName, pp.description, pp.loader, PotionBuilder.idMap.get(n));
+    public Potion(String n, String desc, PotionProfile pp, Type t){
+        super(n, pp.unknownName, pp.description, new Description("potions", pp.description + "\n" + DescriptionBuilder.getPotionExtra()), 
+                pp.loader, PotionBuilder.idMap.get(n));
+        description.layers[0] += "\n" + desc;
         actions[2] = ItemAction.DRINK;
         tasteMessage = pp.tasteMessage;
         type = t;

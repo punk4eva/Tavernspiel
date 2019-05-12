@@ -2,8 +2,8 @@
 package items.consumables.scrolls;
 
 import creatures.Creature;
+import items.builders.ScrollBuilder.ScrollRecord;
 import items.consumables.Scroll;
-import items.consumables.ScrollProfile;
 
 /**
  *
@@ -11,7 +11,7 @@ import items.consumables.ScrollProfile;
  */
 public class CurseScroll extends Scroll{
 
-    public CurseScroll(ScrollProfile sp){
+    public CurseScroll(ScrollRecord sp){
         super("Scroll of Curse", "When activated, this scroll unleashes a wave of malevolent magic that curses items and creatures alike.", sp);
     }
 

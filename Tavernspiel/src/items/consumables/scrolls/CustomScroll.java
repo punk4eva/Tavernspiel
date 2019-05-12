@@ -4,12 +4,10 @@ package items.consumables.scrolls;
 import animation.LoadableStillAnimation;
 import creatures.Creature;
 import gui.mainToolbox.Main;
+import items.builders.ScrollBuilder;
 import items.consumables.LocationSpecificScroll;
-import items.consumables.ScrollProfile;
+import items.builders.ScrollBuilder.ScrollRecord;
 import items.equipment.Wand;
-import java.io.Serializable;
-import java.util.function.Supplier;
-import javax.swing.ImageIcon;
 import logic.ConstantFields;
 
 /**
@@ -20,7 +18,7 @@ public class CustomScroll extends LocationSpecificScroll{
     
     private Wand mimic; 
 
-    public CustomScroll(ScrollProfile sp){
+    public CustomScroll(ScrollRecord sp){
         super("Custom Scroll", "This Scroll can gather magic from areas of high concentration and store it within itself.", sp);
     }
 
@@ -35,7 +33,7 @@ public class CustomScroll extends LocationSpecificScroll{
     
     public void absorb(Wand wand){
         mimic = wand;
-        animation = new LoadableStillAnimation(ScrollProfile.getSmudgeIconSupplier());
+        animation = new LoadableStillAnimation(ScrollBuilder.getSmudgeIconSupplier());
         Main.addMessage(ConstantFields.interestColor, "Your scroll has absorbed some magic.");
     }
     

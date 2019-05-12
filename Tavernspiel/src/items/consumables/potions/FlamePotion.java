@@ -12,7 +12,7 @@ import items.consumables.PotionProfile;
 public class FlamePotion extends Potion{
 
     public FlamePotion(PotionProfile pp){
-        super("Flame Potion", pp, Type.VOLATILE);
+        super("Flame Potion", "This is a flame potion", pp, Type.VOLATILE);
     }
 
     @Override

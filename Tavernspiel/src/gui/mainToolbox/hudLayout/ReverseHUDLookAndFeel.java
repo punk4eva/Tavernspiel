@@ -52,7 +52,7 @@ public class ReverseHUDLookAndFeel implements HUDStrategy{
         for(int i = 0; i < quickslot.length(); i++){
             g.fill3DRect(Game.WIDTH/2 - i * 45, Game.HEIGHT - 73, 40, 40, true);
             try{
-                ImageUtils.paintItemSquare(g, Game.WIDTH/2 - i * 45, Game.HEIGHT - 73, 40, 40, quickslot.getItem(i), Window.main.player, ConstantFields.truthPredicate);
+                ImageUtils.paintItemSquare(g, Game.WIDTH/2 - i * 45, Game.HEIGHT - 73, 40, 40, quickslot.getItem(i), ConstantFields.truthPredicate);
             }catch(NullPointerException e){}
         }
         

@@ -3,7 +3,7 @@ package items.consumables.scrolls;
 
 import creatures.Creature;
 import items.consumables.Scroll;
-import items.consumables.ScrollProfile;
+import items.builders.ScrollBuilder.ScrollRecord;
 
 /**
  *
@@ -11,7 +11,7 @@ import items.consumables.ScrollProfile;
  */
 public class JuxtapositionScroll extends Scroll{
 
-    public JuxtapositionScroll(ScrollProfile sp){
+    public JuxtapositionScroll(ScrollRecord sp){
         super("Scroll of Juxtaposition", "This mysterious parchment possesses the power to move the reader to a nearby location.", sp);
     }
 

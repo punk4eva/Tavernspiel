@@ -57,18 +57,12 @@ public class AreaBuilder implements Serializable{
         location.feeling = LevelFeeling.getRandomFeeling();
         location.depth = depth;
         List<Room> rooms = roomDist.generate(forcedItems, forcedRooms, depth, location.feeling);
-        System.out.println("Generated room list");
         RoomStructure area;
-        System.out.println("Structure: " + location.feeling.structure);
         if(location.feeling.structure==null) area = location.structure.apply(rooms);
         else area = location.feeling.structure.apply(rooms);
-        System.out.println("Created RoomStructure");
         area.generate();
-        System.out.println("Created Area");
         area.addDeco();
-        System.out.println("Decorated");
         area.graph = new Graph(area, null);
-        System.out.println("Created Graph");
         Main.addMessage(ConstantFields.interestColor, location.feeling.description);
         
         return area;

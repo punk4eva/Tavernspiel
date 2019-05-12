@@ -36,11 +36,11 @@ public class ImageUtils{
             scaledBootsOutline = scale(convertToBuffered(new ImageIcon("graphics/outlines/bootsOutline.png")), 3);
     
     
-    public static void paintItemSquare(Graphics g, int x, int y, int sqwidth, int sqheight, Item i, Hero h, Predicate<Item> pred){
+    public static void paintItemSquare(Graphics g, int x, int y, int sqwidth, int sqheight, Item i, Predicate<Item> pred){
         g.setColor(ConstantFields.backColor);
         g.fill3DRect(x, y, sqwidth, sqheight, true);
         boolean cursed = i.hasKnownCurse();
-        boolean ided = i.isIdentified(h);
+        boolean ided = i.isIdentified();
         if(cursed){
             g.setColor(ConstantFields.cursedColor);
             g.fillRect(x+2, y+2, sqwidth-4, sqheight-4);

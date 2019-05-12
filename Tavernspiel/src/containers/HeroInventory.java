@@ -8,6 +8,8 @@ import dialogues.assets.MoneyDialogue;
 import gui.Window;
 import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
+import gui.mainToolbox.Screen.ScreenEvent;
+import items.Consumable;
 import items.Item;
 import java.awt.Graphics;
 import java.util.LinkedList;
@@ -86,7 +88,7 @@ public class HeroInventory extends Inventory{
             for(x=0;x<6&&n<size();x++){
                 ImageUtils.paintItemSquare(g, beginWidth+x*(padding+sqwidth), 
                         beginHeight+y*(padding+sqheight),
-                        sqwidth, sqheight, get(n), (Hero) owner, pred);
+                        sqwidth, sqheight, get(n), pred);
                 n++;
             }
         }
@@ -111,7 +113,7 @@ public class HeroInventory extends Inventory{
         public Predicate<Item> predicate = ConstantFields.truthPredicate;
         
         @Override
-        public void screenClicked(Screen.ScreenEvent sc){
+        public void screenClicked(ScreenEvent sc){
             if(hijacker!=null) hijacker.screenClicked(sc);
             else{
                 String slot = sc.getName();
@@ -127,7 +129,10 @@ public class HeroInventory extends Inventory{
                     int sl;
                     if(slot.startsWith("e")) sl = -10;
                     else sl = Integer.parseInt(slot);
-                    if(i!=null&&predicate.test(i)) new ItemDialogue(i, (Hero)owner, sl).next();
+                    if(i!=null&&predicate.test(i)){
+                        if(i instanceof Consumable) new ItemDialogue((Consumable)i, (Hero)owner, sl).next(); 
+                        else new ItemDialogue(i, (Hero)owner, sl).next();
+                    }
                 }
             }
         }

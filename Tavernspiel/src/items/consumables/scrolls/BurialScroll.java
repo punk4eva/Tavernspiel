@@ -3,7 +3,7 @@ package items.consumables.scrolls;
 
 import creatures.Creature;
 import items.consumables.LocationSpecificScroll;
-import items.consumables.ScrollProfile;
+import items.builders.ScrollBuilder.ScrollRecord;
 
 /**
  *
@@ -11,7 +11,7 @@ import items.consumables.ScrollProfile;
  */
 public class BurialScroll extends LocationSpecificScroll{
 
-    public BurialScroll(ScrollProfile sp){
+    public BurialScroll(ScrollRecord sp){
         super("Scroll of Burial", "Buries everything in the effect area in the ground.", sp);
     }
 

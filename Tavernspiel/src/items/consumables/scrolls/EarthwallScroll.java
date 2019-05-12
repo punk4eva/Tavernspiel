@@ -3,7 +3,7 @@ package items.consumables.scrolls;
 
 import creatures.Creature;
 import items.consumables.Scroll;
-import items.consumables.ScrollProfile;
+import items.builders.ScrollBuilder.ScrollRecord;
 
 /**
  *
@@ -11,7 +11,7 @@ import items.consumables.ScrollProfile;
  */
 public class EarthwallScroll extends Scroll{
 
-    public EarthwallScroll(ScrollProfile sp){
+    public EarthwallScroll(ScrollRecord sp){
         super("Scroll of Earthwall", "This nifty parchment commands the ground to rise to form a temporary wall, thus providing refuge from a perilous situation.", sp);
     }
 

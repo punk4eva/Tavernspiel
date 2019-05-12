@@ -3,7 +3,7 @@ package items.consumables.scrolls;
 
 import creatures.Creature;
 import items.consumables.Scroll;
-import items.consumables.ScrollProfile;
+import items.builders.ScrollBuilder.ScrollRecord;
 
 /**
  *
@@ -11,7 +11,7 @@ import items.consumables.ScrollProfile;
  */
 public class EnchantmentScroll extends Scroll{
 
-    public EnchantmentScroll(ScrollProfile sp){
+    public EnchantmentScroll(ScrollRecord sp){
         super("Scroll of Enchantment", "There is a potent enchantment on this parchment which, when read out loud, will be reaffixed to a peace of equipment of the reader's choice.", sp);
     }
 

@@ -9,6 +9,7 @@ import static dialogues.DialogueBase.PADDING;
 import gui.Window;
 import gui.mainToolbox.Screen.ScreenEvent;
 import gui.utils.CButton;
+import items.Consumable;
 import items.Item;
 import items.actions.ItemAction;
 import java.awt.Graphics2D;
@@ -42,6 +43,13 @@ public class ItemDialogue extends ButtonDialogue{
         super(true, null, i.name, ((i instanceof ScreenItem && ((ScreenItem)i).onOpeningDialogue() ? "" : "") + i.description.getDescription(h.expertise)), 
                 ItemAction.toStringArray(i.actions));
         item = i;
+        hero = h;
+        slot = s;
+    }
+    
+    public ItemDialogue(Consumable sc, Hero h, int s){
+        super(true, null, sc.getDisplayedName(), sc.getDescription().getDescription(h.expertise), ItemAction.toStringArray(sc.actions));
+        item = sc;
         hero = h;
         slot = s;
     }

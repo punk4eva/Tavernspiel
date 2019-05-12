@@ -191,27 +191,6 @@ public class Item implements Serializable{
     }
     
     /**
-     * Checks whether something has been identified by the given Creature.
-     * @param c The Creature to compare.
-     * @return True if it has, false if not.
-     */
-    @Unfinished
-    public boolean isIdentified(Creature c){
-        if(!identified){
-            if(this instanceof Apparatus && ((Apparatus) this).usesTillIdentify!=0){
-                identified = false;
-                return false;
-            }
-            if(c.attributes.ai.intelligence>6){ //@unfinished
-                identified = false;
-                return false;
-            }
-            identified = true;
-        }
-        return true;
-    }
-    
-    /**
      * Checks if this Item is cursed.
      * @return True if it is, false if not.
      */
@@ -227,7 +206,7 @@ public class Item implements Serializable{
     }
     
     /**
-     * Checks if the Item is identified by the hero.
+     * Checks if the Item is identified by the Hero.
      * @return True if it is, false if not.
      */
     public boolean isIdentified(){

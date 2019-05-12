@@ -3,7 +3,7 @@ package items.consumables.scrolls;
 
 import creatures.Creature;
 import items.consumables.Scroll;
-import items.consumables.ScrollProfile;
+import items.builders.ScrollBuilder.ScrollRecord;
 
 /**
  *
@@ -11,7 +11,7 @@ import items.consumables.ScrollProfile;
  */
 public class InfiniteHorseScroll extends Scroll{
 
-    public InfiniteHorseScroll(ScrollProfile sp){
+    public InfiniteHorseScroll(ScrollRecord sp){
         super("Scroll of Infinite Horse", "The rare summoning magic on this parchment will summon a majestic beast which can be used to traverse large distances in a short period of time.", sp);
     }
 

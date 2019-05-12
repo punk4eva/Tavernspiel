@@ -3,7 +3,7 @@ package items.consumables.scrolls;
 
 import creatures.Creature;
 import items.consumables.Scroll;
-import items.consumables.ScrollProfile;
+import items.builders.ScrollBuilder.ScrollRecord;
 
 /**
  *
@@ -11,7 +11,7 @@ import items.consumables.ScrollProfile;
  */
 public class RechargingScroll extends Scroll{
 
-    public RechargingScroll(ScrollProfile sp){
+    public RechargingScroll(ScrollRecord sp){
         super("Scroll of Recharging", "A hyaili capacitor is embedded in this scroll which will release hyaili slowly when the scroll is read.", sp);
     }
 

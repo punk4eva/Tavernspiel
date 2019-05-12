@@ -3,7 +3,7 @@ package items.consumables.scrolls;
 
 import creatures.Creature;
 import items.consumables.Scroll;
-import items.consumables.ScrollProfile;
+import items.builders.ScrollBuilder.ScrollRecord;
 
 /**
  *
@@ -11,7 +11,7 @@ import items.consumables.ScrollProfile;
  */
 public class EarthquakeScroll extends Scroll{
 
-    public EarthquakeScroll(ScrollProfile sp){
+    public EarthquakeScroll(ScrollRecord sp){
         super("Scroll of Earthquake", "Sends a shockwave strong enough to create a localised earthquake.|Used commonly by ground troops during wars to demolish underground tunnels and trenches.", sp);
     }
 

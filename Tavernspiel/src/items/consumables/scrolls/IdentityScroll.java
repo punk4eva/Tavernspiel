@@ -3,7 +3,7 @@ package items.consumables.scrolls;
 
 import creatures.Creature;
 import items.consumables.Scroll;
-import items.consumables.ScrollProfile;
+import items.builders.ScrollBuilder.ScrollRecord;
 
 /**
  *
@@ -11,7 +11,7 @@ import items.consumables.ScrollProfile;
  */
 public class IdentityScroll extends Scroll{
 
-    public IdentityScroll(ScrollProfile sp){
+    public IdentityScroll(ScrollRecord sp){
         super("Scroll of Identity", "The curious charm of this scroll increases the intelligence of the reader, revealing the secrets of a single item of their choice to them.", sp);
     }
 

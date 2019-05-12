@@ -3,6 +3,7 @@ package items.builders;
 
 import buffs.Injury;
 import static buffs.Injury.HealingInjury.injuryText;
+import creatureLogic.Description;
 import java.io.Serializable;
 import logic.Distribution;
 
@@ -73,6 +74,7 @@ public abstract class DescriptionBuilder implements Serializable{
         "There are strange engravings on the container."};
     public static final String[] appearance = {"hideous", "beautiful", "bleak", "pathetic", "wonderful", "dumb", "cute", "curious", "dreamy",
         "radiant", "dazzling", "mischievous"};
+    public static final String[] text = {"sacred text", "spell", "mantra", "curse", "text", "charm", "conjuration", "hex"};
 
     public static String word(String[] ary){
         return ary[Distribution.R.nextInt(ary.length)];
@@ -143,6 +145,16 @@ public abstract class DescriptionBuilder implements Serializable{
     
     public static String getInjuryDescription(String[] ary, int lvl){
         return replace(word(ary)) + " " + injuryText(lvl);
+    }
+
+    public static Description getScrollDescription(String r){
+        return new Description("scrolls", "The parchment is titled with the " + word(rune) + " rune " + r + " and a " + word(appearance) + " " + word(text) + " has been inscribed on the magic paper." + 
+                "You cannot hope to figure out what " + word(appearance) + " effect reading this scroll will have.");
+    }
+    
+    public static String getPotionExtra(){
+        return "It is unknown what " + word(rune) + " effect this potion is supposed to have when drunk, or what "
+                + word(appearance) + " after-effects any impurities will cause.";
     }
 
     protected DescriptionBuilder(){}

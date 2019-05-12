@@ -82,21 +82,12 @@ public final class Game extends Main{
         RoomStructure r = new RoomStructure.SpiderCorridor(new Dimension(80, 80), Location.SHKODER_LOCATION, h);
         r.generate();
         game.currentArea = r;*/
-        
+        game.currentArea.plop(scrollBuilder().getRandomScroll(ItemMap.standardItemMap.scrollDist), game.player.x, game.player.y-1);
+        game.currentArea.plop(potionBuilder().getRandomPotion(new Distribution(new int[]{}),ItemMap.standardItemMap), game.player.x, game.player.y+1);
         /*game.currentArea.plop(Apparatus.getRandomMeleeWeapon(0, Location.SHKODER_LOCATION), game.player.x, game.player.y);
         game.currentArea.plop(Gold.getGoldQuantity(2), game.player.x-1, game.player.y);
         game.currentArea.plop(potionBuilder().getRandomPotion(new Distribution(new int[]{}),ItemMap.standardItemMap), game.player.x, game.player.y+1);
         game.currentArea.plop(scrollBuilder().getRandomScroll(ItemMap.standardItemMap.scrollDist), game.player.x, game.player.y-1);*/
-        
-        //game.currentArea = new AreaGrower(new Dimension(80,80), Location.SHKODER_LOCATION, 0.375,  3,9,  4,9,  4, true).simulate();
-        //game.player.setXY(game.currentArea.startCoords[0], game.currentArea.startCoords[1]);
-        //game.save();
-        //Game game = FileHandler.deserializeGame("filetesting/game.ser");
-        /*System.out.println("Running");
-        ParticleAnimation a = GameSettings.TORCH_SETTING.get(ConstantFields.fireColor, ConstantFields.fireTrailColor);
-        a.setXY(100, 100);
-        Main.animator.addAnimation(a);
-        //game.currentArea.graph.navMesh = new NavigationMesh(game.currentArea.graph, game.currentArea);*/
     }
 
     @Unfinished("The sfx for newDepth.")

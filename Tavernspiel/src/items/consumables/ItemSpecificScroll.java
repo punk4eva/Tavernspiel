@@ -7,6 +7,7 @@ import gui.Window;
 import gui.mainToolbox.Main;
 import gui.mainToolbox.Screen;
 import items.Item;
+import items.builders.ScrollBuilder.ScrollRecord;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.concurrent.BrokenBarrierException;
@@ -34,7 +35,7 @@ public abstract class ItemSpecificScroll extends Scroll implements ScreenListene
      * @param desc
      * @param sp
      */
-    public ItemSpecificScroll(String n, String desc, ScrollProfile sp){
+    public ItemSpecificScroll(String n, String desc, ScrollRecord sp){
         super(n, desc, sp);
     }
 

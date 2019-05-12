@@ -171,9 +171,7 @@ public class SpiderCorridorBuilder{
     public boolean[][] build(){
         SpiderCorridorAlgorithm sca = new SpiderCorridorAlgorithm(windyness);
         Point p = getFreePoint();
-        System.out.println("About to build...");
         sca.checkedFloodfill(p);
-        System.out.println("Built");
         if(area.map[p.y-1][p.x-1]==null) area.map[p.y-1][p.x-1] = Tile.wall(area.location, p.x-1, p.y-1);
         if(area.map[p.y-1][p.x+1]==null) area.map[p.y-1][p.x+1] = Tile.wall(area.location, p.x+1, p.y-1);
         if(area.map[p.y+1][p.x-1]==null) area.map[p.y+1][p.x-1] = Tile.wall(area.location, p.x-1, p.y+1);

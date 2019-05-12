@@ -3,7 +3,7 @@ package items.consumables.scrolls;
 
 import creatures.Creature;
 import items.consumables.Scroll;
-import items.consumables.ScrollProfile;
+import items.builders.ScrollBuilder.ScrollRecord;
 
 /**
  *
@@ -11,7 +11,7 @@ import items.consumables.ScrollProfile;
  */
 public class UpgradeScroll extends Scroll{
 
-    public UpgradeScroll(ScrollProfile sp){
+    public UpgradeScroll(ScrollRecord sp){
         super("Scroll of Upgrade", "The spell on this scroll will instantly repair minor cracks on gear and increase it's effectiveness.", sp);
     }
 
