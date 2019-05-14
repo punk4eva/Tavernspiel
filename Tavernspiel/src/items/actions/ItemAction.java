@@ -86,8 +86,10 @@ public abstract class ItemAction implements Serializable{
     public static final ItemAction THROW = new ThrowAction(),
             DROP = new DropAction(), EQUIP = new EquipAction(), 
             UNEQUIP = new UnequipAction(), READ = new ReadAction(),
-            DRINK = new DrinkAction(), DRAGON_SLICE = new DragonSliceAction(),
-            DRAGON_FLAME = new DragonFlameAction(), DRAGON_WRATH = 
-            new DragonWrathAction();
+            DRINK = new DrinkAction(), THROW_POTION = new ThrowPotionAction(),
+            LOCATION_READ = new LocationReadAction(),
+            DRAGON_SLICE = new DragonSliceAction(),
+            DRAGON_FLAME = new DragonFlameAction(), 
+            DRAGON_WRATH = new DragonWrathAction();
     
 }

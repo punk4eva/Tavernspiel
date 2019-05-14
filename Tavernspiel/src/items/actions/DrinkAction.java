@@ -3,6 +3,7 @@ package items.actions;
 
 import creatures.Creature;
 import items.Item;
+import items.consumables.Potion;
 
 /**
  *
@@ -18,7 +19,7 @@ public class DrinkAction extends ItemAction{
 
     @Override
     public void act(Item i, Creature c, int slot, Object... data){
-        throw new UnsupportedOperationException("Not supported yet.");
+        ((Potion) i).drinkPotion(c);
     }
     
 }

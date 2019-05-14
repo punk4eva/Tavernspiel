@@ -37,7 +37,7 @@ public class Blob extends GameObject{
     
     protected void spread(){
         if(spreadNumber==0){
-            area.removeObject(this);
+            dead = true;
             return;
         }
         if(area.map[y-1][x].treadable) area.addObject(new Blob(this, x, y-1));

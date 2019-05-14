@@ -1,18 +1,12 @@
 package items.consumables;
 
+import ai.PlayerAI;
+import creatureLogic.Action.ActionOnItem;
 import creatures.Creature;
 import creatures.Hero;
-import static gui.LocationViewable.LOCATION_SELECT;
-import gui.Window;
 import gui.mainToolbox.Main;
-import gui.mainToolbox.Screen.ScreenEvent;
+import items.actions.ItemAction;
 import items.builders.ScrollBuilder.ScrollRecord;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CyclicBarrier;
-import level.Area;
-import listeners.ScreenListener;
 import logic.Utils.Catch;
 
 /**
@@ -21,14 +15,11 @@ import logic.Utils.Catch;
  * 
  * A Scroll that requires a location to work on.
  */
-public abstract class LocationSpecificScroll extends Scroll implements ScreenListener{
+public abstract class LocationSpecificScroll extends Scroll{
     
     private final static long serialVersionUID = 5843820943899L;
     
-    protected transient Hero hero;
-    private transient Area area;
     private boolean used = false;
-    private transient CyclicBarrier barrier = new CyclicBarrier(2);
 
     /**
      * Creates a new instance.
@@ -38,21 +29,16 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
      */
     public LocationSpecificScroll(String n, String desc, ScrollRecord sp){
         super(n, desc, sp);
+        actions[2] = ItemAction.LOCATION_READ;
     }
 
     @Override
     @Catch("Exception should never be thrown if done right.")
     public boolean use(Creature c){
         if(c instanceof Hero){
-            hero = (Hero) c;
-            area = c.area;
-            LOCATION_SELECT.setData(this, "Select a tile.", null);
-            Window.main.setViewable(LOCATION_SELECT);
-            try{
-                barrier.await();
-            }catch(InterruptedException | BrokenBarrierException ex){}
+            ((PlayerAI)c.attributes.ai).nextAction = new ActionOnItem(actions[2], this, (Hero) c, -1, -1, -16);
+            ((PlayerAI)c.attributes.ai).alertAction();
         }else new RuntimeException("Creature is using LocationSpecificScroll.use()").printStackTrace(Main.exceptionStream);
-        barrier.reset();
         boolean u = used;
         used = false;
         return u;
@@ -66,30 +52,5 @@ public abstract class LocationSpecificScroll extends Scroll implements ScreenLis
      * @return Whether the scroll has been consumed during use.
      */
     public abstract boolean use(Creature c, int x, int y);
-    
-    @Override
-    @Catch("Exception should never be thrown if done right.")
-    public void screenClicked(ScreenEvent sc){
-        switch(sc.getName()){
-            case "backLocation":
-                if(hero==null||area==null) new RuntimeException("hero/area uninitialized in LocationSpecificScroll.screenClicked()!").printStackTrace(Main.exceptionStream);
-                if(area.map[sc.y][sc.x]==null) return;
-                used = use(hero, sc.x, sc.y);
-            case "locationPopupX":
-                Window.main.removeViewable();
-                try{
-                    barrier.await();
-                }catch(InterruptedException | BrokenBarrierException ex){}
-                break;
-        }
-    }
-    
-    
-    
-    private void readObject(ObjectInputStream in) 
-            throws IOException, ClassNotFoundException{
-        in.defaultReadObject();
-        barrier = new CyclicBarrier(2);
-    }
     
 }

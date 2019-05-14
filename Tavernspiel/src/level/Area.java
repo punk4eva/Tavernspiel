@@ -24,6 +24,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -62,8 +63,9 @@ public class Area implements Serializable{
     public transient Location location;
     public Integer[] startCoords, endCoords;
     public final int depth;
-    private final List<GameObject> objects = new LinkedList<>();
-    protected final List<PhysicalCrate> crates = new LinkedList<>();
+    private final List<GameObject> objects = new ArrayList<>();
+    protected final List<PhysicalCrate> crates = new ArrayList<>();
+    private ListIterator<GameObject> iter;
 
     public Graph graph = null;
     public volatile Hero hero;
@@ -339,20 +341,8 @@ public class Area implements Serializable{
         //objectLock.lock();
         //try{
             object.setArea(this, true);
-            objects.add(object);
-        //}finally{
-        //    objectLock.unlock();
-        //}
-    }
-    
-    /**
-     * Removes a GameObject to this Area.
-     * @param object The new GameObject.
-     */
-    public void removeObject(GameObject object){
-        //objectLock.lock();
-        //try{
-            objects.remove(object);
+            if(objectLock.isLocked()) iter.add(object);
+            else objects.add(object);
         //}finally{
         //    objectLock.unlock();
         //}
@@ -366,6 +356,17 @@ public class Area implements Serializable{
      */
     public boolean gasPresent(int x, int y){
         return objects.stream().filter(ob -> ob instanceof Blob && ob.y==y && ob.x==x).count()>0;
+    }
+    
+    /**
+     * Checks if there is a gas on the given Tile.
+     * @param x The x coordinate.
+     * @param y The y coordinate.
+     * @param name The name of the GameObject to search for.
+     * @return True if there is, false if not.
+     */
+    public boolean gameObjectPresent(int x, int y, String name){
+        return objects.stream().filter(ob -> ob.name.equals(name) && ob.y==y && ob.x==x).count()>0;
     }
     
     /**
@@ -440,14 +441,12 @@ public class Area implements Serializable{
         //objectLock.lock();
         //System.out.println("Checkpoint 2");
         //try{
-            for(final ListIterator<GameObject> iter=objects.listIterator();iter.hasNext();){
-                GameObject ob = iter.next();
-                if(overlay.isVisible(ob.x, ob.y)) ob.render(g, focusX, focusY);
-            }
-            //if(debugMode) graph.debugPaint(g, focusX, focusY, this);
-        //}finally{
-        //    objectLock.unlock();
-        //}
+        new ArrayList<>(objects).stream().filter((ob) -> (overlay.isVisible(ob.x, ob.y))).forEachOrdered((ob) -> {
+            if(!ob.dead) ob.render(g, focusX, focusY);
+        }); //if(debugMode) graph.debugPaint(g, focusX, focusY, this);
+        /*}finally{
+        objectLock.unlock();
+        }*/
     }
     
     /**
@@ -457,8 +456,12 @@ public class Area implements Serializable{
     public void turn(double turnNum){
         objectLock.lock();
         try{
-            for(final ListIterator<GameObject> iter = objects.listIterator();iter.hasNext();) 
-                iter.next().turn(turnNum);
+            GameObject current;
+            for(iter = objects.listIterator();iter.hasNext();){
+                current = iter.next();
+                if(current.dead) iter.remove();
+                else current.turn(turnNum);
+            }
         }finally{
             objectLock.unlock();
         }

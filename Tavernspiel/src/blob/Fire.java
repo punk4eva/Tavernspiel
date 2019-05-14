@@ -34,14 +34,14 @@ public class Fire extends Blob{
     @Override
     protected void spread(){
         if(spreadNumber==0){
-            area.removeObject(this);
-            area.burn(x, y);
+            dead = true;
+            if(area.map[y][x].flammable) area.burn(x, y);
             return;
         }
-        if(area.map[y-1][x].flammable) area.addObject(new Fire(location, x, y-1, depth));
-        if(area.map[y+1][x].flammable) area.addObject(new Fire(location, x, y+1, depth));
-        if(area.map[y][x-1].flammable) area.addObject(new Fire(location, x-1, y, depth));
-        if(area.map[y][x+1].flammable) area.addObject(new Fire(location, x+1, y, depth));
+        if(area.map[y-1][x].flammable&&!area.gameObjectPresent(x, y-1, name)) area.addObject(new Fire(location, x, y-1, depth));
+        if(area.map[y+1][x].flammable&&!area.gameObjectPresent(x, y+1, name)) area.addObject(new Fire(location, x, y+1, depth));
+        if(area.map[y][x-1].flammable&&!area.gameObjectPresent(x-1, y, name)) area.addObject(new Fire(location, x-1, y, depth));
+        if(area.map[y][x+1].flammable&&!area.gameObjectPresent(x+1, y, name)) area.addObject(new Fire(location, x+1, y, depth));
         spreadNumber--;
     }
     

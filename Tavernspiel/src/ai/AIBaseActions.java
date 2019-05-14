@@ -13,6 +13,7 @@ import creatures.Creature;
 import gui.mainToolbox.Main;
 import items.Apparatus;
 import items.Item;
+import items.consumables.Potion;
 import items.equipment.Wand;
 import java.io.Serializable;
 import java.util.LinkedList;
@@ -231,6 +232,20 @@ public class AIBaseActions implements Serializable{
         Integer[] co = calculateThrowingDestination(c, x, y);
         Main.animator.drawItemThrow(i, c.x, c.y, co[0], co[1]);
         c.area.plop(i, co[0], co[1]);
+    }
+    
+    /**
+     * Throws a Potion.
+     * @param c
+     * @param i
+     * @param x
+     * @param y
+     */
+    public void throwPotion(Creature c, Potion i, int x, int y){
+        c.inventory.remove(i);
+        Integer[] co = calculateThrowingDestination(c, x, y);
+        Main.animator.drawItemThrow(i, c.x, c.y, co[0], co[1]);
+        i.throwPotion(c, co[0], co[1]);
     }
     
     /**

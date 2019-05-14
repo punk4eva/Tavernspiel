@@ -24,6 +24,7 @@ public abstract class GameObject implements Serializable{
     public volatile int x, y;
     public double turndelta = 0;
     public volatile Area area;
+    public boolean dead = false;
     
     /**
      * Creates a new instance.
