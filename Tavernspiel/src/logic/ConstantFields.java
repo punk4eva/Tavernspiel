@@ -41,6 +41,8 @@ public interface ConstantFields{
     //blob colors
     public static final Color fireColor = new Color(234,70,0);
     public static final Color fireTrailColor = new Color(180,120,0);
+    public static final Color toxicGasColor = new Color(10,181,1);
+    public static final Color toxicGasTrailColor = new Color(1,181,82);
     //item images
     public static final Image helmetOutline = new ImageIcon("graphics/outlines/helmetOutline.png").getImage();
     public static final Image chestplateOutline = new ImageIcon("graphics/outlines/chestplateOutline.png").getImage();

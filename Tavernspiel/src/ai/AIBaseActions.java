@@ -33,24 +33,7 @@ import tiles.assets.Water;
  */
 public class AIBaseActions implements Serializable{
     
-    private final static long serialVersionUID = 1749300132; 
-    
-    /**
-     * Moves a creature in the given direction.
-     * @param c The creature to be moved.
-     * @param dir The displacement vector of movement.
-     */
-    public void move(Creature c, Integer[] dir){
-        if(c.area.map[c.y][c.x] instanceof Door) ((Door)c.area.map[c.y][c.x]).stepOff(c);
-        if(!((CreatureAnimator)c.animator).currentName.equals("move")) c.changeAnimation("move");
-        c.smootheXY(c.x+dir[0], c.y+dir[1]);
-        if(c.attributes.ai.destinationx==c.x&&c.attributes.ai.destinationy==c.y){
-            c.changeAnimation("stand");
-        }
-        if(c.area.map[c.y][c.x] instanceof StepListener){
-            ((StepListener)c.area.map[c.y][c.x]).steppedOn(c);
-        }
-    }
+    private final static long serialVersionUID = 1749300132;
     
     /**
      * Moves a creature to the given coordinates and doesn't handle animation.
@@ -65,6 +48,7 @@ public class AIBaseActions implements Serializable{
             Main.animator.addAnimation(new WaterStepAnimation(c.x, c.y));
         c.setXY(x, y);
         c.area.graph.moveOn(c.x, c.y);
+        c.area.getGases(c.x, c.y).stream().forEach(gas -> c.addBuff(gas.buff));
         if(c.area.map[c.y][c.x] instanceof StepListener){
             ((StepListener)c.area.map[c.y][c.x]).steppedOn(c);
         }

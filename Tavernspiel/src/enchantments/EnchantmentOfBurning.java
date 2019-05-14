@@ -47,7 +47,7 @@ public final class EnchantmentOfBurning extends WeaponEnchantment{
     @Override
     public void onHit(Creature victim, Attack attack){
         if(shouldActivate()){
-            if(level<0.9) victim.addBuff(BuffBuilder.fire(19*level*level+1, victim.area.location));
+            if(level<0.9) victim.addBuff(BuffBuilder.fire(19*level*level+1));
             else victim.addBuff(BuffBuilder.superFire(19*level*level+1));
         }
     }

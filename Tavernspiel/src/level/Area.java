@@ -279,12 +279,12 @@ public class Area implements Serializable{
      */
     public void removeReceptacle(int x, int y){
         PhysicalCrate r;
-        Iterator<PhysicalCrate> iter = crates.iterator();
-        while(iter.hasNext()){
-            r = iter.next();
+        Iterator<PhysicalCrate> it = crates.iterator();
+        while(it.hasNext()){
+            r = it.next();
             if(r.x==x&&r.y==y){
                 if(r instanceof Interactable) map[y][x].interactable = null;
-                iter.remove();
+                it.remove();
                 return;
             }
         }
@@ -349,13 +349,13 @@ public class Area implements Serializable{
     }
 
     /**
-     * Checks if there is a gas on the given Tile.
+     * Gets all gases on the given Tile.
      * @param x The x coordinate.
      * @param y The y coordinate.
-     * @return True if there is, false if not.
+     * @return A list of all gases on the given Tile, empty if there are no gases.
      */
-    public boolean gasPresent(int x, int y){
-        return objects.stream().filter(ob -> ob instanceof Blob && ob.y==y && ob.x==x).count()>0;
+    public List<Blob> getGases(int x, int y){
+        return objects.stream().filter(ob -> ob instanceof Blob && ob.y==y && ob.x==x).map(ob -> (Blob) ob).collect(Collectors.toList());
     }
     
     /**

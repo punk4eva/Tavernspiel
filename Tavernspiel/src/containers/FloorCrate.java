@@ -5,6 +5,7 @@ import creatureLogic.Description;
 import creatures.Creature;
 import items.Item;
 import java.util.ArrayList;
+import java.util.ListIterator;
 import level.Area;
 
 /**
@@ -100,6 +101,16 @@ public class FloorCrate extends PhysicalCrate{
     @Override
     public double interactTurns(){
         return 1;
+    }
+
+    /**
+     * Burns all flammable Items in this receptacle.
+     * @return If this Crate is empty and needs to be removed.
+     */
+    public boolean burn(){
+        for(ListIterator<Item> iter = listIterator();iter.hasNext();)
+            if(iter.next().flammable) iter.remove();
+        return isEmpty();
     }
     
 }

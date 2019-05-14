@@ -19,6 +19,7 @@ import blob.ParticleAnimation;
 import blob.ParticleTrailGenerator;
 import blob.particles.FireParticle;
 import blob.particles.FireParticle.StaticFireParticle;
+import blob.particles.ToxicGasParticle;
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.io.Serializable;
@@ -39,6 +40,7 @@ public class GameSettings implements Serializable{
     
     
     public static FireSetting FIRE_SETTING = FireSetting.MAX;
+    public static ToxicGasSetting TOXIC_GAS_SETTING = ToxicGasSetting.MAX;
     public static TorchSetting TORCH_SETTING = TorchSetting.MAX;
     public static WaterSetting WATER_SETTING = WaterSetting.ANIMATED;
     public static VarianceSetting VARIANCE_SETTING = VarianceSetting.MAX;
@@ -60,6 +62,19 @@ public class GameSettings implements Serializable{
         
         private final BiFunction<Color, Color, ParticleAnimation> factory;
         FireSetting(BiFunction<Color, Color, ParticleAnimation> f){
+            factory = f;
+        }
+        public ParticleAnimation get(Color col, Color tCol){
+            return factory.apply(col, tCol);
+        }
+    }
+    
+    public static enum ToxicGasSetting{
+        MAX((col, tCol) -> new ParticleAnimation(6, 6, new Rectangle(0, 0, 16, 16), 
+                new Rectangle(0, 0, 16, 16), new ToxicGasParticle(col, tCol)));
+        
+        private final BiFunction<Color, Color, ParticleAnimation> factory;
+        ToxicGasSetting(BiFunction<Color, Color, ParticleAnimation> f){
             factory = f;
         }
         public ParticleAnimation get(Color col, Color tCol){

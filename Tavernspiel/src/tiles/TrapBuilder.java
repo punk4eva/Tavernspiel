@@ -3,6 +3,7 @@ package tiles;
 
 import animation.GasAnimator;
 import blob.Blob;
+import blob.assets.ToxicGas;
 import buffs.Buff;
 import buffs.BuffBuilder;
 import creatureLogic.Description;
@@ -61,13 +62,6 @@ public class TrapBuilder{
     @Unfinished("Might be too unimportant.")
     public static boolean isGaseous(String str){
         return str.contains("yellow")||str.contains("green");
-    }
-    
-    @Unfinished
-    public static Blob getToxicGas(Location location, int x, int y){
-        Buff b = BuffBuilder.toxicGas(location);           
-        GasAnimator a = new GasAnimator(null); //@unfinished, placeholder
-        return new Blob("Toxic Gas", new Description("gas", "A poisonous green vapour."), b, a, 7, x, y);
     }
     
     @Unfinished("Placeholder")

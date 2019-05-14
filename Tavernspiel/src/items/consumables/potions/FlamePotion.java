@@ -1,7 +1,7 @@
 
 package items.consumables.potions;
 
-import blob.Fire;
+import blob.assets.Fire;
 import creatures.Creature;
 import items.consumables.Potion;
 import items.consumables.PotionProfile;
@@ -26,9 +26,9 @@ public class FlamePotion extends Potion{
 
     @Override
     public void throwPotion(Creature c, int x, int y){
-        if(c.area.map[y][x].treadable) c.area.addObject(new Fire(c.area.location, x, y, c.area.depth));
+        if(c.area.map[y][x].treadable) c.area.addObject(new Fire(x, y, c.area.depth));
         for(ExtendedDirection dir : ExtendedDirection.values()) if(c.area.map[y+dir.y][x+dir.x].treadable)
-            c.area.addObject(new Fire(c.area.location, x+dir.x, y+dir.y, c.area.depth));
+            c.area.addObject(new Fire(x+dir.x, y+dir.y, c.area.depth));
     }
     
 }

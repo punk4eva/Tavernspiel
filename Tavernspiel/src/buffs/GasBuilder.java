@@ -19,6 +19,7 @@ public abstract class GasBuilder{
     
     private GasBuilder(){}
     
+    @Unfinished("Too close to PD")
     public static Blob gardengas(int x, int y){
         Blob g = new Blob("shadowmelded", 
                 new Description("gas", "Cleansing shafts of light pierce the vegetation."),
@@ -26,6 +27,12 @@ public abstract class GasBuilder{
                 new GasAnimator(shadowmeldedAnimation()), 1, x, y){
                     @Override
                     public void turn(double delta){}
+
+                    @Override
+                    protected void spread(){
+                        throw new UnsupportedOperationException("Not supported yet.");
+                    }
+                    
                 };
         return g;
     }

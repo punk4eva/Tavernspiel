@@ -4,7 +4,6 @@ package buffs;
 import creatureLogic.Description;
 import creatures.Creature;
 import java.util.Iterator;
-import level.Location;
 import static logic.Distribution.R;
 import static logic.Distribution.getGaussianAboveZero;
 import logic.Utils.Unfinished;
@@ -29,7 +28,7 @@ public final class BuffBuilder{
                 "The gas melted your insides..."};
     
     
-    public static Buff fire(double duration, Location loc){
+    public static Buff fire(double duration){
         return new Buff("fire", new Description("buffs", "You are on fire!"), duration){
             double ev;
             @Override
@@ -251,7 +250,7 @@ public final class BuffBuilder{
         };
     }
     
-    public static Buff toxicGas(Location loc){
+    public static Buff toxicGas(double dam){
         return new Buff("toxic gas", new Description("buffs", "You are choking!")){
             double sp;
             @Override
@@ -262,7 +261,7 @@ public final class BuffBuilder{
             }
             @Override
             public void turn(Creature c, Iterator iter){
-                c.attributes.health.addMinorTrauma((R.nextDouble()*3+1)*loc.feeling.difficulty, name);
+                c.attributes.health.addMinorTrauma((R.nextDouble()*3+1)*dam, name);
             }
             @Override
             public void end(Creature c){

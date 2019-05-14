@@ -5,7 +5,7 @@ import animation.GasAnimator;
 import buffs.Buff;
 import creatureLogic.Description;
 import java.awt.Graphics2D;
-import java.util.LinkedList;
+import java.lang.reflect.Constructor;
 import logic.GameObject;
 
 /**
@@ -14,38 +14,33 @@ import logic.GameObject;
  *
  * This class models the behaviour of a spreading blob.
  */
-public class Blob extends GameObject{
+public abstract class Blob extends GameObject{
     
-    public LinkedList<Buff> buffs = new LinkedList<>();
+    public final Buff buff;
     public int spreadNumber;
     
+    /**
+     * Creates a new instance.
+     * @param n The name of the GameObject.
+     * @param desc The Description.
+     * @param b The Buff.
+     * @param a The animation.
+     * @param spread The spread number.
+     * @param nx The x coordinate.
+     * @param ny The y coordinate.
+     */
     public Blob(String n, Description desc, Buff b, GasAnimator a, int spread, int nx, int ny){
         super(n, desc, a);
-        buffs.add(b);
+        buff = b;
         spreadNumber = spread;
         x = nx;
         y = ny;
     }
     
-    public Blob(Blob gas, int nx, int ny){
-        super(gas.name, gas.description, gas.animator);
-        buffs = gas.buffs;
-        x = nx;
-        y = ny;
-        spreadNumber = gas.spreadNumber-1;
-    }
-    
-    protected void spread(){
-        if(spreadNumber==0){
-            dead = true;
-            return;
-        }
-        if(area.map[y-1][x].treadable) area.addObject(new Blob(this, x, y-1));
-        if(area.map[y+1][x].treadable) area.addObject(new Blob(this, x, y+1));
-        if(area.map[y][x-1].treadable) area.addObject(new Blob(this, x-1, y));
-        if(area.map[y][x+1].treadable) area.addObject(new Blob(this, x+1, y));
-        spreadNumber--;
-    }
+    /**
+     * Spreads this Blob.
+     */
+    protected abstract void spread();
 
     @Override
     public void render(Graphics2D g, int fx, int fy){

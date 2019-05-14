@@ -79,7 +79,9 @@ public class Inventory extends Crate{
     
     @Override
     public boolean remove(Object i){
-        if(!super.remove(i)){
+        if(((Item) i).stackable){
+            ((Item) i).quantity--;
+        }else if(!super.remove(i)){
             try{
                 equipment.unequip((Apparatus)i);
                 return true;

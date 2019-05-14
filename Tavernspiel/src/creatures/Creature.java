@@ -156,6 +156,7 @@ public class Creature extends GameObject implements Comparable<Creature>{
      */
     public void addBuff(Buff buff){
         synchronized(buffs){
+            if(hasBuff(buff.name)) getBuff(buff.name).duration += 2;
             buffs.add(buff);
             buff.start(this);
         }

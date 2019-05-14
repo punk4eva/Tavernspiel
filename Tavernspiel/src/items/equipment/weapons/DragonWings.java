@@ -86,7 +86,7 @@ public class DragonWings extends MythicalWeapon{
 
     @Override
     public void onHit(Creature victim, Attack attack){
-        victim.addBuff(BuffBuilder.fire(level+5, victim.area.location));
+        victim.addBuff(BuffBuilder.fire(level+5));
     }
 
     @Override

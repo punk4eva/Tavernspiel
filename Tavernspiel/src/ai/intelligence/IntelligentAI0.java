@@ -60,9 +60,9 @@ public class IntelligentAI0 extends AITemplate{
             }
         }else{
             updateDirections(c, area);
-            BASEACTIONS.move(c, 
-                directionsToMove.get(
-                        Distribution.getRandomInt(0, directionsToMove.size()-1)));
+            Integer[] co = directionsToMove.get(
+                        Distribution.getRandomInt(0, directionsToMove.size()-1));
+            BASEACTIONS.moveRaw(c, co[0], co[1]);
         }
     }
     
